@@ -1,6 +1,4 @@
-TODO: Project plan outline for initial phase June 2009 to November 2009
-
-#summary One-sentence summary of this page.
+#summary TODO: Project plan outline for initial phase June 2009 to November 2009
 
 = Introduction =
 
