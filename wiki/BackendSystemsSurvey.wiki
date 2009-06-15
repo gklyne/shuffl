@@ -1,4 +1,4 @@
-#summary ODO: Survey of options for back-end storage
+#summary TODO: Survey of options for back-end storage
 
  * Databank
  * Talis platform
