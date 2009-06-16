@@ -2,8 +2,7 @@
 
 = Introduction =
 
-Add your content here.
-
+ * JISC project proposal: http://code.google.com/p/shuffl/source/browse/trunk/docs/20090421-shuffl-proposal-no-budget-figures.pdf
 
 = Details =
 
