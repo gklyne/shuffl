@@ -1,11 +1,24 @@
-#summary TODO: Plan for open source and sustainability aspects of project
-
-(Ref. OSS-watch page)
+#summary Plan for open source and sustainability aspects of project
 
 = Introduction =
 
-Add your content here.
+This page documents a plan for creating an open source project that is sustainable as such beyond the initial funding period.  It draws upon advice from OSS-Watch, particularly the page at http://wiki.oss-watch.ac.uk/StartYourProject.
 
+= Sustainability options =
+
+(TODO: review links at http://wiki.oss-watch.ac.uk/StartYourProject)
+
+= Identify community =
+
+This project has arisen from previous work that aims to facilitate the publication of research data on the web, so that it can be reviewed, and re-used in the generation of new insights, and to avoid the costs of unnecessary repeated experimentation.  This has involved a combination of biological researchers, classical arts researchers, and semantic web experts.
+
+User community: initially, small research teams, particularly in life-sciences and classical arts;  later, almost anyone who uses a computer to gather, organize and disseminate data.
+
+Developer community: initially, me and maybe some close colleagues; later, semantic web developers, academic software developers, and hopefully more.
+
+= Source code licence =
+
+The MIT licence has been chosen as it is simple and permissive.  I believe sustainability for this project is maximized by lowering the barriers to adoption or adaptation, even if that means some users may "free-ride".  Experience suggests that most will not.
 
 = Governance model =
 
@@ -18,9 +31,61 @@ In the style of the examples at http://wiki.oss-watch.ac.uk/ExamplesOfOpenSource
 || *Motivating factors* || Shuffl is initially aimed at small-scale research teams, particularly life-science lab researchers, though we hope it eventually can be used by a far wider community.  As noted, we will engage with these users to guide the choice of functionality developed, wishing to creating a product that *is* useful to someone today than potentially useful to everyone tomorrow. ||
 || *Links* || http://wiki.oss-watch.ac.uk/BenevolentDictatorGovernanceModel ||
 
-= Details =
+= Community tools =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+== Tools for communications ==
+
+Intended tools for communication are:
+* the Google code project wiki (http://code.google.com/p/shuffl/w/list)
+* ad hoc email
+* articles tagged 'jiscri' and 'shuffl' a personal blog (http://signal-and-noise.blogspot.com/)
+
+
+
+Mailing Lists and/or Forums
+
+Blogs
+
+RSS
+
+Podcasts
+
+Screencasts
+
+Content Management and Dissemination
+
+Description of a Project (DOAP)
+
+== Version management ==
+
+Subversion provided through a Google code project.
+
+== Issue tracking ==
+
+Issue tracking provided buy Google code.
+
+== Project management ==
+
+The key style here is lightweight.  Which is not to say non-existent.  My experience is that 10-15% project time spent on planning is well-spent in ensuring that the remainder of the time is used effectively.
+
+The intended style of development management is based on agile methods, though not using a specific agile methodology.  Initially, the Google Code wiki will be used to collect information about the project roadmap, user stories, task breakdown and sprint plans.  Later, we hope that Shuffl itself will be able to provide some of the development management tooling, in a fashion similar to Mingle.
+
+The management processes and tool usage will be subject to continuous review and re-evaluation.  getting the job done trumps consistency.
+
+== Contributor licence agreement ==
+
+See: http://www.oss-watch.ac.uk/resources/cla.xml
+
+(This needs to be done at some stage, though I really wish I could just point at something or lift an example from somewhere.)
+
+= Subversion repository organization =
+
+Top-level branch and tag directories, with sub-projects having separate subdirectories under trunk.  (This facilitates relative file references between sub-projects, which in turn facilitate building or using the software in different environments.) 
+
+Within a single Google code project, this organization is pretty much dictated in any case.
+
+= Release management =
+
+See http://wiki.oss-watch.ac.uk/Release_Management
+
+TODO
