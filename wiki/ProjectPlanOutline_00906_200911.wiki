@@ -28,9 +28,8 @@ S = Shuffl 73 days, C = Claros 45 days, Total 118 days.
 = Outline plan from proposal =
 
 || Month || Activity || Deliverables || 
-|| 1 || Initial planning. Project || Setup, and further discussion with JISC OSS-Watch about open source tooling, licensing and governance issues. Prototype user interface in Javascript. Project plan. Publicly hosted source and project tracking facility. Interface prototype that can be shown to users to elicit feedback and further requirements. ||
+|| 1 || Initial planning. Project Setup, and further discussion with JISC OSS-Watch about open source tooling, licensing and governance issues. Prototype user interface in Javascript. || Project plan. Publicly hosted source and project tracking facility. Interface prototype that can be shown to users to elicit feedback and further requirements. ||
 || 2 || Develop supporting back-end service, and canvass potential users for feedback on initial interface - identification of a minimum system that target users would actually use for some purpose, however trivial. || Initial front-to-back system. Basic user documentation. A "hit list" of desired features. ||
 || 3 || Enhancements to system; capturing structure in data; basic user authentication and access control. Use of system for project tasks. Seminar/demonstrations to solicit users and feedback. || Updated system. Examples of system in use. Updated feature list. ||
 || 4 || Further enhancements. External linking and data integration. Continued user engagement. || Updated system, more examples of system in use. Updated feature list. Initial community web page describing the system and applications. ||
 || 5 || Create promotional materials (webcast, dissemination, demonstrations, etc.). Establish a long-term home for the demo service. Ensure that users with whom we have engaged are comfortable with what is available as this project winds down. || Public repository contains fully tested software, documentation, promotional materials, deployment instructions, examples, etc., in a state suitable to support ongoing open community development. ||
-
