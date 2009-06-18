@@ -36,25 +36,16 @@ In the style of the examples at http://wiki.oss-watch.ac.uk/ExamplesOfOpenSource
 == Tools for communications ==
 
 Intended tools for communication are:
-* the Google code project wiki (http://code.google.com/p/shuffl/w/list)
-* ad hoc email
-* articles tagged 'jiscri' and 'shuffl' a personal blog (http://signal-and-noise.blogspot.com/)
+ * the Google code project wiki (http://code.google.com/p/shuffl/w/list)
+ * a Google groups mailing list (http://groups.google.com/group/shuffl-discuss)
+ * articles tagged 'jiscri' and 'shuffl' a personal blog (http://signal-and-noise.blogspot.com/)
 
+The mailing list is open for anyone to view, but posts from non-members will be held for moderation. (If spam proves to be a problem, membership may be required for posting messages.)  Membership is subject to moderation.  The aim is to be as open as possible while minimizing the impact of spam messages.
 
+Other tools to be considered in future:
+ * Screencasts
 
-Mailing Lists and/or Forums
-
-Blogs
-
-RSS
-
-Podcasts
-
-Screencasts
-
-Content Management and Dissemination
-
-Description of a Project (DOAP)
+(TODO: Description of a Project (DOAP) record)
 
 == Version management ==
 
@@ -70,7 +61,7 @@ The key style here is lightweight.  Which is not to say non-existent.  My experi
 
 The intended style of development management is based on agile methods, though not using a specific agile methodology.  Initially, the Google Code wiki will be used to collect information about the project roadmap, user stories, task breakdown and sprint plans.  Later, we hope that Shuffl itself will be able to provide some of the development management tooling, in a fashion similar to Mingle.
 
-The management processes and tool usage will be subject to continuous review and re-evaluation.  getting the job done trumps consistency.
+The management processes and tool usage will be subject to continuous review and re-evaluation.  Getting the job done trumps consistency.  See [#Agile_ecosystem] below.
 
 == Contributor licence agreement ==
 
@@ -88,4 +79,8 @@ Within a single Google code project, this organization is pretty much dictated i
 
 See http://wiki.oss-watch.ac.uk/Release_Management
 
-TODO
+(TODO: outline release management process)
+
+= Agile ecosystem =
+
+(TODO: find IBRG notes)
