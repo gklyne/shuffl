@@ -2,7 +2,6 @@
 #labels notes,admin,tasks
 
 Project admin:
- * Copy effort schedule from emails to project plan page
  * Copy outline plan from proposal to project plan page
  * Re-work and schedule outline project plan
  * Start building user stories and requirements
