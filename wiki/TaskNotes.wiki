@@ -2,7 +2,6 @@
 #labels notes,admin,tasks
 
 Project admin:
- * Track down OSS-watch page on OS project setup, use this as a basis for the OS/sustainability plan
  * Copy effort schedule from emails to project plan page
  * Copy outline plan from proposal to project plan page
  * Re-work and schedule outline project plan
