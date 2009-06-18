@@ -61,7 +61,7 @@ The key style here is lightweight.  Which is not to say non-existent.  My experi
 
 The intended style of development management is based on agile methods, though not using a specific agile methodology.  Initially, the Google Code wiki will be used to collect information about the project roadmap, user stories, task breakdown and sprint plans.  Later, we hope that Shuffl itself will be able to provide some of the development management tooling, in a fashion similar to Mingle.
 
-The management processes and tool usage will be subject to continuous review and re-evaluation.  Getting the job done trumps consistency.  See [#Agile_ecosystem] below.
+The management processes and tool usage will be subject to continuous review and re-evaluation.  Getting the job done trumps consistency.  See [#Agile_ecosystem Agile ecosystem] below.
 
 == Contributor licence agreement ==
 
