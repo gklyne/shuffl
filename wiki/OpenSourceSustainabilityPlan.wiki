@@ -6,7 +6,20 @@ This page documents a plan for creating an open source project that is sustainab
 
 = Sustainability options =
 
-(TODO: review links at http://wiki.oss-watch.ac.uk/StartYourProject)
+See: 
+ * http://wiki.oss-watch.ac.uk/Cost_Of_Open_Source_Development
+ * http://wiki.oss-watch.ac.uk/SustainableOpenSource
+
+
+1. Infrastructure Costs
+
+2. Support costs
+
+3. Development costs
+
+4. Governance costs
+
+
 
 = Identify community =
 
