@@ -14,7 +14,7 @@ Thus, this is the effort allocation that is planned for the next few months:
 
 {{{
 June        July        August         Sep         Oct         Nov
-15.22.29 06.13.20.27 03.10.17.24.31 06.13.20.27 05.12.19.26 02.09.16.23.30
+15.22.29 06.13.20.27 03.10.17.24.31 07.14.21.28 05.12.19.26 02.09.16.23.30
  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  _  _  _  = 22C
  C  C  C  C  C  C  C  C  C  C  C  C  C  S  S  S  S  S  S  S  S  S  S  S  -  = 13C + 11S
  C  C  C  C  C  C  C  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  -  = 7C  + 17S
@@ -30,8 +30,21 @@ S = Shuffl 73 days, C = Claros 45 days, Total 118 days.
 Some activities have been added, and the month end dates given make some allowance for the effort schedule.
 
 || Month || Activity || Deliverables || 
-|| 1 (31Jul)|| Initial planning. Project Setup, and further discussion with JISC OSS-Watch about open source tooling, licensing and governance issues. Prototype user interface in Javascript. || Project plan. Publicly hosted source and project tracking facility. Interface prototype that can be shown to users to elicit feedback and further requirements. ||
-|| 2 () || Develop supporting back-end service, and canvass potential users for feedback on initial interface - identification of a minimum system that target users would actually use for some purpose, however trivial. || Initial front-to-back system. Basic user documentation. A "hit list" of desired features. ||
-|| 3 || Enhancements to system; capturing structure in data; basic user authentication and access control. Use of system for project tasks. Seminar/demonstrations to solicit users and feedback. || Updated system. Examples of system in use. Updated feature list. ||
-|| 4 || Further enhancements. External linking and data integration. Continued user engagement. || Updated system, more examples of system in use. Updated feature list. Initial community web page describing the system and applications. ||
-|| 5 || Create promotional materials (webcast, dissemination, demonstrations, etc.). Establish a long-term home for the demo service. Ensure that users with whom we have engaged are comfortable with what is available as this project winds down. || Public repository contains fully tested software, documentation, promotional materials, deployment instructions, examples, etc., in a state suitable to support ongoing open community development. ||
+|| 1: 31Jul 13days|| Initial planning. Project Setup, and further discussion with JISC OSS-Watch about open source tooling, licensing and governance issues. Prototype user interface in Javascript. || Project plan. Publicly hosted source and project tracking facility. Interface prototype that can be shown to users to elicit feedback and further requirements. ||
+|| 2: 28Aug 12days || Develop supporting back-end service, and canvass potential users for feedback on initial interface - identification of a minimum system that target users would actually use for some purpose, however trivial. || Initial front-to-back system. Basic user documentation. A "hit list" of desired features. ||
+|| 3: 2Oct 18days || Enhancements to system; capturing structure in data; basic user authentication and access control. Use of system for project tasks. Seminar/demonstrations to solicit users and feedback. || Updated system. Examples of system in use. Updated feature list. ||
+|| 4: 30Oct 16days || Further enhancements. External linking and data integration. Continued user engagement. || Updated system, more examples of system in use. Updated feature list. Initial community web page describing the system and applications. ||
+|| 5: 27Nov 16days || Create promotional materials (webcast, dissemination, demonstrations, etc.). Establish a long-term home for the demo service. Ensure that users with whom we have engaged are comfortable with what is available as this project winds down. || Public repository contains fully tested software, documentation, promotional materials, deployment instructions, examples, etc., in a state suitable to support ongoing open community development. ||
+
+= Sprints =
+
+(My goal is 2-week sprints, but the first two are longer as the proportion of time spent will be lower.)
+
+|| Sprint 1 || 15 Jun - 31 Jul || 13 days || [link to plan] ||
+|| Sprint 2 || 2 Aug - 28 Aug  || 12 days including scheduled holiday || [link to plan] ||
+|| Sprint 3 || 31 Aug - 17 Sep || 9 days || [link to plan] ||
+|| Sprint 4 || 18 Sep - 2 Oct  || 9 days || [link to plan] ||
+|| Sprint 5 || 5 Oct - 16 Oct  || 8 days || [link to plan] ||
+|| Sprint 6 || 19 Oct - 30 Oct || 8 days || [link to plan] ||
+|| Sprint 7 || 2 Nov - 13 Nov  || 8 days || [link to plan] ||
+|| Sprint 8 || 16 Nov - 27 Nov || 8 days || [link to plan] ||
