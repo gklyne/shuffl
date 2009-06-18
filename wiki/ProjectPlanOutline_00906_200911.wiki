@@ -40,11 +40,11 @@ Some activities have been added, and the month end dates given make some allowan
 
 (My goal is 2-week sprints, but the first two are longer as the proportion of time spent will be lower.)
 
-|| Sprint 1 || 15 Jun - 31 Jul || 13 days || [link to plan] ||
-|| Sprint 2 || 2 Aug - 28 Aug  || 12 days including scheduled holiday || [link to plan] ||
-|| Sprint 3 || 31 Aug - 17 Sep || 9 days || [link to plan] ||
-|| Sprint 4 || 18 Sep - 2 Oct  || 9 days || [link to plan] ||
-|| Sprint 5 || 5 Oct - 16 Oct  || 8 days || [link to plan] ||
-|| Sprint 6 || 19 Oct - 30 Oct || 8 days || [link to plan] ||
-|| Sprint 7 || 2 Nov - 13 Nov  || 8 days || [link to plan] ||
-|| Sprint 8 || 16 Nov - 27 Nov || 8 days || [link to plan] ||
+|| Sprint 1 || 15 Jun - 31 Jul || 13 days || [SprintPlan_1 plan] ||
+|| Sprint 2 || 2 Aug - 28 Aug  || 12 days including scheduled holiday || [SprintPlan_2 plan] ||
+|| Sprint 3 || 31 Aug - 17 Sep || 9 days || [SprintPlan_3 plan] ||
+|| Sprint 4 || 18 Sep - 2 Oct  || 9 days || [SprintPlan_4 plan] ||
+|| Sprint 5 || 5 Oct - 16 Oct  || 8 days || [SprintPlan_5 plan] ||
+|| Sprint 6 || 19 Oct - 30 Oct || 8 days || [SprintPlan_6 plan] ||
+|| Sprint 7 || 2 Nov - 13 Nov  || 8 days || [SprintPlan_7 plan] ||
+|| Sprint 8 || 16 Nov - 27 Nov || 8 days || [SprintPlan_8 plan] ||
