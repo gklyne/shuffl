@@ -4,54 +4,6 @@
 
 This page documents a plan for creating an open source project that is sustainable as such beyond the initial funding period.  It draws upon advice from OSS-Watch, particularly the page at http://wiki.oss-watch.ac.uk/StartYourProject.
 
-= Sustainability options =
-
-See: 
- * http://wiki.oss-watch.ac.uk/Cost_Of_Open_Source_Development
- * http://wiki.oss-watch.ac.uk/SustainableOpenSource
-
-The clear message from the second link above is that the project will need some level of continuing input (if not income) to survive.
-
-Possible sources of future inputs include:
- * Further JISC-funded projects:  JISC are very clear that they won't fund continuing development of jiscri projects such as this, but does not explicitly rule out further projects that build upon the facilities provided by such a project.  Indeed, the emphasis in the JISC call for building upon exiting work, JISC-funded or otherwise, suggests this would be viewed favourably as long as genuinely new functionality is being created.  Shuffl is intended to be a minimal, flexible platform for small-scale data curation and management, and we anticipate many opportunities to build it out in different ways (Google Wave integration and video annotation are just two possibilities I have thought about in the past week or so).
- * Future non-JISC funded projects: I have hopes that if we can make something that our research users actually like and use, ourselves or other developers have a basis for requesting further funds from research councils and other bodies to build new capabilities that further enhance the researchers' work.
- * Volunteer efforts: other developers choosing to donate development and/or documentation effort.
- * Support from a commercial organization (including a possible commercial spin-off).
-
-== Infrastructure Costs ==
-
-Using Google-hosted services means the project infrastructure's existence is not subject to the vagaries of research project funding.  The persistent fabric of the project will be able to survive funding gaps, as long as Google continues to provide these services for free (and they do appear to have some commercial motivation to do so).
-
-== Support costs ==
-
-The costs of responding to users' and developers' questions.  Being able to do this will always require some degree of resource input.
-
-Provide an environment that allows a community to support themselves - the Google infrastructure helps here.
-
-== Governance costs ==
-
-These costs may be the hardest to defray:  formal control of a project's direction and integrity needs a committed team or individual, who usually need to have an income from somewhere to support their activity.  If the overhead of governance is low, then a single volunteer in "benevolent dictator" mode may be able to hold down the job, but this would not be a scalable solution.
-
-If the project is wildly successful, then it maybe can come under the wing of one of the established organizations (Apache, etc.) and use their governance structures.
-
-If the project has some commercial appeal, then maybe a company would be prepared to provide cover for this function, possibly in return for access to a skilled individual.
-
-== Development costs ==
-
-All the factors affecting support costs and governance costs apply, but there are some aspects of development costs that can be mitigated though the technical approach to the product:
- * Make as much use of existing open source frameworks and projects as possible, thereby benefiting from their sustainability
- * A framework that can be extended very easily to provide new user benefits is more likely to attract volunteer developer effort, maybe even from user/developers.
-
-The bottom line here would appear to be:  try to avoid making expensive and constraining commitments in the software's technical design. (Maybe easier said than done, but worth trying for.)
-
-== Summary thoughts on sustainability ==
-
-[http://wiki.oss-watch.ac.uk/SustainableOpenSource OSS-Watch says] (section 1, para 4) that many OS projects fail because they don't plan for success, but I'm finding it hard to understand what success might look like and what form it would take, so cannot see how to really plan for it.
-
-The only party of this analysis that feels at all satisfactory is the infrastructure sustainability.  In theface of all other uncertainties, Googles continuing infastructure support feels rock-solid.
-
-I can see that the project may be sustainable if it succeeds in just a small way, with low-overhead governance, a self-supporting community and ad-hoc ongoing development.  I can also see how a project would be sustainable through attracting substantial support from further research grants or commercial interests if it is wildly successful.  But the transition from small-scale to large-scale success is hard to plot, and I fail to see how to plan for it other than to understand the needs and make a conscious attempt to be flexible and opportunistic.
-
 = Identify community =
 
 This project has arisen from previous work that aims to facilitate the publication of research data on the web, so that it can be reviewed, and re-used in the generation of new insights, and to avoid the costs of unnecessary repeated experimentation.  This has involved a combination of biological researchers, classical arts researchers, and semantic web experts.
@@ -128,3 +80,54 @@ See http://wiki.oss-watch.ac.uk/Release_Management
 = Agile ecosystem =
 
 (TODO: find IBRG notes)
+
+
+= Sustainability options =
+
+See: 
+ * http://wiki.oss-watch.ac.uk/Cost_Of_Open_Source_Development
+ * http://wiki.oss-watch.ac.uk/SustainableOpenSource
+
+The clear message from the second link above is that the project will need some level of continuing input (if not income) to survive.
+
+Possible sources of future inputs include:
+ * Further JISC-funded projects:  JISC are very clear that they won't fund continuing development of jiscri projects such as this, but does not explicitly rule out further projects that build upon the facilities provided by such a project.  Indeed, the emphasis in the JISC call for building upon exiting work, JISC-funded or otherwise, suggests this would be viewed favourably as long as genuinely new functionality is being created.  Shuffl is intended to be a minimal, flexible platform for small-scale data curation and management, and we anticipate many opportunities to build it out in different ways (Google Wave integration and video annotation are just two possibilities I have thought about in the past week or so).
+ * Future non-JISC funded projects: I have hopes that if we can make something that our research users actually like and use, ourselves or other developers have a basis for requesting further funds from research councils and other bodies to build new capabilities that further enhance the researchers' work.
+ * Volunteer efforts: other developers choosing to donate development and/or documentation effort.
+ * Support from a commercial organization (including a possible commercial spin-off).
+
+== Infrastructure Costs ==
+
+Using Google-hosted services means the project infrastructure's existence is not subject to the vagaries of research project funding.  The persistent fabric of the project will be able to survive funding gaps, as long as Google continues to provide these services for free (and they do appear to have some commercial motivation to do so).
+
+== Support costs ==
+
+The costs of responding to users' and developers' questions.  Being able to do this will always require some degree of resource input.
+
+Provide an environment that allows a community to support themselves - the Google infrastructure helps here.
+
+== Governance costs ==
+
+These costs may be the hardest to defray:  formal control of a project's direction and integrity needs a committed team or individual, who usually need to have an income from somewhere to support their activity.  If the overhead of governance is low, then a single volunteer in "benevolent dictator" mode may be able to hold down the job, but this would not be a scalable solution.
+
+If the project is wildly successful, then it maybe can come under the wing of one of the established organizations (Apache, etc.) and use their governance structures.
+
+If the project has some commercial appeal, then maybe a company would be prepared to provide cover for this function, possibly in return for access to a skilled individual.
+
+== Development costs ==
+
+All the factors affecting support costs and governance costs apply, but there are some aspects of development costs that can be mitigated though the technical approach to the product:
+ * Make as much use of existing open source frameworks and projects as possible, thereby benefiting from their sustainability
+ * A framework that can be extended very easily to provide new user benefits is more likely to attract volunteer developer effort, maybe even from user/developers.
+
+The bottom line here would appear to be:  try to avoid making expensive and constraining commitments in the software's technical design. (Maybe easier said than done, but worth trying for.)
+
+== Summary thoughts on sustainability ==
+
+[http://wiki.oss-watch.ac.uk/SustainableOpenSource OSS-Watch says] (section 1, para 4) that many OS projects fail because they don't plan for success, but I'm finding it hard to understand what success might look like and what form it would take, so cannot see how to really plan for it.
+
+The only party of this analysis that feels at all satisfactory is the infrastructure sustainability.  In theface of all other uncertainties, Googles continuing infastructure support feels rock-solid.
+
+I can see that the project may be sustainable if it succeeds in just a small way, with low-overhead governance, a self-supporting community and ad-hoc ongoing development.  I can also see how a project would be sustainable through attracting substantial support from further research grants or commercial interests if it is wildly successful.  But the transition from small-scale to large-scale success is hard to plot, and I fail to see how to plan for it other than to understand the needs and make a conscious attempt to be flexible and opportunistic.
+
+Going though the exercise of preparing this plan, the one thing that I can see doing from the outset is being more conscious of the need to make it as easy as possible for users and developers to join in, though small as well as large contributions, and that this is something that pervades all other aspects of the project, right down to technical design issues.
