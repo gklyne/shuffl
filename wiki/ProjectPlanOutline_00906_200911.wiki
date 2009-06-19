@@ -15,14 +15,15 @@ Thus, this is the effort allocation that is planned for the next few months:
 {{{
 June        July        August         Sep         Oct         Nov
 15.22.29 06.13.20.27 03.10.17.24.31 07.14.21.28 05.12.19.26 02.09.16.23.30
- C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  C  _  _  _  = 22C
- C  C  C  C  C  C  C  C  C  C  C  C  C  S  S  S  S  S  S  S  S  S  S  S  -  = 13C + 11S
- C  C  C  C  C  C  C  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  -  = 7C  + 17S
- C  C  C  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  -  = 3C  + 21S
- S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  -  =       24S
+ C  C  C  C  C  C  C  C vC vC  C  C  C  C  C  C  C  C  C  C  C  C  _  _  _  = 22C
+ C  C  C  C  C  C  C  C vC vC  C  C  C  S  S  S  S  S  S  S  S  S  S  S  -  = 13C + 11S
+ C  C  C  C  C  C  C  S vS vS  S  S  S  S  S  S  S  S  S  S  S  S  S  S  -  = 7C  + 17S
+ C  C  C  S  S  S  S  S vS vS  S  S  S  S  S  S  S  S  S  S  S  S  S  S  -  = 3C  + 21S
+ S  S  S  S  S  S  S  S vS vS  S  S  S  S  S  S  S  S  S  S  S  S  S  S  -  =       24S
                                                                             = 45C + 73S
 
 S = Shuffl 73 days, C = Claros 45 days, Total 118 days. 
+v = intended vacation
 }}}
 
 = Outline plan from proposal =
@@ -38,13 +39,15 @@ Some activities have been added, and the month end dates given make some allowan
 
 = Sprints =
 
-(My goal is 2-week sprints, but the first two are longer as the proportion of time spent will be lower.)
+The project will be run along agile lines, as a series of "sprint"s or iterations, which will aim to achieve the progress outlined above. Each sprint will be planned in greater detail when it starts, adjusting the goals to take account of progress made and user feedback to date.
 
-|| Sprint 1 || 15 Jun - 31 Jul || 13 days || [SprintPlan_1 plan] ||
-|| Sprint 2 || 2 Aug - 28 Aug  || 12 days including scheduled holiday || [SprintPlan_2 plan] ||
-|| Sprint 3 || 31 Aug - 17 Sep || 9 days || [SprintPlan_3 plan] ||
-|| Sprint 4 || 18 Sep - 2 Oct  || 9 days || [SprintPlan_4 plan] ||
-|| Sprint 5 || 5 Oct - 16 Oct  || 8 days || [SprintPlan_5 plan] ||
-|| Sprint 6 || 19 Oct - 30 Oct || 8 days || [SprintPlan_6 plan] ||
-|| Sprint 7 || 2 Nov - 13 Nov  || 8 days || [SprintPlan_7 plan] ||
-|| Sprint 8 || 16 Nov - 27 Nov || 8 days || [SprintPlan_8 plan] ||
+My goal is 2-week sprints, but the first two are longer as the proportion of time spent will be lower.
+
+|| Sprint 1 || 15 Jun - 31 Jul || 13 days || [SprintPlan_1 sprint 1 plan] ||
+|| Sprint 2 || 2 Aug - 28 Aug  || 12 days including scheduled holiday: 6 working days || [SprintPlan_2 sprint 2 plan] ||
+|| Sprint 3 || 31 Aug - 17 Sep || 9 days || [SprintPlan_3 sprint 3 plan] ||
+|| Sprint 4 || 18 Sep - 2 Oct  || 9 days || [SprintPlan_4 sprint 4 plan] ||
+|| Sprint 5 || 5 Oct - 16 Oct  || 8 days || [SprintPlan_5 sprint 5 plan] ||
+|| Sprint 6 || 19 Oct - 30 Oct || 8 days || [SprintPlan_6 sprint 6 plan] ||
+|| Sprint 7 || 2 Nov - 13 Nov  || 8 days || [SprintPlan_7 sprint 7 plan] ||
+|| Sprint 8 || 16 Nov - 27 Nov || 8 days || [SprintPlan_8 sprint 8 plan] ||
