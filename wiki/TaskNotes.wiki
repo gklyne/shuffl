@@ -6,5 +6,6 @@ Project admin:
  * Re-work and schedule outline project plan
  * Start building user stories and requirements
  * Back-end system survey
-
-Code! 
+ * Review
+      The first issue though whether you want centraly owned copyright or distributed copyright, see http://www.oss-watch.ac.uk/resources/cla.xml
+ * Code! 
