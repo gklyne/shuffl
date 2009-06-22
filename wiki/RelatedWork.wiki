@@ -16,7 +16,6 @@ Add your content here.
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+David Shotton suggested some links from his Amsterdam meeting that seemed to have some bearing on Shuffl:
+* http://technologies.kmi.open.ac.uk/cohere/ - references work that may offer be some ideas for visualization of Shuffl decks?
+* http://kmi.open.ac.uk/publications/pdf/kmi-04-29.pdf - talks about "information bricks" - maybe analogous to Shuffl's use of record cards?
