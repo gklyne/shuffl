@@ -18,14 +18,16 @@ Developer community: initially, me and maybe some close colleagues; later, seman
 
 The MIT licence has been chosen as it is simple and permissive.  I believe sustainability for this project is maximized by lowering the barriers to adoption or adaptation, even if that means some users may "free-ride".  Experience suggests that most will not.
 
-= Collaboration model =
+= Collaborative decision making =
+
+The project welcomes contributions from anyone who has an interest in its goals, and explicitly aims to encourage participation.  This decision making (or "governance") model aims to indicate to potential contributors the ways in which they may engage with the project. 
 
 In the style of the examples at http://wiki.oss-watch.ac.uk/ExamplesOfOpenSourceGovernanceModels
 
 || *Name* || Shuffl ||
 || *Description* || Shuffl is an experimental system for small-scale data curation and web-publication  ||
 || *URI* ||  http://code.google.com/p/shuffl/ ||
-|| *Governance Model* || Shuffl presently has a "meritocracy of one" governance model lead by Graham Klyne.  Graham is the project manager and currently part-time funded to run this project to November 2009.  The project will engage with researchers who have indicated support for its goals, and will seek to use their experience to guide the project's direction. During this initially funded pase user feedback, bug reports, patches and more will be gratefully accepted (and duly acknowledged).  <br/><br/> Beyond the initially funded phase, we hope to use the established functionality to draw in a wider community to the recognized meritocracy. ||
+|| *Governance Model* || Shuffl presently has a "meritocracy of one" governance model led by Graham Klyne.  Graham is the project manager and currently part-time funded to run this project to November 2009.  The project will actively engage with researchers who have indicated support for its goals, and will seek to use their experience to guide the project's early directions. During this initially funded pase user feedback, bug reports, patches and more will be gratefully accepted (and duly acknowledged).  <br/><br/> Beyond the initially funded phase, we hope to use the established functionality to draw in a wider community to the recognized meritocracy. ||
 || *Motivating factors* || Shuffl is initially aimed at small-scale research teams, particularly life-science lab researchers, though we hope it eventually can be used by a far wider community.  As noted, we will engage with these users to guide the choice of functionality developed, wishing to creating a product that *is* useful to someone today than potentially useful to everyone tomorrow. ||
 || *Links* || TODO;  link for meritocracy governance model.   <br/><br/> (as opposed to: http://wiki.oss-watch.ac.uk/BenevolentDictatorGovernanceModel) ||
 
@@ -36,7 +38,7 @@ In the style of the examples at http://wiki.oss-watch.ac.uk/ExamplesOfOpenSource
 Intended tools for communication are:
  * the Google code project wiki (http://code.google.com/p/shuffl/w/list)
  * a Google groups mailing list (http://groups.google.com/group/shuffl-discuss)
- * articles tagged 'jiscri' and 'shuffl' a personal blog (http://signal-and-noise.blogspot.com/)
+ * articles tagged 'jiscri' and 'shuffl' in a personal blog (http://signal-and-noise.blogspot.com/)
 
 The mailing list is open for anyone to view, but posts from non-members will be held for moderation. (If spam proves to be a problem, membership may be required for posting messages.)  Membership is subject to moderation.  The aim is to be as open as possible while minimizing the impact of spam messages.
 
@@ -65,7 +67,7 @@ The management processes and tool usage will be subject to continuous review and
 
 See: http://www.oss-watch.ac.uk/resources/cla.xml
 
-(This needs to be done at some stage, though I really wish I could just point at something or lift an example from somewhere.)
+(TODO: I'm hoping for a form of agreement to be provided by OSS-watch, following a "distributed ownership model")
 
 = Subversion repository organization =
 
@@ -98,6 +100,8 @@ Possible sources of future inputs include:
  * Volunteer efforts: other developers choosing to donate development and/or documentation effort.
  * Support from a commercial organization (including a possible commercial spin-off).
 
+The conduct of Shuffl is intended to be fully open from the outset.  All technical, managerial and operational decisions will be recorded here, alongside the open source code and documentation.  This should help to ensure that well-motivated newcomers can learn enough about the project to make useful contributions.
+
 == Infrastructure Costs ==
 
 Using Google-hosted services means the project infrastructure's existence is not subject to the vagaries of research project funding.  The persistent fabric of the project will be able to survive funding gaps, as long as Google continues to provide these services for free (and they do appear to have some commercial motivation to do so).
@@ -108,9 +112,13 @@ The costs of responding to users' and developers' questions.  Being able to do t
 
 Provide an environment that allows a community to support themselves - the Google infrastructure helps here.
 
-== Governance costs ==
+Support costs for the product produced by the projects initial phase may be reduced by ensuring adequate documentation and support materials are created while the project is funded.
 
-These costs may be the hardest to defray:  formal control of a project's direction and integrity needs a committed team or individual, who usually need to have an income from somewhere to support their activity.  If the overhead of governance is low, then a single volunteer in "benevolent dictator" mode may be able to hold down the job, but this would not be a scalable solution.
+Support costs for the project itself (the ongoing community of users and developers) may be reduced is a suitably modular software architecture is adopted; i.e. requested changes to the system can be implemented through add-in modules rather than changes to the core system.  jQuery's established plug-in framework might be something that can help here.  The storage back-end should be abstracted, so it can be replaced at will by something that plays well in an intended deployment environment.
+
+== Collaboration and consensus costs ==
+
+These costs may be the hardest to defray:  formal control of a project's direction and integrity needs a committed team or individual, who usually need to have an income from somewhere to support their activity.  If the overhead of governance is low, then a single volunteer may be able to hold down the job, but this would not be a scalable solution.
 
 If the project is wildly successful, then it maybe can come under the wing of one of the established organizations (Apache, etc.) and use their governance structures.
 
@@ -125,6 +133,8 @@ All the factors affecting support costs and governance costs apply, but there ar
 The bottom line here would appear to be:  try to avoid making expensive and constraining commitments in the software's technical design. (Maybe easier said than done, but worth trying for.)
 
 == Summary thoughts on sustainability ==
+
+(TODO: replace this with something more positive, when I know what.  OSS-Watch, can you help here?)
 
 [http://wiki.oss-watch.ac.uk/SustainableOpenSource OSS-Watch says] (section 1, para 4) that many OS projects fail because they don't plan for success, but I'm finding it hard to understand what success might look like and what form it would take, so cannot see how to really plan for it.
 
