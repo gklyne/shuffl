@@ -9,6 +9,7 @@
  * AtomPub options (Exist?)
  * WebDAV
  * JCR / Jackrabbit / In...? ... WebDAV / DeltaV implementation (http://jackrabbit.apache.org/)
+ * Google data APIs
 
 
 = Introduction =
@@ -30,3 +31,6 @@ for managing the data, and use an OTS atom server for implementation.
 As an aside, I also note that the google data apis [2] are all based
 on extensions to atompub. I haven't looked at them in detail, but
 might provide some best practice on how to extend atompub.
+
+ * [1] http://exist.sourceforge.net/atompub.html
+ * [2] http://code.google.com/apis/gdata/
