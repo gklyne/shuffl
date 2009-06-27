@@ -32,5 +32,5 @@ As an aside, I also note that the google data apis [2] are all based
 on extensions to atompub. I haven't looked at them in detail, but
 might provide some best practice on how to extend atompub.
 
- * [1] http://exist.sourceforge.net/atompub.html
- * [2] http://code.google.com/apis/gdata/
+ # http://exist.sourceforge.net/atompub.html
+ # http://code.google.com/apis/gdata/
