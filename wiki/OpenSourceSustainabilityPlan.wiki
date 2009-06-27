@@ -138,7 +138,7 @@ The bottom line here would appear to be:  try to avoid making expensive and cons
 
 (TODO: replace this with something more positive, when I know what.  OSS-Watch, can you help here?)
 
-[http://www.oss-watch.ac.uk/resources/sustainableopensource.xml says] that many OS projects fail because they don't plan for success, but I'm finding it hard to understand what success might look like and what form it would take, so cannot see how to really plan for it.
+[http://www.oss-watch.ac.uk/resources/sustainableopensource.xml OSS-watch says] that many OS projects fail because they don't plan for success, but I'm finding it hard to understand what success might look like and what form it would take, so cannot see how to really plan for it.
 
 The only party of this analysis that feels at all satisfactory is the infrastructure sustainability.  In theface of all other uncertainties, Googles continuing infastructure support feels rock-solid.
 
