@@ -11,7 +11,7 @@
 
 = Introduction =
 
-* TODO: link to requirements
+ * TODO: link to requirements
 
 = Note from Alistair Miles =
 
