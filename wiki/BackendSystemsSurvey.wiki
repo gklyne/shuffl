@@ -6,8 +6,10 @@
  * Talis platform
  * Caboto
  * GetDropBox
- * AtomPub options
+ * AtomPub options (Exist?)
  * WebDAV
+ * JCR / Jackrabbit / In...? ... WebDAV / DeltaV implementation (http://jackrabbit.apache.org/)
+
 
 = Introduction =
 
