@@ -13,7 +13,7 @@ effort, and it would be good to have more time devoted to Shuffl in the later st
 Thus, this is the effort allocation that is planned for the next few months:
 
 {{{
-June        July        August         Sep         Oct         Nov
+June     July        August         September   October     November
 15.22.29 06.13.20.27 03.10.17.24.31 07.14.21.28 05.12.19.26 02.09.16.23.30
  C  C  C  C  C  C  C  C vC vC  C  C  C  C  C  C  C  C  C  C  C  C  _  _  _  = 22C
  C  C  C  C  C  C  C  C vC vC  C  C  C  S  S  S  S  S  S  S  S  S  S  S  -  = 13C + 11S
