@@ -22,7 +22,8 @@ The MIT licence has been chosen as it is simple and permissive.  I believe susta
 
 The project welcomes contributions from anyone who has an interest in its goals, and explicitly aims to encourage participation.  This decision making (or "governance") model aims to indicate to potential contributors the ways in which they may engage with the project. 
 
-See: http://wiki.oss-watch.ac.uk/GovernanceModel
+See:
+ * http://wiki.oss-watch.ac.uk/GovernanceModel
 
 In the style of the examples at http://wiki.oss-watch.ac.uk/ExamplesOfOpenSourceGovernanceModels
 
@@ -67,7 +68,8 @@ The management processes and tool usage will be subject to continuous review and
 
 == Contributor licence agreement ==
 
-See: http://www.oss-watch.ac.uk/resources/cla.xml
+See:
+ * http://www.oss-watch.ac.uk/resources/cla.xml
 
 (TODO: I'm hoping for a form of agreement to be provided by OSS-watch, following a "distributed ownership model")
 
@@ -79,7 +81,8 @@ Within a single Google code project, this organization is pretty much dictated i
 
 = Release management =
 
-See http://wiki.oss-watch.ac.uk/Release_Management
+See:
+ * http://wiki.oss-watch.ac.uk/Release_Management
 
 (TODO: outline release management process)
 
@@ -92,12 +95,12 @@ See http://wiki.oss-watch.ac.uk/Release_Management
 
 See: 
  * http://wiki.oss-watch.ac.uk/Cost_Of_Open_Source_Development
- * http://wiki.oss-watch.ac.uk/SustainableOpenSource
+ * http://www.oss-watch.ac.uk/resources/sustainableopensource.xml
 
 The clear message from the second link above is that the project will need some level of continuing input (if not income) to survive.
 
 Possible sources of future inputs include:
- * Further JISC-funded projects:  JISC are very clear that they won't fund continuing development of jiscri projects such as this, but does not explicitly rule out further projects that build upon the facilities provided by such a project.  Indeed, the emphasis in the JISC call for building upon exiting work, JISC-funded or otherwise, suggests this would be viewed favourably as long as genuinely new functionality is being created.  Shuffl is intended to be a minimal, flexible platform for small-scale data curation and management, and we anticipate many opportunities to build it out in different ways (Google Wave integration and video annotation are just two possibilities I have thought about in the past week or so).
+ * Further JISC-funded projects:  JISC are very clear that they won't fund continuing development of 'jiscri' projects such as this, but does not explicitly rule out further projects that build upon the facilities provided by such a project.  Indeed, the emphasis in the JISC call for building upon exiting work, JISC-funded or otherwise, suggests this would be viewed favourably as long as genuinely new functionality is being created.  Shuffl is intended to be a minimal, flexible platform for small-scale data curation and management, and we anticipate many opportunities to build it out in different ways (Google Wave integration and video annotation are just two possibilities I have thought about in the past week or so).
  * Future non-JISC funded projects: I have hopes that if we can make something that our research users actually like and use, ourselves or other developers have a basis for requesting further funds from research councils and other bodies to build new capabilities that further enhance the researchers' work.
  * Volunteer efforts: other developers choosing to donate development and/or documentation effort.
  * Support from a commercial organization (including a possible commercial spin-off).
@@ -140,8 +143,19 @@ The bottom line here would appear to be:  try to avoid making expensive and cons
 
 [http://www.oss-watch.ac.uk/resources/sustainableopensource.xml OSS-watch says] that many OS projects fail because they don't plan for success, but I'm finding it hard to understand what success might look like and what form it would take, so cannot see how to really plan for it.
 
-The only party of this analysis that feels at all satisfactory is the infrastructure sustainability.  In theface of all other uncertainties, Googles continuing infastructure support feels rock-solid.
+The only party of this analysis that feels at all satisfactory is the infrastructure sustainability.  In the face of all other uncertainties, Google's continuing infrastructure support feels rock-solid.
 
 I can see that the project may be sustainable if it succeeds in just a small way, with low-overhead governance, a self-supporting community and ad-hoc ongoing development.  I can also see how a project would be sustainable through attracting substantial support from further research grants or commercial interests if it is wildly successful.  But the transition from small-scale to large-scale success is hard to plot, and I fail to see how to plan for it other than to understand the needs and make a conscious attempt to be flexible and opportunistic.
 
 Going though the exercise of preparing this plan, the one thing that I can see doing from the outset is being more conscious of the need to make it as easy as possible for users and developers to join in, though small as well as large contributions, and that this is something that pervades all other aspects of the project, right down to technical design issues.
+
+= Collected links =
+
+ * http://osswatch.jiscinvolve.org/2009/06/30/software-sustainability/ - OSS-watch BLOG post that discusses sustainability issues, and also happens to reference this page.
+ * OSS-watch "checklist" for project startup
+ * http://www.oss-watch.ac.uk/resources/sustainableopensource.xml
+ * http://wiki.oss-watch.ac.uk/Cost_Of_Open_Source_Development
+ * http://wiki.oss-watch.ac.uk/Release_Management
+ * http://wiki.oss-watch.ac.uk/GovernanceModel
+ * http://wiki.oss-watch.ac.uk/ExamplesOfOpenSourceGovernanceModels
+ * http://www.oss-watch.ac.uk/resources/cla.xml
