@@ -152,7 +152,7 @@ Going though the exercise of preparing this plan, the one thing that I can see d
 = Collected links =
 
  * http://osswatch.jiscinvolve.org/2009/06/30/software-sustainability/ - OSS-watch BLOG post that discusses sustainability issues, and also happens to reference this page.
- * OSS-watch "checklist" for project startup
+ * http://wiki.oss-watch.ac.uk/StartYourProject - OSS-watch "checklist" for project startup
  * http://www.oss-watch.ac.uk/resources/sustainableopensource.xml
  * http://wiki.oss-watch.ac.uk/Cost_Of_Open_Source_Development
  * http://wiki.oss-watch.ac.uk/Release_Management
