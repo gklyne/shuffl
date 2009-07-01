@@ -2,9 +2,7 @@
 #labels notes,admin,tasks
 
 Project admin:
- * Copy outline plan from proposal to project plan page
- * Re-work and schedule outline project plan
-    * sprint 1 plan
+ * Sprint 1 plan
  * Review sustainability plan
     * The first issue though whether you want centrally owned copyright or distributed copyright, see http://www.oss-watch.ac.uk/resources/cla.xml
     * Discussion ongoing with OSS-Watch 
