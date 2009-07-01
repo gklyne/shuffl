@@ -4,8 +4,17 @@
 Project admin:
  * Copy outline plan from proposal to project plan page
  * Re-work and schedule outline project plan
+    * sprint 1 plan
+ * Review sustainability plan
+    * The first issue though whether you want centrally owned copyright or distributed copyright, see http://www.oss-watch.ac.uk/resources/cla.xml
+    * Discussion ongoing with OSS-Watch 
+ * pull wiki to subversion workspace
+
+Technical:
  * Start building user stories and requirements
  * Back-end system survey
- * Review
-      The first issue though whether you want centraly owned copyright or distributed copyright, see http://www.oss-watch.ac.uk/resources/cla.xml
+ * tech issues (plugins for front end and back end)
+ * tech issues (separation of data: content, styling, layout, etc.)
+ * tech issues (cards and containers)
+ * tech issues (view types / render modes)
  * Code! 
