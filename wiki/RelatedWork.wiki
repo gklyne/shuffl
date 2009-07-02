@@ -16,6 +16,8 @@ Add your content here.
 
 = Details =
 
+ * http://xlwrap.sourceforge.net/ - wrap spreadsheet data to serve RDF (directly or via SPARQL?)
+
 David Shotton suggested some links from his Amsterdam meeting that seemed to have some bearing on Shuffl:
  * http://technologies.kmi.open.ac.uk/cohere/ - references work that may offer be some ideas for visualization of Shuffl decks?
  * http://kmi.open.ac.uk/publications/pdf/kmi-04-29.pdf - talks about "information bricks" - maybe analogous to Shuffl's use of record cards?
