@@ -2,11 +2,9 @@
 #labels notes,admin,tasks
 
 Project admin:
- * Sprint 1 plan
  * Review sustainability plan
     * The first issue though whether you want centrally owned copyright or distributed copyright, see http://www.oss-watch.ac.uk/resources/cla.xml
     * Discussion ongoing with OSS-Watch 
- * pull wiki to subversion workspace
 
 Technical:
  * Start building user stories and requirements
@@ -16,3 +14,8 @@ Technical:
  * tech issues (cards and containers)
  * tech issues (view types / render modes)
  * Code! 
+
+ * Related work - Caboto, Google Wave, ...
+ * Backend desiderata and survey
+ * Meet with Chris Holland
+ * Think about plug-in architecture for extensions
