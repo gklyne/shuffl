@@ -20,9 +20,25 @@ Provide UI for stop/start/location control of video
 
 Event passing framework to synchronize multiple instances
 
+
+= OpenCitationNetwork =
+
+ * references are a pain point for researchers
+ * many specialized systems (Endnote, Connotea, Zotero, ...)
+ * but references don't exist in isolation - they *refer* to real things!  Reference management shouldn't be completely isolated from those things.
+ * want to find ways of accessing, sharing and analyzing references and their relationships
+
+OPEN UP THE CITATION INFORMATION:
+ * near-term value: relieve (or share) some of the pain
+ * long term value: expose paths to new knowledge, etc...
+ * use RDF, with vocabulary (Cito), and open publication like FOAF
+ * link to existing systems and expose content as RDF/Cito
+ * gives Cito an immediate purpose
+ * augment, don't compete with existing systems:  unlock their content, don't try to displace it.
+ * add tooling to support linkage to other real-world entities (e.g. Shuffl?)
+
 = Other =
 
-Shuffl futures:
  * Synchronize with mobile device notes !!!
  * More generally, card as unit of synchronization / update
 
