@@ -1,14 +1,53 @@
 #summary Agile ecosystem and practices
 
+
 = Introduction =
 
-This page captures the elements opf agile processes used for running the project.  It is subject to continuous review, and this page exists to record the current state of that review process.
+This page captures the elements opf agile processes used for running this project.  It is subject to continuous review, and this page exists to record the current state of that review process.
 
-= Admin =
+The outcomes of sprint reviews should be reflected here.
 
 
-= Technical =
+= Project Management and Administration =
+
+ * Use Google code project for code and the wiki for administrative notes and plans
+
+ * Iterations (sprints): aim for 2 weeks, but allow some flexibility to accommodate circumstances and other commitments.  The sprint timetable for the initial phase to Nov 2009 has been determined at project startup.
+
+ * Review each iteration, update this document as appropriate
+
+ * Allow 10-15% overall effort for sprint planning, review, recoding and routine reporting
+
+ * Aim for daily stand-up with colleagues (who may be working on  other projects)
+
+ * Daily activities recorded in personal calendar and sprint plan; these underpin and supplement daily stand-ups
+
+ * Outline project plan, milestones and sprint schedule recorded in project wiki.
+
+ * Sprint plans recorded in the project wiki, together with progress and review notes.
+
+ * Aim to develop functionality requested by users, but the early stages will develop an initial user interface used to elicit user requirements.  Some project goals (notable publication as linked web data) are not aimed at directly engaged users, but are being adopted serve other stakeholders who are not yet directly engaged.  (This feels anti-agile, and I'm not sure how to square this.)
+
+ * User stories (TODO)
+
+ * Release plan (TODO)
 
 
 = Community engagement =
 
+ * Open source sustainability plan underlines need to be aware of wider community issues when making technical and other decisions.  (Is this anti-agile?)
+
+ * Meet users, identify current data curation practices, elicit further requirements/desiderata, develop user stories, implement (this needs developing further?).  Later, use running prototype to help elicit requirements.
+
+ * Disemmination plan (TODO)
+
+
+= Technical =
+
+ * Try to use existing code / libraries where possible.  But allow interim home-grown elements if learning time is likely to a factor.
+
+ * Spike code to understand how to do something
+
+ * Test-led development for production code; test cases at unit and interface level (Windmill / selenium)
+
+ * Continuous refactoring; adopt patterns to maximize unit test coverage (e.g. MVC per FlyWeb)
