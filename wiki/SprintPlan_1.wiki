@@ -23,22 +23,22 @@
 || 1.6. || Agile ecosystem notes || 0.25 || ?? || 30-Jun-2009 || ?? ||
 || 1.7. || Initial reports to JISC  || 0.25 || ?? || 30-Jun-2009 || ?? ||
 || 1.8. || Miscellaneous admin, etc  || 1 || ?? || 30-Jun-2009 || -- ||
-|| 2.    || *Technical development* || *7.5* ||
-|| 2.1  || Back-end requirements and survey || 1.0 || ?? || (sprint) || ??-???-2009 ||
-|| 2.2  || Outline technical design and principles || 1.0 || ?? || (sprint) || ??-???-2009 ||
-|| 2.3  || Identify pluggable elements || 1.0 || ?? || (sprint) || ??-???-2009 ||
-|| 2.4  || jQuery / RDFQuery investigations || 1.0 || ?? || (sprint) || ??-???-2009 ||
-|| 2.5  || Initial UI prototype || 3.5 || ?? || (sprint) || ??-???-2009 ||
-|| 2.6  || Initial content persistence  || -- || -- || (bartered - 2.5) || -- ||
-|| 3.    || *Community engagement and dissemination* || *2.0* ||
-|| 3.1 || Sustainable agile JISC workshop || 1.0 || 1.0 || (unplanned) || 25-Jun-2009 ||
-|| 3.2 || Set up meetings with users || 1.0 || ?? || (sprint) || ??-???-2009 ||
+|| 2.    || *Community engagement and dissemination* || *2.0* ||
+|| 2.1 || Sustainable agile JISC workshop || 1.0 || 1.0 || (unplanned) || 25-Jun-2009 ||
+|| 2.2 || Set up meetings with users || 1.0 || ?? || (sprint) || ??-???-2009 ||
+|| 3.    || *Technical development* || *7.5* ||
+|| 3.1  || Back-end requirements and survey || 1.0 || ?? || (sprint) || ??-???-2009 ||
+|| 3.2  || Outline technical design and principles || 1.0 || ?? || (sprint) || ??-???-2009 ||
+|| 3.3  || Identify pluggable elements || 1.0 || ?? || (sprint) || ??-???-2009 ||
+|| 3.4  || jQuery / RDFQuery investigations || 1.0 || ?? || (sprint) || ??-???-2009 ||
+|| 3.5  || Initial UI prototype || 3.5 || ?? || (sprint) || ??-???-2009 ||
+|| 3.6  || Initial content persistence  || -- || -- || (bartered - 2.5) || -- ||
 
 = Task breakdowns =
 
 (effort estimates in days to nearest 0.25)
 
-== 2.5: Initial UI prototype ==
+== 3.5: Initial UI prototype ==
 
 3.5 days:
 
@@ -50,7 +50,7 @@
  * (0.5) define and display default card structure (id - title - tags - content)
  * (0.5) edit card content
 
-== 2.6: Initial content persistence ==
+== 3.6: Initial content persistence ==
 
 2.5 days:
 
