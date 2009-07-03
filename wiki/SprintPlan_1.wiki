@@ -61,7 +61,7 @@
 = Activity summary =
 
 15-Jun-2009: 
- * set up project Google Code infrastructure, blog, group, etc.
+ * (0.25) set up project Google Code infrastructure, blog, group, etc.
 
 18-Jun-2009:
  * (0.75) work on open source sustainability plan - have asked OSS-watch for a review
