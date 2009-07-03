@@ -17,11 +17,11 @@
 || 1.    || *Project mananement* || *3.5* ||
 || 1.1. || Sprint 1 plan             || 0.25 || 0.25 || 30-Jun-2009 || 3-Jul-2009 ||
 || 1.2. || Sprint 1 review (retrospective)  || 0.25 || ?? || 31-Jul-2009 || -- ||
-|| 1.3. || Project infrastructure || 0.5 || ?? || 30-Jun-2009 || 15-Jun-2009 ||
+|| 1.3. || Project infrastructure || 0.5 || 0.25 || 30-Jun-2009 || 15-Jun-2009 ||
 || 1.4. || Project plan outline || 0.5   || 0.25 || 30-Jun-2009 || 19-Jun-2009 ||
-|| 1.5. || Sustainability plan   || 0.5   || ??       || 30-Jun-2009 || ?? ||
+|| 1.5. || Sustainability plan   || 0.5   || 0.75+ || 30-Jun-2009 || ?? ||
 || 1.6. || Agile ecosystem notes || 0.25 || ?? || 30-Jun-2009 || ?? ||
-|| 1.7. || Initial reports to JISC  || 0.25 || ?? || 30-Jun-2009 || -- ||
+|| 1.7. || Initial reports to JISC  || 0.25 || ?? || 30-Jun-2009 || ?? ||
 || 1.8. || Miscellaneous admin, etc  || 1 || ?? || 30-Jun-2009 || -- ||
 || 2.    || *Technical development* || *7.5* ||
 || 2.1  || Back-end requirements and survey || 1.0 || ?? || (sprint) || ??-???-2009 ||
