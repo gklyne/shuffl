@@ -14,6 +14,7 @@ Required:
  * saved data available as RDF using simple HTTP request
  * standard, replaceable API
  * off-the-shelf (no new code required)
+ * arbitrary binary object storage and web access (images, etc.)
 
 Desired:
  * easy integration with University SSO
