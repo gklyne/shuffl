@@ -71,6 +71,7 @@
  *  (1.0) JISC "expert workshop" on open and agile development
 
 3-Jul-2009:
+ * (0.25) Sprint plan
 
 9-Jul-2009:
 
