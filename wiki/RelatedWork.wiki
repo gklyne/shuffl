@@ -1,4 +1,4 @@
-#summary TODO: relataed work and systems that may have a bearing on this project
+#summary TODO: related work and systems that may have a bearing on this project
 
  * Caboto
  * Databank
