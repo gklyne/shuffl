@@ -4,6 +4,17 @@
 
 See also: [RequirementsAndGoals]
 
+Required:
+ * simple REST interface
+ * saved data available as RDF using simple HTTP request
+ * off-the-shelf (no new code required)
+ * arbitrary binary object storage and web access (images, etc.)
+ * available for local *or* service deployment
+
+Desired:
+ * easy integration with University SSO
+ * standard, replaceable API
+
 = Caboto =
 
 Provides back-end service for annotations.  At first seems very similar to Shuffl requirements, but on discussion with Damian Steer, I think it's probably too much skewed to annotations, and not really providing general RDF object storage suitable for Shuffl.
@@ -48,6 +59,15 @@ And all objects typed by rdf:type (multitypes allowed)
 
 
 = Talis platform =
+
+ * http://www.talis.com/platform/
+
+Talis Platform ticks most of the boxes here.  My main reservation is that it's a service-only offering, so research groups don't have the option of using a local server.  Why might they want to do that?  I don't know, but I don't want to impose the choice on them.
+
+Also, integration with a university SSO might be problematic.
+
+I think the API is a Talis design - I don't know if they have any more standard interfaces.
+
 
 = GetDropBox =
 
