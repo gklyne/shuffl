@@ -18,6 +18,10 @@ Developer community: initially, me and maybe some close colleagues; later, seman
 
 The MIT licence has been chosen as it is simple and permissive.  I believe sustainability for this project is maximized by lowering the barriers to adoption or adaptation, even if that means some users may "free-ride".  Experience suggests that most will not.
 
+= Documentation licence =
+
+Documentation is released under the Creative Commons Attribution licence (http://creativecommons.org/licenses/by/2.0/uk/) - this is chosen as being similar in spirit to the MIT licence for code.
+
 = Collaborative decision making =
 
 The project welcomes contributions from anyone who has an interest in its goals, and explicitly aims to encourage participation.  This decision making (or "governance") model aims to indicate to potential contributors the ways in which they may engage with the project. 
