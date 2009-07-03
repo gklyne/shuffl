@@ -20,7 +20,7 @@
 
 Also, I thought I'd mention that I've been looking at the atom
 publishing protocol. I also found that the eXist XML database supports
-atompub out of the box [1]. I deployed eXist 1.2 as a war to tomcat,
+atompub out of the box^1^. I deployed eXist 1.2 as a war to tomcat,
 and I had an atom server running with no coding or configuration. You
 can then store/update/delete what is effectively arbitrary XML
 content. It might be a quick option for you to get up and running with
@@ -28,7 +28,7 @@ your shuffl demo -- you could design a simple XML format for the card
 data based on the atom syndication format, use atompub as the protocol
 for managing the data, and use an OTS atom server for implementation.
 
-As an aside, I also note that the google data apis [2] are all based
+As an aside, I also note that the google data apis ^2^ are all based
 on extensions to atompub. I haven't looked at them in detail, but
 might provide some best practice on how to extend atompub.
 
