@@ -12,12 +12,13 @@ See also: UserStories
 Required:
  * simple REST interface
  * saved data available as RDF using simple HTTP request
- * standard, replaceable API
  * off-the-shelf (no new code required)
  * arbitrary binary object storage and web access (images, etc.)
+ * available for local *or* service deployment
 
 Desired:
  * easy integration with University SSO
+ * standard, replaceable API
 
 = User interface =
 
