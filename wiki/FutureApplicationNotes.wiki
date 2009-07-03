@@ -1,0 +1,31 @@
+#summary Notes and ideas for future applications using Shuffl
+
+= Introduction =
+
+These are notes for possible future developments, not forming part of the current active project
+
+= Google Wave integration =
+
+Embed a Shuffl workspace in a Wave.
+
+Embed a Wave in a Shuffl card.
+
+Embed exported Shuffl data in a Wave =
+
+= Video annotation =
+
+Embed VLC browser-based player in a card
+
+Provide UI for stop/start/location control of video
+
+Event passing framework to synchronize multiple instances
+
+= Other =
+
+Shuffl futures:
+ * Synchronize with mobile device notes !!!
+ * More generally, card as unit of synchronization / update
+
+Tagging - namespaces - ontologies:
+ * bare tags, strictly local, no global semantics
+ * prefixed tags, default based on local URI, may be overridden by PREFIX declaration to use global namespace
