@@ -2,43 +2,92 @@
 
 = Introduction =
 
-Current milestone:
+== Current milestone ==
 
 || Month || Activity || Deliverables || 
-|| 1: 31Jul 13days|| Initial planning. Project Setup, and further discussion with JISC OSS-Watch about open source tooling, licensing and governance issues. Prototype user interface in Javascript. || Project plan. Publicly hosted source and project tracking facility. Interface prototype that can be shown to users to elicit feedback and further requirements. ||
+|| 1: 31-Jul, 13 days|| Initial planning. Project Setup, and further discussion with JISC OSS-Watch about open source tooling, licensing and governance issues. Prototype user interface in Javascript. || Project plan. Publicly hosted source and project tracking facility. Interface prototype that can be shown to users to elicit feedback and further requirements. ||
 
-Current sprint:
+== Current sprint ==
 
 || Sprint 1 || 15 Jun - 31 Jul || 13 days ||
-
 
 = User stories and activities =
 
 || *Activity number* || *Description* || *Effort est* || *Effort actual* || *Target date* || *Completion date* ||
-|| 1.    |||||||||| *Project mananement* ||
-|| 1.1. || Project plan outline || 0.5   || 0.25 || 30-Jun-2009 || 19-Jun-2009 ||
-|| 1.2. || Sprint 1 plan             || 0.25 || ??      || 30-Jun-2009 || ?? ||
-|| 1.3. || Sustainability plan   || 0.5   || ??       || 30-Jun-2009 || ?? ||
-|| 1.4. || Project infrastructure || 0.5 || ?? || 30-Jun-2009 || 15-Jun-2009 ||
-|| 1.5. || Initial reports to JISC  || 0.25 || ?? || 30-Jun-2009 || -- ||
-|| 1.6. || Miescellaneous admin, etc  || 2.5 || ?? || 30-Jun-2009 || -- ||
-|| 2.    |||||||||| *Technical development* ||
-|| 2.1  || Back-end survey || 1.0 || ?? || (sprint) || ??-???-2009 ||
-|| 2.2  || jQuery / RDFQuery investigations || 1.0 || ?? || (sprint) || ??-???-2009 ||
-|| 2.x  || Initial UI prototype || 5.0 || ?? || (sprint) || ??-??? ||
-|| 3.    |||||||||| *Community engagement and dissemination* ||
-|| ? || Sustainable agile JISC workshop ||    || 1.0 || (unplanned) || 25-Jun-2009 ||
-|| ? || Set up meetings with users ||    || 1.0 || (sprint) || ??-???-2009 ||
+|| 1.    || *Project mananement* || *3.5* ||
+|| 1.1. || Sprint 1 plan             || 0.25 || ??      || 30-Jun-2009 || ?? ||
+|| 1.2. || Sprint 1 review (retrospective)  || 0.25 || ?? || 31-Jul-2009 || -- ||
+|| 1.3. || Project infrastructure || 0.5 || ?? || 30-Jun-2009 || 15-Jun-2009 ||
+|| 1.4. || Project plan outline || 0.5   || 0.25 || 30-Jun-2009 || 19-Jun-2009 ||
+|| 1.5. || Sustainability plan   || 0.5   || ??       || 30-Jun-2009 || ?? ||
+|| 1.6. || Agile ecosystem notes || 0.25 || ?? || 30-Jun-2009 || ?? ||
+|| 1.7. || Initial reports to JISC  || 0.25 || ?? || 30-Jun-2009 || -- ||
+|| 1.8. || Miscellaneous admin, etc  || 1 || ?? || 30-Jun-2009 || -- ||
+|| 2.    || *Technical development* || *7.5* ||
+|| 2.1  || Back-end requirements and survey || 1.0 || ?? || (sprint) || ??-???-2009 ||
+|| 2.2  || Outline technical design and principles || 1.0 || ?? || (sprint) || ??-???-2009 ||
+|| 2.3  || Identify pluggable elements || 1.0 || ?? || (sprint) || ??-???-2009 ||
+|| 2.4  || jQuery / RDFQuery investigations || 1.0 || ?? || (sprint) || ??-???-2009 ||
+|| 2.5  || Initial UI prototype || 3.5 || ?? || (sprint) || ??-???-2009 ||
+|| 2.6  || Initial content persistence  || -- || -- || (bartered - 2.5) || -- ||
+|| 3.    || *Community engagement and dissemination* || *2.0* ||
+|| 3.1 || Sustainable agile JISC workshop || 1.0 || 1.0 || (unplanned) || 25-Jun-2009 ||
+|| 3.2 || Set up meetings with users || 1.0 || ?? || (sprint) || ??-???-2009 ||
 
+= Task breakdowns =
 
-= Activity summary ==
+(effort estimates in days to nearest 0.25)
+
+== 2.5: Initial UI prototype ==
+
+3.5 days:
+
+ * (0.5)  initial test environment: display empty screen layout
+ * (0.5) define and display "stock" cards
+ * (0.5) define and display blank cards in workspace
+ * (0.5) drag stock to workspace; create new blank card in workspace
+ * (0.5) drag blank card in workspace
+ * (0.5) define and display default card structure (id - title - tags - content)
+ * (0.5) edit card content
+
+== 2.6: Initial content persistence ==
+
+2.5 days:
+
+ * (1.0) deploy backend software
+ * (1.0) persist workspace content/layout changes
+ * (0.5) persist changes to card content
+
+= Activity summary =
 
 15-Jun-2009: 
  * set up project Google Code infrastructure, blog, group, etc.
 
 18-Jun-2009:
- * (0.75) Shuffl project: work on open source sustainability plan - have asked OSS-watch for a review.
- * (0.25) Shuffl project: outline project plan in wiki
+ * (0.75) work on open source sustainability plan - have asked OSS-watch for a review
+ * (0.25) outline project plan in wiki
 
 25-Jun-2009:
  *  (1.0) JISC "expert workshop" on open and agile development
+
+3-Jul-2009:
+
+9-Jul-2009:
+
+10-Jul-2009:
+
+16-Jul-2009:
+
+17-Jul-2009:
+
+23-Jul-2009:
+
+24-Jul-2009:
+
+30-Jul-2009:
+
+31-Jul-2009:
+
+= Sprint review notes =
+
+ * sustainability plan is overrunning initial estimates, but the additional effort is providing valued feedback to OSS-watch.  My goal for this is that the resulting materials allow a rapid innovation project like this to make and document key decisions affecting sustainability in the initially allotted 0.5 day.
