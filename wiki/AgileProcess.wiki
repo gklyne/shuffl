@@ -1,0 +1,14 @@
+#summary Agile ecosystem and practices
+
+= Introduction =
+
+This page captures the elements opf agile processes used for running the project.  It is subject to continuous review, and this page exists to record the current state of that review process.
+
+= Admin =
+
+
+= Technical =
+
+
+= Community engagement =
+
