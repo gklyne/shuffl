@@ -21,7 +21,7 @@ Provide UI for stop/start/location control of video
 Event passing framework to synchronize multiple instances
 
 
-= OpenCitationNetwork =
+= Open citation network =
 
  * references are a pain point for researchers
  * many specialized systems (Endnote, Connotea, Zotero, ...)
