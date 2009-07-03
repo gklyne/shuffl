@@ -10,17 +10,37 @@ Provides back-end service for annotations.  At first seems very similar to Shuff
 
 = Databank =
 
-http://databank.ouls.ox.ac.uk
+ * http://databank.ouls.ox.ac.uk
 
-SVN repositories:
-??
+SVN repositories?  hmm- I can't find the software
 
 See also:
-http://www.rabbitmq.com/
-http://www.amqp.org/
+ * http://www.rabbitmq.com/
+ * http://www.amqp.org/
 
 Question:
 Open source?
+
+Another project from Ben O'Steen: 
+ * http://oxfordrepo.blogspot.com/2009/05/rdf-ui-fedora-for-object-metadata-rdf.html
+there's some cool jQuery stuff here to be used.
+
+For the Web UI:
+
+Using jQuery and 3 plugins: jEditable, autocomplete and rdfquery.
+
+ * jeditable: http://www.appelsiini.net/projects/jeditable
+ * jeditable live demo: http://www.appelsiini.net/projects/jeditable/default.html <-- see this to understand what it gives.
+ * http://jquery.bassistance.de/autocomplete/demo/ <-- example autocomplete demo
+ * http://code.google.com/p/rdfquery/ from jeni tennison for reading RDFa information from the DOM of an HTML page using javascript.
+
+Needed middleware controls from the Web App:
+ * create new session (specifically, a delta of the RDF expressed in iand's ChangeSet schema  
+ * http://vocab.org/changeset/schema ) POST /{object-id}/{RDF}/session/new -> HTTP 201 - session url (includes object id root)
+ * POST triples to /{session-url}/update to add to the 'add' and/or 'delete' portions
+ * A POST to /{session-url}/commit or just DELETE /{session-url}
+
+And all objects typed by rdf:type (multitypes allowed)
 
 
 = Talis platform =
