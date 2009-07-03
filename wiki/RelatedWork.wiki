@@ -1,5 +1,7 @@
 #summary TODO: related work and systems that may have a bearing on this project
 
+= Others (expand selected candidates in separate sections) =
+
  * Caboto
  * Databank
  * Fedorazon
@@ -8,14 +10,9 @@
  * rdfQuery
  * Linked web data
  * WebDAV
-
-= Introduction =
-
-Add your content here.
-
-
-= Details =
-
+ * Check out "voodoopad"
+   * (cf. tomboy, tiddlywiki)
+ * (sensors - dave de roure, simon coles, ...)
  * http://xlwrap.sourceforge.net/ - wrap spreadsheet data to serve RDF (directly or via SPARQL?)
 
 David Shotton suggested some links from his Amsterdam meeting that seemed to have some bearing on Shuffl:
