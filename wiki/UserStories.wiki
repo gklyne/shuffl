@@ -1,0 +1,17 @@
+#summary TODO: User stories for development
+
+= Introduction =
+
+This page lists user stories that are used to guide the development of new functionality.
+
+The general structure used here is:
+
+<blockquote>
+*As a* _stakeholder_, *I want* _some capability_, *so that* _some benefit_
+</blockquote>
+
+which serves to link the requirements to identifiable end-user benefits.  These user stories are the link between end-user requirements and development targets.
+
+= Details =
+
+TODO
