@@ -1,20 +1,43 @@
 #summary TODO: Survey of options for back-end storage
 
-= Candidates =
-
- * Databank
- * Talis platform
- * Caboto
- * GetDropBox
- * AtomPub options (Exist?)
- * WebDAV
- * JCR / Jackrabbit / In...? ... WebDAV / DeltaV implementation (http://jackrabbit.apache.org/)
- * Google data APIs
-
-
 = Introduction =
 
- * TODO: link to requirements
+See also: [RequirementsAndGoals]
+
+= Caboto =
+
+Provides back-end service for annotations.  At first seems very similar to Shuffl requirements, but on discussion with Damian Steer, I think it's probably too much skewed to annotations, and not really providing general RDF object storage suitable for Shuffl.
+
+= Databank =
+
+http://databank.ouls.ox.ac.uk
+
+SVN repositories:
+??
+
+See also:
+http://www.rabbitmq.com/
+http://www.amqp.org/
+
+Question:
+Open source?
+
+
+= Talis platform =
+
+= GetDropBox =
+
+= AtomPub options (Exist?) =
+
+= WebDAV =
+
+= JCR / Jackrabbit / In...? ... WebDAV / DeltaV implementation (http://jackrabbit.apache.org/) =
+
+Implements WebDAV/DeltaV
+
+= Google data APIs =
+
+* AtomPub-derived
 
 = Note from Alistair Miles =
 
