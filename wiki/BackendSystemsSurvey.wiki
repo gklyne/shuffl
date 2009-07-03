@@ -25,6 +25,9 @@ Another project from Ben O'Steen:
  * http://oxfordrepo.blogspot.com/2009/05/rdf-ui-fedora-for-object-metadata-rdf.html
 there's some cool jQuery stuff here to be used.
 
+I quote:
+
+<blockquote>
 For the Web UI:
 
 Using jQuery and 3 plugins: jEditable, autocomplete and rdfquery.
@@ -41,6 +44,7 @@ Needed middleware controls from the Web App:
  * A POST to /{session-url}/commit or just DELETE /{session-url}
 
 And all objects typed by rdf:type (multitypes allowed)
+</blockquote>
 
 
 = Talis platform =
