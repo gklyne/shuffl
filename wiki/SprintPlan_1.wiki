@@ -1,0 +1,44 @@
+#summary Sprint 1 plan : 15 Jun - 31 Jul
+
+= Introduction =
+
+Current milestone:
+
+|| Month || Activity || Deliverables || 
+|| 1: 31Jul 13days|| Initial planning. Project Setup, and further discussion with JISC OSS-Watch about open source tooling, licensing and governance issues. Prototype user interface in Javascript. || Project plan. Publicly hosted source and project tracking facility. Interface prototype that can be shown to users to elicit feedback and further requirements. ||
+
+Current sprint:
+
+|| Sprint 1 || 15 Jun - 31 Jul || 13 days ||
+
+
+= User stories and activities =
+
+|| *Activity number* || *Description* || *Effort est* || *Effort actual* || *Target date* || *Completion date* ||
+|| 1.    |||||||||| *Project mananement* ||
+|| 1.1. || Project plan outline || 0.5   || 0.25 || 30-Jun-2009 || 19-Jun-2009 ||
+|| 1.2. || Sprint 1 plan             || 0.25 || ??      || 30-Jun-2009 || ?? ||
+|| 1.3. || Sustainability plan   || 0.5   || ??       || 30-Jun-2009 || ?? ||
+|| 1.4. || Project infrastructure || 0.5 || ?? || 30-Jun-2009 || 15-Jun-2009 ||
+|| 1.5. || Initial reports to JISC  || 0.25 || ?? || 30-Jun-2009 || -- ||
+|| 1.6. || Miescellaneous admin, etc  || 2.5 || ?? || 30-Jun-2009 || -- ||
+|| 2.    |||||||||| *Technical development* ||
+|| 2.1  || Back-end survey || 1.0 || ?? || (sprint) || ??-???-2009 ||
+|| 2.2  || jQuery / RDFQuery investigations || 1.0 || ?? || (sprint) || ??-???-2009 ||
+|| 2.x  || Initial UI prototype || 5.0 || ?? || (sprint) || ??-??? ||
+|| 3.    |||||||||| *Community engagement and dissemination* ||
+|| ? || Sustainable agile JISC workshop ||    || 1.0 || (unplanned) || 25-Jun-2009 ||
+|| ? || Set up meetings with users ||    || 1.0 || (sprint) || ??-???-2009 ||
+
+
+= Activity summary ==
+
+15-Jun-2009: 
+ * set up project Google Code infrastructure, blog, group, etc.
+
+18-Jun-2009:
+ * (0.75) Shuffl project: work on open source sustainability plan - have asked OSS-watch for a review.
+ * (0.25) Shuffl project: outline project plan in wiki
+
+25-Jun-2009:
+ *  (1.0) JISC "expert workshop" on open and agile development
