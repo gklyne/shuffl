@@ -16,7 +16,7 @@ Required:
  * off-the-shelf (no new code required)
 
 Desired:
- * integration with University SSO
+ * easy integration with University SSO
 
 = User interface =
 
