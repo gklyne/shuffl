@@ -17,7 +17,7 @@ Desired:
 
 == Conclusion ==
 
-Subject to a little experimentation, I am currently inclined to go with an AtomPub-based approach, initially using eXist but later to maybe consider other options.  This should also be supportable through the Google data APIs, with at most a little tweaking.
+Subject to a little experimentation, I am currently inclined to go with an !AtomPub-based approach, initially using eXist but later to maybe consider other options.  This should also be supportable through the Google data APIs, with at most a little tweaking.
 
 
 = Caboto =
@@ -79,7 +79,7 @@ I think the API is a Talis design - I don't know if they have any more standard 
 Another web service offering.  This one emulates a file system using HTTP protocol requests.  The implementation is very smooth, but is a service-only offering.
 
 
-= AtomPub options =
+= Atom Publication Protocol options =
 
 See (initially copied from http://www.swordapp.org/sword/specifications):
  * The Atom Syndication Format, RFC 4287 - http://www.ietf.org/rfc/rfc4287.txt
@@ -87,15 +87,15 @@ See (initially copied from http://www.swordapp.org/sword/specifications):
  * Open Archives Initiative Object Reuse and Exchange, http://www.openarchives.org/ore/
  * Google Data APIs Protocol, http://code.google.com/apis/gdata/
 
-AtomPub is a standard protocol layered on HTTP to read and write Atom feeds.  If the feed structure works for Shuffl collections, this could be an attractive option.
+!AtomPub is a standard protocol layered on HTTP to read and write Atom feeds.  If the feed structure works for Shuffl collections, this could be an attractive option.
 
-AtomPub implementations...
+!AtomPub implementations...
 
-Need to explore and make sure I can use for arbitrary BLOB storage.
+Need to explore and make sure I can use for arbitrary BLOB storage.  According to Tim Bray, it should work.
 
 == SWORD ==
 
-An atompub-derived deposit protocol.
+An !AtomPub-derived deposit protocol.
 
  * http://www.swordapp.org/
  * http://www.ukoln.ac.uk/repositories/digirep/index/SWORD
@@ -131,7 +131,7 @@ for managing the data, and use an OTS atom server for implementation.
 
 = Google data APIs =
 
- * AtomPub-derived
+ * !AtomPub-derived
 
 Maybe use as a service backend for Shuffl:  Exist for local or workgroup storage, Google for public free service? 
 
