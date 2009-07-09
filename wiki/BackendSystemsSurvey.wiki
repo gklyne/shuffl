@@ -73,15 +73,41 @@ I think the API is a Talis design - I don't know if they have any more standard 
 
 Another web service offering.  This one emulates a file system using HTTP protocol requests.  The implementation is very smooth, but is a service-only offering.
 
-= AtomPub options / Exist =
+
+= AtomPub options =
+
+See (initially copied from http://www.swordapp.org/sword/specifications):
+ * The Atom Syndication Format, RFC 4287 - http://www.ietf.org/rfc/rfc4287.txt
+ * The Atom Publishing Protocol, RFC 5023 - http://www.ietf.org/rfc/rfc5023.txt
+ * Open Archives Initiative Object Reuse and Exchange, http://www.openarchives.org/ore/
+ * Google Data APIs Protocol, http://code.google.com/apis/gdata/
 
 AtomPub is a standard protocol layered on HTTP to read and write Atom feeds.  If the feed structure works for Shuffl collections, this could be an attractive option.
 
 AtomPub implementations...
 
+Need to explore and make sure I can use for arbitrary BLOB storage.
+
+== SWORD ==
+
+An atompub-derived deposit protocol.
+
+ * http://www.swordapp.org/
+ * http://www.ukoln.ac.uk/repositories/digirep/index/SWORD
+ * http://www.swordapp.org/sword/specifications
+
+We're not yet looking to be or in a repository, but that may come and it's something to be aware of.
+
+
+= eXist =
+
 Exist (http://exist.sourceforge.net/) is an XML database implementation that supports a number of APIs, including AtomPub, WebDAV and an HTTP/REST style interface.  This looks like a quick way to get up-and-running, with a number of options fror future exploration.
 
 Exist is servlet-based, and by default installs with Jetty.
+
+There's a lot of XQuery capability here, which I'm not sure I currently see any need for.  But that might change? 
+
+Google data APIs?
 
 == Note from Alistair Miles ==
 
@@ -96,6 +122,30 @@ data based on the atom syndication format, use atompub as the protocol
 for managing the data, and use an OTS atom server for implementation.
 
  # http://exist.sourceforge.net/atompub.html
+
+
+= Google data APIs =
+
+ * AtomPub-derived
+
+Maybe use as a service backend for Shuffl:  Exist for local or workgroup storage, Google for public free service? 
+
+== Note from Alistair Miles ==
+
+I also note that the google data apis ^1^ are all based
+on extensions to atompub. I haven't looked at them in detail, but
+might provide some best practice on how to extend atompub.
+
+ # http://code.google.com/apis/gdata/
+
+
+= mod_atom =
+
+See:
+ * http://code.google.com/p/mod-atom/
+ * http://www.tbray.org/ongoing/When/200x/2007/06/27/mod_atom-status
+ * http://www.tbray.org/ongoing/When/200x/2007/06/25/mod_atom
+
 
 = WebDAV =
 
@@ -125,17 +175,3 @@ Implements WebDAV/DeltaV
 Hmmm... I'm more interested in a web interface than a Java API.
 
 For the purposes of Shuffl, the focus is overly on structure and organization.
-
-
-= Google data APIs =
-
-* AtomPub-derived
-
-== Note from Alistair Miles ==
-
-I also note that the google data apis ^1^ are all based
-on extensions to atompub. I haven't looked at them in detail, but
-might provide some best practice on how to extend atompub.
-
- # http://code.google.com/apis/gdata/
-
