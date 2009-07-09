@@ -1,4 +1,4 @@
-#summary TODO: Survey of options for back-end storage
+#summary Survey of options for back-end storage
 
 = Introduction =
 
@@ -71,19 +71,19 @@ I think the API is a Talis design - I don't know if they have any more standard 
 
 = GetDropBox =
 
-= AtomPub options (Exist?) =
+Another web service offering.  This one emulates a file system using HTTP protocol requests.  The implementation is very smooth, but is a service-only offering.
 
-= WebDAV =
+= AtomPub options / Exist =
 
-= JCR / Jackrabbit / In...? ... WebDAV / DeltaV implementation (http://jackrabbit.apache.org/) =
+AtomPub is a standard protocol layered on HTTP to read and write Atom feeds.  If the feed structure works for Shuffl collections, this could be an attractive option.
 
-Implements WebDAV/DeltaV
+AtomPub implementations...
 
-= Google data APIs =
+Exist (http://exist.sourceforge.net/) is an XML database implementation that supports a number of APIs, including AtomPub, WebDAV and an HTTP/REST style interface.  This looks like a quick way to get up-and-running, with a number of options fror future exploration.
 
-* AtomPub-derived
+Exist is servlet-based, and by default installs with Jetty.
 
-= Note from Alistair Miles =
+== Note from Alistair Miles ==
 
 Also, I thought I'd mention that I've been looking at the atom
 publishing protocol. I also found that the eXist XML database supports
@@ -95,9 +95,47 @@ your shuffl demo -- you could design a simple XML format for the card
 data based on the atom syndication format, use atompub as the protocol
 for managing the data, and use an OTS atom server for implementation.
 
-As an aside, I also note that the google data apis ^2^ are all based
+ # http://exist.sourceforge.net/atompub.html
+
+= WebDAV =
+
+WebDAV is a file-access-over-HTTP protocol.  It's main advantage is that many systems have WebDAV file systems.  There's also some support for version management via DeltaV in some implementations.  (Jackrabbit?)
+
+Exist has a WebDAV implementation.
+
+I quickly found a WebDAV client implementation in Javascript.
+
+See:
+ * http://ajaxian.com/archives/javascript-webdav-client
+ * http://github.com/aslakhellesoy/webdavjs/tree/master
+ * http://debris.demon.nl/projects/davclient.js/doc/README.html
+ * http://www.webdavsystem.com/ajax
+
+
+= Apache Jackrabbit / JCR / JSR 170 / JSR 283 =
+
+ * http://jackrabbit.apache.org/
+
+JCR = Java Content Repository
+
+Implements WebDAV/DeltaV
+
+(David Flanders also mentioned another package, named In...?)
+
+Hmmm... I'm more interested in a web interface than a Java API.
+
+For the purposes of Shuffl, the focus is overly on structure and organization.
+
+
+= Google data APIs =
+
+* AtomPub-derived
+
+== Note from Alistair Miles ==
+
+I also note that the google data apis ^1^ are all based
 on extensions to atompub. I haven't looked at them in detail, but
 might provide some best practice on how to extend atompub.
 
- # http://exist.sourceforge.net/atompub.html
  # http://code.google.com/apis/gdata/
+
