@@ -86,6 +86,8 @@ See (initially copied from http://www.swordapp.org/sword/specifications):
  * The Atom Publishing Protocol, RFC 5023 - http://www.ietf.org/rfc/rfc5023.txt
  * Open Archives Initiative Object Reuse and Exchange, http://www.openarchives.org/ore/
  * Google Data APIs Protocol, http://code.google.com/apis/gdata/
+ * http://abdera.apache.org/
+ * http://trac.defuze.org/wiki/amplee (has interesting range of back-end support, project activity appears sporadic)
 
 !AtomPub is a standard protocol layered on HTTP to read and write Atom feeds.  If the feed structure works for Shuffl collections, this could be an attractive option.
 
