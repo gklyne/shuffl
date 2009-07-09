@@ -22,12 +22,12 @@
 || 1.5. || Sustainability plan   || 0.5   || 0.75... || 30-Jun-2009 || ... ||
 || 1.6. || Agile ecosystem notes || 0.25 || 0.1 || 30-Jun-2009 || 3-Jul-20090 ||
 || 1.7. || Initial reports to JISC  || 0.25 || 0.25 || 30-Jun-2009 || 3-Jul-2009 ||
-|| 1.8. || Miscellaneous admin, etc  || 1 || 0.15 || 30-Jun-2009 || -- ||
+|| 1.8. || Miscellaneous admin, etc  || 1 || 0.35 || 30-Jun-2009 || -- ||
 || 2.    || *Community engagement and dissemination* || *2.0* ||
 || 2.1 || Sustainable agile JISC workshop || 1.0 || 1.0 || (unplanned) || 25-Jun-2009 ||
 || 2.2 || Set up meetings with users || 1.0 || ?? || (sprint) || ??-???-2009 ||
 || 3.    || *Technical development* || *7.5* ||
-|| 3.1  || Back-end requirements and survey || 1.0 || 0.25... || (sprint) || ... ||
+|| 3.1  || Back-end requirements and survey || 1.0 || 0.95 || (sprint) || 07-Jul-2009 ||
 || 3.2  || Outline technical design and principles || 1.0 || ?? || (sprint) || ??-???-2009 ||
 || 3.3  || Identify pluggable elements || 1.0 || ?? || (sprint) || ??-???-2009 ||
 || 3.4  || jQuery / RDFQuery investigations || 1.0 || ?? || (sprint) || ??-???-2009 ||
