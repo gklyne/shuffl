@@ -78,6 +78,9 @@
  * (0.15) misc email
 
 9-Jul-2009:
+ * (0.2) Misc email and stuff
+ * (0.3) complete backend survey - look like settling on Exist/AtomPub for now
+ * (0.5) Install eXist and run series of tests using cURL. All required functionality appears to be present.
 
 10-Jul-2009:
 
