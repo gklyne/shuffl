@@ -1,0 +1,8 @@
+#summary Notes for tasks to be tackled
+
+Project admin:
+ * Initial sprint plan
+ * Start building user stories and requirements
+ * Back-end system survey
+
+Code! 
