@@ -15,6 +15,11 @@ Desired:
  * easy integration with University SSO
  * standard, replaceable API
 
+== Conclusion ==
+
+Subject to a little experimentation, I am currently inclined to go with an AtomPub-based approach, initially using eXist but later to maybe consider other options.  This should also be supportable through the Google data APIs, with at most a little tweaking.
+
+
 = Caboto =
 
 Provides back-end service for annotations.  At first seems very similar to Shuffl requirements, but on discussion with Damian Steer, I think it's probably too much skewed to annotations, and not really providing general RDF object storage suitable for Shuffl.
