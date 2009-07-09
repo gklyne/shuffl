@@ -54,7 +54,7 @@ Using jQuery and 3 plugins: jEditable, autocomplete and rdfquery.
  * http://code.google.com/p/rdfquery/ from jeni tennison for reading RDFa information from the DOM of an HTML page using javascript.
 
 Needed middleware controls from the Web App:
- * create new session (specifically, a delta of the RDF expressed in iand's ChangeSet schema  
+ * create new session (specifically, a delta of the RDF expressed in iand's !ChangeSet schema  
  * http://vocab.org/changeset/schema ) POST /{object-id}/{RDF}/session/new -> HTTP 201 - session url (includes object id root)
  * POST triples to /{session-url}/update to add to the 'add' and/or 'delete' portions
  * A POST to /{session-url}/commit or just DELETE /{session-url}
@@ -74,7 +74,7 @@ Also, integration with a university SSO might be problematic.
 I think the API is a Talis design - I don't know if they have any more standard interfaces.
 
 
-= GetDropBox =
+= !GetDropBox =
 
 Another web service offering.  This one emulates a file system using HTTP protocol requests.  The implementation is very smooth, but is a service-only offering.
 
