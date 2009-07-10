@@ -4,12 +4,25 @@
 
 This page is a collection of technical notes and rationale affecting the design choices made in implementing Shuffl.
 
-The key underlying concept in Shuffl is a "card", which is roughly analogous to a physical record card.  In its simplest form, a card may contain free-form text notes, with 
+= Cards, collections and workspaces =
 
-  Cards may be grouped into collections (or decks?)
+The key underlying concept in Shuffl is a "card", which is roughly analogous to a physical record card.  In its simplest form, a card may contain free-form text notes, with some minimal additional structure: identifier, type, title, tags and content.  Different types of card may be associated with different display characteristics, e.g. colour, size, shape, etc.  The different types may also indicate some additional structure (analogous to pre-printed cards for, say, contact details).  And, within such an extended structure, one card may refer (link) to other cards, building up to a network of information. Card content is not limited to text:  it should be possible to include any web-displayable content in a card (e.g. images, videos, etc.)
 
+Cards may be grouped into collections (or decks?).  Typically, such a collection would be an assembly of similar information (e.g. a stack of address cards), but such homogeneity within a collection is not a requirement.
+
+Collections may also include sub-collections to arbitrary depth.  Inclusion of a card or collection in one collection does not preclude its inclusion in some other collection.
+
+A workspace is a particular visual arrangement of cards and collections:  user interaction is via a workspace.
 
 = Separation of data: content, styling and layout =
+
+As far as possible, card content should be stored separately from styling and workspace layout.  Data about information about inclusion of cards in collections is stored with the primary card data.
+
+Information about additional structures, or fields, within card data is associated with a card's type.  Such information does not necessarily constrain the content of any card: there is no enforcement of structural validity, rather such information is intended mainly to... 
+
+@@Need top decide whether this is primary of layout data - since 
+
+Styling information is linked to card type information, and may 
 
 
 = Cards and containers =
@@ -25,5 +38,3 @@ The key underlying concept in Shuffl is a "card", which is roughly analogous to 
 
 
 = Plugins for front end and back end =
-
-
