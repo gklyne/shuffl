@@ -5,9 +5,9 @@
  * Annotea - W3C web annotation system, http://www.w3.org/2001/Annotea/
  * Caboto – Annotation storage for 3 JISC projects - http://code.google.com/p/caboto/
  * FlyTED - http://www.fly-ted.org/
- * FlyWeb - Linking Laboratory Image Data with Public Databases and Publication Repositories, http://www.jisc.ac.uk/whatwedo/programmes/resourcediscovery/flyweb.aspx
+ * !FlyWeb - Linking Laboratory Image Data with Public Databases and Publication Repositories, http://www.jisc.ac.uk/whatwedo/programmes/resourcediscovery/flyweb.aspx
  * Fresnel - RDF data lenses, http://www.w3.org/2005/04/fresnel-info/, http://www.w3.org/2005/04/fresnel-info/fsl/, http://simile.mit.edu/wiki/Fresnel
- * HyperCard - http://en.wikipedia.org/wiki/HyperCard/
+ * !HyperCard - http://en.wikipedia.org/wiki/HyperCard/
  * Idealist - Idealist text indexing database http://www.chr.org.uk/idealist.htm
  * Linked data on the web - http://en.wikipedia.org/wiki/Linked_Data
  * Mind mapping - Mind mapping systems http://en.wikipedia.org/wiki/Mind_map
