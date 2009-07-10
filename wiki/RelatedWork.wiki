@@ -2,26 +2,26 @@
 
 = Others (expand selected candidates in separate sections) =
 
- * [Annotea] – Annotea project: W3C web annotation system, http://www.w3.org/2001/Annotea/
- * [Caboto] – Annotation storage for 3 JISC projects - http://code.google.com/p/caboto/
- * [FlyTED] - http://www.fly-ted.org/
- * [FlyWeb] - Linking Laboratory Image Data with Public Databases and Publication Repositories, http://www.jisc.ac.uk/whatwedo/programmes/resourcediscovery/flyweb.aspx
- * [Fresnel] - RDF data lenses, http://www.w3.org/2005/04/fresnel-info/, http://www.w3.org/2005/04/fresnel-info/fsl/
- * [HyperCard] - http://en.wikipedia.org/wiki/HyperCard/
- * [Idealist] - Idealist text indexing database http://www.chr.org.uk/idealist.htm
- * [LDOW] - http://en.wikipedia.org/wiki/Linked_Data
- * [MindMapping] - Mind mapping systems http://en.wikipedia.org/wiki/Mind_map
- * [Mingle] - http://studios.thoughtworks.com/mingle- agile-project-management
- * [MsoftSurface] - Microsoft Surface, http://www.microsoft.com/SURFACE/Default.aspx
- * [NoteCards] - http://en.wikipedia.org/wiki/NoteCards
- * [ODIT] – Oxford University, Office of the Director of IT: Scoping digital repository services for research data management - findings http://www.ict.ox.ac.uk/odit/projects/digitalrepository/findings.xml
- * [OpenFlyData] - http://openflydata.org /
- * [Ppixel] - Perceptive Pixel multitouch display screens, http://www.perceptivepixel.com/
- * [RDFConcepts] - http://www.w3.org/TR/rdf-concepts/
- * [SemWiki] - Semantic Media Wiki - http://semantic-mediawiki.org/wiki/Semantic_MediaWiki
- * [SPARQL] – http://www.w3.org/TR/rdf-sparql-query/, http://www.w3.org/TR/rdf-sparql-protocol/
- * [SPARQLite] - http://sparqlite.googlecode.com
- * [Tabulator-redux] - http://events.linkeddata.org/ldow2008/papers/11-berners-lee-hollenbach-tabulator-redux.pdf
+ * Annotea - W3C web annotation system, http://www.w3.org/2001/Annotea/
+ * Caboto – Annotation storage for 3 JISC projects - http://code.google.com/p/caboto/
+ * FlyTED - http://www.fly-ted.org/
+ * FlyWeb - Linking Laboratory Image Data with Public Databases and Publication Repositories, http://www.jisc.ac.uk/whatwedo/programmes/resourcediscovery/flyweb.aspx
+ * Fresnel - RDF data lenses, http://www.w3.org/2005/04/fresnel-info/, http://www.w3.org/2005/04/fresnel-info/fsl/, http://simile.mit.edu/wiki/Fresnel
+ * HyperCard - http://en.wikipedia.org/wiki/HyperCard/
+ * Idealist - Idealist text indexing database http://www.chr.org.uk/idealist.htm
+ * Linked data on the web - http://en.wikipedia.org/wiki/Linked_Data
+ * Mind mapping - Mind mapping systems http://en.wikipedia.org/wiki/Mind_map
+ * Mingle - http://studios.thoughtworks.com/mingle- agile-project-management
+ * Microsoft Surface - http://www.microsoft.com/SURFACE/Default.aspx
+ * !NoteCards - http://en.wikipedia.org/wiki/NoteCards, http://doi.acm.org/10.1145/30851.30859, http://doi.acm.org/10.1145/317426.317451, http://www.it.teithe.gr/~cs1msa/notecards.htm
+ * ODIT – Oxford University, Office of the Director of IT: Scoping digital repository services for research data management - findings http://www.ict.ox.ac.uk/odit/projects/digitalrepository/findings.xml
+ * !OpenFlyData - http://openflydata.org /
+ * Perceptive Pixel - multitouch display screens, http://www.perceptivepixel.com/
+ * RDF Concepts - http://www.w3.org/TR/rdf-concepts/
+ * Semantic Media Wiki - http://semantic-mediawiki.org/wiki/Semantic_MediaWiki
+ * SPARQL – http://www.w3.org/TR/rdf-sparql-query/, http://www.w3.org/TR/rdf-sparql-protocol/
+ * SPARQLite - http://sparqlite.googlecode.com
+ * Tabulator redux - http://events.linkeddata.org/ldow2008/papers/11-berners-lee-hollenbach-tabulator-redux.pdf
 
  * Databank
  * Fedorazon
