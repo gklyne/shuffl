@@ -14,18 +14,23 @@ Collections may also include sub-collections to arbitrary depth.  Inclusion of a
 
 A workspace is a particular visual arrangement of cards and collections:  user interaction is via a workspace.
 
+
 = Separation of data: content, styling and layout =
 
-As far as possible, card content should be stored separately from styling and workspace layout.  Data about information about inclusion of cards in collections is stored with the primary card data.
+As far as possible, card content should be kept logically separate from styling and workspace layout.  The raw data for each card is made available as an addressable web resource.
 
-Information about additional structures, or fields, within card data is associated with a card's type.  Such information does not necessarily constrain the content of any card: there is no enforcement of structural validity, rather such information is intended mainly to... 
+Information about additional structures, or fields, within card data is associated with a card's type.  Such information does not necessarily constrain the content of any card: there is no enforcement of structural validity, rather this information is intended mainly to guide user interface generation.
 
-@@Need top decide whether this is primary of layout data - since 
+Data about inclusion of cards in collections is kept logically separate, so that a separate store or system may be used to define different collections over the same cards.
 
-Styling information is linked to card type information, and may 
+Data about workspace layout is kept separately from the card and collection data, so that different workspaces may be created for different views over the card and collection  data.  Layout and styling information is also kept separately, and is associated with card types by the workspace data.  Thus different workspaces may select different styling, e.g., suitable for different kinds of display device.
 
-
-= Cards and containers =
+Thus we have the following logical data elements:
+ * Structure descriptions, keyed by type identifier
+ * Card data, keyed by card identifier and linked to structures by a type attribute
+ * Collection data, linking to cards and other collections, having a collection type, and keyed by a collection identifier
+ * Card and collection visual layout and styling information, keyed by layout/style identifiers
+ * Workspace description, referencing card data, collection data. containing positioning information and mapping type identiers to layout/style identifiers.
 
 
 = Card view types / render modes =
