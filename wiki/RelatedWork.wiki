@@ -1,5 +1,14 @@
 #summary Related work and systems that may have a bearing on this project
 
+= jQuery =
+
+ * http://jquery.com/
+ * http://code.google.com/p/rdfquery/
+ * http://geekswithblogs.net/AzamSharp/archive/2008/02/21/119882.aspx - drag-and-drop article / tutorial
+ * http://www.appelsiini.net/projects/jeditable - in-place text editing
+ * http://www.spicyexpress.net/general/jquerry-at-it-best-downloadable-jquerry-plugins-and-widgets-for-you-2/
+
+
 = Others (expand selected candidates in separate sections) =
 
  * Annotea - W3C web annotation system, http://www.w3.org/2001/Annotea/
@@ -26,8 +35,6 @@
  * Databank
  * Fedorazon
  * Talis platform
- * jQuery
- * rdfQuery
  * WebDAV
  * Check out "voodoopad"
    * (cf. tomboy, tiddlywiki)
