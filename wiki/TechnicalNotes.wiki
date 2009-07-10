@@ -4,6 +4,7 @@
 
 This page is a collection of technical notes and rationale affecting the design choices made in implementing Shuffl.
 
+
 = Cards, collections and workspaces =
 
 The key underlying concept in Shuffl is a "card", which is roughly analogous to a physical record card.  In its simplest form, a card may contain free-form text notes, with some minimal additional structure: identifier, type, title, tags and content.  Different types of card may be associated with different display characteristics, e.g. colour, size, shape, etc.  The different types may also indicate some additional structure (analogous to pre-printed cards for, say, contact details).  And, within such an extended structure, one card may refer (link) to other cards, building up to a network of information. Card content is not limited to text:  it should be possible to include any web-displayable content in a card (e.g. images, videos, etc.)
@@ -25,7 +26,7 @@ Data about inclusion of cards in collections is kept logically separate, so that
 
 Data about workspace layout is kept separately from the card and collection data, so that different workspaces may be created for different views over the card and collection  data.  Layout and styling information is also kept separately, and is associated with card types by the workspace data.  Thus different workspaces may select different styling, e.g., suitable for different kinds of display device.
 
-Thus we have the following logical data elements:
+Thus we derive the following logical data elements:
  * Structure descriptions, keyed by type identifier
  * Card data, keyed by card identifier and linked to structures by a type attribute
  * Collection data, linking to cards and other collections, having a collection type, and keyed by a collection identifier
@@ -35,11 +36,30 @@ Thus we have the following logical data elements:
 
 = Card view types / render modes =
 
+Each card may appear in a number of different ways in a workspace:
+
+ * 1-line summary (Title, etc.) and/or icon
+ * Full content display
+ * Editing display (but see also: http://www.appelsiini.net/projects/jeditable)
+ * "Stock" card: icon dragged to main workspace to create a new card
+
+Styling information will be required for each of these.
+
 
 = Tagging, namespaces and ontologies =
 
-  * bare tags, strictly local, no global semantics
-  * prefixed tags, default based on local URI, may be overridden by PREFIX declaration to use global namespace
+ * informal tags: bare names, syntactic only, but may form groups, clouds, trees, etc.  (SKOS?)
+ * local semantics: prefixed tags, assigned default local namespace URI based on serving data store
+ * global semantics: prefixed tags with defined PREFIX URI declaration to use global namespace
 
 
 = Plugins for front end and back end =
+
+Areas where functionality should be devolved to replaceable plug-in components
+
+ * back-end storage (using AtomPub goes some way to achieving this, but we may need to be able to support different implementations such as Google data APIs, etc.)
+ * card types and styles
+ * embedable web content (images, widgets, etc...)
+ * ...
+
+How much of this can be provided by building to the jQuery plugin structure?  Hopefully, all of it.
