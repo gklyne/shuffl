@@ -23,6 +23,10 @@ Desired:
 = User interface =
 
  * easy for users
+ * minimal imposed structure
+ * permit users to develop their own structures
+ * grouping and linking of cards - manually, visually, by query
+ * allow same raw data to be used in multiple workspaces
 
 = Notes from a discussion with Nathan Pike and David =
 
@@ -81,18 +85,3 @@ seems that there may still be some work to do to make this so for science
 researchers.  Specifically, it would help me to understand aspects of data
 acquisition and handling that you would like to undertake, but cannot do 
 as easily as you would like with spreadsheet programs.
-
-== Managing references ==
-
-One thing that comes over to me from our discussion is that, despite the
-availability of several systems to help researchers, reference management is
-still a pain point.  I hypothesize that one reason for this is the somewhat
-closed or inward-looking nature of many of these existing systems, which stands
-in contrast to many principles of the World Wide Web.  Even systems that are
-nominally open, in that they don't actually lock the data away, are not entirely
-supportive of open exchange because they use application-specific data formats.
-This is something the semantic web aims to change (just as the original web
-has done for documents).
-
-Which has led me to think of a possible application that might include Shuffl,
-which also ties in with some of David's ideas for citation network analysis.
