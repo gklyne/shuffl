@@ -23,6 +23,19 @@ Event passing framework to synchronize multiple instances
 
 = Open citation network =
 
+One thing that comes over to me from discussion with Nathan Pike and David Shotton is that, 
+despite the availability of several systems to help researchers, 
+reference management is still a pain point.
+
+I hypothesize that one reason for this is the somewhat closed or inward-looking nature of many 
+of these existing systems, which stands in contrast to many principles of the World Wide Web.
+Even systems that are nominally open, in that they don't actually lock the data away,
+ are not entirely supportive of open exchange because they use application-specific data formats.
+This is something the semantic web aims to change (just as the original web has done for documents).
+
+Which has led me to think of a possible application that might include Shuffl,
+which also ties in with some of David's ideas for citation network analysis.
+
  * references are a pain point for researchers
  * many specialized systems (Endnote, Connotea, Zotero, ...)
  * but references don't exist in isolation - they *refer* to real things!  Reference management shouldn't be completely isolated from those things.
@@ -37,11 +50,8 @@ OPEN UP THE CITATION INFORMATION:
  * augment, don't compete with existing systems:  unlock their content, don't try to displace it.
  * add tooling to support linkage to other real-world entities (e.g. Shuffl?)
 
+
 = Other =
 
  * Synchronize with mobile device notes !!!
  * More generally, card as unit of synchronization / update
-
-Tagging - namespaces - ontologies:
- * bare tags, strictly local, no global semantics
- * prefixed tags, default based on local URI, may be overridden by PREFIX declaration to use global namespace
