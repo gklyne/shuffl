@@ -8,14 +8,11 @@ Project admin:
 
 Technical:
  * Start building user stories and requirements
- * Back-end system survey
  * tech issues (plugins for front end and back end)
  * tech issues (separation of data: content, styling, layout, etc.)
  * tech issues (cards and containers)
  * tech issues (view types / render modes)
  * Code! 
 
- * Related work - Caboto, Google Wave, ...
- * Backend desiderata and survey
  * Meet with Chris Holland
  * Think about plug-in architecture for extensions
