@@ -1,21 +1,38 @@
-#summary TODO: related work and systems that may have a bearing on this project
+#summary Related work and systems that may have a bearing on this project
 
 = Others (expand selected candidates in separate sections) =
 
- * Caboto
+ * [Annotea] – Annotea project: W3C web annotation system, http://www.w3.org/2001/Annotea/
+ * [Caboto] – Annotation storage for 3 JISC projects - http://code.google.com/p/caboto/
+ * [FlyTED] - http://www.fly-ted.org/
+ * [FlyWeb] - Linking Laboratory Image Data with Public Databases and Publication Repositories, http://www.jisc.ac.uk/whatwedo/programmes/resourcediscovery/flyweb.aspx
+ * [Fresnel] - RDF data lenses, http://www.w3.org/2005/04/fresnel-info/, http://www.w3.org/2005/04/fresnel-info/fsl/
+ * [HyperCard] - http://en.wikipedia.org/wiki/HyperCard/
+ * [Idealist] - Idealist text indexing database http://www.chr.org.uk/idealist.htm
+ * [LDOW] - http://en.wikipedia.org/wiki/Linked_Data
+ * [MindMapping] - Mind mapping systems http://en.wikipedia.org/wiki/Mind_map
+ * [Mingle] - http://studios.thoughtworks.com/mingle- agile-project-management
+ * [MsoftSurface] - Microsoft Surface, http://www.microsoft.com/SURFACE/Default.aspx
+ * [NoteCards] - http://en.wikipedia.org/wiki/NoteCards
+ * [ODIT] – Oxford University, Office of the Director of IT: Scoping digital repository services for research data management - findings http://www.ict.ox.ac.uk/odit/projects/digitalrepository/findings.xml
+ * [OpenFlyData] - http://openflydata.org /
+ * [Ppixel] - Perceptive Pixel multitouch display screens, http://www.perceptivepixel.com/
+ * [RDFConcepts] - http://www.w3.org/TR/rdf-concepts/
+ * [SemWiki] - Semantic Media Wiki - http://semantic-mediawiki.org/wiki/Semantic_MediaWiki
+ * [SPARQL] – http://www.w3.org/TR/rdf-sparql-query/, http://www.w3.org/TR/rdf-sparql-protocol/
+ * [SPARQLite] - http://sparqlite.googlecode.com
+ * [Tabulator-redux] - http://events.linkeddata.org/ldow2008/papers/11-berners-lee-hollenbach-tabulator-redux.pdf
+
  * Databank
  * Fedorazon
  * Talis platform
  * jQuery
  * rdfQuery
- * Linked web data
  * WebDAV
  * Check out "voodoopad"
    * (cf. tomboy, tiddlywiki)
  * (sensors - dave de roure, simon coles, ...)
  * http://xlwrap.sourceforge.net/ - wrap spreadsheet data to serve RDF (directly or via SPARQL?)
- * Fresnel - http://simile.mit.edu/wiki/Fresnel
-
 
 David Shotton suggested some links from his Amsterdam meeting that seemed to have some bearing on Shuffl:
  * http://technologies.kmi.open.ac.uk/cohere/ - references work that may offer be some ideas for visualization of Shuffl decks?
