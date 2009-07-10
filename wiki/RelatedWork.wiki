@@ -14,6 +14,8 @@
    * (cf. tomboy, tiddlywiki)
  * (sensors - dave de roure, simon coles, ...)
  * http://xlwrap.sourceforge.net/ - wrap spreadsheet data to serve RDF (directly or via SPARQL?)
+ * Fresnel - http://simile.mit.edu/wiki/Fresnel
+
 
 David Shotton suggested some links from his Amsterdam meeting that seemed to have some bearing on Shuffl:
  * http://technologies.kmi.open.ac.uk/cohere/ - references work that may offer be some ideas for visualization of Shuffl decks?
