@@ -1,0 +1,29 @@
+#summary Technical notes about Shuffl design
+
+= Introduction =
+
+This page is a collection of technical notes and rationale affecting the design choices made in implementing Shuffl.
+
+The key underlying concept in Shuffl is a "card", which is roughly analogous to a physical record card.  In its simplest form, a card may contain free-form text notes, with 
+
+  Cards may be grouped into collections (or decks?)
+
+
+= Separation of data: content, styling and layout =
+
+
+= Cards and containers =
+
+
+= Card view types / render modes =
+
+
+= Tagging, namespaces and ontologies =
+
+  * bare tags, strictly local, no global semantics
+  * prefixed tags, default based on local URI, may be overridden by PREFIX declaration to use global namespace
+
+
+= Plugins for front end and back end =
+
+
