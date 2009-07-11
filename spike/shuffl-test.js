@@ -30,6 +30,23 @@ if (typeof shuffl == "undefined") {
     shuffl = {};
 }
 
+/**
+ * Draggable options for stockpiles
+ */
+shuffl.stockDraggable = { 
+        opacity: 0.8, 
+        revert: true, 
+        revertDuration: 0, 
+        stack: { group: '.shuffl-card', min: 10 } 
+        }
+
+/**
+ * Draggable options for cards
+ */
+shuffl.cardDraggable = { 
+        opacity: 0.5, 
+        stack: { group: '.shuffl-card', min: 10 } 
+        };
 
 jQuery(document).ready(function(){
 
@@ -37,68 +54,34 @@ jQuery(document).ready(function(){
        
     /**
      * TODO: load card data and layout from backend store
-     */
-    
+     */    
     log.debug("shuffl-test TODO: load card data");
 
-    /**
-     *         //  Find all stockpiles cards, and connect them to the Drag handler.
-        var d = MochiKit.DOM.getElementsByTagAndClassName('div', 'shuffl-stockpile');
-        MochiKit.Iter.forEach(d,
-            function(elem) {
-                var cardclass = MochiKit.DOM.getNodeAttribute(elem, 'class').replace(/shuffl-stockpile/,'')+' shuffl-card';
-     * 
-     * TODO: make this interface jQuery-friendly - e.g. use plugin pattern to create makeCard jQuery method?
-     * 
-                elem.makeCard = shuffl.cardFactory('div', 'card_', cardclass, "(content)" );
-                new MochiKit.DragAndDrop.Draggable(elem,
-                    { revert: true
-                    , ghosting: true
-                    });
-            });
-     
-     */
-
-    // TODO: figure how to dynamically add and call method for element
-/*
-    jQuery("div.shuffl-stockpile").ADDFUNTION( 'makeCard', function (){ 
-        });
- */   
+    jQuery("div.shuffl-stockpile").data( 'makeCard', shuffl.createCardFromStock );
 
     /**
-     * TODO: connect up drag and drop for creating and moving cards
+     * Connect up drag and drop for creating and moving cards
      */
-    
     log.debug("shuffl-test: connect drag-and-drop logic");
 
-    jQuery("div.shuffl-stockpile").draggable({ 
-        opacity: 0.8, revert: true, revertDuration: 0, stack: { group: '.shuffl-card', min: 10 } 
-        });
-    jQuery("div.shuffl-card").draggable({ 
-        opacity: 0.5, stack: { group: '.shuffl-card', min: 10 } 
-        });
+    jQuery("div.shuffl-stockpile").draggable(shuffl.stockDraggable);
+    jQuery("div.shuffl-card").draggable(shuffl.cardDraggable);
+    jQuery("div.shuffl-card").click( function () { shuffl.toFront(jQuery(this)) } );
+
     jQuery("#layout").droppable({
         accept: "div.shuffl-stockpile",
         drop: 
             function(event, ui) {
+                /**
+                 * ui.draggable - current draggable element, a jQuery object.
+                 * ui.helper - current draggable helper, a jQuery object
+                 * ui.position - current position of the draggable helper { top: , left: }
+                 * ui.offset - current absolute position of the draggable helper { top: , left: }
+                 */
                 log.debug("shuffl-test: drop "+ui.draggable);
-/* TODO: figure this
-                shuffl.dropCard(ui.draggable, this);
-                // jQuery(this).addClass('ui-state-highlight').find('p').html('Dropped!');
- */
+                shuffl.dropCard(ui.draggable, jQuery(this), ui.offset);
             }
         });
-/**
- *                 {accept:["shuffl-stockpile"], ondrop:shuffl.dropCard});
- */
-
-            /**
-             * ui.draggable - current draggable element, a jQuery object.
-             * ui.helper - current draggable helper, a jQuery object
-             * ui.position - current position of the draggable helper { top: , left: }
-             * ui.offset - current absolute position of the draggable helper { top: , left: }
-             */
-
 
     /**
      * TODO: connect up logic for editing cards
@@ -121,7 +104,45 @@ jQuery(document).ready(function(){
     });
 
 /**
- * Construct a stockpile function that creates a new card instance of that type.
+ * Create a new card where a stock pile has been dropped
+ */
+shuffl.dropCard = function(frompile, tolayout, pos) {
+    log.debug("shuffl.dropCard: "+shuffl.objectString(pos));
+    // Create card using stockpile card factory
+    var newcard = frompile.data('makeCard')(frompile);
+    // make child of layout
+    tolayout.append(newcard);
+    // Locate card at drop point
+    pos = shuffl.positionRelative(pos, tolayout);
+    // TODO calulate this properly
+    pos = shuffl.positionRel(pos, { left:9, top:9 });
+    newcard.css(pos);
+    // Make new card draggable
+    newcard.draggable(shuffl.cardDraggable);
+    // Place new card on top of cards
+    shuffl.toFront(newcard);
+    //newcard.css( 'z-index', frompile.css('z-index') );
+    // Click brings card back to top
+    newcard.click( function () { shuffl.toFront(jQuery(this)) });
+    // TODO: Consider making card-sized drag
+};
+
+/**
+ * Function attached to stockpile to liberate a new card from that pile
+ */    
+shuffl.createCardFromStock = function (stockpile) { 
+    log.debug("makeCard "+stockpile);
+    var cardclass = stockpile.attr("class")
+        .replace(/shuffl-stockpile/,'')
+        .replace(/ui-draggable/,'')
+        .replace(/ui-draggable-dragging/,'')
+        +' shuffl-card';
+    //log.debug("  - cardclass: "+cardclass);
+    return shuffl.makeCard('div', 'card_', cardclass, "(content)" );
+};
+
+/**
+ * Creates a new card instance.
  * 
  * @param cardtag       element name for new card
  * @param cardidpref    local card identifier prefix - an autogenerated string is appeneded to
@@ -129,38 +150,105 @@ jQuery(document).ready(function(){
  *                      with a base URI to form a URI for the card.
  * @param cardclass     CSS class names for the new card element
  * @param cardbody      string used in constructing the body of the card
- * 
- * TODO: make this interface jQuery-friendly - e.g. use plugin pattern to create makeCard jQuery method?
  */
-shuffl.cardFactory = function (cardtag, cardidpref, cardclass, cardbody) {
-    function makeCard() {
-        // TODO: use shuffl.createCard
-        return MochiKit.DOM.createDOM(cardtag, {'id': shuffl.makeId(cardidpref), 'class': cardclass}, cardbody);
-    }
-    return makeCard;
+shuffl.makeCard = function (cardtag, cardidpref, cardclass, cardbody) {
+    var card = jQuery("<"+cardtag+">"+cardbody+"</"+cardtag+">");
+    card.attr('id', shuffl.makeId(cardidpref));
+    card.addClass(cardclass);
+    log.debug("makeCard: "+shuffl.elemString(card[0]));
+    return card;
 };
 
 /**
- * Create a new card where a stock pile has been dropped
+ * Generate a new identifier string using a supplied prefix
  */
-shuffl.dropCard = function(frompile, tolayout) {
-    log.debug("shuffl.dropCard")
-    // Create card using stockpile card factory
-    var newcard = frompile.makeCard();
-    // make child of layout
-    MochiKit.DOM.appendChildNodes(tolayout, newcard);
-    // Locate card at drop point
-    MochiKit.Style.setElementPosition(newcard, shuffl.boundedPosition(newcard, frompile, tolayout));
-    // Place new card on top of cards
-    shuffl.toFront(newcard, tolayout);
-    // Click brings carc back to top
-    MochiKit.Signal.connect(newcard, 'onclick', shuffl.bringToFront);
-    // Make new card draggable
-    new MochiKit.DragAndDrop.Draggable(newcard,
-        { snap: shuffl.doBoundary(newcard)
-        });
-    // Consider making card-sized drag
+shuffl.idnext = 100;
+shuffl.makeId = function(pref) {
+    shuffl.idnext++;
+    return pref+shuffl.idnext;
+};
+
+/**
+ * Get string value representing a supplied element
+ */
+shuffl.elemString = function(elem) {
+    var attrs = elem.attributes;
+    var attrtext = "";
+    for ( var i = 0 ; i < attrs.length ; i++ ) {
+        // log.debug("  - @"+attrs[i].name+": "+attrs[i].value);
+        attrtext += " "+attrs[i].name+"='"+attrs[i].value+"'";
+    };
+    var tagName = elem.tagName;
+    return "<"+tagName+attrtext+">"
+        +elem.innerHTML
+        +"</"+tagName+">";
+};
+
+/**
+ * Get string value for object attributes
+ */
+shuffl.objectString = function (obj) {
+    var str = "";
+    var pre = "";
+    for ( var k in obj ) {
+        if ( typeof obj[k] != "function" ) {
+            log.debug("  - "+k+": "+obj[k]);
+            str += pre + k + ': ' + obj[k];
+            pre = ', ';
+        }
+    };
+    return "{ "+str+" };"
 }
 
+/**
+ * Calculate supplied absolute position as offset from supplied object
+ */
+shuffl.positionRelative = function (pos, obj) {
+    var base = obj.position();
+    //log.debug("positionRelative: pos  "+pos.left+", "+pos.top);
+    //log.debug("positionRelative: base "+base.left+", "+base.top);
+    return shuffl.positionRel(pos, base);
+}
+
+/**
+ * Calculate absolute position supplied as offset from object
+ */
+shuffl.positionAbsolute = function (off, obj) {
+    var base = obj.position();
+    //log.debug("positionAbsolute: off  "+off.left+", "+off.top);
+    //log.debug("positionAbsolute: base "+base.left+", "+base.top);
+    return shuffl.positionAbs(base, off);
+}
+
+/**
+ * Calculate supplied absolute position as offset from supplied object
+ */
+shuffl.positionRel = function (pos, base) {
+    return { left: pos.left-base.left, top: pos.top-base.top };
+}
+
+/**
+ * Calculate absolute position from supplied base and offset
+ */
+shuffl.positionAbs = function (base, off) {
+    return { left: base.left+off.left, top: base.top+off.top };
+}
+
+/**
+ * Move indicated element to front in its draggable group
+ * 
+ * Code adapted from jQuery
+ */
+shuffl.toFront = function (elem) {
+    var opts = elem.data("draggable").options;
+    var group = jQuery.makeArray(jQuery(opts.stack.group)).sort(function(a,b) {
+            return (parseInt(jQuery(a).css("zIndex"),10) || opts.stack.min) - 
+                   (parseInt(jQuery(b).css("zIndex"),10) || opts.stack.min);
+        });
+    jQuery(group).each(function(i) {
+            this.style.zIndex = opts.stack.min + i;
+        });
+    elem[0].style.zIndex = opts.stack.min + group.length;
+};
 
 // End.

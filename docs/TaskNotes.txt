@@ -3,6 +3,12 @@
 Project admin:
  * Initial sprint plan
  * Start building user stories and requirements
- * Back-end system survey
 
 Code! 
+ * Window resizing and card containment (?)
+ * Card layout and content
+ * Think about testing
+ * Construct cards from data
+ * More comprehensive template functions
+ 
+ 
