@@ -1,0 +1,117 @@
+<!DOCTYPE html SYSTEM "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Shuffl workspace</title>
+    
+    <!-- Shuffl style rules -->
+    <link type="text/css" href="shuffl.css" rel="stylesheet"/>
+ 
+    <!-- Import MochiKit modules: require MochiKit library functions to be fully qualified -->
+    <script type="text/javascript">MochiKit = {__export__: false};</script>
+    <script type="text/javascript" src="../MochiKit/Base.js"></script>
+    <script type="text/javascript" src="../MochiKit/Iter.js"></script>
+    <script type="text/javascript" src="../MochiKit/Logging.js"></script>
+     
+    <!-- Import jQuery and related scripts -->
+    <script type="text/javascript" src="../jquery/jquery.js"></script>
+    <script>
+    // Use jQuery via jQuery(...)
+      jQuery.noConflict();
+    </script>
+    <script type="text/javascript" src="../jquery/jquery-ui.js"></script>
+    
+    <!-- Shuffl script -->    
+    <script type="text/javascript" src="shuffl-test.js"></script>
+    
+  </head>
+  
+  <body>
+    
+    <div id="workspace" class="shuffl-workspace">
+
+      <!-- Stock bar goes here -->
+      <div id="stockbar" class="shuffl-stockbar">
+        <div id="stockpile_1" class="shuffl-stockpile stock_1" style="z-index:1;">
+          stock 1
+        </div>
+        -
+        <div id="stockpile_2" class="shuffl-stockpile stock_2" style="z-index:1;">
+          stock 2
+        </div>
+        -          
+        <div id="stockpile_3" class="shuffl-stockpile stock_3" style="z-index:1;">
+          stock 3
+        </div>
+        -
+        <div id="stockpile_4" class="shuffl-stockpile stock_4" style="z-index:1;">
+          stock 4
+        </div>
+        -
+        <div id="stockpile_5" class="shuffl-stockpile stock_5" style="z-index:1;">
+          stock 5
+        </div>
+        -
+        <div id="stockpile_6" class="shuffl-stockpile stock_6" style="z-index:1;">
+          stock 6
+        </div>
+      </div>        
+
+      <!-- cards go here -->
+      <div id="layout" class="shuffl-layout">
+        <div id="card_1" class="shuffl-card stock_1" style="left:18em; top:0em; z-index:10;">
+          card 1
+        </div>
+        <div id="card_2" class="shuffl-card stock_2" style="left:15em; top:2em; z-index:10;">
+          card 2
+        </div>
+        <div id="card_3" class="shuffl-card stock_3" style="left:12em; top:4em; z-index:10;">
+          card 3
+        </div>
+        <div id="card_4" class="shuffl-card stock_4" style="left:9em; top:6em; z-index:10;">
+          card 4
+        </div>
+        <div id="card_5" class="shuffl-card stock_5" style="left:6em; top:8em; z-index:10;">
+          card 5
+        </div>
+        <div id="card_6" class="shuffl-card stock_6" style="left:3em; top:10em; z-index:10;">
+          card 6
+        </div>
+
+        <div id="card_7" class="shuffl-card stock_1" style="left: 36em; top: 2em; z-index:14;">
+          <chead>
+            <cident>card_7_ident</cident>
+            <ctitle>card_7 title</ctitle>
+            <button value="Edit">Edit</button>
+          </chead>
+          <crow>
+            <cbody>card_7 body</cbody>
+          </crow>
+          <crow>
+            <cclass>card_7 class</cclass>
+            (<ctags>card_7 tags</ctags>)
+          </crow>
+        </div>
+
+        <div id="card_8" class="shuffl-card shuffl-card-edit stock_2" style="left: 36em; top: 12em; z-index:14;">
+          <chead>
+            <cident>card_8 ident</cident>
+            <ctitle><input type="text" size="36" value="card_8 title"></input></ctitle>
+          </chead>
+          <crow>
+            <cbody><textarea rows="6" cols="40" value="card_8 body"></textarea></cbody>
+          </crow>
+          <crow>
+            <cclass><input type="text" size="12" value="card_8 class"></input></cclass>
+            <ctags><input  type="text" size="31" value="card_8 tags"></input></ctags>
+          </crow>
+          <cfoot>
+            <button value="OK">OK</button>
+            <button value="Cancel">Cancel</button>
+          </cfoot>
+        </div>
+
+      </div>
+    </div>
+ 
+  </body>
+</html>

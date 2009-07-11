@@ -1,0 +1,145 @@
+html, body { 
+	margin:0; 
+	padding:0; 
+	height:100%; 
+}
+
+chead, crow, cfoot {
+    display:block;
+    margin:0.2em;
+}
+
+cident {
+    display:inline;
+    font-size:smaller;
+}
+
+ctitle {
+    display:inline;
+    font-size:large;
+}
+
+cclass {
+    display:inline;
+}
+
+ctags {
+    display:inline;
+}
+
+cbody {
+    display:inline;
+}
+
+.shuffl-workspace {
+    display:block;
+    border:thin black solid;
+    /*border:none;*/
+    width:100%;
+    /*position:absolute;
+    top:0em;
+    left:0em;
+    right:0em;
+    bottom:0em;*/
+    height:100% /*23em;*/
+}
+
+.shuffl-stockbar{
+    display:block;
+    border:thin #999999 solid;
+    margin:0.5em;
+    height:1.25em;
+}
+
+.shuffl-stockpile {
+    display:inline;
+}
+
+.shuffl-layout {
+    display:block;
+    position:relative;
+    border:thin #999999 solid;
+    height:100%; /*20em;*/
+    margin:0.5em;
+}
+
+/*
+.shuffl-layout {
+    display:block;
+    position:absolute;
+    border:thin #999999 solid;
+    margin:0.5em;
+    top:2em;
+    left:0em;
+    right:0em;
+    bottom:0.25em;
+}
+*/
+
+.shuffl-card {
+    display:block;
+    position:absolute;
+    width:15em;   
+    height:8em;
+}
+
+.shuffl-card-edit {
+    display:block;
+    position:absolute;
+    width:auto;   
+    height:auto;
+}
+
+.stock_1 {
+    color: black;
+    background-color: #FFFFCC;    /* Yellow */
+    border:thin #CCCC66 solid;
+}
+
+.stock_1 chead {
+    background-color: #EEEE80;
+}
+
+.stock_2 {
+    color: black;
+    background-color:#CCFFFF;    /* Cyan */
+    border:thin #66CCCC solid;
+}
+
+.stock_2 chead {
+    background-color: #80EEEE;
+}
+
+.stock_3 {
+    color: black;
+    background-color:#DDFFDD;      /* Green */
+    border:thin #66CC66 solid;
+}
+
+.stock_4 {
+    color: black;
+    background-color:#FFDDDD;    /* Pink */
+    border:thin #CC6666 solid;
+}
+
+.stock_5 {
+    color: black;
+    background-color:#FFDDFF;    /* Magenta */
+    border:thin #CC66CC solid;
+}
+
+.stock_6 {
+    color: black;
+    background-color:#DDDDFF;    /* Blue */
+    border:thin #6666CC solid;
+}
+
+#card_1 {
+    left:2em;
+    z-index:2;
+}
+
+#card_2 {
+    top:2em;
+    z-index:1;
+}
