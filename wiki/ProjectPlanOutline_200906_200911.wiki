@@ -15,11 +15,11 @@ Thus, this is the effort allocation that is planned for the next few months:
 {{{
 June     July        August         September   October     November
 15.22.29 06.13.20.27 03.10.17.24.31 07.14.21.28 05.12.19.26 02.09.16.23.30
- C  C  C  C  C  C  C  C vC vC  C  C  C  C  C  C  C  C  C  C  C  C  _  _  _  = 22C
- C  C  C  C  C  C  C  C vC vC  C  C  C  S  S  S  S  S  S  S  S  S  S  S  -  = 13C + 11S
- C  C  C  C  C  C  C  S vS vS  S  S  S  S  S  S  S  S  S  S  S  S  S  S  -  = 7C  + 17S
- C  C  C  S  S  S  S  S vS vS  S  S  S  S  S  S  S  S  S  S  S  S  S  S  -  = 3C  + 21S
- S  S  S  S  S  S  S  S vS vS  S  S  S  S  S  S  S  S  S  S  S  S  S  S  -  =       24S
+ C  C  C  C  C  C  C vC vC  C  C  C  C  C  C  C  C  C  C  C  C  C  _  _  _  = 22C
+ C  C  C  C  C  C  C vC vC  C  C  C  C  S  S  S  S  S  S  S  S  S  S  S  -  = 13C + 11S
+ C  C  C  C  C  C  C vS vS  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  -  = 7C  + 17S
+ C  C  C  S  S  S  S vS vS  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  -  = 3C  + 21S
+ S  S  S  S  S  S  S vS vS  S  S  S  S  S  S  S  S  S  S  S  S  S  S  S  -  =       24S
                                                                             = 45C + 73S
 
 S = Shuffl 73 days, C = Claros 45 days, Total 118 days. 
