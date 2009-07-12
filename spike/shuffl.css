@@ -51,6 +51,13 @@ cbody {
     height:1.25em;
 }
 
+.shuffl-workspacemenu {
+    display:inline;
+    font-weight:bold;
+    background-color:#DDDDDD;    /* Grey */
+    border:thin #666666 solid;
+}
+
 .shuffl-stockpile {
     display:inline;
 }

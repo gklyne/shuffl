@@ -18,7 +18,11 @@
     // Use jQuery via jQuery(...)
       jQuery.noConflict();
     </script>
+    
     <script type="text/javascript" src="../jquery/jquery-ui.js"></script>
+
+    <!--  pop-up menu script -->
+    <script type="text/javascript" src="jquery.contextmenu.r2.js"></script>
     
     <!-- Shuffl script -->    
     <script type="text/javascript" src="shuffl-test.js"></script>
@@ -75,6 +79,12 @@
         </div>
         <div id="card_6" class="shuffl-card stock_6" style="left:3em; top:10em; z-index:10;">
           card 6
+	        <span class="demo1" id="quickDemo" style="float:right;border: 1px solid #888;">
+	          <b>DEMO</b> right-click me!!
+	        </span>
+	        <p id="demo2" style="background-color:lightpink;">
+	          Right clicking anywhere in this paragraph will trigger the context menu.
+	        </p>
         </div>
 
         <div id="card_7" class="shuffl-card stock_1" style="left: 36em; top: 2em; z-index:14;">
@@ -109,6 +119,32 @@
             <button value="Cancel">Cancel</button>
           </cfoot>
         </div>
+
+        <!-- context menu stuff -->
+
+				<div class="contextMenu" id="myMenu1">		
+				  <ul>		
+				    <li id="open"><img src="folder.png" /> Open</li>		
+				    <li id="email"><img src="email.png" /> Email</li>
+				    <li id="save"><img src="disk.png" /> Save</li>
+				    <li id="delete"><img src="cross.png" /> Delete</li>
+				  </ul>
+				</div>
+				
+				<div class="contextMenu" id="myMenu2">
+				  <ul>
+				    <li id="item_1">Item 1</li>
+				    <li id="item_2">Item 2</li>
+				    <li id="item_3">Item 3</li>		
+				    <li id="item_4">Item 4</li>
+				    <li id="item_5">Item 5</li>
+				    <li id="item_6">Item 6</li>
+				    <li id="item_7">Item 7</li>
+				    <li id="item_8">Item 8</li>
+				  </ul>
+				</div>
+
+				<!--  -->
 
       </div>
     </div>
