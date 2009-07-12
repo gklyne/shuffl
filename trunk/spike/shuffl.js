@@ -50,19 +50,19 @@ shuffl.cardDraggable = {
 
 jQuery(document).ready(function(){
 
-    log.info("shuffl-test starting");
+    log.info("shuffl starting");
        
     /**
      * TODO: load card data and layout from backend store
      */    
-    log.debug("shuffl-test TODO: load card data");
+    log.debug("shuffl TODO: load card data");
 
     jQuery("div.shuffl-stockpile").data( 'makeCard', shuffl.createCardFromStock );
 
     /**
      * Connect up drag and drop for creating and moving cards
      */
-    log.debug("shuffl-test: connect drag-and-drop logic");
+    log.debug("shuffl: connect drag-and-drop logic");
 
     jQuery("div.shuffl-stockpile").draggable(shuffl.stockDraggable);
     jQuery("div.shuffl-card").draggable(shuffl.cardDraggable);
@@ -78,7 +78,7 @@ jQuery(document).ready(function(){
                  * ui.position - current position of the draggable helper { top: , left: }
                  * ui.offset - current absolute position of the draggable helper { top: , left: }
                  */
-                log.debug("shuffl-test: drop "+ui.draggable);
+                log.debug("shuffl: drop "+ui.draggable);
                 shuffl.dropCard(ui.draggable, jQuery(this), ui.offset);
             }
         });
@@ -87,13 +87,13 @@ jQuery(document).ready(function(){
      * TODO: connect up logic for editing cards
      */
     
-    log.debug("shuffl-test TODO: connect content editing logic");
+    log.debug("shuffl TODO: connect content editing logic");
     
     /**
      * TODO: connect up logic for saving changes to backend store
      */
     
-    log.debug("shuffl-test TODO: connect content save logic");
+    log.debug("shuffl TODO: connect content save logic");
     
     /**
      * Initialization is done - now it's all event-driven
@@ -102,30 +102,16 @@ jQuery(document).ready(function(){
     /**
      * Creeate a pop-up context menu
      */    
-    log.debug("shuffl-test connect connect context menu");
+    log.debug("shuffl connect connect context menu");
 
-    //var menu = jQuery("#myMenu");
-    //log.debug("  - "+"buildMenu"+": "+menu["buildMenu"]);
-/*
-    for ( var k in menu ) {
-        log.debug("  - "+k+": "+menu[k]);
-    };
-*/
-
-    jQuery('span.demo1').contextMenu('myMenu1', {
+    jQuery('span.shuffl-workspacemenu').contextMenu('workspacemenuoptions', {
         bindings: {
             'open': function(t) {
                   alert('Trigger was '+t.id+'\nAction was Open');
                 },
-            'email': function(t) {
-                  alert('Trigger was '+t.id+'\nAction was Email');
-                },
             'save': function(t) {
                   alert('Trigger was '+t.id+'\nAction was Save');
                 },
-            'delete': function(t) {
-                  alert('Trigger was '+t.id+'\nAction was Delete');
-                }
           }
       });
 
@@ -147,7 +133,7 @@ jQuery(document).ready(function(){
         }
       });
     
-    log.info("shuffl-test initialization done");
+    log.info("shuffl initialization done");
 
     });
 
