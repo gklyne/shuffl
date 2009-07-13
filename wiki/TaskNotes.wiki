@@ -5,14 +5,28 @@ Project admin:
  * Review sustainability plan
     * The first issue though whether you want centrally owned copyright or distributed copyright, see http://www.oss-watch.ac.uk/resources/cla.xml
     * Discussion ongoing with OSS-Watch 
+ * Current status on front page
 
-Technical:
+Requirememnts:
  * Start building user stories and requirements
+ * Meet with Chris Holland
+ * Meet with Helen White-Cooper
+ * Meet with Alistair Miles / malariagen group?
+ * Meet with someone in Donna's group about annotations
+
+Architecture:
  * tech issues (plugins for front end and back end)
  * tech issues (separation of data: content, styling, layout, etc.)
+ * tech issues (organization of stored data)
  * tech issues (cards and containers)
  * tech issues (view types / render modes)
- * Code! 
-
- * Meet with Chris Holland
  * Think about plug-in architecture for extensions
+
+Technical spike and development:
+ * Push ahead with jQuery-based mock-up
+ * View types - include thumbnail
+ * Context menu on normal click
+ * Atom feed browser
+ * Dynamic constructon of workspace content
+ * Card menu
+ * Card grouping / stack management
