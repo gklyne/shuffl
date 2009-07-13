@@ -6,8 +6,9 @@ Project admin:
     * The first issue though whether you want centrally owned copyright or distributed copyright, see http://www.oss-watch.ac.uk/resources/cla.xml
     * Discussion ongoing with OSS-Watch 
  * Current status on front page
+ * Logo and icon images (for menu button, project page, etc.)
 
-Requirememnts:
+Requirements:
  * Start building user stories and requirements
  * Meet with Chris Holland
  * Meet with Helen White-Cooper
