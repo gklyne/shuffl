@@ -1,5 +1,7 @@
 #summary Survey of options for back-end storage
 
+<wiki:toc max_depth="2" />
+
 = Introduction =
 
 See also: [RequirementsAndGoals]
