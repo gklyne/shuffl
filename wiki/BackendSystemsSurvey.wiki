@@ -191,3 +191,16 @@ For the purposes of Shuffl, the focus is overly on structure and organization.
 "Apache CouchDB is a distributed, fault-tolerant and schema-free document-oriented database accessible via a RESTful HTTP/JSON API. Among other features, it provides robust, incremental replication with bi-directional conflict detection and resolution, and is queryable and indexable using a table-oriented view engine with JavaScript acting as the default view definition language."
 
 (Thanks, Al, for the pointer!)
+
+
+= Garlik 4store =
+
+ * http://4store.org/
+
+(Thanks to Ben O'Steen for the link.)
+
+== Note from Ben O'Steen ==
+
+I've checked with them, and there is no real support for 'FROM' or 'FROM
+NAMED' sparql commands, but 'FROM' support can be enabled by
+uncommenting a line in the config, apparently.
