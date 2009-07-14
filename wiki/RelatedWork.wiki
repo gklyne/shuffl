@@ -55,6 +55,7 @@ Widgets:
  * SPARQL – http://www.w3.org/TR/rdf-sparql-query/, http://www.w3.org/TR/rdf-sparql-protocol/
  * SPARQLite - http://sparqlite.googlecode.com
  * Tabulator redux - http://events.linkeddata.org/ldow2008/papers/11-berners-lee-hollenbach-tabulator-redux.pdf
+ * Apache CouchDB -  http://wiki.apache.org/couchdb/
 
  * Databank
  * Fedorazon
