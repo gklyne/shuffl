@@ -12,11 +12,6 @@ The general structure used here is:
 
 which serves to link the requirements to identifiable end-user benefits.  These user stories are the link between end-user requirements and development targets.
 
-= Details =
-
-TODO
-
-
 
 = Citation card =
 
