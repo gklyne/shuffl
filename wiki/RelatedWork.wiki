@@ -33,6 +33,11 @@ Widgets:
  * mod_atom - http://code.google.com/p/mod-atom/, http://www.tbray.org/ongoing/When/200x/2007/06/27/mod_atom-status, http://www.tbray.org/ongoing/When/200x/2007/06/25/mod_atom
 
 
+= User interfaces for data =
+
+ * http://www.piccolo2d.org/ - piccolo2d, a structured 2D graphics framework
+
+
 = Others (expand selected candidates in separate sections) =
 
  * Annotea - W3C web annotation system, http://www.w3.org/2001/Annotea/
