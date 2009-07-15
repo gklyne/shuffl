@@ -13,7 +13,9 @@ The general structure used here is:
 which serves to link the requirements to identifiable end-user benefits.  These user stories are the link between end-user requirements and development targets.
 
 
-= Citation card =
+= User stories =
+
+== Citation card ==
 
 <blockquote>
 *As a* research scientict, *I want* to be able to pull bibliographic citation information into a card givemn a pubmed id or DOI, *so that* this information can be associated with my data
