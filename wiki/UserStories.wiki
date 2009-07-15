@@ -1,4 +1,4 @@
-#summary TODO: User stories for development
+#summary User stories for development
 
 = Introduction =
 
