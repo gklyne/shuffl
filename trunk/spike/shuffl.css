@@ -33,29 +33,37 @@ cbody {
 
 .shuffl-workspace {
     display:block;
-    border:thin black solid;
-    /*border:none;*/
+    /* border:thin black solid; */
+    border:none;
     width:100%;
-    /*position:absolute;
-    top:0em;
-    left:0em;
-    right:0em;
-    bottom:0em;*/
-    height:100% /*23em;*/
+    height:100% ;
 }
 
-.shuffl-stockbar{
+.shuffl-header {
+	  height: 0.25em;
+	  marging: 0;
+}
+
+.shuffl-stockbar {
     display:block;
     border:thin #999999 solid;
-    margin:0.5em;
-    height:1.25em;
+    margin: 0em 0.25em 0.25em 0.25em ; /* top, right, bottom, left */
+    height:1.5em;
 }
 
 .shuffl-workspacemenu {
-    display:inline;
+	  display:inline;
+    font-family: "Comic Sans MS", Trebuchet, sans-serif;    
     font-weight:bold;
     background-color:#DDDDDD;    /* Grey */
     border:thin #666666 solid;
+}
+
+.shuffl-contextmenu {
+    font-weight:bold;
+    background-color:#DDDDDD;    /* Grey */
+    border:thin #666666 solid;
+    /* width: 20em; */
 }
 
 .shuffl-stockpile {
@@ -66,22 +74,18 @@ cbody {
     display:block;
     position:relative;
     border:thin #999999 solid;
-    height:100%; /*20em;*/
-    margin:0.5em;
+    margin: 0em 0.25em 0.25em 0.25em ; /* top, right, bottom, left */
 }
 
-/*
-.shuffl-layout {
+.shuffl-footer {
     display:block;
-    position:absolute;
-    border:thin #999999 solid;
-    margin:0.5em;
-    top:2em;
-    left:0em;
-    right:0em;
-    bottom:0.25em;
+    font-face: 
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-weight: lighter;
+    font-size: small;
+    font-style: italic;
+    margin: 0;
 }
-*/
 
 .shuffl-card {
     display:block;
