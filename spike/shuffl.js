@@ -7,7 +7,7 @@
  */
 
 // ----------------------------------------------------------------
-// Globals
+// Globals and data
 // ----------------------------------------------------------------
 
 /**
@@ -24,11 +24,15 @@ log.error = MochiKit.Logging.logError   ;
 //MochiKit.Logging.logger.maxSize = 2000;
 
 /**
- * Namespace object
+ * create shuffl namespace
  */
 if (typeof shuffl == "undefined") {
     shuffl = {};
 }
+
+// ----------------------------------------------------------------
+// Stockpile and card functions
+// ----------------------------------------------------------------
 
 /**
  * Draggable options for stockpiles
@@ -47,95 +51,6 @@ shuffl.cardDraggable = {
         opacity: 0.5, 
         stack: { group: '.shuffl-card', min: 10 } 
         };
-
-jQuery(document).ready(function(){
-
-    log.info("shuffl starting");
-       
-    /**
-     * TODO: load card data and layout from backend store
-     */    
-    log.debug("shuffl TODO: load card data");
-
-    jQuery("div.shuffl-stockpile").data( 'makeCard', shuffl.createCardFromStock );
-
-    /**
-     * Connect up drag and drop for creating and moving cards
-     */
-    log.debug("shuffl: connect drag-and-drop logic");
-
-    jQuery("div.shuffl-stockpile").draggable(shuffl.stockDraggable);
-    jQuery("div.shuffl-card").draggable(shuffl.cardDraggable);
-    jQuery("div.shuffl-card").click( function () { shuffl.toFront(jQuery(this)) } );
-
-    jQuery("#layout").droppable({
-        accept: "div.shuffl-stockpile",
-        drop: 
-            function(event, ui) {
-                /**
-                 * ui.draggable - current draggable element, a jQuery object.
-                 * ui.helper - current draggable helper, a jQuery object
-                 * ui.position - current position of the draggable helper { top: , left: }
-                 * ui.offset - current absolute position of the draggable helper { top: , left: }
-                 */
-                log.debug("shuffl: drop "+ui.draggable);
-                shuffl.dropCard(ui.draggable, jQuery(this), ui.offset);
-            }
-        });
-
-    /**
-     * TODO: connect up logic for editing cards
-     */
-    
-    log.debug("shuffl TODO: connect content editing logic");
-    
-    /**
-     * TODO: connect up logic for saving changes to backend store
-     */
-    
-    log.debug("shuffl TODO: connect content save logic");
-    
-    /**
-     * Initialization is done - now it's all event-driven
-     */
-
-    /**
-     * Creeate a pop-up context menu
-     */    
-    log.debug("shuffl connect connect context menu");
-
-    jQuery('span.shuffl-workspacemenu').contextMenu('workspacemenuoptions', {
-        bindings: {
-            'open': function(t) {
-                  alert('Trigger was '+t.id+'\nAction was Open');
-                },
-            'save': function(t) {
-                  alert('Trigger was '+t.id+'\nAction was Save');
-                },
-          }
-      });
-
-      jQuery('#demo2').contextMenu('myMenu2', {
-        menuStyle: {
-          border: '2px solid #000'
-        },
-        itemStyle : {
-          fontFamily: 'verdana',
-          backgroundColor: '#666',
-          color: 'white',
-          border: 'none',
-          padding: '1px'
-        },
-        itemHoverStyle: {
-          color: '#fff',
-          backgroundColor: '#0f0',
-          border: 'none'
-        }
-      });
-    
-    log.info("shuffl initialization done");
-
-    });
 
 /**
  * Create a new card where a stock pile has been dropped
@@ -202,6 +117,10 @@ shuffl.makeId = function(pref) {
     return pref+shuffl.idnext;
 };
 
+// ----------------------------------------------------------------
+// Miscellaneous support functions
+// ----------------------------------------------------------------
+
 /**
  * Get string value representing a supplied element
  */
@@ -226,7 +145,7 @@ shuffl.objectString = function (obj) {
     var pre = "";
     for ( var k in obj ) {
         if ( typeof obj[k] != "function" ) {
-            log.debug("  - "+k+": "+obj[k]);
+            //log.debug("  - "+k+": "+obj[k]);
             str += pre + k + ': ' + obj[k];
             pre = ', ';
         }
@@ -284,5 +203,154 @@ shuffl.toFront = function (elem) {
         });
     elem[0].style.zIndex = opts.stack.min + group.length;
 };
+
+/**
+ * Resize main shuffl spaces to fit current window
+ */    
+shuffl.resize = function() {
+    log.debug("Resize workspace");
+    var ws = jQuery("#workspace"); 
+    var lo = jQuery("#layout"); 
+    var sb = jQuery("#stockbar");
+    // Adjust height of layout area
+    var ws    = lo.parent();
+    var wpos  = ws.position();            // parent pos
+    var wpadl = ws.css('padding-left');   // parent left padding
+    var wpadt = ws.css('padding-top');    // parent top padding
+    var spos  = sb.position();            // stockbar pos
+    var lpos  = lo.position();            // layout pos
+    var lpadl = lo.css('padding-left');
+    var lpadt = lo.css('padding-top');
+    var lmarl = lo.css('margin-left');
+    var lmart = lo.css('margin-top');
+    log.debug('wpos '+shuffl.objectString(wpos));
+    log.debug('wpad left '+wpadl+", top "+wpadt);
+    log.debug('spos '+shuffl.objectString(spos));
+    log.debug('lpos '+shuffl.objectString(lpos));
+    log.debug('lpad left '+lpadl+", top "+lpadt);
+    log.debug('lmar left '+lmarl+", top "+lmart);
+    var sheight = sb.outerHeight()
+    var fheight = jQuery("#footer").outerHeight()
+    var vmargin = parseInt(lo.css('margin-bottom'), 10);
+    lo.height(lo.parent().innerHeight() - sheight - vmargin*4 - fheight);
+};
+
+// ----------------------------------------------------------------
+// Load up workspace
+// ----------------------------------------------------------------
+
+shuffl.loadWorkspace = function(uri) {
+
+    log.warn("TODO: load workspace from "+uri);
+
+}
+
+// ----------------------------------------------------------------
+// Start-up logic
+// ----------------------------------------------------------------
+
+jQuery(document).ready(function(){
+
+    log.info("shuffl starting");
+       
+    /**
+     * Attach card-creation functions to stockpile cards
+     */    
+
+    log.debug("shuffl: attach card-creation functions to stockpile (TODO: allow function selection by stockpile definition)");
+
+    jQuery("div.shuffl-stockpile").data( 'makeCard', shuffl.createCardFromStock );
+
+    /**
+     * Size workspace to fit within window (by default, it doesn't on Safari)
+     */
+    log.debug("shuffl: attach window resize handler)");
+    jQuery(window).resize( shuffl.resize );
+    shuffl.resize();
+
+    /**
+     * Connect up drag and drop for creating and moving cards
+     */
+    log.debug("shuffl: connect drag-and-drop logic");
+
+    jQuery("div.shuffl-stockpile").draggable(shuffl.stockDraggable);
+    jQuery("div.shuffl-card").draggable(shuffl.cardDraggable);
+    jQuery("div.shuffl-card").click( function () { shuffl.toFront(jQuery(this)) } );
+
+    jQuery("#layout").droppable({
+        accept: "div.shuffl-stockpile",
+        drop: 
+            function(event, ui) {
+                /**
+                 * ui.draggable - current draggable element, a jQuery object.
+                 * ui.helper - current draggable helper, a jQuery object
+                 * ui.position - current position of the draggable helper { top: , left: }
+                 * ui.offset - current absolute position of the draggable helper { top: , left: }
+                 */
+                log.debug("shuffl: drop "+ui.draggable);
+                shuffl.dropCard(ui.draggable, jQuery(this), ui.offset);
+            }
+        });
+
+    /**
+     * TODO: connect up logic for editing cards
+     */
+    
+    log.debug("shuffl TODO: connect content editing logic");
+    
+    /**
+     * TODO: connect up logic for saving changes to backend store
+     */
+    
+    log.debug("shuffl TODO: connect content save logic");
+    
+    /**
+     * Initialization is done - now it's all event-driven
+     */
+
+    /**
+     * Creeate a pop-up context menu
+     */    
+    log.debug("shuffl connect connect context menu");
+
+    jQuery('span.shuffl-workspacemenu').contextMenu('workspacemenuoptions', {
+        menuStyle: {
+            'class': 'shuffl-contextmenu',
+            'font-weight': 'bold',
+            'background-color': '#DDDDDD',
+            'border': 'thin #666666 solid'
+            },
+        showOnClick: true,
+        bindings: {
+            'open': function(t) {
+                  log.info('Trigger was '+t.id+'\nAction was Open');
+                },
+            'save': function(t) {
+                  log.info('Trigger was '+t.id+'\nAction was Save');
+                },
+          }
+      });
+
+      jQuery('#demo2').contextMenu('myMenu2', {
+        menuStyle: {
+          border: '2px solid #000'
+        },
+        itemStyle : {
+          fontFamily: 'verdana',
+          backgroundColor: '#666',
+          color: 'white',
+          border: 'none',
+          padding: '1px'
+        },
+        itemHoverStyle: {
+          color: '#fff',
+          backgroundColor: '#0f0',
+          border: 'none'
+        }
+      });
+    
+    log.info("shuffl initialization done");
+
+    });
 
 // End.

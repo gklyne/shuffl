@@ -17,7 +17,6 @@
  */
 
 (function($) {
-
  	var menu, shadow, trigger, content, hash, currentTarget;
   var defaults = {
     menuStyle: {
@@ -26,7 +25,6 @@
       margin: '0px',
       backgroundColor: '#fff',
       border: '1px solid #999',
-      width: '100px'
     },
     itemStyle: {
       margin: '0px',
@@ -44,6 +42,7 @@
     eventPosX: 'pageX',
     eventPosY: 'pageY',
     shadow : true,
+    showOnClick : false,
     onContextMenu: null,
     onShowMenu: null
  	};
@@ -72,6 +71,7 @@
       itemHoverStyle: $.extend({}, defaults.itemHoverStyle, options.itemHoverStyle || {}),
       bindings: options.bindings || {},
       shadow: options.shadow || options.shadow === false ? options.shadow : defaults.shadow,
+      showOnClick: options.showOnClick || defaults.showOnClick,
       onContextMenu: options.onContextMenu || defaults.onContextMenu,
       onShowMenu: options.onShowMenu || defaults.onShowMenu,
       eventPosX: options.eventPosX || defaults.eventPosX,
@@ -85,6 +85,14 @@
       if (bShowContext) display(index, this, e, options);
       return false;
     });
+    if (!!hash[index].showOnClick) {
+        $(this).bind('click', function(e) {
+          // Check if onContextMenu() defined
+          var bShowContext = (!!hash[index].onContextMenu) ? hash[index].onContextMenu(e) : true;
+          if (bShowContext) display(index, this, e, options);
+          return false;
+        });      
+    }
     return this;
   };
 
