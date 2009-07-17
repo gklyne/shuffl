@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Shuffl workspace</title>
+    
+    <!-- Shuffl style rules -->
+    <link type="text/css" href="shuffl.css" rel="stylesheet"/>
+ 
+    <!-- Import MochiKit modules: require MochiKit library functions to be fully qualified -->
+    <script type="text/javascript">MochiKit = {__export__: false};</script>
+    <script type="text/javascript" src="../MochiKit/Base.js"></script>
+    <script type="text/javascript" src="../MochiKit/Iter.js"></script>
+    <script type="text/javascript" src="../MochiKit/Logging.js"></script>
+     
+    <!-- Import jQuery and related scripts -->
+    <script type="text/javascript" src="../jquery/jquery.js"></script>
+    <script>
+    // Use jQuery via jQuery(...)
+      jQuery.noConflict();
+    </script>
+    
+    <script type="text/javascript" src="../jquery/jquery-ui.js"></script>
+
+    <!--  pop-up menu script -->
+    <script type="text/javascript" src="../jquery/jquery.contextmenu.js"></script>
+    
+    <!-- Shuffl script -->    
+    <script type="text/javascript" src="shuffl.js"></script>
+    
+  </head>
+  
+  <body>
+
+    <!--  Load a pre-existing workspace from RDF -->
+	  <script type="text/javascript">
+      jQuery(document).ready(function(){
+          shuffl.loadWorkspace("shuffl-sample-2.rdf");
+      });
+	  </script>
+    
+    <div id="workspace" class="shuffl-workspace">
+
+      <!-- padding top space down stockbar -->
+      <div class="shuffl-header" />
+
+      <!-- Stock bar goes here -->
+      <div id="stockbar" class="shuffl-stockbar">
+	      <span class="shuffl-workspacemenu" id="workspacemenu">shuffl</span>
+        &nbsp;
+      </div>        
+
+      <!--  separator
+      <hr/>
+       -->
+
+      <!-- cards go here -->
+      <div id="layout" class="shuffl-layout">
+      </div>
+
+      <!-- context menu stuff -->
+	
+			<div class="contextMenu" id="workspacemenuoptions">
+			  <ul>		
+			    <li id="open"><img src="folder.png" />Open workspace</li>		
+			    <li id="save"><img src="disk.png" />Save workspace</li>
+			  </ul>
+			</div>
+ 
+      <p id="footer" class="shuffl-footer"><a href="http://code.google.com/p/shuffl/">shuffl project</a></p>
+
+    </div>
+ 
+  </body>
+</html>
