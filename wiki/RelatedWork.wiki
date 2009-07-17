@@ -17,6 +17,7 @@ Widgets:
  * http://www.spicyexpress.net/general/jquerry-at-it-best-downloadable-jquerry-plugins-and-widgets-for-you-2/
  * http://www.atomeye.com/portfolio/jquery-widgets.html
  * http://www.widgetbox.com/tag/jquery
+ * http://www.trendskitchens.co.nz/jquery/contextmenu/ - nicely balanced context menu plugin
 
 
 
