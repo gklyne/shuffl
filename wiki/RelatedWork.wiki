@@ -1,5 +1,7 @@
 #summary Related work and systems that may have a bearing on this project
 
+<wiki:toc max_depth="1" />
+
 = jQuery =
 
  * http://jquery.com/
@@ -20,7 +22,6 @@ Widgets:
  * http://www.trendskitchens.co.nz/jquery/contextmenu/ - nicely balanced context menu plugin
 
 
-
 = Atom publishing protocol =
 
  * The Atom Syndication Format, RFC 4287 - http://www.ietf.org/rfc/rfc4287.txt
@@ -34,44 +35,63 @@ Widgets:
  * mod_atom - http://code.google.com/p/mod-atom/, http://www.tbray.org/ongoing/When/200x/2007/06/27/mod_atom-status, http://www.tbray.org/ongoing/When/200x/2007/06/25/mod_atom
 
 
+= RDF serialization, parsing and presentation =
+
+ * Javascript RDF parser from MIT: http://dig.csail.mit.edu/breadcrumbs/node/149
+ * RDF serialization in JSON: http://n2.talis.com/wiki/RDF_JSON_Specification
+ * Fresnel - RDF data lenses, http://www.w3.org/2005/04/fresnel-info/, http://www.w3.org/2005/04/fresnel-info/fsl/, http://simile.mit.edu/wiki/Fresnel
+
+
 = User interfaces for data =
 
  * http://www.piccolo2d.org/ - piccolo2d, a structured 2D graphics framework
  * http://sig.ma/ - Sig.ma - Live views on the Web of Data
-
-
-= Others (expand selected candidates in separate sections) =
-
- * Annotea - W3C web annotation system, http://www.w3.org/2001/Annotea/
- * Caboto – Annotation storage for 3 JISC projects - http://code.google.com/p/caboto/
- * FlyTED - http://www.fly-ted.org/
- * !FlyWeb - Linking Laboratory Image Data with Public Databases and Publication Repositories, http://www.jisc.ac.uk/whatwedo/programmes/resourcediscovery/flyweb.aspx
  * Fresnel - RDF data lenses, http://www.w3.org/2005/04/fresnel-info/, http://www.w3.org/2005/04/fresnel-info/fsl/, http://simile.mit.edu/wiki/Fresnel
- * !HyperCard - http://en.wikipedia.org/wiki/HyperCard/
- * Idealist - Idealist text indexing database http://www.chr.org.uk/idealist.htm
- * Linked data on the web - http://en.wikipedia.org/wiki/Linked_Data
- * Mind mapping - Mind mapping systems http://en.wikipedia.org/wiki/Mind_map
- * Mingle - http://studios.thoughtworks.com/mingle- agile-project-management
- * Microsoft Surface - http://www.microsoft.com/SURFACE/Default.aspx
- * !NoteCards - http://en.wikipedia.org/wiki/NoteCards, http://doi.acm.org/10.1145/30851.30859, http://doi.acm.org/10.1145/317426.317451, http://www.it.teithe.gr/~cs1msa/notecards.htm
- * ODIT – Oxford University, Office of the Director of IT: Scoping digital repository services for research data management - findings http://www.ict.ox.ac.uk/odit/projects/digitalrepository/findings.xml
- * !OpenFlyData - http://openflydata.org /
- * Perceptive Pixel - multitouch display screens, http://www.perceptivepixel.com/
- * RDF Concepts - http://www.w3.org/TR/rdf-concepts/
- * Semantic Media Wiki - http://semantic-mediawiki.org/wiki/Semantic_MediaWiki
- * SPARQL – http://www.w3.org/TR/rdf-sparql-query/, http://www.w3.org/TR/rdf-sparql-protocol/
- * SPARQLite - http://sparqlite.googlecode.com
  * Tabulator redux - http://events.linkeddata.org/ldow2008/papers/11-berners-lee-hollenbach-tabulator-redux.pdf
- * Apache CouchDB -  http://wiki.apache.org/couchdb/
+ * Semantic Media Wiki - http://semantic-mediawiki.org/wiki/Semantic_MediaWiki
 
+
+= Back-end storage and serving options =
+
+ * Caboto – Annotation storage for 3 JISC projects - http://code.google.com/p/caboto/
+ * Apache CouchDB -  http://wiki.apache.org/couchdb/
+ * Apache jackrabbit
+ * http://xlwrap.sourceforge.net/ - wrap spreadsheet data to serve RDF (directly or via SPARQL?)
  * Databank
  * Fedorazon
  * Talis platform
  * WebDAV
+
+
+= General Semantic Web =
+
+ * RDF Concepts - http://www.w3.org/TR/rdf-concepts/
+ * SPARQL – http://www.w3.org/TR/rdf-sparql-query/, http://www.w3.org/TR/rdf-sparql-protocol/
+ * SPARQLite - http://sparqlite.googlecode.com
+ * Linked data on the web - http://en.wikipedia.org/wiki/Linked_Data
+ * Annotea - W3C web annotation system, http://www.w3.org/2001/Annotea/
+
+
+= General data management =
+
+ * ODIT – Oxford University, Office of the Director of IT: Scoping digital repository services for research data management - findings http://www.ict.ox.ac.uk/odit/projects/digitalrepository/findings.xml
+ * Idealist - Idealist text indexing database http://www.chr.org.uk/idealist.htm
+ * Mind mapping - Mind mapping systems http://en.wikipedia.org/wiki/Mind_map
+ * !HyperCard - http://en.wikipedia.org/wiki/HyperCard/
+ * !NoteCards - http://en.wikipedia.org/wiki/NoteCards, http://doi.acm.org/10.1145/30851.30859, http://doi.acm.org/10.1145/317426.317451, http://www.it.teithe.gr/~cs1msa/notecards.htm
  * Check out "voodoopad"
    * (cf. tomboy, tiddlywiki)
+ * Mingle - http://studios.thoughtworks.com/mingle- agile-project-management
+ * FlyTED - http://www.fly-ted.org/
+ * !FlyWeb - Linking Laboratory Image Data with Public Databases and Publication Repositories, http://www.jisc.ac.uk/whatwedo/programmes/resourcediscovery/flyweb.aspx
+ * !OpenFlyData - http://openflydata.org /
  * (sensors - dave de roure, simon coles, ...)
- * http://xlwrap.sourceforge.net/ - wrap spreadsheet data to serve RDF (directly or via SPARQL?)
+
+
+= Others (expand selected candidates in separate sections) =
+
+ * Microsoft Surface - http://www.microsoft.com/SURFACE/Default.aspx
+ * Perceptive Pixel - multitouch display screens, http://www.perceptivepixel.com/
 
 David Shotton suggested some links from his Amsterdam meeting that seemed to have some bearing on Shuffl:
  * http://technologies.kmi.open.ac.uk/cohere/ - references work that may offer be some ideas for visualization of Shuffl decks?
