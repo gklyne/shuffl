@@ -96,7 +96,9 @@ But as part of the process of migrating from relatively free-form data to RDF, I
 
 == Full RDF/XML ==
 
-Full RDF/XML will be supported though use of the MIT Javascript parser, @@details@@, which interface easilyto an rdfQuery store.
+Full RDF/XML will be supported though use of the MIT Javascript parser, described at http://dig.csail.mit.edu/breadcrumbs/node/149, which interfaces easily to an rdfQuery store.
+
+@@ dig out notes for interfacing to this, and place them here
 
 = Plugins for front end and back end =
 
