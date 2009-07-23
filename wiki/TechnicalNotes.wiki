@@ -52,6 +52,49 @@ Styling information will be required for each of these.
  * local semantics: prefixed tags, assigned default local namespace URI based on serving data store
  * global semantics: prefixed tags with defined PREFIX URI declaration to use global namespace
 
+= Representing card data =
+
+== Custom JSON ==
+
+Initially, I plan to use a custom-designed JSDO format as the quickest
+
+== Extended JSON-RDF ==
+
+For a second phase, I intend to use an extended form of JSON-RDF, as described at http://n2.talis.com/wiki/RDF_JSON_Specification.  By extended, I mean a strict superset:  any valid JSON-RDF file will be acceptable and properly interpreted.
+
+But as part of the process of migrating from relatively free-form data to RDF, I want to allow free-tagging, locally interpreted scoped names (in the style of "machine tags" use by Flickr, etc.), and globally scoped names in the same framework.  Thus, I intend to relax the allowable form of resource identifier to include CURIE-like forms and simple names, yet be able to add appropriate declarations so these can be exported as proper URIs.
+
+{{{
+{ '#': 
+    { 'shuffl:uses-format': 
+        [ { 'type':'literal', 'value':'extended RDF_JSON' } ]
+    , 'shuffl:base-uri':
+          [ { 'type':'uri', 'value':'http://example.org/base/path/name#' } ]
+    , 'shuffl:uses-prefixes':
+        , { 'type':'bnode', 'value':'_:rdf' }
+        , { 'type':'bnode', 'value':'_:rdfs' }
+        , { 'type':'bnode', 'value':'_:xsd' }
+        ]
+, '_:rdf':
+    { 'shuffl:prefix': { 'type':'literal', 'value':'rdf' }
+    , 'shuffl:uri':    { 'type':'uri',     'value':'...' }
+    }
+, '_:rdf's:
+    { 'shuffl:prefix': { 'type':'literal', 'value':'rdfs' }
+    , 'shuffl:uri':    { 'type':'uri',     'value':'...' }
+    }
+, '_:xsd':
+    { 'shuffl:prefix': { 'type':'literal', 'value':'xsd' }
+    , 'shuffl:uri':    { 'type':'uri',     'value':'...' }
+    }
+ :
+(main body of data here)
+ :
+}}}
+
+== Full RDF/XML ==
+
+Full RDF/XML will be supported though use of the MIT Javascript parser, @@details@@, which interface easilyto an rdfQuery store.
 
 = Plugins for front end and back end =
 
@@ -63,3 +106,4 @@ Areas where functionality should be devolved to replaceable plug-in components
  * ...
 
 How much of this can be provided by building to the jQuery plugin structure?  Hopefully, all of it.
+
