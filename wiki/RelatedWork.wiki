@@ -12,7 +12,8 @@
  * http://bililite.com/blog/understanding-jquery-ui-widgets-a-tutorial/ - plugins tutorial
  * http://speckyboy.com/2008/04/02/65-excellent-jquery-resources-tutorialscheat-sheetsebooksdemosplugins/
 
-Widgets:
+== Widgets ==
+
  * http://jqueryui.com/
  * http://www.pathf.com/blogs/2006/10/jquery_widgets_/
  * http://www.appelsiini.net/projects/jeditable - in-place text editing
