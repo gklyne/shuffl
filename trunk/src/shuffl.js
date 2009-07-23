@@ -70,7 +70,20 @@ shuffl.stockpile_space = jQuery("<div class='shuffl-spacer' />");
 /**
  * jQuery base element for building new cards (used by shuffl.makeCard)
  */
-shuffl.card_blank = jQuery("<div class='shuffl-card' style='z-index:10;' />");
+shuffl.card_blank = jQuery(
+    "<div class='shuffl-card' style='z-index:10;'>\n"+
+    "  <chead>\n"+
+    "    <cident>card_7_ident</cident>\n"+
+    "    <ctitle>card_7 title</ctitle>\n"+
+    "  </chead>\n"+
+    "  <crow>\n"+
+    "    <cbody>card_7 body</cbody>\n"+
+    "  </crow>\n"+
+    "  <crow>\n"+
+    "    <cclass>card_7 class</cclass>n"+
+    "    (<ctags>card_7 tags</ctags>)n"+
+    "  </crow>"+
+    "</div>");
 
 /**
  * Function attached to stockpile to liberate a new card from that pile
@@ -100,6 +113,8 @@ shuffl.makeCard = function (cardid, cardclass, carddata) {
     var card = shuffl.card_blank.clone();
     card.attr('id', shuffl.makeId(cardid));
     card.addClass(cardclass);
+    // TODO: replace the text more selectively
+    ...
     if (typeof carddata == "object") {
         cardtext = shuffl.objectString(carddata);
     } else {
@@ -169,7 +184,7 @@ shuffl.dropCard = function(frompile, tolayout, pos) {
     var newcard = frompile.data('makeCard')(frompile);
     //ÊPlace card on layout
     pos = shuffl.positionRelative(pos, tolayout);
-    pos = shuffl.positionRel(pos, { left:9, top:9 });   // TODO calulate this properly
+    pos = shuffl.positionRel(pos, { left:5, top:1 });   // TODO calulate this properly
     shuffl.placeCard(tolayout, newcard, pos);
 };
 
@@ -282,31 +297,33 @@ shuffl.loadWorkspace = function(uri) {
     log.info("Load workspace from "+uri);
 
     jQuery.getJSON(uri, function (json) {
-            // When JSON is available...
+            // When JSON has beed read...
             log.debug("Loading workspace from "+uri);
             var i;
-            for (i = 0 ; i < json.stockbar.length ; i++) {
-                log.debug("Loading stockbar["+i+"]: "+shuffl.objectString(json.stockbar[i]));
+            var stockbar = json['shuffl:workspace']['shuffl:stockbar'];
+            var layout   = json['shuffl:workspace']['shuffl:layout'];
+            for (i = 0 ; i < stockbar.length ; i++) {
+                log.debug("Loading stockbar["+i+"]: "+shuffl.objectString(stockbar[i]));
                 // Create and append new blank stockpile element
                 var stockpile = shuffl.stockpile_blank.clone();
-                stockpile.attr(json.stockbar[i]['id']);
-                stockpile.addClass(json.stockbar[i]['class']);
-                stockpile.text(json.stockbar[i]['label']);
+                stockpile.attr(stockbar[i]['id']);
+                stockpile.addClass(stockbar[i]['class']);
+                stockpile.text(stockbar[i]['label']);
                 stockpile.data( 'makeCard', shuffl.createCardFromStock );
                 stockpile.draggable(shuffl.stockDraggable);
                 jQuery('#stockbar').append(shuffl.stockpile_space.clone()).append(stockpile);
             }
             log.debug("Loading layout");
-            for (i = 0 ; i < json.layout.length ; i++) {
-                log.debug("Loading card["+i+"]: "+shuffl.objectString(json.layout[i]));
+            for (i = 0 ; i < layout.length ; i++) {
+                log.debug("Loading card["+i+"]: "+shuffl.objectString(layout[i]));
                 // Create card using card factory
-                var cardclass = json.layout[i]['class'];
-                var cardid    = json.layout[i]['id'];
-                var carddata  = json.layout[i]['data'];   // TODO: populate data properly
+                var cardclass = layout[i]['class'];
+                var cardid    = layout[i]['id'];
+                var carddata  = layout[i]['data'];   // TODO: populate data properly
                 log.debug("cardclass "+cardclass);
                 var newcard   = shuffl.getCardFactory(cardclass)(cardid, cardclass, carddata);
                 //ÊPlace card on layout
-                var cardpos   = json.layout[i]['pos'];
+                var cardpos   = layout[i]['pos'];
                 shuffl.placeCard(jQuery('#layout'), newcard, cardpos);
             }
             log.warn("TODO: populate data properly");

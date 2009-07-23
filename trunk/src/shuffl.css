@@ -47,20 +47,22 @@ cbody {
 .shuffl-stockbar {
 	  border: thin #999999 solid;
     margin: 0em 0.25em 0.25em 0.25em ; /* top, right, bottom, left */
-    height: 1.5em;
+    height: 1.6em;
 }
 
 .shuffl-workspacemenu {
-	  display:inline;
+	  display:inline-block;
     font-family: "Comic Sans MS", Trebuchet, sans-serif;    
     font-weight:bold;
     background-color:#DDDDDD;    /* Grey */
     border:thin #666666 solid;
+    top: 0.2em;
 }
 
 .shuffl-stockpile {
     display:inline-block;
-    top: 0px;
+    vertical-align: top;
+    top: 0.2em;
 }
 
 .shuffl-spacer {
