@@ -239,9 +239,29 @@ shuffl.resize = function() {
 // Load up workspace
 // ----------------------------------------------------------------
 
+shuffl.stockpile_blank = jQuery("<div class='shuffl-stockpile' style='z-index:1;' />");
+shuffl.stockpile_space = jQuery("<div class='shuffl-spacer' />");
+
 shuffl.loadWorkspace = function(uri) {
 
-    log.warn("TODO: load workspace from "+uri);
+    log.info("Load workspace from "+uri);
+
+    jQuery.getJSON(uri, function (json) {
+            // When JSON is available...
+            log.debug("Loading layout for "+uri);
+            for (var i = 0 ; i < json.stockbar.length ; i++) {
+                // Create and append new blank stockpile element
+                var stockpile = shuffl.stockpile_blank.clone()
+                    .attr(json.stockbar[i]['id'])
+                    .addclass(json.stockbar[i]['class'])
+                    .text(json.stockbar[i]['label']);
+                // Append to stockbar
+                jQuery('#stockbar').append(stockpile);
+                // Append spacer to stockbar
+                jQuery('#stockbar').append(shuffl.stockpile_space.clone());
+            }
+            log.warn("TODO: load layout for "+uri);
+        })
 
 }
 

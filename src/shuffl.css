@@ -45,10 +45,9 @@ cbody {
 }
 
 .shuffl-stockbar {
-    display:block;
-    border:thin #999999 solid;
+	  border: thin #999999 solid;
     margin: 0em 0.25em 0.25em 0.25em ; /* top, right, bottom, left */
-    height:1.5em;
+    height: 1.5em;
 }
 
 .shuffl-workspacemenu {
@@ -59,15 +58,21 @@ cbody {
     border:thin #666666 solid;
 }
 
+.shuffl-stockpile {
+    display:inline-block;
+    top: 0px;
+}
+
+.shuffl-spacer {
+    display:inline-block;
+    width: 0.5em;
+}
+
 .shuffl-contextmenu {
     font-weight:bold;
     background-color:#DDDDDD;    /* Grey */
     border:thin #666666 solid;
     /* width: 20em; */
-}
-
-.shuffl-stockpile {
-    display:inline;
 }
 
 .shuffl-layout {
@@ -144,6 +149,7 @@ cbody {
     background-color:#DDDDFF;    /* Blue */
     border:thin #6666CC solid;
 }
+
 
 #card_1 {
     left:2em;
