@@ -37,6 +37,7 @@ Widgets:
 = User interfaces for data =
 
  * http://www.piccolo2d.org/ - piccolo2d, a structured 2D graphics framework
+ * http://sig.ma/ - Sig.ma - Live views on the Web of Data
 
 
 = Others (expand selected candidates in separate sections) =
