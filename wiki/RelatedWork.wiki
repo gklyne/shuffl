@@ -21,7 +21,7 @@
  * http://www.atomeye.com/portfolio/jquery-widgets.html
  * http://www.widgetbox.com/tag/jquery
  * http://www.trendskitchens.co.nz/jquery/contextmenu/ - nicely balanced context menu plugin
- * http://flowplayer.org/tools/scrollable.html - scrollable region (?)
+ * http://flowplayer.org/tools/scrollable.html - scrollable region, seems to scroll elements rather than text.
 
 = Atom publishing protocol =
 
