@@ -4,7 +4,6 @@ Project admin:
  * Start building user stories and requirements
 
 Code! 
- * Card content editing
  * Local save / cut-paste of layout+card data
  * different card rendering: normal, summary-line, ...
  * Card type plug-in structure (see modularization)

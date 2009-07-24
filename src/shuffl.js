@@ -133,6 +133,61 @@ shuffl.card_blank = jQuery(
     "    (<ctags>card_ZZZ tags</ctags>)\n"+
     "  </crow>"+
     "</div>");
+/**
+ * Function called before a text element is edited with a copy of the text,
+ * and returning a modified version.  In this case, the raw text is extracted.
+ */
+shuffl.initEditText = function(value) {
+    log.debug("shuffl.initEditText: "+value);
+    return value.replace(/<br[^>]*>/g, "\n\n");
+};
+
+/**
+ * Function called when done editing text: newlines are converted back to <br/>
+ * and '<' to '&lt;.
+ */
+shuffl.doneEditText = function(value, settings) {
+    log.debug("shuffl.doneEditText: "+value);
+    return value.replace(/</g,"&lt;").replace(/\n\n/g, "<br/>");
+};
+
+/**
+ * Function that can be used for submitting new edit text unchaged.
+ */
+shuffl.passEditText = function(value, settings) {
+    log.debug("shuffl.passEditText: "+value);
+    return value;
+};
+
+/**
+ * Set up single line inline edit field
+ */
+shuffl.lineEditable = function (field) {
+    field.editable(shuffl.passEditText, 
+        { data: shuffl.passEditText
+        , onblur: 'submit'
+        , tooltip: 'Click to edit...'
+        , submit: 'OK'
+        , cancel: 'cancel'
+        , cssclass: 'shuffl-lineedit'
+        , width: 400
+        });
+};
+
+/**
+ * Set up multiline inline edit field
+ */
+shuffl.blockEditable = function (field) {
+    field.editable(shuffl.doneEditText, 
+        { data: shuffl.initEditText
+        , type: 'textarea'
+        , onblur: 'submit'
+        , tooltip: 'Click to edit...'
+        , submit: 'OK'
+        , cancel: 'cancel'
+        , cssclass: 'shuffl-blockedit'
+        });
+};
 
 /**
  * Creates and return a new card instance.
@@ -157,13 +212,17 @@ shuffl.makeCard = function (cardid, cardclass, carddata) {
     card.find("cident").text(cardid);
     card.find("cclass").text(cardclass);
     card.find("ctitle").text(cardtitle);
+    shuffl.lineEditable(card.find("ctitle"));
     card.find("cbody").html(cardtext);
+    shuffl.blockEditable(card.find("cbody"));
     card.find("ctags").text(cardtags);
+    shuffl.lineEditable(card.find("ctags"));
     //log.debug("makeCard: "+shuffl.elemString(card[0]));
     //ÊNote: 'ghost' and 'alsoResize' seem to conflict
     card.resizable( {alsoResize: 'div#'+cardid+' cbody'} );
     // TODO: rather that resizeAlso, try to use resize envent to resize the card body area.
-    //       then we can also save the size and restore it on reload.
+    //       then we can also save the size and restore it on reload.  Or test to see if we
+    //       can manually change the size of a resizable.
     // card.resizable( {ghost: true} );
     return card;
 };
