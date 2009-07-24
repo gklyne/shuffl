@@ -147,7 +147,7 @@ shuffl.card_blank = jQuery(
 shuffl.makeCard = function (cardid, cardclass, carddata) {
     log.debug("makeCard: "+cardid+", "+cardclass+", "+carddata);
     var card = shuffl.card_blank.clone();
-    card.attr('id', shuffl.makeId(cardid));
+    card.attr('id', cardid);
     card.addClass(cardclass);
     //var cardspace = "\n.\n.\n.\n.\n.\n/";
     var cardspace = "<br/>.<br/>.<br/>.<br/>.<br/>.<br/>/";
@@ -160,6 +160,11 @@ shuffl.makeCard = function (cardid, cardclass, carddata) {
     card.find("cbody").html(cardtext);
     card.find("ctags").text(cardtags);
     //log.debug("makeCard: "+shuffl.elemString(card[0]));
+    //ÊNote: 'ghost' and 'alsoResize' seem to conflict
+    card.resizable( {alsoResize: 'div#'+cardid+' cbody'} );
+    // TODO: rather that resizeAlso, try to use resize envent to resize the card body area.
+    //       then we can also save the size and restore it on reload.
+    // card.resizable( {ghost: true} );
     return card;
 };
 
@@ -205,8 +210,11 @@ shuffl.makeId = function(pref) {
  */
 shuffl.placeCard = function (layout, card, pos) {
     layout.append(card);
-    card.css(pos);
+    card.css(pos).css('position', 'absolute');
     card.draggable(shuffl.cardDraggable);
+    // card.resizable({ghost: true, alsoResize: '#'+card.attr('id')+' cbody'});
+    //card.addClass("resizable ui-resizable")
+    //card.resizable();
     shuffl.toFront(card);
     // Click brings card back to top
     card.click( function () { shuffl.toFront(jQuery(this)); });
@@ -222,7 +230,7 @@ shuffl.dropCard = function(frompile, tolayout, pos) {
     var newcard = frompile.data('makeCard')(frompile);
     //ÊPlace card on layout
     pos = shuffl.positionRelative(pos, tolayout);
-    pos = shuffl.positionRel(pos, { left:5, top:1 });   // TODO calulate this properly
+    pos = shuffl.positionRel(pos, { left:5, top:1 });   // TODO calculate this properly
     shuffl.placeCard(tolayout, newcard, pos);
 };
 
@@ -313,15 +321,17 @@ shuffl.parseInt = function (str, rad, def) {
  * Code adapted from jQuery
  */
 shuffl.toFront = function (elem) {
-    var opts = elem.data("draggable").options;
-    var group = jQuery.makeArray(jQuery(opts.stack.group)).sort(function(a,b) {
-            return shuffl.parseInt(jQuery(a).css("zIndex"), 10, opts.stack.min) - 
-                   shuffl.parseInt(jQuery(b).css("zIndex"), 10, opts.stack.min);
-        });
-    jQuery(group).each(function(i) {
-            this.style.zIndex = opts.stack.min + i;
-        });
-    elem[0].style.zIndex = opts.stack.min + group.length;
+    if (elem.data("draggable")) {
+        var opts = elem.data("draggable").options;
+        var group = jQuery.makeArray(jQuery(opts.stack.group)).sort(function(a,b) {
+                return shuffl.parseInt(jQuery(a).css("zIndex"), 10, opts.stack.min) - 
+                       shuffl.parseInt(jQuery(b).css("zIndex"), 10, opts.stack.min);
+            });
+        jQuery(group).each(function(i) {
+                this.style.zIndex = opts.stack.min + i;
+            });
+        elem[0].style.zIndex = opts.stack.min + group.length;
+    };
 };
 
 /**
@@ -397,6 +407,7 @@ jQuery(document).ready(function() {
 
     /**
      * Connect up drag and drop for creating and moving cards
+     * Only cards predefined in the original HTML are hooked up here
      */
     log.debug("shuffl: connect drag-and-drop logic");
 
@@ -438,7 +449,7 @@ jQuery(document).ready(function() {
     /**
      * Creeate a pop-up context menu
      */    
-    log.debug("shuffl connect connect context menu");
+    log.debug("shuffl: connect connect context menu");
 
     jQuery('div.shuffl-workspacemenu').contextMenu('workspacemenuoptions', {
         menuStyle: {

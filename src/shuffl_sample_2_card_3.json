@@ -1,4 +1,4 @@
-{ 'shuffl:id':        'card_3'
+{ 'shuffl:id':        'id_3'
 , 'shuffl:class':     'stock_3'
 , 'shuffl:version':   '0.1'
 , 'shuffl:location':  'http://localhost:8080/.../card_1'

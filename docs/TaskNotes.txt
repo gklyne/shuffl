@@ -4,9 +4,9 @@ Project admin:
  * Start building user stories and requirements
 
 Code! 
- * Construct cards from data - design data, load it, function to construct card (standard format)
  * Card content editing
  * Local save / cut-paste of layout+card data
+ * different card rendering: normal, summary-line, ...
  * Card type plug-in structure (see modularization)
  * More comprehensive template / card construction functions
  * Think about testing - focus on data handling here
