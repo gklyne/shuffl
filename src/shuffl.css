@@ -115,7 +115,7 @@ cbody {
 }
 
 .stock_1 chead {
-    background-color: #EEEE80;
+    background-color: #DDDD60;
 }
 
 .stock_2 {
@@ -134,10 +134,18 @@ cbody {
     border:thin #66CC66 solid;
 }
 
+.stock_3 chead {
+    background-color: #80EE80;
+}
+
 .stock_4 {
     color: black;
     background-color:#FFDDDD;    /* Pink */
     border:thin #CC6666 solid;
+}
+
+.stock_4 chead {
+    background-color: #EE8080;
 }
 
 .stock_5 {
@@ -146,10 +154,18 @@ cbody {
     border:thin #CC66CC solid;
 }
 
+.stock_5 chead {
+    background-color: #EE80EE;
+}
+
 .stock_6 {
     color: black;
-    background-color:#DDDDFF;    /* Blue */
+    background-color:#DDDDFF;    /* Purple */
     border:thin #6666CC solid;
+}
+
+.stock_6 chead {
+    background-color: #A0A0EE;
 }
 
 

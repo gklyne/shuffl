@@ -73,15 +73,15 @@ shuffl.stockpile_space = jQuery("<div class='shuffl-spacer' />");
 shuffl.card_blank = jQuery(
     "<div class='shuffl-card' style='z-index:10;'>\n"+
     "  <chead>\n"+
-    "    <cident>card_7_ident</cident>\n"+
-    "    <ctitle>card_7 title</ctitle>\n"+
+    "    <cident>card_ZZZ_ident</cident>\n"+
+    "    <ctitle>card title</ctitle>\n"+
     "  </chead>\n"+
     "  <crow>\n"+
-    "    <cbody>card_7 body</cbody>\n"+
+    "    <cbody>card_ZZZ body</cbody>\n"+
     "  </crow>\n"+
     "  <crow>\n"+
-    "    <cclass>card_7 class</cclass>n"+
-    "    (<ctags>card_7 tags</ctags>)n"+
+    "    <cclass>card_ZZZ class</cclass>\n"+
+    "    (<ctags>card_ZZZ tags</ctags>)\n"+
     "  </crow>"+
     "</div>");
 
@@ -110,17 +110,20 @@ shuffl.createCardFromStock = function (stockpile) {
  */
 
 shuffl.makeCard = function (cardid, cardclass, carddata) {
+    log.debug("makeCard: "+cardid+", "+cardclass+", "+carddata);
     var card = shuffl.card_blank.clone();
     card.attr('id', shuffl.makeId(cardid));
     card.addClass(cardclass);
-    // TODO: replace the text more selectively
-    ...
+    // TODO: fetch card data (somewhere...)
     if (typeof carddata == "object") {
         cardtext = shuffl.objectString(carddata);
     } else {
         cardtext = carddata;
     };
-    card.text(cardtext);
+    card.find("cident").text(cardid);
+    card.find("cclass").text(cardclass);
+    card.find("cbody").text(cardtext);
+    card.find("ctags").text(cardid+" "+cardclass);
     log.debug("makeCard: "+shuffl.elemString(card[0]));
     return card;
 };
@@ -294,7 +297,7 @@ shuffl.resize = function() {
 
 shuffl.loadWorkspace = function(uri) {
 
-    log.info("Load workspace from "+uri);
+    log.info("Load workspace from: "+uri);
 
     jQuery.getJSON(uri, function (json) {
             // When JSON has beed read...
@@ -317,6 +320,8 @@ shuffl.loadWorkspace = function(uri) {
             for (i = 0 ; i < layout.length ; i++) {
                 log.debug("Loading card["+i+"]: "+shuffl.objectString(layout[i]));
                 // Create card using card factory
+                // TODO: read card data
+                // TODO: get id and class from card data
                 var cardclass = layout[i]['class'];
                 var cardid    = layout[i]['id'];
                 var carddata  = layout[i]['data'];   // TODO: populate data properly

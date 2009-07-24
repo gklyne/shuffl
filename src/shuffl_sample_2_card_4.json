@@ -1,17 +1,18 @@
-{ 'shuffl:id':      'card_4'
-, 'shuffl:class':   'stock_4'
-, 'shuffl:base':    '#'
-, 'shuffl:prefixes':
-  [ { 'shuffl:prefix': 'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
-  , { 'shuffl:prefix': 'rdf',     'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
-  , { 'shuffl:prefix': 'rdfs',    'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
-  , { 'shuffl:prefix': 'owl',     'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
-  , { 'shuffl:prefix': 'xsd',     'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
+{ 'shuffl:id':        'card_4'
+, 'shuffl:class':     'stock_4'
+, 'shuffl:version':   '0.1'
+, 'shuffl:location':  'http://localhost:8080/.../card_1',
+, 'shuffl:base-uri':  '#'
+, 'shuffl:uses-prefixes':
+  [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
+  , { 'shuffl:prefix':  'rdf',    'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
+  , { 'shuffl:prefix':  'rdfs',   'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
+  , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
+  , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
   ]
 , 'shuffl:data':
-  { 'shuffl:title': "Card 4 title here"
-  , 'shuffl:tags':  [ 't1', 't2' ]
-  , 'shuffl:text':  "Card 4 free-form text here"
+  { 'shuffl:title':   "Card 4 title here"
+  , 'shuffl:tags':    [ 't1', 't2' ]
+  , 'shuffl:text':    "Card 4 free-form text here"
   }
 }
-
