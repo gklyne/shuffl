@@ -142,6 +142,17 @@ Full RDF/XML will be supported though use of the MIT Javascript parser, describe
 
 @@ dig out notes for interfacing to this, and place them here
 
+
+= Modularization of code =
+
+The initial code for Shuffl is somewhat monolithic.  Candidates for modularization include:
+
+ * Core: workspace, drag/drop handlers, card factory index
+ * Layout: resize and positioning support
+ * Utils: object formatting, etc
+ * Card-specific code: template, styling
+
+
 = Plugins for front end and back end =
 
 Areas where functionality should be devolved to replaceable plug-in components
