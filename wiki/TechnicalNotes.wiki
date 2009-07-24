@@ -83,20 +83,21 @@ Initially, I plan to use custom-designed JSON formats as the quickest and most e
 Card data looks like this (where additional data fields may be added in the shuffl:data value):
 
 {{{
-{ 'shuffl:id':       'card_1'
-, 'shuffl:base':     '#'
-, 'shuffl:prefixes':
-  [ { 'shuffl:prefix': 'rdf',  'shuffl:uri': '...' }
-  , { 'shuffl:prefix': 'rdfs', 'shuffl:uri': '...' }
-  , { 'shuffl:prefix': 'rdfs', 'shuffl:uri': '...' }
-  , { 'shuffl:prefix': 'rdfs', 'shuffl:uri': '...' }
-  , { 'shuffl:prefix': 'rdfs', 'shuffl:uri': '...' }
+{ 'shuffl:id':        'card_1'
+, 'shuffl:location':  'http://localhost:8080/.../card_1',
+, 'shuffl:base-uri':  '#'
+, 'shuffl:uses-prefixes':
+  [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
+  , { 'shuffl:prefix':  'rdf',    'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
+  , { 'shuffl:prefix':  'rdfs',   'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
+  , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
+  , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
   ]
-, 'shuffl:class':   'stock_1'
+, 'shuffl:class':     'stock_1'
 , 'shuffl:data':
-  { 'shuffl:title': "Card title here"
-  , 'shuffl:tags':  [ 't1', 't2' ]
-  , 'shuffl:text':  "Free-form text here"
+  { 'shuffl:title':   "Card title here"
+  , 'shuffl:tags':    [ 't1', 't2' ]
+  , 'shuffl:text':    "Free-form text here"
   }
 }
 }}}
@@ -109,13 +110,15 @@ For a second phase, I intend to use an extended form of JSON-RDF, as described a
 But as part of the process of migrating from relatively free-form data to RDF, I want to allow free-tagging, locally interpreted scoped names (in the style of "machine tags" use by Flickr, etc.), and globally scoped names in the same framework.  Thus, I intend to relax the allowable form of resource identifier to include CURIE-like forms and simple names, yet be able to add appropriate declarations so these can be exported as proper URIs.
 
 {{{
-{ '#': 
+{ '#card_1': 
     { 'shuffl:uses-format': 
         [ { 'type':'literal', 'value':'extended RDF_JSON' } ]
     , 'shuffl:base-uri':
           [ { 'type':'uri', 'value':'http://example.org/base/path/name#' } ]
+    , 'shuffl:location':  
+          [ { 'type':'uri', 'value':'http://example.org/location/of/card/data' } ]
     , 'shuffl:uses-prefixes':
-        , { 'type':'bnode', 'value':'_:rdf' }
+        [ { 'type':'bnode', 'value':'_:rdf' }
         , { 'type':'bnode', 'value':'_:rdfs' }
         , { 'type':'bnode', 'value':'_:xsd' }
         ]
@@ -136,6 +139,7 @@ But as part of the process of migrating from relatively free-form data to RDF, I
  :
 }}}
 
+
 == Full RDF/XML ==
 
 Full RDF/XML will be supported though use of the MIT Javascript parser, described at http://dig.csail.mit.edu/breadcrumbs/node/149, which interfaces easily to an rdfQuery store.
@@ -146,7 +150,7 @@ Notes for using the Tabulator RDF parser:
  * in terms.js, RDFFormula provides a store for RDF data.  
     * there is a simpler one in tabulator/test/rdf/rdfparser.test.html: maybe use this interface to create a wrapper for the rdfquery store?
  * The test store also uses something called XMLSerializer for dealing with XML literals.
- * For Notation3, look for SinkParser (!)
+ * For Notation3, look for !SinkParser (!)
 
 Tabulator RDF store interface methods:
  * @@enumerate the store interface methods here/below
