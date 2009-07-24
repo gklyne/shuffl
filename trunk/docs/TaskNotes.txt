@@ -1,7 +1,6 @@
 #summary Notes for tasks to be tackled
 
 Project admin:
- * Initial sprint plan
  * Start building user stories and requirements
 
 Code! 
@@ -9,16 +8,6 @@ Code!
  * Window resizing and card containment (?)
  * More comprehensive template / card construction functions
  * Think about testing - focus on data handling here
-
-Using the Tabulator RDF parser - see:
- * http://brondsema.net/blog/index.php/2006/11/25/javascript_rdfparser_from_tabulator
- * http://dig.csail.mit.edu/breadcrumbs/node/149 (is this the same parser? I think not.)
- * in terms.js, RDFFormula provides a store for RDF data.  
-   There is a simpler one in /Users/graham/workspace/tabulator/test/rdf/rdfparser.test.html:
-   maybe use this interface to create a wrapper for the rdfquery store?
- * The test store also uses something called XMLSerializer for dealing with XML literals.
- * For Notation3, look for SinkParser (!)
-
 
 ...
 
