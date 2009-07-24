@@ -5,9 +5,14 @@ Project admin:
 
 Code! 
  * Construct cards from data - design data, load it, function to construct card (standard format)
- * Window resizing and card containment (?)
+ * Card content editing
+ * Local save / cut-paste of layout+card data
+ * Card type plug-in structure (see modularization)
  * More comprehensive template / card construction functions
  * Think about testing - focus on data handling here
+ * Modularization (see wiki notes): also a good time to think about testing
+ * Refactor CSS styles for cards, to focus on a smaller set of basic styles for id, title, body, tags, etc.
+ * Edit / undo buffer?
 
 ...
 

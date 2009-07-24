@@ -21,14 +21,18 @@ ctitle {
 
 cclass {
     display:inline;
+    font-size:smaller;
 }
 
 ctags {
     display:inline;
+    font-size:smaller;
 }
 
 cbody {
-    display:inline;
+    display:block;
+    height: 5em;
+    overflow: auto;
 }
 
 .shuffl-workspace {
