@@ -140,7 +140,16 @@ But as part of the process of migrating from relatively free-form data to RDF, I
 
 Full RDF/XML will be supported though use of the MIT Javascript parser, described at http://dig.csail.mit.edu/breadcrumbs/node/149, which interfaces easily to an rdfQuery store.
 
-@@ dig out notes for interfacing to this, and place them here
+Notes for using the Tabulator RDF parser:
+ * http://brondsema.net/blog/index.php/2006/11/25/javascript_rdfparser_from_tabulator
+ * http://dig.csail.mit.edu/breadcrumbs/node/149 (is this the same parser? I think not.)
+ * in terms.js, RDFFormula provides a store for RDF data.  
+    * there is a simpler one in tabulator/test/rdf/rdfparser.test.html: maybe use this interface to create a wrapper for the rdfquery store?
+ * The test store also uses something called XMLSerializer for dealing with XML literals.
+ * For Notation3, look for SinkParser (!)
+
+Tabulator RDF store interface methods:
+ * @@enumerate the store interface methods here/below
 
 
 = Modularization of code =
