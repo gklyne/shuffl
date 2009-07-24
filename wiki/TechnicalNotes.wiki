@@ -149,9 +149,10 @@ The initial code for Shuffl is somewhat monolithic.  Candidates for modularizati
 
  * Core: workspace, drag/drop handlers, card factory index
  * Layout: resize and positioning support
- * Utils: object formatting, etc
- * Card-specific code: template, styling
-
+ * Storage: back-end storage interfaces
+ * Utils: object formatting, sequencing (monadic?), etc
+ * Card-specific code: template, styling: new card types should be added as plug-ins
+ 
 
 = Plugins for front end and back end =
 
