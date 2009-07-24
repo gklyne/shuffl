@@ -1,7 +1,7 @@
 { 'shuffl:id':        'card_ZZZ'
 , 'shuffl:class':     'stock_ZZZ'
 , 'shuffl:version':   '0.1'
-, 'shuffl:location':  'http://localhost:8080/.../card_1',
+, 'shuffl:location':  'http://localhost:8080/.../card_1'
 , 'shuffl:base-uri':  '#'
 , 'shuffl:uses-prefixes':
   [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
@@ -12,7 +12,7 @@
   ]
 , 'shuffl:data':
   { 'shuffl:title':   "Card ZZZ title here"
-  , 'shuffl:tags':    [ 't1', 't2' ]
-  , 'shuffl:text':    "Card ZZZ free-form text here"
+  , 'shuffl:tags':    [ 'card_ZZZ_tag', 'footag' ]
+  , 'shuffl:text':    "Card ZZZ free-form text here<br/>line 2<br/>line3"
   }
 }

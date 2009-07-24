@@ -101,6 +101,23 @@ shuffl.get = function (obj, key, def) {
 };
 
 /**
+ * Create a new card using a supplied layout value and card data
+ */
+shuffl.createCardFromData = function (layout, data) { 
+    //log.debug("shuffl.createCardFromData, layout:    "+shuffl.objectString(layout));
+    //log.debug("shuffl.createCardFromData, card data: "+shuffl.objectString(data));
+    // Create card using card factory
+    var carddata  = data['shuffl:data'];
+    var cardid    = shuffl.get(data, 'shuffl:id',    layout['id']);
+    var cardclass = shuffl.get(data, 'shuffl:class', layout['class']);
+    log.debug("cardid: "+cardid+", cardclass: "+cardclass);
+    var newcard   = shuffl.getCardFactory(cardclass)(cardid, cardclass, carddata);
+    //ÊPlace card on layout
+    var cardpos   = layout['pos'];
+    shuffl.placeCard(jQuery('#layout'), newcard, cardpos);
+};
+
+/**
  * jQuery base element for building new cards (used by shuffl.makeCard)
  */
 shuffl.card_blank = jQuery(
@@ -136,7 +153,7 @@ shuffl.makeCard = function (cardid, cardclass, carddata) {
     var cardspace = "<br/>.<br/>.<br/>.<br/>.<br/>.<br/>/";
     var cardtext  = shuffl.get(carddata, 'shuffl:text',  carddata+cardspace);
     var cardtags  = shuffl.get(carddata, 'shuffl:tags',  cardid+" "+cardclass);
-    var cardtitle = shuffl.get(carddata, 'shuffl:title', "Id "+cardid+", class "+cardclass);
+    var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - class "+cardclass);
     card.find("cident").text(cardid);
     card.find("cclass").text(cardclass);
     card.find("ctitle").text(cardtitle);
@@ -349,19 +366,9 @@ shuffl.loadWorkspace = function(uri) {
             for (i = 0 ; i < layout.length ; i++) {
                 log.debug("Loading card["+i+"]: "+shuffl.objectString(layout[i]));
                 log.debug("Loading URI: "+layout[i]['data']);
-                jQuery.getJSON(layout[i]['data'], function(json) {
-                    // Create card using card factory
-                    var carddata  = json['shuffl:data'];
-                    var cardid    = shuffl.get(json, 'shuffl:id',    layout[i]['id']);
-                    var cardclass = shuffl.get(json, 'shuffl:class', layout[i]['class']);
-                    log.debug("cardid: "+cardid+", cardclass: "+cardclass);
-                    var newcard   = shuffl.getCardFactory(cardclass)(cardid, cardclass, carddata);
-                    //ÊPlace card on layout
-                    var cardpos   = layout[i]['pos'];
-                    shuffl.placeCard(jQuery('#layout'), newcard, cardpos);
-                });
-            }
-            log.warn("TODO: populate data properly");
+                jQuery.getJSON(layout[i]['data'], 
+                    MochiKit.Base.partial(shuffl.createCardFromData, layout[i]));
+            };
         });
 };
 
