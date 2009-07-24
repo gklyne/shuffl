@@ -15,8 +15,11 @@ cident {
 }
 
 ctitle {
-    display:inline;
+    display:block;
     font-size:large;
+    font-style:bold;
+    overflow: hidden;
+    height: 1em;
 }
 
 cclass {
@@ -33,6 +36,22 @@ cbody {
     display:block;
     height: 5em;
     overflow: auto;
+}
+
+.shuffl-blockedit {
+    display: block;
+	  position: absolute;
+    overflow: visible;
+}
+
+.shuffl-blockedit > textarea {
+    display:block;
+}
+
+.shuffl-lineedit {
+    display: block;
+	  position: absolute;
+    overflow: visible;
 }
 
 .shuffl-workspace {
