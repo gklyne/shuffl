@@ -114,7 +114,7 @@ Card data looks like this (where additional data fields may be added in the shuf
   , 'shuffl:tags':    [ 't1', 't2' ]
   , 'shuffl:text':    "Free-form text here"
   }
-}}}}
+}}}
 
 
 == Extended JSON-RDF ==
@@ -176,7 +176,8 @@ The initial code for Shuffl is somewhat monolithic.  Candidates for modularizati
 
  * Core: workspace, drag/drop handlers, card factory index
  * Layout: resize and positioning support
- * Storage: back-end storage interfaces
+ * External storage: back-end storage interfaces
+ * Internal RDF storage: abstraction that can support various interfaces (e.g. RDFQuery, Tabulator/Cwm, etc.)
  * Styling: to some extent, each card type will need its own styling support, but we also want some style concepts that are applicable across all workspaces and card types, to provide a consistent look-and-feel.  Also, we want a way to apply alternative styling schemes in pluggable fashion: how can Javascript interact with external CSS files?  Can we switch in a set of styles from another CSS source file? Each scheme may be a combination of CSS, images files, Javascript.
  * Utils: object formatting, sequencing (monadic?), etc
  * Card-specific code: template, styling: new card types should be added as plug-ins
