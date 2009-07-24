@@ -25,7 +25,7 @@
  * http://www.kelvinluck.com/assets/jquery/jScrollPane/jScrollPane.html - scrolling text pane plugin.  Turns out all I really needed was "overflow: auto;"
  * http://davecardwell.co.uk/javascript/jquery/plugins/jquery-em/ - interact with 'em' unit value (for text/pixel interactions)
  * http://www.prodevtips.com/2008/11/12/jquery-ui-draggable-and-resizable-combination/ - example of draggable and resizable together;  also has sample mini-plugin code to constrain object to box.
-
+ * http://wiki.fluidproject.org/display/fluid/Demos - various tools, including a fairly heavyweight inline text editor, based on FCKedit.
 
 = Atom publishing protocol =
 
