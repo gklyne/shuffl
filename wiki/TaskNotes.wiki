@@ -24,10 +24,8 @@ Architecture:
  * Think about plug-in architecture for extensions
 
 Technical spike and development:
- * Push ahead with jQuery-based mock-up
+ * Refactor CSS so that card layout is more cleanly separated from styling
  * View types - include thumbnail
- * Context menu on normal click
  * Atom feed browser
- * Dynamic constructon of workspace content
  * Card menu
  * Card grouping / stack management
