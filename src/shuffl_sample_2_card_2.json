@@ -1,5 +1,5 @@
 { 'shuffl:id':        'id_2'
-, 'shuffl:class':     'stock_2'
+, 'shuffl:class':     'shuffl-freetext-blue'
 , 'shuffl:version':   '0.1'
 , 'shuffl:location':  'http://localhost:8080/.../card_1'
 , 'shuffl:base-uri':  '#'
@@ -13,6 +13,6 @@
 , 'shuffl:data':
   { 'shuffl:title':   "Card 2 title here"
   , 'shuffl:tags':    [ 'card_2_tag', 'footag' ]
-  , 'shuffl:text':    "Card 2 free-form text here<br/>line 2<br/>line3"
+  , 'shuffl:text':    "Card 2 free-form text here<br/>line 2<br/>line3<br/>blue"
   }
 }
