@@ -1,6 +1,6 @@
 /**
  * @fileoverview
- *  Functions to support shuffl-card dragging and other animations
+ *  Shuffl application main code.  Also needs card plugins to be loaded.
  *  
  * @author Graham Klyne
  * @version $Id: ...$
@@ -33,11 +33,106 @@ log.error = MochiKit.Logging.logError   ;
  */
 if (typeof shuffl == "undefined") {
     shuffl = {};
+    shuffl.CardFactoryMap = {};   // Initial empty card factory map
+    shuffl.idnext         = 100;  // Counter for unique id generation    
 }
 
 // ----------------------------------------------------------------
-// Stockpile and card functions
+// Card factory functions
 // ----------------------------------------------------------------
+
+/**
+ * Add factory for new card type to the factory map
+ */
+shuffl.addCardFactory = function (cardtype, cssclass, factory) {
+    shuffl.CardFactoryMap[cardtype] = { cardcss: cssclass, cardfactory: factory };
+};
+
+/**
+ * Return factory for creating new cards given a card type/class.
+ */
+shuffl.getCardFactory = function (cardtype) {
+    ////log.debug("getCardFactory: cardclass '"+cardclass+"'");
+    ////log.debug("getCardFactory: cardclass "+jQuery.trim(cardclass));
+    ////log.debug("cardFactory "+shuffl.objectString(shuffl.cardFactory));
+    var factory = shuffl.CardFactoryMap[jQuery.trim(cardtype)];
+    if ( factory == undefined) {
+        log.warn("getCardFactory: unrecognized card type: "+cardtype+", returning default factory");
+        factory = MochiKit.Base.partial(shuffl.makeDefaultCard, cardtype);
+    } else {
+        var cssclass = factory.cardcss;
+        log.debug("getCardFactory: card type: "+cardtype+", card CSS class: "+cssclass);
+        factory    = MochiKit.Base.partial(factory.cardfactory, cardtype, cssclass);
+    }
+    ////log.debug("factory "+factory);
+    return factory;
+};
+
+/**
+ * jQuery base element for building new default cards
+ */
+shuffl.card_default_blank = jQuery(
+    "<div class='shuffl-card' style='z-index:10;'>\n"+
+    "  <chead>\n"+
+    "    <chandle><c></c></chandle>" +
+    "    <ctitle>card title</ctitle>\n"+
+    "  </chead>\n"+
+    "  <cfoot>\n"+
+    "    <cident>card_ZZZ_ident</cident>:<cclass>card_ZZZ class</cclass>\n"+
+    "    (<ctags>card_ZZZ tags</ctags>)\n"+
+    "  </cfoot>"+
+    "</div>");
+
+/**
+ * Default card factory: title and tags only
+ */
+shuffl.makeDefaultCard = function (cardtype, cardid, carddata) {
+    var card_default_blank =
+    log.debug("shuffl.makeDefaultCard: "+cardid+", "+carddata);
+    var card = shuffl.card_default_blank.clone();
+    card.attr('id', cardid);
+    card.addClass("stock-default");
+    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  cardid+" "+cardtype);
+    var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - class "+cardtype);
+    card.find("cident").text(cardid);
+    card.find("cclass").text(cardtype);
+    card.find("ctitle").text(cardtitle);
+    shuffl.lineEditable(card.find("ctitle"));
+    card.find("ctags").text(cardtags);
+    shuffl.lineEditable(card.find("ctags"));
+    return card;
+};
+
+// ----------------------------------------------------------------
+// Stockpile and card support functions
+// ----------------------------------------------------------------
+
+/**
+ * Helper function to return a string value from an object field, 
+ * otherwise a supplied default.  This function processes incoming
+ * JSON, so should be defensively implemented.
+ * 
+ * @param obj           the object value
+ * @param key           the key of the member value to extract
+ * @param def           the default value to use if there is any
+ *                      problem with the object member value.
+ */
+shuffl.get = function (obj, key, def) {
+    if (typeof obj == "object" && obj.hasOwnProperty(key)) {
+        var val = obj[key];
+        if (typeof val == "string") { return val; }
+        if (val instanceof Array)   { return val.join(" "); }
+    };
+    return def;
+};
+
+/**
+ * Generate a new identifier string using a supplied prefix
+ */
+shuffl.makeId = function(pref) {
+    shuffl.idnext++;
+    return pref+shuffl.idnext;
+};
 
 /**
  * Draggable options for stockpiles
@@ -68,36 +163,24 @@ shuffl.stockpile_blank = jQuery("<div class='shuffl-stockpile' style='z-index:1;
 shuffl.stockpile_space = jQuery("<div class='shuffl-spacer' />");
 
 /**
+ * jQuery element for drag handle in card title bar
+ * (this is just an inactive area that doesn't try to do anything when clicked)
+ */
+shuffl.stockpile_handle = jQuery("<div class='shuffl-handle' />");
+
+/**
  * Function attached to stockpile to liberate a new card from that pile
  */    
 shuffl.createCardFromStock = function (stockpile) { 
     log.debug("makeCard "+stockpile);
+    var cardtype = stockpile.data("CardType");
     var cardclass = stockpile.attr("class")
         .replace(/shuffl-stockpile/,'')
         .replace(/ui-draggable/,'')
         .replace(/ui-draggable-dragging/,'');
     // log.debug("cardclass '"+cardclass+"'");
-    return shuffl.getCardFactory(cardclass)(shuffl.makeId('card_'), cardclass, "[body text ...]" );
+    return shuffl.getCardFactory(cardtype)(shuffl.makeId('card_'), cardclass, "[body text ...]" );
     //return shuffl.makeCard(shuffl.makeId('card_'), cardclass, "..." );
-};
-
-/**
- * Helper function to return a string value from an object field, 
- * otherwise a supplied default.  This function processes incoming
- * JSON, so should be defensively implemented.
- * 
- * @param obj           the object value
- * @param key           the key of the member value to extract
- * @param def           the default value to use if there is any
- *                      problem with the object member value.
- */
-shuffl.get = function (obj, key, def) {
-    if (typeof obj == "object" && obj.hasOwnProperty(key)) {
-        var val = obj[key];
-        if (typeof val == "string") { return val; }
-        if (val instanceof Array)   { return val.join(" "); }
-    };
-    return def;
 };
 
 /**
@@ -117,22 +200,6 @@ shuffl.createCardFromData = function (layout, data) {
     shuffl.placeCard(jQuery('#layout'), newcard, cardpos);
 };
 
-/**
- * jQuery base element for building new cards (used by shuffl.makeCard)
- */
-shuffl.card_blank = jQuery(
-    "<div class='shuffl-card' style='z-index:10;'>\n"+
-    "  <chead>\n"+
-    "    <ctitle>card title</ctitle>\n"+
-    "  </chead>\n"+
-    "  <crow>\n"+
-    "    <cbody>card_ZZZ body</cbody>\n"+
-    "  </crow>\n"+
-    "  <crow>\n"+
-    "    <cident>card_ZZZ_ident</cident>:<cclass>card_ZZZ class</cclass>\n"+
-    "    (<ctags>card_ZZZ tags</ctags>)\n"+
-    "  </crow>"+
-    "</div>");
 /**
  * Function called before a text element is edited with a copy of the text,
  * and returning a modified version.  In this case, the raw text is extracted.
@@ -187,77 +254,6 @@ shuffl.blockEditable = function (field) {
         , cancel: 'cancel'
         , cssclass: 'shuffl-blockedit'
         });
-};
-
-/**
- * Creates and return a new card instance.
- * 
- * @param cardid        local card identifier - a local name for the card, which may be
- *                      combined with a base URI to form a URI for the card.
- * @param cardclass     CSS class names for the new card element
- * @param carddata      an object or string containing additional data used in constructing
- *                      the body of the card.  This is either a string or an object structure
- *                      with fields 'shuffl:title', 'shuffl:tags' and 'shuffl:text'.
- */
-shuffl.makeCard = function (cardid, cardclass, carddata) {
-    log.debug("makeCard: "+cardid+", "+cardclass+", "+carddata);
-    var card = shuffl.card_blank.clone();
-    card.attr('id', cardid);
-    card.addClass(cardclass);
-    //var cardspace = "\n.\n.\n.\n.\n.\n/";
-    var cardspace = "<br/>.<br/>.<br/>.<br/>.<br/>.<br/>/";
-    var cardtext  = shuffl.get(carddata, 'shuffl:text',  carddata+cardspace);
-    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  cardid+" "+cardclass);
-    var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - class "+cardclass);
-    card.find("cident").text(cardid);
-    card.find("cclass").text(cardclass);
-    card.find("ctitle").text(cardtitle);
-    shuffl.lineEditable(card.find("ctitle"));
-    card.find("cbody").html(cardtext);
-    shuffl.blockEditable(card.find("cbody"));
-    card.find("ctags").text(cardtags);
-    shuffl.lineEditable(card.find("ctags"));
-    //log.debug("makeCard: "+shuffl.elemString(card[0]));
-    //ÊNote: 'ghost' and 'alsoResize' seem to conflict
-    card.resizable( {alsoResize: 'div#'+cardid+' cbody'} );
-    // TODO: rather that resizeAlso, try to use resize envent to resize the card body area.
-    //       then we can also save the size and restore it on reload.  Or test to see if we
-    //       can manually change the size of a resizable.
-    // card.resizable( {ghost: true} );
-    return card;
-};
-
-/**
- * Return factory for creating new cards given a card type/class.
- */
-shuffl.getCardFactory = function (cardclass) {
-    var factorymap =
-        { 'stock_1': shuffl.makeCard
-        , 'stock_2': shuffl.makeCard
-        , 'stock_3': shuffl.makeCard
-        , 'stock_4': shuffl.makeCard
-        , 'stock_5': shuffl.makeCard
-        , 'stock_6': shuffl.makeCard
-        };
-    ////log.debug("getCardFactory: cardclass '"+cardclass+"'");
-    ////log.debug("getCardFactory: cardclass "+jQuery.trim(cardclass));
-    ////log.debug("cardFactory "+shuffl.objectString(shuffl.cardFactory));
-    var factory = factorymap[jQuery.trim(cardclass)];
-    if ( factory == undefined) {
-        log.warn("getCardFactory: unrecognized card class: "+cardclass+", returning default factory");
-        factory = shuffl.makeCard;
-    };
-    ////log.debug("factory "+factory);
-    return factory;
-};
-
-/**
- * Generate a new identifier string using a supplied prefix
- */
-shuffl.idnext = 100;
-shuffl.makeId = function(pref) {
-    shuffl.idnext++;
-    return pref+shuffl.idnext;
 };
 
 /**
@@ -428,6 +424,7 @@ shuffl.loadWorkspace = function(uri) {
                 stockpile.addClass(stockbar[i]['class']);
                 stockpile.text(stockbar[i]['label']);
                 stockpile.data( 'makeCard', shuffl.createCardFromStock );
+                stockpile.data( 'CardType', stockbar[i]['type'] );
                 stockpile.draggable(shuffl.stockDraggable);
                 jQuery('#stockbar').append(shuffl.stockpile_space.clone()).append(stockpile);
             }

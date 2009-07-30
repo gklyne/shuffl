@@ -1,12 +1,18 @@
 html, body { 
-	margin:0; 
-	padding:0; 
-	height:100%; 
+	margin: 0; 
+	padding: 0; 
+	height: 100%; 
+}
+
+chead, cfoot {
+    height: 1.2em;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 chead, crow, cfoot {
-    display:block;
-    margin:0.2em;
+    display: block;
+    margin: 0.2em;
 }
 
 cident {
@@ -14,8 +20,27 @@ cident {
     font-size:smaller;
 }
 
+chandle {
+    /* border: thin #999999 solid; */
+	  display:inline-block;
+    text-align: center;
+	  font-size:large;
+    /* 
+    font-style:bold;
+    */
+    overflow: hidden;
+    height: 1em;
+    width: 0.8em;
+}
+
+chandle c {
+    display:inline;
+    text-align: center;
+    vertical-align: middle;
+}
+
 ctitle {
-    display:block;
+    display:inline-block;
     font-size:large;
     font-style:bold;
     overflow: hidden;
@@ -34,7 +59,7 @@ ctags {
 
 cbody {
     display:block;
-    height: 5em;
+    height: 7em;
     overflow: auto;
 }
 
@@ -93,6 +118,11 @@ cbody {
     width: 0.5em;
 }
 
+.shuffl-handle {
+    display:inline-block;
+    width: 1em;
+}
+
 .shuffl-contextmenu {
     font-weight:bold;
     background-color:#DDDDDD;    /* Grey */
@@ -120,8 +150,8 @@ cbody {
 .shuffl-card {
     display:block;
     position:absolute;
-    width:15em;   
-    height:8em;
+    width:20em;   
+    height:10em;
 }
 
 .shuffl-card-edit {
@@ -131,66 +161,114 @@ cbody {
     height:auto;
 }
 
-.stock_1 {
+/* Stock card colours */
+
+.stock-default {
+    color: black;
+    background-color: #FFFFFF;    /* White */
+    border:thin black solid;
+}
+
+.stock-default chead {
+    background-color: #DDDDDD;
+}
+
+.stock-default chandle {
+    background-color: #CCCCCC;
+    color: grey;
+}
+
+.stock-yellow {
     color: black;
     background-color: #FFFFCC;    /* Yellow */
     border:thin #CCCC66 solid;
 }
 
-.stock_1 chead {
+.stock-yellow chead {
     background-color: #DDDD60;
 }
 
-.stock_2 {
+.stock-yellow chandle {
+    background-color: #CCCC66;
+    color: grey;
+}
+
+.stock-blue {
     color: black;
     background-color:#CCFFFF;    /* Cyan */
     border:thin #66CCCC solid;
 }
 
-.stock_2 chead {
+.stock-blue chead {
     background-color: #80EEEE;
 }
 
-.stock_3 {
+.stock-blue chandle {
+    background-color: #66CCCC;
+    color: grey;
+}
+
+.stock-green {
     color: black;
     background-color:#DDFFDD;      /* Green */
     border:thin #66CC66 solid;
 }
 
-.stock_3 chead {
+.stock-green chead {
     background-color: #80EE80;
 }
 
-.stock_4 {
+.stock-green chandle {
+    background-color: #66CC66;
+    color: grey;
+}
+
+.stock-orange {
     color: black;
     background-color:#FFDDDD;    /* Pink */
     border:thin #CC6666 solid;
 }
 
-.stock_4 chead {
+.stock-orange chead {
     background-color: #EE8080;
 }
 
-.stock_5 {
+.stock-orange chandle {
+    background-color: #CC6666;
+    color: grey;
+}
+
+.stock-pink {
     color: black;
     background-color:#FFDDFF;    /* Magenta */
     border:thin #CC66CC solid;
 }
 
-.stock_5 chead {
+.stock-pink chead {
     background-color: #EE80EE;
 }
 
-.stock_6 {
+.stock-pink chandle {
+    background-color: #CC66CC;
+    color: grey;
+}
+
+.stock-purple {
     color: black;
     background-color:#DDDDFF;    /* Purple */
     border:thin #6666CC solid;
 }
 
-.stock_6 chead {
+.stock-purple chead {
     background-color: #A0A0EE;
 }
 
+.stock-purple chandle {
+    background-color: #6666CC;
+    color: grey;
+}
+
+/* Extra stuff for testing - to be removed */
 
 #card_1 {
     left:2em;
