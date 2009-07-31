@@ -24,6 +24,12 @@ log.info  = MochiKit.Logging.log    ;
 log.warn  = MochiKit.Logging.logWarning ;
 log.error = MochiKit.Logging.logError   ;
 
+/**
+ * Abbreviated access for Mochikit functions
+ */
+mk = {};
+mk.partial = MochiKit.Base.partial;
+
 // Mochikit logging hack as default is no limit and default firebug off:
 //MochiKit.Logging.logger.useNativeConsole = false;
 //MochiKit.Logging.logger.maxSize = 2000;
@@ -36,6 +42,27 @@ if (typeof shuffl == "undefined") {
     shuffl.CardFactoryMap = {};   // Initial empty card factory map
     shuffl.idnext         = 100;  // Counter for unique id generation    
 }
+
+// ----------------------------------------------------------------
+// Blank object for externally stored card data
+// ----------------------------------------------------------------
+
+shuffl.ExternalCardData =
+    { 'shuffl:id':        undefined
+    , 'shuffl:class':     undefined
+    , 'shuffl:location':  undefined
+    , 'shuffl:version':   '0.1'
+    , 'shuffl:base-uri':  '#'
+    , 'shuffl:uses-prefixes':
+      [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
+      , { 'shuffl:prefix':  'rdf',    'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
+      , { 'shuffl:prefix':  'rdfs',   'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
+      , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
+      , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
+      ]
+    , 'shuffl:data': undefined
+    };
+
 
 // ----------------------------------------------------------------
 // Card factory functions
@@ -58,11 +85,11 @@ shuffl.getCardFactory = function (cardtype) {
     var factory = shuffl.CardFactoryMap[jQuery.trim(cardtype)];
     if ( factory == undefined) {
         log.warn("getCardFactory: unrecognized card type: "+cardtype+", returning default factory");
-        factory = MochiKit.Base.partial(shuffl.makeDefaultCard, cardtype);
+        factory = mk.partial(shuffl.makeDefaultCard, cardtype);
     } else {
         var cssclass = factory.cardcss;
         log.debug("getCardFactory: card type: "+cardtype+", card CSS class: "+cssclass);
-        factory    = MochiKit.Base.partial(factory.cardfactory, cardtype, cssclass);
+        factory    = mk.partial(factory.cardfactory, cardtype, cssclass);
     }
     ////log.debug("factory "+factory);
     return factory;
@@ -178,9 +205,14 @@ shuffl.createCardFromStock = function (stockpile) {
         .replace(/shuffl-stockpile/,'')
         .replace(/ui-draggable/,'')
         .replace(/ui-draggable-dragging/,'');
+    var cardid = shuffl.makeId('card_');
     // log.debug("cardclass '"+cardclass+"'");
-    return shuffl.getCardFactory(cardtype)(shuffl.makeId('card_'), cardclass, "[body text ...]" );
-    //return shuffl.makeCard(shuffl.makeId('card_'), cardclass, "..." );
+    // TODO: default empty body text
+    var newcard = shuffl.getCardFactory(cardtype)(cardid, cardclass, "[body text ...]" );
+    // Instantiate location and external data valuesshuffl.makeId('card_')
+    newcard.data('shuffl:location', cardid);
+    newcard.data('shuffl:external', shuffl.ExternalCardData);
+    return newcard;
 };
 
 /**
@@ -189,15 +221,35 @@ shuffl.createCardFromStock = function (stockpile) {
 shuffl.createCardFromData = function (layout, data) { 
     //log.debug("shuffl.createCardFromData, layout:    "+shuffl.objectString(layout));
     //log.debug("shuffl.createCardFromData, card data: "+shuffl.objectString(data));
-    // Create card using card factory
-    var carddata  = data['shuffl:data'];
+    var carddata  = data['shuffl:data'];  // Card-type specific data
     var cardid    = shuffl.get(data, 'shuffl:id',    layout['id']);
     var cardclass = shuffl.get(data, 'shuffl:class', layout['class']);
+    var cardloc = layout['data'];
+    // Create card using card factory
     log.debug("cardid: "+cardid+", cardclass: "+cardclass);
     var newcard   = shuffl.getCardFactory(cardclass)(cardid, cardclass, carddata);
+    // Save details in jQuery card object
+    newcard.data('shuffl:id',       cardid);
+    newcard.data('shuffl:class',    cardclass);
+    newcard.data('shuffl:location', cardloc);
+    newcard.data('shuffl:external', data);
     //ÊPlace card on layout
     var cardpos   = layout['pos'];
     shuffl.placeCard(jQuery('#layout'), newcard, cardpos);
+};
+
+/**
+ * Create an external representation object for a card
+ */
+shuffl.createDataFromCard = function (card) { 
+    var extdata = card.data('shuffl:external');
+    extdata['shuffl:id']    = card.data('shuffl:id');
+    extdata['shuffl:class'] = card.data('shuffl:class');
+    extdata['shuffl:data']  = card.data('shuffl:tojson')(card);
+    //log.debug("shuffl.createDataFromCard, extdata: "+shuffl.objectString(extdata));
+    //log.debug("shuffl.createDataFromCard, data: "+shuffl.objectString(extdata['shuffl:data']));
+    log.debug("shuffl.createDataFromCard, id: "+extdata['shuffl:id']+", class: "+extdata['shuffl:class']);
+    return extdata;
 };
 
 /**
@@ -402,6 +454,21 @@ shuffl.resize = function() {
     layout.height(layout.parent().innerHeight() - sheight - vmargin*4 - fheight);
 };
 
+/**
+ *  Test to see is supplied URI is relative
+ */
+shuffl.isRelativeUri = function (uriref) {
+    return shuffl.toAbsoluteUri("abs://nodomain/", uriref) != uriref;
+}
+
+/**
+ *  Get absolute URI for specified base and URI reference
+ */
+shuffl.toAbsoluteUri = function (baseuri, uriref) {
+    var base = jQuery.uri(baseuri);
+    return base.resolve(uriref);
+};
+
 // ----------------------------------------------------------------
 // Load up workspace
 // ----------------------------------------------------------------
@@ -433,8 +500,147 @@ shuffl.loadWorkspace = function(uri) {
                 log.debug("Loading card["+i+"]: "+shuffl.objectString(layout[i]));
                 log.debug("Loading URI: "+layout[i]['data']);
                 jQuery.getJSON(layout[i]['data'], 
-                    MochiKit.Base.partial(shuffl.createCardFromData, layout[i]));
+                    mk.partial(shuffl.createCardFromData, layout[i]));
             };
+        });
+};
+
+// ----------------------------------------------------------------
+// Save card
+// ----------------------------------------------------------------
+
+/**
+ * Save card to indicated location
+ * 
+ * @param baseloc   is the base location (e.g. the Atom feed URI) at which the card is to be saved.
+ * @param cardloc   is a suggested name for the dard data to be located within the feed.
+ */
+shuffl.saveCard = function(baseloc, cardloc, card, callback) {
+
+    // Function extracts location from posted item and returns location
+    var postSuccess = function(data) {
+        var loc = data.find("link").attr("href");
+        callback(loc);
+    };
+
+    // Set up and issue the HTTP request to save the card data
+    var id = card.attr("id");
+    log.debug("shuffl.saveCard: "+id+", baseloc: "+baseloc+", cardloc: "+cardloc);
+    // Build the card external object
+    var cardext = shuffl.createDataFromCard(card);
+    // Post the JSON object
+    jQuery.ajax({
+            type:         "POST",
+            url:          baseloc,
+            data:         jQuery.toJSON(cardext), 
+            contentType:  "application/json",
+            dataType:     "xml",    // Atom feed item expected as XML
+            beforeSend:   function (xhr, opts) { xhr.setRequestHeader("SLUG", "cardloc"); },
+            success:      function (data, status) { postSuccess(data); },
+            //error:        function (xhr, status, except) { },
+            //complete:     function (xhr, status) { },
+            //username:     "...",
+            //password:     "...",
+            //timeout:      20000,     // Milliseconds
+            //async:        true,
+            cache:        false
+        });
+};
+
+/**
+ * Save card to indicated location if the location is relative 
+ * (i.e. card is copied along with workspace), 
+ * otherwise absolute card location is accessed by reference.
+ */
+shuffl.saveRelativeCard = function(baseloc, card, callback) {
+    var id = card.attr("id");
+    var cardloc = card.data('shuffl:location');
+    log.debug("shuffl.saveRelativeCard: "+id+", baseloc: "+baseloc+", cardloc: "+cardloc);
+    if (shuffl.isRelativeUri(cardloc)) {
+        shuffl.saveCard(baseloc, cardloc, card, callback);
+    } else {
+        callback(null);
+    }
+};
+
+// ----------------------------------------------------------------
+// Save workspace
+// ----------------------------------------------------------------
+
+shuffl.saveNewWorkspace = function (baseloc) {
+    log.debug("shuffl.saveNewWorkspace: "+baseloc);
+
+    // Helper function to save card then invoke the next step
+    var saveCard = function(card, next) {
+        var saveLoc = function(ret) {
+            // Update card location
+            log.debug("shuffl.saveNewWorkspace:saveCard:saveLoc: "+ret);
+            card.data('shuffl:location', ret);
+            next(card);
+        };
+        shuffl.saveRelativeCard(baseloc, card, saveLoc);
+    };
+
+    // TODO: make general support function
+    // Each supplied function invikes its callback with a return value
+    var callSequenceThen = function(val, callqueue, thencall) {
+        var fn = callqueue.shift();
+        if (fn != undefined) {
+            fn(val, function (ret) { callSequenceThen(ret, callqueue, thencall); });
+        } else {
+            thencall(val);
+        };
+    };
+
+    var saveWorkspaceCards = function(thencall) {
+        log.debug("Scan cards, save any with relative location");
+        // TODO: generalize this as plugin(s) e.g.:  $.eachThen(...), $.sequenceThen(...)
+        var workspace = jQuery("#workspace");
+        jQuery("div.shuffl-card").each( function (i) {
+            var card = jQuery(this);
+            workspace.queue("save", function (val, next) { saveCard(card, next); });
+        });
+        callSequenceThen(null, workspace.queue("save"), thencall);
+    };
+
+    // Save layout once all cards have been saved
+    var saveWorkspaceDescription = function() {
+        log.debug("TODO - Assemble workspace description AFTER list of saved cards has been processed");
+        log.debug("TODO - Save workspace description");    
+        log.debug("shuffl.saveNewWorkspace, done.");
+    };
+
+    // Initiate workspace save now
+    saveWorkspaceCards(saveWorkspaceDescription);
+
+    log.debug("shuffl.saveNewWorkspace, returning.");
+};
+
+// ----------------------------------------------------------------
+// Workspace menu command handlers
+// ----------------------------------------------------------------
+
+/**
+ * Menu command "Save as new workspace..."
+ */
+shuffl.menuSaveNewWorkspace = function () {
+    log.debug("shuffl.menuSaveNewWorkspace");
+    // $.ui.dialog.defaults.bgiframe = true;
+    jQuery("#dialog_savenew").dialog(
+        { bgiframe: true,
+          modal: true,
+          buttons: {
+              Ok: function() {
+                  var location = jQuery(this).find("#location").val();
+                  jQuery(this).dialog('destroy');
+                  log.debug("shuffl.menuSaveNewWorkspace, location: "+location);
+                  shuffl.saveNewWorkspace(location);
+              },
+              Cancel: function() {
+                  log.debug("shuffl.menuSaveNewWorkspace, cancelled");
+                  jQuery(this).dialog('destroy');
+              }
+          }
         });
 };
 
@@ -503,9 +709,9 @@ jQuery(document).ready(function() {
      */
 
     /**
-     * Creeate a pop-up context menu
+     * Create a pop-up workspace menu
      */    
-    log.debug("shuffl: connect connect context menu");
+    log.debug("shuffl: connect connect workspace menu");
 
     jQuery('div.shuffl-workspacemenu').contextMenu('workspacemenuoptions', {
         menuStyle: {
@@ -517,10 +723,14 @@ jQuery(document).ready(function() {
         showOnClick: true,
         bindings: {
             'open': function(t) {
-                  log.info('Trigger was '+t.id+'\nAction was Open');
+                    log.info('Trigger was '+t.id+'\nAction was Open');
                 },
             'save': function(t) {
-                  log.info('Trigger was '+t.id+'\nAction was Save');
+                    log.info('Trigger was '+t.id+'\nAction was Save');
+                },
+            'savenew': function(t) {
+                    log.info('Trigger was '+t.id+'\nAction was Save new');
+                    shuffl.menuSaveNewWorkspace();
                 }
           }
       });
