@@ -123,3 +123,5 @@
 = Sprint review notes =
 
  * sustainability plan is overrunning initial estimates, but the additional effort is providing valued feedback to OSS-watch.  My goal for this is that the resulting materials allow a rapid innovation project like this to make and document key decisions affecting sustainability in the initially allotted 0.5 day.
+
+ * At 31-Jul, I am buried deep in coding trying to wrap some details before going on holiday, so I haven't properly updated the sprint plan.  I do have progress notes in a private diary, and will do a proper report later. Meanwhile, despite some loss of time to Claros, progress on functional elements is good, though I am having some problems getting on top of Ajax requests for Atom requests.  The only drawback is that I don't really have any automated tests in place yet.  But at least I have achieved my goal of having an outline user interface to discuss with users, and I'm close to having some basic persistence working (I think).
