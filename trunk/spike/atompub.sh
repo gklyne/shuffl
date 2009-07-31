@@ -4,6 +4,8 @@
 #
 # See: http://exist-db.org/atompub.html
 #
+# SLUG: works for non-Atom resources
+#
 
 ATOMROOT=http://localhost:8080/exist/atom
 
@@ -36,11 +38,11 @@ curl ${ATOMROOT}/content/test
 
 echo
 echo "===== ADD ITEM TO FEED ====="
-curl ${ATOMROOT}/edit/test --data-binary @- -H "Content-Type: application/atom+xml" --dump-header itemheaders.tmp <<endatomdata
+curl ${ATOMROOT}/edit/test --data-binary @- -H "Content-Type: application/atom+xml" -H "Slug: TEST-ITEM-ZZZZZZ.ext" --dump-header itemheaders.tmp <<endatomdata
 <?xml version="1.0" ?>
 <entry xmlns="http://www.w3.org/2005/Atom">
 <title>ITEM ADDED TO TEST FEED</title>
-<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+<id>TEST-ITEM-ZZZZZZ.ext</id>
 <updated>20090709T18:30:02Z</updated>
 <author><name>TEST ITEM AUTHOR NAME</name></author>
 <content>TEST ITEM CONTENT</content>
@@ -82,7 +84,7 @@ curl ${ATOMROOT}/content/test
 
 echo
 echo "===== ADD IMAGE TO FEED ====="
-curl ${ATOMROOT}/edit/test --data-binary atom.jpg -H "Content-Type: image/jpeg" --dump-header itemheaders.tmp
+curl -v ${ATOMROOT}/edit/test --data-binary atom.jpg -H "Content-Type: image/jpeg" -H "SLUG: atom.jpg" --dump-header itemheaders.tmp
 
 echo
 echo "===== EXTRACT ITEM PATH ====="

@@ -35,9 +35,13 @@ if (typeof shuffl == "undefined") {
     alert("shuffl-card-freetext.js: shuffl.js must be loaded before this file");
 }
 
-// ----------------------------------------------------------------
-// Stockpile and card functions
-// ----------------------------------------------------------------
+// TODO: wrap these values and functions in an object
+
+shuffl.card_freetext_data =
+    { 'shuffl:title':   undefined
+    , 'shuffl:tags':    [ undefined ]
+    , 'shuffl:text':    undefined
+    };
 
 /**
  * jQuery base element for building new cards (used by shuffl.makeCard)
@@ -57,6 +61,9 @@ shuffl.card_freetext_blank = jQuery(
     "  </cfoot>"+
     "</div>");
 
+// TODO: refactor this to run from full card object as converted from JSON
+//       (to preserve prefixes, etc.)
+
 /**
  * Creates and return a new card instance.
  * 
@@ -67,16 +74,18 @@ shuffl.card_freetext_blank = jQuery(
  * @param carddata      an object or string containing additional data used in constructing
  *                      the body of the card.  This is either a string or an object structure
  *                      with fields 'shuffl:title', 'shuffl:tags' and 'shuffl:text'.
+ * @return a jQuery object representing the new card.
  */
 shuffl.makeFreetextCard = function (cardtype, cardcss, cardid, carddata) {
     log.debug("shuffl.makeFreetextCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
     var card = shuffl.card_freetext_blank.clone();
+    card.data("shuffl:tojson", shuffl.jsonFreetextCard)
     card.attr('id', cardid);
     card.addClass(cardcss);
     // TODO: initialize text area to blank
     var cardspace = "<br/>.<br/>.<br/>.<br/>.<br/>.<br/>/";
     var cardtext  = shuffl.get(carddata, 'shuffl:text',  carddata+cardspace);
-    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  cardid+" "+cardtype);
+    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
     var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
     card.find("cident").text(cardid);           // Set card id text
     card.find("cclass").text(cardtype);         // Set card class/type text
@@ -84,7 +93,7 @@ shuffl.makeFreetextCard = function (cardtype, cardcss, cardid, carddata) {
     shuffl.lineEditable(card.find("ctitle"));
     card.find("cbody").html(cardtext);
     shuffl.blockEditable(card.find("cbody"));   // Set card body text (editable) ..
-    card.find("ctags").text(cardtags);
+    card.find("ctags").text(cardtags.join(","));
     shuffl.lineEditable(card.find("ctags"));    // Set card tags (editable) ..
     //log.debug("makeCard: "+shuffl.elemString(card[0]));
     card.resizable( {alsoResize: 'div#'+cardid+' cbody'} );
@@ -97,6 +106,21 @@ shuffl.makeFreetextCard = function (cardtype, cardcss, cardid, carddata) {
     //       can manually change the size of a resizable.
     return card;
 };
+
+/**
+ * Serializes a card index to JSON for storage
+ * 
+ * @param card      a jQuery object corresponding to the card
+ * @return an object containing the card data
+ */
+shuffl.jsonFreetextCard = function (card) {
+    var carddata = shuffl.card_freetext_data;
+    carddata['shuffl:title'] = card.find("ctitle").text();
+    carddata['shuffl:tags']  = jQuery.trim(card.find("ctags").text()).split(/\s,\s/);
+    carddata['shuffl:text']  = card.find("cbody").text();
+    return carddata;
+};
+
 
 /**
  *   Add new card type factories
