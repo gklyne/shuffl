@@ -25,12 +25,11 @@ chandle {
 	  display:inline-block;
     text-align: center;
 	  font-size:large;
-    /* 
     font-style:bold;
-    */
     overflow: hidden;
-    height: 1em;
+    height: 0.8em;
     width: 0.8em;
+    margin: 0.1em;
 }
 
 chandle c {
@@ -166,7 +165,7 @@ cbody {
 .stock-default {
     color: black;
     background-color: #FFFFFF;    /* White */
-    border:thin black solid;
+    border:thin #888888 solid;
 }
 
 .stock-default chead {
