@@ -26,7 +26,7 @@
  * http://davecardwell.co.uk/javascript/jquery/plugins/jquery-em/ - interact with 'em' unit value (for text/pixel interactions)
  * http://www.prodevtips.com/2008/11/12/jquery-ui-draggable-and-resizable-combination/ - example of draggable and resizable together;  also has sample mini-plugin code to constrain object to box.
  * http://wiki.fluidproject.org/display/fluid/Demos - various tools, including a fairly heavyweight inline text editor, based on FCKedit. Also, some possibly-useful layout and sorting tools.
- ( http://omnipotent.net/jquery.sparkline/ - jQuery sparklines
+ * http://omnipotent.net/jquery.sparkline/ - jQuery sparklines
 
 = Atom publishing protocol =
 
