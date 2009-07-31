@@ -7,5 +7,5 @@ This page has been created to capture knowledge about techniques for using jQuer
 = Event handling =
 
 Two useful pages about working with jQuery events, covering event delegation (handling in a parent DOM element) and cloning events when cloning a DOM element.
-* http://www.learningjquery.com/2008/03/working-with-events-part-1
-* http://www.learningjquery.com/2008/05/working-with-events-part-2
+ * http://www.learningjquery.com/2008/03/working-with-events-part-1
+ * http://www.learningjquery.com/2008/05/working-with-events-part-2
