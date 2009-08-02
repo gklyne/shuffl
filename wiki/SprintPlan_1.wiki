@@ -117,8 +117,11 @@
 * (0.2) basic content editing implemented
 
 30-Jul-2009:
+* (0.3) Refactor code so that the initial "free-text" card type is implemented as a plug-in. All future card types should be implemented similarly.
 
 31-Jul-2009:
+* (0.5++) Working on persistence. Got somewhat delayed working through logic to sequence workspace layout saving *after* all the cards have been saved and their save-locations noted. I want to revisit this do do something more monadic in style.
+
 
 = Sprint review notes =
 
