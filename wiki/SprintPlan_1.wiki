@@ -1,6 +1,7 @@
 #summary Sprint 1 plan : 15 Jun - 31 Jul
 
-<wiki:toc max_depth="1" />
+<wiki:toc max_depth="2" />
+
 
 = Introduction =
 
@@ -38,6 +39,7 @@
 
 About 2 days were lost to aother project, but some of that time clawed back in extra hours worked.
 
+
 = Task breakdowns =
 
 (effort estimates in days to nearest 0.25)
@@ -61,6 +63,28 @@ About 2 days were lost to aother project, but some of that time clawed back in e
  * (1.0) deploy backend software
  * (1.0) persist workspace content/layout changes
  * (0.5) persist changes to card content
+
+
+= Sprint review notes =
+
+ * The sustainability plan is overrunning initial estimates, but the additional effort is providing valued feedback to OSS-watch.  My goal for this is that the resulting materials allow a rapid innovation project like this to make and document key decisions affecting sustainability in the initially allotted 0.5 day.
+
+ * At 31-Jul, I am buried deep in coding trying to wrap some details before going on holiday, so I haven't properly updated the sprint plan.  I do have progress notes in a private diary, and will do a proper report later. Meanwhile, despite some loss of time to Claros, progress on functional elements is good, though I am having some problems getting on top of Ajax requests for Atom requests.  The only drawback is that I don't really have any automated tests in place yet.  But at least I have achieved my goal of having an outline user interface to discuss with users, and I'm close to having some basic persistence working (I think).
+
+== End of sprint review ==
+
+Admin activities are substantially done, except:
+ * Sprint retrospective is a few days late: final notes added 2-Aug-2009.
+ * Sustainability plan has received considerable attention, but can't claim to be complete.
+ * User meetings not yet set up, wanting to be confident of the UI demonstrator.  Have been discussing joint meeting with Helen White-Cooper with Jun Zhao.  I've also mentioned the plan to Chris Holland, who remains enthusiastic.
+
+Technical activities are substantially done, with some work slightly ahead of schedule, but test cases lacking:
+ * Back-end requirements and survey: done 07-Jul-2009 (http://code.google.com/p/shuffl/wiki/BackendSystemsSurvey)
+ * Outline technical design and principles: started, ongoing (http://code.google.com/p/shuffl/wiki/TechnicalNotes)
+ * Identify pluggable elements: done.  Identified card types as pluggable, and refactored code to make initial free-text card type a plug-in.  (See also http://code.google.com/p/shuffl/wiki/TechnicalNotes#Plugins_for_front_end_and_back_end).
+ * jQuery / RDFQuery investigations: done, ongoing.  Attended RDFQuery Dazzle and got startyup boost there.  Since then, learning by developing Shuffl functionality with jQuery, which is working really well.
+ * Initial UI prototype: done (mostly).  Also started work on persistence, but still no functional capability for this.  As yet, I have no automated tests, but the exploratory nature of the early work has made it hard to be rigorous about this.
+
 
 = Activity summary =
 
@@ -134,23 +158,3 @@ About 2 days were lost to aother project, but some of that time clawed back in e
 
 02-Aug-2009:
  * (0.25) Sprint review
-
-= Sprint review notes =
-
- * sustainability plan is overrunning initial estimates, but the additional effort is providing valued feedback to OSS-watch.  My goal for this is that the resulting materials allow a rapid innovation project like this to make and document key decisions affecting sustainability in the initially allotted 0.5 day.
-
- * At 31-Jul, I am buried deep in coding trying to wrap some details before going on holiday, so I haven't properly updated the sprint plan.  I do have progress notes in a private diary, and will do a proper report later. Meanwhile, despite some loss of time to Claros, progress on functional elements is good, though I am having some problems getting on top of Ajax requests for Atom requests.  The only drawback is that I don't really have any automated tests in place yet.  But at least I have achieved my goal of having an outline user interface to discuss with users, and I'm close to having some basic persistence working (I think).
-
-== End of sprint review ==
-
-Admin activities are substantially done, except:
- * Sprint retrospective is a few days late: final notes added 2-Aug-2009.
- * Sustainability plan has received considerable attention, but can't claim to be complete.
- * User meetings not yet set up, wanting to be confident of the UI demonstrator.  Have been discussing joint meeting with Helen White-Cooper with Jun Zhao.  I've also mentioned the plan to Chris Holland, who remains enthusiastic.
-
-Technical activities are substantially done, with some work slightly ahead of schedule, but test cases lacking:
- * Back-end requirements and survey: done 07-Jul-2009 (http://code.google.com/p/shuffl/wiki/BackendSystemsSurvey)
- * Outline technical design and principles: started, ongoing (http://code.google.com/p/shuffl/wiki/TechnicalNotes)
- * Identify pluggable elements: done.  Identified card types as pluggable, and refactored code to make initial free-text card type a plug-in.  (See also http://code.google.com/p/shuffl/wiki/TechnicalNotes#Plugins_for_front_end_and_back_end).
- * jQuery / RDFQuery investigations: done, ongoing.  Attended RDFQuery Dazzle and got startyup boost there.  Since then, learning by developing Shuffl functionality with jQuery, which is working really well.
- * Initial UI prototype: done (mostly).  Also started work on persistence, but still no functional capability for this.  As yet, I have no automated tests, but the exploratory nature of the early work has made it hard to be rigorous about this.
