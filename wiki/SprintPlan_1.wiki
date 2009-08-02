@@ -37,7 +37,7 @@
 || 3.5  || Initial UI prototype || 3.5 || 3.35 || (sprint) || 30-Jul-2009 ||
 || 3.6  || Initial content persistence  || -- || 0.75 || (bartered - 2.5) || -- ||
 
-About 2 days were lost to aother project, but some of that time clawed back in extra hours worked.
+About 2 days were lost to aother project.
 
 
 = Task breakdowns =
