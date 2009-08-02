@@ -83,44 +83,44 @@
  * (0.5) Install eXist and run series of tests using cURL. All required functionality appears to be present.
 
 10-Jul-2009:
-* (0.5) document tech issues 
-- separation of data: content, styling, layout, etc.
-- cards and containers
-- view types / render modes
-- plugins for front end and back end
-- etc
-- updated related work links
-* (0.5) started working on jQuery version of User Interface prototype/spike
+ * (0.5) document tech issues 
+   * separation of data: content, styling, layout, etc.
+   * cards and containers
+   * view types / render modes
+   * plugins for front end and back end
+   * etc
+   * updated related work links
+ * (0.5) started working on jQuery version of User Interface prototype/spike
 
 16-Jul-2009:
-(1 day ceded to CLAROS - will reclaim later)
+ * (1 day ceded to CLAROS - will reclaim later)
 
 17-Jul-2009:
-* (0.75) Getting new Shuffl workspace to display properly sized and without scroll bars, and responding to resize window events.
-* (0.25) investigate mechanisms for loading workspace from RDF. It turns out RDFQuery doesn't have an RDF parser, only gleans RDFa from the HTML DOM. Investigations show two Javascript RDF/XML parsers: one old from Jim Ley, and another from the Tabulator project. The tabulator one looks good. Additionally, there is a Notation3 parser with a similar interface. The store interface is separated, so I should be able to wrap the RDFQuery store.
+ * (0.75) Getting new Shuffl workspace to display properly sized and without scroll bars, and responding to resize window events.
+ * (0.25) investigate mechanisms for loading workspace from RDF. It turns out RDFQuery doesn't have an RDF parser, only gleans RDFa from the HTML DOM. Investigations show two Javascript RDF/XML parsers: one old from Jim Ley, and another from the Tabulator project. The tabulator one looks good. Additionally, there is a Notation3 parser with a similar interface. The store interface is separated, so I should be able to wrap the RDFQuery store.
 
 23-Jul-2009:
-(Part of day taken by CLAROS work)
-* (0.2) Read JSON file to populate shuffl task bar (no tests yet)
-* (0.2) Read JSON file to populate card data (partial)
-* (0.2) Document ideas on data formats for workspace/card data, and other technical issues
-* review JSON-RDF format, sketch extensions for free-labelling
-* (0.2) Work on shuffl appearance
-* tentative shuffl logo constructed (as XHTML/CSS, not image)
-* experiment with layout styling for stockbar
+ * (Part of day taken by CLAROS work)
+ * (0.2) Read JSON file to populate shuffl task bar (no tests yet)
+ * (0.2) Read JSON file to populate card data (partial)
+ * (0.2) Document ideas on data formats for workspace/card data, and other technical issues
+ * review JSON-RDF format, sketch extensions for free-labelling
+ * (0.2) Work on shuffl appearance
+ * tentative shuffl logo constructed (as XHTML/CSS, not image)
+ * experiment with layout styling for stockbar
 
 24-Jul-2009:
-* (0.2) dynamic creation of default card content, prepare for external content
-* (0.2) tidy up card display styling; spent half the morning investigating scrolling text panes, only to discover "overflow: auto;" CSS property. Oh well!
-* (0.2) card data loaded from JSON file
-* (0.2) resize cards to allow more of main text to be visible
-* (0.2) basic content editing implemented
+ * (0.2) dynamic creation of default card content, prepare for external content
+ * (0.2) tidy up card display styling; spent half the morning investigating scrolling text panes, only to discover "overflow: auto;" CSS property. Oh well!
+ * (0.2) card data loaded from JSON file
+ * (0.2) resize cards to allow more of main text to be visible
+ * (0.2) basic content editing implemented
 
 30-Jul-2009:
-* (0.3) Refactor code so that the initial "free-text" card type is implemented as a plug-in. All future card types should be implemented similarly.
+ * (0.3) Refactor code so that the initial "free-text" card type is implemented as a plug-in. All future card types should be implemented similarly.
 
 31-Jul-2009:
-* (0.5++) Working on persistence. Got somewhat delayed working through logic to sequence workspace layout saving *after* all the cards have been saved and their save-locations noted. I want to revisit this do do something more monadic in style.
+ * (0.5++) Working on persistence. Got somewhat delayed working through logic to sequence workspace layout saving *after* all the cards have been saved and their save-locations noted. I want to revisit this do do something more monadic in style.
 
 
 = Sprint review notes =
