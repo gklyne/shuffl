@@ -1,5 +1,7 @@
 #summary Sprint 1 plan : 15 Jun - 31 Jul
 
+<wiki:toc max_depth="1" />
+
 = Introduction =
 
 == Current milestone ==
