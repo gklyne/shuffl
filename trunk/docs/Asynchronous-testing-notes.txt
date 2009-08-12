@@ -1,0 +1,133 @@
+I want to create and test a module for executing multiple Ajax functions, 
+then invoking follow-on actions when they are all completed.
+
+====
+
+jQuery testing.
+
+http://docs.jquery.com/QUnit
+
+jQuery testrunner.js:
+
+Functions synchronize(calback) and process() that seem to be concerned with 
+serializing callbacks (invoked without any params)
+
+runTest queues final report and triggers execution(?)
+
+test(name, callback) synchronizes setup, callback, teardown, 
+reset(window#main, jQuery.event.global, jQuery.ajaxSettings) and 
+assertion tests.
+
+expect(N) declares number of assertions expected in single test case
+
+See also jsDump for formatting.
+
+Examples of usage in tests/unit/ajax.js
+
+Test module consists of 'module(name)' followed by a number of 'test(fn)' calls.
+
+----
+
+Setup:
+
+test( name, test )  
+Add a test to run.
+
+module( name, lifecycle ) 
+Separate tests into modules.
+
+----
+
+Assertions:
+
+ok( state, message )  
+A boolean assertion, equivalent to JUnit's assertTrue.
+
+equals( actual, expected, message ) 
+A comparison assertion, equivalent to JUnit's assertEquals.
+
+same( actual, expected, message ) 
+A deep recursive comparison assertion, working on primitive types, arrays and objects.
+
+expect( amount )  
+Specify how many assertions are expected to run within a test.
+
+----
+
+Testing Ajax:
+start( )  
+Start running tests again after the testrunner was stopped. See stop().
+
+stop( timeout ) 
+Stop the testrunner to wait to async tests to run. Call start() to continue.
+
+====
+
+My approaches considered, monad-inspired:
+
+m = new AsyncComputation();
+m.bind("step1");
+m.eval(function (val, callback) {callback(val+1); });
+m.bind("step2");
+m.eval(function (val, callback) {callback(val+1); });
+m.bind("step3");
+m.eval(function (val, callback) {this.saved = val; callback(val+1); });
+m.bind("step4");
+m.exec(0, function(val) {
+        assert val == 3;
+        assert this.step1 == 0;
+        assert this.step2 == 1;
+        assert this.step3 == 2;
+        assert this.step4 == 3;
+        assert this.saved == 2;
+        };
+    );
+
+I believe this model will be easier to extend as required, with new methods on
+AsyncComputation and possible to compose computations.
+
+But first, design ajax test cases and see how well the interface works.
+
+Q: how to cancel an outstatnding request?
+
+----
+
+OR:
+
+m = new Object();
+assert m.step1 == undefined;
+assert m.step2 == undefined;
+assert m.step3 == undefined;
+assert m.step4 == undefined;
+jQuery.sequenceThen(m, 0,
+        [ function (m, val, callback) {m.step1 = val; callback(m, val+1); }
+        , function (m, val, callback) {m.step2 = val; callback(m, val+1); });
+        , function (m, val, callback) {m.step3 = val; callback(m, val+1); });
+        ],
+        function (m, val) {m.step4 = val; }
+    )
+assert m.step1 == 0;
+assert m.step2 == 1;
+assert m.step3 == 2;
+assert m.step4 == 3;
+
+----
+
+OR:
+
+Use MochiKit.Deferred and define method to wrap a jQuery async function in a 
+deferred, then use the DeferredMonad module.  
+(/Users/graham/Svn/Google/webbrick/MiscLib/static/javascript/DeferredMonad.js)
+
+For consistency with the rest of jQuery, I find I prefer an approach that uses
+callbacks directly, but provides tools for composition similar to some of those
+available for Deferred values.  This can also be used with the jQuery test 
+framework.
+
+Or a version that has functions binding results directly?  
+The problem with this is that the results to be bound are generated 
+asynchronously, hence need a separate callback to bind.  Think about a version 
+that just uses callbacks without a Deferred object.
+
+====
+

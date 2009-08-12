@@ -18,11 +18,13 @@ jQuery = jQuery;
 /**
  *  Add logging functions to global namespace, for convenience
  */
-log = {};
-log.debug = MochiKit.Logging.logDebug   ;
-log.info  = MochiKit.Logging.log    ;
-log.warn  = MochiKit.Logging.logWarning ;
-log.error = MochiKit.Logging.logError   ;
+if (typeof log == "undefined") {
+    log = {};
+    log.debug = MochiKit.Logging.logDebug   ;
+    log.info  = MochiKit.Logging.log    ;
+    log.warn  = MochiKit.Logging.logWarning ;
+    log.error = MochiKit.Logging.logError   ;
+};
 
 /**
  * Abbreviated access for Mochikit functions
@@ -35,11 +37,15 @@ mk.partial = MochiKit.Base.partial;
 //MochiKit.Logging.logger.maxSize = 2000;
 
 /**
- * create shuffl namespace
+ * Ensure shuffl namespace is defined
  */
 if (typeof shuffl == "undefined") {
     shuffl = {};
+}
+if (typeof shuffl.CardFactoryMap == "undefined") {
     shuffl.CardFactoryMap = {};   // Initial empty card factory map
+}
+if (typeof shuffl.idnext == "undefined") {
     shuffl.idnext         = 100;  // Counter for unique id generation    
 }
 
@@ -691,22 +697,11 @@ jQuery(document).ready(function() {
                 shuffl.dropCard(ui.draggable, jQuery(this), ui.offset);
             }
         });
-
-    /**
-     * TODO: connect up logic for editing cards
-     */
-    
-    log.debug("shuffl TODO: connect content editing logic");
     
     /**
      * TODO: connect up logic for saving changes to backend store
-     */
-    
+     */    
     log.debug("shuffl TODO: connect content save logic");
-    
-    /**
-     * Initialization is done - now it's all event-driven
-     */
 
     /**
      * Create a pop-up workspace menu
@@ -734,6 +729,10 @@ jQuery(document).ready(function() {
                 }
           }
       });
+    
+    /**
+     * Initialization is done - now it's all event-driven
+     */
     
     log.info("shuffl initialization done");
 
