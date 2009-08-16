@@ -67,3 +67,5 @@ See: http://code.google.com/p/jiscri/wiki/ProjectDocumentation
 || Small WIN(s) & FAIL(s) || announce small wins for the project, e.g. when you finish a coding sprint or when a user has a 'wow your software is cool' moment. The more of these short "win" posts the better! Also don't forget to post the FAIL(s) as well: telling people where thing went wrong so they don't repeat mistakes is priceless for a thriving community || WIN, progressPosts, rapidInnovation, JISCRI, JISC, Shuffl ||
 || || _or_ || FAIL, progressPosts, rapidInnovation, JISCRI, JISC, Shuffl ||
 || Final Progress Post || <This is a special post that will have criteria and template added to it so please watch this space as your project is getting closer to the end> - see link above || ... || ?? ||
+
+An aggregated feed of all JISCRI project comments is available at http://feeds.feedburner.com/DailyNewsFeedJISCRI.
