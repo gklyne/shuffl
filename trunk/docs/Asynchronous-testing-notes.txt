@@ -131,3 +131,9 @@ that just uses callbacks without a Deferred object.
 
 ====
 
+TODO:
+
+Think about extending the implementation with an error monad, such that error
+values are propagated with no further action, and successes are chained.  Use
+type enquiry to discriminate values, for backward compatibility.
+

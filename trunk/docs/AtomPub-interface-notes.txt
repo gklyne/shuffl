@@ -1,0 +1,139 @@
+Notes for AtomPub protocol module
+
+Basic pattern:
+
+  function (args, callback)
+
+where:
+
+  callback(val)
+
+provides information about the outcome.
+
+E.g.
+
+createfeed([feeduri, name], callback)
+ -> callback returns feed information, or error information
+
+listfeed([feed], callback)
+ -> callback returns list of item/feed information, or error information
+
+deletefeed([feeduri], callback)
+ -> callback returns feed information, or error information
+
+feedinfo([uri], callback)
+ -> callback returns feed information, or error information
+
+createitem([feed, slug, data], callback)
+ -> callback returns actual URI of created object, or error information
+
+getitem([uri], callback)
+ -> callback returns item data, or error information
+
+putitem([uri, data], callback)
+ -> callback returns item information, or error information
+
+deleteitem([uri], callback)
+ -> callback returns item information, or error information
+
+iteminfo([uri], callback)
+ -> callback returns item information, or error information
+
+====
+
+Error information is provided as a Javascript Error object, as in
+
+  new Error("message");
+
+JS defines:
+- EvalError (eval() error)
+- RangeError (number out of range for purpose)
+- ReferenceError (access non-existent variable)
+- SyntaxError (Javascript code syntax error)
+- TypeError (value not expected type)
+- URIError (illegal escape in URI decode)
+
+May wish to create own class(es) to distinguish main errors in AtomPub:
+- I/O error
+- permission error
+- non-existent item
+- etc.
+
+I favour following the DOMException pattern, and have one new error class
+that includes a code for the kind of error (for programmatic testing).
+
+====
+
+Test cases
+
+(see spike script for details)
+
+Requires running eXist at http://localhost:8080/...
+
+----
+
+Server access
+
+1. Get information about root feed; check response.
+
+----
+
+Feed manipulation
+
+1. Create new feed at root of eXist service (http://localhost:8080/...),
+and check that expected response is received.  Mainly, need to know it 
+succeeded and the URI for the new feed.
+
+2. Get and check info about new feed; mainly, need to know the new feed exists.
+
+3. List contents of new feed; mainly, need to know the new feed is empty.
+
+4. Try creating feed in non-available location; check for error return.
+
+5. Try creating feed at non-existent service; check for error return. 
+
+6. Delete original feed; check return
+
+7. Get and check info about new feed; check the feed no longer exists.
+
+8. List contents of new feed; check response indicates feed does not exist.
+
+----
+
+Item manipulation
+
+1. Create new test feed.  Check response and no content.
+
+2. Create new data item in new feed.  Check response and note URI.
+
+3. Get info on new item.  Check response (URI, content-type and size?)
+
+4. Read newly created feed item.  Check content is correct.
+
+5. List feed content; check item is listed. 
+
+6. Update content of item, check response.
+
+7. Get item info: check is updated as appropriate
+
+8. Read content of item: check value is updated
+
+9. Add a second item; check response.
+
+10. List feed, check two items.
+
+11. Read second item, check content.
+
+12. Delete first item; check response.
+
+13. List feed; check only second item remains.
+
+14. Delete test feed.
+
+15. Get item info; check item no longer exists
+
+ 
+TODO:
+
+Authentication tests - check permissions violations are handled properly
+
