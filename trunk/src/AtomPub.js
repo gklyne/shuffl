@@ -1,4 +1,4 @@
-// $Id: $
+// $Id$
 
 /**
  * Ensure shuffl namespace is defined
@@ -49,7 +49,10 @@ shuffl.AtomPub.prototype.feedinfo = function (feeduri, callback) {
         return data;
     }
     function decodeResponse(data, status) {
-        log.debug("shuffl.AtomPub.feedinfo.decodeResponse: "+feeduri+", "+status+", "+data);
+        //log.debug("shuffl.AtomPub.feedinfo.decodeResponse: "+feeduri+", "+status+", "+data);
+        //log.debug("shuffl.AtomPub.feedinfo.decodeResponse: "+feeduri+", "+status+", "+shuffl.objectString(data.documentElement));
+        log.debug("shuffl.AtomPub.feedinfo.decodeResponse: "+feeduri+", "+status+", "+shuffl.elemString(data.documentElement));
+        // TODO: fix introspection decode this when we have more data to work with
         callback({});
     }
     function requestFailed(xhr, status, except) {

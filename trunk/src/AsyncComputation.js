@@ -1,4 +1,4 @@
-// $Id: $
+// $Id$
 
 /**
  * Class for controlling and composing asynchronous computations, inspired

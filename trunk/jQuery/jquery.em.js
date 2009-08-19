@@ -4,7 +4,7 @@
  * @version 1.0
  * @author Dave Cardwell
  *
- * jQuery-Em - $Revision: 24 $ ($Date: 2007-08-19 11:24:56 +0100 (Sun, 19 Aug 2007) $)
+ * jQuery-Em - $Revision$ ($Date: 2007-08-19 11:24:56 +0100 (Sun, 19 Aug 2007) $)
  * http://davecardwell.co.uk/javascript/jquery/plugins/jquery-em/
  *
  * Copyright ©2007 Dave Cardwell <http://davecardwell.co.uk/>
