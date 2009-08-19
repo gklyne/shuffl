@@ -5,7 +5,7 @@
  * Thanks to: Mathias Bank(http://www.mathias-bank.de) for a scope bug fix.
  *
  * $LastChangedDate: 2007-12-20 09:02:08 -0600 (Thu, 20 Dec 2007) $
- * $Rev: 4265 $
+ * $Rev$
  *
  * Version: 3.0
  * 

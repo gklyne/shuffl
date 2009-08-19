@@ -1,4 +1,4 @@
-// $Id: $
+// $Id$
 
 /**
  * Test suite for AtomPub protocol handler

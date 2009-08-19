@@ -31,6 +31,7 @@ if (typeof log == "undefined") {
  */
 mk = {};
 mk.partial = MochiKit.Base.partial;
+mk.map     = MochiKit.Base.map;
 
 // Mochikit logging hack as default is no limit and default firebug off:
 //MochiKit.Logging.logger.useNativeConsole = false;
@@ -57,7 +58,7 @@ if (typeof shuffl.idnext == "undefined") {
  * Get string value representing a supplied element
  */
 shuffl.elemString = function(elem) {
-    var attrs = elem.attributes;
+    var attrs = elem.attributes || [];
     var attrtext = "";
     for ( var i = 0 ; i < attrs.length ; i++ ) {
         // log.debug("  - @"+attrs[i].name+": "+attrs[i].value);
@@ -65,8 +66,31 @@ shuffl.elemString = function(elem) {
     };
     var tagName = elem.tagName;
     return "<"+tagName+attrtext+">"
-        +elem.innerHTML
-        +"</"+tagName+">";
+        + mk.map(shuffl.nodeString, elem.childNodes).join("")
+        + "</"+tagName+">";
+};
+
+/**
+ * Get string value representing a supplied node
+ * 
+ * TODO: test this
+ */
+shuffl.nodeString = function(node) {
+    if (node.nodeType == TEXT_NODE) {
+        return node.textContent ;
+    }
+    if (node.nodeType == ELEMENT_NODE) {
+        return shuffl.elemString(node);
+    }
+    return shuffl.objectString(node);
+    //1 ELEMENT_NODE
+    //2 ATTRIBUTE_NODE
+    //3 TEXT_NODE
+    //4 CDATA_SECTION_NODE
+    //5 ENTITY_REFERENCE_NODE
+    //6 ENTITY_NODE
+    //7 PROCESSING_INSTRUCTION_NODE
+    //8 COMMENT_NODE
 };
 
 /**
