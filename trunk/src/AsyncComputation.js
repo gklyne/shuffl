@@ -1,13 +1,6 @@
 // $Id: $
 
 /**
- * Ensure shuffl namespace is defined
- */
-if (typeof shuffl == "undefined") {
-    shuffl = {};
-}
-
-/**
  * Class for controlling and composing asynchronous computations, inspired
  * by the monad convept used by Haskell and other functional programming 
  * languages.
@@ -43,7 +36,7 @@ shuffl.AsyncComputation.prototype.eval = function(fn) {
  */
 shuffl.AsyncComputation.prototype.exec = function(val, callback) {
     log.debug("shuffl.AsyncComputation.prototype.exec");
-    // Local function handles therading of asynchronous functions
+    // Local function handles threading of asynchronous functions
     function eval_do(here, next, val) {
         function eval_done(val) {
             eval_do(here, next+1, val);

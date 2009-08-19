@@ -74,7 +74,8 @@ Requires running eXist at http://localhost:8080/...
 
 Server access
 
-1. Get information about root feed; check response.
+1. Get information about root feed; check response.  NOTE: eXist introspection
+is rather limited in its capabilities. Expect an empty dummy response here.
 
 ----
 
@@ -131,7 +132,6 @@ Item manipulation
 14. Delete test feed.
 
 15. Get item info; check item no longer exists
-
  
 TODO:
 
