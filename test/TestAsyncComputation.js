@@ -32,7 +32,6 @@ TestAsyncComputation = function() {
                     equals(this.saved, 2, "manually saved parameter");
                 });
         });
-
 };
 
 // End
