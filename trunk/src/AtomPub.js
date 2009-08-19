@@ -49,7 +49,7 @@ shuffl.AtomPub.prototype.feedinfo = function (feeduri, callback) {
         return data;
     }
     function decodeResponse(data, status) {
-        log.debug("shuffl.AtomPub.feedinfo.decodeResponse: "+feeduri+", "+data);
+        log.debug("shuffl.AtomPub.feedinfo.decodeResponse: "+feeduri+", "+status+", "+data);
         callback({});
     }
     function requestFailed(xhr, status, except) {
@@ -67,9 +67,9 @@ shuffl.AtomPub.prototype.feedinfo = function (feeduri, callback) {
             url:          uri.toString(),
             //data:         jQuery.toJSON(cardext), 
             //contentType:  "application/json",
-            dataType:     "text",    // Atom feed item expected as XML
+            dataType:     "xml",    // Atom feed item expected as XML
             //beforeSend:   function (xhr, opts) { xhr.setRequestHeader("SLUG", "cardloc"); },
-            dataFilter:   examineRawData,
+            //dataFilter:   examineRawData,
             success:      decodeResponse,
             error:        requestFailed,
             complete:     responseComplete,
