@@ -21,7 +21,7 @@ shuffl.AsyncComputation = function() {
  * invoked with 'this' set to a data object associated with this computation
  */
 shuffl.AsyncComputation.prototype.eval = function(fn) {
-    log.debug("shuffl.AsyncComputation.prototype.eval");
+    //log.debug("shuffl.AsyncComputation.prototype.eval");
     this.proc.push(fn);
 };
 

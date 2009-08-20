@@ -51,6 +51,28 @@ if (typeof shuffl.idnext == "undefined") {
 }
 
 // ----------------------------------------------------------------
+// Error class
+// ----------------------------------------------------------------
+
+/**
+ * Error class for Shuffl
+ */
+shuffl.Error = function(msg, val) {
+    this.msg = msg;
+    this.val = val;
+};
+
+shuffl.Error.prototype = new Error("(shuffl)");
+
+shuffl.Error.prototype.toString = function () {
+    var s = "shuffl error: "+this.msg;
+    if (this.val) {
+        s += "("+this.val.toString()+")";
+    }
+    return s;
+};
+
+// ----------------------------------------------------------------
 // Miscellaneous support functions
 // ----------------------------------------------------------------
 
@@ -76,10 +98,10 @@ shuffl.elemString = function(elem) {
  * TODO: test this
  */
 shuffl.nodeString = function(node) {
-    if (node.nodeType == TEXT_NODE) {
+    if (node.nodeType == 3) {
         return node.textContent ;
     }
-    if (node.nodeType == ELEMENT_NODE) {
+    if (node.nodeType == 1) {
         return shuffl.elemString(node);
     }
     return shuffl.objectString(node);
@@ -107,6 +129,23 @@ shuffl.objectString = function (obj) {
         }
     };
     return "{ "+str+" };";
+};
+
+/**
+ * Function to assemble a textual value from a supplied template string and a 
+ * dictionary of values.  The template uses a tiny subset of Python string 
+ * formatting codes, namely %(name)s is replaced by the corresponding entry 
+ * from the dictionary.
+ */
+shuffl.interpolate = function(template, dict) {
+    //log.debug("shuffl.interpolate: "+template+", "+shuffl.objectString(dict));
+    var str = template;
+    for (k in dict) {
+        //log.debug("shuffl.interpolate: key: "+k+", "+dict[k]);        
+        str = str.replace(new RegExp("%\\("+k+"\\)s","g"), dict[k]);
+    };
+    //log.debug("shuffl.interpolate: return: "+str);
+    return str;
 };
 
 /**
@@ -152,6 +191,30 @@ shuffl.isRelativeUri = function (uriref) {
 shuffl.toAbsoluteUri = function (baseuri, uriref) {
     var base = jQuery.uri(baseuri);
     return base.resolve(uriref);
+};
+
+/**
+ * Function to extend a URI path.  Like relative URI resolution except
+ * that even paths beginning with '/' are regarded as relative to the 
+ * directory of the base URI.
+ * 
+ * Example:
+ *   extendPath("http://example/atom/", "/feed") ==
+ *   "http://example/atom/feed"
+ * 
+ * @param baseuri   a base URI to which the path extension is to be added
+ * @param pathext   a URI path that extends the base URI.
+ * @return          the extended URI.
+ */
+shuffl.extendUriPath = function (baseuri, pathext) {
+    return jQuery.uri(baseuri).resolve(pathext.replace(/^\//,""));
+};
+
+/**
+ * Function to return query including "?" from a URI, or an empty string.
+ */
+shuffl.uriQuery = function (uri) {
+    return uri.query ? ("?"+uri.query) : "";
 };
 
 // End.

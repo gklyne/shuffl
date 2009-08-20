@@ -18,8 +18,8 @@ createfeed([feeduri, name], callback)
 listfeed([feed], callback)
  -> callback returns list of item/feed information, or error information
 
-deletefeed([feeduri], callback)
- -> callback returns feed information, or error information
+deletefeed([feed], callback)
+ -> callback returns {}, or error information
 
 feedinfo([uri], callback)
  -> callback returns feed information, or error information
