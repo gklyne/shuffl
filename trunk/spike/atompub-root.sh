@@ -9,7 +9,7 @@ ATOMROOT=http://localhost:8080/exist/atom
 
 echo
 echo "===== CREATE FEED ====="
-curl ${ATOMROOT}/edit/test --data-binary @- -H "Content-Type: application/atom+xml" <<endatomdata
+curl ${ATOMROOT}/edit/test -v --data-binary @- -H "Content-Type: application/atom+xml" <<endatomdata
 <?xml version="1.0" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>TEST FEED</title>

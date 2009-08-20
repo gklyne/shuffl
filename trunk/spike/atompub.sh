@@ -102,6 +102,11 @@ echo "===== RETRIEVE FEED WITH IMAGE ====="
 curl ${ATOMROOT}/content/test
 
 echo
+echo
+echo "===== RETRIEVE FEED WITH IMAGE EDIT URI ====="
+curl ${ATOMROOT}/edit/test
+
+echo
 echo "===== DELETE FEED ====="
 curl ${ATOMROOT}/edit/test --request DELETE
 
