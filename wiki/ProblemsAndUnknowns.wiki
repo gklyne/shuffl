@@ -1,0 +1,13 @@
+#summary A summary of outstanding problems and uncertainties
+
+<wiki:toc level="2" />
+
+= Introduction =
+
+Record here notes of any known problems and uncertainties that are not currently resolved.
+
+= jQuery and XML namespaces =
+
+jQuery does not natively support XML namerspaces.  This means that results from working with XML documents using namespaces (e.g. DAV, Atom) may be unreliable.  For now, I'm just coding so that it works with eXist Atom data, but that's not a good solution.
+
+I did find [http://www.rfk.id.au/blog/entry/xmlns-selectors-jquery one library] on the web that appears to be just what is required, but have not yet evaluated it.
