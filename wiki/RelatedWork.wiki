@@ -16,6 +16,7 @@
 
  * http://www.rfk.id.au/blog/entry/xmlns-selectors-jquery - namespace selectors
  * http://code.google.com/p/rdfquery/ - rdfQuery: in-browser RDF processing, along with extras such as a fairly comprehensive URI handling library, limited namespace handling (but see above), etc.
+ * http://plugins.jquery.com/project/Comet - Comet/Bayeux implementation
 
 == Widgets ==
 
