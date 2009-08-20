@@ -33,6 +33,10 @@
  * http://wiki.fluidproject.org/display/fluid/Demos - various tools, including a fairly heavyweight inline text editor, based on FCKedit. Also, some possibly-useful layout and sorting tools.
  * http://omnipotent.net/jquery.sparkline/ - jQuery sparklines
 
+== Atom and feeds ==
+
+ * http://plugins.jquery.com/project/jFeed - despite earlier searching, I discovered this after I'd started work on the AtomPub handler.  It's mainly complementary, as it focuses on feed parsing. 
+
 = Atom publishing protocol =
 
  * The Atom Syndication Format, RFC 4287 - http://www.ietf.org/rfc/rfc4287.txt
