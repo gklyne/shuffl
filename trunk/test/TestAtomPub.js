@@ -151,7 +151,7 @@ TestAtomPub = function() {
                 });
             m.exec("http://localhost:8080/noexist/",
                 function(val) {
-                    log.debug("- return: "+shuffl.objectString(val));
+                    //log.debug("- return: "+shuffl.objectString(val));
                     equals(val.val, "error", "Error response");
                     equals(val.msg, "AtomPub request failed", "msg");
                     equals(val.message, "AtomPub request failed", "message");
@@ -163,14 +163,53 @@ TestAtomPub = function() {
             stop(2000);
         });
 
-    test("Delete feed", 
+    test("Delete feed at root", 
         function () {
-            log.debug("Delete feed");
-            // 6. Delete original feed; check return
-            //
-            // 7. Get and check info about new feed; check the feed no longer exists.
-            //
-            // 8. List contents of new feed; check response indicates feed does not exist.
+            log.debug("Delete feed just created");
+            expect(9);
+            var m = new shuffl.AsyncComputation();
+            m.eval(
+                function (val, callback) {
+                    m.atompub = new shuffl.AtomPub(val);
+                    m.atompub.deleteFeed(
+                        {path:"/testfeed"}, 
+                        callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    //log.debug("- deleteFeed return: "+shuffl.objectString(val));
+                    same(val, {}, "deleteFeed return value");
+                    m.atompub.feedInfo({path: "/testfeed"}, callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    //log.debug("- feedInfo return: "+shuffl.objectString(val));
+                    equals(val.val,        "error", 
+                        "feedInfo return val");
+                    equals(val.message,    "AtomPub request failed", 
+                        "feedInfo return message");
+                    equals(val.HTTPstatus, 400, 
+                        "feedInfo return HTTPstatus");
+                    equals(val.HTTPstatusText, 
+                        "Collection+%2Ftestfeed+does+not+exist%2E", 
+                        "feedInfo return HTTPstatusText");
+                    m.atompub.listFeed({path: "/testfeed"}, callback);
+                });
+            m.exec("http://localhost:8080/exist/",
+                function(val) {
+                    //log.debug("- listFeed return: "+shuffl.objectString(val));
+                    equals(val.val,        "error", 
+                        "feedInfo return val");
+                    equals(val.message,    "AtomPub request failed", 
+                        "feedInfo return message");
+                    equals(val.HTTPstatus, 404,
+                        "feedInfo return HTTPstatus");
+                    equals(val.HTTPstatusText, 
+                        "Resource+%2Ftestfeed+not+found", 
+                        "feedInfo return HTTPstatusText");
+                    start();
+                });
+            stop(2000);
         });
 
     module("TestAtomPub - item manipulation tests");

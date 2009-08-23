@@ -21,7 +21,7 @@ shuffl.AtomPub.requestFailed = function (callback) {
         err.HTTPstatus     = xhr.status;
         err.HTTPstatusText = xhr.statusText; 
         err.response = err.HTTPstatus+" "+err.HTTPstatusText;
-        log.debug("- err: "+shuffl.objectString(err));
+        //log.debug("- err: "+shuffl.objectString(err));
         callback(err);
     };
 };
