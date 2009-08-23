@@ -9,7 +9,7 @@
  */
 TestAtomPub = function() {
 
-    module("TestAtomPub");
+    module("TestAtomPub - feed manipulation tests");
 
     log.info("TestAtomPub requires eXist service running on localhost:8080");
 
@@ -91,16 +91,76 @@ TestAtomPub = function() {
             stop(2000);
         });
 
-    test("Try to create feed in unavailable location", 
+    test("Create feed in non-root location", 
         function () {
-            log.debug("Try to create feed in unavailable location");
-            // 4. Try creating feed in non-available location; check for error return.
+            log.debug("Create feed in non-root location");
+            expect(4);
+            var m = new shuffl.AsyncComputation();
+            m.eval(
+                function (val, callback) {
+                    m.atompub = new shuffl.AtomPub(val);
+                    // First delete old feed, ignore status response
+                    m.atompub.deleteFeed(
+                        {path:"/other/loc/otherfeed"}, 
+                        callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    m.atompub.createFeed(
+                        {base:"/other/loc/", name:"otherfeed", title:"Other feed"}, 
+                        callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    equals(val.path, "/other/loc/otherfeed", "New feed path returned");
+                    equals(val.uri,  
+                        "http://localhost:8080/exist/atom/edit/other/loc/otherfeed",
+                        "New feed URI returned");
+                    callback(val);
+                });
+            m.exec("http://localhost:8080/exist/",
+                function(val) {
+                    log.debug("- return: "+shuffl.objectString(val));
+                    equals(val.path, "/other/loc/otherfeed", "New feed path returned");
+                    equals(val.uri,  
+                        "http://localhost:8080/exist/atom/edit/other/loc/otherfeed",
+                        "New feed URI returned");
+                    start();
+                });
+            stop(2000);
         });
 
     test("Try to create feed in unavailable service", 
         function () {
             log.debug("Try to create feed in unavailable service");
-            // 5. Try creating feed at non-existent service; check for error return. 
+            expect(6);
+            var m = new shuffl.AsyncComputation();
+            m.eval(
+                function (val, callback) {
+                    m.atompub = new shuffl.AtomPub(val);
+                    // First delete old feed, ignore status response
+                    m.atompub.deleteFeed(
+                        {path:"/nopath/nofeed"}, 
+                        callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    m.atompub.createFeed(
+                        {base:"/", name:"otherfeed", title:"Other feed"}, 
+                        callback);
+                });
+            m.exec("http://localhost:8080/noexist/",
+                function(val) {
+                    log.debug("- return: "+shuffl.objectString(val));
+                    equals(val.val, "error", "Error response");
+                    equals(val.msg, "AtomPub request failed", "msg");
+                    equals(val.message, "AtomPub request failed", "message");
+                    equals(val.HTTPstatus, 404);
+                    equals(val.HTTPstatusText, "%2Fnoexist%2Fatom%2Fedit%2Fotherfeed+Not+Found");
+                    equals(val.response, "404 %2Fnoexist%2Fatom%2Fedit%2Fotherfeed+Not+Found", "response");
+                    start();
+                });
+            stop(2000);
         });
 
     test("Delete feed", 
@@ -112,6 +172,8 @@ TestAtomPub = function() {
             //
             // 8. List contents of new feed; check response indicates feed does not exist.
         });
+
+    module("TestAtomPub - item manipulation tests");
 
 };
 
