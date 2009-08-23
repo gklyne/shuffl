@@ -17,7 +17,12 @@ shuffl.AtomPub = function(baseuri) {
 shuffl.AtomPub.requestFailed = function (callback) {
     return function (xhr, status, except) {
         log.debug("shuffl.AtomPub.requestFailed: "+status);
-        callback(shuffl.Error("AtomPub request failed", status));
+        var err = new shuffl.Error("AtomPub request failed", status);
+        err.HTTPstatus     = xhr.status;
+        err.HTTPstatusText = xhr.statusText; 
+        err.response = err.HTTPstatus+" "+err.HTTPstatusText;
+        log.debug("- err: "+shuffl.objectString(err));
+        callback(err);
     };
 };
 
@@ -157,6 +162,7 @@ shuffl.AtomPub.prototype.createFeed = function (feedinfo, callback) {
             url:          uri.toString(),
             data:         shuffl.interpolate(template, {title: feedinfo.title}), 
             contentType:  "application/atom+xml",
+            //dataType:     "xml",    // Atom feed info expected as XML
             success:      decodeResponse,
             error:        shuffl.AtomPub.requestFailed(callback),
             cache:        false

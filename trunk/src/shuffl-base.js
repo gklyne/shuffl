@@ -58,7 +58,7 @@ if (typeof shuffl.idnext == "undefined") {
  * Error class for Shuffl
  */
 shuffl.Error = function(msg, val) {
-    this.msg = msg;
+    this.msg = this.message = msg;
     this.val = val;
 };
 
@@ -67,7 +67,7 @@ shuffl.Error.prototype = new Error("(shuffl)");
 shuffl.Error.prototype.toString = function () {
     var s = "shuffl error: "+this.msg;
     if (this.val) {
-        s += "("+this.val.toString()+")";
+        s += " ("+this.val.toString()+")";
     }
     return s;
 };
