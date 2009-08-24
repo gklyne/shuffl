@@ -211,10 +211,31 @@ shuffl.extendUriPath = function (baseuri, pathext) {
 };
 
 /**
+ * Format URI component:  if defined, the supplied prefix and suffix are added, 
+ * otherwise returns an empty string.
+ */
+shuffl.uriComponent = function (pre, component, suf) {
+    if (component != undefined) { return pre+component+suf; }
+    return "";
+};
+
+/**
  * Function to return query including "?" from a URI, or an empty string.
  */
 shuffl.uriQuery = function (uri) {
-    return uri.query ? ("?"+uri.query) : "";
+    return shuffl.uriComponent("?", uri.query, "");
+};
+
+/**
+ *  Get URI without fragment
+ */
+shuffl.uriWithoutFragment = function (uri) {
+    return shuffl.uriComponent("",   uri.scheme,    ":")+
+           shuffl.uriComponent("//", uri.authority, "" )+
+           shuffl.uriComponent("",   uri.path,      "" )+
+           shuffl.uriComponent("?",  uri.query,     "" );
+           
+    //return uri.toString().replace(/#.*$/, "");
 };
 
 // End.
