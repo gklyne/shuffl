@@ -26,17 +26,15 @@ feedinfo([uri], callback)
 
 createitem([feed, slug, data], callback)
  -> callback returns actual URI of created object, or error information
+    (variants create item from URI and item from supplied raw data)
 
 getitem([uri], callback)
- -> callback returns item data, or error information
+ -> callback returns item information and data, or error information
 
 putitem([uri, data], callback)
  -> callback returns item information, or error information
 
 deleteitem([uri], callback)
- -> callback returns item information, or error information
-
-iteminfo([uri], callback)
  -> callback returns item information, or error information
 
 ====
