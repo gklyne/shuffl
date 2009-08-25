@@ -21,7 +21,7 @@ shuffl.AsyncComputation = function() {
  * invoked with 'this' set to a data object associated with this computation
  */
 shuffl.AsyncComputation.prototype.eval = function(fn) {
-    //log.debug("shuffl.AsyncComputation.prototype.eval");
+    //log.debug("shuffl.AsyncComputation.eval");
     this.proc.push(fn);
 };
 
@@ -35,7 +35,7 @@ shuffl.AsyncComputation.prototype.eval = function(fn) {
  * sequence.
  */
 shuffl.AsyncComputation.prototype.exec = function(val, callback) {
-    log.debug("shuffl.AsyncComputation.prototype.exec");
+    log.debug("shuffl.AsyncComputation.exec");
     // Local function handles threading of asynchronous functions
     function eval_do(here, next, val) {
         function eval_done(val) {
@@ -62,9 +62,10 @@ shuffl.AsyncComputation.prototype.exec = function(val, callback) {
  * variable in the computation's data object.
  */
 shuffl.AsyncComputation.prototype.bind = function(name) {
+    // TODO: add diagnostic logic to detect multipleminvocations of callback
     function assign_fn(name) {
         function assign_do(val, callback) {
-            log.debug("shuffl.AsyncComputation: bind "+name+" to "+val);
+            log.debug("shuffl.AsyncComputation.bind "+name+" to "+val);
             this[name] = val;
             callback(val);
         }

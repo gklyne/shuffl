@@ -122,7 +122,10 @@ shuffl.objectString = function (obj) {
     var str = "";
     var pre = "";
     for ( var k in obj ) {
-        if ( typeof obj[k] != "function" ) {
+        if ( typeof obj[k] == "string" ) {
+            str += pre + k + ': "' + obj[k] + '"';
+            pre = ', ';
+        } else if ( typeof obj[k] != "function" ) {
             //log.debug("  - "+k+": "+obj[k]);
             str += pre + k + ': ' + obj[k];
             pre = ', ';
