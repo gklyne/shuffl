@@ -177,8 +177,10 @@ shuffl.AtomPub.decodeItemResponse = function (atompubobj, iteminfo, callback) {
             updated:  itemelems.filter("updated").text(),
             title:    itemelems.filter("title").text(),
             data:     itemelems.filter("content").text(),
-            dataref:  itemelems.filter("content").attr("src"),
-            datatype: itemelems.filter("content").attr("type")
+            dataref:  itemelems.filter("link[rel='edit-media']").attr("href"),
+            datatype: itemelems.filter("link[rel='edit-media']").attr("type"),
+            //dataref:  itemelems.filter("content").attr("src"),
+            //datatype: itemelems.filter("content").attr("type")
         };
         if (ii.dataref != undefined && ii.data == "") { 
             var pathuri = atompubobj.getAtomPathUri(iteminfo, ii.dataref); 
@@ -205,7 +207,7 @@ shuffl.AtomPub.decodeItemResponse = function (atompubobj, iteminfo, callback) {
 shuffl.AtomPub.updateTitle = function(atompubobj, iteminfo, callback) {
     function update(val) {
         log.debug("shuffl.AtomPub.updateTitle: "+shuffl.objectString(val));
-        if (val.dataref == undefined || true ||
+        if (val.dataref == undefined ||
             val.title   == iteminfo.title || iteminfo.title == "") {
             // No update required
             log.debug("- no update");
@@ -217,7 +219,7 @@ shuffl.AtomPub.updateTitle = function(atompubobj, iteminfo, callback) {
         atompubobj.putItem(
             { uri:     val.uri
             , title:   iteminfo.title
-            , datauri: val.datauri
+            , dataref: val.dataref
             },
             callback);
     };
@@ -340,6 +342,8 @@ shuffl.AtomPub.prototype.getAtomLinkPathUri = function (info, elems) {
  *              description, otherwise it is pushed to the AtomPub server as-is
  *              and a new item description is created by the server 
  *              (cf. AtomPub "media resource").
+ *   dataref:   when updating an existing media resource entry, this is the
+ *              uri-ref in the <content> element.
  * 
  * The Ajax request values provided are
  *   content:     entity body to be passed with the request
@@ -355,14 +359,30 @@ shuffl.AtomPub.assembleData = function (iteminfo) {
         //'  <author><name>TEST ITEM AUTHOR NAME</name></author>'+'\n'+
         '  <content>%(data)s</content>'+'\n'+
         '</entry>'+'\n';
+    var templateref =
+        '<?xml version="1.0" ?>'+'\n'+
+        '<entry xmlns="http://www.w3.org/2005/Atom">'+'\n'+
+        '  <title>%(title)s</title>'+'\n'+
+        //'  <id>TEST-ITEM-ZZZZZZ.ext</id>'+'\n'+
+        //'  <updated>20090709T18:30:02Z</updated>'+'\n'+
+        //'  <author><name>TEST ITEM AUTHOR NAME</name></author>'+'\n'+
+        '  <content src="%(dataref)s" type="%(datatype)s" />'+'\n'+
+        '</entry>'+'\n';
     //log.debug("shuffl.AtomPub.assembleData: "+shuffl.objectString(iteminfo));
     var data  = iteminfo.data;
     var type  = iteminfo.datatype || "application/atom+xml";
     var title = iteminfo.title || "";
-    if (typeof data != "string") { data = jQuery.toJSON(data); };
-    if (type == "application/atom+xml") {
-        data = shuffl.interpolate(template, {title: title, data: data});
-    };
+    if (iteminfo.dataref != undefined) {
+        log.debug("shuffl.AtomPub.assembleData (ref): "+shuffl.objectString(iteminfo));
+        data = shuffl.interpolate(templateref, 
+            {title: title, dataref: iteminfo.dataref, datatype: type});
+        //type = "application/atom+xml";
+    } else {
+        if (typeof data != "string") { data = jQuery.toJSON(data); };
+        if (type == "application/atom+xml") {
+            data = shuffl.interpolate(template, {title: title, data: data});
+        };
+    }
     var datainfo = {
         title:        title,
         contentType:  type,
