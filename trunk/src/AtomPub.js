@@ -1,5 +1,9 @@
 // $Id$
 
+// -------------------------
+// AtomPub class and methods
+// -------------------------
+
 /**
  * Class for accessing and manimpulating Atom feeds via AtomPub
  * 
@@ -10,6 +14,10 @@
 shuffl.AtomPub = function(baseuri) {
     this.baseuri = baseuri;
 };
+
+// ---------------------
+// AtomPub class methods
+// ---------------------
 
 /**
  * Function for decoding feed information values from an Ajax response via 
@@ -92,7 +100,7 @@ shuffl.AtomPub.decodeFeedListResponse = function (atompubobj, feedinfo, callback
         // </atom:feed>
         //
         var feedelems = jQuery(data.documentElement).children();
-        var fipathuri = atompubobj.getAtomPathUri(feedinfo, feedelems);
+        var fipathuri = atompubobj.getAtomLinkPathUri(feedinfo, feedelems);
         var fi = {
             path:     fipathuri.path,
             uri:      fipathuri.uri,
@@ -101,11 +109,10 @@ shuffl.AtomPub.decodeFeedListResponse = function (atompubobj, feedinfo, callback
             title:    feedelems.filter("title").text(),
             entries:  []
         };
-        log.debug("shuffl.AtomPub.listFeed.decodeResponse: return"+shuffl.objectString(fi));
         feedelems.filter("entry").each(
             function (index) {
                 var itemelems = jQuery(this).children();
-                var iipathuri = atompubobj.getAtomPathUri(feedinfo, itemelems);
+                var iipathuri = atompubobj.getAtomLinkPathUri(feedinfo, itemelems);
                 var ii = {
                     path:     iipathuri.path,
                     uri:      iipathuri.uri,
@@ -116,7 +123,7 @@ shuffl.AtomPub.decodeFeedListResponse = function (atompubobj, feedinfo, callback
                 };
                 fi.entries[index] = ii;
             });
-        log.debug("shuffl.AtomPub.listFeed.decodeResponse: return"+shuffl.objectString(fi));
+        log.debug("shuffl.AtomPub.decodeFeedListResponse: return"+shuffl.objectString(fi));
         callback(fi);
     }
     return decodeResponse;
@@ -135,6 +142,11 @@ shuffl.AtomPub.decodeFeedListResponse = function (atompubobj, feedinfo, callback
  */
 shuffl.AtomPub.decodeItemResponse = function (atompubobj, iteminfo, callback) {
     function decodeResponse(data, status) {
+        //log.debug("shuffl.AtomPub.decodeResponse: "+
+        //    iteminfo.path+", "+status);
+        log.debug("shuffl.AtomPub.decodeResponse: "+
+            iteminfo.path+", "+shuffl.elemString(data.documentElement));
+        //
         // <entry xmlns="http://www.w3.org/2005/Atom">
         //   <id>urn:uuid:9475cf17-eb4e-4887-9ac5-f579b2d79692</id>
         //   <updated>2009-08-24T12:38:01+01:00</updated>
@@ -145,12 +157,18 @@ shuffl.AtomPub.decodeItemResponse = function (atompubobj, iteminfo, callback) {
         //   <content>{"a": "A", "b": "B"}</content>
         // </entry>
         //
-        //log.debug("shuffl.AtomPub.decodeResponse: "+
-        //    iteminfo.path+", "+status);
-        log.debug("shuffl.AtomPub.decodeResponse: "+
-            iteminfo.path+", "+shuffl.elemString(data.documentElement));
+        // <entry xmlns='http://www.w3.org/2005/Atom'>
+        //   <id>urn:uuid:2aad829b-29e1-43f0-98b8-955cc2c70cc4</id>
+        //   <published>2009-08-25T11:50:16+01:00</published>
+        //   <updated>2009-08-25T11:50:16+01:00</updated>
+        //   <title>testitem2.json</title>
+        //   <link href='?id=urn:uuid:2aad829b-29e1-43f0-98b8-955cc2c70cc4' rel='edit' type='application/atom+xml'></link>
+        //   <link href='testitem2.json' rel='edit-media' type='application/octet-stream'></link>
+        //   <content src='testitem2.json' type='application/octet-stream'></content>
+        // </entry>
+        //
         var itemelems = jQuery(data.documentElement).children();
-        var iipathuri = atompubobj.getAtomPathUri(iteminfo, itemelems);
+        var iipathuri = atompubobj.getAtomLinkPathUri(iteminfo, itemelems);
         var ii = {
             path:     iipathuri.path,
             uri:      iipathuri.uri,
@@ -158,11 +176,52 @@ shuffl.AtomPub.decodeItemResponse = function (atompubobj, iteminfo, callback) {
             created:  itemelems.filter("published").text(),
             updated:  itemelems.filter("updated").text(),
             title:    itemelems.filter("title").text(),
-            data:     itemelems.filter("content").text()
+            data:     itemelems.filter("content").text(),
+            dataref:  itemelems.filter("content").attr("src"),
+            datatype: itemelems.filter("content").attr("type")
+        };
+        if (ii.dataref != undefined && ii.data == "") { 
+            var pathuri = atompubobj.getAtomPathUri(iteminfo, ii.dataref); 
+            ii.data     = undefined;
+            ii.datauri  = pathuri.uri;
+            ii.datapath = pathuri.path;
         };
         callback(ii);
     }
     return decodeResponse;
+};
+
+/**
+ * Function used to update title of an entry that references an AtomPub 
+ * "media resource" (initially, this is created using the slug).
+ * 
+ * @param atompubobj  AtomPub request object used for the request.
+ * @param iteminfo    object containing inofmration about item request from
+ *                    previous call of serviceUri (see below).
+ * @param callback    callback function with result information.
+ * @return            function chained from jQuery.ajax success callback to 
+ *                    update the title if appropriate.
+ */
+shuffl.AtomPub.updateTitle = function(atompubobj, iteminfo, callback) {
+    function update(val) {
+        log.debug("shuffl.AtomPub.updateTitle: "+shuffl.objectString(val));
+        if (val.dataref == undefined || true ||
+            val.title   == iteminfo.title || iteminfo.title == "") {
+            // No update required
+            log.debug("- no update");
+            callback(val);
+            return;
+        };
+        // Update title in feed item:
+        log.debug("- update title");
+        atompubobj.putItem(
+            { uri:     val.uri
+            , title:   iteminfo.title
+            , datauri: val.datauri
+            },
+            callback);
+    };
+    return update;
 };
 
 /**
@@ -179,6 +238,10 @@ shuffl.AtomPub.requestFailed = function (callback) {
         callback(err);
     };
 };
+
+// ----------------------
+// AtomPub object methods
+// ----------------------
 
 /**
  * Method to extract an Atom feed or item path from an Atom URI
@@ -213,7 +276,7 @@ shuffl.AtomPub.prototype.serviceUri = function (info, service) {
     if ( !info.path ) { 
         return shuffl.Error(
             "shuffl.AtomPub.serviceUri: insufficient information ", 
-            shuffl.objectString(info)) 
+            shuffl.objectString(info)); 
     };
     // TODO: I think there's an eXist AtomPub bug in returned href values,
     //       leading to the insertion of "atom/" about here: isolate the hack.
@@ -235,13 +298,78 @@ shuffl.AtomPub.prototype.serviceUri = function (info, service) {
  *                  from base URI information from the current request
  *                  and local reference information in the atompub response.
  */
-shuffl.AtomPub.prototype.getAtomPathUri = function (info, elems) {
-    var atomref = elems.filter("link[rel='edit']").attr("href");
+shuffl.AtomPub.prototype.getAtomPathUri = function (info, atomref) {
     var atomuri = this.serviceUri(info, "edit").resolve(atomref);
     return (
         { 'uri':  atomuri
         , 'path': this.getAtomPath(atomuri)
         });
+};
+
+/**
+ * Method to assemble an atom object path and URI from an atompub
+ * protocol response.
+ * 
+ * @param info      is the feed or item information for which the request 
+ *                  was issued, containing the request path and URI
+ * @param elems     is a jQuery object containing the immediate child
+ *                  elements of an atom feed or item description.
+ * @return          a structure containing .path and .uri fields assembled
+ *                  from base URI information from the current request
+ *                  and local reference information in the atompub response.
+ */
+shuffl.AtomPub.prototype.getAtomLinkPathUri = function (info, elems) {
+    var atomref = elems.filter("link[rel='edit']").attr("href");
+    return this.getAtomPathUri(info, atomref);
+};
+
+/**
+ * Function to assemble a data object for publication for createItem or putItem.
+ * 
+ * @param iteminfo  object containing information about the item to be created.
+ * @return          an object containing request entity values to be passed
+ *                  in an Ajax POST or PUT request.
+ *
+ * The new item data description uses the following fields:
+ *   title:     a textual title for the new item.
+ *   data:      a data object to be used for the new item.  This may be a
+ *              javascript object that is serialized as JSON for the stored
+ *              data, or a string, which is used as-is for the data.
+ *   datatype:  is the MIME content type of the supplied data.  If this is
+ *              "application/atom+xml" the data is embedded in a new feed item
+ *              description, otherwise it is pushed to the AtomPub server as-is
+ *              and a new item description is created by the server 
+ *              (cf. AtomPub "media resource").
+ * 
+ * The Ajax request values provided are
+ *   content:     entity body to be passed with the request
+ *   contentType: content type header to be passed with the request
+ */
+shuffl.AtomPub.assembleData = function (iteminfo) {
+    var template =
+        '<?xml version="1.0" ?>'+'\n'+
+        '<entry xmlns="http://www.w3.org/2005/Atom">'+'\n'+
+        '  <title>%(title)s</title>'+'\n'+
+        //'  <id>TEST-ITEM-ZZZZZZ.ext</id>'+'\n'+
+        //'  <updated>20090709T18:30:02Z</updated>'+'\n'+
+        //'  <author><name>TEST ITEM AUTHOR NAME</name></author>'+'\n'+
+        '  <content>%(data)s</content>'+'\n'+
+        '</entry>'+'\n';
+    //log.debug("shuffl.AtomPub.assembleData: "+shuffl.objectString(iteminfo));
+    var data  = iteminfo.data;
+    var type  = iteminfo.datatype || "application/atom+xml";
+    var title = iteminfo.title || "";
+    if (typeof data != "string") { data = jQuery.toJSON(data); };
+    if (type == "application/atom+xml") {
+        data = shuffl.interpolate(template, {title: title, data: data});
+    };
+    var datainfo = {
+        title:        title,
+        contentType:  type,
+        content:      data
+    };
+    //log.debug("shuffl.AtomPub.assembleData: "+shuffl.objectString(datainfo));
+    return datainfo;
 };
 
 /**
@@ -381,46 +509,32 @@ shuffl.AtomPub.prototype.listFeed = function (feedinfo, callback) {
  * Create a new item in a feed
  * 
  * @param iteminfo  object identifying a feed and item to be created. 
- *                  See serviceUri for details, and below:
+ *                  See serviceUri and assembleData for details, and below.
  *
  * The new item description has the following additional fields:
  *   slug:    a suggested name for the new item.  
  *            See http://www.ietf.org/rfc/rfc5023.txt, section 9.7.
- *   title:   a textual title for the new item.
- *   data:    a data object to be used for the new item.  This may be a
- *            javascript object that is serialized as JSON for the stored
- *            data, or a string, which is used as-is for the data.
- *   uri:     TBD
  */
 shuffl.AtomPub.prototype.createItem = function (iteminfo, callback) {
-    var template =  '<?xml version="1.0" ?>'+'\n'+
-                    '<entry xmlns="http://www.w3.org/2005/Atom">'+'\n'+
-                    '  <title>%(title)s</title>'+'\n'+
-                    //'  <id>TEST-ITEM-ZZZZZZ.ext</id>'+'\n'+
-                    //'  <updated>20090709T18:30:02Z</updated>'+'\n'+
-                    //'  <author><name>TEST ITEM AUTHOR NAME</name></author>'+'\n'+
-                    '  <content>%(data)s</content>'+'\n'+
-                    '</entry>'+'\n';
     function setRequestHeaders(xhr, opts) {
-        xhr.setRequestHeader("Content-Type", "application/atom+xml");
         if (iteminfo.slug) {
             xhr.setRequestHeader("SLUG", iteminfo.slug);
         }
     }
     //log.debug("shuffl.AtomPub.createItem: "+shuffl.objectString(iteminfo));
-    var uri   = this.serviceUri(iteminfo, "edit");
-    var data  = iteminfo.data;
-    if (typeof data != "string") { data = jQuery.toJSON(data); };
-    var title = iteminfo.title || "";
-    log.debug("shuffl.AtomPub.createItem: "+uri+", "+title+", "+data);
+    var uri      = this.serviceUri(iteminfo, "edit");
+    var datainfo = shuffl.AtomPub.assembleData(iteminfo);
+    log.debug("shuffl.AtomPub.createItem: "+uri+", "+shuffl.objectString(datainfo));
     jQuery.ajax({
             type:         "POST",
             url:          uri.toString(),
-            data:         shuffl.interpolate(template, {title: title, data: data}), 
-            contentType:  "application/atom+xml",
+            data:         datainfo.content,
+            contentType:  datainfo.contentType,
             dataType:     "xml",    // Atom item info expected as XML
             beforeSend:   setRequestHeaders,
-            success:      shuffl.AtomPub.decodeItemResponse(this, iteminfo, callback),
+            success:      shuffl.AtomPub.decodeItemResponse(this, iteminfo, 
+                              shuffl.AtomPub.updateTitle(this, iteminfo,
+                                  callback)),
             error:        shuffl.AtomPub.requestFailed(callback),
             cache:        false
         });
@@ -445,5 +559,27 @@ shuffl.AtomPub.prototype.getItem = function (iteminfo, callback) {
         });
 };
 
+/**
+ * Function to update an existing feed item.
+ * 
+ * @param iteminfo  object identifying a feed and item to be created. 
+ *                  See serviceUri and assembleData for details, and below.
+ */
+shuffl.AtomPub.prototype.putItem = function (iteminfo, callback) {
+    // TODO: avoid specifying service when using previous URI?
+    var uri = this.serviceUri(iteminfo, "edit");
+    var datainfo = shuffl.AtomPub.assembleData(iteminfo);
+    log.debug("shuffl.AtomPub.putItem: "+uri+", "+shuffl.objectString(datainfo));
+    jQuery.ajax({
+            type:         "PUT",
+            url:          uri.toString(),
+            data:         datainfo.content,
+            contentType:  datainfo.contentType,
+            dataType:     "xml",    // Atom response expected as XML
+            success:      shuffl.AtomPub.decodeItemResponse(this, iteminfo, callback),
+            error:        shuffl.AtomPub.requestFailed(callback),
+            cache:        false
+        });
+};
 
 // End
