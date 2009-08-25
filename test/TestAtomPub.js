@@ -466,7 +466,7 @@ TestAtomPub = function() {
                         "20", 
                         "Item updated time returned");
                     equals(val.title, 
-                        "Test item", 
+                        "Test item 2", 
                         "Item title returned");
                     equals(val.data, undefined,
                         "Item data returned");
