@@ -51,6 +51,7 @@
  * mod_atom - http://code.google.com/p/mod-atom/, http://www.tbray.org/ongoing/When/200x/2007/06/27/mod_atom-status, http://www.tbray.org/ongoing/When/200x/2007/06/25/mod_atom
  * http://batiste.dosimple.ch/blog/posts/2007-09-11-1/rich-text-editor-jquery.html - A simple rich-text editor plug-in, provides headings, block text, paragraph (flowed) text, bullet lists, bold, italic, images, links, and that's it.  Doesn't hide away when not in use, though.
 
+ * http://blog.ianbicking.org/2009/01/11/atompub-instead-o-webdav/ - a blog piece by Ian Bicking exploring AtomPub as an alternative to webDAV, which is roughly how Shuffl uses AtomPub. 
 
 = RDF serialization, parsing and presentation =
 
