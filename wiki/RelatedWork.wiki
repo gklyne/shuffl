@@ -32,6 +32,7 @@
  * http://davecardwell.co.uk/javascript/jquery/plugins/jquery-em/ - interact with 'em' unit value (for text/pixel interactions)
  * http://www.prodevtips.com/2008/11/12/jquery-ui-draggable-and-resizable-combination/ - example of draggable and resizable together;  also has sample mini-plugin code to constrain object to box.
  * http://wiki.fluidproject.org/display/fluid/Demos - various tools, including a fairly heavyweight inline text editor, based on FCKedit. Also, some possibly-useful layout and sorting tools.
+ * http://batiste.dosimple.ch/blog/posts/2007-09-11-1/rich-text-editor-jquery.html - A simple rich-text editor plug-in, provides headings, block text, paragraph (flowed) text, bullet lists, bold, italic, images, links, and that's it.  Doesn't hide away when not in use, though.
  * http://omnipotent.net/jquery.sparkline/ - jQuery sparklines
 
 == Atom and feeds ==
@@ -49,7 +50,6 @@
  * Sword - http://www.swordapp.org/, http://www.ukoln.ac.uk/repositories/digirep/index/SWORD, http://www.swordapp.org/sword/specifications
    * Open Archives Initiative Object Reuse and Exchange - http://www.openarchives.org/ore/
  * mod_atom - http://code.google.com/p/mod-atom/, http://www.tbray.org/ongoing/When/200x/2007/06/27/mod_atom-status, http://www.tbray.org/ongoing/When/200x/2007/06/25/mod_atom
- * http://batiste.dosimple.ch/blog/posts/2007-09-11-1/rich-text-editor-jquery.html - A simple rich-text editor plug-in, provides headings, block text, paragraph (flowed) text, bullet lists, bold, italic, images, links, and that's it.  Doesn't hide away when not in use, though.
 
  * http://blog.ianbicking.org/2009/01/11/atompub-instead-o-webdav/ - a blog piece by Ian Bicking exploring AtomPub as an alternative to webDAV, which is roughly how Shuffl uses AtomPub. 
 
