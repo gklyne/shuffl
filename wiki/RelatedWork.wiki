@@ -37,7 +37,7 @@
 
 == Atom and feeds ==
 
- * http://plugins.jquery.com/project/jFeed - despite earlier searching, I discovered this after I'd started work on the AtomPub handler.  It's mainly complementary, as it focuses on feed parsing. 
+ * http://plugins.jquery.com/project/jFeed - despite earlier searching, I discovered this after I'd started work on the !AtomPub handler.  It's mainly complementary, as it focuses on feed parsing. 
 
 = Atom publishing protocol =
 
