@@ -74,5 +74,5 @@
  * (1.0) !AtomPub implementation, almost complete
 
 26-Aug-2009:
- * (0.25) Misc email, demo system order chasing
- * (0.25) Completed !AtomPub implementation and tests (!)
+ * (0.2) Misc email, demo system order chasing
+ * (0.2) Completed !AtomPub implementation and tests (!)
