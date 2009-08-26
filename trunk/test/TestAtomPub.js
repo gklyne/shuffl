@@ -13,8 +13,6 @@ TestAtomPub = function() {
     var save_item_val1;
     var save_item_uri2;
     var save_item_val2;
-    var save_item_uri3;
-    var save_item_val3;
 
     module("TestAtomPub - feed manipulation");
 
@@ -41,11 +39,6 @@ TestAtomPub = function() {
                 });
             stop();   // Stop for test to run
             log.debug("Introspect initial service: done");
-        });
-
-    test("Introspect initial service done", 
-        function () {
-            log.debug("Introspect initial service done");
         });
 
     test("Create new feed at service root", 
@@ -383,7 +376,7 @@ TestAtomPub = function() {
                     //  -> callback returns item information, or error information
                     m.atompub.putItem(
                         { uri:   save_item_uri1
-                        , title: "Test item updated"
+                        , title: "Test item 1 updated"
                         , data:  {a:"AA", b:"BB"}
                         },
                         callback);
@@ -402,7 +395,7 @@ TestAtomPub = function() {
                         "20", 
                         "Updated item updated time returned");
                     equals(val.title, 
-                        "Test item updated", 
+                        "Test item 1 updated", 
                         "Updated item title returned");
                     equals(val.data, 
                         '{"a": "AA", "b": "BB"}',
@@ -411,13 +404,13 @@ TestAtomPub = function() {
                         "Updated item data type returned");
                     equals(val.dataref, undefined, 
                         "Item data reference returned");
-                    save_item_val_updated = val;
+                    save_item_val1 = val;
                     m.atompub.getItem({uri: save_item_uri1}, callback);
                 });
             m.eval(
                 function (val, callback) {
                     //log.debug("- getItem updated item return: "+shuffl.objectString(val));
-                    same(val, save_item_val_updated, 
+                    same(val, save_item_val1, 
                         "getItem updated item details retrieved");
                     m.atompub.listFeed({path: "/item/test/feed"}, callback);
                 });
@@ -428,8 +421,6 @@ TestAtomPub = function() {
                 });
             stop(2000);
         });
-
-    //module("TestAtomPub - item manipulation (non-atom data)");
 
     // 8. Add second item with non Atom type, check response
     test("Create item with non-atom data", 
@@ -478,14 +469,14 @@ TestAtomPub = function() {
                         "Item data URI returned");
                     equals(val.datapath, "/item/test/testitem2.json", 
                         "Item data URI path returned");
-                    save_item_uri1 = val.uri;
-                    save_item_val1 = val;
-                    m.atompub.getItem({uri: save_item_uri1}, callback);
+                    save_item_uri2 = val.uri;
+                    save_item_val2 = val;
+                    m.atompub.getItem({uri: save_item_uri2}, callback);
                 });
             m.eval(
                 function (val, callback) {
                     log.debug("- getItem return: "+shuffl.objectString(val));
-                    same(val, save_item_val1, "getItem item details retrieved");
+                    same(val, save_item_val2, "getItem item details retrieved");
                     callback(val);
                 });
             m.exec(null,
@@ -496,18 +487,56 @@ TestAtomPub = function() {
             stop(2000);
         });
 
-};
+    // 10. List feed, check two items.
+    test("List feed, check two items", 
+        function () {
+            log.debug("---------- 10. List feed, check two items ----------");
+            expect(18);
+            var m = new shuffl.AsyncComputation();
+            m.atompub = new shuffl.AtomPub("http://localhost:8080/exist/");
+            m.eval(
+                function (val, callback) {
+                    m.atompub.listFeed({path: "/item/test/feed"}, callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    equals(val.path, "/item/test/feed", "Item test feed path listed");
+                    equals(shuffl.uriWithoutFragment(val.uri),
+                        "http://localhost:8080/exist/atom/edit/item/test/feed",
+                        "Item test feed URI listed");
+                    equals(val.title, "Item test feed", "Item test feed title listed");
+                    equals(val.id.slice(0,8), "urn:uuid", "Item test feed id listed");
+                    equals(val.updated.slice(0,2), "20", "Item test feed update-date listed");
+                    equals(val.entries.length, 2, "Feed has two items");
+                    // Note: feed items seem to be listed in reverse order
+                    equals(val.entries[1].id,      save_item_val1.id,      "Feed item 1 id");
+                    equals(val.entries[1].path,    save_item_val1.path,    "Feed item 1 path");
+                    equals(val.entries[1].uri,     save_item_val1.uri,     "Feed item 1 uri");
+                    equals(val.entries[1].title,   save_item_val1.title,   "Feed item 1 title");
+                    equals(val.entries[1].created, save_item_val1.created, "Feed item 1 created");
+                    equals(val.entries[1].updated, save_item_val1.updated, "Feed item 1 updated");
+                    equals(val.entries[0].id,      save_item_val2.id,      "Feed item 2 id");
+                    equals(val.entries[0].path,    save_item_val2.path,    "Feed item 2 path");
+                    equals(val.entries[0].uri,     save_item_val2.uri,     "Feed item 2 uri");
+                    equals(val.entries[0].title,   save_item_val2.title,   "Feed item 2 title");
+                    equals(val.entries[0].created, save_item_val2.created, "Feed item 2 created");
+                    equals(val.entries[0].updated, save_item_val2.updated, "Feed item 2 updated");
+                    callback(val);
+                });
+            m.exec(null,
+                function(val) {
+                    log.debug("---------- 10. ----------");
+                    start();
+                });
+            stop(2000);
+        });
 
-        // 
-        // 10. List feed, check three items.
-        // 
+
         // 11. Delete first item; check response.
-        // 
         // 13. List feed; check only second/third items remain.
-        // 
         // 14. Delete test feed.
-        // 
         // 15. Get item info; check item no longer exists
 
+};
 
 // End
