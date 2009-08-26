@@ -20,9 +20,9 @@
 || 1.1. || Sprint 2 plan             || 0.2 || 0.2 || 02-Aug-2009 || 17-Aug-2009 ||
 || 1.2. || Sprint 2 review (retrospective)  || 0.2 || -- || 28-Aug-2009 || -- ||
 || 1.3. || Sustainability plan   || 0.2   || -- ||  ?? || (ongoing) ||
-|| 1.4. || Miscellaneous admin, etc  || 0.4 || -- || 30-Jun-2009 || -- ||
+|| 1.4. || Miscellaneous admin, etc  || 0.4 || 0.4 || -- || -- ||
 || 2.   || *Community engagement and dissemination* || *1.5* || *0.0* ||
-|| 2.1  || Set up and conduct meetings with users || 1.0 || -- || (sprint) || (incomplete) ||
+|| 2.1  || Set up and conduct meetings with users || 1.0 || 0.1 || (sprint) || (incomplete) ||
 || 2.2  || Introductory user documentation || 0.5 || -- || 28-Aug-2009 || -- ||   
 || 3.   || *Technical development* || *3.5* || *0.0* ||
 || 3.1  || Initial content persistence  || 3.5 || -- || 28-Aug-2009 || -- ||
@@ -36,6 +36,7 @@
 3.5 days:
 
  * (2.0) !AtomPub protocol library, tested against eXist
+    * completed with 3.8 days effort
  * (1.0) persist workspace content/layout changes
  * (0.5) persist changes to card content
 
