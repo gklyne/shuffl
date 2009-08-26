@@ -412,7 +412,7 @@ TestAtomPub = function() {
                     //log.debug("- getItem updated item return: "+shuffl.objectString(val));
                     same(val, save_item_val1, 
                         "getItem updated item details retrieved");
-                    m.atompub.listFeed({path: "/item/test/feed"}, callback);
+                    callback(val);
                 });
             m.exec(null,
                 function(val) {
@@ -508,19 +508,21 @@ TestAtomPub = function() {
                     equals(val.id.slice(0,8), "urn:uuid", "Item test feed id listed");
                     equals(val.updated.slice(0,2), "20", "Item test feed update-date listed");
                     equals(val.entries.length, 2, "Feed has two items");
-                    // Note: feed items seem to be listed in reverse order
-                    equals(val.entries[1].id,      save_item_val1.id,      "Feed item 1 id");
-                    equals(val.entries[1].path,    save_item_val1.path,    "Feed item 1 path");
-                    equals(val.entries[1].uri,     save_item_val1.uri,     "Feed item 1 uri");
-                    equals(val.entries[1].title,   save_item_val1.title,   "Feed item 1 title");
-                    equals(val.entries[1].created, save_item_val1.created, "Feed item 1 created");
-                    equals(val.entries[1].updated, save_item_val1.updated, "Feed item 1 updated");
-                    equals(val.entries[0].id,      save_item_val2.id,      "Feed item 2 id");
-                    equals(val.entries[0].path,    save_item_val2.path,    "Feed item 2 path");
-                    equals(val.entries[0].uri,     save_item_val2.uri,     "Feed item 2 uri");
-                    equals(val.entries[0].title,   save_item_val2.title,   "Feed item 2 title");
-                    equals(val.entries[0].created, save_item_val2.created, "Feed item 2 created");
-                    equals(val.entries[0].updated, save_item_val2.updated, "Feed item 2 updated");
+                    // Note: feed items may be listed in either order
+                    var i1 = val.entries[0].id == save_item_val1.id ? 0 : 1;
+                    var i2 = 1-i1;
+                    equals(val.entries[i1].id,      save_item_val1.id,      "Feed item 1 id");
+                    equals(val.entries[i1].path,    save_item_val1.path,    "Feed item 1 path");
+                    equals(val.entries[i1].uri,     save_item_val1.uri,     "Feed item 1 uri");
+                    equals(val.entries[i1].title,   save_item_val1.title,   "Feed item 1 title");
+                    equals(val.entries[i1].created, save_item_val1.created, "Feed item 1 created");
+                    equals(val.entries[i1].updated, save_item_val1.updated, "Feed item 1 updated");
+                    equals(val.entries[i2].id,      save_item_val2.id,      "Feed item 2 id");
+                    equals(val.entries[i2].path,    save_item_val2.path,    "Feed item 2 path");
+                    equals(val.entries[i2].uri,     save_item_val2.uri,     "Feed item 2 uri");
+                    equals(val.entries[i2].title,   save_item_val2.title,   "Feed item 2 title");
+                    equals(val.entries[i2].created, save_item_val2.created, "Feed item 2 created");
+                    equals(val.entries[i2].updated, save_item_val2.updated, "Feed item 2 updated");
                     callback(val);
                 });
             m.exec(null,
@@ -531,11 +533,49 @@ TestAtomPub = function() {
             stop(2000);
         });
 
+    // 11. Delete first item; check response.
+    test("Delete item", 
+        function () {
+            log.debug("---------- 11. Delete item ----------");
+            expect(5);
+            var m = new shuffl.AsyncComputation();
+            m.atompub = new shuffl.AtomPub("http://localhost:8080/exist/");
+            m.eval(
+                function (val, callback) {
+                    m.atompub.deleteItem({ uri: save_item_uri1}, callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    //log.debug("- deleteItem return: "+shuffl.objectString(val));
+                    same(val, {}, "deleteItem return value");
+                    m.atompub.getItem({uri: save_item_uri1}, callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    log.debug("- getItem deleted item return: "+shuffl.objectString(val));
+                    equals(val.val,        "error", 
+                        "getItem deleted item return val");
+                    equals(val.message,    "AtomPub request failed", 
+                        "getItem deleted item return message");
+                    equals(val.HTTPstatus, 400, 
+                        "getItem deleted item return HTTPstatus");
+                    equals(val.HTTPstatusText, 
+                        "No+topic+was+found%2E", 
+                        "getItem deleted item return HTTPstatusText");
+                    callback(val);
+                });
+            m.exec(null,
+                function(val) {
+                    log.debug("---------- 8. ----------");
+                    start();
+                });
+            stop(2000);
+        });
 
-        // 11. Delete first item; check response.
-        // 13. List feed; check only second/third items remain.
-        // 14. Delete test feed.
-        // 15. Get item info; check item no longer exists
+
+    // 13. List feed; check only second item remains.
+    // 14. Delete test feed.
+    // 15. Get item info; check item no longer exists
 
 };
 
