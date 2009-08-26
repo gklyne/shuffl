@@ -123,7 +123,7 @@ shuffl.AtomPub.decodeFeedListResponse = function (atompubobj, feedinfo, callback
                 };
                 fi.entries[index] = ii;
             });
-        log.debug("shuffl.AtomPub.decodeFeedListResponse: return"+shuffl.objectString(fi));
+        //log.debug("shuffl.AtomPub.decodeFeedListResponse: return"+shuffl.objectString(fi));
         callback(fi);
     }
     return decodeResponse;
@@ -211,16 +211,16 @@ shuffl.AtomPub.decodeItemResponse = function
  */
 shuffl.AtomPub.updateTitle = function(atompubobj, iteminfo, callback) {
     function update(val) {
-        log.debug("shuffl.AtomPub.updateTitle: "+shuffl.objectString(val));
+        //log.debug("shuffl.AtomPub.updateTitle: "+shuffl.objectString(val));
         if (val.dataref == undefined ||
             val.title   == iteminfo.title || iteminfo.title == "") {
             // No update required
-            log.debug("- no update");
+            //log.debug("- no update");
             callback(val);
             return;
         };
         // Update title in feed item:
-        log.debug("- update title");
+        //log.debug("- update title");
         atompubobj.putItem(
             { uri:     val.uri
             , title:   iteminfo.title
@@ -378,7 +378,7 @@ shuffl.AtomPub.assembleData = function (iteminfo) {
     var type  = iteminfo.datatype || "application/atom+xml";
     var title = iteminfo.title || "";
     if (iteminfo.dataref != undefined) {
-        log.debug("shuffl.AtomPub.assembleData (ref): "+shuffl.objectString(iteminfo));
+        //log.debug("shuffl.AtomPub.assembleData (ref): "+shuffl.objectString(iteminfo));
         data = shuffl.interpolate(templateref, 
             {title: title, dataref: iteminfo.dataref, datatype: type});
         //type = "application/atom+xml";
@@ -547,9 +547,10 @@ shuffl.AtomPub.prototype.createItem = function (iteminfo, callback) {
         }
     }
     //log.debug("shuffl.AtomPub.createItem: "+shuffl.objectString(iteminfo));
+    //log.debug("shuffl.AtomPub.createItem: "+shuffl.objectString(datainfo));
     var uri      = this.serviceUri(iteminfo, "edit");
     var datainfo = shuffl.AtomPub.assembleData(iteminfo);
-    log.debug("shuffl.AtomPub.createItem: "+uri+", "+shuffl.objectString(datainfo));
+    log.debug("shuffl.AtomPub.createItem: "+uri);
     jQuery.ajax({
             type:         "POST",
             url:          uri.toString(),
@@ -571,7 +572,7 @@ shuffl.AtomPub.prototype.createItem = function (iteminfo, callback) {
  * @param iteminfo  object identifying an item. See serviceUri for details.
  */
 shuffl.AtomPub.prototype.getItem = function (iteminfo, callback) {
-    log.debug("shuffl.AtomPub.getItem: "+shuffl.objectString(iteminfo));
+    //log.debug("shuffl.AtomPub.getItem: "+shuffl.objectString(iteminfo));
     var uri = this.serviceUri(iteminfo, "content");
     log.debug("shuffl.AtomPub.getItem: "+uri);
     jQuery.ajax({
@@ -592,9 +593,11 @@ shuffl.AtomPub.prototype.getItem = function (iteminfo, callback) {
  */
 shuffl.AtomPub.prototype.putItem = function (iteminfo, callback) {
     // TODO: avoid specifying service when using previous URI?
+    //log.debug("shuffl.AtomPub.putItem: "+shuffl.objectString(iteminfo));
+    //log.debug("shuffl.AtomPub.putItem: "+shuffl.objectString(datainfo));
     var uri = this.serviceUri(iteminfo, "edit");
     var datainfo = shuffl.AtomPub.assembleData(iteminfo);
-    log.debug("shuffl.AtomPub.putItem: "+uri+", "+shuffl.objectString(datainfo));
+    log.debug("shuffl.AtomPub.putItem: "+uri);
     jQuery.ajax({
             type:         "PUT",
             url:          uri.toString(),
@@ -616,7 +619,7 @@ shuffl.AtomPub.prototype.deleteItem = function (iteminfo, callback) {
     function decodeResponse(data, status) {
         callback({});
     }
-    log.debug("shuffl.AtomPub.deleteItem: "+shuffl.objectString(iteminfo));
+    //log.debug("shuffl.AtomPub.deleteItem: "+shuffl.objectString(iteminfo));
     var uri = this.serviceUri(iteminfo, "edit");
     log.debug("shuffl.AtomPub.deletetItem: "+uri);
     jQuery.ajax({
