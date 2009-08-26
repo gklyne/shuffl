@@ -25,7 +25,7 @@
 || 2.1  || Set up and conduct meetings with users || 1.0 || 0.1 || (sprint) || (incomplete) ||
 || 2.2  || Introductory user documentation || 0.5 || -- || 28-Aug-2009 || -- ||   
 || 3.   || *Technical development* || *3.5* || *0.0* ||
-|| 3.1  || Initial content persistence  || 3.5 || -- || 28-Aug-2009 || -- ||
+|| 3.1  || Initial content persistence  || 3.5 || 3.8 || 28-Aug-2009 || (incomplete) ||
 
 = Task breakdowns =
 
