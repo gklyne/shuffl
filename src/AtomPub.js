@@ -137,15 +137,20 @@ shuffl.AtomPub.decodeFeedListResponse = function (atompubobj, feedinfo, callback
  * @param iteminfo    object containing inofmration about item request from
  *                    previous call of serviceUri (see below).
  * @param callback    callback function with result information.
+ * @param trace       optional parameter, set 'true' if trace output of
+ *                    response data is required.
  * @return            jQuery.ajax success callback function to decode the
  *                    response and then call the supplied callback function.
  */
-shuffl.AtomPub.decodeItemResponse = function (atompubobj, iteminfo, callback) {
+shuffl.AtomPub.decodeItemResponse = function 
+        (atompubobj, iteminfo, callback, trace) {
     function decodeResponse(data, status) {
-        //log.debug("shuffl.AtomPub.decodeResponse: "+
-        //    iteminfo.path+", "+status);
-        log.debug("shuffl.AtomPub.decodeResponse: "+
-            iteminfo.path+", "+shuffl.elemString(data.documentElement));
+        if (trace) {
+            log.debug("shuffl.AtomPub.decodeResponse: "+
+                iteminfo.path+", "+status);
+            log.debug("shuffl.AtomPub.decodeResponse: "+
+                shuffl.elemString(data.documentElement));
+        };
         //
         // <entry xmlns="http://www.w3.org/2005/Atom">
         //   <id>urn:uuid:9475cf17-eb4e-4887-9ac5-f579b2d79692</id>
@@ -597,6 +602,27 @@ shuffl.AtomPub.prototype.putItem = function (iteminfo, callback) {
             contentType:  datainfo.contentType,
             dataType:     "xml",    // Atom response expected as XML
             success:      shuffl.AtomPub.decodeItemResponse(this, iteminfo, callback),
+            error:        shuffl.AtomPub.requestFailed(callback),
+            cache:        false
+        });
+};
+
+/**
+ * Function to delete a feed item
+ * 
+ * @param iteminfo  object identifying an item. See serviceUri for details.
+ */
+shuffl.AtomPub.prototype.deleteItem = function (iteminfo, callback) {
+    function decodeResponse(data, status) {
+        callback({});
+    }
+    log.debug("shuffl.AtomPub.deleteItem: "+shuffl.objectString(iteminfo));
+    var uri = this.serviceUri(iteminfo, "edit");
+    log.debug("shuffl.AtomPub.deletetItem: "+uri);
+    jQuery.ajax({
+            type:         "DELETE",
+            url:          uri.toString(),
+            success:      decodeResponse,
             error:        shuffl.AtomPub.requestFailed(callback),
             cache:        false
         });
