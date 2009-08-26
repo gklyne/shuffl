@@ -39,7 +39,6 @@
  * (1.0) persist workspace content/layout changes
  * (0.5) persist changes to card content
 
-
 = Sprint review notes =
 
 (ongoing observations)
@@ -50,5 +49,30 @@
 
 = Activity summary =
 
-17-Aug-2009: 
+17-Aug-2009:
+ * (0.1) prepared order for portable demo system
  * (0.2) sprint plan
+ * (0.1) investigate !AtomPub introspection with eXist
+ * (0.1) wrestle with Eclipse/SVN problems 
+
+18-Aug-2009:
+ * (0.2) work on !AtomPub tests and code
+
+19-Aug-2009:
+ * (0.2) explore Jetty configuration for running shuffl tests locally - it seems rather hard work - best guide so far is http://www.nabble.com/How-to-serve-static-content-from-packaged-Jetty-web-server--td22094983.html.  Symlinks don't work, so it looks as if I may need to copy all the test data :(
+ * (0.1) finally found jetty configuration for eXist: tools/jetty/etc/jetty.xml.  Can disable alias checking to simplify file serving.  Also lists directories.
+ * (0.4) continue working on !AtomPub protocol handler - got basic Ajax tests working.
+
+20-Aug-2009:
+ * (0.9) Had an long session working on !AtomPub protocol implementation, making substantial progress, but slower than anticipated. I now have a fairly substantial battery of tests running around feed creation and access, and in the process have established code for analyzing Atom feed and item values. The next major step is to create items within a feed, and recover them successfully. There's an outstanding issue of namespace handling (jQuery doesn't), but I'll come back to that later.
+
+24-Aug-2009:
+ * (0.1) Arranged meeting with Chrs Holland for 2-Sep
+ * (0.7) !AtomPub test cases. Item creation and retrieval working and tested
+
+25-Aug-2009:
+ * (1.0) !AtomPub implementation, almost complete
+
+26-Aug-2009:
+ * (0.25) Misc email, demo system order chasing
+ * (0.25) Completed !AtomPub implementation and tests (!)
