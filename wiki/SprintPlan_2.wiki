@@ -54,8 +54,6 @@ Some planned time was lost to another project, which has now passed a key milest
 
 = Activity summary =
 
-Total for sprint: 4.5 days
-
 17-Aug-2009:
  * (0.1) prepared order for portable demo system
  * (0.2) sprint plan
