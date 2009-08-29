@@ -42,7 +42,8 @@
 
 = Sprint review notes =
 
-(ongoing observations)
+AtomPub implementation overran estimate: see http://shuffl-announce.blogspot.com/2009/08/implementing-atompub.html.
+
 
 == End of sprint review ==
 
