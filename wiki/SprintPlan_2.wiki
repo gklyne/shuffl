@@ -44,12 +44,17 @@
 
 AtomPub implementation overran estimate: see http://shuffl-announce.blogspot.com/2009/08/implementing-atompub.html.
 
-
 == End of sprint review ==
 
-(retrospective notes)
+Sprint dominated buy AtomPub implementation - see notes linked above.
+
+Workspace persistence is not yet completed.
+
+Some planned time was lost to another project, which has now passed a key milestone, so I should be able to start clawing this back.
 
 = Activity summary =
+
+Total for sprint: 4.5 days
 
 17-Aug-2009:
  * (0.1) prepared order for portable demo system
