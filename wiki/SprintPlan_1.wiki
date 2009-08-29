@@ -88,8 +88,6 @@ Technical activities are substantially done, with some work slightly ahead of sc
 
 = Activity summary =
 
-Total activity this sprint: 9.1 days
-
 15-Jun-2009: 
  * (0.25) set up project Google Code infrastructure, blog, group, etc.
 
