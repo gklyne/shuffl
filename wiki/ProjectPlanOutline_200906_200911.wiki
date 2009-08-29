@@ -68,4 +68,6 @@ See: http://code.google.com/p/jiscri/wiki/ProjectDocumentation
 || || _or_ || FAIL, progressPosts, rapidInnovation, JISCRI, JISC, Shuffl ||
 || Final Progress Post || <This is a special post that will have criteria and template added to it so please watch this space as your project is getting closer to the end> - see link above || ... || ?? ||
 
+Project announcements blog: http://shuffl-announce.blogspot.com/
+
 An aggregated feed of all JISCRI project comments is available at http://feeds.feedburner.com/DailyNewsFeedJISCRI.
