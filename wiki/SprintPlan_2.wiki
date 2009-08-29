@@ -42,11 +42,11 @@
 
 = Sprint review notes =
 
-AtomPub implementation overran estimate: see http://shuffl-announce.blogspot.com/2009/08/implementing-atompub.html.
+!AtomPub implementation overran estimate: see http://shuffl-announce.blogspot.com/2009/08/implementing-atompub.html.
 
 == End of sprint review ==
 
-Sprint dominated buy AtomPub implementation - see notes linked above.
+Sprint dominated buy !AtomPub implementation - see notes linked above.
 
 Workspace persistence is not yet completed.
 
