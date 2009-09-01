@@ -138,12 +138,24 @@ cbody {
 
 .shuffl-footer {
     display:block;
-    font-face: 
-    font-family: Georgia, "Times New Roman", Times, serif;
+    font-face: font-family: Georgia, "Times New Roman", Times, serif;
     font-weight: lighter;
     font-size: small;
     font-style: italic;
+    width: 100%;
+    border: 0;
     margin: 0;
+    padding: 0;
+}
+
+.shuffl-footer-left {
+    float: left;
+    padding: 0 0.5em;
+}
+
+.shuffl-footer-right {
+    float: right;
+    padding: 0 0.5em;
 }
 
 .shuffl-card {
@@ -159,6 +171,13 @@ cbody {
     width:auto;   
     height:auto;
 }
+
+/* Specific identified fields */
+
+.dialog-savenew {
+    width: 60em;
+}
+
 
 /* Stock card colours */
 

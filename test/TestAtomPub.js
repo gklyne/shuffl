@@ -9,6 +9,8 @@
  */
 TestAtomPub = function() {
 
+    var atomserviceuri = "http://localhost:8080/exist/atom/";
+
     var save_item_uri1;
     var save_item_val1;
     var save_item_uri2;
@@ -29,7 +31,7 @@ TestAtomPub = function() {
                     m.atompub = new shuffl.AtomPub(val);
                     m.atompub.feedInfo({path:"/"}, callback);
                 });
-            m.exec("http://localhost:8080/exist/",
+            m.exec(atomserviceuri,
                 function(val) {
                     log.debug("  finish: "+shuffl.objectString(val));
                     equals(val.path, "/", "root path");
@@ -77,7 +79,7 @@ TestAtomPub = function() {
                     equals(val.title, "Test feed", "New feed title retrieved");
                     m.atompub.listFeed({path: "/testfeed"}, callback);
                 });
-            m.exec("http://localhost:8080/exist/",
+            m.exec(atomserviceuri,
                 function(val) {
                     equals(val.path, "/testfeed", "New feed path listed");
                     equals(shuffl.uriWithoutFragment(val.uri),
@@ -121,7 +123,7 @@ TestAtomPub = function() {
                         "New feed URI returned");
                     callback(val);
                 });
-            m.exec("http://localhost:8080/exist/",
+            m.exec(atomserviceuri,
                 function(val) {
                     equals(val.path, "/other/loc/otherfeed", "New feed path returned");
                     equals(val.uri,  
@@ -152,7 +154,7 @@ TestAtomPub = function() {
                         {base:"/", name:"otherfeed", title:"Other feed"}, 
                         callback);
                 });
-            m.exec("http://localhost:8080/noexist/",
+            m.exec("http://localhost:8080/noexist/atom/",
                 function(val) {
                     //log.debug("- return: "+shuffl.objectString(val));
                     equals(val.val, "error", "Error response");
@@ -199,7 +201,7 @@ TestAtomPub = function() {
                         "feedInfo return HTTPstatusText");
                     m.atompub.listFeed({path: "/testfeed"}, callback);
                 });
-            m.exec("http://localhost:8080/exist/",
+            m.exec(atomserviceuri,
                 function(val) {
                     //log.debug("- listFeed return: "+shuffl.objectString(val));
                     equals(val.val,        "error", 
@@ -270,7 +272,7 @@ TestAtomPub = function() {
                     same(val.entries, [], "Item test feed empty");
                     callback(val);
                 });
-            m.exec("http://localhost:8080/exist/",
+            m.exec(atomserviceuri,
                 function(val) {
                     // final tests
                     log.debug("----- 6. -----");
@@ -287,7 +289,7 @@ TestAtomPub = function() {
             log.debug("----- 7. Create new item -----");
             expect(22);
             var m = new shuffl.AsyncComputation();
-            m.atompub = new shuffl.AtomPub("http://localhost:8080/exist/");
+            m.atompub = new shuffl.AtomPub(atomserviceuri);
             m.eval(
                 function (val, callback) {
                     // createitem([feed, slug, title, data], callback)
@@ -369,7 +371,7 @@ TestAtomPub = function() {
             log.debug("----- 8. Update item -----");
             expect(9);
             var m = new shuffl.AsyncComputation();
-            m.atompub = new shuffl.AtomPub("http://localhost:8080/exist/");
+            m.atompub = new shuffl.AtomPub(atomserviceuri);
             m.eval(
                 function (val, callback) {
                     // putitem([uri, data], callback)
@@ -428,7 +430,7 @@ TestAtomPub = function() {
             log.debug("----- 9. Create item with non-atom data -----");
             expect(12);
             var m = new shuffl.AsyncComputation();
-            m.atompub = new shuffl.AtomPub("http://localhost:8080/exist/");
+            m.atompub = new shuffl.AtomPub(atomserviceuri);
             m.eval(
                 function (val, callback) {
                     m.atompub.createItem(
@@ -493,7 +495,7 @@ TestAtomPub = function() {
             log.debug("----- 10. List feed, check two items -----");
             expect(18);
             var m = new shuffl.AsyncComputation();
-            m.atompub = new shuffl.AtomPub("http://localhost:8080/exist/");
+            m.atompub = new shuffl.AtomPub(atomserviceuri);
             m.eval(
                 function (val, callback) {
                     m.atompub.listFeed({path: "/item/test/feed"}, callback);
@@ -539,7 +541,7 @@ TestAtomPub = function() {
             log.debug("----- 11. Delete item -----");
             expect(5);
             var m = new shuffl.AsyncComputation();
-            m.atompub = new shuffl.AtomPub("http://localhost:8080/exist/");
+            m.atompub = new shuffl.AtomPub(atomserviceuri);
             m.eval(
                 function (val, callback) {
                     m.atompub.deleteItem({ uri: save_item_uri1}, callback);
@@ -579,7 +581,7 @@ TestAtomPub = function() {
             log.debug("----- 12. List feed; check only second item remains -----");
             expect(13);
             var m = new shuffl.AsyncComputation();
-            m.atompub = new shuffl.AtomPub("http://localhost:8080/exist/");
+            m.atompub = new shuffl.AtomPub(atomserviceuri);
             m.eval(
                 function (val, callback) {
                     m.atompub.listFeed({path: "/item/test/feed"}, callback);
@@ -649,7 +651,7 @@ TestAtomPub = function() {
                         "feedInfo return HTTPstatusText");
                     callback(val);
                 });
-            m.exec("http://localhost:8080/exist/",
+            m.exec(atomserviceuri,
                 function(val) {
                     log.debug("----- 13. -----");
                     start();
@@ -663,7 +665,7 @@ TestAtomPub = function() {
             log.debug("----- 14. Get item; check it no longer exists -----");
             expect(4);
             var m = new shuffl.AsyncComputation();
-            m.atompub = new shuffl.AtomPub("http://localhost:8080/exist/");
+            m.atompub = new shuffl.AtomPub(atomserviceuri);
             m.eval(
                 function (val, callback) {
                     m.atompub.getItem({uri: save_item_uri2}, callback);
