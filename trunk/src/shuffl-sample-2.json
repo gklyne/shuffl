@@ -1,7 +1,9 @@
 { 'shuffl:id':        'sample-2'
 , 'shuffl:class':     'shuffl:workspace'
 , 'shuffl:version':   '0.1'
-, 'shuffl:location':  'http://localhost:8080/.../card_1'
+, 'shuffl:location':  'http://localhost:8080/exist/shuffl/src/shuffl-sample-2.xhtml'
+, 'shuffl:atomuri':   'http://localhost:8080/exist/atom/'
+, 'shuffl:feeduri':   'http://localhost:8080/exist/atom/edit/shuffl/'
 , 'shuffl:base-uri':  '#'
 , 'shuffl:uses-prefixes':
   [ { 'shuffl:prefix':  'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }

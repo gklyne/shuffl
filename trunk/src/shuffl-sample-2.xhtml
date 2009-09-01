@@ -39,6 +39,7 @@
     
     <!-- Shuffl script -->    
     <script type="text/javascript" src="shuffl-base.js"></script>
+    <script type="text/javascript" src="AtomPub.js"></script>
     <script type="text/javascript" src="shuffl.js"></script>
 
     <!--  Shuffl card type plugins -->
@@ -56,12 +57,18 @@
 	  </script>
 
     <div id="dialog_savenew" title="Save as new workspace" style="display:none;">
-		  <p>Enter the URI of a location (Atom feed) where the new workspace is to be saved.</p>
+		  <p>Enter the URI of an Atom Publishing Protocol service and item feed where the new workspace is to be saved.</p>
 		  <form>
 			  <fieldset>
 			    <legend>Location for saved workspace</legend>
-			    <label for="location">Location</label>
-			    <input type="text" name="location" id="location" class="text ui-widget-content ui-corner-all" />
+			    <!--
+          <label for="location">Location:</label>
+			    <input type="text" name="location" id="location" class="text ui-widget-content ui-corner-all" size="80"/>
+			     -->
+          <label for="atomuri">AtomPub service URI:</label>
+          <input type="text" name="atomuri" id="atomuri" class="text ui-widget-content ui-corner-all" size="80"/>
+          <label for="feedpath">Atom feed path:</label>
+          <input type="text" name="feedpath" id="feedpath" class="text ui-widget-content ui-corner-all" size="80"/>
 			  </fieldset>
 		  </form>
 		</div>
@@ -92,7 +99,12 @@
 			  </ul>
 			</div>
  
-      <p id="footer" class="shuffl-footer"><a href="http://code.google.com/p/shuffl/">shuffl project</a></p>
+      <p id="footer" class="shuffl-footer">
+        <span id="workspaceuri" class="shuffl-footer-left">(location)</span>
+        <span id="shufflhome" class="shuffl-footer-right">
+          <a href="http://code.google.com/p/shuffl/">shuffl project</a>
+        </span>
+      </p>
 
     </div>
  

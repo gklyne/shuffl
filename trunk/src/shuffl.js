@@ -361,7 +361,7 @@ shuffl.resize = function() {
     var sheight = jQuery("#stockbar").outerHeight();
     var fheight = jQuery("#footer").outerHeight();
     var vmargin = parseInt(layout.css('margin-bottom'), 10);
-    layout.height(layout.parent().innerHeight() - sheight - vmargin*4 - fheight);
+    layout.height(layout.parent().innerHeight() - sheight - vmargin*7 - fheight);
 };
 
 // ----------------------------------------------------------------
@@ -373,9 +373,11 @@ shuffl.loadWorkspace = function(uri) {
     log.info("Load workspace from: "+uri);
 
     jQuery.getJSON(uri, function (json) {
-            // When JSON has beed read...
+            // When JSON has been read...
             log.debug("Loading workspace from "+uri);
             var i;
+            var atomuri  = json['shuffl:atomuri'];
+            var feeduri  = json['shuffl:feeduri'];
             var stockbar = json['shuffl:workspace']['shuffl:stockbar'];
             var layout   = json['shuffl:workspace']['shuffl:layout'];
             for (i = 0 ; i < stockbar.length ; i++) {
@@ -397,6 +399,12 @@ shuffl.loadWorkspace = function(uri) {
                 jQuery.getJSON(layout[i]['data'], 
                     mk.partial(shuffl.createCardFromData, layout[i]));
             };
+            var wsuri = jQuery.uri().resolve(uri).toString();
+            log.debug("Display location of workspace, and save values: "+wsuri);
+            jQuery('#workspaceuri').text(wsuri);
+            jQuery('#workspace').data('location', wsuri);
+            jQuery('#workspace').data('atomuri',  atomuri);
+            jQuery('#workspace').data('feeduri',  feeduri);
         });
 };
 
@@ -462,11 +470,15 @@ shuffl.saveRelativeCard = function(baseloc, card, callback) {
 // Save workspace
 // ----------------------------------------------------------------
 
-shuffl.saveNewWorkspace = function (baseloc) {
+/**
+ * 
+ */
+shuffl.saveNewWorkspace = function (atomuri, feedpath) {
     log.debug("shuffl.saveNewWorkspace: "+baseloc);
 
     // Helper function to save card then invoke the next step
     var saveCard = function(card, next) {
+        log.debug("shuffl.saveNewWorkspace.saveCard: "+baseloc);
         var saveLoc = function(ret) {
             // Update card location
             log.debug("shuffl.saveNewWorkspace:saveCard:saveLoc: "+ret);
@@ -477,7 +489,7 @@ shuffl.saveNewWorkspace = function (baseloc) {
     };
 
     // TODO: make general support function
-    // Each supplied function invikes its callback with a return value
+    // Each supplied function invokes its callback with a return value
     var callSequenceThen = function(val, callqueue, thencall) {
         var fn = callqueue.shift();
         if (fn != undefined) {
@@ -488,13 +500,16 @@ shuffl.saveNewWorkspace = function (baseloc) {
     };
 
     var saveWorkspaceCards = function(thencall) {
-        log.debug("Scan cards, save any with relative location");
+        log.debug("Scan cards - save any with relative location");
         // TODO: generalize this as plugin(s) e.g.:  $.eachThen(...), $.sequenceThen(...)
         var workspace = jQuery("#workspace");
+        log.debug("- workspace");
         jQuery("div.shuffl-card").each( function (i) {
+            log.debug("- card "+i);
             var card = jQuery(this);
             workspace.queue("save", function (val, next) { saveCard(card, next); });
         });
+        log.debug("Invoke callSequenceThen for saving cards");
         callSequenceThen(null, workspace.queue("save"), thencall);
     };
 
@@ -518,21 +533,39 @@ shuffl.saveNewWorkspace = function (baseloc) {
 /**
  * Menu command "Save as new workspace..."
  */
+
+// 1. use current location as default base
+// 2. browse to save location via AtomPub
+// 3. save cards, capture locations (or bail if error)
+// 4. assemble workspace description and save
+// 5. display location saved (where? title?)
+
+// See also: shuffl.loadWorkspace("shuffl-sample-2.json")
+
 shuffl.menuSaveNewWorkspace = function () {
     log.debug("shuffl.menuSaveNewWorkspace");
-    // $.ui.dialog.defaults.bgiframe = true;
+    var atomuri = jQuery('#workspace').data('atomuri');
+    var feeduri = jQuery('#workspace').data('feeduri');
+    log.debug("- atomuri "+atomuri+", feeduri "+feeduri);
+    var atompub = new shuffl.AtomPub(atomuri);
+    jQuery('#atomuri').val(atomuri);
+    jQuery('#feedpath').val(atompub.getAtomPath(feeduri));
+    atompub = null;
     jQuery("#dialog_savenew").dialog(
         { bgiframe: true,
           modal: true,
+          dialogClass: 'dialog-savenew',
+          width: 800,
           buttons: {
               Ok: function() {
-                  var location = jQuery(this).find("#location").val();
+                  var atomuri = jQuery('#atomuri').val();
+                  var feedpath = jQuery('#feedpath').val();
                   jQuery(this).dialog('destroy');
-                  log.debug("shuffl.menuSaveNewWorkspace, location: "+location);
-                  shuffl.saveNewWorkspace(location);
+                  log.debug("- OK: atomuri "+atomuri+", feedpath "+feedpath);
+                  shuffl.saveNewWorkspace(atomuri, feedpath);
               },
               Cancel: function() {
-                  log.debug("shuffl.menuSaveNewWorkspace, cancelled");
+                  log.debug("- Cancel");
                   jQuery(this).dialog('destroy');
               }
           }
@@ -553,7 +586,7 @@ jQuery(document).ready(function() {
 
     log.debug("shuffl: attach card-creation functions to stockpile (TODO: allow function selection by stockpile definition)");
 
-    jQuery("div.shuffl-stockpile").data( 'makeCard', shuffl.createCardFromStock );
+    jQuery("div.shuffl-stockpile").data( 'makeCard', shuffl.createCardFromStock);
 
     /**
      * Size workspace to fit within window (by default, it doesn't on Safari)

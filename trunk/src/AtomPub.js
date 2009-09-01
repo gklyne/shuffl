@@ -10,9 +10,11 @@
  * The class is instantiated with the URI of the AtomPub server, from which
  * is derived a base URI for subsequent requests.  This attempts to isolate 
  * most of the code from the servioce location details.
+ * 
+ * @param svcbase     a base URI for the AtomPub service
  */
-shuffl.AtomPub = function(baseuri) {
-    this.baseuri = baseuri;
+shuffl.AtomPub = function(svcbase) {
+    this.svcbase = svcbase;
 };
 
 // ---------------------
@@ -49,7 +51,9 @@ shuffl.AtomPub.decodeFeedInfoResponse = function (atompubobj, feedinfo, callback
         var fi = { path: feedinfo.path };
         var c = jQuery(data.documentElement).find("collection");
         if (c.length != 0) {
-            fi.uri   = shuffl.extendUriPath(atompubobj.baseuri, c.attr("href"));
+            // TODO: isolate bug in collection href return?
+            var feedpath = c.attr("href").replace(/^\/atom/, "");
+            fi.uri   = shuffl.extendUriPath(atompubobj.svcbase, feedpath);
             fi.title= c.find("title").text();
         };
         callback(fi);
@@ -100,7 +104,7 @@ shuffl.AtomPub.decodeFeedListResponse = function (atompubobj, feedinfo, callback
         // </atom:feed>
         //
         var feedelems = jQuery(data.documentElement).children();
-        var fipathuri = atompubobj.getAtomLinkPathUri(feedinfo, feedelems);
+        var fipathuri = atompubobj.getAtomEditPathUri(feedinfo, feedelems);
         var fi = {
             path:     fipathuri.path,
             uri:      fipathuri.uri,
@@ -112,7 +116,7 @@ shuffl.AtomPub.decodeFeedListResponse = function (atompubobj, feedinfo, callback
         feedelems.filter("entry").each(
             function (index) {
                 var itemelems = jQuery(this).children();
-                var iipathuri = atompubobj.getAtomLinkPathUri(feedinfo, itemelems);
+                var iipathuri = atompubobj.getAtomEditPathUri(feedinfo, itemelems);
                 var ii = {
                     path:     iipathuri.path,
                     uri:      iipathuri.uri,
@@ -173,7 +177,7 @@ shuffl.AtomPub.decodeItemResponse = function
         // </entry>
         //
         var itemelems = jQuery(data.documentElement).children();
-        var iipathuri = atompubobj.getAtomLinkPathUri(iteminfo, itemelems);
+        var iipathuri = atompubobj.getAtomEditPathUri(iteminfo, itemelems);
         var ii = {
             path:     iipathuri.path,
             uri:      iipathuri.uri,
@@ -257,10 +261,26 @@ shuffl.AtomPub.requestFailed = function (callback) {
  * @return          path of Atom feed or item with service elements stripped out.
  */
 shuffl.AtomPub.prototype.getAtomPath = function(uri) {
-    // I think there's an eXist AtomPub bug in returned href values,
-    // leading to the removal of "atom/" about here.
-    // This function isolates the hack.
+    if (typeof uri == "string") {
+        uri = jQuery.uri(uri);
+    }
     return uri.path.replace(/\/exist\/atom\/edit/, "")+shuffl.uriQuery(uri);
+};
+
+/**
+ * Method to extract an Atom service base URI from an Atom URI
+ * 
+ * @param uri       URI of Atom feed or item
+ * @return          the atom service base URI associated with this object, or
+ *                  null if the URI is not editable using the current AtomPub
+ *                  service.
+ */
+shuffl.AtomPub.prototype.getAtomService = function(uri) {
+    var svcuri = svcbase.toString();
+    if (uri.toString().slice(0,svcuri.length != svcuri)) {
+        svcuri = null;
+    }
+    return svcuri;
 };
 
 /**
@@ -285,10 +305,8 @@ shuffl.AtomPub.prototype.serviceUri = function (info, service) {
             "shuffl.AtomPub.serviceUri: insufficient information ", 
             shuffl.objectString(info)); 
     };
-    // TODO: I think there's an eXist AtomPub bug in returned href values,
-    //       leading to the insertion of "atom/" about here: isolate the hack.
     info.uri = shuffl.extendUriPath(
-        jQuery.uri(this.baseuri).resolve("atom/"+service+"/"),
+        jQuery.uri(this.svcbase).resolve(service+"/"),
         info.path);
     return info.uri;
 };
@@ -314,7 +332,7 @@ shuffl.AtomPub.prototype.getAtomPathUri = function (info, atomref) {
 };
 
 /**
- * Method to assemble an atom object path and URI from an atompub
+ * Method to assemble an atom object edit path and URI from an atompub
  * protocol response.
  * 
  * @param info      is the feed or item information for which the request 
@@ -325,7 +343,7 @@ shuffl.AtomPub.prototype.getAtomPathUri = function (info, atomref) {
  *                  from base URI information from the current request
  *                  and local reference information in the atompub response.
  */
-shuffl.AtomPub.prototype.getAtomLinkPathUri = function (info, elems) {
+shuffl.AtomPub.prototype.getAtomEditPathUri = function (info, elems) {
     var atomref = elems.filter("link[rel='edit']").attr("href");
     return this.getAtomPathUri(info, atomref);
 };
