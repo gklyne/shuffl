@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>test-shuffl-loadworkspace</title>
+    <title>test-shuffl-cardhandlers</title>
     
     <!-- Shuffl style rules -->
     <link type="text/css" href="shuffl.css" rel="stylesheet"/>
@@ -34,7 +34,6 @@
     <script type="text/javascript" src="shuffl-base.js"></script>
     <script type="text/javascript" src="AsyncComputation.js"></script>
     <script type="text/javascript" src="shuffl-cardhandlers.js"></script>
-    <script type="text/javascript" src="shuffl-loadworkspace.js"></script>
 
     <!--  Shuffl card type plugins -->
     <script type="text/javascript" src="shuffl-card-freetext.js"></script>
@@ -43,9 +42,15 @@
   
   <body>
 
+    <h1>Shuffl tests</h1>
+    <h2 id="banner"></h2>
+    <h2 id="userAgent"></h2>
+    <ol id="tests"></ol>
+    <div id="main"></div> 
+
     <!--  Run the test script -->
     <script type="text/javascript">
-      jQuery(document).ready(testLoadWorkspace);
+      jQuery(document).ready(testCardHandlers);
     </script>
     
     <div id="workspace" class="shuffl-workspace">
