@@ -200,6 +200,10 @@ shuffl.createDataFromCard = function (card) {
     return extdata;
 };
 
+// ----------------------
+// Text editing functions
+// ----------------------
+
 /**
  * Function called before a text element is edited with a copy of the text,
  * and returning a modified version.  In this case, the raw text is extracted.
@@ -361,52 +365,6 @@ shuffl.resize = function() {
     var fheight = jQuery("#footer").outerHeight();
     var vmargin = parseInt(layout.css('margin-bottom'), 10);
     layout.height(layout.parent().innerHeight() - sheight - vmargin*7 - fheight);
-};
-
-// ----------------------------------------------------------------
-// Load up workspace
-// ----------------------------------------------------------------
-
-shuffl.loadWorkspace = function(uri) {
-
-    log.info("Load workspace from: "+uri);
-
-    jQuery.getJSON(uri, function (json) {
-            // When JSON has been read...
-            log.debug("Loading workspace from "+uri);
-            var i;
-            var atomuri  = json['shuffl:atomuri'];
-            var feeduri  = json['shuffl:feeduri'];
-            var stockbar = json['shuffl:workspace']['shuffl:stockbar'];
-            var layout   = json['shuffl:workspace']['shuffl:layout'];
-            for (i = 0 ; i < stockbar.length ; i++) {
-                log.debug("Loading stockbar["+i+"]: "+shuffl.objectString(stockbar[i]));
-                // Create and append new blank stockpile element
-                var stockpile = shuffl.stockpile_blank.clone();
-                stockpile.attr(stockbar[i]['id']);
-                stockpile.addClass(stockbar[i]['class']);
-                stockpile.text(stockbar[i]['label']);
-                stockpile.data( 'makeCard', shuffl.createCardFromStock );
-                stockpile.data( 'CardType', stockbar[i]['type'] );
-                stockpile.draggable(shuffl.stockDraggable);
-                jQuery('#stockbar').append(shuffl.stockpile_space.clone()).append(stockpile);
-            }
-            log.debug("Loading layout");
-            for (i = 0 ; i < layout.length ; i++) {
-                log.debug("Loading card["+i+"]: "+shuffl.objectString(layout[i]));
-                log.debug("Loading URI: "+layout[i]['data']);
-                jQuery.getJSON(layout[i]['data'], 
-                    mk.partial(shuffl.createCardFromData, layout[i]));
-            };
-            var wsuri = jQuery.uri().resolve(uri).toString();
-            log.debug("Display location of workspace, and save values: "+wsuri);
-            jQuery('#workspaceuri').text(wsuri);
-            // TODO: remove entries where wsdata value can be used later
-            jQuery('#workspace').data('location', wsuri);
-            jQuery('#workspace').data('atomuri',  atomuri);
-            jQuery('#workspace').data('feeduri',  feeduri);
-            jQuery('#workspace').data('wsdata',   json);
-        });
 };
 
 // ----------------------------------------------------------------
