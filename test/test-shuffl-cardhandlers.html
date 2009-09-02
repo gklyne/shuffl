@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>test-shuffl-loadworkspace</title>
+
+    <!-- Import MochiKit modules: require MochiKit library functions to be fully qualified -->
+    <script type="text/javascript">MochiKit = {__export__: false};</script>
+    <script type="text/javascript" src="../MochiKit/Base.js"></script>
+    <script type="text/javascript" src="../MochiKit/Iter.js"></script>
+    <script type="text/javascript" src="../MochiKit/Logging.js"></script>
+     
+    <!-- Import jQuery and related scripts -->
+    <link rel="stylesheet" type="text/css" href="../jQuery/css/ui-lightness/jquery-ui-1.7.2.custom.css" />  
+    <link rel="stylesheet" type="text/css" href="../qunit/testsuite.css" media="screen" />
+    <script type="text/javascript" src="../jQuery/js/jquery-1.3.2.js"></script> 
+<!-- 
+    <script type="text/javascript" src="../jQuery/js/jquery-ui-1.7.2.custom.js"></script>
+ -->
+    <script type="text/javascript" src="../qunit/testrunner.js"></script>
+<!-- 
+    <script>
+    // Use jQuery via jQuery(...)
+      jQuery.noConflict();
+    </script>
+ -->
+
+    <script type="text/javascript" src="../jQuery/jquery.uri.js"></script>
+
+    <!-- JSON conversion script -->
+    <script type="text/javascript" src="../jQuery/jquery.json-1.3.js"></script>
+
+    <!-- inline text editing script -->
+    <script type="text/javascript" src="../jQuery/jquery.jeditable.js"></script>
+    
+    <!-- Shuffl style rules -->
+    <link type="text/css" href="../src/shuffl.css" rel="stylesheet"/>
+    
+    <!-- Shuffl script -->    
+    <script type="text/javascript" src="../src/shuffl-base.js"></script>
+    <script type="text/javascript" src="../src/shuffl-cardhandlers.js"></script>
+    <script type="text/javascript" src="test-shuffl-cardhandlers.js"></script>
+    
+  </head>
+  
+  <body>
+
+    <!--  Run the test script -->
+    <script type="text/javascript">
+      jQuery(document).ready(TestCardHandlers);
+    </script>
+    <h1>Shuffl tests</h1>
+    <h2 id="banner"></h2>
+    <h2 id="userAgent"></h2>
+    <ol id="tests"></ol>
+    <div id="main" style="height:22em">
+
+      <div id="workspace" class="shuffl-workspace">
+        <!-- padding top space down stockbar -->
+        <div class="shuffl-header" />
+        <!-- Stock bar goes here -->
+        <div id="stockbar" class="shuffl-stockbar">
+          <!-- Shuffl logo -->
+          <div class="shuffl-workspacemenu" id="workspacemenu"><c class="stock-yellow">s</c><c class="stock-blue">h</c><c class="stock-green">u</c><c class="stock-orange">f</c><c class="stock-pink">f</c><c class="stock-purple">l</c></div>
+        </div>
+        <!-- cards go here -->
+        <div id="layout" class="shuffl-layout" style="height:20em">
+        </div>
+      </div>
+
+    </div> 
+ 
+  </body>
+</html>

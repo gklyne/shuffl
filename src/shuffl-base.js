@@ -43,12 +43,6 @@ mk.map     = MochiKit.Base.map;
 if (typeof shuffl == "undefined") {
     shuffl = {};
 }
-if (typeof shuffl.CardFactoryMap == "undefined") {
-    shuffl.CardFactoryMap = {};   // Initial empty card factory map
-}
-if (typeof shuffl.idnext == "undefined") {
-    shuffl.idnext         = 100;  // Counter for unique id generation    
-}
 
 // ----------------------------------------------------------------
 // Error class
