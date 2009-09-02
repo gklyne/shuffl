@@ -3,7 +3,7 @@
  *  Shuffl code to load card data into the workspace.
  *  
  * @author Graham Klyne
- * @version $Id: ...$
+ * @version $Id: $
  */
 
 // ----------------------------------------------------------------
