@@ -121,7 +121,6 @@ shuffl.jsonFreetextCard = function (card) {
     return carddata;
 };
 
-
 /**
  *   Add new card type factories
  */

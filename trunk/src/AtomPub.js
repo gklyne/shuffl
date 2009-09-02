@@ -188,8 +188,6 @@ shuffl.AtomPub.decodeItemResponse = function
             data:     itemelems.filter("content").text(),
             dataref:  itemelems.filter("link[rel='edit-media']").attr("href"),
             datatype: itemelems.filter("link[rel='edit-media']").attr("type"),
-            //dataref:  itemelems.filter("content").attr("src"),
-            //datatype: itemelems.filter("content").attr("type")
         };
         if (ii.dataref != undefined && ii.data == "") { 
             var pathuri = atompubobj.getAtomPathUri(iteminfo, ii.dataref); 
@@ -216,8 +214,10 @@ shuffl.AtomPub.decodeItemResponse = function
 shuffl.AtomPub.updateTitle = function(atompubobj, iteminfo, callback) {
     function update(val) {
         //log.debug("shuffl.AtomPub.updateTitle: "+shuffl.objectString(val));
-        if (val.dataref == undefined ||
-            val.title   == iteminfo.title || iteminfo.title == "") {
+        if (val.dataref    == undefined  ||
+            iteminfo.title == undefined  || 
+            iteminfo.title == ""         ||
+            iteminfo.title == val.title) {
             // No update required
             //log.debug("- no update");
             callback(val);
@@ -288,16 +288,17 @@ shuffl.AtomPub.prototype.getAtomService = function(uri) {
  * 
  * @param feedinfo  object identifying a feed.
  * @param service   string indicating what feed service is required:
- *                  "introspect", "edit" or "content"
+ *                  "introspect", "edit" or "content". Defaults to 'edit'
  *
  * The feed identification object has the following fields: 
- *   path:  is feed uri path of the feed to be accessed,
+ *   path:  is feed uri path of the feed or item to be accessed,
  * or:
- *   base:  names the feed uri path at which the new feed is 
+ *   base:  names the feed uri path at which the new feed or item is 
  *          created, or "/".  Must end with '/'.
- *   name:  a name for the new feed, appended to the base path.
+ *   name:  a name for the new feed or item, appended to the base path.
  */
 shuffl.AtomPub.prototype.serviceUri = function (info, service) {
+    if ( !service   ) { service   = 'edit'; };
     if ( !info.path ) { info.path = info.base+info.name; };
     if ( !info.path ) { info.path = this.getAtomPath(info.uri); };
     if ( !info.path ) { 

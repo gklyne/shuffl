@@ -1,7 +1,6 @@
 { 'shuffl:id':        'id_ZZZ'
 , 'shuffl:class':     'shuffl-freetext-YYYY'
 , 'shuffl:version':   '0.1'
-, 'shuffl:location':  'http://localhost:8080/.../card_1'
 , 'shuffl:base-uri':  '#'
 , 'shuffl:uses-prefixes':
   [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
