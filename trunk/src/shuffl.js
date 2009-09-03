@@ -40,7 +40,7 @@ shuffl.resize = function() {
  */
 shuffl.saveCard = function(atompub, feedpath, cardloc, card, callback) {
 
-    // Helper function extracts location from posted item response and 
+    // Helper function extracts saved location from posted item response and 
     // returns it via callback
     var createComplete = function(data) {
         if (data instanceof shuffl.Error) { 
