@@ -90,18 +90,49 @@ TestCardHandlers = function() {
     test("shuffl.placeCardFromData",
         function () {
             var l = 
-                { 'id':     'card_1'
-                , 'class':  'stock_1'
+                { 'id':     'layout_1'
+                , 'class':  'layout-class'
                 , 'data':   'shuffl_sample_2_card_1.json'
                 , 'pos':    {left:100, top:30}
                 };
             var d = 
-                {
+                { 'shuffl:id':        'card_id'
+                , 'shuffl:class':     'test-type'
+                , 'shuffl:version':   '0.1'
+                , 'shuffl:location':  'http://localhost:8080/.../card_1'
+                , 'shuffl:base-uri':  '#'
+                , 'shuffl:uses-prefixes':
+                  [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
+                  , { 'shuffl:prefix':  'rdf',    'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
+                  , { 'shuffl:prefix':  'rdfs',   'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
+                  , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
+                  , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
+                  ]
+                , 'shuffl:data':
+                  { 'shuffl:title':   "Card 1 title here"
+                  , 'shuffl:tags':    [ 'card_1_tag', 'footag' ]
+                  , 'shuffl:text':    "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow"
+                  }
                 };
-            c = shuffl.placeCardFromData(l, d);
-        
-        
-            ok(false, "shuffl.placeCardFromData");
+            log.debug("test shuffl.placeCardFromData");
+            shuffl.placeCardFromData(l, d);
+            var c = jQuery("#card_id");
+            // Check card details
+            equals(c.attr('id'), "card_id", "card id attribute");
+            ok(c.hasClass('shuffl-card'),   "shuffl card class");
+            ok(c.hasClass('stock-default'), "default class");
+            equals(c.find("cident").text(), "card_id", "card id field");
+            equals(c.find("cclass").text(), "test-type", "card class field");
+            equals(c.find("ctitle").text(), "card_id - class test-type", "card title field");
+            equals(c.find("ctags").text(),  "card_id test-type", "card tags field");
+            // Check layout details
+            equals(c.data('shuffl:id'),    "card_id",   "layout card id");
+            equals(c.data('shuffl:class'), "test-type", "layout card class");
+            same(c.data('shuffl:external'), d, "card data");
+            var p = c.position();
+            equals(Math.floor(p.left), 100, "position-left");
+            equals(Math.floor(p.top),  30,  "position-top");
+            equals(c.css("zIndex"), "11", "card zIndex");
         });
 
     test("shuffl.createDataFromCard",

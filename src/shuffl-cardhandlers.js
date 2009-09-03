@@ -193,10 +193,19 @@ shuffl.createCardFromStock = function (stockpile) {
 
 /**
  * Create and place a new card using a supplied layout value and card data
+ * 
+ * Note: layout provides default values for card id and class; the primary 
+ * source is the card data.
+ * 
+ * @param layout    structure indicating where and how the card appears in
+ *                  the shuffl workspace, and a URI reference to where the card 
+ *                  data (purports) to come from.
+ * @param data      structure indicating attributes of the card, as well as
+ *                  card-type-dependent data values.
  */
 shuffl.placeCardFromData = function (layout, data) { 
-    //log.debug("shuffl.placeCardFromData, layout:    "+shuffl.objectString(layout));
-    //log.debug("shuffl.placeCardFromData, card data: "+shuffl.objectString(data));
+    log.debug("shuffl.placeCardFromData, layout:    "+shuffl.objectString(layout));
+    log.debug("shuffl.placeCardFromData, card data: "+shuffl.objectString(data));
     var carddata  = data['shuffl:data'];  // Card-type specific data
     var cardid    = shuffl.get(data, 'shuffl:id',    layout['id']);
     var cardclass = shuffl.get(data, 'shuffl:class', layout['class']);
