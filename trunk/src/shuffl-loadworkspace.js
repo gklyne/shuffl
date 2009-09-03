@@ -51,7 +51,7 @@ shuffl.loadWorkspace = function(uri) {
                 log.debug("Loading card["+i+"]: "+shuffl.objectString(layout[i]));
                 log.debug("Loading URI: "+layout[i]['data']);
                 jQuery.getJSON(layout[i]['data'], 
-                    mk.partial(shuffl.createCardFromData, layout[i]));
+                    mk.partial(shuffl.placeCardFromData, layout[i]));
             };
             var wsuri = jQuery.uri().resolve(uri).toString();
             log.debug("Display location of workspace, and save values: "+wsuri);
