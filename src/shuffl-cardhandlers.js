@@ -95,7 +95,7 @@ shuffl.card_default_blank = jQuery(
 /**
  * Default card factory: title and tags only
  */
-shuffl.makeDefaultCard = function (cardtype, cardid, carddata) {
+shuffl.makeDefaultCard = function (cardtype, unused_cardcss, cardid, carddata) {
     log.debug("shuffl.makeDefaultCard: "+cardid+", "+carddata);
     var card = shuffl.card_default_blank.clone();
     card.attr('id', cardid);
@@ -158,6 +158,21 @@ shuffl.stockpile_space = jQuery("<div class='shuffl-spacer' />");
 shuffl.stockpile_handle = jQuery("<div class='shuffl-handle' />");
 
 /**
+ * Create a new stockpile
+ */
+shuffl.createStockpile = function(sid, sclass, slabel, stype) {
+    // Create new blank stockpile element
+    var stockpile = shuffl.stockpile_blank.clone();
+    stockpile.attr('id', sid);
+    stockpile.addClass(sclass);
+    stockpile.text(slabel);
+    stockpile.data( 'makeCard', shuffl.createCardFromStock );
+    stockpile.data( 'CardType', stype);
+    stockpile.draggable(shuffl.stockDraggable);
+    return stockpile;
+};
+
+/**
  * Function attached to stockpile to liberate a new card from that pile
  */    
 shuffl.createCardFromStock = function (stockpile) { 
@@ -169,8 +184,7 @@ shuffl.createCardFromStock = function (stockpile) {
         .replace(/ui-draggable-dragging/,'');
     var cardid = shuffl.makeId('card_');
     // log.debug("cardclass '"+cardclass+"'");
-    // TODO: default empty body text
-    var newcard = shuffl.getCardFactory(cardtype)(cardid, cardclass, "[body text ...]" );
+    var newcard = shuffl.getCardFactory(cardtype)(cardid, cardclass, "");
     // Instantiate location and external data valuesshuffl.makeId('card_')
     newcard.data('shuffl:location', cardid);
     newcard.data('shuffl:external', shuffl.ExternalCardData);
@@ -178,11 +192,11 @@ shuffl.createCardFromStock = function (stockpile) {
 };
 
 /**
- * Create a new card using a supplied layout value and card data
+ * Create and place a new card using a supplied layout value and card data
  */
-shuffl.createCardFromData = function (layout, data) { 
-    //log.debug("shuffl.createCardFromData, layout:    "+shuffl.objectString(layout));
-    //log.debug("shuffl.createCardFromData, card data: "+shuffl.objectString(data));
+shuffl.placeCardFromData = function (layout, data) { 
+    //log.debug("shuffl.placeCardFromData, layout:    "+shuffl.objectString(layout));
+    //log.debug("shuffl.placeCardFromData, card data: "+shuffl.objectString(data));
     var carddata  = data['shuffl:data'];  // Card-type specific data
     var cardid    = shuffl.get(data, 'shuffl:id',    layout['id']);
     var cardclass = shuffl.get(data, 'shuffl:class', layout['class']);
