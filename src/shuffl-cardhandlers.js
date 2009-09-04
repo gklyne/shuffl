@@ -197,6 +197,29 @@ shuffl.createCardFromStock = function (stockpile) {
  * Note: layout provides default values for card id and class; the primary 
  * source is the card data.
  * 
+ * @param cardid    a URI reference for the new card identifier
+ * @param cardclass a card class (factory type, not CSS class) for the new card
+ * @param data      structure indicating attributes of the card, as well as
+ *                  card-type-dependent data values.
+ * @return          a jQuery object representing the new card.
+ */
+shuffl.createCardFromData = function (cardid, cardclass, data) { 
+    log.debug("shuffl.createCardFromData, card data: "+shuffl.objectString(data));
+    var carddata  = data['shuffl:data'];  // Card-type specific data
+    // Create card using card factory
+    log.debug("cardid: "+cardid+", cardclass: "+cardclass);
+    var newcard   = shuffl.getCardFactory(cardclass)(cardid, cardclass, carddata);
+    // Save full copy of external data in jQuery card object
+    newcard.data('shuffl:external', data);
+    return newcard;
+};
+
+/**
+ * Create and place a new card using a supplied layout value and card data
+ * 
+ * Note: layout provides default values for card id and class; the primary 
+ * source is the card data.
+ * 
  * @param layout    structure indicating where and how the card appears in
  *                  the shuffl workspace, and a URI reference to where the card 
  *                  data (purports) to come from.
@@ -206,18 +229,16 @@ shuffl.createCardFromStock = function (stockpile) {
 shuffl.placeCardFromData = function (layout, data) { 
     log.debug("shuffl.placeCardFromData, layout:    "+shuffl.objectString(layout));
     log.debug("shuffl.placeCardFromData, card data: "+shuffl.objectString(data));
-    var carddata  = data['shuffl:data'];  // Card-type specific data
     var cardid    = shuffl.get(data, 'shuffl:id',    layout['id']);
     var cardclass = shuffl.get(data, 'shuffl:class', layout['class']);
     var cardloc   = layout['data'];
     // Create card using card factory
     log.debug("cardid: "+cardid+", cardclass: "+cardclass);
-    var newcard   = shuffl.getCardFactory(cardclass)(cardid, cardclass, carddata);
-    // Save details in jQuery card object
+    var newcard = shuffl.createCardFromData(cardid, cardclass, data);
+    // Save details from layout in jQuery card object
     newcard.data('shuffl:id',       cardid);
     newcard.data('shuffl:class',    cardclass);
     newcard.data('shuffl:location', cardloc);
-    newcard.data('shuffl:external', data);
     //ÊPlace card on layout
     var cardpos   = layout['pos'];
     shuffl.placeCard(jQuery('#layout'), newcard, cardpos);
