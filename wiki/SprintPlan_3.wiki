@@ -88,3 +88,4 @@ Due to getting bogged down with !AtomPub and data persistence in the [SprintPlan
  * (0.1) revise pitch from JISCRI and publish on project home page.  Also add link to runnable demo in SVN.
  * (0.2) write up notes of Ross Gardler's use-case
  * (0.2) prepare sprint 3 plan
+ * (0.1) Post use-case for data visualization to wiki
