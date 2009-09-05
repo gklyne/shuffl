@@ -4,6 +4,8 @@
 
 Simul is creating a registry of (JISC?) open-source projects to help uncover potential collaborations '(my words - is this right? #g)'
 
+'I couldn't find a URI for simul - #g'
+
 == Outline use-case ==
 
 Consider a new project that proposes to do something with RDF.
