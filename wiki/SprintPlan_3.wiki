@@ -59,8 +59,32 @@ Due to getting bogged down with !AtomPub and data persistence in the [SprintPlan
 
 = Sprint review notes =
 
+ * TBD
+
 == End-of-sprint review ==
 
  * TBD
 
 = Activity summary =
+
+01-Sep-2009:
+ * (0.2) Save/display workspace location when loading
+ * (0.8) Continue work on saving workspace to AtomPub server. Ran into some problems of AtomPub naming, edit URIs and duplicate naming. Resolution adopted and work continues.
+
+02-Sep-2009:
+ * (0.5) email catch-up
+ * (0.2) meeting with Chris Holland
+ * (0.3) restructuring code and starting on test cases for card handling
+
+03-Sep-2009:
+ * (0.2) continue work on card handling test cases
+ * (0.8) JISCRI meeting
+
+04-Sep-2009:
+ * (0.8) JISCRI meeting
+ * (0.2) discuss new use-case with Ross Gardler
+
+05-Sep-2009 (unscheduled):
+ * (0.1) revise pitch from JISCRI and publish on project home page.  Also add link to runnable demo in SVN.
+ * (0.2) write up notes of Ross Gardler's use-case
+ * (0.2) prepare sprint 3 plan
