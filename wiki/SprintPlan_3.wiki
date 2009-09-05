@@ -6,7 +6,7 @@
 
 This sprint should mark an acceleration of Shuffl development, with an increase to 80% developer effort allocated to the project.
 
-Due to getting bogged down with AtomPub and non-completion of data persistence in the [SprintPlan_2 previous sprint], the project is running a little behind schedule.
+Due to getting bogged down with !AtomPub and data persistence in the [SprintPlan_2 previous sprint], the project is running a little behind schedule.
 
 == Current milestone ==
 
@@ -34,7 +34,7 @@ Due to getting bogged down with AtomPub and non-completion of data persistence i
 || 2.3  || VoCamp Bristol || 2.0 || --  || 11-Sep-2009 || -- ||
 || 3.   || *Technical development* || *???* || *0.0* ||
 || 3.1  || Refactoring and test cases; esp. to support persistence  || 2.0 || ?? || 09-Sep-2009 || -- ||
-|| 3.2  || Initial content persistence  || 3.5 || 3.8 || 11-Sep-2009 || (incomplete) ||
+|| 3.2  || Initial content persistence  || 3.5 || 3.8 || 11-Sep-2009 || -- ||
 
 = Task breakdowns =
 
@@ -64,4 +64,3 @@ Due to getting bogged down with AtomPub and non-completion of data persistence i
  * TBD
 
 = Activity summary =
-
