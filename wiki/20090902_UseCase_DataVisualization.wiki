@@ -1,4 +1,4 @@
-#summary O20090902_UseCase_DataVisualization: Data visualization use case
+#summary 20090902_UseCase_DataVisualization: Data visualization use case
 
 = Data visualization use case =
 
