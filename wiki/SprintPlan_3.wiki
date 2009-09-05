@@ -6,7 +6,7 @@
 
 This sprint should mark an acceleration of Shuffl development, with an increase to 80% developer effort allocated to the project.
 
-Due to getting bogged down with !AtomPub and data persistence in the [SprintPlan_2 previous sprint], the project is running a little behind schedule.
+Due to getting bogged down with !AtomPub and data persistence in the [SprintPlan_2 previous sprint], the project is running behind schedule (1-2 weeks, allowing for meetings this sprint).
 
 == Current milestone ==
 
