@@ -32,15 +32,17 @@ Due to getting bogged down with !AtomPub and data persistence in the [SprintPlan
 || 2.2  || Introductory user documentation || 0.5 || -- || 28-Aug-2009 || -- ||   
 || 2.3  || JISCRI meeting || 2.0 || 2.0 || 04-Sep-2009 || 04-Sep-2009 ||
 || 2.3  || VoCamp Bristol || 2.0 || --  || 11-Sep-2009 || -- ||
-|| 3.   || *Technical development* || *???* || *0.0* ||
-|| 3.1  || Refactoring and test cases; esp. to support persistence  || 2.0 || ?? || 09-Sep-2009 || -- ||
-|| 3.2  || Initial content persistence  || 3.5 || 3.8 || 11-Sep-2009 || -- ||
+|| 3.   || *Technical development* || *6.0* || *0.0* ||
+|| 3.1  || Refactoring and test cases; esp. to support persistence  || 3.0 || -- || 09-Sep-2009 || -- ||
+|| 3.2  || Initial content persistence  || 3.0 || 3.8 || 11-Sep-2009 || -- ||
 
 = Task breakdowns =
 
 (effort estimates in days to nearest 0.25)
 
 == 3.1: Refactoring and test cases ==
+
+3.0 days:
 
  * (0.5) identify functional areas
  * (1.5)  Create test cases for key methods in main functional areas
@@ -54,8 +56,6 @@ Due to getting bogged down with !AtomPub and data persistence in the [SprintPlan
  * (0.5) implement resave of workspace (*Save*)
  * (1.0) implement on-the-fly saving of changes to card content, layout, etc
  * (0.5) save card size as well as position
-
-
 
 = Sprint review notes =
 
