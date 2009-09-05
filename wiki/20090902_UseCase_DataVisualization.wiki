@@ -1,0 +1,17 @@
+#summary O20090902_UseCase_DataVisualization: Data visualization use case
+
+= Data visualization use case =
+
+This use case was suggested in discussion with a zoology researcher as an application that he might use now if it were available.  It focuses on visualization rather than data capture, which is probably a good way to start building user trust and familiarity with the software.
+
+== Shuffl data visualization ==
+
+Assume a card or collection represent a dataset; assume another card represents a way to visualize data.  Being able to easily "join" these to create an instance of the visualization would be very useful.  I think this is eminently do-able.
+
+If I add capabilities to import CSV data as a stack (collection) of cards with defined fields and create a plug-in that, when linked to a card stack, generates a graph or graphs of numeric values on the cards, then I think the basic idea described above could be demonstrated.
+
+The user interface I envisage would be to have a "stock" item for the visualization, an instance of which can be created by dragging to the workspace.  Initially, the displayed card would be empty.  Linking a card-stack with the visualization instance, using some form of drag-and-drop, would cause the visualization to populate with data from the stack.
+
+More complex visualizations would be achieved by implementing more sophisticated plug-in cards.
+
+A pragmatic advantage of focusing on this application would be that it is one that researchers could use without giving control of the original data to a prototype system, and which could provide some real value even if the system is not fully hardened for production use.  This would see Shuffl initially presented as a visualization tool rather than a curation tool; this might turn out to be advantageous, and is not as much at variance with the original vision as might be supposed.
