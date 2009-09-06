@@ -4,7 +4,9 @@
 
  * http://simal.googlecode.com 
 
-The Simal project is creating a framework for creating registries,  rather than actually creating a registry. OSS Watch (the sponsor) are  using it to create a registry of open source projects to help uncover potential collaborations, but others are starting to use it for other registries. 
+The Simal project is creating a framework for creating registries.
+
+OSS Watch (the sponsor) are  using it to create a registry of open source projects to help uncover potential collaborations, but others are starting to use it for other registries. 
 
 == Outline use-case ==
 
