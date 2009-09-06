@@ -1,10 +1,10 @@
-#summary 20090904_UseCase_Simul: Simul use scenario
+#summary 20090904_UseCase_Simal: Simal use scenario
 
-= Simul use scenario =
+= Simal use scenario =
 
-Simul is creating a registry of (JISC?) open-source projects to help uncover potential collaborations '(my words - is this right? #g)'
+ * http://simal.googlecode.com 
 
-'I couldn't find a URI for simul - #g'
+The Simal project is creating a framework for creating registries,  rather than actually creating a registry. OSS Watch (the sponsor) are  using it to create a registry of open source projects to help uncover potential collaborations, but others are starting to use it for other registries. 
 
 == Outline use-case ==
 
@@ -24,16 +24,17 @@ Now we have a list of possibly-related projects and people.
 
 We have now captured a list of  all projects and people potentially related to this new project.
 
-== Additional requirements ==
+== Additional comments ==
 
-One requirement is remote simultaneous editing of cards (something that I am currently considering for a future project).
+Remote simultaneous editing of cards (something that I am currently considering for a future project).
 
-Ross is using wookie widgets with jQuery.  It may be that Wookie widgets can provide an easy route to real-time simultaneous updates for shuffl displays.  It's not clear rigjht now whetherb this would be done best at the workspace or card level.
+Ross is using wookie widgets with jQuery.  It may be that Wookie widgets can provide an easy route to real-time simultaneous updates for shuffl displays.  It's not clear rigjht now whether this would be done best at the workspace or card level.
 
 Ross suggests: sign up to wookie widgets list and point folks to shuffl demo and ask what it would take to make it a wookie widget.
 
 == Links ==
 
+ * http://simal.googlecode.com 
  * http://getwookie.org/Welcome.html
     * http://getwookie.org/About.html
     * http://code.google.com/apis/wave/extensions/gadgets/guide.html
