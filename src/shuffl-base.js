@@ -67,6 +67,17 @@ shuffl.Error.prototype.toString = function () {
 };
 
 // ----------------------------------------------------------------
+// Callback helpers
+// ----------------------------------------------------------------
+
+/**
+ * Callback function taking one parameter that does nothing.
+ */
+shuffl.noop = function (val) {
+    return;
+};
+
+// ----------------------------------------------------------------
 // Miscellaneous support functions
 // ----------------------------------------------------------------
 

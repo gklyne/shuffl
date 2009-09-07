@@ -1,5 +1,5 @@
-{ 'shuffl:id':        'id_2'
-, 'shuffl:class':     'shuffl-freetext-blue'
+{ 'shuffl:id':        'id_1'
+, 'shuffl:class':     'shuffl-freetext-yellow'
 , 'shuffl:version':   '0.1'
 , 'shuffl:base-uri':  '#'
 , 'shuffl:uses-prefixes':
@@ -10,8 +10,8 @@
   , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
   ]
 , 'shuffl:data':
-  { 'shuffl:title':   "Card_2 title here"
-  , 'shuffl:tags':    [ 'card_2_tag', 'bluetag' ]
-  , 'shuffl:text':    "Card 2 free-form text here<br/>line 2<br/>line3<br/>blue"
+  { 'shuffl:title':   "Card 1 title"
+  , 'shuffl:tags':    [ 'card_1_tag', 'yellowtag' ]
+  , 'shuffl:text':    "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow"
   }
 }
