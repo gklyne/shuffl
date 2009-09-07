@@ -1,4 +1,4 @@
-// $Id: test-shuffl-cardhandlers.js 270 2009-09-07 12:43:56Z gk-google@ninebynine.org $
+// $Id$
 
 /**
  * Test suite for free text card functions
