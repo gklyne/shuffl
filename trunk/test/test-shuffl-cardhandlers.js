@@ -28,7 +28,7 @@ TestCardHandlers = function() {
 
     test("shuffl.addCardFactory",
         function () {
-            log.debug("test shuffl.addCardFactory")
+            log.debug("test shuffl.addCardFactory");
     		same(shuffl.CardFactoryMap, {}, "CardFactoryMap initially empty");
     		shuffl.addCardFactory("test-type", "test-css", shuffl.makeDefaultCard);
     		equals(shuffl.CardFactoryMap['test-type'].cardcss, "test-css", "CardFactoryMap with one entry");
@@ -36,7 +36,7 @@ TestCardHandlers = function() {
 
     test("shuffl.getCardFactory",
         function () {
-            log.debug("test shuffl.getCardFactory")
+            log.debug("test shuffl.getCardFactory");
     		var c1 = shuffl.getCardFactory("test-type");
     		equals(typeof c1, "function", "retrieved factory");
     		var c2 = shuffl.getCardFactory("default-type");
@@ -45,7 +45,7 @@ TestCardHandlers = function() {
 
     test("shuffl.makeDefaultCard",
         function () {
-            log.debug("test shuffl.makeDefaultCard")
+            log.debug("test shuffl.makeDefaultCard");
             var css = 'stock-default';
     		var c   = shuffl.makeDefaultCard("card-type", css, "card-id",
     			{ 'shuffl:tags': 	["card-tag"]
@@ -62,7 +62,7 @@ TestCardHandlers = function() {
 
     test("shuffl.createStockpile",
         function () {
-            log.debug("test shuffl.createStockpile")
+            log.debug("test shuffl.createStockpile");
     		var s = shuffl.createStockpile(
     			"stock_id", "stock-class", "stock-label", "test-type");
     	    equals(s.attr('id'), "stock_id", "Stock id");
@@ -91,7 +91,7 @@ TestCardHandlers = function() {
 
     test("shuffl.createCardFromData",
         function () {
-            log.debug("test shuffl.createCardFromData")
+            log.debug("test shuffl.createCardFromData");
             var d = 
                 { 'shuffl:id':        'card_id'
                 , 'shuffl:class':     'test-type'
@@ -125,7 +125,7 @@ TestCardHandlers = function() {
 
     test("shuffl.placeCardFromData",
         function () {
-            log.debug("test shuffl.placeCardFromData")
+            log.debug("test shuffl.placeCardFromData");
             var l = 
                 { 'id':     'layout_1'
                 , 'class':  'layout-class'
@@ -214,19 +214,45 @@ TestCardHandlers = function() {
 
     test("shuffl.lineEditable",
         function () {
-            log.debug("test shuffl.lineEditable")
-            ok(false, "shuffl.lineEditable");
+            log.debug("test shuffl.lineEditable");
+            var d = jQuery("<div><span class='edit'>Some text</span></div>");
+            var e = d.find(".edit");
+            shuffl.lineEditable(e);
+            log.debug("- lineEditable: "+shuffl.elemString(e[0]));
+            e.trigger('dblclick');
+            log.debug("- dblclicked: "+shuffl.elemString(e[0]));
+            var i = e.find("IMPUT");
+            var b = e.find("BUTTON[type='submit']");
+            // These tests are ad hoc - enough to show the editable control 
+            // has been activated, but not to prove it's working as expected.
+            equals(i.text(), "", "Input text");
+            equals(b.text(), "OK", "OK button label");
+            //log.debug("- OK button: "+shuffl.elemString(b[0]));
+            //b.trigger('click');
+            //b.trigger('click');
+            //e.trigger('blur');
+            //log.debug("- OK clicked: "+shuffl.elemString(e[0]));
+            //ok(false, "shuffl.lineEditable");
         });
 
     test("shuffl.blockEditable",
         function () {
-            log.debug("test shuffl.blockEditable")
-            ok(false, "shuffl.blockEditable");
+            log.debug("test shuffl.blockEditable");
+            var d = jQuery("<div><span class='edit'>Some text<br/>more text</span></div>");
+            var e = d.find(".edit");
+            shuffl.blockEditable(e);
+            log.debug("- blockEditable: "+shuffl.elemString(e[0]));
+            e.trigger('dblclick');
+            log.debug("- dblclicked: "+shuffl.elemString(e[0]));
+            var i = e.find("IMPUT");
+            var b = e.find("BUTTON[type='submit']");
+            equals(i.text(), "", "Input text");
+            equals(b.text(), "OK", "OK button label");
         });
 
     test("shuffl.placeCard",
         function () {
-            log.debug("test shuffl.placeCard")
+            log.debug("test shuffl.placeCard");
             ok(false, "shuffl.placeCard");
         });
 

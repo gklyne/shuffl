@@ -128,7 +128,7 @@ shuffl.makeDefaultCard = function (cardtype, cardcss, cardid, carddata) {
 shuffl.jsonDefaultCard = function (card) {
     var carddata = shuffl.card_default_data;
     carddata['shuffl:title'] = card.find("ctitle").text();
-    carddata['shuffl:tags']  = jQuery.trim(card.find("ctags").text()).split(/\s,\s/);
+    carddata['shuffl:tags']  = jQuery.trim(card.find("ctags").text()).split(/ /);
     return carddata;
 };
 
@@ -302,7 +302,7 @@ shuffl.doneEditText = function(value, settings) {
 };
 
 /**
- * Function that can be used for submitting new edit text unchaged.
+ * Function that can be used for submitting new edit text unchanged.
  */
 shuffl.passEditText = function(value, settings) {
     log.debug("shuffl.passEditText: "+value);
@@ -311,6 +311,8 @@ shuffl.passEditText = function(value, settings) {
 
 /**
  * Set up single line inline edit field
+ * 
+ * See: http://www.appelsiini.net/projects/jeditable
  */
 shuffl.lineEditable = function (field) {
     field.editable(shuffl.passEditText, 
@@ -328,6 +330,8 @@ shuffl.lineEditable = function (field) {
 
 /**
  * Set up multiline inline edit field
+ * 
+ * See: http://www.appelsiini.net/projects/jeditable
  */
 shuffl.blockEditable = function (field) {
     field.editable(shuffl.doneEditText, 
