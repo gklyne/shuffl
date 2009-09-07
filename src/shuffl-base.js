@@ -81,6 +81,8 @@ shuffl.elemString = function(elem) {
         attrtext += " "+attrs[i].name+"='"+attrs[i].value+"'";
     };
     var tagName = elem.tagName;
+    // If faults about here, check that param passed is DOM element,
+    // not jQuery object; e.g. jQuery(selector)[0].
     return "<"+tagName+attrtext+">"
         + mk.map(shuffl.nodeString, elem.childNodes).join("")
         + "</"+tagName+">";
