@@ -121,6 +121,8 @@ shuffl.objectString = function (obj) {
         if ( typeof obj[k] == "string" ) {
             str += pre + k + ': "' + obj[k] + '"';
             pre = ', ';
+        } else if (obj[k] instanceof Array) {
+            str = pre + k + ': [' + obj[k].join() + ']';
         } else if ( typeof obj[k] != "function" ) {
             //log.debug("  - "+k+": "+obj[k]);
             str += pre + k + ': ' + obj[k];
@@ -148,7 +150,7 @@ shuffl.interpolate = function(template, dict) {
 };
 
 /**
- * Helper function to return a string value from an object field, 
+ * Helper function to return a string or array value from an object field, 
  * otherwise a supplied default.  This function processes incoming
  * JSON, so should be defensively implemented.
  * 
@@ -161,7 +163,7 @@ shuffl.get = function (obj, key, def) {
     if (typeof obj == "object" && obj.hasOwnProperty(key)) {
         var val = obj[key];
         if (typeof val == "string") { return val; }
-        if (val instanceof Array)   { return val.join(" "); }
+        if (val instanceof Array)   { return val; }
     };
     return def;
 };
