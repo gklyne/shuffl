@@ -93,7 +93,7 @@ shuffl.card_default_blank = jQuery(
     "  </chead>\n"+
     "  <cfoot>\n"+
     "    <cident>card_ZZZ_ident</cident>:<cclass>card_ZZZ class</cclass>\n"+
-    "    (<ctags>card_ZZZ tags</ctags>)\n"+
+    "    (<ctags>card_ZZZ,tags</ctags>)\n"+
     "  </cfoot>"+
     "</div>");
 
@@ -101,20 +101,20 @@ shuffl.card_default_blank = jQuery(
  * Default card factory: title and tags only
  */
 shuffl.makeDefaultCard = function (cardtype, cardcss, cardid, carddata) {
-    log.debug("shuffl.makeDefaultCard: "+cardid+", "+carddata);
+    log.debug("shuffl.makeDefaultCard: "+cardid+", "+shuffl.objectString(carddata));
     var card = shuffl.card_default_blank.clone();
     card.data('shuffl:class',  cardtype);
     card.data('shuffl:id',     cardid);
     card.data("shuffl:tojson", shuffl.jsonDefaultCard);
     card.attr('id', cardid);
     card.addClass(cardcss);
-    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  cardid+" "+cardtype);
+    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
     var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - class "+cardtype);
     card.find("cident").text(cardid);
     card.find("cclass").text(cardtype);
     card.find("ctitle").text(cardtitle);
     shuffl.lineEditable(card.find("ctitle"));
-    card.find("ctags").text(cardtags);
+    card.find("ctags").text(cardtags.join(","));
     shuffl.lineEditable(card.find("ctags"));
     return card;
 };
@@ -128,7 +128,7 @@ shuffl.makeDefaultCard = function (cardtype, cardcss, cardid, carddata) {
 shuffl.jsonDefaultCard = function (card) {
     var carddata = shuffl.card_default_data;
     carddata['shuffl:title'] = card.find("ctitle").text();
-    carddata['shuffl:tags']  = jQuery.trim(card.find("ctags").text()).split(/ /);
+    carddata['shuffl:tags']  = jQuery.trim(card.find("ctags").text()).split(/[\s]*,[\s]*/);
     return carddata;
 };
 
@@ -274,6 +274,9 @@ shuffl.placeCardFromData = function (layout, data) {
 
 /**
  * Create an external representation object for a card
+ * 
+ * Note: JSON is represented internally as a Javascript structure, and is
+ * serialized on transmission by ther jQuery AJAX components.
  */
 shuffl.createDataFromCard = function (card) { 
     var extdata = card.data('shuffl:external');

@@ -112,6 +112,7 @@ TestCardHandlers = function() {
 			var s = shuffl.createStockpile(
 			    "stock_id", "stock-class", "stock-label", "test-type");
     		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
+            log.debug("- card "+shuffl.objectString(c));
     		var card_id = "card_101";
             equals(c.attr('id'), card_id, "card id attribute");
             ok(c.hasClass('shuffl-card'),   "shuffl card class");
@@ -120,7 +121,7 @@ TestCardHandlers = function() {
             equals(c.find("cident").text(), card_id, "card id field");
             equals(c.find("cclass").text(), "test-type", "card class field");
             equals(c.find("ctitle").text(), card_id+" - class test-type", "card title field");
-            equals(c.find("ctags").text(),  card_id+" test-type", "card tags field");
+            equals(c.find("ctags").text(),  card_id+",test-type", "card tags field");
             // Check saved card data
             equals(c.data('shuffl:id'),    card_id, "layout card id");
             equals(c.data('shuffl:class'), "test-type", "layout card class");
@@ -144,7 +145,7 @@ TestCardHandlers = function() {
             equals(c.find("cident").text(), "cardfromdata_id", "card id field");
             equals(c.find("cclass").text(), "test-type", "card class field");
             equals(c.find("ctitle").text(), "Card 1 title", "card title field");
-            equals(c.find("ctags").text(),  "card_1_tag footag", "card tags field");
+            equals(c.find("ctags").text(),  "card_1_tag,footag", "card tags field");
             same(c.data('shuffl:external'), d, "card data");
         });
 
@@ -162,7 +163,7 @@ TestCardHandlers = function() {
             equals(c.find("cident").text(), "card_id", "card id field");
             equals(c.find("cclass").text(), "test-type", "card class field");
             equals(c.find("ctitle").text(), "Card 1 title", "card title field");
-            equals(c.find("ctags").text(),  "card_1_tag footag", "card tags field");
+            equals(c.find("ctags").text(),  "card_1_tag,footag", "card tags field");
             // Check layout details
             equals(c.data('shuffl:id'),    "card_id",   "layout card id");
             equals(c.data('shuffl:class'), "test-type", "layout card class");
@@ -247,7 +248,7 @@ TestCardHandlers = function() {
             equals(c.find("cident").text(), "placecard_id", "card id field");
             equals(c.find("cclass").text(), "test-type", "card class field");
             equals(c.find("ctitle").text(), "Card 1 title", "card title field");
-            equals(c.find("ctags").text(),  "card_1_tag footag", "card tags field");
+            equals(c.find("ctags").text(),  "card_1_tag,footag", "card tags field");
             // Check layout details
             equals(c.data('shuffl:id'),    "placecard_id", "layout card id");
             equals(c.data('shuffl:class'), "test-type", "layout card class");
@@ -275,7 +276,7 @@ TestCardHandlers = function() {
             equals(c.find("cident").text(), card_id, "card id field");
             equals(c.find("cclass").text(), "test-type", "card class field");
             equals(c.find("ctitle").text(), card_id+" - class test-type", "card title field");
-            equals(c.find("ctags").text(),  card_id+" test-type", "card tags field");
+            equals(c.find("ctags").text(),  card_id+",test-type", "card tags field");
             // Check saved card data
             equals(c.data('shuffl:id'),    card_id, "layout card id");
             equals(c.data('shuffl:class'), "test-type", "layout card class");
