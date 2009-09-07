@@ -37,6 +37,7 @@ shuffl.loadWorkspace = function(uri) {
             for (i = 0 ; i < stockbar.length ; i++) {
                 log.debug("Loading stockbar["+i+"]: "+shuffl.objectString(stockbar[i]));
                 // Create and append new blank stockpile element
+                // TODO: use createStockpile helper
                 var stockpile = shuffl.stockpile_blank.clone();
                 stockpile.attr(stockbar[i]['id']);
                 stockpile.addClass(stockbar[i]['class']);

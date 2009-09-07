@@ -190,6 +190,9 @@ shuffl.createStockpile = function(sid, sclass, slabel, stype) {
     stockpile.data( 'makeCard', shuffl.createCardFromStock );
     stockpile.data( 'CardType', stype);
     stockpile.draggable(shuffl.stockDraggable);
+    log.debug("- append to stockbar");
+    jQuery('#stockbar').append(shuffl.stockpile_space.clone())
+    jQuery('#stockbar').append(stockpile);
     return stockpile;
 };
 
@@ -208,7 +211,11 @@ shuffl.createCardFromStock = function (stockpile) {
     var newcard = shuffl.getCardFactory(cardtype)(cardid, {});
     // Instantiate location and external data valuesshuffl.makeId('card_')
     newcard.data('shuffl:location', cardid);
-    newcard.data('shuffl:external', shuffl.ExternalCardData);
+    var extdata = {};
+    jQuery.extend(true, extdata, shuffl.ExternalCardData);  // Deep copy..
+    extdata['shuffl:id']    = cardid;
+    extdata['shuffl:class'] = cardtype;
+    newcard.data('shuffl:external', extdata);
     return newcard;
 };
 
