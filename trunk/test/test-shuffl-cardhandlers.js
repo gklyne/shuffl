@@ -7,7 +7,7 @@
 /**
  * Data
  */
-var testcarddata = 
+var testcardhandlers_carddata = 
     { 'shuffl:id':        'card_id'
     , 'shuffl:class':     'test-type'
     , 'shuffl:version':   '0.1'
@@ -42,26 +42,11 @@ TestCardHandlers = function() {
 
     module("TestCardHandlers");
 
-/*
-    test("....",
-        function () {
-            expect(6);
-            m.eval(function (val, callback) {this.saved = val; callback(val+1); });
-            m.exec(0,
-                function(val) {
-                    equals(val, 3, "final return value");
-                    equals(this.saved, 2, "manually saved parameter");
-                    ok(state, "message");
-                });
-        });
-*/
-
     test("shuffl.addCardFactory",
         function () {
             log.debug("test shuffl.addCardFactory");
-    		same(shuffl.CardFactoryMap, {}, "CardFactoryMap initially empty");
     		shuffl.addCardFactory("test-type", "test-css", shuffl.makeDefaultCard);
-    		equals(shuffl.CardFactoryMap['test-type'].cardcss, "test-css", "CardFactoryMap with one entry");
+    		equals(shuffl.CardFactoryMap['test-type'].cardcss, "test-css", "CardFactoryMap with test entry");
         });
 
     test("shuffl.getCardFactory",
@@ -113,7 +98,7 @@ TestCardHandlers = function() {
 			    "stock_id", "stock-class", "stock-label", "test-type");
     		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
             log.debug("- card "+shuffl.objectString(c));
-    		var card_id = "card_101";
+            var card_id = shuffl.lastId("card_");
             equals(c.attr('id'), card_id, "card id attribute");
             ok(c.hasClass('shuffl-card'),   "shuffl card class");
             ok(c.hasClass('test-css'),      "test class");
@@ -123,20 +108,21 @@ TestCardHandlers = function() {
             equals(c.find("ctitle").text(), card_id+" - class test-type", "card title field");
             equals(c.find("ctags").text(),  card_id+",test-type", "card tags field");
             // Check saved card data
+            var d = testcardhandlers_carddata;
             equals(c.data('shuffl:id'),    card_id, "layout card id");
             equals(c.data('shuffl:class'), "test-type", "layout card class");
             equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
-            equals(c.data('shuffl:external')['shuffl:class'],       testcarddata['shuffl:class'], "card data class");
-            equals(c.data('shuffl:external')['shuffl:version'],     testcarddata['shuffl:version'], "card data version");
-            equals(c.data('shuffl:external')['shuffl:base-uri'],    testcarddata['shuffl:base-uri'], "card data base-uri");
-            same(c.data('shuffl:external')['shuffl:uses-prefixes'], testcarddata['shuffl:uses-prefixes'], "card data uses-prefixes");
+            equals(c.data('shuffl:external')['shuffl:class'],       d['shuffl:class'], "card data class");
+            equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
+            equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
+            same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
             equals(c.data('shuffl:external')['shuffl:data'],        undefined, "card data");
         });
 
     test("shuffl.createCardFromData",
         function () {
             log.debug("test shuffl.createCardFromData");
-            var d = testcarddata;
+            var d = testcardhandlers_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "test-type", d);
             // Check card details
             equals(c.attr('id'), "cardfromdata_id", "card id attribute");
@@ -153,7 +139,7 @@ TestCardHandlers = function() {
         function () {
             log.debug("test shuffl.placeCardFromData");
             var l = testlayoutdata;
-            var d = testcarddata;
+            var d = testcardhandlers_carddata;
             shuffl.placeCardFromData(l, d);
             var c = jQuery("#card_id");
             // Check card details
@@ -178,7 +164,7 @@ TestCardHandlers = function() {
         function () {
             log.debug("test shuffl.createDataFromCard");
             // Create card (copy of code already tested)
-            var d = testcarddata;
+            var d = testcardhandlers_carddata;
             equals(d['shuffl:id'], 'card_id', 'd:card-id (1)');
             var c = shuffl.createCardFromData("cardfromdata_id", "test-type", d);
             equals(d['shuffl:id'], 'card_id', 'd:card-id (2)'); // Test original not trashed
@@ -238,7 +224,8 @@ TestCardHandlers = function() {
     test("shuffl.placeCard",
         function () {
             log.debug("test shuffl.placeCard");
-            var card = shuffl.createCardFromData("placecard_id", "test-type", testcarddata);
+            var d = testcardhandlers_carddata;
+            var card = shuffl.createCardFromData("placecard_id", "test-type", d);
             shuffl.placeCard(jQuery('#layout'), card, {left:22, top:12});
             var c = jQuery("#placecard_id");
             // Check card details
@@ -252,7 +239,7 @@ TestCardHandlers = function() {
             // Check layout details
             equals(c.data('shuffl:id'),    "placecard_id", "layout card id");
             equals(c.data('shuffl:class'), "test-type", "layout card class");
-            same(c.data('shuffl:external'), testcarddata, "card data");
+            same(c.data('shuffl:external'), d, "card data");
             var p = c.position();
             equals(Math.floor(p.left), 22, "position-left");
             equals(Math.floor(p.top),  12,  "position-top");
@@ -269,7 +256,7 @@ TestCardHandlers = function() {
             //droppos = shuffl.positionAbsolute(droppos, jQuery('#workspace'));
             shuffl.dropCard(jQuery("#stock_id"), jQuery("#layout"), droppos);
             var c = jQuery('.shuffl-card');
-            var card_id = "card_102";
+            var card_id = shuffl.lastId("card_");
             equals(c.attr('id'),            card_id, "card id attribute");
             ok(c.hasClass('shuffl-card'),   "shuffl card class");
             ok(c.hasClass('test-css'),      "CSS class");
@@ -278,13 +265,14 @@ TestCardHandlers = function() {
             equals(c.find("ctitle").text(), card_id+" - class test-type", "card title field");
             equals(c.find("ctags").text(),  card_id+",test-type", "card tags field");
             // Check saved card data
+            var d = testcardhandlers_carddata;
             equals(c.data('shuffl:id'),    card_id, "layout card id");
             equals(c.data('shuffl:class'), "test-type", "layout card class");
             equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
-            equals(c.data('shuffl:external')['shuffl:class'],       testcarddata['shuffl:class'], "card data class");
-            equals(c.data('shuffl:external')['shuffl:version'],     testcarddata['shuffl:version'], "card data version");
-            equals(c.data('shuffl:external')['shuffl:base-uri'],    testcarddata['shuffl:base-uri'], "card data base-uri");
-            same(c.data('shuffl:external')['shuffl:uses-prefixes'], testcarddata['shuffl:uses-prefixes'], "card data uses-prefixes");
+            equals(c.data('shuffl:external')['shuffl:class'],       d['shuffl:class'], "card data class");
+            equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
+            equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
+            same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
             equals(c.data('shuffl:external')['shuffl:data'],        undefined, "card data");
             var p = c.position();
             // Ad-hoc tweak
