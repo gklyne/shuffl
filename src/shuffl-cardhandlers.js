@@ -145,6 +145,13 @@ shuffl.makeId = function(pref) {
 };
 
 /**
+ * Return identifier string based on last value returned (used for testing)
+ */
+shuffl.lastId = function(pref) {
+    return pref+shuffl.idnext;
+};
+
+/**
  * Draggable options for stockpiles
  */
 shuffl.stockDraggable = { 
