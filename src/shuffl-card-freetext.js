@@ -116,7 +116,7 @@ shuffl.jsonFreetextCard = function (card) {
     var carddata = shuffl.card_freetext_data;
     carddata['shuffl:title'] = card.find("ctitle").text();
     carddata['shuffl:tags']  = jQuery.trim(card.find("ctags").text()).split(/[\s]*,[\s]*/);
-    carddata['shuffl:text']  = card.find("cbody").text();
+    carddata['shuffl:text']  = card.find("cbody").html();
     return carddata;
 };
 
