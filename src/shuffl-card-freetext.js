@@ -3,13 +3,8 @@
  *  Shuffl card plug-in for simple card containing just free text.
  *  
  * @author Graham Klyne
- * @version $Id: ...$
+ * @version $Id$
  */
-
-// If errors are seen, run Eclipse "(right-click project) > Validate" option
-
-// Meanwhile, this suppresses many distracting errors:
-jQuery = jQuery;
 
 // ----------------------------------------------------------------
 // Globals and data
@@ -18,6 +13,7 @@ jQuery = jQuery;
 /**
  *  Add logging functions to global namespace, for convenience
  */
+/*
 log = {};
 log.debug = MochiKit.Logging.logDebug   ;
 log.info  = MochiKit.Logging.log    ;
@@ -27,7 +23,8 @@ log.error = MochiKit.Logging.logError   ;
 // Mochikit logging hack as default is no limit and default firebug off:
 //MochiKit.Logging.logger.useNativeConsole = false;
 //MochiKit.Logging.logger.maxSize = 2000;
-
+*/
+ 
 /**
  * create shuffl namespace
  */
@@ -79,12 +76,12 @@ shuffl.card_freetext_blank = jQuery(
 shuffl.makeFreetextCard = function (cardtype, cardcss, cardid, carddata) {
     log.debug("shuffl.makeFreetextCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
     var card = shuffl.card_freetext_blank.clone();
-    card.data("shuffl:tojson", shuffl.jsonFreetextCard)
+    card.data('shuffl:class',  cardtype);
+    card.data('shuffl:id',     cardid);
+    card.data("shuffl:tojson", shuffl.jsonFreetextCard);
     card.attr('id', cardid);
     card.addClass(cardcss);
-    // TODO: initialize text area to blank
-    var cardspace = "<br/>.<br/>.<br/>.<br/>.<br/>.<br/>/";
-    var cardtext  = shuffl.get(carddata, 'shuffl:text',  carddata+cardspace);
+    var cardtext  = shuffl.get(carddata, 'shuffl:text',  carddata);
     var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
     var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
     card.find("cident").text(cardid);           // Set card id text
@@ -101,14 +98,16 @@ shuffl.makeFreetextCard = function (cardtype, cardcss, cardid, carddata) {
     //ÊNote: 'ghost' and 'alsoResize' seem to conflict
     // card.resizable( {ghost: true} );
     //
-    // TODO: rather than alsoResize, try to use resize envent to resize the card body area.
-    //       then we can also save the size and restore it on reload.  Or test to see if we
-    //       can manually change the size of a resizable.
+    // TODO: rather than alsoResize, try to use resize event to resize the 
+    //       card body area.  Then we can also save the size and restore it 
+    //       on reload.  Or test to see if we can manually change the size of 
+    //       a resizable.
+    //
     return card;
 };
 
 /**
- * Serializes a card index to JSON for storage
+ * Serializes a free-text card to JSON for storage
  * 
  * @param card      a jQuery object corresponding to the card
  * @return an object containing the card data
