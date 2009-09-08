@@ -32,7 +32,7 @@ TestSaveWorkspace = function() {
             equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
             equals(jQuery('#workspace').data('atomuri'),  "http://localhost:8080/exist/atom/", "atomuri");
-            equals(jQuery('#workspace').data('feeduri'),  "http://localhost:8080/exist/atom/edit/shuffl/", "feeduri");
+            equals(jQuery('#workspace').data('feeduri'),  "http://localhost:8080/exist/atom/edit/shuffltest1/", "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -69,8 +69,8 @@ TestSaveWorkspace = function() {
             this.atompub  = new shuffl.AtomPub(this.atomuri);
             this.feedpath = this.atompub.getAtomPath(this.feeduri);
             equals(this.atomuri,  "http://localhost:8080/exist/atom/", "atomuri");
-            equals(this.feeduri,  "http://localhost:8080/exist/atom/edit/shuffl/", "feeduri");
-            equals(this.feedpath, "/shuffl/", "feedpath");
+            equals(this.feeduri,  "http://localhost:8080/exist/atom/edit/shuffltest1/", "feeduri");
+            equals(this.feedpath, "/shuffltest1/", "feedpath");
             this.atompub.deleteFeed({path:this.feedpath}, callback);
         });
         m.eval(function(val,callback) {
@@ -84,11 +84,11 @@ TestSaveWorkspace = function() {
             var uuid = val.itemid;
             equals(val.title,    "test-shuffl-saveworkspace", "val.title");
             equals(val.uri,      "test-shuffl-saveworkspace.json", "val.uri");
-            equals(val.path,     "/shuffl/"+val.uri, "val.path");
-            equals(val.itemuri,  "http://localhost:8080/exist/atom/edit/shuffl/?id="+uuid, "val.itemuri");
-            equals(val.itempath, "/shuffl/?id="+uuid, "val.itempath");
+            equals(val.path,     "/shuffltest1/"+val.uri, "val.path");
+            equals(val.itemuri,  this.atomuri+"edit/shuffltest1/?id="+uuid, "val.itemuri");
+            equals(val.itempath, this.feedpath+"?id="+uuid, "val.itempath");
             equals(val.feeduri,  this.feeduri, "val.feeduri");
-            equals(val.feedpath, "/shuffl/", "val.feedpath");
+            equals(val.feedpath, this.feedpath, "val.feedpath");
             equals(val.atomuri,  this.atomuri, "val.feeduri");
             log.debug("Reset workspace...");
             shuffl.resetWorkspace(callback);
@@ -104,7 +104,7 @@ TestSaveWorkspace = function() {
             equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
             equals(jQuery('#workspace').data('atomuri'),  "http://localhost:8080/exist/atom/", "atomuri");
-            equals(jQuery('#workspace').data('feeduri'),  "http://localhost:8080/exist/atom/edit/shuffl/", "feeduri");
+            equals(jQuery('#workspace').data('feeduri'),  "http://localhost:8080/exist/atom/edit/shuffltest1/", "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
