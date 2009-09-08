@@ -80,28 +80,29 @@ TestSaveWorkspace = function() {
         });        
         m.eval(function(val,callback) {
             log.debug("Check result from save: "+shuffl.objectString(val));
-            var uuid = val.id;
-            equals(val.path,     "/shuffl/?id="+uuid, "val.path");
-            equals(val.uri,      "http://localhost:8080/exist/atom/edit/shuffl/?id="+uuid, "val.uri");
+            this.wsuri = jQuery.uri(val.uri, val.itemuri).toString();
+            var uuid = val.itemid;
             equals(val.title,    "test-shuffl-saveworkspace", "val.title");
-            equals(val.data,     undefined, "val.data");
-            equals(val.dataref,  "test-shuffl-saveworkspace.json", "val.dataref");
-            //equals(val.datatype, "application/json", "val.datatype");
-            equals(val.datatype, "application/octet-stream", "val.datatype");
-            equals(val.datauri,  this.feeduri+"test-shuffl-saveworkspace.json", "val.datauri");
-            equals(val.datapath, "/shuffl/test-shuffl-saveworkspace.json", "val.datapath");
-            // Test results
-            log.debug("Reload empty workspace from AtomPub");
-            shuffl.resetWorkspace();
-            shuffl.loadWorkspace("/shuffl/test-shuffl-saveworkspace-layout.json", callback);
-            // Done
-            callback(true);
+            equals(val.uri,      "test-shuffl-saveworkspace.json", "val.uri");
+            equals(val.path,     "/shuffl/"+val.uri, "val.path");
+            equals(val.itemuri,  "http://localhost:8080/exist/atom/edit/shuffl/?id="+uuid, "val.itemuri");
+            equals(val.itempath, "/shuffl/?id="+uuid, "val.itempath");
+            equals(val.feeduri,  this.feeduri, "val.feeduri");
+            equals(val.feedpath, "/shuffl/", "val.feedpath");
+            equals(val.atomuri,  this.atomuri, "val.feeduri");
+            log.debug("Reset workspace...");
+            shuffl.resetWorkspace(callback);
         });
         m.eval(function(val,callback) {
-            log.debug("Check reloaded workspace");
-            var u = jQuery.uri(this.feedpath).resolve("test-shuffl-saveworkspace-layout.json");
-            equals(jQuery('#workspaceuri').text(), u, '#workspaceuri');
-            equals(jQuery('#workspace').data('location'), u, "location");
+            log.debug("Workspace is reset");
+            log.debug("Reload empty workspace from AtomPub...");
+            shuffl.loadWorkspace(this.wsuri, callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Check reloaded workspace "+this.wsuri);
+            var u = jQuery.uri(this.wsuri);
+            equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
+            equals(jQuery('#workspace').data('location'), u.toString(), "location");
             equals(jQuery('#workspace').data('atomuri'),  "http://localhost:8080/exist/atom/", "atomuri");
             equals(jQuery('#workspace').data('feeduri'),  "http://localhost:8080/exist/atom/edit/shuffl/", "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
