@@ -1,0 +1,18 @@
+{ 'shuffl:id':        'id_2'
+, 'shuffl:class':     'shuffl-freetext-blue'
+, 'shuffl:version':   '0.1'
+, 'shuffl:location':  'http://localhost:8080/.../card_1'
+, 'shuffl:base-uri':  '#'
+, 'shuffl:uses-prefixes':
+  [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
+  , { 'shuffl:prefix':  'rdf',    'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
+  , { 'shuffl:prefix':  'rdfs',   'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
+  , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
+  , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
+  ]
+, 'shuffl:data':
+  { 'shuffl:title':   "Status"
+  , 'shuffl:tags':    [ 'shuffl', 'Status' ]
+  , 'shuffl:text':    "What I describe here is a work in progress, and is not yet remotely like a usable application.<br/><br/>You can find it all at <a href='http://code.google.com/p/shuffl/'>http://code.google.com/p/shuffl/</a>"
+  }
+}

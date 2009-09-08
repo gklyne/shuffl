@@ -1,0 +1,18 @@
+{ 'shuffl:id':        'id_6'
+, 'shuffl:class':     'shuffl-freetext-purple'
+, 'shuffl:version':   '0.1'
+, 'shuffl:location':  'http://localhost:8080/.../card_1'
+, 'shuffl:base-uri':  '#'
+, 'shuffl:uses-prefixes':
+  [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
+  , { 'shuffl:prefix':  'rdf',    'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
+  , { 'shuffl:prefix':  'rdfs',   'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
+  , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
+  , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
+  ]
+, 'shuffl:data':
+  { 'shuffl:title':   "Wrap-up"
+  , 'shuffl:tags':    [ 'shuffl', 'Wrap-up' ]
+  , 'shuffl:text':    "The basic idea is that simple.<br/><br/>One might think of Shuffl as being like a Mindmap with real data, or Hypercard in the web."
+  }
+}
