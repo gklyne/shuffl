@@ -13,11 +13,16 @@
 /**
  * Save card to indicated location
  * 
- * @param baseloc   is the base location (e.g. the Atom feed URI) at which the card is to be saved.
+ * @param atompub   is the AtomPub session object to use
+ * @param feedpath  is the feed path at which the card is to be saved.
  * @param cardloc   is a suggested name for the dard data to be located within the feed.
+ * @param card      is the card object to be saved
+ * @param callback  called when the operation is complete
+ * 
+ * The callback is invoked with an Error value, or the URI of the location
+ * where the card data is saved, possibly expressed relative to the feed URI.
  */
 shuffl.saveCard = function(atompub, feedpath, cardloc, card, callback) {
-
     // Helper function extracts saved location from posted item response and 
     // returns it via callback
     var createComplete = function(data) {
@@ -28,11 +33,9 @@ shuffl.saveCard = function(atompub, feedpath, cardloc, card, callback) {
             callback(data.dataref);
         };
     };
-
     // Set up and issue the HTTP request to save the card data
     var cardid    = card.data('shuffl:id');
     var cardclass = card.data('shuffl:class');
-    var cardloc   = card.data('shuffl:location');
     var data      = card.data('shuffl:external');
     log.debug("shuffl.saveCard: "+cardid+", feedpath: "+feedpath+", cardloc: "+cardloc);
     // Build the card external object
