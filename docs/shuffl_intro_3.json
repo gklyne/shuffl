@@ -1,0 +1,18 @@
+{ 'shuffl:id':        'id_3'
+, 'shuffl:class':     'shuffl-freetext-green'
+, 'shuffl:version':   '0.1'
+, 'shuffl:location':  'http://localhost:8080/.../card_1'
+, 'shuffl:base-uri':  '#'
+, 'shuffl:uses-prefixes':
+  [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
+  , { 'shuffl:prefix':  'rdf',    'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
+  , { 'shuffl:prefix':  'rdfs',   'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
+  , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
+  , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
+  ]
+, 'shuffl:data':
+  { 'shuffl:title':   "Interface"
+  , 'shuffl:tags':    [ 'Shuffl', 'Interface' ]
+  , 'shuffl:text':    "Shuffl presents a visual interface based on index cards, inspired in part by the use of cards for planning and brainstorming in agile development teams"
+  }
+}
