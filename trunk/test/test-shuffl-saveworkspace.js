@@ -16,6 +16,14 @@
 
 TestSaveWorkspace = function() {
 
+    // These definitions should match usage in the layout file, and
+    // the location of the AtomPub server
+    var atomuri    = "http://localhost:8080/exist/atom/";
+    var feeduri    = "http://localhost:8080/exist/atom/edit/shuffltest1/";
+    var feedpath   = "/shuffltest1/";
+    var layoutname = "test-shuffl-saveworkspace-layout.json";
+    var layouturi  = jQuery.uri(layoutname, feeduri);
+    
     module("TestSaveWorkspace");
 
     test("NOTE: this test must be run from the AtomPub server used to store shuffl workspace data", shuffl.noop);
@@ -24,15 +32,15 @@ TestSaveWorkspace = function() {
         log.debug("test shuffl.LoadWorkspace empty workspace");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
-            shuffl.loadWorkspace("test-shuffl-saveworkspace-layout.json", callback);
+            shuffl.loadWorkspace(layoutname, callback);
         });
         m.eval(function(val,callback) {
             // Check empty workspace
-            var u = jQuery.uri().resolve("test-shuffl-saveworkspace-layout.json");
+            var u = jQuery.uri().resolve(layoutname);
             equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
-            equals(jQuery('#workspace').data('atomuri'),  "http://localhost:8080/exist/atom/", "atomuri");
-            equals(jQuery('#workspace').data('feeduri'),  "http://localhost:8080/exist/atom/edit/shuffltest1/", "feeduri");
+            equals(jQuery('#workspace').data('atomuri'),  atomuri, "atomuri");
+            equals(jQuery('#workspace').data('feeduri'),  feeduri, "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -60,23 +68,20 @@ TestSaveWorkspace = function() {
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace");
-            shuffl.loadWorkspace("test-shuffl-saveworkspace-layout.json", callback);
+            shuffl.loadWorkspace(layoutname, callback);
         });
         m.eval(function(val,callback) {
             log.debug("Delete old workspace");
-            this.atomuri  = jQuery('#workspace').data('atomuri');
-            this.feeduri  = jQuery('#workspace').data('feeduri');
-            this.atompub  = new shuffl.AtomPub(this.atomuri);
-            this.feedpath = this.atompub.getAtomPath(this.feeduri);
-            equals(this.atomuri,  "http://localhost:8080/exist/atom/", "atomuri");
-            equals(this.feeduri,  "http://localhost:8080/exist/atom/edit/shuffltest1/", "feeduri");
-            equals(this.feedpath, "/shuffltest1/", "feedpath");
-            this.atompub.deleteFeed({path:this.feedpath}, callback);
+            this.atompub  = new shuffl.AtomPub(atomuri);
+            equals(jQuery('#workspace').data('atomuri'),  atomuri, "atomuri");
+            equals(jQuery('#workspace').data('feeduri'),  feeduri, "feeduri");
+            equals(this.atompub.getAtomPath(feeduri), "/shuffltest1/", "feedpath");
+            this.atompub.deleteFeed({path:feedpath}, callback);
         });
         m.eval(function(val,callback) {
             log.debug("Save empty workspace");
-            ok(true, "deleted old feed "+this.feedpath);
-            shuffl.saveNewWorkspace(this.atomuri, this.feedpath, callback);
+            ok(true, "deleted old feed "+feedpath);
+            shuffl.saveNewWorkspace(atomuri, feedpath, callback);
         });        
         m.eval(function(val,callback) {
             log.debug("Check result from save: "+shuffl.objectString(val));
@@ -85,11 +90,11 @@ TestSaveWorkspace = function() {
             equals(val.title,    "test-shuffl-saveworkspace", "val.title");
             equals(val.uri,      "test-shuffl-saveworkspace.json", "val.uri");
             equals(val.path,     "/shuffltest1/"+val.uri, "val.path");
-            equals(val.itemuri,  this.atomuri+"edit/shuffltest1/?id="+uuid, "val.itemuri");
-            equals(val.itempath, this.feedpath+"?id="+uuid, "val.itempath");
-            equals(val.feeduri,  this.feeduri, "val.feeduri");
-            equals(val.feedpath, this.feedpath, "val.feedpath");
-            equals(val.atomuri,  this.atomuri, "val.feeduri");
+            equals(val.itemuri,  atomuri+"edit/shuffltest1/?id="+uuid, "val.itemuri");
+            equals(val.itempath, feedpath+"?id="+uuid, "val.itempath");
+            equals(val.feeduri,  feeduri,  "val.feeduri");
+            equals(val.feedpath, feedpath, "val.feedpath");
+            equals(val.atomuri,  atomuri,  "val.atomuri");
             log.debug("Reset workspace...");
             shuffl.resetWorkspace(callback);
         });
@@ -103,8 +108,8 @@ TestSaveWorkspace = function() {
             var u = jQuery.uri(this.wsuri);
             equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
-            equals(jQuery('#workspace').data('atomuri'),  "http://localhost:8080/exist/atom/", "atomuri");
-            equals(jQuery('#workspace').data('feeduri'),  "http://localhost:8080/exist/atom/edit/shuffltest1/", "feeduri");
+            equals(jQuery('#workspace').data('atomuri'),  atomuri, "atomuri");
+            equals(jQuery('#workspace').data('feeduri'),  feeduri, "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -127,6 +132,16 @@ TestSaveWorkspace = function() {
         stop();
     });
 
+    test("shuffl.SaveCard", function () {
+        log.debug("test shuffl.SaveCard");
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
+            log.debug("Load empty workspace from AtomPub");
+            shuffl.loadWorkspace(layouturi, callback);
+        });
+    });
+    
+    
 };
 
 // End
