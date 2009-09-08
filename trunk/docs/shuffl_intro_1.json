@@ -13,6 +13,6 @@
 , 'shuffl:data':
   { 'shuffl:title':   "Purpose"
   , 'shuffl:tags':    [ 'shuffl', 'Purpose' ]
-  , 'shuffl:text':    "Shuffl will help researchers, and others, to capture and organize their data without having to think up-front about how to organize it.<br/><br/>Examples of real applications under consideration: <i>in situ</i> image annotation; grouping and visualizing experimental observations of silk; capturing dependencies between JISC-funded projects; agile development user story and task recording; agile retrospective timeline"
+  , 'shuffl:text':    "Shuffl will help researchers, and others, to capture and organize their data without having to think up-front about how to organize it.<br/><br/>Examples of real applications under consideration: annotation of <i>in situ</i> gene images; grouping and visualizing observations of silk material properties; capturing dependencies between JISC-funded projects; agile development user story and task recording; agile retrospective timeline; this talk :)"
   }
 }
