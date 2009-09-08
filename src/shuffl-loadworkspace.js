@@ -84,4 +84,28 @@ shuffl.loadWorkspace = function(uri, callback) {
     });
 };
 
+/**
+ * Reset workspace: remove all stockbar entries, cards and other values 
+ * introduced by loadWorkspace from the workspace.
+ * 
+ * @param callback      function called when reset is complete.
+ *                      (This function executes synchronously, but for 
+ *                      consistency with other workspace functions it follows
+ *                      the asynchonour callback pattern.)
+ */
+shuffl.resetWorkspace = function(callback) {
+    log.info("Reset workspace");
+    jQuery('#workspaceuri').text("");
+    jQuery('#workspace').data('location', null);
+    jQuery('#workspace').data('atomuri',  null);
+    jQuery('#workspace').data('feeduri',  null);
+    jQuery('#workspace').data('wsdata',   null);
+    // Empty stock bar
+    jQuery('#stockbar .shuffl-stockpile, #stockbar .shuffl-spacer').remove();
+    // Remove card data
+    jQuery('#layout').empty();
+    callback(true);
+};
+
+
 // End.

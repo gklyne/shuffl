@@ -24,6 +24,9 @@ TestLoadWorkspace = function() {
             shuffl.loadWorkspace("test-shuffl-loadworkspace-layout.json", callback);
         });
         m.eval(function(val,callback) {
+            var u = jQuery.uri().resolve("test-shuffl-loadworkspace-layout.json");
+            equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
+            equals(jQuery('#workspace').data('location'), u.toString(), "location");
             //1
             var c1 = jQuery("#id_1");
             ok(c1 != undefined, "card id_1 defined")
@@ -106,6 +109,43 @@ TestLoadWorkspace = function() {
         ok(true, "shuffl.LoadWorkspace initiated");
         stop();
     });
+
+    test("shuffl.ResetWorkspace", function () {
+        log.debug("test shuffl.ResetWorkspace");
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
+            shuffl.loadWorkspace("test-shuffl-loadworkspace-layout.json", callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Test workspace reloaded");
+            var u = jQuery.uri().resolve("test-shuffl-loadworkspace-layout.json");
+            equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
+            equals(jQuery('#workspace').data('location'), u.toString(), "location");
+            equals(jQuery('#workspace').data('atomuri'),  "http://localhost:8080/exist/atom/", "atomuri");
+            equals(jQuery('#workspace').data('feeduri'),  "http://localhost:8080/exist/atom/edit/shuffl/", "feeduri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
+            // Reset workspace
+            shuffl.resetWorkspace(callback);
+        });        
+        m.eval(function(val,callback) {
+            log.debug("Workspace reset")
+            equals(jQuery('#workspaceuri').text(), "", '#workspaceuri');
+            equals(jQuery('#workspace').data('location'), null, "location");
+            equals(jQuery('#workspace').data('atomuri'),  null, "atomuri");
+            equals(jQuery('#workspace').data('feeduri'),  null, "feeduri");
+            equals(jQuery('#workspace').data('wsdata'), null, "wsdata");
+            equals(jQuery('.shuffl-stockpile').length, 0, "empty stockbar");
+            equals(jQuery("#stockbar").children().length, 1, "initial entries in stockbar");
+            // Empty workspace?
+            equals(jQuery("#layout").children().length, 0, "no cards in workspace");
+            // Done
+            callback(true);
+        });        
+        m.exec({}, start);
+        ok(true, "shuffl.ResetWorkspace initiated");
+        stop();
+    });
+
 };
 
 // End

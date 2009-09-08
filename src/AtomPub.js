@@ -565,11 +565,11 @@ shuffl.AtomPub.prototype.createItem = function (iteminfo, callback) {
             xhr.setRequestHeader("SLUG", iteminfo.slug);
         }
     }
-    //log.debug("shuffl.AtomPub.createItem: "+shuffl.objectString(iteminfo));
-    //log.debug("shuffl.AtomPub.createItem: "+shuffl.objectString(datainfo));
     var uri      = this.serviceUri(iteminfo, "edit");
     var datainfo = shuffl.AtomPub.assembleData(iteminfo);
     log.debug("shuffl.AtomPub.createItem: "+uri);
+    //log.debug("shuffl.AtomPub.createItem: "+shuffl.objectString(iteminfo));
+    //log.debug("shuffl.AtomPub.createItem: "+shuffl.objectString(datainfo));
     jQuery.ajax({
             type:         "POST",
             url:          uri.toString(),

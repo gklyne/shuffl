@@ -77,8 +77,9 @@ shuffl.saveRelativeCard = function(atompub, feedpath, card, callback) {
  *                    the workspace data
  * @param feedpath    URI-path of Atom feed that will receive the new workspace
  *                    and card descriptions
+ * @param callback    function called when the save is complete
  */
-shuffl.saveNewWorkspace = function (atomuri, feedpath) {
+shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
     log.debug("shuffl.saveNewWorkspace: "+atomuri+", "+feedpath);
     var atompub = new shuffl.AtomPub(atomuri);
     var feeduri = atompub.serviceUri({path: feedpath});
@@ -87,7 +88,7 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath) {
     // displays it in the workspace
     var createComplete = function(val) {
         if (val instanceof shuffl.Error) { 
-            // callback(data); 
+            callback(val); 
         } else {
             log.debug("shuffl.saveCard:createComplete "+shuffl.objectString(val));
             // TODO: gfigure why wrong URI for data is returned
@@ -98,7 +99,7 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath) {
             jQuery('#workspace').data('feeduri',  feeduri);
             jQuery('#workspace').data('wsdata',   val.data);
             log.debug("- createComplete done");
-            // callback(val);
+            callback(val);
         };
     };
 
@@ -167,8 +168,11 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath) {
             }
         log.debug("Save workspace description");
         log.debug("- ws "+jQuery.toJSON(ws));
+        // NOTE: need slug and/or title here when saving AtomPub media resource
         atompub.createItem(
             { path:       feedpath
+            , slug:       ws['shuffl:id']+".json"
+            , title:      ws['shuffl:id']
             , datatype:   'application/json'
             , data:       ws
             },
