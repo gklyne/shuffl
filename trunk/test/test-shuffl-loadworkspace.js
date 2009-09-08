@@ -26,7 +26,6 @@ TestLoadWorkspace = function() {
         m.eval(function(val,callback) {
             //1
             var c1 = jQuery("#id_1");
-            debugger;
             ok(c1 != undefined, "card id_1 defined")
             equals(c1.attr('id'), "id_1",  
                 "card 1 id attribute");
@@ -51,9 +50,56 @@ TestLoadWorkspace = function() {
             equals(Math.floor(p1.top),  30,  "position-top");
             equals(c1.css("zIndex"), "11", "card zIndex");
             //2
-            ok(false, "TODO card_2");
-            //3
-            ok(false, "TODO card_3");
+            var c2 = jQuery("#id_2");
+            ok(c2 != undefined, "card id_2 defined")
+            equals(c2.attr('id'), "id_2",  
+                "card 2 id attribute");
+            ok(c2.hasClass('shuffl-card'),
+                "card 2 shuffl card class");
+            ok(c2.hasClass('stock-blue'),
+                "card 2 CSS class");
+            equals(c2.find("cident").text(), "id_2",
+                "card 2 id field");
+            equals(c2.find("cclass").text(), "shuffl-freetext-blue",
+                "card 2 class/type field");
+            equals(c2.find("ctitle").text(), "Card 2 title", 
+                "card 2 title field");
+            equals(c2.find("ctags").text(),  "card_2_tag,bluetag", 
+                "card 2 tags field");
+            equals(c2.data('shuffl:id'),    "id_2",
+                "card 2 data id");
+            equals(c2.data('shuffl:class'), "shuffl-freetext-blue",
+                "card 2 data class/type");
+            var p2 = c2.position();
+            equals(Math.floor(p2.left), 150, "position-left");
+            equals(Math.floor(p2.top),  60,  "position-top");
+            equals(c2.css("zIndex"), "12", "card zIndex");
+            //3 (third case mainly intended to check z-index values)
+            var c3 = jQuery("#id_3");
+            ok(c3 != undefined, "card id_3 defined")
+            equals(c3.attr('id'), "id_3",  
+                "card 3 id attribute");
+            ok(c3.hasClass('shuffl-card'),
+                "card 3 shuffl card class");
+            ok(c3.hasClass('stock-green'),
+                "card 3 CSS class");
+            equals(c3.find("cident").text(), "id_3",
+                "card 3 id field");
+            equals(c3.find("cclass").text(), "shuffl-freetext-green",
+                "card 3 class/type field");
+            equals(c3.find("ctitle").text(), "Card 3 title", 
+                "card 3 title field");
+            equals(c3.find("ctags").text(),  "card_3_tag,greentag",
+                "card 3 tags field");
+            equals(c3.data('shuffl:id'),    "id_3",
+                "card 3 data id");
+            equals(c3.data('shuffl:class'), "shuffl-freetext-green",
+                "card 3 data class/type");
+            var p3 = c3.position();
+            equals(Math.floor(p3.left), 200, "position-left");
+            equals(Math.floor(p3.top),  90,  "position-top");
+            equals(c3.css("zIndex"), "13", "card zIndex");
+            //Done
             callback(true);
         });        
         m.exec({}, start);
