@@ -22,7 +22,15 @@ TestSaveWorkspace = function() {
     var feeduri    = "http://localhost:8080/exist/atom/edit/shuffltest1/";
     var feedpath   = "/shuffltest1/";
     var layoutname = "test-shuffl-saveworkspace-layout.json";
-    var layouturi  = jQuery.uri(layoutname, feeduri);
+    var layouturi  = jQuery.uri(layoutname, feeduri).toString();
+
+    var shuffl_prefixes =
+        [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
+        , { 'shuffl:prefix':  'rdf',    'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
+        , { 'shuffl:prefix':  'rdfs',   'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
+        , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
+        , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
+        ];
     
     module("TestSaveWorkspace");
 
@@ -30,6 +38,7 @@ TestSaveWorkspace = function() {
     
     test("shuffl.LoadWorkspace (empty)", function () {
         log.debug("test shuffl.LoadWorkspace empty workspace");
+        expect(37);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             shuffl.loadWorkspace(layoutname, callback);
@@ -65,6 +74,7 @@ TestSaveWorkspace = function() {
 
     test("shuffl.SaveNewWorkspace (empty)", function () {
         log.debug("test shuffl.SaveNewWorkspace new empty workspace");
+        expect(49);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace");
@@ -87,8 +97,8 @@ TestSaveWorkspace = function() {
             log.debug("Check result from save: "+shuffl.objectString(val));
             this.wsuri = jQuery.uri(val.uri, val.itemuri).toString();
             var uuid = val.itemid;
-            equals(val.title,    "test-shuffl-saveworkspace", "val.title");
-            equals(val.uri,      "test-shuffl-saveworkspace.json", "val.uri");
+            equals(val.title,    "test-shuffl-saveworkspace-layout", "val.title");
+            equals(val.uri,      "test-shuffl-saveworkspace-layout.json", "val.uri");
             equals(val.path,     "/shuffltest1/"+val.uri, "val.path");
             equals(val.itemuri,  atomuri+"edit/shuffltest1/?id="+uuid, "val.itemuri");
             equals(val.itempath, feedpath+"?id="+uuid, "val.itempath");
@@ -134,11 +144,48 @@ TestSaveWorkspace = function() {
 
     test("shuffl.SaveCard", function () {
         log.debug("test shuffl.SaveCard");
+        expect(1);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace from AtomPub");
             shuffl.loadWorkspace(layouturi, callback);
         });
+        m.eval(function(val,callback) {
+            log.debug("Get new card data");
+            shuffl.readCard("test-shuffl-loadworkspace-card_1.json", callback)
+        });
+        m.eval(function(val,callback) {
+            log.debug("Check new card data");
+            equals(val['shuffl:id'], 'id_1', "shuffl:id");
+            equals(val['shuffl:class'], 'shuffl-freetext-yellow', "shuffl:class");
+            equals(val['shuffl:version'], '0.1', "shuffl:version");
+            equals(val['shuffl:base-uri'], '#', "shuffl:base-uri");
+            for (var i = 0 ; i<shuffl_prefixes.length ; i++) {
+                same(val['shuffl:uses-prefixes'][i], shuffl_prefixes[i], "shuffl:uses-prefixes["+i+"]");
+            };
+            equals(val['shuffl:data']['shuffl:title'], "Card 1 title",   'shuffl:data-title');
+            same  (val['shuffl:data']['shuffl:tags'],  [ 'card_1_tag', 'yellowtag' ],   'shuffl:data-tags');
+            equals(val['shuffl:data']['shuffl:text'],  "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow",        'shuffl:data-text');
+            log.debug("Save card data");
+            this.atompub  = new shuffl.AtomPub(atomuri);
+            var card = shuffl.createCardFromData(val['shuffl:id'], val['shuffl:class'], val);
+            shuffl.saveCard(this.atompub, feedpath, val['shuffl:id']+".json", card, callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Check response");
+            equals(val, "id_1.json", "card relative URI");
+            log.debug("Read back card");
+            ok(false, "TODO");
+            callback(false);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Check card values");
+            ok(false, "TODO");
+            callback(false);
+        });
+        m.exec({}, start);
+        ok(true, "shuffl.SaveCard initiated");
+        stop();
     });
     
     

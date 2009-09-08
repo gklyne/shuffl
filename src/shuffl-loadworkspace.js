@@ -11,6 +11,19 @@
 // ----------------------------------------------------------------
 
 /**
+ * Load data for a single card
+ * 
+ * @param uri       URI of workspace description.
+ * @param callback  function called when the load is complete.
+ * 
+ * The callback is invoked with an Error object, or an object containing
+ * the card data.
+ */
+shuffl.readCard = function (uri, callback) {
+    jQuery.getJSON(uri, callback); 
+};
+
+/**
  * Load card data into the workspace.
  * 
  * Note that loading data is done using pure web GET requests, without 
@@ -66,7 +79,7 @@ shuffl.loadWorkspace = function(uri, callback) {
         // TODO: factor out wait-for-all logic as general utility, or sequence
         log.debug("Loading layout");
         function readcard(layout) {
-            jQuery.getJSON(layout['data'], 
+            shuffl.readCard(layout['data'], 
                 function (val) {
                     // Card data available
                     shuffl.placeCardFromData(layout, val);
