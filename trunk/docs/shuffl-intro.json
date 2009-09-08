@@ -23,10 +23,10 @@
   , 'shuffl:layout':
       [ { 'id': 'card_6', 'class': 'stock_6', 'data': 'shuffl_intro_6.json', 'pos': {left:150, top:100} }
       , { 'id': 'card_5', 'class': 'stock_5', 'data': 'shuffl_intro_5.json', 'pos': {left:120, top:80}  }
-      , { 'id': 'card_4', 'class': 'stock_4', 'data': 'shuffl_intro_4.json', 'pos': {left:090, top:60}  }
-      , { 'id': 'card_3', 'class': 'stock_3', 'data': 'shuffl_intro_3.json', 'pos': {left:060, top:40}  }
-      , { 'id': 'card_2', 'class': 'stock_2', 'data': 'shuffl_intro_2.json', 'pos': {left:030, top:20}  }
-      , { 'id': 'card_1', 'class': 'stock_1', 'data': 'shuffl_intro_1.json', 'pos': {left:000, top:00}  }
+      , { 'id': 'card_4', 'class': 'stock_4', 'data': 'shuffl_intro_4.json', 'pos': {left:90,  top:60}  }
+      , { 'id': 'card_3', 'class': 'stock_3', 'data': 'shuffl_intro_3.json', 'pos': {left:60,  top:40}  }
+      , { 'id': 'card_2', 'class': 'stock_2', 'data': 'shuffl_intro_2.json', 'pos': {left:30,  top:20}  }
+      , { 'id': 'card_1', 'class': 'stock_1', 'data': 'shuffl_intro_1.json', 'pos': {left:0,   top:00}  }
       ]
   }
 }
