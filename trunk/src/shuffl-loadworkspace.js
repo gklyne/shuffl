@@ -21,6 +21,8 @@
  * 
  * @param uri       URI of workspace description.
  * @param callback  function called when the load is complete.
+ * 
+ * The callback is invoked with an Error object, or an empty dictionary.
  */
 
 shuffl.loadWorkspace = function(uri, callback) {
@@ -92,6 +94,8 @@ shuffl.loadWorkspace = function(uri, callback) {
  *                      (This function executes synchronously, but for 
  *                      consistency with other workspace functions it follows
  *                      the asynchonour callback pattern.)
+ * 
+ * The callback is invoked with an Error object, or an empty dictionary.
  */
 shuffl.resetWorkspace = function(callback) {
     log.info("Reset workspace");
@@ -104,8 +108,7 @@ shuffl.resetWorkspace = function(callback) {
     jQuery('#stockbar .shuffl-stockpile, #stockbar .shuffl-spacer').remove();
     // Remove card data
     jQuery('#layout').empty();
-    callback(true);
+    callback({});
 };
-
 
 // End.

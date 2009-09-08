@@ -77,8 +77,28 @@ shuffl.saveRelativeCard = function(atompub, feedpath, card, callback) {
  *                    the workspace data
  * @param feedpath    URI-path of Atom feed that will receive the new workspace
  *                    and card descriptions
- * @param callback    function called when the save is complete
+ * @param callback    function called when the save is complete.
+ * 
+ * The callback supplies an Error instance, or information about the newly
+ * saved workspace, thus:
+ *   title:     title of the Atom item referencing the workspace description
+ *   uri:       URI of the workspace description
+ *   path:      URI path used by the AtomPub service API for accessing the
+ *              workspace data
+ *   itemuri:   URI of the Atom item referencing the workspace description
+ *   itempath:  AtomPub service path for the referencing item
+ *   itemid:    AtomPub item identifier for the referencing item
+ *   feeduri:   URI of the atom feed where the workspace is saved
+ *   feedpath:  AtomPub path, used in conjunction with the service, to access
+ *              the atom feed containing the workspace.
+ *   atomuri:   URI of the AtomPub service used
+ * The atom-, feed- and item- values are intended to be opaque, and are 
+ * intended to be stored with objects to assist in subsequent retrieval 
+ * and editing using atompub.  The workspace URI should be resolved relative 
+ * to the item URI. 
  */
+// TODO: need to properly plan and document pattern of AtomPub URI usage
+//       with workspace loads and saves.
 shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
     log.debug("shuffl.saveNewWorkspace: "+atomuri+", "+feedpath);
     var atompub = new shuffl.AtomPub(atomuri);
@@ -99,7 +119,18 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
             jQuery('#workspace').data('feeduri',  feeduri);
             jQuery('#workspace').data('wsdata',   val.data);
             log.debug("- createComplete done");
-            callback(val);
+            var ret = 
+                { title:    val.title
+                , uri:      val.dataref
+                , path:     val.datapath
+                , itemuri:  val.uri
+                , itempath: val.path
+                , itemid:   val.id
+                , feeduri:  feeduri
+                , feedpath: feedpath
+                , atomuri:  atomuri
+                } 
+            callback(ret);
         };
     };
 
