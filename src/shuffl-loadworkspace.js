@@ -6,6 +6,9 @@
  * @version $Id$
  */
 
+// TODO: refactor this code to accept a storage session object, so the
+//       interface is more consistent with the save module.
+
 // ----------------------------------------------------------------
 // Load up workspace
 // ----------------------------------------------------------------

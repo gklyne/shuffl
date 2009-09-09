@@ -1,10 +1,37 @@
 /**
  * @fileoverview
- *  Shuffl code to load card data into the workspace.
+ *  Shuffl code to save workspace and card data to an AtomPub service.
  *  
  * @author Graham Klyne
- * @version $
+ * @version $Id$
  */
+
+// ----------------------------------------------------------------
+// Delete card
+// ----------------------------------------------------------------
+
+/**
+ * Delete card at indicated location
+ * 
+ * @param atompub   is the AtomPub session object to use
+ * @param feedpath  is the feed path from which the card is to be deleted.
+ * @param carduri   is the uri of the card to be deleted, 
+ *                  possibly relative to the feed.
+ * @param callback  called when the operation is complete
+ * 
+ * The callback is invoked with an Error value, or an empty dictionary
+ * to indicate success.
+ */
+shuffl.deleteCard = function(atompub, feedpath, carduri, callback) {
+    // Set up and issue the HTTP request to save the card data
+    log.debug("shuffl.deleteCard, feedpath: "+feedpath+", carduri: "+carduri);
+    // Build the card external object
+    atompub.deleteItem(
+        { base: feedpath
+        , name: carduri.toString()
+        },
+        callback);
+};
 
 // ----------------------------------------------------------------
 // Save card

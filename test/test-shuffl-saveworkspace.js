@@ -1,7 +1,11 @@
 // $Id: $
 
 /**
+ * @fileoverview
  * Test suite for workspace saving functions
+ *  
+ * @author Graham Klyne
+ * @version $Id: $
  * 
  * Dependencies:
  *  test-shuffl-saveworkspace-layout.json
@@ -9,6 +13,15 @@
  *  The test page must be loaded from the eXist server for the test to run
  *  (due to same-origin security restriction).
  */
+
+/**
+ * Skip test function (change 'test' to 'notest' and leave the body intact)
+ */
+function notest(name, fn) {
+    test("SKIPPED TEST: "+name, function() {
+        ok(true, "SKIPPED TEST: "+name);
+    });
+}
 
 /**
  * Function to register tests
@@ -36,8 +49,8 @@ TestSaveWorkspace = function() {
 
     test("NOTE: this test must be run from the AtomPub server used to store shuffl workspace data", shuffl.noop);
     
-    test("shuffl.LoadWorkspace (empty)", function () {
-        log.debug("test shuffl.LoadWorkspace empty workspace");
+    test("shuffl.loadWorkspace (empty)", function () {
+        log.debug("test shuffl.loadWorkspace empty workspace");
         expect(37);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -72,8 +85,8 @@ TestSaveWorkspace = function() {
         stop();
     });
 
-    test("shuffl.SaveNewWorkspace (empty)", function () {
-        log.debug("test shuffl.SaveNewWorkspace new empty workspace");
+    test("shuffl.saveNewWorkspace (empty)", function () {
+        log.debug("test shuffl.saveNewWorkspace new empty workspace");
         expect(49);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -142,12 +155,13 @@ TestSaveWorkspace = function() {
         stop();
     });
 
-    test("shuffl.SaveCard", function () {
-        log.debug("test shuffl.SaveCard");
-        expect(27);
+    test("shuffl.saveCard", function () {
+        log.debug("test shuffl.saveCard");
+        expect(26);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace from AtomPub");
+            this.atompub  = new shuffl.AtomPub(atomuri);
             shuffl.loadWorkspace(layouturi, callback);
         });
         m.eval(function(val,callback) {
@@ -167,7 +181,6 @@ TestSaveWorkspace = function() {
             same  (val['shuffl:data']['shuffl:tags'],  [ 'card_1_tag', 'yellowtag' ],   'shuffl:data-tags');
             equals(val['shuffl:data']['shuffl:text'],  "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow", 'shuffl:data-text');
             log.debug("Save card data");
-            this.atompub  = new shuffl.AtomPub(atomuri);
             var card = shuffl.createCardFromData(val['shuffl:id'], val['shuffl:class'], val);
             shuffl.saveCard(this.atompub, feedpath, val['shuffl:id']+".json", card, callback);
         });
@@ -180,7 +193,6 @@ TestSaveWorkspace = function() {
         });
         m.eval(function(val,callback) {
             log.debug("Check card values ");
-            equals(val['shuffl:id'], "id_1", "shuffl:id");
             equals(val['shuffl:id'], 'id_1', "shuffl:id");
             equals(val['shuffl:class'], 'shuffl-freetext-yellow', "shuffl:class");
             equals(val['shuffl:version'], '0.1', "shuffl:version");
@@ -194,10 +206,90 @@ TestSaveWorkspace = function() {
             callback({});
         });
         m.exec({}, start);
-        ok(true, "shuffl.SaveCard initiated");
+        ok(true, "shuffl.saveCard initiated");
         stop();
     });
+
+    // eXist won't delete a media resource
+    notest("shuffl.deleteCard", function () {
+        log.debug("test shuffl.deleteCard");
+        expect(3);
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
+            log.debug("Read back card again");
+            this.atompub = new shuffl.AtomPub(atomuri);
+            var carduri = this.atompub.serviceUri({base:feedpath, name:"id_1.json"});
+            shuffl.readCard(carduri, callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Check card is read OK");
+            equals(val['shuffl:id'], 'id_1', "shuffl:id");
+            log.debug("Delete card");
+            shuffl.deleteCard(this.atompub, feedpath, "id_1.json", callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("deleteCard returns: "+val);
+            same(val, {}, "deleteCard return");
+            callback(val);
+        });
+        m.exec({}, start);
+        ok(true, "shuffl.deleteCard initiated");
+        stop();
+    });
+
+    // This "test" is run to remove the card saved previously.
+    test("Recreate empty workspace", function() {
+        log.debug("Recreate empty workspace");
+        expect(4);
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
+            log.debug("Load empty workspace");
+            shuffl.loadWorkspace(layoutname, callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Delete old workspace");
+            this.atompub  = new shuffl.AtomPub(atomuri);
+            this.atompub.deleteFeed({path:feedpath}, callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Save empty workspace");
+            ok(true, "deleted old feed "+feedpath);
+            shuffl.saveNewWorkspace(atomuri, feedpath, callback);
+        });        
+        m.eval(function(val,callback) {
+            log.debug("Check result from save: "+shuffl.objectString(val));
+            this.wsuri = jQuery.uri(val.uri, val.itemuri).toString();
+            equals(val.uri, "test-shuffl-saveworkspace-layout.json", "val.uri");
+            log.debug("Reset workspace...");
+            shuffl.resetWorkspace(callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Reload empty workspace from AtomPub...");
+            shuffl.loadWorkspace(this.wsuri, callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Check reloaded workspace "+this.wsuri);
+            var u = jQuery.uri(this.wsuri);
+            equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
+            callback(true);
+        });
+        m.exec({}, start);
+        ok(true, "Reload empty workspace initiated");
+        stop();
+    });
+
+    // Add card to workspace, save workspace, read back, check content
+
+    // Update card in workspace, read back, check content
+
+    // Update card in workspace, save workspace, read back, check content
+
+    // TODO: test shuffl.saveRelativeCard
     
+    // TODO: create workspace with mix of absolute and relative card references
+    //       save workspace as new
+    //       reload workspace
+    //       check card URIs
     
 };
 
