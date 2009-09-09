@@ -633,6 +633,9 @@ shuffl.AtomPub.prototype.putItem = function (iteminfo, callback) {
  * Function to delete a feed item
  * 
  * @param iteminfo  object identifying an item. See serviceUri for details.
+ * @param callback  function called when delete is complete.
+ * 
+ * The callback is invoked with an Error object, or an empty dictionary.
  */
 shuffl.AtomPub.prototype.deleteItem = function (iteminfo, callback) {
     function decodeResponse(data, status) {
