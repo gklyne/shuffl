@@ -12,7 +12,7 @@
   ]
 , 'shuffl:data':
   { 'shuffl:title':   "Structure"
-  , 'shuffl:tags':    [ 'shuffl', 'Structure' ]
-  , 'shuffl:text':    "Organization of data will be based on: <br/>(a) creating collections, or stacks, of cards, <br/>(b) creating links between cards, and <br/>(c) a plug-in framework that allows new card types with arbitrary internal structure (fields) to be introduced"
+  , 'shuffl:tags':    [ 'shuffl', 'jiscri', 'Structure' ]
+  , 'shuffl:text':    "Organization of data will be based on: <br/>(a) creating collections, or stacks, of cards, <br/>(b) creating links between cards, and <br/>(c) a plug-in framework that allows new card types with arbitrary internal structure (fields) to be introduced<br/><br/>The cards I use here have id, card-type, title, body text and tags fields.  For new card types, only the id and card-type are required, and may be hidden."
   }
 }
