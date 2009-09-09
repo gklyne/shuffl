@@ -141,7 +141,7 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
             callback(val); 
         } else {
             log.debug("shuffl.saveCard:createComplete "+shuffl.objectString(val));
-            // TODO: gfigure why wrong URI for data is returned
+            // TODO: figure why wrong URI for data is returned
             jQuery('#workspaceuri').text(val.dataref.toString());
             // TODO: remove entries where wsdata value can be used later
             jQuery('#workspace').data('location', val.dataref);
@@ -207,7 +207,7 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
                 var cardlayout =
                     { 'id':     card.data('shuffl:id')
                     , 'class':  card.data('shuffl:class')
-                    , 'data':   card.data('shuffl:external')
+                    , 'data':   card.data('shuffl:edituri')
                     , 'pos':    card.position()
                     };
                 layout.push(cardlayout);
