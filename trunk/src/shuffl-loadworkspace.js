@@ -20,7 +20,8 @@
  * the card data.
  */
 shuffl.readCard = function (uri, callback) {
-    jQuery.getJSON(uri, callback); 
+    log.debug("shuffl.readCard: "+uri);
+    jQuery.getJSON(uri.toString(), callback); 
 };
 
 /**
@@ -37,7 +38,6 @@ shuffl.readCard = function (uri, callback) {
  * 
  * The callback is invoked with an Error object, or an empty dictionary.
  */
-
 shuffl.loadWorkspace = function(uri, callback) {
 
     log.info("Load workspace from: "+uri);

@@ -144,7 +144,7 @@ TestSaveWorkspace = function() {
 
     test("shuffl.SaveCard", function () {
         log.debug("test shuffl.SaveCard");
-        expect(1);
+        expect(27);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace from AtomPub");
@@ -165,7 +165,7 @@ TestSaveWorkspace = function() {
             };
             equals(val['shuffl:data']['shuffl:title'], "Card 1 title",   'shuffl:data-title');
             same  (val['shuffl:data']['shuffl:tags'],  [ 'card_1_tag', 'yellowtag' ],   'shuffl:data-tags');
-            equals(val['shuffl:data']['shuffl:text'],  "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow",        'shuffl:data-text');
+            equals(val['shuffl:data']['shuffl:text'],  "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow", 'shuffl:data-text');
             log.debug("Save card data");
             this.atompub  = new shuffl.AtomPub(atomuri);
             var card = shuffl.createCardFromData(val['shuffl:id'], val['shuffl:class'], val);
@@ -175,13 +175,23 @@ TestSaveWorkspace = function() {
             log.debug("Check response");
             equals(val, "id_1.json", "card relative URI");
             log.debug("Read back card");
-            ok(false, "TODO");
-            callback(false);
+            var carduri = this.atompub.serviceUri({base:feedpath, name:val});
+            shuffl.readCard(carduri, callback);
         });
         m.eval(function(val,callback) {
-            log.debug("Check card values");
-            ok(false, "TODO");
-            callback(false);
+            log.debug("Check card values ");
+            equals(val['shuffl:id'], "id_1", "shuffl:id");
+            equals(val['shuffl:id'], 'id_1', "shuffl:id");
+            equals(val['shuffl:class'], 'shuffl-freetext-yellow', "shuffl:class");
+            equals(val['shuffl:version'], '0.1', "shuffl:version");
+            equals(val['shuffl:base-uri'], '#', "shuffl:base-uri");
+            for (var i = 0 ; i<shuffl_prefixes.length ; i++) {
+                same(val['shuffl:uses-prefixes'][i], shuffl_prefixes[i], "shuffl:uses-prefixes["+i+"]");
+            };
+            equals(val['shuffl:data']['shuffl:title'], "Card 1 title",   'shuffl:data-title');
+            same  (val['shuffl:data']['shuffl:tags'],  [ 'card_1_tag', 'yellowtag' ],   'shuffl:data-tags');
+            equals(val['shuffl:data']['shuffl:text'],  "Card 1 free-form text here<br>line 2<br>line3<br>yellow", 'shuffl:data-text');
+            callback({});
         });
         m.exec({}, start);
         ok(true, "shuffl.SaveCard initiated");
