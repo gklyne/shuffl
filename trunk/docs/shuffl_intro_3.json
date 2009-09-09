@@ -12,7 +12,7 @@
   ]
 , 'shuffl:data':
   { 'shuffl:title':   "Interface"
-  , 'shuffl:tags':    [ 'Shuffl', 'Interface' ]
-  , 'shuffl:text':    "Shuffl presents a visual interface based on index cards, inspired in part by the use of cards for planning and brainstorming in agile development teams"
+  , 'shuffl:tags':    [ 'Shuffl', 'jiscri', 'Interface' ]
+  , 'shuffl:text':    "Shuffl presents a visual interface based on index cards, inspired in part by the use of cards for planning and brainstorming in agile development teams<br/><br/>The interface supports creation, arrangement and in-place editing of card conteht."
   }
 }

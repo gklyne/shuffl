@@ -12,7 +12,7 @@
   ]
 , 'shuffl:data':
   { 'shuffl:title':   "Status"
-  , 'shuffl:tags':    [ 'shuffl', 'Status' ]
+  , 'shuffl:tags':    [ 'shuffl', 'jiscri', 'Status' ]
   , 'shuffl:text':    "What I describe here is a work in progress, and is not yet remotely like a usable application.<br/><br/>You can find it all at <a href='http://code.google.com/p/shuffl/'>http://code.google.com/p/shuffl/</a>"
   }
 }

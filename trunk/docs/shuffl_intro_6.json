@@ -12,7 +12,7 @@
   ]
 , 'shuffl:data':
   { 'shuffl:title':   "Wrap-up"
-  , 'shuffl:tags':    [ 'shuffl', 'Wrap-up' ]
+  , 'shuffl:tags':    [ 'shuffl', 'jiscri', 'Wrap-up' ]
   , 'shuffl:text':    "The basic idea is that simple.<br/><br/>One might think of Shuffl as being like a Mindmap with real data, or Hypercard in the web."
   }
 }

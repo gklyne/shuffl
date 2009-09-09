@@ -12,7 +12,7 @@
   ]
 , 'shuffl:data':
   { 'shuffl:title':   "Data"
-  , 'shuffl:tags':    [ 'shuffl', 'Data' ]
-  , 'shuffl:text':    "A card is the fundamental unit of data in Shuffl, and each is published as an independently-addressable web resource.<br/><br/>The interface supports in-place editing of card conteht."
+  , 'shuffl:tags':    [ 'shuffl', 'jiscri', 'Data' ]
+  , 'shuffl:text':    "A card is the fundamental unit of data in Shuffl, and each is published as an independently-addressable web resource.<br/><br/>The aim is that each card can be a first class citizen in a web of linked data."
   }
 }
