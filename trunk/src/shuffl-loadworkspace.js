@@ -94,6 +94,7 @@ shuffl.loadWorkspace = function(uri, callback) {
         for (i = 0 ; i < layout.length ; i++) {
             cardcount++;
             log.debug("Loading card["+i+"]: "+shuffl.objectString(layout[i]));
+            log.debug("Loading URI["+i+"]: "+shuffl.objectString(layout[i]['data']));
             log.debug("Loading URI: "+layout[i]['data']);
             readcard(layout[i]);
         };
