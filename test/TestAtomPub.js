@@ -15,6 +15,8 @@ TestAtomPub = function() {
     var save_item_val1;
     var save_item_uri2;
     var save_item_val2;
+    var save_item_uri3;
+    var save_item_val3;
 
     module("TestAtomPub - feed manipulation");
 
@@ -687,6 +689,101 @@ TestAtomPub = function() {
             m.exec(null,
                 function(val) {
                     log.debug("----- 14. -----");
+                    start();
+                });
+            stop(2000);
+        });
+
+    // Create feed, create media resource, try to delete media resource
+    test("Delete media resource", function () {
+            log.debug("----- 15. Delete media resource -----");
+            expect(8);
+            var m = new shuffl.AsyncComputation();
+            m.atompub = new shuffl.AtomPub(atomserviceuri);
+            m.eval(
+                function (val, callback) {
+                    m.atompub.createFeed(
+                        {base:"/item/test/", name:"feed", title:"Item test feed"}, 
+                        callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    equals(val.uri.toString(),  
+                        "http://localhost:8080/exist/atom/edit/item/test/feed",
+                        "New feed URI");
+                    m.atompub.createItem(
+                        { path:     "/item/test/feed"
+                        , slug:     "testitem3.json"
+                        , title:    "Test item 3"
+                        , datatype: "application/json"
+                        , data:     {a:"A3", b:"B"}
+                        },
+                        callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    //log.debug("- createItem (non-atom) return: "+shuffl.objectString(val));
+                    equals(val.uri.toString(), "http://localhost:8080/exist/atom/edit/item/test/feed?id="+val.id,
+                        "Item URI returned");
+                    equals(val.datauri, "http://localhost:8080/exist/atom/edit/item/test/testitem3.json", 
+                        "Item data URI returned");
+                    save_item_uri3 = val.uri;
+                    save_item_val3 = val;
+                    // delete media resource should also delete feed item..
+                    //TODO: this does not work:
+                    //m.atompub.deleteItem({uri: val.datauri}, callback);
+                    // Use feed URI for now...
+                    m.atompub.deleteItem({uri: val.uri}, callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    same(val, {}, "deleteItem return")
+                    m.atompub.getItem({uri: save_item_uri3}, callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    //log.debug("- getItem return: "+shuffl.objectString(val));
+                    equals(val.val,        "error", 
+                        "getItem deleted item return val");
+                    equals(val.message,    "AtomPub request failed", 
+                        "getItem deleted item return message");
+                    equals(val.HTTPstatus, 400, 
+                        "getItem deleted item return HTTPstatus");
+                    equals(val.HTTPstatusText, 
+                        "No+topic+was+found%2E", 
+                        "getItem deleted item return HTTPstatusText");
+                    callback(val);
+                });
+            m.exec(null,
+                function(val) {
+                    log.debug("----- 15. -----");
+                    start();
+                });
+            stop(2000);
+    });
+
+    // Delete test feed again.
+    test("Delete test feed again", 
+        function () {
+            log.debug("----- 16. Delete test feed again -----");
+            expect(1);
+            var m = new shuffl.AsyncComputation();
+            m.eval(
+                function (val, callback) {
+                    m.atompub = new shuffl.AtomPub(val);
+                    m.atompub.deleteFeed(
+                        {path:"/item/test/feed"}, 
+                        callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    //log.debug("- deleteFeed return: "+shuffl.objectString(val));
+                    same(val, {}, "deleteFeed return value");
+                    callback(val);
+                });
+            m.exec(atomserviceuri,
+                function(val) {
+                    log.debug("----- 16. -----");
                     start();
                 });
             stop(2000);
