@@ -281,7 +281,7 @@ TestSaveWorkspace = function() {
     // Add card to workspace, save workspace, read back, check content
     test("shuffl.saveNewWorkspace (with card)", function () {
         log.debug("test shuffl.saveNewWorkspace new workspace with card");
-        expect(49);
+        expect(55);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace");
@@ -356,8 +356,16 @@ TestSaveWorkspace = function() {
                 equals(s.data('CardType'), "shuffl-freetext-"+stockcolour[i], "["+i+"] stock CardType "+"shuffl-freetext-"+stockcolour[i]);
                 ok(typeof s.data('makeCard') == "function", "["+i+"] stock makeCard");
             };
-            // Empty workspace?
-            equals(jQuery("#layout").children().length, 0, "no cards in workspace");
+            // Check card in workspace
+            equals(jQuery("#layout").children().length, 1, "one card in workspace");
+            var c3 = jQuery("#id_3");
+            ok(c3 != undefined, "card id_3 defined")
+            ok(c3.hasClass('shuffl-card'),
+                "card 3 shuffl card class");
+            var p3 = c3.position();
+            equals(Math.floor(p3.left), 200, "position-left");
+            equals(Math.floor(p3.top),  90,  "position-top");
+            equals(c3.css("zIndex"), "11", "card zIndex");
             // Done
             callback(true);
         });        
