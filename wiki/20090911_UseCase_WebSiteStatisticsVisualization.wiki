@@ -1,4 +1,4 @@
-#summary Visualizing statistics from  travel web sites
+#summary 20090911_UseCase_WebSiteStatisticsVisualization: Visualizing statistics from  travel web sites
 
 Discussion with Davide Eynard: about use cases for data visualizion
 
