@@ -1,5 +1,7 @@
 #summary 20090911_UseCase_WebSiteStatisticsVisualization: Visualizing statistics from  travel web sites
 
+<wiki:toc max_depth="1" />
+
 Discussion with Davide Eynard: about use cases for data visualizion
 
 == Description ==
