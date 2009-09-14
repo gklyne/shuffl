@@ -46,7 +46,7 @@
 
 == End of sprint review ==
 
-Sprint dominated buy !AtomPub implementation - see notes linked above.
+Sprint dominated by !AtomPub implementation - see notes linked above.
 
 Workspace persistence is not yet completed.
 
