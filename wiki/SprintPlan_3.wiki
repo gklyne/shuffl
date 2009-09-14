@@ -26,7 +26,7 @@ Due to getting bogged down with !AtomPub and data persistence in the [SprintPlan
 || 1.1. || Sprint 3 plan             || 0.25 || -- || 31-Aug-2009 || 05-Sep-2009 ||
 || 1.2. || Sprint 3 review (retrospective)  || 0.25 || -- || 17-Sep-2009 || -- ||
 || 1.3. || Sustainability plan   || 0.25   || -- ||  ?? || (ongoing) ||
-|| 1.4. || Miscellaneous admin, etc  || 0.75 || -- || -- || -- ||
+|| 1.4. || Miscellaneous admin, etc  || 0.75 || 1.0 || -- || -- ||
 || 2.   || *Community engagement and dissemination* || *5.0* || *0.0* ||
 || 2.1  || Meeting with CH (Zoology silk group)  || 0.5 || -- || (sprint) || (incomplete) ||
 || 2.2  || Introductory user documentation || 0.5 || -- || 28-Aug-2009 || -- ||   
@@ -59,11 +59,13 @@ Due to getting bogged down with !AtomPub and data persistence in the [SprintPlan
 
 = Sprint review notes =
 
- * TBD
+Having thought I had all functionality tested, adding some additional test cases uncovered a problem with file location handling whose resolution has broken some earlier test cases.
 
 == End-of-sprint review ==
 
- * TBD
+5 days of meetings weren't anticipated in the original plan.  Coupled with the overrun on card persistence, progress this sprint looks pretty poor.  I still feel this is a failure of estimation rather than fundamental problems, but there is the ongoing problem that the complexities of using AtomPub to save cards haven't really been recognized ahead of actually doing it.  This is underscoring the desire for a plug-in approach to back-end access.
+
+I have spent some time discussing use-cases, in some cases with potential users.
 
 = Activity summary =
 
@@ -74,7 +76,7 @@ Due to getting bogged down with !AtomPub and data persistence in the [SprintPlan
 02-Sep-2009:
  * (0.5) email catch-up
  * (0.2) meeting with Chris Holland
- * (0.3) restructuring code and starting on test cases for card handling
+ * (0.3) restructuring code and creating test cases for card handling
 
 03-Sep-2009:
  * (0.2) continue work on card handling test cases
@@ -89,3 +91,23 @@ Due to getting bogged down with !AtomPub and data persistence in the [SprintPlan
  * (0.2) write up notes of Ross Gardler's use-case
  * (0.2) prepare sprint 3 plan
  * (0.1) Post use-case for data visualization to wiki
+
+Monday, 7 September, 2009:
+ * (1.0) Continue working on test cases and code reorganization. Card services test cases all OK. Working on loadworkspace test cases.
+
+Tuesday, 8 September, 2009:
+ * (0.3) email catch-up
+ * (0.1) notes for shuffl lightning talk
+ * (0.6) continue shuffl test cases and debugging. Some problems with the workspace save logic have been overcome in the unit tests.
+
+Wednesday, 9 September, 2009:
+ * (0.3) Working through persistence test cases
+ * (0.7) Linked data meeting in London.  Lighning talk planned but not given due to schedule overrun.
+
+Thursday, 10 September, 2009:
+* (0.2) AtomPub persistence test cases
+* (0.8) VoCamp meeting; among other things, sketched vocab for time-series data
+
+Friday, 11 September, 2009:
+* (0.8) VoCamp meeting; Shuffl lightning talk introducing use of JSON intended to be RDF; discussed ontologies and data validation; worked with Davide Eynard on Shuffl use-case for data visualization of data scraped from web sites
+* (0.2) AtomPub persistence test cases
