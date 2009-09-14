@@ -65,9 +65,11 @@ Having thought I had all functionality tested, adding some additional test cases
 
 == End-of-sprint review ==
 
-5 days of meetings weren't anticipated in the original plan.  Coupled with the overrun on card persistence, progress this sprint looks pretty poor.  I still feel this is a failure of estimation rather than fundamental problems, but there is the ongoing problem that the complexities of using !AtomPub to save cards haven't really been recognized ahead of actually doing it.  This is underscoring the desire for a plug-in approach to back-end access.
+Early in this sprint, I decided to re-evaluate how I was proceeding.  See http://shuffl-announce.blogspot.com/2009/09/relearning-agile-lessons.html.  I've backed off trying to complete the workspace persistence immediately and decided to build an extra layer of test cases (something I should have done all along).  I've made steady progress on these, but the immediate effect has been to crystalize an overrun on the worksopace persistence, which is still not yet complete.
 
-I have spent some time discussing use-cases, in some cases with potential users.
+Also, 5 days of meetings weren't anticipated in the original plan.  Coupled with the overrun on card persistence, progress this sprint looks pretty slow.  I still feel this is a failure of estimation rather than fundamental problems, but there is the ongoing issue that the complexities of using !AtomPub to save cards haven't really been recognized ahead of actually doing it.  I'm wondering if WebDav would not have been a better choice (e.g. see http://shuffl-announce.blogspot.com/2009/09/delete-on-atompub-media-resource.html), but I feel it's inappropriate to change at this time.  This all underscores the desire for a plug-in approach to back-end access.
+
+I have spent some time discussing use-cases, in some cases with potential users, including some who were not in the original plan.  It looks as if the best approach to getting users for shuffl will be to focus on tooling to help visualization, and use that as a beach-head for introducing data management capabilities.
 
 = Activity summary =
 
