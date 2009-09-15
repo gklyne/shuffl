@@ -313,7 +313,7 @@ shuffl.AtomPub.prototype.getAtomService = function(uri) {
  *          getAtomPath, and resolved relative to the AtomPub service URI.
  */
 shuffl.AtomPub.prototype.serviceUri = function (info, service) {
-    log.debug("shuffl.AtomPub.serviceUri: "+shuffl.objectString(info));
+    //log.debug("shuffl.AtomPub.serviceUri: "+shuffl.objectString(info));
     if ( !service   ) { service   = 'edit'; };
     if ( !info.path ) { info.path = info.base+info.name; };
     if ( !info.path ) { info.path = this.getAtomPath(info.uri); };
@@ -411,7 +411,7 @@ shuffl.AtomPub.assembleData = function (iteminfo) {
     //log.debug("shuffl.AtomPub.assembleData: "+shuffl.objectString(iteminfo));
     var data  = iteminfo.data;
     var type  = iteminfo.datatype || "application/atom+xml";
-    log.debug("shuffl.AtomPub.assembleData:type "+type);
+    //log.debug("shuffl.AtomPub.assembleData:type "+type);
     var title = iteminfo.title || "";
     if (iteminfo.dataref != undefined) {
         //log.debug("shuffl.AtomPub.assembleData (ref): "+shuffl.objectString(iteminfo));
@@ -659,7 +659,7 @@ shuffl.AtomPub.prototype.putItem = function (iteminfo, callback) {
     // Atom response expected as XML, but no response for media resource
     var datatype = undefined;
     if (datainfo.contentType == "application/atom+xml") { datatype = "xml"; };
-    log.debug("shuffl.AtomPub.putItem: "+uri+", "+datainfo.contentType+", "+datatype);
+    log.debug("shuffl.AtomPub.putItem: "+uri+", "+datainfo.contentType);
     jQuery.ajax({
             type:         "PUT",
             url:          uri.toString(),

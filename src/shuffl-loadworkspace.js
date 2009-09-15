@@ -27,8 +27,8 @@
 shuffl.readCard = function (baseuri, uri, callback) {
     log.debug("shuffl.readCard: "+baseuri+", "+uri);
     jQuery.getJSON(jQuery.uri(baseuri).resolve(uri).toString(), function(data) {
-        log.debug("**** shuffl.readCard from: "+uri);
-        log.debug("- data: "+jQuery.toJSON(data));
+        //log.debug("shuffl.readCard from: "+uri);
+        //log.debug("- data: "+jQuery.toJSON(data));
         data['shuffl:location'] = uri;
         callback(data);
     }); 
@@ -64,7 +64,7 @@ shuffl.loadWorkspace = function(uri, callback) {
         var layout   = json['shuffl:workspace']['shuffl:layout'];
         // Display and save location information
         var wsuri = jQuery.uri().resolve(uri).toString();
-        log.debug("Display location of workspace, and save values: "+wsuri);
+        //log.debug("Display location of workspace, and save values: "+wsuri);
         jQuery('#workspaceuri').text(wsuri);
         // TODO: remove entries where wsdata value can be used later
         jQuery('#workspace').data('location', wsuri);
@@ -87,7 +87,7 @@ shuffl.loadWorkspace = function(uri, callback) {
         }
         // Load up card data
         // TODO: factor out wait-for-all logic as general utility, or sequence
-        log.debug("Loading layout");
+        //log.debug("Loading layout");
         function readcard(layout) {
             shuffl.readCard(feeduri, layout['data'],
                 function (val) {

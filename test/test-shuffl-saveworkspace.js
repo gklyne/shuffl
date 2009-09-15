@@ -430,7 +430,7 @@ TestSaveWorkspace = function() {
             shuffl.loadWorkspace(layouturi, callback);
         });
         m.eval(function(val,callback) {
-            log.debug("Check reloaded workspace "+this.wsuri);
+            log.debug("Check reloaded workspace ");
             equals(jQuery('#workspaceuri').text(), layouturi.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), layouturi.toString(), "location");
             equals(jQuery('#workspace').data('atomuri'),  atomuri, "atomuri");

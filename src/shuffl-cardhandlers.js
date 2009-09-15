@@ -249,7 +249,7 @@ shuffl.createCardFromData = function (cardid, cardclass, origdata) {
     jQuery.extend(true, copydata, origdata);
     var carddata = copydata['shuffl:data'];  // Card-type specific data
     // Create card using card factory
-    log.debug("shuffl.createCardFromData, cardid: "+cardid+", cardclass: "+cardclass);
+    //log.debug("shuffl.createCardFromData, cardid: "+cardid+", cardclass: "+cardclass);
     var newcard   = shuffl.getCardFactory(cardclass)(cardid, carddata);
     // If no location defined, use id of new card as hint for file name
     ////if (newcard.data('shuffl:location') == undefined) {
@@ -280,7 +280,7 @@ shuffl.placeCardFromData = function (layout, data) {
     var cardid    = shuffl.get(data, 'shuffl:id',    layout['id']);
     var cardclass = shuffl.get(data, 'shuffl:class', layout['class']);
     // Create card using card factory
-    log.debug("shuffl.placeCardFromData, cardid: "+cardid+", cardclass: "+cardclass);
+    //log.debug("shuffl.placeCardFromData, cardid: "+cardid+", cardclass: "+cardclass);
     var newcard = shuffl.createCardFromData(cardid, cardclass, data);
     //ÊPlace card on layout
     var cardpos = layout['pos'];
@@ -300,7 +300,7 @@ shuffl.createDataFromCard = function (card) {
     extdata['shuffl:data']  = card.data('shuffl:tojson')(card);
     //log.debug("shuffl.createDataFromCard, extdata: "+shuffl.objectString(extdata));
     //log.debug("shuffl.createDataFromCard, data: "+shuffl.objectString(extdata['shuffl:data']));
-    log.debug("shuffl.createDataFromCard, id: "+extdata['shuffl:id']+", class: "+extdata['shuffl:class']);
+    //log.debug("shuffl.createDataFromCard, id: "+extdata['shuffl:id']+", class: "+extdata['shuffl:class']);
     return extdata;
 };
 
