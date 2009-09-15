@@ -55,7 +55,7 @@ shuffl.updateCard = function(atompub, feedpath, card, callback) {
         if (data instanceof shuffl.Error) { 
             callback(data); 
         } else {
-            log.debug("shuffl.updateCard:putComplete "+shuffl.objectString(data));
+            //log.debug("shuffl.updateCard:putComplete "+shuffl.objectString(data));
             callback(data.uri);
         };
     };
@@ -65,7 +65,7 @@ shuffl.updateCard = function(atompub, feedpath, card, callback) {
     log.debug("shuffl.updateCard: "+cardid+", feedpath: "+feedpath+", cardloc: "+cardloc);
     // Build the card external object
     var cardext = shuffl.createDataFromCard(card);
-    log.debug("- cardext: "+shuffl.objectString(cardext));
+    //log.debug("- cardext: "+shuffl.objectString(cardext));
     atompub.putItem(
         { base:       feedpath
         , name:       cardloc
@@ -99,7 +99,7 @@ shuffl.saveCard = function(atompub, feedpath, cardloc, card, callback) {
         if (data instanceof shuffl.Error) { 
             callback(data); 
         } else {
-            log.debug("shuffl.saveCard:createComplete "+shuffl.objectString(data));
+            //log.debug("shuffl.saveCard:createComplete "+shuffl.objectString(data));
             callback(data.dataref);
         };
     };
@@ -181,15 +181,13 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
         if (val instanceof shuffl.Error) { 
             callback(val); 
         } else {
-            log.debug("shuffl.saveCard:createComplete "+shuffl.objectString(val));
-            // TODO: figure why wrong URI for data is returned
+            //log.debug("shuffl.saveCard:createComplete "+shuffl.objectString(val));
             jQuery('#workspaceuri').text(val.dataref.toString());
             // TODO: remove entries where wsdata value can be used later
             jQuery('#workspace').data('location', val.dataref);
             jQuery('#workspace').data('atomuri',  atomuri);
             jQuery('#workspace').data('feeduri',  feeduri);
             jQuery('#workspace').data('wsdata',   val.data);
-            log.debug("- createComplete done");
             var ret = 
                 { title:    val.title
                 , uri:      val.dataref
@@ -207,10 +205,10 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
 
     // Helper function to save card then invoke the next step
     var saveCard = function(card, next) {
-        log.debug("shuffl.saveNewWorkspace:saveCard: "+card.id);
+        //log.debug("shuffl.saveNewWorkspace:saveCard: "+card.id);
         var saveSaveLoc = function(ret) {
             // Update card location with result from saveRelativeCard
-            log.debug("shuffl.saveNewWorkspace:saveCard:saveSaveLoc: "+ret);
+            //log.debug("shuffl.saveNewWorkspace:saveCard:saveSaveLoc: "+ret);
             // shuffl:edituri is used later for card location in layout
             card.data('shuffl:edituri', ret);
             next(card);
@@ -219,7 +217,7 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
     };
 
     var saveWorkspaceCards = function(thencall) {
-        log.debug("Scan cards - save any with relative location");
+        //log.debug("Scan cards - save any with relative location");
         var m = new shuffl.AsyncComputation();
         m.eval(
             function (val, next) {
@@ -269,8 +267,8 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
               , 'shuffl:layout':        layout
               }
             }
-        log.debug("Save workspace description");
-        log.debug("- ws "+jQuery.toJSON(ws));
+        //log.debug("Save workspace description");
+        //log.debug("- ws "+jQuery.toJSON(ws));
         // NOTE: need slug and/or title here when saving AtomPub media resource
         atompub.createItem(
             { path:       feedpath

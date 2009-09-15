@@ -74,7 +74,7 @@ shuffl.card_freetext_blank = jQuery(
  * @return a jQuery object representing the new card.
  */
 shuffl.makeFreetextCard = function (cardtype, cardcss, cardid, carddata) {
-    log.debug("shuffl.makeFreetextCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
+    //log.debug("shuffl.makeFreetextCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
     var card = shuffl.card_freetext_blank.clone();
     card.data('shuffl:class',  cardtype);
     card.data('shuffl:id',     cardid);
