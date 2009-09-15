@@ -34,6 +34,49 @@ shuffl.deleteCard = function(atompub, feedpath, carduri, callback) {
 };
 
 // ----------------------------------------------------------------
+// Update card
+// ----------------------------------------------------------------
+
+/**
+ * Update card
+ * 
+ * @param atompub   is the AtomPub session object to use
+ * @param feedpath  patjh of the ATomPub feed containing this card
+ * @param card      is the card jQuery object to be saved
+ * @param callback  called when the operation is complete
+ * 
+ * The callback is invoked with an Error value, or the URI of the location
+ * where the card data is saved, possibly expressed relative to the feed URI.
+ */
+shuffl.updateCard = function(atompub, feedpath, card, callback) {
+    // Helper function extracts saved location from posted item response and 
+    // returns it via callback
+    var putComplete = function(data) {
+        if (data instanceof shuffl.Error) { 
+            callback(data); 
+        } else {
+            log.debug("shuffl.updateCard:putComplete "+shuffl.objectString(data));
+            callback(data.uri);
+        };
+    };
+    // Set up and issue the HTTP request to save the card data
+    var cardid    = card.data('shuffl:id');
+    var cardloc   = card.data('shuffl:location');
+    log.debug("shuffl.updateCard: "+cardid+", feedpath: "+feedpath+", cardloc: "+cardloc);
+    // Build the card external object
+    var cardext = shuffl.createDataFromCard(card);
+    log.debug("- cardext: "+shuffl.objectString(cardext));
+    atompub.putItem(
+        { base:       feedpath
+        , name:       cardloc
+        , datatype:   'application/json'
+        , title:      cardloc
+        , data:       cardext
+        },
+        putComplete);
+};
+
+// ----------------------------------------------------------------
 // Save card
 // ----------------------------------------------------------------
 
@@ -43,7 +86,7 @@ shuffl.deleteCard = function(atompub, feedpath, carduri, callback) {
  * @param atompub   is the AtomPub session object to use
  * @param feedpath  is the feed path at which the card is to be saved.
  * @param cardloc   is a suggested name for the dard data to be located within the feed.
- * @param card      is the card object to be saved
+ * @param card      is the card jQuery object to be saved
  * @param callback  called when the operation is complete
  * 
  * The callback is invoked with an Error value, or the URI of the location
@@ -62,8 +105,6 @@ shuffl.saveCard = function(atompub, feedpath, cardloc, card, callback) {
     };
     // Set up and issue the HTTP request to save the card data
     var cardid    = card.data('shuffl:id');
-    var cardclass = card.data('shuffl:class');
-    var data      = card.data('shuffl:external');
     log.debug("shuffl.saveCard: "+cardid+", feedpath: "+feedpath+", cardloc: "+cardloc);
     // Build the card external object
     var cardext  = shuffl.createDataFromCard(card);
@@ -71,7 +112,7 @@ shuffl.saveCard = function(atompub, feedpath, cardloc, card, callback) {
         { path:       feedpath
         , slug:       cardloc
         , datatype:   'application/json'
-        , data:       data
+        , data:       cardext
         },
         createComplete);
 };
@@ -167,13 +208,14 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
     // Helper function to save card then invoke the next step
     var saveCard = function(card, next) {
         log.debug("shuffl.saveNewWorkspace:saveCard: "+card.id);
-        var saveLoc = function(ret) {
-            // Update card location
-            log.debug("shuffl.saveNewWorkspace:saveCard:saveLoc: "+ret);
+        var saveSaveLoc = function(ret) {
+            // Update card location with result from saveRelativeCard
+            log.debug("shuffl.saveNewWorkspace:saveCard:saveSaveLoc: "+ret);
+            // shuffl:edituri is used later for card location in layout
             card.data('shuffl:edituri', ret);
             next(card);
         };
-        shuffl.saveRelativeCard(atompub, feedpath, card, saveLoc);
+        shuffl.saveRelativeCard(atompub, feedpath, card, saveSaveLoc);
     };
 
     var saveWorkspaceCards = function(thencall) {

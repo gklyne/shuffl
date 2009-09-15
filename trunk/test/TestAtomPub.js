@@ -17,6 +17,8 @@ TestAtomPub = function() {
     var save_item_val2;
     var save_item_uri3;
     var save_item_val3;
+    var save_item_uri4;
+    var save_item_val4;
 
     module("TestAtomPub - feed manipulation");
 
@@ -694,7 +696,7 @@ TestAtomPub = function() {
             stop(2000);
         });
 
-    // Create feed, create media resource, try to delete media resource
+    // Create feed again, create media resource, try to delete media resource
     test("Delete media resource", function () {
             log.debug("----- 15. Delete media resource -----");
             expect(8);
@@ -784,6 +786,117 @@ TestAtomPub = function() {
             m.exec(atomserviceuri,
                 function(val) {
                     log.debug("----- 16. -----");
+                    start();
+                });
+            stop(2000);
+        });
+
+    // Create feed, create media resource, update media resource
+    test("Update media resource", function () {
+            log.debug("----- 17. Update media resource -----");
+            expect(11);
+            var m = new shuffl.AsyncComputation();
+            m.atompub = new shuffl.AtomPub(atomserviceuri);
+            m.eval(
+                function (val, callback) {
+                    m.atompub.createFeed(
+                        {path:"/item/test/feed/", title:"Item test feed"}, 
+                        callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    equals(val.uri.toString(),  
+                        "http://localhost:8080/exist/atom/edit/item/test/feed/",
+                        "New feed URI");
+                    m.atompub.createItem(
+                        { path:     "/item/test/feed/"
+                        , slug:     "testitem4.json"
+                        , title:    "Test item 4"
+                        , datatype: "application/json"
+                        , data:     {a:"A4", b:"B"}
+                        },
+                        callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    log.debug("- createItem return: "+shuffl.objectString(val));
+                    equals(val.uri, "http://localhost:8080/exist/atom/edit/item/test/feed/?id="+val.id,
+                        "Item URI returned");
+                    equals(val.datauri, "http://localhost:8080/exist/atom/edit/item/test/feed/testitem4.json", 
+                        "Item data URI returned");
+                    save_item_uri4 = val.datauri;
+                    save_item_val4 = val;
+                    // Update media resource ..
+                    m.atompub.putItem(
+                        { uri: val.datauri
+                        //  base: "/item/test/feed/"
+                        //, name: "testitem4.json"
+                        , title: "Test item 4 updated"
+                        , data: {a:"A4updated", b:"B"}
+                        , datatype: "application/json"
+                        }, callback);
+                    // Use feed URI for now...
+                    //m.atompub.deleteItem({uri: val.uri}, callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    log.debug("- putItem (non-atom) return: "+shuffl.objectString(val));
+                    equals(val.uri,  save_item_uri4, 
+                        "Updated item URI returned");
+                    equals(val.path, m.atompub.getAtomPath(save_item_uri4), 
+                        "Updated item path returned");
+                    equals(typeof val.data, "string",
+                        "Updated item data type returned");
+                    equals(val.dataref, undefined, 
+                        "Item data reference returned");
+                    m.atompub.getItem(
+                        { uri: save_item_uri4
+                        , datatype: "application/json"
+                        }, callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    log.debug("- getItem (non-atom) return: "+shuffl.objectString(val));
+                    equals(val.uri, save_item_uri4, 
+                        "Updated item URI returned");
+                    equals(val.path, m.atompub.getAtomPath(save_item_uri4), 
+                        "Updated item path returned");
+                    equals(typeof val.data, "string",
+                        "Updated item data type returned");
+                    equals(val.dataref, undefined, 
+                        "Item data reference returned");
+                    callback(val);
+                });
+            m.exec(null,
+                function(val) {
+                    log.debug("----- 17. -----");
+                    start();
+                });
+            stop(2000);
+    });
+
+    // Delete test feed again.
+    test("Delete test feed again", 
+        function () {
+            log.debug("----- 18. Delete test feed again -----");
+            expect(1);
+            var m = new shuffl.AsyncComputation();
+            m.eval(
+                function (val, callback) {
+                    m.atompub = new shuffl.AtomPub(val);
+                    m.atompub.deleteFeed(
+                        {path:"/item/test/feed/"}, 
+                        callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    //log.debug("- deleteFeed return: "+shuffl.objectString(val));
+                    same(val, {}, "deleteFeed return value");
+                    callback(val);
+                });
+            m.exec(atomserviceuri,
+                function(val) {
+                    log.debug("----- 18. -----");
                     start();
                 });
             stop(2000);
