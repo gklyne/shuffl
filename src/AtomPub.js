@@ -145,6 +145,18 @@ shuffl.AtomPub.decodeFeedListResponse = function (atompubobj, feedinfo, callback
  *                    response data is required.
  * @return            jQuery.ajax success callback function to decode the
  *                    response and then call the supplied callback function.
+ * 
+ * A success return value may include the following fields:
+ *   path:     path to item or resource
+ *   uri:      uri of item or resource
+ *   id:       id of item
+ *   created:  creation date of item
+ *   updated:  last-update date of item
+ *   title:    title of item
+ *   data:     data from item or resource
+ *   dataref:  item reference to media resource
+ *   datatype: "application/atom+xml" for item, or type of media resource
+ *   datapath: atom service relative path to media resource
  */
 shuffl.AtomPub.decodeItemResponse = function 
         (atompubobj, iteminfo, callback, trace) {
@@ -245,7 +257,7 @@ shuffl.AtomPub.requestFailed = function (callback) {
         err.HTTPstatus     = xhr.status;
         err.HTTPstatusText = xhr.statusText; 
         err.response = err.HTTPstatus+" "+err.HTTPstatusText;
-        //log.debug("- err: "+shuffl.objectString(err));
+        log.debug("- err: "+shuffl.objectString(err));
         callback(err);
     };
 };
@@ -262,7 +274,7 @@ shuffl.AtomPub.requestFailed = function (callback) {
  */
 shuffl.AtomPub.prototype.getAtomPath = function(uri) {
     if (typeof uri == "string") {
-        uri = jQuery.uri(uri);
+        uri = jQuery.uri(uri, "http:///nopath/");
     }
     return uri.path.replace(/\/exist\/atom\/edit/, "")+shuffl.uriQuery(uri);
 };
@@ -296,8 +308,12 @@ shuffl.AtomPub.prototype.getAtomService = function(uri) {
  *   base:  names the feed uri path at which the new feed or item is 
  *          created, or "/".  Must end with '/'.
  *   name:  a name for the new feed or item, appended to the base path.
+ * or:
+ *   uri:   a uri, the path+query elements of which are extrtacted by
+ *          getAtomPath, and resolved relative to the AtomPub service URI.
  */
 shuffl.AtomPub.prototype.serviceUri = function (info, service) {
+    log.debug("shuffl.AtomPub.serviceUri: "+shuffl.objectString(info));
     if ( !service   ) { service   = 'edit'; };
     if ( !info.path ) { info.path = info.base+info.name; };
     if ( !info.path ) { info.path = this.getAtomPath(info.uri); };
@@ -395,6 +411,7 @@ shuffl.AtomPub.assembleData = function (iteminfo) {
     //log.debug("shuffl.AtomPub.assembleData: "+shuffl.objectString(iteminfo));
     var data  = iteminfo.data;
     var type  = iteminfo.datatype || "application/atom+xml";
+    log.debug("shuffl.AtomPub.assembleData:type "+type);
     var title = iteminfo.title || "";
     if (iteminfo.dataref != undefined) {
         //log.debug("shuffl.AtomPub.assembleData (ref): "+shuffl.objectString(iteminfo));
@@ -589,15 +606,22 @@ shuffl.AtomPub.prototype.createItem = function (iteminfo, callback) {
  * Function to obtain information about an item
  * 
  * @param iteminfo  object identifying an item. See serviceUri for details.
+ * 
+ * iteminfo additionally may specify:
+ *   datatype:  the expected type of the return value.  Any value other than
+ *              "application/atom+xml" indicates a media resource is accessed.
  */
 shuffl.AtomPub.prototype.getItem = function (iteminfo, callback) {
     //log.debug("shuffl.AtomPub.getItem: "+shuffl.objectString(iteminfo));
     var uri = this.serviceUri(iteminfo, "content");
+    // Atom response expected as XML, but no response for media resource
+    var datatype = "xml";
+    if (iteminfo.datatype != "application/atom+xml") { datatype = undefined; };
     log.debug("shuffl.AtomPub.getItem: "+uri);
     jQuery.ajax({
             type:         "GET",
             url:          uri.toString(),
-            dataType:     "xml",    // Atom feed info expected as XML
+            dataType:     datatype,
             success:      shuffl.AtomPub.decodeItemResponse(this, iteminfo, callback),
             error:        shuffl.AtomPub.requestFailed(callback),
             cache:        false
@@ -607,22 +631,41 @@ shuffl.AtomPub.prototype.getItem = function (iteminfo, callback) {
 /**
  * Function to update an existing feed item.
  * 
- * @param iteminfo  object identifying a feed and item to be created. 
- *                  See serviceUri and assembleData for details, and below.
+ * Note: when performing a PUT to a media resource, the response is empty, 
+ * not XML.  This has been causing jQuery to report parser errors.
+ * 
+ * @param iteminfo  object identifying a feed and item to be updated. 
+ *                  See serviceUri and assembleData for details.
+ * @param callback  returns information about the updated feed if successful,
+ *                  or an error value if the request fails.
+ * 
+ * A success return value may include the following fields:
+ *   path:     path to item or resource
+ *   uri:      uri of item or resource
+ *   id:       id of item
+ *   created:  creation date of item
+ *   updated:  last-update date of item
+ *   title:    title of item
+ *   data:     data from item or resource
+ *   dataref:  item reference to media resource
+ *   datatype: "application/atom+xml" for item, or type of media resource
+ *   datapath: atom service relative path to media resource
  */
 shuffl.AtomPub.prototype.putItem = function (iteminfo, callback) {
-    // TODO: avoid specifying service when using previous URI?
     //log.debug("shuffl.AtomPub.putItem: "+shuffl.objectString(iteminfo));
     //log.debug("shuffl.AtomPub.putItem: "+shuffl.objectString(datainfo));
     var uri = this.serviceUri(iteminfo, "edit");
     var datainfo = shuffl.AtomPub.assembleData(iteminfo);
-    log.debug("shuffl.AtomPub.putItem: "+uri);
+    // Atom response expected as XML, but no response for media resource
+    var datatype = undefined;
+    if (datainfo.contentType == "application/atom+xml") { datatype = "xml"; };
+    log.debug("shuffl.AtomPub.putItem: "+uri+", "+datainfo.contentType+", "+datatype);
     jQuery.ajax({
             type:         "PUT",
             url:          uri.toString(),
             data:         datainfo.content,
             contentType:  datainfo.contentType,
-            dataType:     "xml",    // Atom response expected as XML
+            dataType:     datatype,
             success:      shuffl.AtomPub.decodeItemResponse(this, iteminfo, callback),
             error:        shuffl.AtomPub.requestFailed(callback),
             cache:        false

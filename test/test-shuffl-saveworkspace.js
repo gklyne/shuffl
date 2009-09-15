@@ -1,11 +1,11 @@
-// $Id: $
+// $Id$
 
 /**
  * @fileoverview
  * Test suite for workspace saving functions
  *  
  * @author Graham Klyne
- * @version $Id: $
+ * @version $Id$
  * 
  * Dependencies:
  *  test-shuffl-saveworkspace-layout.json
@@ -15,11 +15,18 @@
  */
 
 /**
+ * Test case counter
+ */
+var testnum = 1;
+
+/**
  * Skip test function (change 'test' to 'notest' and leave the body intact)
  */
 function notest(name, fn) {
     test("SKIPPED TEST: "+name, function() {
         ok(true, "SKIPPED TEST: "+name);
+        log.info("----------");
+        log.info((testnum++)+". SKIPPED: "+name);
     });
 }
 
@@ -36,6 +43,7 @@ TestSaveWorkspace = function() {
     var feedpath   = "/shuffltest1/";
     var layoutname = "test-shuffl-saveworkspace-layout.json";
     var layouturi  = jQuery.uri(layoutname, feeduri).toString();
+    var card3uri   = feeduri+"test-shuffl-loadworkspace-card_3.json";
 
     var shuffl_prefixes =
         [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
@@ -46,11 +54,12 @@ TestSaveWorkspace = function() {
         ];
     
     module("TestSaveWorkspace");
-
+    
     test("NOTE: this test must be run from the AtomPub server used to store shuffl workspace data", shuffl.noop);
     
     test("shuffl.loadWorkspace (empty)", function () {
-        log.debug("test shuffl.loadWorkspace empty workspace");
+        log.info("----------");
+        log.info((testnum++)+". test shuffl.loadWorkspace empty workspace");
         expect(37);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -86,7 +95,8 @@ TestSaveWorkspace = function() {
     });
 
     test("shuffl.saveNewWorkspace (empty)", function () {
-        log.debug("test shuffl.saveNewWorkspace new empty workspace");
+        log.info("----------");
+        log.info((testnum++)+". test shuffl.saveNewWorkspace new empty workspace");
         expect(49);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -105,9 +115,10 @@ TestSaveWorkspace = function() {
             log.debug("Save empty workspace");
             ok(true, "deleted old feed "+feedpath);
             shuffl.saveNewWorkspace(atomuri, feedpath, callback);
-        });        
+        });
         m.eval(function(val,callback) {
-            log.debug("Check result from save: "+shuffl.objectString(val));
+            //log.debug("Check result from save: "+shuffl.objectString(val));
+            log.debug("Check result from save: "+val.uri);
             this.wsuri = jQuery.uri(val.uri, val.itemuri).toString();
             var uuid = val.itemid;
             equals(val.title,    "test-shuffl-saveworkspace-layout", "val.title");
@@ -156,7 +167,8 @@ TestSaveWorkspace = function() {
     });
 
     test("shuffl.saveCard", function () {
-        log.debug("test shuffl.saveCard");
+        log.info("----------");
+        log.info((testnum++)+". test shuffl.saveCard");
         expect(26);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -166,7 +178,7 @@ TestSaveWorkspace = function() {
         });
         m.eval(function(val,callback) {
             log.debug("Get new card data");
-            shuffl.readCard("test-shuffl-loadworkspace-card_1.json", callback)
+            shuffl.readCard("", "test-shuffl-loadworkspace-card_1.json", callback)
         });
         m.eval(function(val,callback) {
             log.debug("Check new card data");
@@ -189,7 +201,7 @@ TestSaveWorkspace = function() {
             equals(val, "id_1.json", "card relative URI");
             log.debug("Read back card");
             var carduri = this.atompub.serviceUri({base:feedpath, name:val});
-            shuffl.readCard(carduri, callback);
+            shuffl.readCard(feeduri, carduri, callback);
         });
         m.eval(function(val,callback) {
             log.debug("Check card values ");
@@ -212,14 +224,15 @@ TestSaveWorkspace = function() {
 
     // eXist won't delete a media resource
     notest("shuffl.deleteCard", function () {
-        log.debug("test shuffl.deleteCard");
+        log.info("----------");
+        log.info((testnum++)+". test shuffl.deleteCard");
         expect(3);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Read back card again");
             this.atompub = new shuffl.AtomPub(atomuri);
             var carduri = this.atompub.serviceUri({base:feedpath, name:"id_1.json"});
-            shuffl.readCard(carduri, callback);
+            shuffl.readCard(feeduri, carduri, callback);
         });
         m.eval(function(val,callback) {
             log.debug("Check card is read OK");
@@ -239,7 +252,8 @@ TestSaveWorkspace = function() {
 
     // This "test" is run to remove the card saved previously.
     test("Recreate empty workspace", function() {
-        log.debug("Recreate empty workspace");
+        log.info("----------");
+        log.info((testnum++)+". Recreate empty workspace");
         expect(4);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -257,7 +271,8 @@ TestSaveWorkspace = function() {
             shuffl.saveNewWorkspace(atomuri, feedpath, callback);
         });        
         m.eval(function(val,callback) {
-            log.debug("Check result from save: "+shuffl.objectString(val));
+            //log.debug("Check result from save: "+shuffl.objectString(val));
+            log.debug("Check result from save: "+val.uri);
             this.wsuri = jQuery.uri(val.uri, val.itemuri).toString();
             equals(val.uri, "test-shuffl-saveworkspace-layout.json", "val.uri");
             log.debug("Reset workspace...");
@@ -280,8 +295,9 @@ TestSaveWorkspace = function() {
 
     // Add card to workspace, save workspace, read back, check content
     test("shuffl.saveNewWorkspace (with card)", function () {
-        log.debug("test shuffl.saveNewWorkspace new workspace with card");
-        expect(55);
+        log.info("----------");
+        log.info((testnum++)+". test shuffl.saveNewWorkspace new workspace with card");
+        expect(59);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace");
@@ -290,9 +306,11 @@ TestSaveWorkspace = function() {
         });
         m.eval(function(val,callback) {
             log.debug("Read card data from local file");
-            shuffl.readCard("test-shuffl-loadworkspace-card_3.json", callback);
+            shuffl.readCard("", "test-shuffl-loadworkspace-card_3.json", callback);
         });
         m.eval(function(val,callback) {
+            ////log.debug("readCard response: "+shuffl.objectString(val));
+            equals(val['shuffl:location'], "test-shuffl-loadworkspace-card_3.json", "new card location");
             log.debug("Add card to workspace");
             var layout = 
                 { 'id': 'card_3'
@@ -303,9 +321,11 @@ TestSaveWorkspace = function() {
             shuffl.placeCardFromData(layout, val);
             log.debug("Check card added to workspace");
             var c3 = jQuery("#id_3");
-            ok(c3 != undefined, "card id_3 defined")
-            ok(c3.hasClass('shuffl-card'),
-                "card 3 shuffl card class");
+            ok(c3 != undefined, "card id_3 defined");
+            ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
+            equals(c3.find("ctitle").text(), "Card 3 title", "Card 3 title");
+            equals(c3.data('shuffl:location'), "test-shuffl-loadworkspace-card_3.json", "Card location in jQuery object")
+            log.debug("Reset workspace...");
             var p3 = c3.position();
             equals(Math.floor(p3.left), 200, "position-left");
             equals(Math.floor(p3.top),  90,  "position-top");
@@ -318,7 +338,8 @@ TestSaveWorkspace = function() {
             shuffl.saveNewWorkspace(atomuri, feedpath, callback);
         });        
         m.eval(function(val,callback) {
-            log.debug("Check result from save: "+shuffl.objectString(val));
+            //log.debug("Check result from save: "+shuffl.objectString(val));
+            log.debug("Check result from save: "+val.uri);
             this.wsuri = jQuery.uri(val.uri, val.itemuri).toString();
             var uuid = val.itemid;
             equals(val.title,    "test-shuffl-saveworkspace-layout", "val.title");
@@ -360,8 +381,78 @@ TestSaveWorkspace = function() {
             equals(jQuery("#layout").children().length, 1, "one card in workspace");
             var c3 = jQuery("#id_3");
             ok(c3 != undefined, "card id_3 defined")
-            ok(c3.hasClass('shuffl-card'),
-                "card 3 shuffl card class");
+            ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
+            equals(c3.find("ctitle").text(), "Card 3 title", "Card 3 title");
+            var p3 = c3.position();
+            equals(Math.floor(p3.left), 200, "position-left");
+            equals(Math.floor(p3.top),  90,  "position-top");
+            equals(c3.css("zIndex"), "11", "card zIndex");
+            // Done
+            callback(true);
+        });
+        m.exec({}, start);
+        ok(true, "shuffl.SaveNewWorkspace (with card) initiated");
+        stop();
+    });
+
+    // Update card in workspace, re-read workspace, check content
+    test("shuffl.saveNewWorkspace (updated card)", function () {
+        log.info("----------");
+        log.info((testnum++)+". test shuffl.saveNewWorkspace new workspace with updated card");
+        expect(48);
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
+            log.debug("Load workspace");
+            this.atompub = new shuffl.AtomPub(atomuri);
+            // Read workspace from AtomPub service
+            shuffl.loadWorkspace(layouturi, callback);
+        });
+        m.eval(function(val,callback) {
+            // Check for card
+            equals(jQuery("#layout").children().length, 1, "one card in workspace");
+            var c3 = jQuery("#id_3");
+            ok(c3 != undefined, "card id_3 defined")
+            ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
+            equals(c3.find("ctitle").text(), "Card 3 title", "Card 3 title");
+            // Update card in workspace
+            c3.find("ctitle").text("Card 3 updated");
+            shuffl.updateCard(this.atompub, feedpath, c3, callback);
+        });
+        m.eval(function(val, callback) {
+            log.debug("Card saved: "+val);
+            equals(val, card3uri, "updateCard URI returned");
+            log.debug("Reset workspace...");
+            shuffl.resetWorkspace(callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Workspace is reset");
+            log.debug("Reload empty workspace from AtomPub...");
+            shuffl.loadWorkspace(layouturi, callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Check reloaded workspace "+this.wsuri);
+            equals(jQuery('#workspaceuri').text(), layouturi.toString(), '#workspaceuri');
+            equals(jQuery('#workspace').data('location'), layouturi.toString(), "location");
+            equals(jQuery('#workspace').data('atomuri'),  atomuri, "atomuri");
+            equals(jQuery('#workspace').data('feeduri'),  feeduri, "feeduri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
+            // More tests as needed
+            var stockcolour=["yellow","blue","green","orange","pink","purple"];
+            var stocklabel=["Ye","Bl","Gr","Or","Pi","Pu"];
+            for (var i = 0; i<6; i++) {
+                var s = jQuery('.shuffl-stockpile').eq(i);
+                equals(s.attr('id'), "", "["+i+"] stock id ");  // No ID on stockpiles
+                ok(s.hasClass('stock-'+stockcolour[i]), "["+i+"] stock-"+stockcolour[i]);
+                equals(s.text(), stocklabel[i], "["+i+"] stock text "+stocklabel[i]);
+                equals(s.data('CardType'), "shuffl-freetext-"+stockcolour[i], "["+i+"] stock CardType "+"shuffl-freetext-"+stockcolour[i]);
+                ok(typeof s.data('makeCard') == "function", "["+i+"] stock makeCard");
+            };
+            // Check card in workspace
+            equals(jQuery("#layout").children().length, 1, "one card in workspace");
+            var c3 = jQuery("#id_3");
+            ok(c3 != undefined, "card id_3 defined")
+            ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
+            equals(c3.find("ctitle").text(), "Card 3 updated", "Card 3 title");
             var p3 = c3.position();
             equals(Math.floor(p3.left), 200, "position-left");
             equals(Math.floor(p3.top),  90,  "position-top");
@@ -370,11 +461,9 @@ TestSaveWorkspace = function() {
             callback(true);
         });        
         m.exec({}, start);
-        ok(true, "shuffl.SaveNewWorkspace (empty) initiated");
+        ok(true, "shuffl.SaveNewWorkspace (updated card) initiated");
         stop();
     });
-
-    // Update card in workspace, read back, check content
 
     // Update card in workspace, save workspace, read back, check content
 

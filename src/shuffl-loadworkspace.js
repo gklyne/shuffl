@@ -14,17 +14,24 @@
 // ----------------------------------------------------------------
 
 /**
- * Load data for a single card
+ * Load data for a single card.
  * 
- * @param uri       URI of workspace description.
+ * @param baseuri   URI of workspace layout or feed, used as base for 
+ *                  resolving the card data URI.
+ * @param uri       URI of card description.
  * @param callback  function called when the load is complete.
  * 
  * The callback is invoked with an Error object, or an object containing
  * the card data.
  */
-shuffl.readCard = function (uri, callback) {
-    log.debug("shuffl.readCard: "+uri);
-    jQuery.getJSON(uri.toString(), callback); 
+shuffl.readCard = function (baseuri, uri, callback) {
+    log.debug("shuffl.readCard: "+baseuri+", "+uri);
+    jQuery.getJSON(jQuery.uri(baseuri).resolve(uri).toString(), function(data) {
+        log.debug("**** shuffl.readCard from: "+uri);
+        log.debug("- data: "+jQuery.toJSON(data));
+        data['shuffl:location'] = uri;
+        callback(data);
+    }); 
 };
 
 /**
@@ -43,7 +50,7 @@ shuffl.readCard = function (uri, callback) {
  */
 shuffl.loadWorkspace = function(uri, callback) {
 
-    log.info("Load workspace from: "+uri);
+    log.debug("Load workspace from: "+uri);
 
     var m = new shuffl.AsyncComputation();
 
@@ -66,7 +73,7 @@ shuffl.loadWorkspace = function(uri, callback) {
         jQuery('#workspace').data('wsdata',   json);
         // Load up stock bar
         for (i = 0 ; i < stockbar.length ; i++) {
-            log.debug("Loading stockbar["+i+"]: "+shuffl.objectString(stockbar[i]));
+            //log.debug("Loading stockbar["+i+"]: "+shuffl.objectString(stockbar[i]));
             // Create and append new blank stockpile element
             // TODO: use createStockpile helper
             var stockpile = shuffl.stockpile_blank.clone();
@@ -82,7 +89,7 @@ shuffl.loadWorkspace = function(uri, callback) {
         // TODO: factor out wait-for-all logic as general utility, or sequence
         log.debug("Loading layout");
         function readcard(layout) {
-            shuffl.readCard(layout['data'], 
+            shuffl.readCard(feeduri, layout['data'],
                 function (val) {
                     // Card data available
                     shuffl.placeCardFromData(layout, val);
@@ -93,9 +100,8 @@ shuffl.loadWorkspace = function(uri, callback) {
         var cardcount = 1;
         for (i = 0 ; i < layout.length ; i++) {
             cardcount++;
-            log.debug("Loading card["+i+"]: "+shuffl.objectString(layout[i]));
-            log.debug("Loading URI["+i+"]: "+shuffl.objectString(layout[i]['data']));
-            log.debug("Loading URI: "+layout[i]['data']);
+            //log.debug("Loading card["+i+"]: "+shuffl.objectString(layout[i]));
+            //log.debug("Loading URI: "+layout[i]['data']);
             readcard(layout[i]);
         };
         cardcount--;
@@ -115,7 +121,7 @@ shuffl.loadWorkspace = function(uri, callback) {
  * The callback is invoked with an Error object, or an empty dictionary.
  */
 shuffl.resetWorkspace = function(callback) {
-    log.info("Reset workspace");
+    log.debug("Reset workspace");
     jQuery('#workspaceuri').text("");
     jQuery('#workspace').data('location', null);
     jQuery('#workspace').data('atomuri',  null);
