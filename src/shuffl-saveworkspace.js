@@ -219,15 +219,13 @@ shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
  * and editing using atompub.  The workspace URI should be resolved relative 
  * to the item URI. 
  */
-// TODO: need to properly plan and document pattern of AtomPub URI usage
-//       with workspace loads and saves.
 shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
     log.debug("shuffl.saveNewWorkspace: "+atomuri+", "+feedpath);
     var atompub = new shuffl.AtomPub(atomuri);
     var feeduri = atompub.serviceUri({path: feedpath});
 
     // Helper function extracts location from posted item response and 
-    // displays it in the workspace
+    // displays it in the workspace.  Also assembles return values.
     var createComplete = function(val) {
         if (val instanceof shuffl.Error) { 
             callback(val); 
@@ -287,7 +285,7 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
 
     // Save layout once all cards have been saved
     var saveWorkspaceDescription = function(val) {
-        log.debug("***** Assemble workspace description with details from workspace");
+        log.debug("Assemble workspace description with details from workspace");
         var ws = shuffl.assembleWorkspaceDescription(atomuri, feeduri);
         // NOTE: need slug and/or title here when saving AtomPub media resource
         atompub.createItem(
@@ -362,7 +360,7 @@ shuffl.updateWorkspace = function (callback) {
     };
 
     var updateWorkspaceCards = function(thencall) {
-        //log.debug("Scan cards - save any with relative location");
+        //log.debug("Scan cards");
         var m = new shuffl.AsyncComputation();
         jQuery("div.shuffl-card").each(
             function (i) {
@@ -378,7 +376,7 @@ shuffl.updateWorkspace = function (callback) {
 
     // Update layout once all cards have been saved
     var updateWorkspaceDescription = function(val) {
-        log.debug("***** Assemble workspace description with details from workspace");
+        log.debug("Assemble workspace description with details from workspace");
         var ws = shuffl.assembleWorkspaceDescription(atomuri, feeduri);
         atompub.putItem(
             { uri:        wsuri
