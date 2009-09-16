@@ -136,6 +136,57 @@ shuffl.saveRelativeCard = function(atompub, feedpath, card, callback) {
 };
 
 // ----------------------------------------------------------------
+// Assemble workspace description
+// ----------------------------------------------------------------
+
+/**
+ * Scan the current workspace and assemble a description that can be written to 
+ * persistent storage.  The description is returned as a JSON structure which
+ * will be serialized as required when written.
+ * 
+ * @param atomuri   is the URI of the current AtomPub service
+ * @param feeduri   is the URI of the feed to which the current workspace
+ *                  is being written
+ * @return          a Javascript object containing a description of the current
+ *                  workspace, ready to be serialized and written out.
+ */
+shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
+    log.debug("Assemble workspace description with details from cards");
+    var wsload = jQuery('#workspace').data('wsdata');
+
+    // Assemble card layout info
+    var layout   = [];
+    jQuery("div.shuffl-card").each(
+        function (i) {
+            var card = jQuery(this);
+            var cardlayout =
+                { 'id':     card.data('shuffl:id')
+                , 'class':  card.data('shuffl:class')
+                , 'data':   card.data('shuffl:location')
+                , 'pos':    card.position()
+                };
+            layout.push(cardlayout);
+        });
+
+    // Assemble and save workspace description
+    var ws = 
+        { 'shuffl:id':            wsload['shuffl:id']
+        , 'shuffl:class':         'shuffl:workspace'
+        , 'shuffl:version':       '0.1'
+        , 'shuffl:atomuri':       atomuri.toString()
+        , 'shuffl:feeduri':       feeduri.toString()
+        , 'shuffl:base-uri':      '#'
+        , 'shuffl:uses-prefixes': wsload['shuffl:uses-prefixes']
+        , 'shuffl:workspace':
+          { 'shuffl:stockbar':      wsload['shuffl:workspace']['shuffl:stockbar']
+          , 'shuffl:layout':        layout
+          }
+        };
+    log.debug("Workspace description: "+jQuery.toJSON(ws));
+    return ws;
+};
+
+// ----------------------------------------------------------------
 // Save workspace
 // ----------------------------------------------------------------
 
@@ -336,7 +387,7 @@ shuffl.updateWorkspace = function (callback) {
                 , feeduri:  feeduri
                 , feedpath: feedpath
                 , atomuri:  atomuri
-                } 
+                };
             callback(ret);
         };
     };
@@ -359,38 +410,7 @@ shuffl.updateWorkspace = function (callback) {
     // Update layout once all cards have been saved
     var updateWorkspaceDescription = function(val) {
         log.debug("***** Assemble workspace description with details from saved cards");
-        var wsload = jQuery('#workspace').data('wsdata');
-
-        // Assemble card layout info
-        var layout   = [];
-        jQuery("div.shuffl-card").each(
-            function (i) {
-                var card = jQuery(this);
-                var cardlayout =
-                    { 'id':     card.data('shuffl:id')
-                    , 'class':  card.data('shuffl:class')
-                    , 'data':   card.data('shuffl:location')
-                    , 'pos':    card.position()
-                    };
-                layout.push(cardlayout);
-            });
-
-        // Assemble and save workspace description
-        var ws = 
-            { 'shuffl:id':            wsload['shuffl:id']
-            , 'shuffl:class':         'shuffl:workspace'
-            , 'shuffl:version':       '0.1'
-            , 'shuffl:atomuri':       atomuri.toString()
-            , 'shuffl:feeduri':       feeduri.toString()
-            , 'shuffl:base-uri':      '#'
-            , 'shuffl:uses-prefixes': wsload['shuffl:uses-prefixes']
-            , 'shuffl:workspace':
-              { 'shuffl:stockbar':      wsload['shuffl:workspace']['shuffl:stockbar']
-              , 'shuffl:layout':        layout
-              }
-            };
-        log.debug("Update workspace description:"+wsuri);
-        log.debug("- ws "+jQuery.toJSON(ws));
+        var ws = shuffl.assembleWorkspaceDescription(atomuri, feeduri);
         atompub.putItem(
             { uri:        wsuri
             , title:      ws['shuffl:id']
