@@ -395,10 +395,10 @@ TestSaveWorkspace = function() {
         stop();
     });
 
-    // Update card in workspace, re-read workspace, check content
-    test("shuffl.saveNewWorkspace (updated card)", function () {
+    // Update card in atom feed, re-read workspace, check content
+    test("shuffl.updateCard", function () {
         log.info("----------");
-        log.info((testnum++)+". test shuffl.saveNewWorkspace new workspace with updated card");
+        log.info((testnum++)+". test shuffl.updateCard");
         expect(48);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -461,13 +461,88 @@ TestSaveWorkspace = function() {
             callback(true);
         });        
         m.exec({}, start);
-        ok(true, "shuffl.SaveNewWorkspace (updated card) initiated");
+        ok(true, "shuffl.updateCard");
         stop();
     });
 
-    // Update card in workspace, save workspace, read back, check content
-
-    // TODO: test shuffl.saveRelativeCard
+    // Update and move card in workspace, save workspace, read back, check content
+    test("shuffl.saveWorkspace (updated moved card)", function () {
+        log.info("----------");
+        log.info((testnum++)+". test shuffl.saveWorkspace with updated and moved card");
+        expect(52);
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
+            log.debug("Load workspace");
+            this.atompub = new shuffl.AtomPub(atomuri);
+            // Read workspace from AtomPub service
+            shuffl.loadWorkspace(layouturi, callback);
+        });
+        m.eval(function(val,callback) {
+            // Check for card
+            equals(jQuery("#layout").children().length, 1, "one card in workspace");
+            var c3 = jQuery("#id_3");
+            ok(c3 != undefined, "card id_3 defined")
+            ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
+            equals(c3.find("ctitle").text(), "Card 3 updated", "Card 3 title");
+            // Update and move card in workspace
+            c3.find("ctitle").text("Card 3 updated and moved");
+            c3.css({left:20, top:10});
+            // Save workspace
+            log.debug("Save workspace with updated and moved card");
+            shuffl.updateWorkspace(callback);
+        });
+        m.eval(function(val, callback) {
+            log.debug("Check result from update: "+val.uri);
+            this.wsuri = jQuery.uri(val.uri, val.itemuri).toString();
+            var uuid = val.itemid;
+            equals(val.uri,      feeduri+"test-shuffl-saveworkspace-layout.json", "val.uri");
+            equals(val.path,     feedpath+"test-shuffl-saveworkspace-layout.json", "val.path");
+            equals(val.feeduri,  feeduri,  "val.feeduri");
+            equals(val.feedpath, feedpath, "val.feedpath");
+            equals(val.atomuri,  atomuri,  "val.atomuri");
+            log.debug("Reset workspace...");
+            shuffl.resetWorkspace(callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Workspace is reset");
+            log.debug("Reload empty workspace from AtomPub...");
+            shuffl.loadWorkspace(layouturi, callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Check reloaded workspace ");
+            equals(jQuery('#workspaceuri').text(), layouturi.toString(), '#workspaceuri');
+            equals(jQuery('#workspace').data('location'), layouturi.toString(), "location");
+            equals(jQuery('#workspace').data('atomuri'),  atomuri, "atomuri");
+            equals(jQuery('#workspace').data('feeduri'),  feeduri, "feeduri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
+            // More tests as needed
+            var stockcolour=["yellow","blue","green","orange","pink","purple"];
+            var stocklabel=["Ye","Bl","Gr","Or","Pi","Pu"];
+            for (var i = 0; i<6; i++) {
+                var s = jQuery('.shuffl-stockpile').eq(i);
+                equals(s.attr('id'), "", "["+i+"] stock id ");  // No ID on stockpiles
+                ok(s.hasClass('stock-'+stockcolour[i]), "["+i+"] stock-"+stockcolour[i]);
+                equals(s.text(), stocklabel[i], "["+i+"] stock text "+stocklabel[i]);
+                equals(s.data('CardType'), "shuffl-freetext-"+stockcolour[i], "["+i+"] stock CardType "+"shuffl-freetext-"+stockcolour[i]);
+                ok(typeof s.data('makeCard') == "function", "["+i+"] stock makeCard");
+            };
+            // Check card in workspace
+            equals(jQuery("#layout").children().length, 1, "one card in workspace");
+            var c3 = jQuery("#id_3");
+            ok(c3 != undefined, "card id_3 defined")
+            ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
+            equals(c3.find("ctitle").text(), "Card 3 updated and moved", "Card 3 title");
+            var p3 = c3.position();
+            equals(Math.floor(p3.left), 20, "position-left");
+            equals(Math.floor(p3.top),  10,  "position-top");
+            equals(c3.css("zIndex"), "11", "card zIndex");
+            // Done
+            callback(true);
+        });        
+        m.exec({}, start);
+        ok(true, "shuffl.SaveNewWorkspace (updated card) initiated");
+        stop();
+    });
     
     // TODO: create workspace with mix of absolute and relative card references
     //       save workspace as new
