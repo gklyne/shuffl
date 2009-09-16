@@ -1,4 +1,4 @@
-#summary Sprint 3 plan : 31 Aug - 17 Sep
+#summary Sprint 3 plan : 31 Aug - 11 Sep
 
 <wiki:toc max_depth="2" />
 
@@ -15,7 +15,7 @@ Due to getting bogged down with !AtomPub and data persistence in the [SprintPlan
 
 == Current sprint ==
 
-|| Sprint 3 || 31 Aug - 17 Sep || 8 working days ||
+|| Sprint 3 || 31 Aug - 11 Sep || 8 working days ||
 
 (Probably 2 more days effort in practice, from odd weekends, working during travel to meetings, etc. )
 
