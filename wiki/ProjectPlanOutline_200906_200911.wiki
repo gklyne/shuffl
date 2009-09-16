@@ -45,8 +45,8 @@ My goal is 2-week sprints, but the first two are longer as the proportion of tim
 
 || Sprint 1 || 15 Jun - 31 Jul || 13 days || [SprintPlan_1 sprint 1 plan] ||
 || Sprint 2 || 2 Aug - 28 Aug  || 12 days including vacation: 6 working days || [SprintPlan_2 sprint 2 plan] ||
-|| Sprint 3 || 31 Aug - 17 Sep || 9 days || [SprintPlan_3 sprint 3 plan] ||
-|| Sprint 4 || 18 Sep - 2 Oct  || 9 days || [SprintPlan_4 sprint 4 plan] ||
+|| Sprint 3 || 31 Aug - 11 Sep || 9 days || [SprintPlan_3 sprint 3 plan] ||
+|| Sprint 4 || 14 Sep - 2 Oct  || 12 days || [SprintPlan_4 sprint 4 plan] ||
 || Sprint 5 || 5 Oct - 16 Oct  || 8 days || [SprintPlan_5 sprint 5 plan] ||
 || Sprint 6 || 19 Oct - 30 Oct || 8 days || [SprintPlan_6 sprint 6 plan] ||
 || Sprint 7 || 2 Nov - 13 Nov  || 8 days || [SprintPlan_7 sprint 7 plan] ||
