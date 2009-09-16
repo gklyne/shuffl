@@ -205,7 +205,7 @@ shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
  *                  processed.
  */
 shuffl.processWorkspaceCards = function(firstval, firstcall, proccard, thencall) {
-        //log.debug("shuffl.processWorkspaceCards");
+        log.debug("shuffl.processWorkspaceCards");
         var m = new shuffl.AsyncComputation();
         m.eval(firstcall);
         jQuery("div.shuffl-card").each(
@@ -297,22 +297,13 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
         shuffl.saveRelativeCard(atompub, feedpath, card, saveSaveLoc);
     };
 
+    // Save all cards in the workspace
     var saveWorkspaceCards = function(thencall) {
-        //log.debug("Scan cards - save any with relative location");
-        var m = new shuffl.AsyncComputation();
-        m.eval(
-            function (val, next) {
-                // Create feed if not already existing
-                atompub.createFeed({path: feedpath, title: "Shuffl feed"}, next);
-            });
-        jQuery("div.shuffl-card").each(
-            function (i) {
-                var card = jQuery(this);
-                //log.debug("- card "+i+", id "+card.id);
-                m.eval(function (val, next) { saveCard(card, next); });
-            });
-        //log.debug("Invoke exec(...) for saving cards");
-        m.exec(null, thencall);
+        shuffl.processWorkspaceCards(
+            {path: feedpath, title: "Shuffl feed"}, 
+            function (val,next) { atompub.createFeed(val, next); },
+            saveCard, 
+            thencall);
     };
 
     // Save layout once all cards have been saved
@@ -391,19 +382,13 @@ shuffl.updateWorkspace = function (callback) {
         };
     };
 
+    // Update all cards in workspace
     var updateWorkspaceCards = function(thencall) {
-        //log.debug("Scan cards");
-        var m = new shuffl.AsyncComputation();
-        jQuery("div.shuffl-card").each(
-            function (i) {
-                var card = jQuery(this);
-                //log.debug("- card "+i+", id "+card.id);
-                m.eval(function (val, next) { 
-                    shuffl.updateCard(atompub, feedpath, card, next); 
-                });
-            });
-        //log.debug("Invoke exec(...) for updating cards");
-        m.exec(null, thencall);
+        shuffl.processWorkspaceCards(
+            null,
+            function (val, next) { next(val); },
+            function (card, next) { shuffl.updateCard(atompub, feedpath, card, next); },
+            thencall);
     };
 
     // Update layout once all cards have been saved
