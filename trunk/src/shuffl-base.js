@@ -101,8 +101,6 @@ shuffl.elemString = function(elem) {
 
 /**
  * Get string value representing a supplied node
- * 
- * TODO: test this
  */
 shuffl.nodeString = function(node) {
     if (node.nodeType == 3) {

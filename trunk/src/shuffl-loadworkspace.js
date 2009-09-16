@@ -69,7 +69,6 @@ shuffl.loadWorkspace = function(uri, callback) {
             var wsuri = jQuery.uri().resolve(uri).toString();
             //log.debug("Display location of workspace, and save values: "+wsuri);
             jQuery('#workspaceuri').text(wsuri);
-            // TODO: remove entries where wsdata value can be used later
             jQuery('#workspace').data('location', wsuri);
             jQuery('#workspace').data('wsdata',   json);
             // Load up stock bar
