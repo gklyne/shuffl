@@ -187,6 +187,38 @@ shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
 };
 
 // ----------------------------------------------------------------
+// Process cards in workspace with asynchronous function
+// ----------------------------------------------------------------
+
+/**
+ * Perform some asynchronous-completing operation on each card in the workspace,
+ * then call a suppliued function when all are done.
+ * 
+ * @param firstval  a parameter value passed to the first function in the
+ *                  constructed callback chain.
+ * @param firstcall a function called with the supplied parameter and a 
+ *                  callback function before processing the card data.
+ * @param proccard  a function called with a jQuery card object and callback 
+ *                  function for each card in the workspace.
+ * @param thencall  a function called with the result from the last card-
+ *                  processing function called when all cards have been 
+ *                  processed.
+ */
+shuffl.processWorkspaceCards = function(firstval, firstcall, proccard, thencall) {
+        //log.debug("shuffl.processWorkspaceCards");
+        var m = new shuffl.AsyncComputation();
+        m.eval(firstcall);
+        jQuery("div.shuffl-card").each(
+            function (i) {
+                var card = jQuery(this);
+                //log.debug("- card "+i+", id "+card.id);
+                m.eval(function (val, next) { proccard(card, next); });
+            });
+        //log.debug("Invoke exec(...) for saving cards");
+        m.exec(firstval, thencall);
+    };
+
+// ----------------------------------------------------------------
 // Save workspace
 // ----------------------------------------------------------------
 
