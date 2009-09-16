@@ -1,0 +1,86 @@
+#summary Sprint 4 plan : 14 Sep - 2 Oct
+
+<wiki:toc max_depth="2" />
+
+= Introduction =
+
+The problems with !AtomPub and data persistence rumble on (see [SprintPlan_3 previous sprint]), but I think they are nearly resolved.  As I write this, a day into the sprint a full set of test cases covering "Save as.." functionality via !AtomPub are all working, and the main outstanding item is to save an updated workspace, and implement the logic in the running Shuffl application.
+
+I place the project as running about 2 weeks behind plan.
+
+Focus for this sprint will be (a) to complete the workspace persistence via !AtomPub, and tostart looking at card collections and structures to support the visualization use case raised in discussion with Chris Holland.  I'll probably focus on that to the exclusion of planned basic user authentication during this sprint, since the user emphasis here is on visualization rather than sharing/publication.
+
+== Current milestone ==
+
+|| Month || Activity || Deliverables || 
+|| 3: 2Oct 18days || Enhancements to system; capturing structure in data; basic user authentication and access control. Use of system for project tasks. Seminar/demonstrations to solicit users and feedback. || Updated system. Examples of system in use. Updated feature list. ||
+
+== Current sprint ==
+
+|| Sprint 4 || 14-Sep - 2 Oct || 12 working days ||
+
+In preparing this plan, I found that I'd "lost" a few days in the original sprint schedule, so this is a 3-week sprint to bring things back into line with the master plan.
+
+= User stories and activities =
+
+|| *Activity number* || *Description* || *Effort est* || *Effort actual* || *Target date* || *Completion date* ||
+|| 1.   || *Project mananement* || *2.0* || *--* ||
+|| 1.1. || Sprint 3 review (retrospective)  || 0.25 || 0.2 || 11-Sep-2009 || 15-Sep-2009 ||
+|| 1.2. || Sprint 4 plan             || 0.25 || 0.2 || 14-Sep-2009 || 16-Sep-2009 ||
+|| 1.3. || Sprint 4 review (retrospective)  || 0.25 || -- || 02-Oct-2009 || -- ||
+|| 1.4. || Sustainability plan   || 0.25   || -- ||  ?? || (ongoing) ||
+|| 1.5. || Miscellaneous admin, etc  || 1.0 || -- || -- || -- ||
+|| 2.   || *Community engagement and dissemination* || *1.5* || *--* ||
+|| 2.1  || Meeting with CH (Zoology silk group)  || 0.5 || -- || (sprint) || -- ||
+|| 2.2  || Other use cases  || 0.5 || -- || -- || -- ||
+|| 2.3  || Introductory user documentation || 0.5 || -- || (sprint) || (incomplete) ||   
+|| 3.   || *Technical development* || *5.0++* || *--* ||
+|| 3.1  || Refactoring and test cases; esp. to support persistence  || 2.0 || -- || 16-Sep-2009 || -- ||
+|| 3.2  || Initial content persistence  || 3.0 || -- || (sprint) || (incomplete) ||
+|| 3.3  || Import CSV data as card collection  || ??? || -- || (sprint) || -- ||
+|| 3.4  || Basic graphing of data collections  || ??? || -- || (sprint) || -- ||
+
+= Task breakdowns =
+
+(effort estimates in days to nearest 0.25)
+
+== 3.1: Refactoring and test cases ==
+
+2.0 days:
+
+ * (1.0) Test case for saving new workspace - to complete
+ * (1.0) Test case for workspace update
+
+== 3.2: Initial content persistence ==
+
+3.0 days:
+
+ * (1.0) complete static save of new workspace (*Save as...*)
+ * (0.5) implement resave of workspace (*Save*)
+ * (1.0) implement on-the-fly saving of changes to card content, layout, etc
+ * (0.5) save card size as well as position
+
+== 3.3: Import CSV data as card collection ==
+
+(to plan)
+
+== 3.4: Basic graphing of data collections ==
+
+(to plan)
+
+= Sprint review notes =
+
+(TBD)
+
+== End-of-sprint review ==
+
+(TBD)
+
+= Activity summary =
+
+Monday, 14 September, 2009
+ * (0.1) admin: expenses
+ * (0.2) Sprint 3 review
+
+Tuesday, 15 September, 2009
+ * (0.4) continue work on !AtomPub and workspace persistence. Chased down several bugs exposed by a new test case. AtomPub continues to be fragile for this application.
