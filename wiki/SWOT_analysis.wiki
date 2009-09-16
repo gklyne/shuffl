@@ -26,6 +26,6 @@ Strengths, Weaknesses, Opportunities, Threats will be recorded as they arise or 
 = Threats =
 
  * Failure to achieve stable underlying platform
- * Problems with access to persistent storage (e.g. fragility of AtomPub handler)
+ * Problems with access to persistent storage (e.g. fragility of !AtomPub handler)
  * Failure to fully engage with end users to the extent that they will actually use the system
  * Failure to package the system in a way that meets user expectations for usability; this relates to persistent storage access problems
