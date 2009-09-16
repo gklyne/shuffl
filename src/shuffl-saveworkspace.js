@@ -287,4 +287,124 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
     log.debug("shuffl.saveNewWorkspace, returning.");
 };
 
+// ----------------------------------------------------------------
+// Update workspace
+// ----------------------------------------------------------------
+
+/**
+ * Save current data as updated version of current workspace.
+ * 
+ * @param callback    function called when the update is complete.
+ * 
+ * The callback supplies an Error instance, or information about the newly
+ * saved workspace, thus:
+ *   title:     title of the Atom item referencing the workspace description
+ *   uri:       URI of the workspace description
+ *   path:      URI path used by the AtomPub service API for accessing the
+ *              workspace data
+ *   itemuri:   URI of the Atom item referencing the workspace description
+ *   itempath:  AtomPub service path for the referencing item
+ *   itemid:    AtomPub item identifier for the referencing item
+ *   feeduri:   URI of the atom feed where the workspace is saved
+ *   feedpath:  AtomPub path, used in conjunction with the service, to access
+ *              the atom feed containing the workspace.
+ *   atomuri:   URI of the AtomPub service used
+ * The atom-, feed- and item- values are intended to be opaque, and are 
+ * intended to be stored with objects to assist in subsequent retrieval 
+ * and editing using atompub.  The workspace URI should be resolved relative 
+ * to the item URI. 
+ */
+shuffl.updateWorkspace = function (callback) {
+    var atomuri  = jQuery('#workspace').data('atomuri');
+    var feeduri  = jQuery('#workspace').data('feeduri');
+    var wsuri    = jQuery('#workspace').data('location');
+    var atompub  = new shuffl.AtomPub(atomuri);
+    var feedpath = atompub.getAtomPath(feeduri);
+    log.debug("shuffl.updateWorkspace: "+atomuri+", "+feeduri+", "+feedpath);
+
+    // TODO: factor out common code between this and SaveNew...
+
+    // Helper function extracts return values following update
+    var updateComplete = function(val) {
+        if (val instanceof shuffl.Error) { 
+            callback(val); 
+        } else {
+            log.debug("shuffl.saveCard:updateComplete "+shuffl.objectString(val));
+            var ret = 
+                { uri:      val.uri
+                , path:     val.path
+                , feeduri:  feeduri
+                , feedpath: feedpath
+                , atomuri:  atomuri
+                } 
+            callback(ret);
+        };
+    };
+
+    var updateWorkspaceCards = function(thencall) {
+        //log.debug("Scan cards - save any with relative location");
+        var m = new shuffl.AsyncComputation();
+        jQuery("div.shuffl-card").each(
+            function (i) {
+                var card = jQuery(this);
+                //log.debug("- card "+i+", id "+card.id);
+                m.eval(function (val, next) { 
+                    shuffl.updateCard(atompub, feedpath, card, next); 
+                });
+            });
+        //log.debug("Invoke exec(...) for updating cards");
+        m.exec(null, thencall);
+    };
+
+    // Update layout once all cards have been saved
+    var updateWorkspaceDescription = function(val) {
+        log.debug("***** Assemble workspace description with details from saved cards");
+        var wsload = jQuery('#workspace').data('wsdata');
+
+        // Assemble card layout info
+        var layout   = [];
+        jQuery("div.shuffl-card").each(
+            function (i) {
+                var card = jQuery(this);
+                var cardlayout =
+                    { 'id':     card.data('shuffl:id')
+                    , 'class':  card.data('shuffl:class')
+                    , 'data':   card.data('shuffl:location')
+                    , 'pos':    card.position()
+                    };
+                layout.push(cardlayout);
+            });
+
+        // Assemble and save workspace description
+        var ws = 
+            { 'shuffl:id':            wsload['shuffl:id']
+            , 'shuffl:class':         'shuffl:workspace'
+            , 'shuffl:version':       '0.1'
+            , 'shuffl:atomuri':       atomuri.toString()
+            , 'shuffl:feeduri':       feeduri.toString()
+            , 'shuffl:base-uri':      '#'
+            , 'shuffl:uses-prefixes': wsload['shuffl:uses-prefixes']
+            , 'shuffl:workspace':
+              { 'shuffl:stockbar':      wsload['shuffl:workspace']['shuffl:stockbar']
+              , 'shuffl:layout':        layout
+              }
+            };
+        log.debug("Update workspace description:"+wsuri);
+        log.debug("- ws "+jQuery.toJSON(ws));
+        atompub.putItem(
+            { uri:        wsuri
+            , title:      ws['shuffl:id']
+            , datatype:   'application/json'
+            , data:       ws
+            },
+            updateComplete);
+        log.debug("shuffl.updateWorkspaceDescription, initiated.");
+    };
+
+    // Initiate workspace update
+    updateWorkspaceCards(updateWorkspaceDescription);
+
+    log.debug("shuffl.updateWorkspace, returning.");
+};
+
 // End.
