@@ -1,6 +1,6 @@
 #summary SWOT_analysis: Strengths, Weaknesses, Opportunities, Threats
 
-<wiki toc="1" />
+<wiki:toc max_depth="2" />
 
 = Introduction =
 
