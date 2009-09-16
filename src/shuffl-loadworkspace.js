@@ -27,8 +27,8 @@
 shuffl.readCard = function (baseuri, uri, callback) {
     log.debug("shuffl.readCard: "+baseuri+", "+uri);
     jQuery.getJSON(jQuery.uri(baseuri).resolve(uri).toString(), function(data) {
-        log.debug("shuffl.readCard from: "+uri);
-        log.debug("- data: "+jQuery.toJSON(data));
+        //log.debug("shuffl.readCard from: "+uri);
+        //log.debug("- data: "+jQuery.toJSON(data));
         data['shuffl:location'] = uri;
         callback(data);
     }); 
