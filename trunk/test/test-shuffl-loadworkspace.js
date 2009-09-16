@@ -121,8 +121,6 @@ TestLoadWorkspace = function() {
             var u = jQuery.uri().resolve("test-shuffl-loadworkspace-layout.json");
             equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
-            equals(jQuery('#workspace').data('atomuri'),  "http://localhost:8080/exist/atom/", "atomuri");
-            equals(jQuery('#workspace').data('feeduri'),  "file:///Users/graham/workspace/googlecode_shuffl/test/", "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // Reset workspace
             shuffl.resetWorkspace(callback);
@@ -131,8 +129,6 @@ TestLoadWorkspace = function() {
             log.debug("Workspace reset")
             equals(jQuery('#workspaceuri').text(), "", '#workspaceuri');
             equals(jQuery('#workspace').data('location'), null, "location");
-            equals(jQuery('#workspace').data('atomuri'),  null, "atomuri");
-            equals(jQuery('#workspace').data('feeduri'),  null, "feeduri");
             equals(jQuery('#workspace').data('wsdata'), null, "wsdata");
             equals(jQuery('.shuffl-stockpile').length, 0, "empty stockbar");
             equals(jQuery("#stockbar").children().length, 1, "initial entries in stockbar");
