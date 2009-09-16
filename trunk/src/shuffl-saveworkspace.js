@@ -152,8 +152,6 @@ shuffl.saveRelativeCard = function(atompub, feedpath, card, callback) {
  */
 shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
     log.debug("Assemble workspace description with details from cards");
-    var wsload = jQuery('#workspace').data('wsdata');
-
     // Assemble card layout info
     var layout   = [];
     jQuery("div.shuffl-card").each(
@@ -167,8 +165,8 @@ shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
                 };
             layout.push(cardlayout);
         });
-
     // Assemble and save workspace description
+    var wsload = jQuery('#workspace').data('wsdata');
     var ws = 
         { 'shuffl:id':            wsload['shuffl:id']
         , 'shuffl:class':         'shuffl:workspace'
@@ -182,7 +180,7 @@ shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
           , 'shuffl:layout':        layout
           }
         };
-    log.debug("Workspace description: "+jQuery.toJSON(ws));
+    //log.debug("Workspace description: "+jQuery.toJSON(ws));
     return ws;
 };
 
@@ -366,7 +364,7 @@ shuffl.updateWorkspace = function (callback) {
         if (val instanceof shuffl.Error) { 
             callback(val); 
         } else {
-            log.debug("shuffl.saveCard:updateComplete "+shuffl.objectString(val));
+            //log.debug("shuffl.saveCard:updateComplete "+shuffl.objectString(val));
             var ret = 
                 { uri:      val.uri
                 , path:     val.path
