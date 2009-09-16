@@ -122,7 +122,7 @@ TestLoadWorkspace = function() {
             equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
             equals(jQuery('#workspace').data('atomuri'),  "http://localhost:8080/exist/atom/", "atomuri");
-            equals(jQuery('#workspace').data('feeduri'),  "http://localhost:8080/exist/atom/edit/shuffl/", "feeduri");
+            equals(jQuery('#workspace').data('feeduri'),  "file:///Users/graham/workspace/googlecode_shuffl/test/", "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // Reset workspace
             shuffl.resetWorkspace(callback);

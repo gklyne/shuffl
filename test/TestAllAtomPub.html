@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>TestAllAtomPub - run all stand-alone tests</title>
+    <title>TestAllAtomPub - run all tests that use the eXist AtomPub server</title>
 
     <!-- Import MochiKit modules: require MochiKit library functions to be fully qualified -->
     <script type="text/javascript">MochiKit = {__export__: false};</script>
@@ -39,10 +39,8 @@
     <script src="../src/shuffl-loadworkspace.js"></script>
 
     <!-- Import test modules -->
-	  <script src="TestAsyncComputation.js"></script>
-    <script src="test-shuffl-cardhandlers.js"></script>
-    <script src="test-shuffl-card-freetext.js"></script>
-    <script src="test-shuffl-loadworkspace.js"></script>
+	  <script src="TestAtomPub.js"></script>
+    <script src="test-shuffl-saveworkspace.js"></script>
 
     <!-- Execute the stand-alone tests -->
 	  <script>
