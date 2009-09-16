@@ -71,8 +71,6 @@ shuffl.loadWorkspace = function(uri, callback) {
             jQuery('#workspaceuri').text(wsuri);
             // TODO: remove entries where wsdata value can be used later
             jQuery('#workspace').data('location', wsuri);
-            jQuery('#workspace').data('atomuri',  atomuri);
-            jQuery('#workspace').data('feeduri',  feeduri);
             jQuery('#workspace').data('wsdata',   json);
             // Load up stock bar
             for (i = 0 ; i < stockbar.length ; i++) {
@@ -127,8 +125,6 @@ shuffl.resetWorkspace = function(callback) {
     log.debug("Reset workspace");
     jQuery('#workspaceuri').text("");
     jQuery('#workspace').data('location', null);
-    jQuery('#workspace').data('atomuri',  null);
-    jQuery('#workspace').data('feeduri',  null);
     jQuery('#workspace').data('wsdata',   null);
     // Empty stock bar
     jQuery('#stockbar .shuffl-stockpile, #stockbar .shuffl-spacer').remove();

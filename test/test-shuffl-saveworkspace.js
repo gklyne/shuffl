@@ -70,8 +70,8 @@ TestSaveWorkspace = function() {
             var u = jQuery.uri().resolve(layoutname);
             equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
-            equals(jQuery('#workspace').data('atomuri'),  atomuri, "atomuri");
-            equals(jQuery('#workspace').data('feeduri'),  feeduri, "feeduri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:feeduri'],  feeduri, "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -106,8 +106,8 @@ TestSaveWorkspace = function() {
         m.eval(function(val,callback) {
             log.debug("Delete old workspace");
             this.atompub  = new shuffl.AtomPub(atomuri);
-            equals(jQuery('#workspace').data('atomuri'),  atomuri, "atomuri");
-            equals(jQuery('#workspace').data('feeduri'),  feeduri, "feeduri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:feeduri'],  feeduri, "feeduri");
             equals(this.atompub.getAtomPath(feeduri), "/shuffltest1/", "feedpath");
             this.atompub.deleteFeed({path:feedpath}, callback);
         });
@@ -142,8 +142,8 @@ TestSaveWorkspace = function() {
             var u = jQuery.uri(this.wsuri);
             equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
-            equals(jQuery('#workspace').data('atomuri'),  atomuri, "atomuri");
-            equals(jQuery('#workspace').data('feeduri'),  feeduri, "feeduri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:feeduri'],  feeduri, "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -363,8 +363,8 @@ TestSaveWorkspace = function() {
             var u = jQuery.uri(this.wsuri);
             equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
-            equals(jQuery('#workspace').data('atomuri'),  atomuri, "atomuri");
-            equals(jQuery('#workspace').data('feeduri'),  feeduri, "feeduri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:feeduri'],  feeduri, "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -433,8 +433,8 @@ TestSaveWorkspace = function() {
             log.debug("Check reloaded workspace ");
             equals(jQuery('#workspaceuri').text(), layouturi.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), layouturi.toString(), "location");
-            equals(jQuery('#workspace').data('atomuri'),  atomuri, "atomuri");
-            equals(jQuery('#workspace').data('feeduri'),  feeduri, "feeduri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:feeduri'],  feeduri, "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -512,8 +512,8 @@ TestSaveWorkspace = function() {
             log.debug("Check reloaded workspace ");
             equals(jQuery('#workspaceuri').text(), layouturi.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), layouturi.toString(), "location");
-            equals(jQuery('#workspace').data('atomuri'),  atomuri, "atomuri");
-            equals(jQuery('#workspace').data('feeduri'),  feeduri, "feeduri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
+            equals(jQuery('#workspace').data('wsdata')['shuffl:feeduri'],  feeduri, "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];

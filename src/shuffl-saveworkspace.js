@@ -266,8 +266,6 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
             jQuery('#workspaceuri').text(val.dataref.toString());
             // TODO: remove entries where wsdata value can be used later
             jQuery('#workspace').data('location', val.dataref);
-            jQuery('#workspace').data('atomuri',  atomuri);
-            jQuery('#workspace').data('feeduri',  feeduri);
             jQuery('#workspace').data('wsdata',   val.data);
             var ret = 
                 { title:    val.title
@@ -356,9 +354,10 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
  * to the item URI. 
  */
 shuffl.updateWorkspace = function (callback) {
-    var atomuri  = jQuery('#workspace').data('atomuri');
-    var feeduri  = jQuery('#workspace').data('feeduri');
+    var wsdata   = jQuery('#workspace').data('wsdata');
     var wsuri    = jQuery('#workspace').data('location');
+    var atomuri  = wsdata['shuffl:atomuri'];
+    var feeduri  = wsdata['shuffl:feeduri'];
     var atompub  = new shuffl.AtomPub(atomuri);
     var feedpath = atompub.getAtomPath(feeduri);
     log.debug("shuffl.updateWorkspace: "+atomuri+", "+feeduri+", "+feedpath);
