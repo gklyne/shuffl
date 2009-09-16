@@ -46,7 +46,7 @@ shuffl.resize = function() {
 
 shuffl.menuSaveNewWorkspace = function () {
     log.debug("shuffl.menuSaveNewWorkspace");
-    var wsdata   = jQuery('#workspace').data('atomuri');
+    var wsdata   = jQuery('#workspace').data('wsdata');
     var atomuri  = wsdata['shuffl:atomuri'];
     var feeduri  = wsdata['shuffl:feeduri'];
     log.debug("- atomuri "+atomuri+", feeduri "+feeduri);
