@@ -20,7 +20,7 @@ Strengths, Weaknesses, Opportunities, Threats will be recorded as they arise or 
 
 = Opportunities =
 
- * Plug-in architecture allows framework to grow in response to new requirements
+ * Card plug-in architecture allows framework to grow in response to new requirements
  * Possible framework for rapid UI development for other web applications (e.g. Simal use-case).
 
 = Threats =
