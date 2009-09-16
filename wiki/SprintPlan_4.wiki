@@ -34,11 +34,11 @@ In preparing this plan, I found that I'd "lost" a few days in the original sprin
 || 2.1  || Meeting with CH (Zoology silk group)  || 0.5 || -- || (sprint) || -- ||
 || 2.2  || Other use cases  || 0.5 || -- || -- || -- ||
 || 2.3  || Introductory user documentation || 0.5 || -- || (sprint) || (incomplete) ||   
-|| 3.   || *Technical development* || *5.0++* || *--* ||
+|| 3.   || *Technical development* || *14.5* || *--* ||
 || 3.1  || Refactoring and test cases; esp. to support persistence  || 2.0 || -- || 16-Sep-2009 || -- ||
 || 3.2  || Initial content persistence  || 3.0 || -- || (sprint) || (incomplete) ||
-|| 3.3  || Import CSV data as card collection  || ??? || -- || (sprint) || -- ||
-|| 3.4  || Basic graphing of data collections  || ??? || -- || (sprint) || -- ||
+|| 3.3  || Import CSV data as card collection  || 6.0 || -- || (sprint) || -- ||
+|| 3.4  || Basic graphing of data collections  || 3.5 || -- || (sprint) || -- ||
 
 = Task breakdowns =
 
@@ -62,11 +62,22 @@ In preparing this plan, I found that I'd "lost" a few days in the original sprin
 
 == 3.3: Import CSV data as card collection ==
 
-(to plan)
+6.0 days:
+
+ * (0.5) UI to locate CSV data in file system
+ * (1.0) Read and parse CSV data, with test cases
+ * (0.5) Create plan for testing card plug-ins 
+ * (1.0) Design, implement, test card plug-in for a row of values
+ * (1.0) Design, implement, test card plug-in for a collection of rows
+ * (2.0) Design, implement, test alternative (e.g. collapsed) card views for collections and alternative workspace views (e.g. one-line display, small "icon" or "flag" display, etc.).  These will need to be implemented for all existing cards.
 
 == 3.4: Basic graphing of data collections ==
 
-(to plan)
+3.5 days:
+
+ * (0.5) Survey jQuery plug-ins for data display and graphing
+ * (1.0) Design, implement, test card plug-in for tabular display of a data collection (this being easier to unit-test than a graphical display)
+ * (2.0) Design, implement, test card plug-in for graphical display of a data collection - final testing may need to depend on user interaction, but as much as possible of the underlying logic should be automated.
 
 = Sprint review notes =
 
