@@ -60,7 +60,24 @@
       });
 	  </script>
 
-    <div id="dialog_savenew" title="Save as new workspace" style="display:none;">
+    <div id="dialog_open" title="Open workspace" style="display:none;">
+      <p>Enter the URI of an Atom Publishing Protocol service and item feed where the workspace is to be loaded from.</p>
+      <form>
+        <fieldset>
+          <legend>Location of workspace data</legend>
+          <!--
+          <label for="location">Location:</label>
+          <input type="text" name="location" id="location" class="text ui-widget-content ui-corner-all" size="80"/>
+           -->
+          <label for="atomuri">AtomPub service URI:</label>
+          <input type="text" name="atomuri" id="open_atomuri" class="text ui-widget-content ui-corner-all" size="80"/>
+          <label for="feedpath">Atom feed path:</label>
+          <input type="text" name="feedpath" id="open_feedpath" class="text ui-widget-content ui-corner-all" size="80"/>
+        </fieldset>
+      </form>
+    </div>
+
+    <div id="dialog_save" title="Save as new workspace" style="display:none;">
 		  <p>Enter the URI of an Atom Publishing Protocol service and item feed where the new workspace is to be saved.</p>
 		  <form>
 			  <fieldset>
@@ -70,9 +87,9 @@
 			    <input type="text" name="location" id="location" class="text ui-widget-content ui-corner-all" size="80"/>
 			     -->
           <label for="atomuri">AtomPub service URI:</label>
-          <input type="text" name="atomuri" id="atomuri" class="text ui-widget-content ui-corner-all" size="80"/>
+          <input type="text" name="atomuri" id="save_atomuri" class="text ui-widget-content ui-corner-all" size="80"/>
           <label for="feedpath">Atom feed path:</label>
-          <input type="text" name="feedpath" id="feedpath" class="text ui-widget-content ui-corner-all" size="80"/>
+          <input type="text" name="feedpath" id="save_feedpath" class="text ui-widget-content ui-corner-all" size="80"/>
 			  </fieldset>
 		  </form>
 		</div>

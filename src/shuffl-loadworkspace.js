@@ -55,11 +55,12 @@ shuffl.loadWorkspace = function(uri, callback) {
     var m = new shuffl.AsyncComputation();
 
     m.eval(function(val,callback) {
-            jQuery.getJSON(val, callback);
+            log.debug("Load layout from "+val);
+            jQuery.getJSON(val.toString(), callback);
         });
     m.eval(function(json,callback) {
             // When layout JSON has been read...
-            log.debug("Loading workspace from "+uri);
+            log.debug("Loading workspace content");
             var i;
             var atomuri  = json['shuffl:atomuri'];
             var feeduri  = json['shuffl:feeduri'];
