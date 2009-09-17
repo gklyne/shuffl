@@ -45,12 +45,13 @@ shuffl.menuOpenWorkspace = function () {
     var wsname   = jQuery('#workspace').data('wsname');
     var atomuri  = wsdata['shuffl:atomuri'];
     var feeduri  = wsdata['shuffl:feeduri'];
-    log.debug("- atomuri "+atomuri+", feeduri "+feeduri+", wsname "+wsname);
-    var atompub = new shuffl.AtomPub(atomuri);
-    jQuery('#open_atomuri').val(atomuri);
-    jQuery('#open_feedpath').val(atompub.getAtomPath(feeduri));
-    jQuery('#open_wsname').val(wsname);
+    var atompub  = new shuffl.AtomPub(atomuri);
+    var feedpath = atompub.getAtomPath(feeduri);
     atompub = null;
+    log.debug("- atomuri "+atomuri+", feeduri "+feeduri+", wsname "+wsname);
+    jQuery('#open_atomuri').val(atomuri);
+    jQuery('#open_feedpath').val(feedpath);
+    jQuery('#open_wsname').val(wsname);
     // Open dialog to obtain location of workspace data
     jQuery("#dialog_open").dialog(
         { bgiframe: true,
@@ -59,11 +60,12 @@ shuffl.menuOpenWorkspace = function () {
           width: 800,
           buttons: {
               Ok: function() {
-                  var atomuri  = jQuery('#open_atomuri').val();
-                  var feedpath = jQuery('#open_feedpath').val();
-                  var atompub  = new shuffl.AtomPub(atomuri);
-                  var feeduri  = atompub.serviceUri({path: feedpath});
-                  atompub = null;
+                  atomuri  = jQuery('#open_atomuri').val();
+                  feedpath = jQuery('#open_feedpath').val();
+                  wsname   = jQuery('#save_wsname').val();
+                  atompub  = new shuffl.AtomPub(atomuri);
+                  feeduri  = atompub.serviceUri({base: feedpath, name:wsname});
+                  atompub  = null;
                   jQuery(this).dialog('destroy');
                   log.debug("- OK: feeduri "+feeduri);
                   // Save cards, capture locations (or bail if error),

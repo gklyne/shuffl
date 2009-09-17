@@ -151,7 +151,7 @@ shuffl.saveRelativeCard = function(atompub, feedpath, card, callback) {
  *                  workspace, ready to be serialized and written out.
  */
 shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
-    log.debug("Assemble workspace description with details from cards");
+    log.debug("Assemble workspace description "+feeduri);
     // Assemble card layout info
     var layout   = [];
     jQuery("div.shuffl-card").each(
@@ -255,6 +255,7 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, wsname, callback) {
     log.debug("shuffl.saveNewWorkspace: "+atomuri+", "+feedpath+", "+wsname);
     var atompub = new shuffl.AtomPub(atomuri);
     var feeduri = atompub.serviceUri({path: feedpath});
+    var wsdata  = undefined;
 
     // Helper function extracts location from posted item response and 
     // displays it in the workspace.  Also assembles return values.
@@ -262,10 +263,11 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, wsname, callback) {
         if (val instanceof shuffl.Error) { 
             callback(val); 
         } else {
-            //log.debug("shuffl.saveCard:createComplete "+shuffl.objectString(val));
-            jQuery('#workspaceuri').text(val.dataref.toString());
-            jQuery('#workspace').data('location', val.dataref);
-            jQuery('#workspace').data('wsdata',   val.data);
+            //log.debug("shuffl.saveNewWorkspace:createComplete "+shuffl.objectString(val));
+            jQuery('#workspaceuri').text(val.datauri.toString());
+            jQuery('#workspace').data('location', val.datauri);
+            jQuery('#workspace').data('wsname',   wsname);
+            jQuery('#workspace').data('wsdata',   wsdata);
             var ret = 
                 { title:    val.title
                 , uri:      val.dataref
@@ -306,18 +308,18 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, wsname, callback) {
     // Save layout once all cards have been saved
     var saveWorkspaceDescription = function(val) {
         log.debug("Assemble workspace description with details from workspace");
-        var ws = shuffl.assembleWorkspaceDescription(atomuri, feeduri);
+        wsdata = shuffl.assembleWorkspaceDescription(atomuri, feeduri);
         if (wsname == undefined || wsname == "") {
             //ÊDefault name from workspace Id + ".json"
-            wsname = ws['shuffl:id']+".json";
+            wsname = wsdata['shuffl:id']+".json";
         }
         // NOTE: need slug and/or title here when saving AtomPub media resource
         atompub.createItem(
             { path:       feedpath
             , slug:       wsname
-            , title:      ws['shuffl:id']
+            , title:      wsdata['shuffl:id']
             , datatype:   'application/json'
-            , data:       ws
+            , data:       wsdata
             },
             createComplete);
         log.debug("shuffl.saveNewWorkspace, done.");
