@@ -55,7 +55,7 @@ In preparing this plan, I found that I'd "lost" a few days in the original sprin
 
 3.0 days:
 
- * (1.0) complete static save of new workspace (*Save as...*)
+ * (1.0) complete static save of new workspace (*Save as...*), and implement *Load...* to test this.
  * (0.5) implement resave of workspace (*Save*)
  * (1.0) implement on-the-fly saving of changes to card content, layout, etc
  * (0.5) save card size as well as position
