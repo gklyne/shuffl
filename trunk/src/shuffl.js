@@ -42,10 +42,10 @@ shuffl.menuOpenWorkspace = function () {
     // Use current location (atomuri/feeduri) as default base
     log.debug("shuffl.menuLoadWorkspace");
     var wsdata   = jQuery('#workspace').data('wsdata');
-    var wsname   = jQuery('#workspace').data('location');
+    var wsname   = jQuery('#workspace').data('wsname');
     var atomuri  = wsdata['shuffl:atomuri'];
     var feeduri  = wsdata['shuffl:feeduri'];
-    log.debug("- atomuri "+atomuri+", feeduri "+feeduri);
+    log.debug("- atomuri "+atomuri+", feeduri "+feeduri+", wsname "+wsname);
     var atompub = new shuffl.AtomPub(atomuri);
     jQuery('#open_atomuri').val(atomuri);
     jQuery('#open_feedpath').val(atompub.getAtomPath(feeduri));
@@ -88,7 +88,7 @@ shuffl.menuSaveNewWorkspace = function () {
     // Use current location (atomuri/feeduri) as default base
     log.debug("shuffl.menuSaveNewWorkspace");
     var wsdata   = jQuery('#workspace').data('wsdata');
-    var wsname   = jQuery('#workspace').data('location');
+    var wsname   = jQuery('#workspace').data('wsname');
     var atomuri  = wsdata['shuffl:atomuri'];
     var feeduri  = wsdata['shuffl:feeduri'];
     log.debug("- atomuri "+atomuri+", feeduri "+feeduri);
@@ -104,15 +104,17 @@ shuffl.menuSaveNewWorkspace = function () {
           width: 800,
           buttons: {
               Ok: function() {
-                  var atomuri  = jQuery('#save_atomuri').val();
-                  var feedpath = jQuery('#save_feedpath').val();
-                  var wsname   = jQuery('#save_wsname').val();
+                  atomuri  = jQuery('#save_atomuri').val();
+                  feedpath = jQuery('#save_feedpath').val();
+                  wsname   = jQuery('#save_wsname').val();
                   jQuery(this).dialog('destroy');
-                  log.debug("- OK: atomuri "+atomuri+", feedpath "+wsname+", feedpath "+wsname);
+                  log.debug("- OK: atomuri "+atomuri+", feedpath "+feedpath+", feedpath "+wsname);
                   // Save cards, capture locations (or bail if error),
                   // assemble workspace description and save, and
                   // display location saved:
-                  shuffl.saveNewWorkspace(atomuri, feedpath, wsname, shuffl.noop);
+                  shuffl.deleteWorkspace(atomuri, feedpath, function(val,next) {
+                      shuffl.saveNewWorkspace(atomuri, feedpath, wsname, shuffl.noop);
+                  });
               },
               Cancel: function() {
                   log.debug("- Cancel");

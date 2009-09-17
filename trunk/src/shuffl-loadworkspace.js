@@ -67,10 +67,12 @@ shuffl.loadWorkspace = function(uri, callback) {
             var stockbar = json['shuffl:workspace']['shuffl:stockbar'];
             var layout   = json['shuffl:workspace']['shuffl:layout'];
             // Display and save location information
-            var wsuri = jQuery.uri().resolve(uri).toString();
+            var wsuri = jQuery.uri().resolve(uri);
             //log.debug("Display location of workspace, and save values: "+wsuri);
-            jQuery('#workspaceuri').text(wsuri);
-            jQuery('#workspace').data('location', wsuri);
+            jQuery('#workspaceuri').text(wsuri.toString());
+            // TODO: save URI not string?
+            jQuery('#workspace').data('location', wsuri.toString());
+            jQuery('#workspace').data('wsname',   wsuri.path.toString().replace(/.*\//,""));
             jQuery('#workspace').data('wsdata',   json);
             // Load up stock bar
             for (i = 0 ; i < stockbar.length ; i++) {
@@ -125,6 +127,7 @@ shuffl.resetWorkspace = function(callback) {
     log.debug("Reset workspace");
     jQuery('#workspaceuri').text("");
     jQuery('#workspace').data('location', null);
+    jQuery('#workspace').data('wsname',   null);
     jQuery('#workspace').data('wsdata',   null);
     // Empty stock bar
     jQuery('#stockbar .shuffl-stockpile, #stockbar .shuffl-spacer').remove();

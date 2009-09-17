@@ -121,6 +121,7 @@ TestLoadWorkspace = function() {
             var u = jQuery.uri().resolve("test-shuffl-loadworkspace-layout.json");
             equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
+            equals(jQuery('#workspace').data('wsname'), "test-shuffl-loadworkspace-layout.json", "wsname");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // Reset workspace
             shuffl.resetWorkspace(callback);
@@ -129,6 +130,7 @@ TestLoadWorkspace = function() {
             log.debug("Workspace reset")
             equals(jQuery('#workspaceuri').text(), "", '#workspaceuri');
             equals(jQuery('#workspace').data('location'), null, "location");
+            equals(jQuery('#workspace').data('wsname'), null, "wsname");
             equals(jQuery('#workspace').data('wsdata'), null, "wsdata");
             equals(jQuery('.shuffl-stockpile').length, 0, "empty stockbar");
             equals(jQuery("#stockbar").children().length, 1, "initial entries in stockbar");
