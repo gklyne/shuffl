@@ -61,7 +61,7 @@
 	  </script>
 
     <div id="dialog_open" title="Open workspace" style="display:none;">
-      <p>Enter the URI of an Atom Publishing Protocol service and item feed where the workspace is to be loaded from.</p>
+      <p>Enter the URI of an Atom Publishing Protocol service, AtomPub feed path and workspace name where the workspace is to be loaded from.</p>
       <form>
         <fieldset>
           <legend>Location of workspace data</legend>
@@ -69,16 +69,20 @@
           <label for="location">Location:</label>
           <input type="text" name="location" id="location" class="text ui-widget-content ui-corner-all" size="80"/>
            -->
-          <label for="atomuri">AtomPub service URI:</label>
+          <label for="open_atomuri">AtomPub service URI:</label>
           <input type="text" name="atomuri" id="open_atomuri" class="text ui-widget-content ui-corner-all" size="80"/>
-          <label for="feedpath">Atom feed path:</label>
+          <label for="open_feedpath">Atom feed path:</label>
           <input type="text" name="feedpath" id="open_feedpath" class="text ui-widget-content ui-corner-all" size="80"/>
+          <label for="open_atomuri">AtomPub service URI:</label>
+          <input type="text" name="atomuri" id="open_atomuri" class="text ui-widget-content ui-corner-all" size="80"/>
+          <label for="open_wsname">Workspace name:</label>
+          <input type="text" name="feedpath" id="open_wsname" class="text ui-widget-content ui-corner-all" size="80"/>
         </fieldset>
       </form>
     </div>
 
     <div id="dialog_save" title="Save as new workspace" style="display:none;">
-		  <p>Enter the URI of an Atom Publishing Protocol service and item feed where the new workspace is to be saved.</p>
+		  <p>Enter the URI of an Atom Publishing Protocol service, AtomPub feed path and workspace name where the new workspace is to be saved.</p>
 		  <form>
 			  <fieldset>
 			    <legend>Location for saved workspace</legend>
@@ -86,10 +90,12 @@
           <label for="location">Location:</label>
 			    <input type="text" name="location" id="location" class="text ui-widget-content ui-corner-all" size="80"/>
 			     -->
-          <label for="atomuri">AtomPub service URI:</label>
+          <label for="save_atomuri">AtomPub service URI:</label>
           <input type="text" name="atomuri" id="save_atomuri" class="text ui-widget-content ui-corner-all" size="80"/>
-          <label for="feedpath">Atom feed path:</label>
+          <label for="save_feedpath">Atom feed path:</label>
           <input type="text" name="feedpath" id="save_feedpath" class="text ui-widget-content ui-corner-all" size="80"/>
+          <label for="save_wsname">Workspace name:</label>
+          <input type="text" name="feedpath" id="save_wsname" class="text ui-widget-content ui-corner-all" size="80"/>
 			  </fieldset>
 		  </form>
 		</div>

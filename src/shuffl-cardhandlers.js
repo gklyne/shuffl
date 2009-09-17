@@ -17,10 +17,13 @@ if (typeof shuffl == "undefined") {
     shuffl = {};
 }
 if (typeof shuffl.CardFactoryMap == "undefined") {
-    shuffl.CardFactoryMap = {};   // Initial empty card factory map
+    shuffl.CardFactoryMap = {};         // Initial empty card factory map
 }
 if (typeof shuffl.idnext == "undefined") {
-    shuffl.idnext         = 100;  // Counter for unique id generation    
+    shuffl.idnext         = 100;        // Counter for unique id generation    
+}
+if (typeof shuffl.idpref == "undefined") {
+    shuffl.idpref         = "card_";   // Prefix for unique id generation    
 }
 
 // ----------------------------------------------------------------
@@ -152,6 +155,20 @@ shuffl.lastId = function(pref) {
 };
 
 /**
+ * Update ID generator if necessary to prevent clash with loaded card.
+ */
+shuffl.loadId = function(cardid) {
+    var l = shuffl.idpref.length;
+    if (cardid.slice(0,l) == shuffl.idpref) {
+        var n = parseInt(cardid.slice(l));
+        if (typeof n == "number" && shuffl.idnext < n) {
+            log.debug("Load card id "+cardid+", "+n);
+            shuffl.idnext = n;
+        }
+    };
+};
+
+/**
  * Draggable options for stockpiles
  */
 shuffl.stockDraggable = { 
@@ -213,12 +230,12 @@ shuffl.createCardFromStock = function (stockpile) {
         .replace(/shuffl-stockpile/,'')
         .replace(/ui-draggable/,'')
         .replace(/ui-draggable-dragging/,'');
-    var cardid = shuffl.makeId('card_');
+    var cardid = shuffl.makeId(shuffl.idpref);
     // log.debug("cardclass '"+cardclass+"'");
     var newcard = shuffl.getCardFactory(cardtype)(cardid, {});
     // Use id of new card as hint for file name
     newcard.data('shuffl:location', cardid+".json");
-    // Instantiate external data valuesshuffl.makeId('card_')
+    // Instantiate external data values
     var extdata = {};
     jQuery.extend(true, extdata, shuffl.ExternalCardData);  // Deep copy..
     extdata['shuffl:id']    = cardid;
@@ -282,6 +299,7 @@ shuffl.placeCardFromData = function (layout, data) {
     // Create card using card factory
     //log.debug("shuffl.placeCardFromData, cardid: "+cardid+", cardclass: "+cardclass);
     var newcard = shuffl.createCardFromData(cardid, cardclass, data);
+    shuffl.loadId(cardid);
     //ÊPlace card on layout
     var cardpos = layout['pos'];
     shuffl.placeCard(jQuery('#layout'), newcard, cardpos);

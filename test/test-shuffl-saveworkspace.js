@@ -114,7 +114,7 @@ TestSaveWorkspace = function() {
         m.eval(function(val,callback) {
             log.debug("Save empty workspace");
             ok(true, "deleted old feed "+feedpath);
-            shuffl.saveNewWorkspace(atomuri, feedpath, callback);
+            shuffl.saveNewWorkspace(atomuri, feedpath, layoutname, callback);
         });
         m.eval(function(val,callback) {
             //log.debug("Check result from save: "+shuffl.objectString(val));
@@ -268,7 +268,7 @@ TestSaveWorkspace = function() {
         m.eval(function(val,callback) {
             log.debug("Save empty workspace");
             ok(true, "deleted old feed "+feedpath);
-            shuffl.saveNewWorkspace(atomuri, feedpath, callback);
+            shuffl.saveNewWorkspace(atomuri, feedpath, layoutname, callback);
         });        
         m.eval(function(val,callback) {
             //log.debug("Check result from save: "+shuffl.objectString(val));
@@ -335,7 +335,7 @@ TestSaveWorkspace = function() {
         });
         m.eval(function(val,callback) {
             log.debug("Save new workspace with card");
-            shuffl.saveNewWorkspace(atomuri, feedpath, callback);
+            shuffl.saveNewWorkspace(atomuri, feedpath, layoutname, callback);
         });        
         m.eval(function(val,callback) {
             //log.debug("Check result from save: "+shuffl.objectString(val));
