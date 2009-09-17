@@ -229,6 +229,8 @@ shuffl.processWorkspaceCards = function(firstval, firstcall, proccard, thencall)
  *                    the workspace data
  * @param feedpath    URI-path of Atom feed that will receive the new workspace
  *                    and card descriptions
+ * @param wsname      is the name of a resource withinthe feed where the
+ *                    workspace layout is saved.
  * @param callback    function called when the save is complete.
  * 
  * The callback supplies an Error instance, or information about the newly
@@ -249,8 +251,8 @@ shuffl.processWorkspaceCards = function(firstval, firstcall, proccard, thencall)
  * and editing using atompub.  The workspace URI should be resolved relative 
  * to the item URI. 
  */
-shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
-    log.debug("shuffl.saveNewWorkspace: "+atomuri+", "+feedpath);
+shuffl.saveNewWorkspace = function (atomuri, feedpath, wsname, callback) {
+    log.debug("shuffl.saveNewWorkspace: "+atomuri+", "+feedpath+", "+wsname);
     var atompub = new shuffl.AtomPub(atomuri);
     var feeduri = atompub.serviceUri({path: feedpath});
 
@@ -305,10 +307,14 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, callback) {
     var saveWorkspaceDescription = function(val) {
         log.debug("Assemble workspace description with details from workspace");
         var ws = shuffl.assembleWorkspaceDescription(atomuri, feeduri);
+        if (wsname == undefined || wsname == "") {
+            //ÊDefault name from workspace Id + ".json"
+            wsname = ws['shuffl:id']+".json";
+        }
         // NOTE: need slug and/or title here when saving AtomPub media resource
         atompub.createItem(
             { path:       feedpath
-            , slug:       ws['shuffl:id']+".json"
+            , slug:       wsname
             , title:      ws['shuffl:id']
             , datatype:   'application/json'
             , data:       ws
