@@ -411,4 +411,23 @@ shuffl.updateWorkspace = function (callback) {
     log.debug("shuffl.updateWorkspace, returning.");
 };
 
+// ----------------------------------------------------------------
+// Delete workspace
+// ----------------------------------------------------------------
+
+/**
+ * Delete workspace.
+ * 
+ * @param atomuri     URI of AtomPub service.
+ * @param feedpath    Feed path of workspace to delete
+ * @param callback    function called when the update is complete.
+ * 
+ * The callback supplies an empty object, or an Error instance
+ */
+shuffl.deleteWorkspace = function (atomuri, feedpath, callback) {
+    log.debug("shuffl.deleteWorkspace: "+atomuri+", "+feedpath);
+    this.atompub  = new shuffl.AtomPub(atomuri);
+    this.atompub.deleteFeed({path:feedpath}, callback);
+};
+
 // End.
