@@ -32,40 +32,82 @@ shuffl.resize = function() {
 // Workspace menu command handlers
 // ----------------------------------------------------------------
 
+// TODO: refactor dialog logic and form
+// TODO: generate dialog dynamically instead of relying upon the page HTML
+
+/**
+ * Menu command "Open workspace..."
+ */
+shuffl.menuOpenWorkspace = function () {
+    // Use current location (atomuri/feeduri) as default base
+    log.debug("shuffl.menuLoadWorkspace");
+    var wsdata   = jQuery('#workspace').data('wsdata');
+    var atomuri  = wsdata['shuffl:atomuri'];
+    var feeduri  = wsdata['shuffl:feeduri'];
+    log.debug("- atomuri "+atomuri+", feeduri "+feeduri);
+    var atompub = new shuffl.AtomPub(atomuri);
+    jQuery('#open_atomuri').val(atomuri);
+    jQuery('#open_feedpath').val(atompub.getAtomPath(feeduri));
+    atompub = null;
+    // Open dialog to obtain location of workspace data
+    jQuery("#dialog_open").dialog(
+        { bgiframe: true,
+          modal: true,
+          dialogClass: 'dialog-open',
+          width: 800,
+          buttons: {
+              Ok: function() {
+                  var atomuri  = jQuery('#open_atomuri').val();
+                  var feedpath = jQuery('#open_feedpath').val();
+                  var atompub  = new shuffl.AtomPub(atomuri);
+                  var feeduri  = atompub.serviceUri({path: feedpath});
+                  atompub = null;
+                  jQuery(this).dialog('destroy');
+                  log.debug("- OK: feeduri "+feeduri);
+                  // Save cards, capture locations (or bail if error),
+                  // assemble workspace description and save, and
+                  // display location saved:
+                  shuffl.resetWorkspace(function(val) {
+                      shuffl.loadWorkspace(feeduri, shuffl.noop);                    
+                  });
+              },
+              Cancel: function() {
+                  log.debug("- Cancel");
+                  jQuery(this).dialog('destroy');
+              }
+          }
+        });
+};
+
 /**
  * Menu command "Save as new workspace..."
  */
-
-// 1. use current location as default base
-// 2. browse to save location via AtomPub
-// 3. save cards, capture locations (or bail if error)
-// 4. assemble workspace description and save
-// 5. display location saved (where? title?)
-
-// See also: shuffl.loadWorkspace("shuffl-sample-2.json")
-
 shuffl.menuSaveNewWorkspace = function () {
+    // Use current location (atomuri/feeduri) as default base
     log.debug("shuffl.menuSaveNewWorkspace");
     var wsdata   = jQuery('#workspace').data('wsdata');
     var atomuri  = wsdata['shuffl:atomuri'];
     var feeduri  = wsdata['shuffl:feeduri'];
     log.debug("- atomuri "+atomuri+", feeduri "+feeduri);
     var atompub = new shuffl.AtomPub(atomuri);
-    jQuery('#atomuri').val(atomuri);
-    jQuery('#feedpath').val(atompub.getAtomPath(feeduri));
+    jQuery('#save_atomuri').val(atomuri);
+    jQuery('#save_feedpath').val(atompub.getAtomPath(feeduri));
     atompub = null;
-    jQuery("#dialog_savenew").dialog(
+    jQuery("#dialog_save").dialog(
         { bgiframe: true,
           modal: true,
-          dialogClass: 'dialog-savenew',
+          dialogClass: 'dialog-save',
           width: 800,
           buttons: {
               Ok: function() {
-                  var atomuri = jQuery('#atomuri').val();
-                  var feedpath = jQuery('#feedpath').val();
+                  var atomuri = jQuery('#save_atomuri').val();
+                  var feedpath = jQuery('#save_feedpath').val();
                   jQuery(this).dialog('destroy');
                   log.debug("- OK: atomuri "+atomuri+", feedpath "+feedpath);
-                  shuffl.saveNewWorkspace(atomuri, feedpath);
+                  // Save cards, capture locations (or bail if error),
+                  // assemble workspace description and save, and
+                  // display location saved:
+                  shuffl.saveNewWorkspace(atomuri, feedpath, shuffl.noop);
               },
               Cancel: function() {
                   log.debug("- Cancel");
@@ -132,7 +174,6 @@ jQuery(document).ready(function() {
      * Create a pop-up workspace menu
      */    
     log.debug("shuffl: connect connect workspace menu");
-
     jQuery('div.shuffl-workspacemenu').contextMenu('workspacemenuoptions', {
         menuStyle: {
             'class': 'shuffl-contextmenu',
@@ -143,13 +184,15 @@ jQuery(document).ready(function() {
         showOnClick: true,
         bindings: {
             'open': function(t) {
-                    log.info('Trigger was '+t.id+'\nAction was Open');
+                    log.debug('Menu trigger '+t.id+'\nAction is shuffl.menuOpenWorkspace');
+                    shuffl.menuOpenWorkspace();
                 },
             'save': function(t) {
-                    log.info('Trigger was '+t.id+'\nAction was Save');
+                    log.debug('Menu trigger '+t.id+'\nAction is shuffl.menuSaveWorkspace');
+                    shuffl.menuSaveWorkspace();
                 },
             'savenew': function(t) {
-                    log.info('Trigger was '+t.id+'\nAction was Save new');
+                    log.debug('Menu trigger '+t.id+'\nAction is shuffl.menuSaveNewWorkspace');
                     shuffl.menuSaveNewWorkspace();
                 }
           }

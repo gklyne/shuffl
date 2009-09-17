@@ -174,7 +174,11 @@ cbody {
 
 /* Specific identified fields */
 
-.dialog-savenew {
+.dialog-save {
+    width: 60em;
+}
+
+.dialog-open {
     width: 60em;
 }
 
