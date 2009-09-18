@@ -8,15 +8,22 @@ This page is a work-in-progress.
 
 Strengths, Weaknesses, Opportunities, Threats will be recorded as they arise or are noticed.
 
+I read recently:
+ * Strengths and Weaknesses are internal factors
+ * Opportunities and Threats are external.
+
 = Strengths =
 
  * Simple, adaptable underlying structure; it has been easy to see how unanticipated user requests
  * Most potential users respond quickly and positively to the basic UI ideas
+ * Card plug-in framework seems to mean that almost any desired functionality is possible
 
 = Weaknesses =
 
  * Browser portability problems (focusing on Firefox and Safari for now)
  * Impediments of browser "same origin" restriction for Ajax calls
+ * eXist !AtomPub implementation isn't great
+ * User interface for accessing workspace data is not very attractive, and could be easier to use.  A good implementation will take some effort.  Meanwhile, we can focus on presenting users with dedicated web pages that pre-load a specific workspace.
 
 = Opportunities =
 
