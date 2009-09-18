@@ -1,0 +1,36 @@
+#summary CardReadWriteOptions: options for card referencing and I/O
+
+<wiki:toc maxLevel="2"/>
+
+= Introduction =
+
+Each card is an independently-addressable web resource, and may be referenced from one or more workspaces using an absolute or relative URI reference.  A number of options need to be considered when saving a workspace.
+
+I have adopted the idea that relatively referenced cards should be saved with the workspace; i.e. copied when a new workspace is created. Absolutely-referenced cards should be referenced in-situ, so that changes to the original can propagate to the workspace.
+
+Also, card data may be read from what is effectively read-only storage (e.g. by file: URI references, which are not generally writable from the browser).  In due course, I propose to implement a backend plug-in framework that can deal appropriately with read-only and read-write card storage.
+
+= Feature matrix for saving card data =
+
+This matrix captures the various options that must be allowed, and how various operations are performed.  '-' means don't care, or no operation is required; combinations marked 'X' should not occur.
+
+|| *WS Function* || *rel/abs* || *RW/RO* || || *New* || *Changed* || *Unchanged* ||
+|| Create new || rel  || -     || || Create || Create  || Create ||
+|| Save             || rel   || -    || || Create || Update || -          ||
+|| Create new || abs || RW || || X          || Update || -          ||
+|| Save             || abs || RW || || X          || Update || -          ||
+|| Create new || abs || RO || || X          || X            || -          ||
+|| Save             || abs || RO || || X          || X            || -          ||
+
+= Card parameter interactions with I/O operations =
+
+Table entries show the state of as parameter following the indicated operation.  "-" indicates no change. 
+
+|| *Operation*      || *rel/abs* || *reference*       || *URI*                 || *edit flag*  || *RW/RO* ||
+|| Drop new card || rel             || Id+                     || None                 || changed     || RW ||
+|| Read card         || -               || ref                       || used for GET   || unchanged || per source ||
+|| Save new card  || rel             || POST response || POST response || unchanged || RW ||
+|| Update card     || -                || -                         || -                        || unchanged  || -     ||
+|| Edit card           || -               || -                          || -                        || changed      || -     ||
+
+Card editing operations are not enabled for cards loaded from a read-only source.  Currently, there is no option in this design to copy a card loaded from with an absolute URI reference from read-only source.
