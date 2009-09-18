@@ -22,7 +22,7 @@ I read recently:
 
  * Browser portability problems (focusing on Firefox and Safari for now)
  * Impediments of browser "same origin" restriction for Ajax calls
- * eXist !AtomPub implementation isn't great
+ * eXist !AtomPub implementation isn't great; maybe need to consider another?
  * User interface for accessing workspace data is not very attractive, and could be easier to use.  A good implementation will take some effort.  Meanwhile, we can focus on presenting users with dedicated web pages that pre-load a specific workspace.
 
 = Opportunities =
