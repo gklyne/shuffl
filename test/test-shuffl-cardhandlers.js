@@ -192,7 +192,9 @@ TestCardHandlers = function() {
             equals(e['shuffl:id'],          "cardfromdata_id",         'shuffl:id');
             equals(e['shuffl:class'],       d['shuffl:class'],         'shuffl:class');
             equals(e['shuffl:version'],     d['shuffl:version'],       'shuffl:version');
-            equals(e['shuffl:location'],    d['shuffl:location'],      'shuffl:location');
+            equals(e['shuffl:dataref'],     d['shuffl:dataref'],       'shuffl:dataref');
+            equals(e['shuffl:datauri'],     d['shuffl:datauri'],       'shuffl:datauri');
+            equals(e['shuffl:dataRW'],      d['shuffl:dataRW'],        'shuffl:dataRW');
             equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],      'shuffl:base-uri');
             same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');
             equals(e['shuffl:data']['shuffl:title'], "Card 1 title",   'shuffl:data-title');
