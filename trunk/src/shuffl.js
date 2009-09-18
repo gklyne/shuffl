@@ -84,6 +84,14 @@ shuffl.menuOpenWorkspace = function () {
 };
 
 /**
+ * Menu command "Save workspace"
+ */
+shuffl.menuSaveWorkspace = function () {
+    log.debug("shuffl.menuSaveWorkspace");
+    shuffl.updateWorkspace(shuffl.noop);
+};
+
+/**
  * Menu command "Save as new workspace..."
  */
 shuffl.menuSaveNewWorkspace = function () {

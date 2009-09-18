@@ -87,11 +87,11 @@ shuffl.makeFreetextCard = function (cardtype, cardcss, cardid, carddata) {
     card.find("cident").text(cardid);           // Set card id text
     card.find("cclass").text(cardtype);         // Set card class/type text
     card.find("ctitle").text(cardtitle);        // Set card title text (editable) ..
-    shuffl.lineEditable(card.find("ctitle"));
+    shuffl.lineEditable(card, card.find("ctitle"));
     card.find("cbody").html(cardtext);
-    shuffl.blockEditable(card.find("cbody"));   // Set card body text (editable) ..
+    shuffl.blockEditable(card, card.find("cbody"));   // Set card body text (editable) ..
     card.find("ctags").text(cardtags.join(","));
-    shuffl.lineEditable(card.find("ctags"));    // Set card tags (editable) ..
+    shuffl.lineEditable(card, card.find("ctags"));    // Set card tags (editable) ..
     //log.debug("makeCard: "+shuffl.elemString(card[0]));
     card.resizable( {alsoResize: 'div#'+cardid+' cbody'} );
     //
