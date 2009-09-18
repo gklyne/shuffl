@@ -199,8 +199,7 @@ shuffl.isRelativeUri = function (uriref) {
  *  Get absolute URI for specified base and URI reference
  */
 shuffl.toAbsoluteUri = function (baseuri, uriref) {
-    var base = jQuery.uri(baseuri);
-    return base.resolve(uriref);
+    return jQuery.uri(baseuri).resolve(uriref);
 };
 
 /**
@@ -233,19 +232,25 @@ shuffl.uriComponent = function (pre, component, suf) {
  * Function to return query including "?" from a URI, or an empty string.
  */
 shuffl.uriQuery = function (uri) {
-    return shuffl.uriComponent("?", uri.query, "");
+    return shuffl.uriComponent("?", jQuery.uri(uri).query, "");
 };
 
 /**
  *  Get URI without fragment
  */
 shuffl.uriWithoutFragment = function (uri) {
+    uri = jQuery.uri(uri);
     return shuffl.uriComponent("",   uri.scheme,    ":")+
            shuffl.uriComponent("//", uri.authority, "" )+
            shuffl.uriComponent("",   uri.path,      "" )+
-           shuffl.uriComponent("?",  uri.query,     "" );
-           
-    //return uri.toString().replace(/#.*$/, "");
+           shuffl.uriComponent("?",  uri.query,     "" );           
+};
+
+/**
+ * Get URI component name (path following last '/')
+ */
+shuffl.uriName = function (uri) {
+    return jQuery.uri(uri).path.replace(/.*\//, "");
 };
 
 // End.

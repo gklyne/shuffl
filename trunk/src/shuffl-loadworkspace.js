@@ -24,14 +24,17 @@
  * The callback is invoked with an Error object, or an object containing
  * the card data.
  */
-shuffl.readCard = function (baseuri, uri, callback) {
-    log.debug("shuffl.readCard: "+baseuri+", "+uri);
-    jQuery.getJSON(jQuery.uri(baseuri).resolve(uri).toString(), function(data) {
+shuffl.readCard = function (baseuri, dataref, callback) {
+    log.debug("shuffl.readCard: "+baseuri+", "+dataref);
+    var datauri = jQuery.uri(baseuri).resolve(dataref);
+    jQuery.getJSON(datauri.toString(), function(data) {
         //log.debug("shuffl.readCard from: "+uri);
         //log.debug("- data: "+jQuery.toJSON(data));
-        data['shuffl:location'] = uri;
+        data['shuffl:dataref'] = dataref.toString();
+        data['shuffl:datauri'] = datauri.toString();
+        data['shuffl:dataRW']  = false;     // Assume not writeable for now
         callback(data);
-    }); 
+    });
 };
 
 /**
@@ -49,11 +52,8 @@ shuffl.readCard = function (baseuri, uri, callback) {
  * The callback is invoked with an Error object, or an empty dictionary.
  */
 shuffl.loadWorkspace = function(uri, callback) {
-
-    log.debug("Load workspace from: "+uri);
-
+    log.debug("shuffl.loadWorkspace: "+uri);
     var m = new shuffl.AsyncComputation();
-
     m.eval(function(val,callback) {
             log.debug("Load layout from "+val);
             jQuery.getJSON(val.toString(), callback);
@@ -66,6 +66,7 @@ shuffl.loadWorkspace = function(uri, callback) {
             var feeduri  = json['shuffl:feeduri'];
             var stockbar = json['shuffl:workspace']['shuffl:stockbar'];
             var layout   = json['shuffl:workspace']['shuffl:layout'];
+            log.debug("- layout: "+jQuery.toJSON(layout));
             // Display and save location information
             var wsuri = jQuery.uri().resolve(uri);
             //log.debug("Display location of workspace, and save values: "+wsuri);
@@ -93,9 +94,9 @@ shuffl.loadWorkspace = function(uri, callback) {
             function readLayoutCard(layout) {
                 // Function creates closure with specific layout definition
                 return function(val, callback) {
-                    shuffl.readCard(feeduri, layout['data'], function (val) {
+                    shuffl.readCard(feeduri, layout['data'], function (data) {
                         // Card data available
-                        shuffl.placeCardFromData(layout, val);
+                        shuffl.placeCardFromData(layout, data);
                         callback({});
                     });
                 };

@@ -302,7 +302,7 @@ TestSaveWorkspace = function() {
     test("shuffl.saveNewWorkspace (with card)", function () {
         log.info("----------");
         log.info((testnum++)+". test shuffl.saveNewWorkspace new workspace with card");
-        expect(61);
+        expect(76);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace");
@@ -314,7 +314,15 @@ TestSaveWorkspace = function() {
         });
         m.eval(function(val,callback) {
             //log.debug("readCard response: "+shuffl.objectString(val));
-            equals(val['shuffl:location'], "test-shuffl-loadworkspace-card_3.json", "new card location");
+            equals(val['shuffl:id'],    "id_3",                     "new card shuffl:id");
+            equals(val['shuffl:class'], "shuffl-freetext-green",    "new card shuffl:class");
+            equals(val['shuffl:dataref'], 
+                "test-shuffl-loadworkspace-card_3.json",            "new card shuffl:dataref");          
+            equals(val['shuffl:datauri'], 
+                "http://localhost:8080/exist/shuffl/test/test-shuffl-loadworkspace-card_3.json", 
+                                                                    "new card shuffl:datauri");          
+            //equals(val['shuffl:datamod'], undefined,                "new card shuffl:datamod");          
+            equals(val['shuffl:dataRW'],  false,                    "new card shuffl:dataRW");
             log.debug("Add card to workspace");
             var layout = 
                 { 'id': 'card_3'
@@ -328,7 +336,15 @@ TestSaveWorkspace = function() {
             ok(c3 != undefined, "card id_3 defined");
             ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
             equals(c3.find("ctitle").text(), "Card 3 title", "Card 3 title");
-            equals(c3.data('shuffl:location'), "test-shuffl-loadworkspace-card_3.json", "Card location in jQuery object")
+            equals(c3.data('shuffl:id'),    "id_3",                     "card 3 data id");
+            equals(c3.data('shuffl:class'), "shuffl-freetext-green",    "card 3 data class/type");
+            equals(c3.data('shuffl:dataref'), 
+                "test-shuffl-loadworkspace-card_3.json",                "card 3 shuffl:dataref");          
+            equals(c3.data('shuffl:datauri'), 
+                "http://localhost:8080/exist/shuffl/test/test-shuffl-loadworkspace-card_3.json", 
+                                                                        "card 3 shuffl:datauri");          
+            equals(c3.data('shuffl:datamod'), false,                    "card 3 shuffl:datamod");          
+            equals(c3.data('shuffl:dataRW'),  false,                    "card 3 shuffl:dataRW");          
             log.debug("Reset workspace...");
             var p3 = c3.position();
             equals(Math.floor(p3.left), 200, "position-left");
@@ -389,6 +405,14 @@ TestSaveWorkspace = function() {
             ok(c3 != undefined, "card id_3 defined")
             ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
             equals(c3.find("ctitle").text(), "Card 3 title", "Card 3 title");
+            equals(c3.data('shuffl:id'),    "id_3",                     "card 3 data id");
+            equals(c3.data('shuffl:class'), "shuffl-freetext-green",    "card 3 data class/type");
+            equals(c3.data('shuffl:dataref'), 
+                "test-shuffl-loadworkspace-card_3.json",                "card 3 shuffl:dataref");          
+            equals(c3.data('shuffl:datauri'), 
+                feeduri+"test-shuffl-loadworkspace-card_3.json",        "card 3 shuffl:datauri");          
+            equals(c3.data('shuffl:datamod'), false,                    "card 3 shuffl:datamod");          
+            equals(c3.data('shuffl:dataRW'),  false,                    "card 3 shuffl:dataRW");          
             var p3 = c3.position();
             equals(Math.floor(p3.left), 200, "position-left");
             equals(Math.floor(p3.top),  90,  "position-top");

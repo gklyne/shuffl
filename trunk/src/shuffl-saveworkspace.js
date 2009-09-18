@@ -23,7 +23,7 @@
  * to indicate success.
  */
 shuffl.deleteCard = function(atompub, feedpath, carduri, callback) {
-    // Set up and issue the HTTP request to save the card data
+    // Set up and issue the HTTP request to delete the card data
     log.debug("shuffl.deleteCard, feedpath: "+feedpath+", carduri: "+carduri);
     // Build the card external object
     atompub.deleteItem(
@@ -61,16 +61,16 @@ shuffl.updateCard = function(atompub, feedpath, card, callback) {
     };
     // Set up and issue the HTTP request to save the card data
     var cardid    = card.data('shuffl:id');
-    var cardloc   = card.data('shuffl:location');
-    log.debug("shuffl.updateCard: "+cardid+", feedpath: "+feedpath+", cardloc: "+cardloc);
+    var cardref   = card.data('shuffl:dataref');
+    log.debug("shuffl.updateCard: "+cardid+", feedpath: "+feedpath+", cardref: "+cardref);
     // Build the card external object
     var cardext = shuffl.createDataFromCard(card);
     //log.debug("- cardext: "+shuffl.objectString(cardext));
     atompub.putItem(
         { base:       feedpath
-        , name:       cardloc
+        , name:       cardref
         , datatype:   'application/json'
-        , title:      cardloc
+        , title:      cardref
         , data:       cardext
         },
         putComplete);
@@ -85,32 +85,32 @@ shuffl.updateCard = function(atompub, feedpath, card, callback) {
  * 
  * @param atompub   is the AtomPub session object to use
  * @param feedpath  is the feed path at which the card is to be saved.
- * @param cardloc   is a suggested name for the dard data to be located within the feed.
+ * @param cardref   is a suggested name for the dard data to be located within the feed.
  * @param card      is the card jQuery object to be saved
  * @param callback  called when the operation is complete
  * 
  * The callback is invoked with an Error value, or the URI of the location
  * where the card data is saved, possibly expressed relative to the feed URI.
  */
-shuffl.saveCard = function(atompub, feedpath, cardloc, card, callback) {
+shuffl.saveCard = function(atompub, feedpath, cardref, card, callback) {
     // Helper function extracts saved location from posted item response and 
     // returns it via callback
     var createComplete = function(data) {
         if (data instanceof shuffl.Error) { 
             callback(data); 
         } else {
-            //log.debug("shuffl.saveCard:createComplete "+shuffl.objectString(data));
+            log.debug("shuffl.saveCard:createComplete "+shuffl.objectString(data));
             callback(data.dataref);
         };
     };
     // Set up and issue the HTTP request to save the card data
     var cardid    = card.data('shuffl:id');
-    log.debug("shuffl.saveCard: "+cardid+", feedpath: "+feedpath+", cardloc: "+cardloc);
+    log.debug("shuffl.saveCard: "+cardid+", feedpath: "+feedpath+", cardref: "+cardref);
     // Build the card external object
     var cardext  = shuffl.createDataFromCard(card);
     atompub.createItem(
         { path:       feedpath
-        , slug:       cardloc
+        , slug:       cardref
         , datatype:   'application/json'
         , data:       cardext
         },
@@ -124,12 +124,12 @@ shuffl.saveCard = function(atompub, feedpath, cardloc, card, callback) {
  */
 shuffl.saveRelativeCard = function(atompub, feedpath, card, callback) {
     var cardid    = card.data('shuffl:id');
-    var cardloc   = card.data('shuffl:location');
+    var cardref   = card.data('shuffl:dataref');
     log.debug("shuffl.saveRelativeCard: "+
-        cardid+", cardloc: "+cardloc+", atompub: "+
+        cardid+", cardref: "+cardref+", atompub: "+
         atompub+", feedpath: "+feedpath);
-    if (shuffl.isRelativeUri(cardloc)) {
-        shuffl.saveCard(atompub, feedpath, cardloc, card, callback);
+    if (shuffl.isRelativeUri(cardref)) {
+        shuffl.saveCard(atompub, feedpath, cardref, card, callback);
     } else {
         callback(null);
     }
@@ -160,7 +160,7 @@ shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
             var cardlayout =
                 { 'id':     card.data('shuffl:id')
                 , 'class':  card.data('shuffl:class')
-                , 'data':   card.data('shuffl:location')
+                , 'data':   card.data('shuffl:dataref')
                 , 'pos':    card.position()
                 };
             layout.push(cardlayout);
@@ -288,9 +288,12 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, wsname, callback) {
         //log.debug("shuffl.saveNewWorkspace:saveCard: "+card.id);
         var saveSaveLoc = function(ret) {
             // Update card location with result from saveRelativeCard
+            // See: http://code.google.com/p/shuffl/wiki/CardReadWriteOptions
             //log.debug("shuffl.saveNewWorkspace:saveCard:saveSaveLoc: "+ret);
-            // shuffl:edituri is used later for card location in layout
-            card.data('shuffl:edituri', ret);
+            card.data('shuffl:dataref', shuffl.uriName(ret));
+            card.data('shuffl:datauri', ret);
+            card.data('shuffl:dataRW',  true);
+            card.data('shuffl:datamod', false);
             next(card);
         };
         shuffl.saveRelativeCard(atompub, feedpath, card, saveSaveLoc);
