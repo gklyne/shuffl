@@ -29,6 +29,7 @@ I read recently:
 
  * Card plug-in architecture allows framework to grow in response to new requirements
  * Possible framework for rapid UI development for other web applications (e.g. Simal use-case).
+ * Alternative, more flexible interface to faceted browsers?
 
 = Threats =
 
