@@ -206,22 +206,34 @@ TestCardHandlers = function() {
         function () {
             log.debug("test shuffl.lineEditable");
             var d = jQuery("<div><span class='edit'>Some text</span></div>");
+            d.data('shuffl:datamod', false);
+            equals(d.data('shuffl:datamod'), false, "shuffl:datamod");
             var e = d.find(".edit");
-            shuffl.lineEditable(e);
+            shuffl.lineEditable(d, e);
             log.debug("- lineEditable: "+shuffl.elemString(e[0]));
             e.trigger('dblclick');
             log.debug("- dblclicked: "+shuffl.elemString(e[0]));
-            var i = e.find("IMPUT");
+            var i = e.find("INPUT");
             var b = e.find("BUTTON[type='submit']");
             // These tests are ad hoc - enough to show the editable control 
             // has been activated, but not to prove it's working as expected.
             equals(i.text(), "", "Input text");
+            equals(i.attr('value'), "Some text", "Input text");
             equals(b.text(), "OK", "OK button label");
-            //log.debug("- OK button: "+shuffl.elemString(b[0]));
+            i.attr('value', "New text");
+            equals(i.attr('value'), "New text", "New input text");
+            log.debug("- OK button: "+shuffl.elemString(b[0]));
+            // I can't get these tests to work - why?
             //b.trigger('click');
             //b.trigger('click');
             //e.trigger('blur');
             //log.debug("- OK clicked: "+shuffl.elemString(e[0]));
+            //jQuery.timer(200, function () {
+            //    log.debug("- test shuffl:datamod: "+d.data('shuffl:datamod'));
+            //    equals(d.data('shuffl:datamod'), true, "shuffl:datamod");
+            //    start();
+            //});
+            //stop();
             //ok(false, "shuffl.lineEditable");
         });
 
@@ -230,11 +242,11 @@ TestCardHandlers = function() {
             log.debug("test shuffl.blockEditable");
             var d = jQuery("<div><span class='edit'>Some text<br/>more text</span></div>");
             var e = d.find(".edit");
-            shuffl.blockEditable(e);
+            shuffl.blockEditable(d, e);
             log.debug("- blockEditable: "+shuffl.elemString(e[0]));
             e.trigger('dblclick');
             log.debug("- dblclicked: "+shuffl.elemString(e[0]));
-            var i = e.find("IMPUT");
+            var i = e.find("INPUT");
             var b = e.find("BUTTON[type='submit']");
             equals(i.text(), "", "Input text");
             equals(b.text(), "OK", "OK button label");

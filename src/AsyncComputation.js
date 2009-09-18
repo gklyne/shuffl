@@ -35,7 +35,7 @@ shuffl.AsyncComputation.prototype.eval = function(fn) {
  * sequence.
  */
 shuffl.AsyncComputation.prototype.exec = function(val, callback) {
-    log.debug("shuffl.AsyncComputation.exec");
+    //log.debug("shuffl.AsyncComputation.exec");
     // Local function handles threading of asynchronous functions
     function eval_do(here, next, val) {
         function eval_done(val) {
@@ -46,7 +46,7 @@ shuffl.AsyncComputation.prototype.exec = function(val, callback) {
     // Local function returns callback chain-breaker 
     function eval_cb(here, callback) {
         function eval_chain_breaker(val, callback_ignored) {
-            log.debug("shuffl.AsyncComputation: eval_chain_breaker "+val);
+            //log.debug("shuffl.AsyncComputation: eval_chain_breaker "+val);
             callback.call(here.data, val);
         }
         return eval_chain_breaker; 
@@ -65,7 +65,7 @@ shuffl.AsyncComputation.prototype.bind = function(name) {
     // TODO: add diagnostic logic to detect multipleminvocations of callback
     function assign_fn(name) {
         function assign_do(val, callback) {
-            log.debug("shuffl.AsyncComputation.bind "+name+" to "+val);
+            //log.debug("shuffl.AsyncComputation.bind "+name+" to "+val);
             this[name] = val;
             callback(val);
         }

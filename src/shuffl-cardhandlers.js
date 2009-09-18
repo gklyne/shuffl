@@ -116,9 +116,9 @@ shuffl.makeDefaultCard = function (cardtype, cardcss, cardid, carddata) {
     card.find("cident").text(cardid);
     card.find("cclass").text(cardtype);
     card.find("ctitle").text(cardtitle);
-    shuffl.lineEditable(card.find("ctitle"));
+    shuffl.lineEditable(card, card.find("ctitle"));
     card.find("ctags").text(cardtags.join(","));
-    shuffl.lineEditable(card.find("ctags"));
+    shuffl.lineEditable(card, card.find("ctags"));
     return card;
 };
 
@@ -331,6 +331,25 @@ shuffl.createDataFromCard = function (card) {
 // ----------------------------------------------------------------
 
 /**
+ * Compose a supplied completion function with logic to flag a card as 
+ * having been modified.
+ * 
+ * cf. http://code.google.com/p/shuffl/wiki/CardReadWriteOptions
+ * 
+ * @param card      jQuery card object to be flagged as modified.
+ * @param fn        completion function to be called to process result
+ *                  values before they are used to update the card content.
+ */
+shuffl.modifiedCard = function(card, fn) {
+    function editDone() {
+        log.debug("shuffl.midifiedCard:editDone");
+        card.data('shuffl:datamod', true);
+        return fn.apply(this, arguments);
+    };
+    return editDone;
+}
+
+/**
  * Function called before a text element is edited with a copy of the text,
  * and returning a modified version.  In this case, the raw text is extracted.
  */
@@ -361,8 +380,8 @@ shuffl.passEditText = function(value, settings) {
  * 
  * See: http://www.appelsiini.net/projects/jeditable
  */
-shuffl.lineEditable = function (field) {
-    field.editable(shuffl.passEditText, 
+shuffl.lineEditable = function (card, field) {
+    field.editable(shuffl.modifiedCard(card, shuffl.passEditText), 
         { data: shuffl.passEditText
         , onblur: 'submit'
         //, tooltip: 'Click to edit...'
@@ -381,8 +400,8 @@ shuffl.lineEditable = function (field) {
  * 
  * See: http://www.appelsiini.net/projects/jeditable
  */
-shuffl.blockEditable = function (field) {
-    field.editable(shuffl.doneEditText, 
+shuffl.blockEditable = function (card, field) {
+    field.editable(shuffl.modifiedCard(card, shuffl.doneEditText), 
         { data: shuffl.initEditText
         , type: 'textarea'
         , onblur: 'submit'
