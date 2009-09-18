@@ -31,15 +31,15 @@ Currently, there is no option in this design to save a copy of a card loaded fro
 
 Table entries show the state of each parameter following the indicated operation.  "-" indicates no change. 
 
-|| *Operation*      || *rel/abs* || *dataref*           || *datauri*                 || *datamod*  || *dataRW* ||
+|| *Operation*      || *rel/abs* || *shuffl:dataref* || *shuffl:datauri* || *shuffl:datamod* || *shuffl:dataRW* ||
 || Drop new card || rel             || Construct from card Id || undefined || true             || true ||
 || Read card         || -               || ref                       || As used for GET    || false            || (per source) ||
 || Save new card  || rel             || POST response || POST response      || false            || true ||
 || Update card     || -                || -                         || -                              || false            || -     ||
 || Edit card           || -               || -                          || -                              || true             || -     ||
 
-New cards are distinguished by an undefined datauri value.
+New cards are distinguished by an undefined *shuffl:datauri* value.
 
-Relative/absolute state is determined by examination of the dataref value.
+Relative/absolute state is determined by examination of the *shuffl:dataref* value.
 
 Card editing operations are not enabled for cards loaded from a read-only source. Use *Save new...* to create an editable copy if relatively referenced.
