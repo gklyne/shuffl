@@ -125,9 +125,7 @@ shuffl.saveCard = function(atompub, feedpath, cardref, card, callback) {
 shuffl.saveRelativeCard = function(atompub, feedpath, card, callback) {
     var cardid    = card.data('shuffl:id');
     var cardref   = card.data('shuffl:dataref');
-    log.debug("shuffl.saveRelativeCard: "+
-        cardid+", cardref: "+cardref+", atompub: "+
-        atompub+", feedpath: "+feedpath);
+    //log.debug("shuffl.saveRelativeCard: "+cardid+", cardref: "+cardref+", atompub: "+atompub+", feedpath: "+feedpath);
     if (shuffl.isRelativeUri(cardref)) {
         shuffl.saveCard(atompub, feedpath, cardref, card, callback);
     } else {
@@ -221,10 +219,12 @@ shuffl.processWorkspaceCards = function(firstval, firstcall, proccard, thencall)
  * to save the card details into the jQuery card object.
  * 
  * @param card      is the jQuery card object to be updated
+ * @param next      callback function to invoke when the results from card 
+ *                  creation have been saved.
  * @return          a function that is used as a callback with shuffl.saveCard
  *                  or shuffl.saveRelativeCard.
  */
-shuffl.saveNewCardDetails = function (card) {
+shuffl.saveNewCardDetails = function (card, next) {
     var saveDetails = function(ret) {
         // Update card location with result from shuffl.saveCard
         // See: http://code.google.com/p/shuffl/wiki/CardReadWriteOptions
@@ -308,17 +308,8 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, wsname, callback) {
     // Helper function to save card then invoke the next step
     var localSaveCard = function(card, next) {
         //log.debug("shuffl.saveNewWorkspace:saveCard: "+card.id);
-        var saveSaveLoc = function(ret) {
-            // Update card location with result from saveRelativeCard
-            // See: http://code.google.com/p/shuffl/wiki/CardReadWriteOptions
-            //log.debug("shuffl.saveNewWorkspace:saveCard:saveSaveLoc: "+ret);
-            card.data('shuffl:dataref', shuffl.uriName(ret));
-            card.data('shuffl:datauri', ret);
-            card.data('shuffl:dataRW',  true);
-            card.data('shuffl:datamod', false);
-            next(card);
-        };
-        shuffl.saveRelativeCard(atompub, feedpath, card, saveSaveLoc);
+        shuffl.saveRelativeCard(
+            atompub, feedpath, card, shuffl.saveNewCardDetails(card, next));
     };
 
     // Save all cards in the workspace
@@ -352,7 +343,6 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, wsname, callback) {
 
     // Initiate workspace save now
     saveWorkspaceCards(saveWorkspaceDescription);
-
     log.debug("shuffl.saveNewWorkspace, returning.");
 };
 
@@ -412,19 +402,14 @@ shuffl.updateWorkspace = function (callback) {
     // Helper function to update card then invoke the next step
     var localUpdateCard = function(card, next) {
         //log.debug("shuffl.updateWorkspace:localUpdateCard: "+card.id);
-        var saveSaveLoc = function(ret) {
-            // Update card location with result from saveRelativeCard
-            // See: http://code.google.com/p/shuffl/wiki/CardReadWriteOptions
-            //log.debug("shuffl.saveNewWorkspace:saveCard:saveSaveLoc: "+ret);
-            card.data('shuffl:dataref', shuffl.uriName(ret));
-            card.data('shuffl:datauri', ret);
-            card.data('shuffl:dataRW',  true);
-            card.data('shuffl:datamod', false);
-            next(card);
+        if (card.data('shuffl:datauri') == null) {
+            shuffl.saveRelativeCard(atompub, feedpath, card, 
+                shuffl.saveNewCardDetails(card, next));
+        } else if (card.data('shuffl:datamod')) {
+            shuffl.updateCard(atompub, feedpath, card, next);
+        } else {
+            next({});   // Nod modified: skip this card, invoke callback
         };
-        //if (card.data('shuffl:datauri') != null)
-        //shuffl.saveRelativeCard(atompub, feedpath, card, saveSaveLoc);
-        shuffl.updateCard(atompub, feedpath, card, next);
     };
 
     // Update all cards in workspace

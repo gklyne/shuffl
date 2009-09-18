@@ -517,6 +517,7 @@ TestSaveWorkspace = function() {
             // Update and move card in workspace
             c3.find("ctitle").text("Card 3 updated and moved");
             c3.css({left:20, top:10});
+            c3.data('shuffl:datamod', true);    // Note card has been updated
             // Save workspace
             log.debug("Save workspace with updated and moved card");
             shuffl.updateWorkspace(callback);
