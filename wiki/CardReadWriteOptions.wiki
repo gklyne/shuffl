@@ -38,4 +38,4 @@ Table entries show the state of as parameter following the indicated operation. 
 || Update card     || -                || -                         || -                         || Unchanged  || -     ||
 || Edit card           || -               || -                          || -                         || Changed     || -     ||
 
-Card editing operations are not enabled for cards loaded from a read-only source.
+Card editing operations are not enabled for cards loaded from a read-only source. Use *Save new...* to create an editable copy if relatively referenced.
