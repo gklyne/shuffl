@@ -31,11 +31,11 @@ Currently, there is no option in this design to save a copy of a card loaded fro
 
 Table entries show the state of as parameter following the indicated operation.  "-" indicates no change. 
 
-|| *Operation*      || *rel/abs* || *reference*       || *URI*                   || *card status*  || *RW/RO* ||
-|| Drop new card || rel             || Construct from card Id || None    || New             || RW ||
-|| Read card         || -               || ref                       || used for GET     || Unchanged || per source ||
-|| Save new card  || rel             || POST response || POST response || Unchanged || RW ||
-|| Update card     || -                || -                         || -                         || Unchanged  || -     ||
-|| Edit card           || -               || -                          || -                         || Changed     || -     ||
+|| *Operation*      || *rel/abs* || *reference*       || *URI*                    || *card status*  || *RW/RO* ||
+|| Drop new card || rel             || Construct from card Id || None      || New             || RW ||
+|| Read card         || -               || ref                       || As used for GET || Unchanged || per source ||
+|| Save new card  || rel             || POST response || POST response   || Unchanged || RW ||
+|| Update card     || -                || -                         || -                           || Unchanged  || -     ||
+|| Edit card           || -               || -                          || -                           || Changed     || -     ||
 
 Card editing operations are not enabled for cards loaded from a read-only source. Use *Save new...* to create an editable copy if relatively referenced.
