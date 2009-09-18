@@ -16,8 +16,8 @@ There's also some discussion here:
  * http://groups.google.com/group/jquery-dev/browse_thread/thread/40befb9c680335a8
  * http://groups.google.com/group/sizzlejs/browse_thread/thread/48ef43723989de57
 
-= AtomPub feed browsing =
+= !AtomPub feed browsing =
 
-Using eXist, I've been unable to implement AtomPub feed browsing, which means the workspace load/save user interface is less friendly than it might be.
+Using eXist, I've been unable to implement !AtomPub feed browsing, which means the workspace load/save user interface is less friendly than it might be.
 
  
