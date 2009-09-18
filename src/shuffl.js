@@ -133,13 +133,11 @@ shuffl.menuSaveNewWorkspace = function () {
 jQuery(document).ready(function() {
 
     log.info("shuffl starting");
-       
+
     /**
      * Attach card-creation functions to stockpile cards
      */    
-
-    log.debug("shuffl: attach card-creation functions to stockpile (TODO: allow function selection by stockpile definition)");
-
+    log.debug("shuffl: attach card-creation functions to stockpile");
     jQuery("div.shuffl-stockpile").data( 'makeCard', shuffl.createCardFromStock);
 
     /**

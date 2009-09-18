@@ -233,8 +233,13 @@ shuffl.createCardFromStock = function (stockpile) {
     var cardid = shuffl.makeId(shuffl.idpref);
     // log.debug("cardclass '"+cardclass+"'");
     var newcard = shuffl.getCardFactory(cardtype)(cardid, {});
+    // Initialize card workspace parameters
+    // See: http://code.google.com/p/shuffl/wiki/CardReadWriteOptions
     // Use id of new card as hint for file name
-    newcard.data('shuffl:location', cardid+".json");
+    newcard.data('shuffl:dataref', cardid+".json");
+    newcard.data('shuffl:datauri', undefined);
+    newcard.data('shuffl:dataRW',  true);
+    newcard.data('shuffl:datamod', true);
     // Instantiate external data values
     var extdata = {};
     jQuery.extend(true, extdata, shuffl.ExternalCardData);  // Deep copy..
@@ -250,11 +255,10 @@ shuffl.createCardFromStock = function (stockpile) {
  * Note: layout provides default values for card id and class; the primary 
  * source is the card data.
  * 
- * Note: the supplied card data may be initialized with location data 
- * (e.g. from readCard); if not then this functriuon provides a default
- * value based on the card id.
+ * Note: the supplied card data is assumed to be initialized with data
+ * reference, data URI and data writeable values.
  * 
- * @param cardid    a URI reference for the new card identifier
+ * @param cardid    the new card identifier
  * @param cardclass a card class (factory type, not CSS class) for the new card
  * @param origdata  structure indicating attributes of the card, as well as
  *                  card-type-dependent data values.
@@ -268,12 +272,12 @@ shuffl.createCardFromData = function (cardid, cardclass, origdata) {
     // Create card using card factory
     //log.debug("shuffl.createCardFromData, cardid: "+cardid+", cardclass: "+cardclass);
     var newcard   = shuffl.getCardFactory(cardclass)(cardid, carddata);
-    // If no location defined, use id of new card as hint for file name
-    ////if (newcard.data('shuffl:location') == undefined) {
-    ////    newcard.data('shuffl:location', cardid+".json");
-    ////};
-    newcard.data('shuffl:location', copydata['shuffl:location']);
-    newcard.data('shuffl:edituri',  copydata['shuffl:edituri']);
+    // Initialize card workspace parameters
+    // See: http://code.google.com/p/shuffl/wiki/CardReadWriteOptions
+    newcard.data('shuffl:dataref', copydata['shuffl:dataref']);
+    newcard.data('shuffl:datauri', copydata['shuffl:datauri']);
+    newcard.data('shuffl:dataRW',  copydata['shuffl:dataRW']);
+    newcard.data('shuffl:datamod', false);
     // Save full copy of external data in jQuery card object
     newcard.data('shuffl:external', copydata);
     return newcard;

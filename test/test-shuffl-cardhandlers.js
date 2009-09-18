@@ -11,7 +11,9 @@ var testcardhandlers_carddata =
     { 'shuffl:id':        'card_id'
     , 'shuffl:class':     'test-type'
     , 'shuffl:version':   '0.1'
-    , 'shuffl:location':  'http://localhost:8080/.../card_1'
+    , 'shuffl:dataref':   "card_id.json"
+    , 'shuffl:datauri':   "http://example.com/path/card_id.json"
+    , 'shuffl:dataRW':    true
     , 'shuffl:base-uri':  '#'
     , 'shuffl:uses-prefixes':
       [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
@@ -109,6 +111,10 @@ TestCardHandlers = function() {
             equals(c.find("ctags").text(),  card_id+",test-type", "card tags field");
             // Check saved card data
             var d = testcardhandlers_carddata;
+            equals(c.data('shuffl:dataref'), card_id+".json", "card shuffl:dataref");          
+            equals(c.data('shuffl:datauri'), undefined,       "card shuffl:datauri");          
+            equals(c.data('shuffl:dataRW'),  true,            "card shuffl:dataRW");          
+            equals(c.data('shuffl:datamod'), true,            "card shuffl:datamod");          
             equals(c.data('shuffl:id'),    card_id, "layout card id");
             equals(c.data('shuffl:class'), "test-type", "layout card class");
             equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
@@ -132,6 +138,13 @@ TestCardHandlers = function() {
             equals(c.find("cclass").text(), "test-type", "card class field");
             equals(c.find("ctitle").text(), "Card 1 title", "card title field");
             equals(c.find("ctags").text(),  "card_1_tag,footag", "card tags field");
+            // Check card data
+            equals(c.data('shuffl:id'),      "cardfromdata_id", "layout card id");
+            equals(c.data('shuffl:class'),   "test-type",       "layout card class");
+            equals(c.data('shuffl:dataref'), "card_id.json",    "card shuffl:dataref");          
+            equals(c.data('shuffl:datauri'), "http://example.com/path/card_id.json", "card shuffl:datauri");          
+            equals(c.data('shuffl:datamod'), false,     "card shuffl:datamod");          
+            equals(c.data('shuffl:dataRW'),  true,      "card shuffl:dataRW");          
             same(c.data('shuffl:external'), d, "card data");
         });
 
@@ -151,8 +164,12 @@ TestCardHandlers = function() {
             equals(c.find("ctitle").text(), "Card 1 title", "card title field");
             equals(c.find("ctags").text(),  "card_1_tag,footag", "card tags field");
             // Check layout details
-            equals(c.data('shuffl:id'),    "card_id",   "layout card id");
-            equals(c.data('shuffl:class'), "test-type", "layout card class");
+            equals(c.data('shuffl:id'),      "card_id",   "layout card id");
+            equals(c.data('shuffl:class'),   "test-type", "layout card class");
+            equals(c.data('shuffl:dataref'), "card_id.json", "card shuffl:dataref");          
+            equals(c.data('shuffl:datauri'), "http://example.com/path/card_id.json", "card shuffl:datauri");          
+            equals(c.data('shuffl:datamod'), false,     "card shuffl:datamod");          
+            equals(c.data('shuffl:dataRW'),  true,      "card shuffl:dataRW");          
             same(c.data('shuffl:external'), d, "card data");
             var p = c.position();
             equals(Math.floor(p.left), 100, "position-left");
