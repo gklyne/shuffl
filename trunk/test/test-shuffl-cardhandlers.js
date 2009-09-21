@@ -36,6 +36,44 @@ var testlayoutdata =
     , 'pos':    {left:100, top:30}
     };
 
+var testlayoutdatasized = 
+    { 'id':     'layout_1'
+    , 'class':  'layout-class'
+    , 'data':   'shuffl_sample_2_card_1.json'
+    , 'pos':    {left:100, top:30}
+    , 'size':   {width:333, height:222}
+    };
+
+var testwsdata =
+    { 'shuffl:id':        'test-shuffl-saveworkspace-layout'
+    , 'shuffl:class':     'shuffl:workspace'
+    , 'shuffl:version':   '0.1'
+    , 'shuffl:atomuri':   'http://localhost:8080/exist/atom/'
+    , 'shuffl:feeduri':   'http://localhost:8080/exist/atom/edit/shuffltest1/'
+    , 'shuffl:base-uri':  '#'
+    , 'shuffl:uses-prefixes':
+      [ { 'shuffl:prefix':  'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
+      , { 'shuffl:prefix':  'rdf',     'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
+      , { 'shuffl:prefix':  'rdfs',    'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
+      , { 'shuffl:prefix':  'owl',     'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
+      , { 'shuffl:prefix':  'xsd',     'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
+      ]
+    , 'shuffl:workspace':
+      { 'shuffl:stockbar':
+          [ { 'id': 'stockpile_1', 'class': 'stock-yellow',  'label': 'Ye', 'type': 'shuffl-freetext-yellow'  }
+          , { 'id': 'stockpile_2', 'class': 'stock-blue',    'label': 'Bl', 'type': 'shuffl-freetext-blue'    }
+          , { 'id': 'stockpile_3', 'class': 'stock-green',   'label': 'Gr', 'type': 'shuffl-freetext-green'   }
+          , { 'id': 'stockpile_4', 'class': 'stock-orange',  'label': 'Or', 'type': 'shuffl-freetext-orange'  }
+          , { 'id': 'stockpile_5', 'class': 'stock-pink',    'label': 'Pi', 'type': 'shuffl-freetext-pink'    }
+          , { 'id': 'stockpile_6', 'class': 'stock-purple',  'label': 'Pu', 'type': 'shuffl-freetext-purple'  }
+          ]
+      , 'shuffl:layout':
+          [ testlayoutdata
+          , testlayoutdatasized
+          ]
+      }
+    };
+    
 /**
  * Function to register tests
  */
@@ -47,6 +85,7 @@ TestCardHandlers = function() {
     test("shuffl.addCardFactory",
         function () {
             log.debug("test shuffl.addCardFactory");
+            expect(1);
     		shuffl.addCardFactory("test-type", "test-css", shuffl.makeDefaultCard);
     		equals(shuffl.CardFactoryMap['test-type'].cardcss, "test-css", "CardFactoryMap with test entry");
         });
@@ -54,6 +93,7 @@ TestCardHandlers = function() {
     test("shuffl.getCardFactory",
         function () {
             log.debug("test shuffl.getCardFactory");
+            expect(2);
     		var c1 = shuffl.getCardFactory("test-type");
     		equals(typeof c1, "function", "retrieved factory");
     		var c2 = shuffl.getCardFactory("default-type");
@@ -63,6 +103,7 @@ TestCardHandlers = function() {
     test("shuffl.makeDefaultCard",
         function () {
             log.debug("test shuffl.makeDefaultCard");
+            expect(7);
             var css = 'stock-default';
     		var c   = shuffl.makeDefaultCard("card-type", css, "card-id",
     			{ 'shuffl:tags': 	["card-tag"]
@@ -80,6 +121,7 @@ TestCardHandlers = function() {
     test("shuffl.createStockpile",
         function () {
             log.debug("test shuffl.createStockpile");
+            expect(7);
             equals(jQuery('#stockbar').children().length, 1, "old stockbar content");
             // Note: type 'test-type' matches factory added earlier
     		var s = shuffl.createStockpile(
@@ -95,6 +137,7 @@ TestCardHandlers = function() {
     test("shuffl.createCardFromStock",
         function () {
             log.debug("test shuffl.createCardFromStock");
+            expect(20);
             // Note: type 'test-type' matches factory added earlier
 			var s = shuffl.createStockpile(
 			    "stock_id", "stock-class", "stock-label", "test-type");
@@ -128,6 +171,7 @@ TestCardHandlers = function() {
     test("shuffl.createCardFromData",
         function () {
             log.debug("test shuffl.createCardFromData");
+            expect(14);
             var d = testcardhandlers_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "test-type", d);
             // Check card details
@@ -151,6 +195,7 @@ TestCardHandlers = function() {
     test("shuffl.placeCardFromData",
         function () {
             log.debug("test shuffl.placeCardFromData");
+            expect(19);
             var l = testlayoutdata;
             var d = testcardhandlers_carddata;
             shuffl.placeCardFromData(l, d);
@@ -174,12 +219,15 @@ TestCardHandlers = function() {
             var p = c.position();
             equals(Math.floor(p.left), 100, "position-left");
             equals(Math.floor(p.top),  30,  "position-top");
+            equals(Math.floor(c.width()), 267, "width");
+            equals(Math.floor(c.height()), 133,  "height");
             equals(c.css("zIndex"), "11", "card zIndex");
         });
 
     test("shuffl.createDataFromCard",
         function () {
             log.debug("test shuffl.createDataFromCard");
+            expect(15);
             // Create card (copy of code already tested)
             var d = testcardhandlers_carddata;
             equals(d['shuffl:id'], 'card_id', 'd:card-id (1)');
@@ -202,9 +250,42 @@ TestCardHandlers = function() {
             equals(e['shuffl:data']['shuffl:text'],  undefined,        'shuffl:data-text');
         });
 
+    test("shuffl.placeCardFromDataSized",
+        function () {
+            log.debug("test shuffl.placeCardFromDataSized");
+            expect(19);
+            var l = testlayoutdatasized;
+            var d = testcardhandlers_carddata;
+            shuffl.placeCardFromData(l, d);
+            var c = jQuery("#card_id");
+            // Check card details
+            equals(c.attr('id'), "card_id", "card id attribute");
+            ok(c.hasClass('shuffl-card'),   "shuffl card class");
+            ok(c.hasClass('test-css'),      "CSS class");
+            equals(c.find("cident").text(), "card_id", "card id field");
+            equals(c.find("cclass").text(), "test-type", "card class field");
+            equals(c.find("ctitle").text(), "Card 1 title", "card title field");
+            equals(c.find("ctags").text(),  "card_1_tag,footag", "card tags field");
+            // Check layout details
+            equals(c.data('shuffl:id'),      "card_id",   "layout card id");
+            equals(c.data('shuffl:class'),   "test-type", "layout card class");
+            equals(c.data('shuffl:dataref'), "card_id.json", "card shuffl:dataref");          
+            equals(c.data('shuffl:datauri'), "http://example.com/path/card_id.json", "card shuffl:datauri");          
+            equals(c.data('shuffl:datamod'), false,     "card shuffl:datamod");          
+            equals(c.data('shuffl:dataRW'),  true,      "card shuffl:dataRW");          
+            same(c.data('shuffl:external'), d, "card data");
+            var p = c.position();
+            equals(Math.floor(p.left), 100, "position-left");
+            equals(Math.floor(p.top),  30,  "position-top");
+            equals(Math.floor(c.width()), 333, "width");
+            equals(Math.floor(c.height()), 222,  "height");
+            equals(c.css("zIndex"), "11", "card zIndex");
+        });
+    
     test("shuffl.lineEditable",
         function () {
             log.debug("test shuffl.lineEditable");
+            expect(5);
             var d = jQuery("<div><span class='edit'>Some text</span></div>");
             d.data('shuffl:datamod', false);
             equals(d.data('shuffl:datamod'), false, "shuffl:datamod");
@@ -240,6 +321,7 @@ TestCardHandlers = function() {
     test("shuffl.blockEditable",
         function () {
             log.debug("test shuffl.blockEditable");
+            expect(2);
             var d = jQuery("<div><span class='edit'>Some text<br/>more text</span></div>");
             var e = d.find(".edit");
             shuffl.blockEditable(d, e);
@@ -255,9 +337,10 @@ TestCardHandlers = function() {
     test("shuffl.placeCard",
         function () {
             log.debug("test shuffl.placeCard");
+            expect(15);
             var d = testcardhandlers_carddata;
             var card = shuffl.createCardFromData("placecard_id", "test-type", d);
-            shuffl.placeCard(jQuery('#layout'), card, {left:22, top:12});
+            shuffl.placeCard(jQuery('#layout'), card, {left:22, top:12}, {width:303, height:202});
             var c = jQuery("#placecard_id");
             // Check card details
             equals(c.attr('id'),            "placecard_id", "card id attribute");
@@ -274,12 +357,15 @@ TestCardHandlers = function() {
             var p = c.position();
             equals(Math.floor(p.left), 22, "position-left");
             equals(Math.floor(p.top),  12,  "position-top");
+            equals(Math.floor(c.width()), 303, "width");
+            equals(Math.floor(c.height()), 202,  "height");
             equals(c.css("zIndex"), "11", "card zIndex");
         });
 
     test("shuffl.dropCard",
         function () {
             log.debug("test shuffl.dropCard");
+            expect(18);
             var s = shuffl.createStockpile(
                 "stock_id", "stock-class", "stock-label", "test-type");
             var droppos = {left:23, top:13};
