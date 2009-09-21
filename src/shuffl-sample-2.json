@@ -22,12 +22,12 @@
       , { 'id': 'stockpile_6', 'class': 'stock-purple',  'label': 'Abc..', 'type': 'shuffl-freetext-purple'  }
       ]
   , 'shuffl:layout':
-      [ { 'id': 'card_1', 'class': 'stock_1', 'data': 'shuffl_sample_2_card_1.json', 'pos': {left:100, top:30}  }
-      , { 'id': 'card_2', 'class': 'stock_2', 'data': 'shuffl_sample_2_card_2.json', 'pos': {left:150, top:60}  }
-      , { 'id': 'card_3', 'class': 'stock_3', 'data': 'shuffl_sample_2_card_3.json', 'pos': {left:200, top:90}  }
-      , { 'id': 'card_4', 'class': 'stock_4', 'data': 'shuffl_sample_2_card_4.json', 'pos': {left:250, top:120} }
-      , { 'id': 'card_5', 'class': 'stock_5', 'data': 'shuffl_sample_2_card_5.json', 'pos': {left:300, top:150} }
-      , { 'id': 'card_6', 'class': 'stock_6', 'data': 'shuffl_sample_2_card_6.json', 'pos': {left:350, top:180} }
+      [ { 'id': 'card_1', 'class': 'stock_1', 'data': 'shuffl_sample_2_card_1.json', 'pos': {left:100, top:30},  'size':{height:0, width:0} }
+      , { 'id': 'card_2', 'class': 'stock_2', 'data': 'shuffl_sample_2_card_2.json', 'pos': {left:150, top:60},  'size':{height:0, width:0} }
+      , { 'id': 'card_3', 'class': 'stock_3', 'data': 'shuffl_sample_2_card_3.json', 'pos': {left:200, top:90},  'size':{height:0, width:0} }
+      , { 'id': 'card_4', 'class': 'stock_4', 'data': 'shuffl_sample_2_card_4.json', 'pos': {left:250, top:120}, 'size':{height:0, width:0} }
+      , { 'id': 'card_5', 'class': 'stock_5', 'data': 'shuffl_sample_2_card_5.json', 'pos': {left:300, top:150}, 'size':{height:0, width:0} }
+      , { 'id': 'card_6', 'class': 'stock_6', 'data': 'shuffl_sample_2_card_6.json', 'pos': {left:350, top:180}, 'size':{height:0, width:0} }
       ]
   }
 }

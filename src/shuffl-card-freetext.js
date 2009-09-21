@@ -93,16 +93,10 @@ shuffl.makeFreetextCard = function (cardtype, cardcss, cardid, carddata) {
     card.find("ctags").text(cardtags.join(","));
     shuffl.lineEditable(card, card.find("ctags"));    // Set card tags (editable) ..
     //log.debug("makeCard: "+shuffl.elemString(card[0]));
-    card.resizable( {alsoResize: 'div#'+cardid+' cbody'} );
-    //
-    //ÊNote: 'ghost' and 'alsoResize' seem to conflict
-    // card.resizable( {ghost: true} );
-    //
-    // TODO: rather than alsoResize, try to use resize event to resize the 
-    //       card body area.  Then we can also save the size and restore it 
-    //       on reload.  Or test to see if we can manually change the size of 
-    //       a resizable.
-    //
+    //card.resizable( {alsoResize: 'div#'+cardid+' cbody'} );
+    //card.resizable( {resize: shuffl.resizeAlso(card, "cbody")} );
+    card.data("resizeElem", "cbody");
+    card.resizable();
     return card;
 };
 

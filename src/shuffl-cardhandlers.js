@@ -306,7 +306,9 @@ shuffl.placeCardFromData = function (layout, data) {
     shuffl.loadId(cardid);
     //ÊPlace card on layout
     var cardpos = layout['pos'];
-    shuffl.placeCard(jQuery('#layout'), newcard, cardpos);
+    var cardsiz = layout['size'];
+    if (cardsiz == undefined) { cardsiz = shuffl.defaultSize; };
+    shuffl.placeCard(jQuery('#layout'), newcard, cardpos, cardsiz);
 };
 
 /**
@@ -419,20 +421,61 @@ shuffl.blockEditable = function (card, field) {
 // Card workspace placement support functions
 // ----------------------------------------------------------------
 
+shuffl.defaultSize = {width:0, height:0};
+
+/**
+ * Returns a function that catches a resize event to resize specified 
+ * sub-elements in sync with any changes the main card element.
+ * 
+ * @param card      card element jQuery object whose resize events are to 
+ *                  be tracked.
+ * @param selector  jQuery selector string for the sub-element to be resized 
+ *                  with changes to the card element.
+ * @return          a function that serves as a resize handler for 
+ */
+shuffl.resizeAlso = function (card, selector) {
+    //log.debug("shuffl.resizeAlso "+selector);
+    var origw = card.width();
+    var origh = card.height();
+    var elem  = card.find(selector);
+    var elemw = elem.width();
+    var elemh = elem.height();
+    //log.debug("- origw "+origw+", origh "+origh);
+    //log.debug("- elemw "+elemw+", elemh "+elemh);
+    var handleResize = function (event, ui) {
+        // Track changes in width and height
+        var c = jQuery(this);
+        elem.width(elemw+c.width()-origw);
+        elem.height(elemh+c.height()-origh);
+    };
+    return handleResize;
+};
+
 /**
  * Place card on the shuffl layout area
  * 
  * @param   layout  the layout area where the card will be placed
  * @param   card    the card to be placed
  * @param   pos     the position at which the card is to be placed
+ * @param   size    the size for the created card (zero dimensions leave the
+ *                  default values (e.g. from CSS) in effect).
  */
-shuffl.placeCard = function (layout, card, pos) {
+shuffl.placeCard = function (layout, card, pos, size) {
     layout.append(card);
+    var selector = card.data("resizeElem");
+    var resizefn = undefined;
+    if (selector != undefined) {
+        resizefn = shuffl.resizeAlso(card, selector);
+        card.bind('resize', resizefn);
+    };
     card.css(pos).css('position', 'absolute');
+    if (size.width > 0 || size.height > 0) {
+        if (size.width  > 0) { card.width(size.width); };
+        if (size.height > 0) { card.height(size.height); };
+        if (resizefn) { resizefn.call(card, null, null); };
+    };    
+    // Make card draggable and to front of display
     card.draggable(shuffl.cardDraggable);
-    // card.resizable({ghost: true, alsoResize: '#'+card.attr('id')+' cbody'});
-    //card.addClass("resizable ui-resizable")
-    //card.resizable();
     shuffl.toFront(card);
     // Click brings card back to top
     card.click( function () { shuffl.toFront(jQuery(this)); });
@@ -441,6 +484,13 @@ shuffl.placeCard = function (layout, card, pos) {
 
 /**
  * Create a new card where a stock pile has been dropped
+ * 
+ * @param frompile  the stock pile jQuery object from which a new card will
+ *                  be derived
+ * @param tolayout  the layout area jQuery obejct in which the new card will
+ *                  be displayed.
+ * @param pos       the position within the layout area where the new card 
+ *                  will be displayed
  */
 shuffl.dropCard = function(frompile, tolayout, pos) {
     log.debug("shuffl.dropCard: "+shuffl.objectString(pos));
@@ -449,7 +499,7 @@ shuffl.dropCard = function(frompile, tolayout, pos) {
     //ÊPlace card on layout
     pos = shuffl.positionRelative(pos, tolayout);
     pos = shuffl.positionRel(pos, { left:5, top:1 });   // TODO calculate this properly
-    shuffl.placeCard(tolayout, newcard, pos);
+    shuffl.placeCard(tolayout, newcard, pos, shuffl.defaultSize);
 };
 
 /**

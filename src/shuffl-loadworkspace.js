@@ -27,6 +27,7 @@
 shuffl.readCard = function (baseuri, dataref, callback) {
     log.debug("shuffl.readCard: "+baseuri+", "+dataref);
     var datauri = jQuery.uri(baseuri).resolve(dataref);
+    log.debug("- datauri "+datauri);
     jQuery.getJSON(datauri.toString(), function(data) {
         //log.debug("shuffl.readCard from: "+uri);
         //log.debug("- data: "+jQuery.toJSON(data));
@@ -90,7 +91,7 @@ shuffl.loadWorkspace = function(uri, callback) {
                 jQuery('#stockbar').append(shuffl.stockpile_space.clone()).append(stockpile);
             };
             // Load up card data
-            //log.debug("Loading layout");
+            log.debug("Loading layout");
             function readLayoutCard(layout) {
                 // Function creates closure with specific layout definition
                 return function(val, callback) {

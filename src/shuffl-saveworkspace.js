@@ -155,11 +155,13 @@ shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
     jQuery("div.shuffl-card").each(
         function (i) {
             var card = jQuery(this);
+            var size = {width:card.width(), height:card.height()} ;
             var cardlayout =
                 { 'id':     card.data('shuffl:id')
                 , 'class':  card.data('shuffl:class')
                 , 'data':   card.data('shuffl:dataref')
                 , 'pos':    card.position()
+                , 'size':   size
                 };
             layout.push(cardlayout);
         });
