@@ -42,36 +42,7 @@ var testlayoutdatasized =
     , 'data':   'shuffl_sample_2_card_1.json'
     , 'pos':    {left:100, top:30}
     , 'size':   {width:333, height:222}
-    };
-
-var testwsdata =
-    { 'shuffl:id':        'test-shuffl-saveworkspace-layout'
-    , 'shuffl:class':     'shuffl:workspace'
-    , 'shuffl:version':   '0.1'
-    , 'shuffl:atomuri':   'http://localhost:8080/exist/atom/'
-    , 'shuffl:feeduri':   'http://localhost:8080/exist/atom/edit/shuffltest1/'
-    , 'shuffl:base-uri':  '#'
-    , 'shuffl:uses-prefixes':
-      [ { 'shuffl:prefix':  'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
-      , { 'shuffl:prefix':  'rdf',     'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
-      , { 'shuffl:prefix':  'rdfs',    'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
-      , { 'shuffl:prefix':  'owl',     'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
-      , { 'shuffl:prefix':  'xsd',     'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
-      ]
-    , 'shuffl:workspace':
-      { 'shuffl:stockbar':
-          [ { 'id': 'stockpile_1', 'class': 'stock-yellow',  'label': 'Ye', 'type': 'shuffl-freetext-yellow'  }
-          , { 'id': 'stockpile_2', 'class': 'stock-blue',    'label': 'Bl', 'type': 'shuffl-freetext-blue'    }
-          , { 'id': 'stockpile_3', 'class': 'stock-green',   'label': 'Gr', 'type': 'shuffl-freetext-green'   }
-          , { 'id': 'stockpile_4', 'class': 'stock-orange',  'label': 'Or', 'type': 'shuffl-freetext-orange'  }
-          , { 'id': 'stockpile_5', 'class': 'stock-pink',    'label': 'Pi', 'type': 'shuffl-freetext-pink'    }
-          , { 'id': 'stockpile_6', 'class': 'stock-purple',  'label': 'Pu', 'type': 'shuffl-freetext-purple'  }
-          ]
-      , 'shuffl:layout':
-          [ testlayoutdata
-          , testlayoutdatasized
-          ]
-      }
+    , 'zindex': 14
     };
     
 /**
@@ -279,7 +250,7 @@ TestCardHandlers = function() {
             equals(Math.floor(p.top),  30,  "position-top");
             equals(Math.floor(c.width()), 333, "width");
             equals(Math.floor(c.height()), 222,  "height");
-            equals(c.css("zIndex"), "11", "card zIndex");
+            equals(c.css("zIndex"), "14", "card zIndex");
         });
     
     test("shuffl.lineEditable",

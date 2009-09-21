@@ -162,6 +162,7 @@ shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
                 , 'data':   card.data('shuffl:dataref')
                 , 'pos':    card.position()
                 , 'size':   size
+                , 'zindex': parseInt(card.css('zIndex'), 10)
                 };
             layout.push(cardlayout);
         });
