@@ -57,7 +57,7 @@ In preparing this plan, I found that I'd "lost" a few days in the original sprin
 
  * (1.0) complete static save of new workspace (*Save as...*), and implement load (*Open...*) to test this.
  * (0.5) implement resave of workspace (*Save*)
- * (1.0) implement on-the-fly saving of changes to card content, layout, etc
+ * (1.0) implement on-the-fly saving of changes to card content, layout, etc.  (*Defer this* - need to also think about handling of read-only workspaces, etc.)
  * (0.5) save card size as well as position
 
 == 3.3: Import CSV data as card collection ==
@@ -81,7 +81,9 @@ In preparing this plan, I found that I'd "lost" a few days in the original sprin
 
 = Sprint review notes =
 
-(TBD)
+There has been a fair distraction by non-project/admin activities.  Despite this, the workspace persistence work has proceeded reasonably well to plan.
+
+In activity 3.2 (initial persistence), I have decided to defer implementation of on-the-fly saving of changes to card content, layout, etc., as I also need to think about handling of read-only workspaces, etc.)
 
 == End-of-sprint review ==
 
@@ -95,3 +97,19 @@ Monday, 14 September, 2009
 
 Tuesday, 15 September, 2009
  * (0.4) continue work on !AtomPub and workspace persistence. Chased down several bugs exposed by a new test case. AtomPub continues to be fragile for this application.
+
+Wednesday, 16 September, 2009
+ * (0.2) sprint 4 plan
+ * (0.1) miscellaneous admin, reporting, etc.
+ * (0.4) unit tests for workspace persistence all pass; some code refactoring
+
+Thursday, 17 September, 2009
+ * (0.2) Email
+ * (0.6) Initial load/save of workspace to AtomPub is now working
+
+Friday, 18 September, 2009
+ * (0.2) Admin
+ * (0.5) Refactoring and *Save*: basic load/save/save new logic is working.
+
+
+
