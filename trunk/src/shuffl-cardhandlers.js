@@ -305,10 +305,9 @@ shuffl.placeCardFromData = function (layout, data) {
     var newcard = shuffl.createCardFromData(cardid, cardclass, data);
     shuffl.loadId(cardid);
     //ÊPlace card on layout
-    var cardpos = layout['pos'];
-    var cardsiz = layout['size'];
-    if (cardsiz == undefined) { cardsiz = shuffl.defaultSize; };
-    shuffl.placeCard(jQuery('#layout'), newcard, cardpos, cardsiz);
+    var cardsize = layout['size'] || shuffl.defaultSize;
+    shuffl.placeCard(jQuery('#layout'), newcard, 
+        layout['pos'], cardsize, layout['zindex']);
 };
 
 /**
@@ -454,13 +453,15 @@ shuffl.resizeAlso = function (card, selector) {
 /**
  * Place card on the shuffl layout area
  * 
- * @param   layout  the layout area where the card will be placed
- * @param   card    the card to be placed
- * @param   pos     the position at which the card is to be placed
- * @param   size    the size for the created card (zero dimensions leave the
+ * @param layout    the layout area where the card will be placed
+ * @param card      the card to be placed
+ * @param pos       the position at which the card is to be placed
+ * @param size      the size for the created card (zero dimensions leave the
  *                  default values (e.g. from CSS) in effect).
+ * @param zindex    the z-index for the created card; zero or undefined brings
+ *                  the new card to the top of the display stack.
  */
-shuffl.placeCard = function (layout, card, pos, size) {
+shuffl.placeCard = function (layout, card, pos, size, zindex) {
     layout.append(card);
     var resizefn = shuffl.resizeAlso(card, card.data("resizeAlso"));
     if (resizefn) { card.bind('resize', resizefn); };
@@ -472,7 +473,11 @@ shuffl.placeCard = function (layout, card, pos, size) {
     };    
     // Make card draggable and to front of display
     card.draggable(shuffl.cardDraggable);
-    shuffl.toFront(card);
+    if (zindex) {
+        card.css('zIndex', zindex)
+    } else {
+        shuffl.toFront(card);
+    };
     // Click brings card back to top
     card.click( function () { shuffl.toFront(jQuery(this)); });
     // TODO: Consider making card-sized drag
@@ -495,7 +500,7 @@ shuffl.dropCard = function(frompile, tolayout, pos) {
     //ÊPlace card on layout
     pos = shuffl.positionRelative(pos, tolayout);
     pos = shuffl.positionRel(pos, { left:5, top:1 });   // TODO calculate this properly
-    shuffl.placeCard(tolayout, newcard, pos, shuffl.defaultSize);
+    shuffl.placeCard(tolayout, newcard, pos, shuffl.defaultSize, 0);
 };
 
 /**

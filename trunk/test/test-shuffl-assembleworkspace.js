@@ -42,6 +42,7 @@ var testlayoutdatasized =
     , 'data':   'shuffl_sample_2_card_1.json'
     , 'pos':    {left:100, top:30}
     , 'size':   {width:333, height:222}
+    , 'zindex': 14
     };
 
 var testwsdata =
@@ -114,6 +115,8 @@ TestAssembleWorkspaceDescription = function() {
                 equals(Math.floor(p.top),  testlo[i]['pos'].top,    "position-top");
                 var testsize = testlo[i]['size'] || {width:267, height:133};
                 same(lo[i]['size'],    testsize,                    "shuffl:layout["+i+"].size");
+                var testzindex = testlo[i]['zindex'] || 11;
+                same(lo[i]['zindex'],  testzindex,                  "shuffl:layout["+i+"].zindex");
             };
         });
 
