@@ -95,7 +95,7 @@ shuffl.makeFreetextCard = function (cardtype, cardcss, cardid, carddata) {
     //log.debug("makeCard: "+shuffl.elemString(card[0]));
     //card.resizable( {alsoResize: 'div#'+cardid+' cbody'} );
     //card.resizable( {resize: shuffl.resizeAlso(card, "cbody")} );
-    card.data("resizeElem", "cbody");
+    card.data("resizeAlso", "cbody");
     card.resizable();
     return card;
 };
