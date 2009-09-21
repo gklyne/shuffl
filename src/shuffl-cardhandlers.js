@@ -431,22 +431,19 @@ shuffl.defaultSize = {width:0, height:0};
  *                  be tracked.
  * @param selector  jQuery selector string for the sub-element to be resized 
  *                  with changes to the card element.
- * @return          a function that serves as a resize handler for 
+ * @return          a function that serves as a resize handler for the
+ *                  selected sub-element.
  */
 shuffl.resizeAlso = function (card, selector) {
     //log.debug("shuffl.resizeAlso "+selector);
-    var origw = card.width();
-    var origh = card.height();
     var elem  = card.find(selector);
-    var elemw = elem.width();
-    var elemh = elem.height();
-    //log.debug("- origw "+origw+", origh "+origh);
-    //log.debug("- elemw "+elemw+", elemh "+elemh);
+    var dw = card.width() - elem.width();
+    var dh = card.height() - elem.height();
     var handleResize = function (event, ui) {
         // Track changes in width and height
         var c = jQuery(this);
-        elem.width(elemw+c.width()-origw);
-        elem.height(elemh+c.height()-origh);
+        elem.width(c.width()-dw);
+        elem.height(c.height()-dh);
     };
     return handleResize;
 };
