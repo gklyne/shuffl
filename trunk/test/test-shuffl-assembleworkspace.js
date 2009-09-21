@@ -80,7 +80,7 @@ var testwsdata =
 
 TestAssembleWorkspaceDescription = function() {
 
-    module("TestCardHandlers");
+    module("TestAssembleWorkspaceDescription");
 
     test("shuffl.assembleWorkspaceDescription",
         function () {
