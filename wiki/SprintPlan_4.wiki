@@ -96,7 +96,7 @@ Monday, 14 September, 2009
  * (0.2) Sprint 3 review
 
 Tuesday, 15 September, 2009
- * (0.4) continue work on !AtomPub and workspace persistence. Chased down several bugs exposed by a new test case. AtomPub continues to be fragile for this application.
+ * (0.4) continue work on !AtomPub and workspace persistence. Chased down several bugs exposed by a new test case. !AtomPub continues to be fragile for this application.
 
 Wednesday, 16 September, 2009
  * (0.2) sprint 4 plan
@@ -110,6 +110,4 @@ Thursday, 17 September, 2009
 Friday, 18 September, 2009
  * (0.2) Admin
  * (0.5) Refactoring and *Save*: basic load/save/save new logic is working.
-
-
 
