@@ -50,6 +50,10 @@
     <script type="text/javascript" src="../src/shuffl-saveworkspace.js"></script>
 
     <!-- Import test modules -->
+    <script type="text/javascript" src="TestAsyncComputation.js"></script>
+    <script type="text/javascript" src="test-shuffl-cardhandlers.js"></script>
+    <script type="text/javascript" src="test-shuffl-card-freetext.js"></script>
+    <script type="text/javascript" src="test-shuffl-assembleWorkspace.js"></script>
     <script type="text/javascript" src="TestAtomPub.js"></script>
     <script type="text/javascript" src="test-shuffl-loadworkspace.js"></script>
     <script type="text/javascript" src="test-shuffl-saveworkspace.js"></script>
@@ -57,6 +61,10 @@
     <!-- Execute the stand-alone tests -->
 	  <script>
 	  jQuery(document).ready( function () {
+        TestAsyncComputation();
+        TestCardHandlers();
+        TestCardFreetext();
+        TestAssembleWorkspaceDescription();
         TestAtomPub();
         TestLoadWorkspace();
         TestSaveWorkspace();
