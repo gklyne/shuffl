@@ -35,8 +35,8 @@ In preparing this plan, I found that I'd "lost" a few days in the original sprin
 || 2.2  || Other use cases  || 0.5 || -- || -- || -- ||
 || 2.3  || Introductory user documentation || 0.5 || -- || (sprint) || (incomplete) ||   
 || 3.   || *Technical development* || *14.5* || *--* ||
-|| 3.1  || Refactoring and test cases; esp. to support persistence  || 2.0 || -- || 16-Sep-2009 || -- ||
-|| 3.2  || Initial content persistence  || 3.0 || -- || (sprint) || (incomplete) ||
+|| 3.1  || Refactoring and test cases; esp. to support persistence  || 2.0 || 0.8 || 16-Sep-2009 || 16-Sep-2009 ||
+|| 3.2  || Initial content persistence  || 2.0 || -- || (sprint) || (incomplete) ||
 || 3.3  || Import CSV data as card collection  || 6.0 || -- || (sprint) || -- ||
 || 3.4  || Basic graphing of data collections  || 3.5 || -- || (sprint) || -- ||
 
@@ -48,16 +48,16 @@ In preparing this plan, I found that I'd "lost" a few days in the original sprin
 
 2.0 days:
 
- * (1.0) Test case for saving new workspace - to complete
- * (1.0) Test case for workspace update
+ * (1.0) Test case for saving new workspace - to complete (*Done* 16-Sep-2009)
+ * (1.0) Test case for workspace update (*Done* 16-Sep-2009)
 
 == 3.2: Initial content persistence ==
 
 3.0 days:
 
- * (1.0) complete static save of new workspace (*Save as...*), and implement load (*Open...*) to test this.
- * (0.5) implement resave of workspace (*Save*)
- * (1.0) implement on-the-fly saving of changes to card content, layout, etc.  (*Defer this* - need to also think about handling of read-only workspaces, etc.)
+ * (1.0) complete static save of new workspace (*Save as...*), and implement load (*Open...*) to test this. (*Done*: 17-Sep-2009)
+ * (0.5) implement resave of workspace (*Save*) (*Done* 18-Sep-2009)
+ * (1.0) implement on-the-fly saving of changes to card content, layout, etc.  (*Defered* - need to also think about handling of read-only workspaces, etc.)
  * (0.5) save card size as well as position
 
 == 3.3: Import CSV data as card collection ==
@@ -89,6 +89,8 @@ In activity 3.2 (initial persistence), I have decided to defer implementation of
 
 (TBD)
 
+(Note velocity as planned effort complete/total sprint effort)
+
 = Activity summary =
 
 Monday, 14 September, 2009
@@ -110,4 +112,3 @@ Thursday, 17 September, 2009
 Friday, 18 September, 2009
  * (0.2) Admin
  * (0.5) Refactoring and *Save*: basic load/save/save new logic is working.
-
