@@ -107,7 +107,7 @@ Wednesday, 16 September, 2009
 
 Thursday, 17 September, 2009
  * (0.2) Email
- * (0.6) Initial load/save of workspace to AtomPub is now working
+ * (0.6) Initial load/save of workspace to !AtomPub is now working
 
 Friday, 18 September, 2009
  * (0.2) Admin
