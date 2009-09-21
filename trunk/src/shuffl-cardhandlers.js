@@ -436,16 +436,19 @@ shuffl.defaultSize = {width:0, height:0};
  */
 shuffl.resizeAlso = function (card, selector) {
     //log.debug("shuffl.resizeAlso "+selector);
-    var elem  = card.find(selector);
-    var dw = card.width() - elem.width();
-    var dh = card.height() - elem.height();
-    var handleResize = function (event, ui) {
-        // Track changes in width and height
-        var c = jQuery(this);
-        elem.width(c.width()-dw);
-        elem.height(c.height()-dh);
+    var elem = card.find(selector);
+    if (elem.length == 1) {
+        var dw = card.width() - elem.width();
+        var dh = card.height() - elem.height();
+        var handleResize = function (event, ui) {
+            // Track changes in width and height
+            var c = jQuery(this);
+            elem.width(c.width()-dw);
+            elem.height(c.height()-dh);
+        };
+        return handleResize;
     };
-    return handleResize;
+    return undefined;
 };
 
 /**
@@ -459,15 +462,11 @@ shuffl.resizeAlso = function (card, selector) {
  */
 shuffl.placeCard = function (layout, card, pos, size) {
     layout.append(card);
-    var selector = card.data("resizeElem");
-    var resizefn = undefined;
-    if (selector != undefined) {
-        resizefn = shuffl.resizeAlso(card, selector);
-        card.bind('resize', resizefn);
-    };
+    var resizefn = shuffl.resizeAlso(card, card.data("resizeAlso"));
+    if (resizefn) { card.bind('resize', resizefn); };
     card.css(pos).css('position', 'absolute');
     if (size.width > 0 || size.height > 0) {
-        if (size.width  > 0) { card.width(size.width); };
+        if (size.width  > 0) { card.width(size.width);   };
         if (size.height > 0) { card.height(size.height); };
         if (resizefn) { resizefn.call(card, null, null); };
     };    
