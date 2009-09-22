@@ -35,6 +35,7 @@
  * http://wiki.fluidproject.org/display/fluid/Demos - various tools, including a fairly heavyweight inline text editor, based on FCKedit. Also, some possibly-useful layout and sorting tools.
  * http://batiste.dosimple.ch/blog/posts/2007-09-11-1/rich-text-editor-jquery.html - A simple rich-text editor plug-in, provides headings, block text, paragraph (flowed) text, bullet lists, bold, italic, images, links, and that's it.  Doesn't hide away when not in use, though.
  * http://omnipotent.net/jquery.sparkline/ - jQuery sparklines
+ * http://www.kollermedia.at/archive/2007/11/21/the-ultimate-jquery-plugin-list/ - ... and more
 
 == Atom and feeds ==
 
