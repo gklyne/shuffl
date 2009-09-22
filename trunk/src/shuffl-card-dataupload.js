@@ -26,7 +26,6 @@ shuffl.card_dataupload_data =
     { 'shuffl:title':     undefined
     , 'shuffl:tags':      [ undefined ]
     , 'shuffl:file':      undefined
-    , 'shuffl:basepath':  undefined
     , 'shuffl:baseuri':   undefined
     };
 
@@ -40,10 +39,9 @@ shuffl.card_dataupload_blank = jQuery(
     "    <ctitle>card title</ctitle>\n"+
     "  </chead>\n"+
     "  <div class='card_dataupload_data'>\n"+
+    "    <crow>Base URI:  <cbaseuri>(base URI)</cbaseuri></crow>\n" +
     "    <crow>File:      <cfile>(file)</cfile></crow>\n" +
     "    <crow>URI:       <curi>(uri)</curi></crow>\n" +
-    "    <crow>Base path: <cbasepath>(base path)</cbasepath></crow>\n" +
-    "    <crow>Base URI:  <cbaseuri>(base URI)</cbaseuri></crow>\n" +
     "  </div>\n"+
     "  <cfoot>\n"+
     "    <cident>card_ZZZ_ident</cident>:<cclass>card_ZZZ class</cclass>\n"+
@@ -67,9 +65,12 @@ shuffl.makeDataUploadCard = function (cardtype, cardcss, cardid, carddata) {
     log.debug("shuffl.makeDataUploadCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
     var card = shuffl.card_dataupload_blank.clone();
     var updateCuri = function() {
-        log.debug("- update curi: cfile "+card.find("cfile").text());
-        log.debug("- update curi: cbaseuri "+card.find("cbaseuri").text());
-        var u = jQuery.uri(card.find("cfile").text(), card.find("cbaseuri").text());
+        var b = card.find("cbaseuri").text();
+        var f = card.find("cfile").text();
+        log.debug("- update curi: cbaseuri "+b);
+        log.debug("- update curi: cfile "+f);
+        if ( f.match(/^Double-click/) ) { f = ""; };
+        var u = jQuery.uri(f, b);
         card.find("curi").text(u.toString());
     };
     card.data('shuffl:class',  cardtype);
@@ -80,8 +81,7 @@ shuffl.makeDataUploadCard = function (cardtype, cardcss, cardid, carddata) {
     var cardtitle    = shuffl.get(carddata, 'shuffl:title',    cardid+" - type "+cardtype);
     var cardtags     = shuffl.get(carddata, 'shuffl:tags',     [cardid,cardtype]);
     var cardfile     = shuffl.get(carddata, 'shuffl:file',     "");
-    // TODO: plug-in backend framework to provide mapping to file system
-    var cardbasepath = shuffl.get(carddata, 'shuffl:basepath', shuffl.uriPath("/Users/graham/workspace/googlecode-shuffl/"));
+    // TODO: plug-in backend framework to provide appropriate base URI
     var cardbaseuri  = shuffl.get(carddata, 'shuffl:baseuri',  shuffl.uriBase(".."));
     //log.debug("- cardbasepath "+cardbasepath+", cardbaseuri "+cardbaseuri);
     card.find("cident").text(cardid);               // Set card id text
@@ -90,14 +90,10 @@ shuffl.makeDataUploadCard = function (cardtype, cardcss, cardid, carddata) {
     shuffl.lineEditable(card, card.find("ctitle"));
     card.find("ctags").text(cardtags.join(","));    // Set card tags (editable) ..
     shuffl.lineEditable(card, card.find("ctags"));
-    //log.debug("- 1");
-    card.find("cfile").text(cardfile);
-    shuffl.lineEditable(card, card.find("cfile"), updateCuri);
-    //log.debug("- 2");
-    card.find("cbasepath").text(cardbasepath);
-    shuffl.lineEditable(card, card.find("cbasepath"));
     card.find("cbaseuri").text(cardbaseuri);
     shuffl.lineEditable(card, card.find("cbaseuri"), updateCuri);
+    card.find("cfile").text(cardfile);
+    shuffl.lineEditable(card, card.find("cfile"), updateCuri);
     updateCuri();
     //card.resizable();
     return card;
