@@ -13,13 +13,14 @@
   ]
 , 'shuffl:workspace':
   { 'shuffl:stockbar':
-      [ { 'id': 'stockpile_0', 'class': 'stock-default', 'label': 'default', 'type': 'shuffl-freetext-default' }
+      [ { 'id': 'stockpile_0', 'class': 'stock-default', 'label': 'upload', 'type': 'shuffl-dataupload' }
       , { 'id': 'stockpile_1', 'class': 'stock-yellow',  'label': 'Abc..', 'type': 'shuffl-freetext-yellow'  }
       , { 'id': 'stockpile_2', 'class': 'stock-blue',    'label': 'Abc..', 'type': 'shuffl-freetext-blue'    }
       , { 'id': 'stockpile_3', 'class': 'stock-green',   'label': 'Abc..', 'type': 'shuffl-freetext-green'   }
       , { 'id': 'stockpile_4', 'class': 'stock-orange',  'label': 'Abc..', 'type': 'shuffl-freetext-orange'  }
       , { 'id': 'stockpile_5', 'class': 'stock-pink',    'label': 'Abc..', 'type': 'shuffl-freetext-pink'    }
       , { 'id': 'stockpile_6', 'class': 'stock-purple',  'label': 'Abc..', 'type': 'shuffl-freetext-purple'  }
+      , { 'id': 'stockpile_7', 'class': 'stock-default', 'label': 'default', 'type': 'shuffl-freetext-default' }
       ]
   , 'shuffl:layout':
       [ { 'id': 'card_1', 'class': 'stock_1', 'data': 'shuffl_sample_2_card_1.json', 'pos': {left:100, top:30},  'size':{height:0, width:0} }

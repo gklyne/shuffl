@@ -165,6 +165,13 @@ cbody {
     height:10em;
 }
 
+.shuffl-card-dialog {
+    display:block;
+    position:absolute;
+    width:auto;   
+    height:auto;
+}
+
 .shuffl-card-edit {
     display:block;
     position:absolute;
