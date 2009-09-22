@@ -23,6 +23,7 @@
  * http://jqueryui.com/
  * http://www.pathf.com/blogs/2006/10/jquery_widgets_/
  * http://www.appelsiini.net/projects/jeditable - in-place text editing
+    * http://www.korvus.com/blog/geek/making-the-tab-key-work-with-jeditable-fields/ - tabbing between jeditable fields
  * http://www.spicyexpress.net/general/jquerry-at-it-best-downloadable-jquerry-plugins-and-widgets-for-you-2/
  * http://www.atomeye.com/portfolio/jquery-widgets.html
  * http://www.widgetbox.com/tag/jquery
