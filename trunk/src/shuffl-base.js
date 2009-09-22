@@ -253,4 +253,18 @@ shuffl.uriName = function (uri) {
     return jQuery.uri(uri).path.replace(/.*\//, "");
 };
 
+/**
+ * Get URI path excluding component name (path up to last '/')
+ */
+shuffl.uriPath = function (uri) {
+    return jQuery.uri(uri).path.replace(/\/[^\/]*$/, "/");
+};
+
+/**
+ * Get full base URI, excluding component name, query and fragment
+ */
+shuffl.uriBase = function (uri) {
+    return jQuery.uri(shuffl.uriPath(uri), jQuery.uri(uri)).toString();
+};
+
 // End.

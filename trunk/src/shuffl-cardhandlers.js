@@ -381,7 +381,7 @@ shuffl.passEditText = function(value, settings) {
  * 
  * See: http://www.appelsiini.net/projects/jeditable
  */
-shuffl.lineEditable = function (card, field) {
+shuffl.lineEditable = function (card, field, callback) {
     field.editable(shuffl.modifiedCard(card, shuffl.passEditText), 
         { data: shuffl.passEditText
         , onblur: 'submit'
@@ -393,6 +393,7 @@ shuffl.lineEditable = function (card, field) {
         , cancel: 'cancel'
         , cssclass: 'shuffl-lineedit'
         , width: 400
+        , callback: callback
         });
 };
 

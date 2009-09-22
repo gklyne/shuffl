@@ -32,15 +32,6 @@
     <link type="text/css" href="../src/shuffl.css" rel="stylesheet"/>
 
     <!-- Import shuffl modules -->
-    <script src="../src/shuffl-base.js"></script>
-    <script src="../src/AsyncComputation.js"></script>
-    <script src="../src/AtomPub.js"></script>
-
-    <!-- Import test modules -->
-	  <script src="TestAtomPub.js"></script>
-    <script src="test-shuffl-saveworkspace.js"></script>
-
-    <!-- Import shuffl modules -->
     <script type="text/javascript" src="../src/shuffl-base.js"></script>
     <script type="text/javascript" src="../src/AsyncComputation.js"></script>
     <script type="text/javascript" src="../src/AtomPub.js"></script>
@@ -50,6 +41,7 @@
     <script type="text/javascript" src="../src/shuffl-saveworkspace.js"></script>
 
     <!-- Import test modules -->
+    <script type="text/javascript" src="TestShufflBase.js"></script>
     <script type="text/javascript" src="TestAsyncComputation.js"></script>
     <script type="text/javascript" src="test-shuffl-cardhandlers.js"></script>
     <script type="text/javascript" src="test-shuffl-card-freetext.js"></script>
@@ -61,6 +53,7 @@
     <!-- Execute the stand-alone tests -->
 	  <script>
 	  jQuery(document).ready( function () {
+        TestShufflBase();
         TestAsyncComputation();
         TestCardHandlers();
         TestCardFreetext();
