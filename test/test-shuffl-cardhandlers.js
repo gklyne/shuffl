@@ -55,7 +55,7 @@ TestCardHandlers = function() {
         function () {
             log.debug("test shuffl.addCardFactory");
             expect(1);
-    		shuffl.addCardFactory("test-type", "test-css", shuffl.makeDefaultCard);
+    		shuffl.addCardFactory("test-type", "test-css", shuffl.card.default.newCard);
     		equals(shuffl.CardFactoryMap['test-type'].cardcss, "test-css", "CardFactoryMap with test entry");
         });
 
@@ -69,12 +69,12 @@ TestCardHandlers = function() {
     		equals(typeof c2, "function", "default factory");
         });
 
-    test("shuffl.makeDefaultCard",
+    test("shuffl.shuffl.card.default.newCard",
         function () {
-            log.debug("test shuffl.makeDefaultCard");
+            log.debug("test shuffl.card.default.newCard");
             expect(4);
             var css = 'stock-default';
-    		var c   = shuffl.makeDefaultCard("card-type", css, "card-id",
+    		var c   = shuffl.card.default.newCard("card-type", css, "card-id",
     			{ 'shuffl:tags': 	["card-tag"]
     			, 'shuffl:title':	"card-title"
     			});
