@@ -2,6 +2,11 @@
  * @fileoverview 
  *  Shuffl card plug-in for wookie widget. 
  * 
+ * NOTE: the licensing state of this code is currently unclear.  It was posted
+ * to a public mailing list, so is in any case visible to all, but at this time
+ * cannot be said to be covered by the same license as the rest of the Shuffl 
+ * code.
+ * 
  * @author Scott Wilson 
  */ 
 
@@ -9,6 +14,7 @@
 // Globals and data 
 // ---------------------------------------------------------------- 
 
+// TODO: move out of global namespace; use card-based (meta)data instead?
 var WOOKIE_SERVER = "http://localhost:8080/wookie/widgetinstances"; 
 var API_KEY = "test"; 
 
@@ -22,7 +28,7 @@ if (typeof shuffl == "undefined") {
 shuffl.card_wookie_data = 
     { 'shuffl:title':   undefined 
     , 'shuffl:tags':    [ undefined ] 
-    // Wookie values here?
+    // TODO: Wookie values here?
     }; 
 
 /** 
@@ -39,9 +45,10 @@ shuffl.card_wookie_blank = jQuery(
     "    <cident>card_ZZZ_ident</cident>:<cclass>card_ZZZ class</cclass>\n"+ 
     "    (<ctags>card_ZZZ tags</ctags>)\n"+ 
     "  </cfoot>"+ 
-    "</div>"); 
+    "</div>");
+
 /** 
- * Creates and return a new card instance. 
+ * Creates and returns a new card instance. 
  * 
  * @param cardtype  type identifier for the new card element 
  * @param cardcss   CSS class name(s) for the new card element 
@@ -88,14 +95,16 @@ shuffl.makeWookieCard = function (cardtype, cardcss, cardid, carddata)
  * @param card        card for which the widget is grabbed
  * @param widgetType  a URI identifying the type of widget to be created
  */
-shuffl.getWidget = function(card, widgetType) { 
+shuffl.getWidget = function(card, widgetType)
+{ 
     jQuery.post(WOOKIE_SERVER, 
         { api_key: API_KEY
         , shareddatakey: card.find("cident").text()
         , userid: "test"
         , widgetid: widgetType
         }, 
-        function(xml) { 
+        function(xml)
+        { 
             var url = jQuery(xml).find('url').text(); 
             var title = jQuery(xml).find('title').text(); 
             card.find("ctitle").text(title); 
@@ -112,7 +121,8 @@ shuffl.getWidget = function(card, widgetType) {
  * @param card      a jQuery object corresponding to the card 
  * @return an object containing the card data 
  */ 
-shuffl.jsonWookieCard = function (card) { 
+shuffl.jsonWookieCard = function (card) 
+{ 
     var carddata = shuffl.card_wookie_data; 
     carddata['shuffl:title'] = card.find("ctitle").text(); 
     carddata['shuffl:tags']  = jQuery.trim(card.find("ctags").text()).split(/[\s]*,[\s]*/); 
