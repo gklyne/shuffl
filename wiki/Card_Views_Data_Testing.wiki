@@ -70,7 +70,7 @@ Additional methods associated with a card plugin (type) are:
  * define namespace for Shuffl card types (shuffl.card...)
  * implement existing card types as members of the new namespace
  * when creating a new card, define all other functions as methods on the card object (currently, this is the json export).
- * implement .model() functionality (as jQuery plugin?)
- * replace all references to card.data(...) with card.model(...)
- * implement all user input event handling via calls on controller methods on the card
- * implement all card DOM manipulation via model-change listeners
+ * implement .model() functionality (as jQuery plugin?).  With test cases.
+ * replace all references to card.data(...) with card.model(...). Add test cases for model updates.
+ * implement all user input event handling via calls on controller methods on the card. Add test cases.
+ * implement all card DOM manipulation via model-change listeners. Add test cases.
