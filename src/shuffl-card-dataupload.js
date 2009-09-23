@@ -16,8 +16,9 @@
 /**
  * create shuffl namespace
  */
-if (typeof shuffl == "undefined") {
-    alert("shuffl-card-dataupload.js: shuffl-base.js must be loaded before this file");
+if (typeof shuffl == "undefined") 
+{
+    alert("shuffl-card-dataupload.js: shuffl-base.js must be loaded first");
 }
 
 // TODO: wrap these values and functions in an object

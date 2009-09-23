@@ -13,18 +13,26 @@
 /**
  * Ensure card-related values are initialized in the shuffl namespace
  */
-if (typeof shuffl == "undefined") {
-    shuffl = {};
-}
-if (typeof shuffl.CardFactoryMap == "undefined") {
+if (typeof shuffl == "undefined") 
+{
+    alert("shuffl-cardhndlers.js: shuffl-base.js must be loaded first");
+};
+if (typeof shuffl.card == "undefined") 
+{
+    shuffl.card = {};                   // Namespace for card types
+};
+if (typeof shuffl.CardFactoryMap == "undefined") 
+{
     shuffl.CardFactoryMap = {};         // Initial empty card factory map
-}
-if (typeof shuffl.idnext == "undefined") {
+};
+if (typeof shuffl.idnext == "undefined") 
+{
     shuffl.idnext         = 100;        // Counter for unique id generation    
-}
-if (typeof shuffl.idpref == "undefined") {
+};
+if (typeof shuffl.idpref == "undefined") 
+{
     shuffl.idpref         = "card_";   // Prefix for unique id generation    
-}
+};
 
 // ----------------------------------------------------------------
 // Blank object for externally stored card data
@@ -52,22 +60,27 @@ shuffl.ExternalCardData =
 /**
  * Add factory for new card type to the factory map
  */
-shuffl.addCardFactory = function (cardtype, cssclass, factory) {
+shuffl.addCardFactory = function (cardtype, cssclass, factory) 
+{
     shuffl.CardFactoryMap[cardtype] = { cardcss: cssclass, cardfactory: factory };
 };
 
 /**
  * Return factory for creating new cards given a card type/class.
  */
-shuffl.getCardFactory = function (cardtype) {
+shuffl.getCardFactory = function (cardtype) 
+{
     ////log.debug("getCardFactory: cardclass '"+cardclass+"'");
     ////log.debug("getCardFactory: cardclass "+jQuery.trim(cardclass));
     ////log.debug("cardFactory "+shuffl.objectString(shuffl.cardFactory));
     var factory = shuffl.CardFactoryMap[jQuery.trim(cardtype)];
-    if ( factory == undefined) {
+    if ( factory == undefined) 
+    {
         log.warn("getCardFactory: unrecognized card type: "+cardtype+", returning default factory");
         factory = mk.partial(shuffl.makeDefaultCard, cardtype, "stock-default");
-    } else {
+    } 
+    else
+    {
         var cssclass = factory.cardcss;
         log.debug("getCardFactory: card type: "+cardtype+", card CSS class: "+cssclass);
         factory    = mk.partial(factory.cardfactory, cardtype, cssclass);
@@ -82,7 +95,6 @@ shuffl.getCardFactory = function (cardtype) {
 
 shuffl.card_default_data =
     { 'shuffl:title':   undefined
-    , 'shuffl:tags':    [ undefined ]
     };
 
 /**
@@ -94,16 +106,13 @@ shuffl.card_default_blank = jQuery(
     "    <chandle><c></c></chandle>" +
     "    <ctitle>card title</ctitle>\n"+
     "  </chead>\n"+
-    "  <cfoot>\n"+
-    "    <cident>card_ZZZ_ident</cident>:<cclass>card_ZZZ class</cclass>\n"+
-    "    (<ctags>card_ZZZ,tags</ctags>)\n"+
-    "  </cfoot>"+
     "</div>");
 
 /**
  * Default card factory: title and tags only
  */
-shuffl.makeDefaultCard = function (cardtype, cardcss, cardid, carddata) {
+shuffl.makeDefaultCard = function (cardtype, cardcss, cardid, carddata) 
+{
     log.debug("shuffl.makeDefaultCard: "+cardid+", "+shuffl.objectString(carddata));
     var card = shuffl.card_default_blank.clone();
     card.data('shuffl:class',  cardtype);
@@ -111,14 +120,9 @@ shuffl.makeDefaultCard = function (cardtype, cardcss, cardid, carddata) {
     card.data("shuffl:tojson", shuffl.jsonDefaultCard);
     card.attr('id', cardid);
     card.addClass(cardcss);
-    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
     var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - class "+cardtype);
-    card.find("cident").text(cardid);
-    card.find("cclass").text(cardtype);
     card.find("ctitle").text(cardtitle);
     shuffl.lineEditable(card, card.find("ctitle"));
-    card.find("ctags").text(cardtags.join(","));
-    shuffl.lineEditable(card, card.find("ctags"));
     return card;
 };
 
@@ -128,10 +132,10 @@ shuffl.makeDefaultCard = function (cardtype, cardcss, cardid, carddata) {
  * @param card      a jQuery object corresponding to the card
  * @return an object containing the card data
  */
-shuffl.jsonDefaultCard = function (card) {
+shuffl.jsonDefaultCard = function (card) 
+{
     var carddata = shuffl.card_default_data;
     carddata['shuffl:title'] = card.find("ctitle").text();
-    carddata['shuffl:tags']  = jQuery.trim(card.find("ctags").text()).split(/[\s]*,[\s]*/);
     return carddata;
 };
 
@@ -142,7 +146,8 @@ shuffl.jsonDefaultCard = function (card) {
 /**
  * Generate a new identifier string using a supplied prefix
  */
-shuffl.makeId = function(pref) {
+shuffl.makeId = function(pref) 
+{
     shuffl.idnext++;
     return pref+shuffl.idnext;
 };
@@ -150,18 +155,22 @@ shuffl.makeId = function(pref) {
 /**
  * Return identifier string based on last value returned (used for testing)
  */
-shuffl.lastId = function(pref) {
+shuffl.lastId = function(pref) 
+{
     return pref+shuffl.idnext;
 };
 
 /**
  * Update ID generator if necessary to prevent clash with loaded card.
  */
-shuffl.loadId = function(cardid) {
+shuffl.loadId = function(cardid) 
+{
     var l = shuffl.idpref.length;
-    if (cardid.slice(0,l) == shuffl.idpref) {
+    if (cardid.slice(0,l) == shuffl.idpref) 
+    {
         var n = parseInt(cardid.slice(l));
-        if (typeof n == "number" && shuffl.idnext < n) {
+        if (typeof n == "number" && shuffl.idnext < n) 
+        {
             log.debug("Load card id "+cardid+", "+n);
             shuffl.idnext = n;
         }
@@ -171,7 +180,8 @@ shuffl.loadId = function(cardid) {
 /**
  * Draggable options for stockpiles
  */
-shuffl.stockDraggable = { 
+shuffl.stockDraggable = 
+{ 
     opacity: 0.8, 
     revert: true, 
     revertDuration: 0, 
@@ -181,7 +191,8 @@ shuffl.stockDraggable = {
 /**
  * Draggable options for cards
  */
-shuffl.cardDraggable = { 
+shuffl.cardDraggable = 
+{ 
     opacity: 0.5, 
     stack: { group: '.shuffl-card', min: 10 } 
 };
@@ -205,7 +216,8 @@ shuffl.stockpile_handle = jQuery("<div class='shuffl-handle' />");
 /**
  * Create a new stockpile
  */
-shuffl.createStockpile = function(sid, sclass, slabel, stype) {
+shuffl.createStockpile = function(sid, sclass, slabel, stype) 
+{
     // Create new blank stockpile element
     var stockpile = shuffl.stockpile_blank.clone();
     stockpile.attr('id', sid);
@@ -264,7 +276,8 @@ shuffl.createCardFromStock = function (stockpile) {
  *                  card-type-dependent data values.
  * @return          a jQuery object representing the new card.
  */
-shuffl.createCardFromData = function (cardid, cardclass, origdata) { 
+shuffl.createCardFromData = function (cardid, cardclass, origdata) 
+{ 
     //log.debug("shuffl.createCardFromData, card data: "+shuffl.objectString(origdata));
     var copydata = {};  // Make deep copy..
     jQuery.extend(true, copydata, origdata);
@@ -295,7 +308,8 @@ shuffl.createCardFromData = function (cardid, cardclass, origdata) {
  * @param data      structure indicating attributes of the card, as well as
  *                  card-type-dependent data values.
  */
-shuffl.placeCardFromData = function (layout, data) { 
+shuffl.placeCardFromData = function (layout, data) 
+{ 
     //log.debug("shuffl.placeCardFromData, layout:    "+shuffl.objectString(layout));
     //log.debug("shuffl.placeCardFromData, card data: "+shuffl.objectString(data));
     var cardid    = shuffl.get(data, 'shuffl:id',    layout['id']);
@@ -316,7 +330,8 @@ shuffl.placeCardFromData = function (layout, data) {
  * Note: JSON is represented internally as a Javascript structure, and is
  * serialized on transmission by ther jQuery AJAX components.
  */
-shuffl.createDataFromCard = function (card) { 
+shuffl.createDataFromCard = function (card) 
+{ 
     var extdata = card.data('shuffl:external');
     extdata['shuffl:id']    = card.data('shuffl:id');
     extdata['shuffl:class'] = card.data('shuffl:class');
@@ -326,6 +341,18 @@ shuffl.createDataFromCard = function (card) {
     //log.debug("shuffl.createDataFromCard, id: "+extdata['shuffl:id']+", class: "+extdata['shuffl:class']);
     return extdata;
 };
+
+/**
+ * Return tags from card as list
+ * 
+ * @param card      card from which tags are returned.
+ * @param selector  jQuery selector for element containing tag list
+ */
+ shuffl.getTagList = function(card, selector)
+ {
+     jQuery.trim(card.find(selector).text())
+           .split(/[\s]*,[\s]*/);
+ };
 
 // ----------------------------------------------------------------
 // Text editing support functions
@@ -341,7 +368,8 @@ shuffl.createDataFromCard = function (card) {
  * @param fn        completion function to be called to process result
  *                  values before they are used to update the card content.
  */
-shuffl.modifiedCard = function(card, fn) {
+shuffl.modifiedCard = function(card, fn) 
+{
     function editDone() {
         log.debug("shuffl.midifiedCard:editDone");
         card.data('shuffl:datamod', true);
@@ -354,7 +382,8 @@ shuffl.modifiedCard = function(card, fn) {
  * Function called before a text element is edited with a copy of the text,
  * and returning a modified version.  In this case, the raw text is extracted.
  */
-shuffl.initEditText = function(value) {
+shuffl.initEditText = function(value) 
+{
     log.debug("shuffl.initEditText: "+value);
     return value.replace(/<br[^>]*>/g, "\n\n");
 };
@@ -363,7 +392,8 @@ shuffl.initEditText = function(value) {
  * Function called when done editing text: newlines are converted back to <br/>
  * and '<' to '&lt;.
  */
-shuffl.doneEditText = function(value, settings) {
+shuffl.doneEditText = function(value, settings) 
+{
     log.debug("shuffl.doneEditText: "+value);
     return value.replace(/</g,"&lt;").replace(/\n\n/g, "<br/>");
 };
@@ -371,7 +401,8 @@ shuffl.doneEditText = function(value, settings) {
 /**
  * Function that can be used for submitting new edit text unchanged.
  */
-shuffl.passEditText = function(value, settings) {
+shuffl.passEditText = function(value, settings)
+{
     log.debug("shuffl.passEditText: "+value);
     return value;
 };
@@ -381,7 +412,8 @@ shuffl.passEditText = function(value, settings) {
  * 
  * See: http://www.appelsiini.net/projects/jeditable
  */
-shuffl.lineEditable = function (card, field, callback) {
+shuffl.lineEditable = function (card, field, callback) 
+{
     field.editable(shuffl.modifiedCard(card, shuffl.passEditText), 
         { data: shuffl.passEditText
         , onblur: 'submit'
@@ -402,7 +434,8 @@ shuffl.lineEditable = function (card, field, callback) {
  * 
  * See: http://www.appelsiini.net/projects/jeditable
  */
-shuffl.blockEditable = function (card, field) {
+shuffl.blockEditable = function (card, field) 
+{
     field.editable(shuffl.modifiedCard(card, shuffl.doneEditText), 
         { data: shuffl.initEditText
         , type: 'textarea'
@@ -434,13 +467,15 @@ shuffl.defaultSize = {width:0, height:0};
  * @return          a function that serves as a resize handler for the
  *                  selected sub-element.
  */
-shuffl.resizeAlso = function (card, selector) {
+shuffl.resizeAlso = function (card, selector) 
+{
     //log.debug("shuffl.resizeAlso "+selector);
     var elem = card.find(selector);
     if (elem.length == 1) {
         var dw = card.width() - elem.width();
         var dh = card.height() - elem.height();
-        var handleResize = function (event, ui) {
+        var handleResize = function (event, ui) 
+        {
             // Track changes in width and height
             var c = jQuery(this);
             elem.width(c.width()-dw);
@@ -462,21 +497,26 @@ shuffl.resizeAlso = function (card, selector) {
  * @param zindex    the z-index for the created card; zero or undefined brings
  *                  the new card to the top of the display stack.
  */
-shuffl.placeCard = function (layout, card, pos, size, zindex) {
+shuffl.placeCard = function (layout, card, pos, size, zindex) 
+{
     layout.append(card);
     var resizefn = shuffl.resizeAlso(card, card.data("resizeAlso"));
     if (resizefn) { card.bind('resize', resizefn); };
     card.css(pos).css('position', 'absolute');
-    if (size.width > 0 || size.height > 0) {
+    if (size.width > 0 || size.height > 0) 
+    {
         if (size.width  > 0) { card.width(size.width);   };
         if (size.height > 0) { card.height(size.height); };
         if (resizefn) { resizefn.call(card, null, null); };
     };    
     // Make card draggable and to front of display
     card.draggable(shuffl.cardDraggable);
-    if (zindex) {
+    if (zindex) 
+    {
         card.css('zIndex', zindex)
-    } else {
+    } 
+    else 
+    {
         shuffl.toFront(card);
     };
     // Click brings card back to top
@@ -494,7 +534,8 @@ shuffl.placeCard = function (layout, card, pos, size, zindex) {
  * @param pos       the position within the layout area where the new card 
  *                  will be displayed
  */
-shuffl.dropCard = function(frompile, tolayout, pos) {
+shuffl.dropCard = function(frompile, tolayout, pos) 
+{
     log.debug("shuffl.dropCard: "+shuffl.objectString(pos));
     // Create card using stockpile card factory
     var newcard = frompile.data('makeCard')(frompile);
@@ -509,14 +550,18 @@ shuffl.dropCard = function(frompile, tolayout, pos) {
  * 
  * Code adapted from jQuery
  */
-shuffl.toFront = function (elem) {
-    if (elem.data("draggable")) {
+shuffl.toFront = function (elem) 
+{
+    if (elem.data("draggable")) 
+    {
         var opts = elem.data("draggable").options;
-        var group = jQuery.makeArray(jQuery(opts.stack.group)).sort(function(a,b) {
+        var group = jQuery.makeArray(jQuery(opts.stack.group)).sort(function(a,b) 
+            {
                 return shuffl.parseInt(jQuery(a).css("zIndex"), 10, opts.stack.min) - 
                        shuffl.parseInt(jQuery(b).css("zIndex"), 10, opts.stack.min);
             });
-        jQuery(group).each(function(i) {
+        jQuery(group).each(function(i) 
+            {
                 this.style.zIndex = opts.stack.min + i;
             });
         elem[0].style.zIndex = opts.stack.min + group.length;
@@ -530,7 +575,8 @@ shuffl.toFront = function (elem) {
 /**
  * Calculate supplied absolute position as offset from supplied object
  */
-shuffl.positionRelative = function (pos, obj) {
+shuffl.positionRelative = function (pos, obj) 
+{
     var base = obj.position();
     //log.debug("positionRelative: pos  "+pos.left+", "+pos.top);
     //log.debug("positionRelative: base "+base.left+", "+base.top);
@@ -540,7 +586,8 @@ shuffl.positionRelative = function (pos, obj) {
 /**
  * Calculate absolute position supplied as offset from object
  */
-shuffl.positionAbsolute = function (off, obj) {
+shuffl.positionAbsolute = function (off, obj) 
+{
     var base = obj.position();
     //log.debug("positionAbsolute: off  "+off.left+", "+off.top);
     //log.debug("positionAbsolute: base "+base.left+", "+base.top);
@@ -550,14 +597,16 @@ shuffl.positionAbsolute = function (off, obj) {
 /**
  * Calculate supplied absolute position as offset from supplied object
  */
-shuffl.positionRel = function (pos, base) {
+shuffl.positionRel = function (pos, base) 
+{
     return { left: pos.left-base.left, top: pos.top-base.top };
 };
 
 /**
  * Calculate absolute position from supplied base and offset
  */
-shuffl.positionAbs = function (base, off) {
+shuffl.positionAbs = function (base, off) 
+{
     return { left: base.left+off.left, top: base.top+off.top };
 };
 
