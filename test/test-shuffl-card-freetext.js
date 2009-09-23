@@ -67,9 +67,9 @@ TestCardFreetext = function() {
 
     test("shuffl.makeFreeTextCard",
         function () {
-            log.debug("test shuffl.makeFreetextCard");
+            log.debug("test shuffl.card.freetext.newCard");
             var css = 'stock-yellow';
-    		var c   = shuffl.makeFreetextCard("shuffl-freetext-yellow", css, "card-1",
+    		var c   = shuffl.card.freetext.newCard("shuffl-freetext-yellow", css, "card-1",
     			{ 'shuffl:tags': 	["card-tag"]
     			, 'shuffl:title':	"card-title"
     			, 'shuffl:text':    "card body data"

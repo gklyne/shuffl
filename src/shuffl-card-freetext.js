@@ -28,13 +28,24 @@ log.error = MochiKit.Logging.logError   ;
 /**
  * create shuffl namespace
  */
-if (typeof shuffl == "undefined") {
-    alert("shuffl-card-freetext.js: shuffl.js must be loaded before this file");
+if (typeof shuffl == "undefined") 
+{
+    alert("shuffl-card-freetext.js: shuffl-base.js must be loaded first");
+}
+if (typeof shuffl.card == "undefined") 
+{
+    alert("shuffl-card-freetext.js: shuffl-cardhandlers.js must be loaded before this");
 }
 
-// TODO: wrap these values and functions in an object
+/**
+ * Create namespace for this card type
+ */
+shuffl.card.freetext = {};
 
-shuffl.card_freetext_data =
+/**
+ * Template for creating new card object for serialization
+ */
+shuffl.card.freetext.data =
     { 'shuffl:title':   undefined
     , 'shuffl:tags':    [ undefined ]
     , 'shuffl:text':    undefined
@@ -43,7 +54,7 @@ shuffl.card_freetext_data =
 /**
  * jQuery base element for building new cards (used by shuffl.makeCard)
  */
-shuffl.card_freetext_blank = jQuery(
+shuffl.card.freetext.blank = jQuery(
     "<div class='shuffl-card' style='z-index:10;'>\n"+
     "  <chead>\n"+
     "    <chandle><c></c></chandle>" +
@@ -73,12 +84,12 @@ shuffl.card_freetext_blank = jQuery(
  *                      with fields 'shuffl:title', 'shuffl:tags' and 'shuffl:text'.
  * @return a jQuery object representing the new card.
  */
-shuffl.makeFreetextCard = function (cardtype, cardcss, cardid, carddata) {
-    //log.debug("shuffl.makeFreetextCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
-    var card = shuffl.card_freetext_blank.clone();
+shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
+    //log.debug("shuffl.card.freetext.newCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
+    var card = shuffl.card.freetext.blank.clone();
     card.data('shuffl:class',  cardtype);
     card.data('shuffl:id',     cardid);
-    card.data("shuffl:tojson", shuffl.jsonFreetextCard);
+    card.data("shuffl:tojson", shuffl.card.freetext.serialize);
     card.attr('id', cardid);
     card.addClass(cardcss);
     var cardtext  = shuffl.get(carddata, 'shuffl:text',  carddata);
@@ -106,8 +117,8 @@ shuffl.makeFreetextCard = function (cardtype, cardcss, cardid, carddata) {
  * @param card      a jQuery object corresponding to the card
  * @return an object containing the card data
  */
-shuffl.jsonFreetextCard = function (card) {
-    var carddata = shuffl.card_freetext_data;
+shuffl.card.freetext.serialize = function (card) {
+    var carddata = shuffl.card.freetext.data;
     carddata['shuffl:title'] = card.find("ctitle").text();
     carddata['shuffl:tags']  = jQuery.trim(card.find("ctags").text()).split(/[\s]*,[\s]*/);
     carddata['shuffl:text']  = card.find("cbody").html();
@@ -117,11 +128,11 @@ shuffl.jsonFreetextCard = function (card) {
 /**
  *   Add new card type factories
  */
-shuffl.addCardFactory("shuffl-freetext-yellow", "stock-yellow", shuffl.makeFreetextCard);
-shuffl.addCardFactory("shuffl-freetext-blue",   "stock-blue",   shuffl.makeFreetextCard);
-shuffl.addCardFactory("shuffl-freetext-green",  "stock-green",  shuffl.makeFreetextCard);
-shuffl.addCardFactory("shuffl-freetext-orange", "stock-orange", shuffl.makeFreetextCard);
-shuffl.addCardFactory("shuffl-freetext-pink",   "stock-pink",   shuffl.makeFreetextCard);
-shuffl.addCardFactory("shuffl-freetext-purple", "stock-purple", shuffl.makeFreetextCard);
+shuffl.addCardFactory("shuffl-freetext-yellow", "stock-yellow", shuffl.card.freetext.newCard);
+shuffl.addCardFactory("shuffl-freetext-blue",   "stock-blue",   shuffl.card.freetext.newCard);
+shuffl.addCardFactory("shuffl-freetext-green",  "stock-green",  shuffl.card.freetext.newCard);
+shuffl.addCardFactory("shuffl-freetext-orange", "stock-orange", shuffl.card.freetext.newCard);
+shuffl.addCardFactory("shuffl-freetext-pink",   "stock-pink",   shuffl.card.freetext.newCard);
+shuffl.addCardFactory("shuffl-freetext-purple", "stock-purple", shuffl.card.freetext.newCard);
 
 // End.
