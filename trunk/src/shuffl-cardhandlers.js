@@ -77,7 +77,7 @@ shuffl.getCardFactory = function (cardtype)
     if ( factory == undefined) 
     {
         log.warn("getCardFactory: unrecognized card type: "+cardtype+", returning default factory");
-        factory = mk.partial(shuffl.makeDefaultCard, cardtype, "stock-default");
+        factory = mk.partial(shuffl.card.default.newCard, cardtype, "stock-default");
     } 
     else
     {
@@ -93,14 +93,16 @@ shuffl.getCardFactory = function (cardtype)
 // Default card functions
 // ----------------------------------------------------------------
 
-shuffl.card_default_data =
+shuffl.card.default = {};
+
+shuffl.card.default.data =
     { 'shuffl:title':   undefined
     };
 
 /**
  * jQuery base element for building new default cards
  */
-shuffl.card_default_blank = jQuery(
+shuffl.card.default.blank = jQuery(
     "<div class='shuffl-card' style='z-index:10;'>\n"+
     "  <chead>\n"+
     "    <chandle><c></c></chandle>" +
@@ -111,13 +113,13 @@ shuffl.card_default_blank = jQuery(
 /**
  * Default card factory: title and tags only
  */
-shuffl.makeDefaultCard = function (cardtype, cardcss, cardid, carddata) 
+shuffl.card.default.newCard = function (cardtype, cardcss, cardid, carddata) 
 {
-    log.debug("shuffl.makeDefaultCard: "+cardid+", "+shuffl.objectString(carddata));
-    var card = shuffl.card_default_blank.clone();
+    log.debug("shuffl.shuffl.card.default.newCard: "+cardid+", "+shuffl.objectString(carddata));
+    var card = shuffl.card.default.blank.clone();
     card.data('shuffl:class',  cardtype);
     card.data('shuffl:id',     cardid);
-    card.data("shuffl:tojson", shuffl.jsonDefaultCard);
+    card.data("shuffl:tojson", shuffl.card.default.serialize);
     card.attr('id', cardid);
     card.addClass(cardcss);
     var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - class "+cardtype);
@@ -132,9 +134,9 @@ shuffl.makeDefaultCard = function (cardtype, cardcss, cardid, carddata)
  * @param card      a jQuery object corresponding to the card
  * @return an object containing the card data
  */
-shuffl.jsonDefaultCard = function (card) 
+shuffl.card.default.serialize = function (card) 
 {
-    var carddata = shuffl.card_default_data;
+    var carddata = shuffl.card.default.data;
     carddata['shuffl:title'] = card.find("ctitle").text();
     return carddata;
 };
