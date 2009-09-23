@@ -77,7 +77,7 @@ shuffl.getCardFactory = function (cardtype)
     if ( factory == undefined) 
     {
         log.warn("getCardFactory: unrecognized card type: "+cardtype+", returning default factory");
-        factory = mk.partial(shuffl.card.default.newCard, cardtype, "stock-default");
+        factory = mk.partial(shuffl.card.defaultcard.newCard, cardtype, "stock-default");
     } 
     else
     {
@@ -93,16 +93,16 @@ shuffl.getCardFactory = function (cardtype)
 // Default card functions
 // ----------------------------------------------------------------
 
-shuffl.card.default = {};
+shuffl.card.defaultcard = {};
 
-shuffl.card.default.data =
+shuffl.card.defaultcard.data =
     { 'shuffl:title':   undefined
     };
 
 /**
  * jQuery base element for building new default cards
  */
-shuffl.card.default.blank = jQuery(
+shuffl.card.defaultcard.blank = jQuery(
     "<div class='shuffl-card' style='z-index:10;'>\n"+
     "  <chead>\n"+
     "    <chandle><c></c></chandle>" +
@@ -113,13 +113,13 @@ shuffl.card.default.blank = jQuery(
 /**
  * Default card factory: title and tags only
  */
-shuffl.card.default.newCard = function (cardtype, cardcss, cardid, carddata) 
+shuffl.card.defaultcard.newCard = function (cardtype, cardcss, cardid, carddata) 
 {
-    log.debug("shuffl.shuffl.card.default.newCard: "+cardid+", "+shuffl.objectString(carddata));
-    var card = shuffl.card.default.blank.clone();
+    log.debug("shuffl.shuffl.card.defaultcard.newCard: "+cardid+", "+shuffl.objectString(carddata));
+    var card = shuffl.card.defaultcard.blank.clone();
     card.data('shuffl:class',  cardtype);
     card.data('shuffl:id',     cardid);
-    card.data("shuffl:tojson", shuffl.card.default.serialize);
+    card.data("shuffl:tojson", shuffl.card.defaultcard.serialize);
     card.attr('id', cardid);
     card.addClass(cardcss);
     var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - class "+cardtype);
@@ -134,9 +134,9 @@ shuffl.card.default.newCard = function (cardtype, cardcss, cardid, carddata)
  * @param card      a jQuery object corresponding to the card
  * @return an object containing the card data
  */
-shuffl.card.default.serialize = function (card) 
+shuffl.card.defaultcard.serialize = function (card) 
 {
-    var carddata = shuffl.card.default.data;
+    var carddata = shuffl.card.defaultcard.data;
     carddata['shuffl:title'] = card.find("ctitle").text();
     return carddata;
 };
@@ -350,11 +350,10 @@ shuffl.createDataFromCard = function (card)
  * @param card      card from which tags are returned.
  * @param selector  jQuery selector for element containing tag list
  */
- shuffl.getTagList = function(card, selector)
- {
-     jQuery.trim(card.find(selector).text())
-           .split(/[\s]*,[\s]*/);
- };
+shuffl.getTagList = function (card, selector)
+{
+    return jQuery.trim(card.find(selector).text()).split(/[\s]*,[\s]*/);
+};
 
 // ----------------------------------------------------------------
 // Text editing support functions

@@ -13,7 +13,7 @@
   ]
 , 'shuffl:workspace':
   { 'shuffl:stockbar':
-      [ { 'id': 'stockpile_0', 'class': 'stock-default', 'label': 'upload', 'type': 'shuffl-dataupload' }
+      [ { 'id': 'stockpile_0', 'class': 'stock-default', 'label': 'file',  'type': 'shuffl-selectfile' }
       , { 'id': 'stockpile_1', 'class': 'stock-yellow',  'label': 'Abc..', 'type': 'shuffl-freetext-yellow'  }
       , { 'id': 'stockpile_2', 'class': 'stock-blue',    'label': 'Abc..', 'type': 'shuffl-freetext-blue'    }
       , { 'id': 'stockpile_3', 'class': 'stock-green',   'label': 'Abc..', 'type': 'shuffl-freetext-green'   }

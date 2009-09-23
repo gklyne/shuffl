@@ -120,7 +120,8 @@ shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
 shuffl.card.freetext.serialize = function (card) {
     var carddata = shuffl.card.freetext.data;
     carddata['shuffl:title'] = card.find("ctitle").text();
-    carddata['shuffl:tags']  = jQuery.trim(card.find("ctags").text()).split(/[\s]*,[\s]*/);
+    //carddata['shuffl:tags']  = jQuery.trim(card.find("ctags").text()).split(/[\s]*,[\s]*/);
+    carddata['shuffl:tags']  = shuffl.getTagList(card, "ctags");
     carddata['shuffl:text']  = card.find("cbody").html();
     return carddata;
 };
