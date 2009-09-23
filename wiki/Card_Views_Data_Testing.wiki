@@ -32,7 +32,7 @@ Initialization     External events <--+
                          +--> user input collector -->--+
 }}}
 
-= Model =
+== Model ==
 
 Shuffl and card plug-ins use the jQuery(...).data() method to store card-related data, and this seems an appropriate basis for the card model. This can be implemented as a jQuery plugin that attaches appropriate functionality to any page element.  The interface would look like this:
 
@@ -45,13 +45,13 @@ The listener function is called thus, with {{{this}}} referencing the jQuery obj
     listener({name: "name", old: oldvalue, new: newvalue}, callback);
 }}}
 
-= View =
+== View ==
 
 The card view is represented by its current DOM. View rendering is performed by listeners that are subscribed to model value changes.
 
 User input elements are linked to controller methods, so that any user action can be mimicked programmatically by a call to a controller method.  This is particularly useful for unit testing.
 
-= Controller =
+== Controller ==
 
 The external interface presented by a card, including the following methods:
  * set model value
@@ -64,3 +64,13 @@ The external interface presented by a card, including the following methods:
 Additional methods associated with a card plugin (type) are:
  * register card factory - this is the point at which a card plugin becomes part of a Shuffl application. 
  * create new card - accessed via card factory lookup.
+
+= Migration plan =
+
+ * define namespace for Shuffl card types (shuffl.card...)
+ * implement existing card types as members of the new namespace
+ * when creating a new card, define all other functions as methods on the card object (currently, this is the json export).
+ * implement .model() functionality (as jQuery plugin?)
+ * replace all references to card.data(...) with card.model(...)
+ * implement all user input event handling via calls on controller methods on the card
+ * implement all card DOM manipulation via model-change listeners
