@@ -6,7 +6,7 @@ At the point of having implemented two card types (and received the Wookie contr
 
 = MVC pattern =
 
-I propose to address this by adopting a version of the Model-View-Controller (MVC) pattern for card plugins, following a design that was developed by Alistair Miles for the !FlyWeb project.  Essentially, all external interactions take place vie a control interface which updates the card state (Model), all updates to the card display (view) are enacted via subscription to associated model values, and all user interactions are effected via calls to the controller interface.  In this way, all interactions can be simulated through the controller interface, and the resulting changes observed in both the model and the DOM.
+I propose to address this by adopting a version of the Model-View-Controller (MVC) pattern for card plugins, following a design that was developed by Alistair Miles for the !FlyWeb project.  Essentially, all external interactions take place via a control interface which updates the card state (Model), all updates to the card display (view) are enacted via subscription to associated model values, and all user interactions are effected via calls to the controller interface.  In this way, all interactions can be simulated through the controller interface, and the resulting changes observed in both the model and the DOM.
 
 It all looks something like this:
 {{{
