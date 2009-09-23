@@ -18,12 +18,18 @@
  */
 if (typeof shuffl == "undefined") 
 {
-    alert("shuffl-card-dataupload.js: shuffl-base.js must be loaded first");
+    alert("shuffl-card-selectfile.js: shuffl-base.js must be loaded first");
 }
 
-// TODO: wrap these values and functions in an object
+/**
+ * Create namespace for this card type
+ */
+shuffl.card.selectfile = {};
 
-shuffl.card_dataupload_data =
+/**
+ * Define template for serializing card data
+ */
+shuffl.card.selectfile.data =
     { 'shuffl:title':     undefined
     , 'shuffl:tags':      [ undefined ]
     , 'shuffl:file':      undefined
@@ -33,13 +39,13 @@ shuffl.card_dataupload_data =
 /**
  * jQuery base element for building new cards (used by shuffl.makeCard)
  */
-shuffl.card_dataupload_blank = jQuery(
+shuffl.card.selectfile.blank = jQuery(
     "<div class='shuffl-card-dialog' style='z-index:10;'>\n"+
     "  <chead>\n"+
     "    <chandle><c></c></chandle>" +
     "    <ctitle>card title</ctitle>\n"+
     "  </chead>\n"+
-    "  <div class='card_dataupload_data'>\n"+
+    "  <div class='card.selectfile.data'>\n"+
     "    <crow>Base URI:  <cbaseuri>(base URI)</cbaseuri></crow>\n" +
     "    <crow>File:      <cfile>(file)</cfile></crow>\n" +
     "    <crow>URI:       <curi>(uri)</curi></crow>\n" +
@@ -62,9 +68,9 @@ shuffl.card_dataupload_blank = jQuery(
  *                      with fields 'shuffl:title', 'shuffl:tags' and 'shuffl:text'.
  * @return a jQuery object representing the new card.
  */
-shuffl.makeDataUploadCard = function (cardtype, cardcss, cardid, carddata) {
-    log.debug("shuffl.makeDataUploadCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
-    var card = shuffl.card_dataupload_blank.clone();
+shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) {
+    log.debug("shuffl.card.selectfile.newCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
+    var card = shuffl.card.selectfile.blank.clone();
     var updateCuri = function() {
         var b = card.find("cbaseuri").text();
         var f = card.find("cfile").text();
@@ -76,7 +82,7 @@ shuffl.makeDataUploadCard = function (cardtype, cardcss, cardid, carddata) {
     };
     card.data('shuffl:class',  cardtype);
     card.data('shuffl:id',     cardid);
-    card.data("shuffl:tojson", shuffl.jsonDataUploadCard);
+    card.data("shuffl:tojson", shuffl.card.selectfile.serialize);
     card.attr('id', cardid);
     card.addClass(cardcss);
     var cardtitle    = shuffl.get(carddata, 'shuffl:title',    cardid+" - type "+cardtype);
@@ -106,10 +112,10 @@ shuffl.makeDataUploadCard = function (cardtype, cardcss, cardid, carddata) {
  * @param card      a jQuery object corresponding to the card
  * @return an object containing the card data
  */
-shuffl.jsonDataUploadCard = function (card) {
-    var carddata = shuffl.card_dataupload_data;
+shuffl.card.selectfile.serialize = function (card) {
+    var carddata = shuffl.card.selectfile.data;
     carddata['shuffl:title']    = card.find("ctitle").text();
-    carddata['shuffl:tags']     = jQuery.trim(card.find("ctags").text()).split(/[\s]*,[\s]*/);
+    carddata['shuffl:tags']     = shuffl.getTagList(card, "ctags");
     carddata['shuffl:file']     = card.find("cfile").text();
     carddata['shuffl:basepath'] = card.find("cbasepath").text();
     carddata['shuffl:baseuri']  = card.find("cbaseuri").text();
@@ -119,6 +125,6 @@ shuffl.jsonDataUploadCard = function (card) {
 /**
  *   Add new card type factory
  */
-shuffl.addCardFactory("shuffl-dataupload", "stock-default", shuffl.makeDataUploadCard);
+shuffl.addCardFactory("shuffl-selectfile", "stock-default", shuffl.card.selectfile.newCard);
 
 // End.

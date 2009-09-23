@@ -65,7 +65,7 @@ TestCardFreetext = function() {
             equals(typeof c6, "function", "retrieved factory purple");
         });
 
-    test("shuffl.makeFreeTextCard",
+    test("shuffl.card.selectfile.newCard",
         function () {
             log.debug("test shuffl.card.freetext.newCard");
             var css = 'stock-yellow';
