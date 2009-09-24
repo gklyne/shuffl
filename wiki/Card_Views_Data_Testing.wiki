@@ -38,7 +38,8 @@ Shuffl and card plug-ins use the jQuery(...).data() method to store card-related
 
  *  jQuery(...).model("name", value) - set a value in the model, and trigger any listeners subscribed to that value.
  *  jQuery(...).model("name") - retrieve a value from the model.
- *  jQuery(...).modelListener("name", function) - subscribe a listener to changes in a model value, and return a value that can be used for subsequently removing the subscription.
+ *  jQuery(...).modelBind("name", function) - subscribe a listener to changes in a model value.
+ *  jQuery(...).modelUnbind("name", function) - unsubscribe a listener to changes in a model value.
 
 The listener function is called thus, with {{{this}}} referencing the DOM element of the jQuery object whose model is changed:
 {{{
