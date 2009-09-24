@@ -3,7 +3,7 @@
  *  Shuffl application common code.
  *  
  * @author Graham Klyne
- * @version $Id: ...$
+ * @version $Id$
  */
 
 // If errors are seen, run Eclipse "(right-click project) > Validate" option
