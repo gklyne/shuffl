@@ -37,8 +37,8 @@ Initialization     External events <--+
 Shuffl and card plug-ins use the jQuery(...).data() method to store card-related data, and this seems an appropriate basis for the card model. This can be implemented as a jQuery plugin that attaches appropriate functionality to any page element.  The interface would look like this:
 
  *  jQuery(...).model("name", value) - set a value in the model, and trigger any listeners subscribed to that value.
- *  jQuery(...).model("name", value) - retrieve a value from the model.
- *  jQuery(...).modelSubscribe("name", function) - subscribe a listener to changes in a model value, and return a value that can be used for subsequently removing the subscription.
+ *  jQuery(...).model("name") - retrieve a value from the model.
+ *  jQuery(...).modelListener("name", function) - subscribe a listener to changes in a model value, and return a value that can be used for subsequently removing the subscription.
 
 The listener function is called thus, with {{{this}}} referencing the jQuery object whose model is changed:
 {{{
