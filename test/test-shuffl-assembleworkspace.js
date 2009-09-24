@@ -1,4 +1,4 @@
-// $Id: test-shuffl-cardhandlers.js 352 2009-09-18 17:27:23Z gk-google@ninebynine.org $
+// $Id$
 
 /**
  * Test suite for card factory and common handling functions
