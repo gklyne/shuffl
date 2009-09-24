@@ -42,7 +42,7 @@ Shuffl and card plug-ins use the jQuery(...).data() method to store card-related
 
 The listener function is called thus, with {{{this}}} referencing the DOM element of the jQuery object whose model is changed:
 {{{
-    listener({name: "name", old: oldvalue, new: newvalue});
+    listener(event, {name: "name", old: oldvalue, new: newvalue});
 }}}
 
 == View ==
