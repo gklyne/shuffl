@@ -116,15 +116,25 @@ shuffl.card.defaultcard.blank = jQuery(
 shuffl.card.defaultcard.newCard = function (cardtype, cardcss, cardid, carddata) 
 {
     log.debug("shuffl.shuffl.card.defaultcard.newCard: "+cardid+", "+shuffl.objectString(carddata));
+    var setText = function  (event, data) {
+        card.find(data.name).text(data.newval);
+    };
     var card = shuffl.card.defaultcard.blank.clone();
-    card.data('shuffl:class',  cardtype);
-    card.data('shuffl:id',     cardid);
-    card.data("shuffl:tojson", shuffl.card.defaultcard.serialize);
+    card.model('shuffl:class',  cardtype);
+    card.model('shuffl:id',     cardid);
+    card.model("shuffl:tojson", shuffl.card.defaultcard.serialize);
     card.attr('id', cardid);
     card.addClass(cardcss);
+    // Set up model listener and user input handlers
+    card.modelBind("shuffl:title", function (event, data) {
+        card.find("ctitle").text(data.newval);
+    });
+    shuffl.lineEditable(card, card.find("ctitle"), function(val, settings) {
+        card.model("shuffl:title", val);
+    });
+    // Initialze card model
     var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - class "+cardtype);
-    card.find("ctitle").text(cardtitle);
-    shuffl.lineEditable(card, card.find("ctitle"));
+    card.model("shuffl:title", cardtitle);
     return card;
 };
 
@@ -426,7 +436,7 @@ shuffl.lineEditable = function (card, field, callback)
         , cancel: 'cancel'
         , cssclass: 'shuffl-lineedit'
         , width: 400
-        , callback: callback
+        , callback: callback    // (new inerHTML, settings)
         });
 };
 
@@ -435,7 +445,7 @@ shuffl.lineEditable = function (card, field, callback)
  * 
  * See: http://www.appelsiini.net/projects/jeditable
  */
-shuffl.blockEditable = function (card, field) 
+shuffl.blockEditable = function (card, field, callback) 
 {
     field.editable(shuffl.modifiedCard(card, shuffl.doneEditText), 
         { data: shuffl.initEditText
@@ -448,6 +458,7 @@ shuffl.blockEditable = function (card, field)
         , submit: 'OK'
         , cancel: 'cancel'
         , cssclass: 'shuffl-blockedit'
+        , callback: callback    // (new inerHTML, settings)
         });
 };
 
