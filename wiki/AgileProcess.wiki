@@ -10,11 +10,11 @@ The outcomes of sprint reviews should be reflected here.
 
 = Project Management and Administration =
 
+ * Review each iteration, update this document as appropriate
+
  * Use Google code project for code and the wiki for administrative notes and plans
 
  * Iterations (sprints): aim for 2 weeks, but allow some flexibility to accommodate circumstances and other commitments.  The sprint timetable for the initial phase to Nov 2009 has been determined at project startup.
-
- * Review each iteration, update this document as appropriate
 
  * Allow 10-15% overall effort for sprint planning, review, recoding and routine reporting
 
