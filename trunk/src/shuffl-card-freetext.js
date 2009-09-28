@@ -70,8 +70,8 @@ shuffl.card.freetext.blank = jQuery(
  * @return              a jQuery object representing the new card.
  */
 shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
-    //log.debug("shuffl.card.freetext.newCard: "+
-    //    cardtype+", "+cardcss+", "+cardid+", "+carddata);
+    log.debug("shuffl.card.freetext.newCard: "+
+        cardtype+", "+cardcss+", "+cardid+", "+carddata);
     // Initialize the card object
     var card = shuffl.card.freetext.blank.clone();
     card.data('shuffl:class',  cardtype);
@@ -85,18 +85,18 @@ shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
     card.resizable();
     // Set up model listener and user input handlers
     var ctitle = card.find("ctitle");
-    card.modelBind("shuffl:title", shuffl.modelSetText(ctitle));
+    card.modelBind("shuffl:title", shuffl.modelSetText(ctitle, true));
     shuffl.lineEditable(card, ctitle, shuffl.editSetModel(card, "shuffl:title"));
     var ctags = card.find("ctags");
-    card.modelBind("shuffl:tags", shuffl.modelSetText(ctags));
+    card.modelBind("shuffl:tags", shuffl.modelSetText(ctags, true));
     shuffl.lineEditable(card, ctags, shuffl.editSetModel(card, "shuffl:tags"));
     var cbody = card.find("cbody");
-    card.modelBind("shuffl:text", shuffl.modelSetHtml(cbody));
+    card.modelBind("shuffl:text", shuffl.modelSetHtml(cbody, true));
     shuffl.blockEditable(card, cbody, shuffl.editSetModel(card, "shuffl:text"));
     // Initialize the model
     var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
     var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
-    var cardtext  = shuffl.get(carddata, 'shuffl:text',  carddata);
+    var cardtext  = shuffl.get(carddata, 'shuffl:text',  "");
     card.model("shuffl:title", cardtitle);
     card.model("shuffl:tags",  cardtags.join(","));
     card.model("shuffl:text",  cardtext);

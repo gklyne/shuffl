@@ -135,10 +135,9 @@ shuffl.card.defaultcard.newCard = function (cardtype, cardcss, cardid, carddata)
     card.addClass(cardcss);
     // Set up model listener and user input handlers
     var ctitle = card.find("ctitle");
-    card.modelBind("shuffl:title", 
-        shuffl.modelSetText(ctitle));
-    shuffl.lineEditable(card, ctitle, 
-        shuffl.editSetModel(card, "shuffl:title"));
+    card.modelBind("shuffl:title", shuffl.modelSetText(ctitle, true));
+    shuffl.lineEditable(
+        card, ctitle, shuffl.editSetModel(card, true, "shuffl:title"));
     // Initialze card model
     var cardtitle = shuffl.get(
         carddata, 'shuffl:title', cardid+" - class "+cardtype);
@@ -402,40 +401,17 @@ shuffl.makeTagList = function (ttext)
  *                  field.
  * 
  * Example:
- *    card.modelBind("shuffl:title", modelSetText(card.find("ctitle"),"[edit]"));
+ *    card.modelBind("shuffl:title", modelSetText(card.find("ctitle"),true));
  */
 shuffl.modelSetText = function (fieldobj, holder, thencall)
 {
-    function setTextOrPlaceHolder(event, data) {
+    function setText(event, data) {
         var newtext = jQuery.trim(data.newval);
         fieldobj.text(newtext || holder);
         if (thencall !== undefined) { thencall(event, data); };
     }
     if (holder === true)      { holder = shuffl.PlaceHolder; };
     if (holder === undefined) { holder = ""; };
-    return setTextOrPlaceHolder;
-};
-
-/**
- * Return a model-change event handler that sets the text value in a supplied
- * field.
- * 
- * @param fieldobj  is a jQuery object correspondingto a field that is to be 
- *                  updated with new values assigned to a model element.
- * @param thencall  if defined, this is an additional function to call
- *                  after the card text has been updated.
- * @return          a function to be used as the update handler for a model
- *                  field.
- * 
- * Example:
- *    card.modelBind("shuffl:title", modelSetText(card.find("ctitle"));
- */
-shuffl.modelSetTextNoPlaceHolder = function (fieldobj, thencall)
-{
-    function setText(event, data) {
-        fieldobj.text(data.newval);
-        if (thencall !== undefined) { thencall(event, data); };
-    }
     return setText;
 };
 
@@ -445,6 +421,8 @@ shuffl.modelSetTextNoPlaceHolder = function (fieldobj, thencall)
  * 
  * @param fieldobj  is a jQuery object correspondingto a field that is to be 
  *                  updated with new values assigned to a model element.
+ * @param holder    is a placeholder string which, if defined, is displayed 
+ *                  if the model value is an empty string.
  * @param thencall  if defined, this is an additional function to call
  *                  after the card text has been updated.
  * @return          a function to be used as the update handler for a model
@@ -453,12 +431,16 @@ shuffl.modelSetTextNoPlaceHolder = function (fieldobj, thencall)
  * Example:
  *    card.modelBind("shuffl:title", modelSetHTML(card.find("ctitle"));
  */
-shuffl.modelSetHtml = function (fieldobj, thencall)
+shuffl.modelSetHtml = function (fieldobj, holder, thencall)
 {
     function setHtml(event, data) {
-        fieldobj.html(data.newval);
+        log.debug("shuffl.modelSetHtml: "+jQuery.toJSON(data.newval));
+        var newtext = jQuery.trim(data.newval);
+        fieldobj.html(newtext || holder);
         if (thencall !== undefined) { thencall(event, data); };
     }
+    if (holder === true)      { holder = shuffl.PlaceHolder; };
+    if (holder === undefined) { holder = ""; };
     return setHtml;
 };
 
