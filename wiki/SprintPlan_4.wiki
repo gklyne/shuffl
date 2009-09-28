@@ -112,3 +112,27 @@ Thursday, 17 September, 2009
 Friday, 18 September, 2009
  * (0.2) Admin
  * (0.5) Refactoring and *Save*: basic load/save/save new logic is working.
+
+Monday, 21 September, 2009
+ * (0.2) Misc internal
+ * (0.6) Workspace save card sizes and z-index values
+
+Tuesday, 22 September, 2009
+ * (0.4) Misc emails
+ * (0.6) Exploring options for UI tom upload data (e.g. CSV). Have a fairly primitive option working, but will want to find a way to make it more user friendly; browser restrictions are making this tough.
+
+Wednesday, 23 September, 2009
+ * (0.2) Email & admin, look at Wookie card from Scott
+ * (0.2) Group meeting
+ * (0.4) Outline plan for card plugin refactoring, move existing plugins to new namespace, create test cases for select file plugin.
+
+Thursday, 24 September, 2009
+ * (0.5) Card refactoring to MVC pattern - model plugin created and tested; default card done.
+
+Friday, 25 September, 2009
+ * (0.1) Misc admin
+ * (0.2) Meeting David Flanders
+
+Monday, 28 September, 2009
+ * (1.0) Completed Shuffl card plugin refactoring to us an MVC-based pattern.
+
