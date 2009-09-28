@@ -381,16 +381,19 @@ shuffl.getTagList = function (card, selector)
  * 
  * @param fieldobj  is a jQuery object correspondingto a field that is to be 
  *                  updated with new values assigned to a model element.
+ * @param thencall  if defined, this is an additional function to call
+ *                  after the card text has been updated.
  * @return          a function to be used as the update handler for a model
  *                  field.
  * 
  * Example:
  *    card.modelBind("shuffl:title", modelSetText(card.find("ctitle"));
  */
-shuffl.modelSetText = function (fieldobj)
+shuffl.modelSetText = function (fieldobj, thencall)
 {
     function setText(event, data) {
         fieldobj.text(data.newval);
+        if (thencall !== undefined) { thencall(event, data); };
     }
     return setText;
 };
@@ -401,16 +404,19 @@ shuffl.modelSetText = function (fieldobj)
  * 
  * @param fieldobj  is a jQuery object correspondingto a field that is to be 
  *                  updated with new values assigned to a model element.
+ * @param thencall  if defined, this is an additional function to call
+ *                  after the card text has been updated.
  * @return          a function to be used as the update handler for a model
  *                  field.
  * 
  * Example:
  *    card.modelBind("shuffl:title", modelSetHTML(card.find("ctitle"));
  */
-shuffl.modelSetHtml = function (fieldobj)
+shuffl.modelSetHtml = function (fieldobj, thencall)
 {
     function setHtml(event, data) {
         fieldobj.html(data.newval);
+        if (thencall !== undefined) { thencall(event, data); };
     }
     return setHtml;
 };
