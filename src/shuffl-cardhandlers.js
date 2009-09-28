@@ -434,7 +434,7 @@ shuffl.modelSetText = function (fieldobj, holder, thencall)
 shuffl.modelSetHtml = function (fieldobj, holder, thencall)
 {
     function setHtml(event, data) {
-        log.debug("shuffl.modelSetHtml: "+jQuery.toJSON(data.newval));
+        //log.debug("shuffl.modelSetHtml: "+jQuery.toJSON(data.newval));
         var newtext = jQuery.trim(data.newval);
         fieldobj.html(newtext || holder);
         if (thencall !== undefined) { thencall(event, data); };
@@ -459,8 +459,9 @@ shuffl.modelSetHtml = function (fieldobj, holder, thencall)
 shuffl.editSetModel = function (card, name)
 {
     function setModel(val, settings) {
-        log.debug("shuffl.editSetModel: "+val);
+        //log.debug("shuffl.editSetModel: "+val);
         card.model(name, val);
+        card.data('shuffl:datamod', true);
     };
     return setModel;
 };
@@ -489,8 +490,8 @@ shuffl.PlaceHolder = "(Double-click to edit)"
 shuffl.modifiedCard = function(card, fn) 
 {
     function editDone() {
-        log.debug("shuffl.midifiedCard:editDone");
-        card.data('shuffl:datamod', true);
+        log.debug("shuffl.modifiedCard:editDone");
+        ////card.data('shuffl:datamod', true);
         return fn.apply(this, arguments);
     };
     return editDone;
