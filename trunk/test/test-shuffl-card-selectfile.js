@@ -111,7 +111,7 @@ TestCardSelectfile = function() {
             equals(c.find("ctitle").text(),     card_id+" - type shuffl-selectfile", "card title field");
             equals(c.find("ctags").text(),      card_id+",shuffl-selectfile", "card tags field");
             equals(c.find("cbaseuri").text(),   baseuri, "card cbaseuri field");
-            equals(c.find("cfile").text(),      "", "card cfile field");
+            equals(c.find("cfile").text(),      "(Double-click to edit)", "card cfile field");
             equals(c.find("curi").text(),       baseuri, "card curi field");
             // Check saved card data
             var d = testcardselectfile_carddata;
@@ -166,7 +166,7 @@ TestCardSelectfile = function() {
     test("shuffl.card.selectfile model setting",
         function () {
             log.debug("shuffl.card.selectfile model setting");
-            expect(18);
+            expect(21);
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
@@ -196,6 +196,11 @@ TestCardSelectfile = function() {
             equals(c.find("cbaseuri").text(),   "http://example.com/newbase/", "updated cbaseuri field (2)");
             equals(c.find("cfile").text(),      "newpath/newfile", "updated cfile field (2)");
             equals(c.find("curi").text(),       "http://example.com/newbase/newpath/newfile", "updated curi field (2)");
+            // Update filename to empty string - check for placeholder
+            c.model("shuffl:file", "");
+            equals(c.find("cbaseuri").text(),   "http://example.com/newbase/", "updated cbaseuri field (3)");
+            equals(c.find("cfile").text(),      "(Double-click to edit)", "updated cfile field (3)");
+            equals(c.find("curi").text(),       "http://example.com/newbase/", "updated curi field (3)");
     });
 
 };
