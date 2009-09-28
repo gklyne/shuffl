@@ -205,7 +205,7 @@ TestCardFreetext = function() {
             equals(e['shuffl:data']['shuffl:title'], "Card N title",   'shuffl:data-title');
             same(e['shuffl:data']['shuffl:tags'],  [ 'card_N_tag', 'footag' ],   'shuffl:data-tags');
             equals(e['shuffl:data']['shuffl:text'],  
-                "Card N free-form text here<br>line 2<br>line3<br>yellow",
+                "Card N free-form text here<br/>line 2<br/>line3<br/>yellow",
                 'shuffl:data-text');
         });
 

@@ -70,8 +70,8 @@ shuffl.card.freetext.blank = jQuery(
  * @return              a jQuery object representing the new card.
  */
 shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
-    log.debug("shuffl.card.freetext.newCard: "+
-        cardtype+", "+cardcss+", "+cardid+", "+carddata);
+    //log.debug("shuffl.card.freetext.newCard: "+
+    //    cardtype+", "+cardcss+", "+cardid+", "+carddata);
     // Initialize the card object
     var card = shuffl.card.freetext.blank.clone();
     card.data('shuffl:class',  cardtype);
@@ -111,10 +111,9 @@ shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
  */
 shuffl.card.freetext.serialize = function (card) {
     var carddata = shuffl.card.freetext.data;
-    carddata['shuffl:title'] = card.find("ctitle").text();
-    //carddata['shuffl:tags']  = jQuery.trim(card.find("ctags").text()).split(/[\s]*,[\s]*/);
-    carddata['shuffl:tags']  = shuffl.getTagList(card, "ctags");
-    carddata['shuffl:text']  = card.find("cbody").html();
+    carddata['shuffl:title'] = card.model("shuffl:title");
+    carddata['shuffl:tags']  = shuffl.makeTagList(card.model("shuffl:tags"));
+    carddata['shuffl:text']  = card.model("shuffl:text");
     return carddata;
 };
 

@@ -197,7 +197,7 @@ TestSaveWorkspace = function() {
             };
             equals(val['shuffl:data']['shuffl:title'], "Card 1 title",   'shuffl:data-title');
             same  (val['shuffl:data']['shuffl:tags'],  [ 'card_1_tag', 'yellowtag' ],   'shuffl:data-tags');
-            equals(val['shuffl:data']['shuffl:text'],  "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow", 'shuffl:data-text');
+            equals(val['shuffl:data']['shuffl:text'],  "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow", 'shuffl:data-text (1)');
             log.debug("Save card data");
             var card = shuffl.createCardFromData(val['shuffl:id'], val['shuffl:class'], val);
             shuffl.saveCard(this.atompub, feedpath, val['shuffl:id']+".json", card, callback);
@@ -220,7 +220,7 @@ TestSaveWorkspace = function() {
             };
             equals(val['shuffl:data']['shuffl:title'], "Card 1 title",   'shuffl:data-title');
             same  (val['shuffl:data']['shuffl:tags'],  [ 'card_1_tag', 'yellowtag' ],   'shuffl:data-tags');
-            equals(val['shuffl:data']['shuffl:text'],  "Card 1 free-form text here<br>line 2<br>line3<br>yellow", 'shuffl:data-text');
+            equals(val['shuffl:data']['shuffl:text'],  "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow", 'shuffl:data-text (2)');
             callback({});
         });
         m.exec({}, start);
@@ -429,7 +429,7 @@ TestSaveWorkspace = function() {
     test("shuffl.updateCard", function () {
         log.info("----------");
         log.info((testnum++)+". test shuffl.updateCard");
-        expect(49);
+        expect(50);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load workspace");
@@ -445,7 +445,8 @@ TestSaveWorkspace = function() {
             ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
             equals(c3.find("ctitle").text(), "Card 3 title", "Card 3 title");
             // Update card in workspace
-            c3.find("ctitle").text("Card 3 updated");
+            c3.model("shuffl:title", "Card 3 updated");
+            equals(c3.find("ctitle").text(), "Card 3 updated", "ctitle(c3) updated in DOM");
             shuffl.updateCard(this.atompub, feedpath, c3, callback);
         });
         m.eval(function(val, callback) {
@@ -500,7 +501,7 @@ TestSaveWorkspace = function() {
     test("shuffl.saveWorkspace (updated moved card)", function () {
         log.info("----------");
         log.info((testnum++)+". test shuffl.saveWorkspace with updated and moved card");
-        expect(53);
+        expect(54);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load workspace");
@@ -515,7 +516,8 @@ TestSaveWorkspace = function() {
             ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
             equals(c3.find("ctitle").text(), "Card 3 updated", "Card 3 title");
             // Update and move card in workspace
-            c3.find("ctitle").text("Card 3 updated and moved");
+            c3.model("shuffl:title", "Card 3 updated and moved");
+            equals(c3.find("ctitle").text(), "Card 3 updated and moved", "ctitle(c3) updated in DOM");
             c3.css({left:20, top:10});
             c3.data('shuffl:datamod', true);    // Note card has been updated
             // Save workspace
@@ -572,7 +574,7 @@ TestSaveWorkspace = function() {
             callback(true);
         });        
         m.exec({}, start);
-        ok(true, "shuffl.SaveNewWorkspace (updated card) initiated");
+        ok(true, "shuffl.SaveNewWorkspace (updated moved card) initiated");
         stop();
     });
     
