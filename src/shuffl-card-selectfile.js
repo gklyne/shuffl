@@ -72,11 +72,10 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     log.debug("shuffl.card.selectfile.newCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
     var card = shuffl.card.selectfile.blank.clone();
     var updateCuri = function() {
-        var b = card.find("cbaseuri").text();
-        var f = card.find("cfile").text();
-        log.debug("- update curi: cbaseuri "+b);
-        log.debug("- update curi: cfile "+f);
-        if ( f.match(/^Double-click/) ) { f = ""; };
+        var b = card.model("shuffl:baseuri");
+        var f = card.model("shuffl:file");
+        //log.debug("- update curi: cbaseuri "+b);
+        //log.debug("- update curi: cfile "+f);
         var u = jQuery.uri(f, b);
         card.find("curi").text(u.toString());
     };
@@ -122,11 +121,11 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
  */
 shuffl.card.selectfile.serialize = function (card) {
     var carddata = shuffl.card.selectfile.data;
-    carddata['shuffl:title']    = card.find("ctitle").text();
-    carddata['shuffl:tags']     = shuffl.getTagList(card, "ctags");
-    carddata['shuffl:file']     = card.find("cfile").text();
-    carddata['shuffl:basepath'] = card.find("cbasepath").text();
-    carddata['shuffl:baseuri']  = card.find("cbaseuri").text();
+    carddata['shuffl:title']    = card.model("shuffl:title");
+    carddata['shuffl:tags']     = shuffl.makeTagList(card.model("shuffl:tags"));
+    carddata['shuffl:file']     = card.model("shuffl:file");
+    carddata['shuffl:basepath'] = card.model("shuffl:basepath");
+    carddata['shuffl:baseuri']  = card.model("shuffl:baseuri");
     return carddata;
 };
 
