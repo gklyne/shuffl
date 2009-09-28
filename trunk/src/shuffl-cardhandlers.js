@@ -368,7 +368,20 @@ shuffl.createDataFromCard = function (card)
  */
 shuffl.getTagList = function (card, selector)
 {
-    return jQuery.trim(card.find(selector).text()).split(/[\s]*,[\s]*/);
+    //log.debug("shuffl.getTagList "+selector);
+    return shuffl.makeTagList(card.find(selector).text());
+};
+
+/**
+ * Make list of tags from string
+ * 
+ * @param text      string containing a comma-separated list of tag names
+ * @return          an array of tag names
+ */
+shuffl.makeTagList = function (ttext)
+{
+    //log.debug("shuffl.makeTagList "+ttext);
+    return jQuery.trim(ttext).split(/[\s]*,[\s]*/);
 };
 
 // ----------------------------------------------------------------
