@@ -109,6 +109,15 @@
  * (sensors - dave de roure, simon coles, ...)
 
 
+= Textual description to ontology migration =
+
+ * http://lists.w3.org/Archives/Public/semantic-web/2009Sep/0170.html
+   * Framework: http://marinemetadata.org/semanticframeworkconcept
+      * This proposal describe how the earth science community can bootstrap from almost no documented controlled vocabularies, to a rich, archived, interoperable collection of terms, definitions, and associated metadata, leveraging semantic web tools and concepts.
+   * Tools: http://mmisw.org/orr
+      * The MMI Ontology Registry and Repository, leveraging tools from Stanford's BioPortal project, makes it easy to translate vocabularies from simple text formats to a semantic web format. It converts the text to RDF, registers it in an ontology repository, and serves information about each term in a browser (by resolving the unique URI for that term). 
+
+
 = Others (expand selected candidates in separate sections) =
 
  * Microsoft Surface - http://www.microsoft.com/SURFACE/Default.aspx
