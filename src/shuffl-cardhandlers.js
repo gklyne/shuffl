@@ -390,6 +390,34 @@ shuffl.makeTagList = function (ttext)
 
 /**
  * Return a model-change event handler that sets the text value in a supplied
+ * field to a placeholder value if the model value is empty.
+ * 
+ * @param fieldobj  is a jQuery object corresponding to a field that is to be 
+ *                  updated with new values assigned to a model element.
+ * @param holder    is a placeholder string which, if defined, is displayed 
+ *                  if the model value is an empty string.
+ * @param thencall  if defined, this is an additional function to call
+ *                  after the card text has been updated.
+ * @return          a function to be used as the update handler for a model
+ *                  field.
+ * 
+ * Example:
+ *    card.modelBind("shuffl:title", modelSetText(card.find("ctitle"),"[edit]"));
+ */
+shuffl.modelSetText = function (fieldobj, holder, thencall)
+{
+    function setTextOrPlaceHolder(event, data) {
+        var newtext = jQuery.trim(data.newval);
+        fieldobj.text(newtext || holder);
+        if (thencall !== undefined) { thencall(event, data); };
+    }
+    if (holder === true)      { holder = shuffl.PlaceHolder; };
+    if (holder === undefined) { holder = ""; };
+    return setTextOrPlaceHolder;
+};
+
+/**
+ * Return a model-change event handler that sets the text value in a supplied
  * field.
  * 
  * @param fieldobj  is a jQuery object correspondingto a field that is to be 
@@ -402,7 +430,7 @@ shuffl.makeTagList = function (ttext)
  * Example:
  *    card.modelBind("shuffl:title", modelSetText(card.find("ctitle"));
  */
-shuffl.modelSetText = function (fieldobj, thencall)
+shuffl.modelSetTextNoPlaceHolder = function (fieldobj, thencall)
 {
     function setText(event, data) {
         fieldobj.text(data.newval);
@@ -459,6 +487,12 @@ shuffl.editSetModel = function (card, name)
 // ----------------------------------------------------------------
 // Text editing support functions
 // ----------------------------------------------------------------
+
+/**
+ * Placeholder string (if no text on display, it's not possible to click
+ * on it to edit in a value.)
+ */
+shuffl.PlaceHolder = "(Double-click to edit)"
 
 /**
  * Compose a supplied completion function with logic to flag a card as 
@@ -521,7 +555,7 @@ shuffl.lineEditable = function (card, field, callback)
         , onblur: 'submit'
         //, tooltip: 'Click to edit...'
         , tooltip: 'Double-click to edit...'
-        , placeholder: 'Double-click to edit'
+        , placeholder: shuffl.PlaceHolder
         , event:   'dblclick'
         , submit: 'OK'
         , cancel: 'cancel'
@@ -544,7 +578,7 @@ shuffl.blockEditable = function (card, field, callback)
         , onblur: 'submit'
         //, tooltip: 'Click to edit...'
         , tooltip: 'Double-click to edit...'
-        , placeholder: 'Double-click to edit'
+        , placeholder: shuffl.PlaceHolder
         , event:   'dblclick'
         , submit: 'OK'
         , cancel: 'cancel'
