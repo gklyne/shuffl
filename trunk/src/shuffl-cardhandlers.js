@@ -491,7 +491,7 @@ shuffl.modifiedCard = function(card, fn)
 {
     function editDone() {
         log.debug("shuffl.modifiedCard:editDone");
-        ////card.data('shuffl:datamod', true);
+        card.data('shuffl:datamod', true);
         return fn.apply(this, arguments);
     };
     return editDone;
@@ -533,7 +533,7 @@ shuffl.passEditText = function(value, settings)
  */
 shuffl.lineEditable = function (card, field, callback) 
 {
-    field.editable(shuffl.modifiedCard(card, shuffl.passEditText), 
+    field.editable(shuffl.passEditText,
         { data: shuffl.passEditText
         , onblur: 'submit'
         //, tooltip: 'Click to edit...'
@@ -555,7 +555,7 @@ shuffl.lineEditable = function (card, field, callback)
  */
 shuffl.blockEditable = function (card, field, callback) 
 {
-    field.editable(shuffl.modifiedCard(card, shuffl.doneEditText), 
+    field.editable(shuffl.doneEditText, 
         { data: shuffl.initEditText
         , type: 'textarea'
         , onblur: 'submit'
