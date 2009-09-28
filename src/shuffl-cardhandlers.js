@@ -125,8 +125,8 @@ shuffl.card.defaultcard.blank = jQuery(
  */
 shuffl.card.defaultcard.newCard = function (cardtype, cardcss, cardid, carddata) 
 {
-    log.debug("shuffl.shuffl.card.defaultcard.newCard: "+
-        cardid+", "+shuffl.objectString(carddata));
+    //log.debug("shuffl.shuffl.card.defaultcard.newCard: "+
+    //    cardid+", "+shuffl.objectString(carddata));
     var card = shuffl.card.defaultcard.blank.clone();
     card.model('shuffl:class',  cardtype);
     card.model('shuffl:id',     cardid);
@@ -396,6 +396,26 @@ shuffl.modelSetText = function (fieldobj)
 };
 
 /**
+ * Return a model-change event handler that sets the innerHTML value in a 
+ * supplied field.
+ * 
+ * @param fieldobj  is a jQuery object correspondingto a field that is to be 
+ *                  updated with new values assigned to a model element.
+ * @return          a function to be used as the update handler for a model
+ *                  field.
+ * 
+ * Example:
+ *    card.modelBind("shuffl:title", modelSetHTML(card.find("ctitle"));
+ */
+shuffl.modelSetHtml = function (fieldobj)
+{
+    function setHtml(event, data) {
+        fieldobj.html(data.newval);
+    }
+    return setHtml;
+};
+
+/**
  * Return an edit-completion function that sets a model value on a given card
  * 
  * @param card      is a jQuery card object whose model is linked to an 
@@ -404,10 +424,13 @@ shuffl.modelSetText = function (fieldobj)
  *                  editable field.
  * @return          a function to be used as an edit-completion function.
  * 
+ * Example:
+ *    shuffl.lineEditable(card, ctitle, shuffl.editSetModel(card, "shuffl:title")); 
  */
 shuffl.editSetModel = function (card, name)
 {
     function setModel(val, settings) {
+        log.debug("shuffl.editSetModel: "+val);
         card.model(name, val);
     };
     return setModel;
@@ -445,7 +468,7 @@ shuffl.modifiedCard = function(card, fn)
 shuffl.initEditText = function(value) 
 {
     log.debug("shuffl.initEditText: "+value);
-    return value.replace(/<br[^>]*>/g, "\n\n");
+    return value.replace(/<br[^>]*>/g, "\n\n").replace(/&lt;/g, "<");
 };
 
 /**
