@@ -72,28 +72,34 @@ shuffl.card.freetext.blank = jQuery(
 shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
     //log.debug("shuffl.card.freetext.newCard: "+
     //    cardtype+", "+cardcss+", "+cardid+", "+carddata);
+    // Initialize the card object
     var card = shuffl.card.freetext.blank.clone();
     card.data('shuffl:class',  cardtype);
     card.data('shuffl:id',     cardid);
     card.data("shuffl:tojson", shuffl.card.freetext.serialize);
     card.attr('id', cardid);
     card.addClass(cardcss);
-    var cardtext  = shuffl.get(carddata, 'shuffl:text',  carddata);
-    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
-    var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
     card.find("cident").text(cardid);           // Set card id text
     card.find("cclass").text(cardtype);         // Set card class/type text
-    card.find("ctitle").text(cardtitle);        // Set card title text (editable) ..
-    shuffl.lineEditable(card, card.find("ctitle"));
-    card.find("cbody").html(cardtext);
-    shuffl.blockEditable(card, card.find("cbody"));   // Set card body text (editable) ..
-    card.find("ctags").text(cardtags.join(","));
-    shuffl.lineEditable(card, card.find("ctags"));    // Set card tags (editable) ..
-    //log.debug("makeCard: "+shuffl.elemString(card[0]));
-    //card.resizable( {alsoResize: 'div#'+cardid+' cbody'} );
-    //card.resizable( {resize: shuffl.resizeAlso(card, "cbody")} );
     card.data("resizeAlso", "cbody");
     card.resizable();
+    // Set up model listener and user input handlers
+    var ctitle = card.find("ctitle");
+    card.modelBind("shuffl:title", shuffl.modelSetText(ctitle));
+    shuffl.lineEditable(card, ctitle, shuffl.editSetModel(card, "shuffl:title"));
+    var ctags = card.find("ctags");
+    card.modelBind("shuffl:tags", shuffl.modelSetText(ctags));
+    shuffl.lineEditable(card, ctags, shuffl.editSetModel(card, "shuffl:tags"));
+    var cbody = card.find("cbody");
+    card.modelBind("shuffl:text", shuffl.modelSetHtml(cbody));
+    shuffl.blockEditable(card, cbody, shuffl.editSetModel(card, "shuffl:text"));
+    // Initialize the model
+    var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
+    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
+    var cardtext  = shuffl.get(carddata, 'shuffl:text',  carddata);
+    card.model("shuffl:title", cardtitle);
+    card.model("shuffl:tags",  cardtags.join(","));
+    card.model("shuffl:text",  cardtext);
     return card;
 };
 

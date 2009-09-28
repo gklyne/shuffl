@@ -246,8 +246,8 @@ TestCardHandlers = function() {
             // Create card (copy of code already tested)
             var d = testcardhandlers_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "test-type", d);
-            equals(c.find("ctitle").text(), "Card 1 title", "card title field");
             // Simulate user input: set model to update title
+            equals(c.find("ctitle").text(), "Card 1 title", "card title field");
             c.model("shuffl:title", "Card 1 updated");
             equals(c.find("ctitle").text(), "Card 1 updated", "updated title field");
         });
