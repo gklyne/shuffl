@@ -111,14 +111,22 @@ shuffl.card.defaultcard.blank = jQuery(
     "</div>");
 
 /**
- * Default card factory: title and tags only
+ * Default card factory: title only
+ * 
+ * @param cardtype      type identifier for the new card element
+ * @param cardcss       CSS class name(s) added to the new card element
+ * @param cardid        local card identifier - a local name for the card, 
+ *                      which may be combined with a base URI to form a URI
+ *                      for the card.
+ * @param carddata      an object or string containing additional data used in 
+ *                      constructing the body of the card.  
+ *                      This is an object structure with field 'shuffl:title'.
+ * @return              a jQuery object representing the new card.
  */
 shuffl.card.defaultcard.newCard = function (cardtype, cardcss, cardid, carddata) 
 {
-    log.debug("shuffl.shuffl.card.defaultcard.newCard: "+cardid+", "+shuffl.objectString(carddata));
-    var setText = function  (event, data) {
-        card.find(data.name).text(data.newval);
-    };
+    log.debug("shuffl.shuffl.card.defaultcard.newCard: "+
+        cardid+", "+shuffl.objectString(carddata));
     var card = shuffl.card.defaultcard.blank.clone();
     card.model('shuffl:class',  cardtype);
     card.model('shuffl:id',     cardid);
@@ -126,14 +134,14 @@ shuffl.card.defaultcard.newCard = function (cardtype, cardcss, cardid, carddata)
     card.attr('id', cardid);
     card.addClass(cardcss);
     // Set up model listener and user input handlers
-    card.modelBind("shuffl:title", function (event, data) {
-        card.find("ctitle").text(data.newval);
-    });
-    shuffl.lineEditable(card, card.find("ctitle"), function(val, settings) {
-        card.model("shuffl:title", val);
-    });
+    var ctitle = card.find("ctitle");
+    card.modelBind("shuffl:title", 
+        shuffl.modelSetText(ctitle));
+    shuffl.lineEditable(card, ctitle, 
+        shuffl.editSetModel(card, "shuffl:title"));
     // Initialze card model
-    var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - class "+cardtype);
+    var cardtitle = shuffl.get(
+        carddata, 'shuffl:title', cardid+" - class "+cardtype);
     card.model("shuffl:title", cardtitle);
     return card;
 };
@@ -250,12 +258,6 @@ shuffl.createStockpile = function(sid, sclass, slabel, stype)
 shuffl.createCardFromStock = function (stockpile) { 
     log.debug("makeCard "+stockpile);
     var cardtype = stockpile.data("CardType");
-    /* TODO: delete
-    var cardclass = stockpile.attr("class")
-        .replace(/shuffl-stockpile/,'')
-        .replace(/ui-draggable/,'')
-        .replace(/ui-draggable-dragging/,'');
-    */
     var cardid = shuffl.makeId(shuffl.idpref);
     // log.debug("cardclass '"+cardclass+"'");
     var newcard = shuffl.getCardFactory(cardtype)(cardid, {});
@@ -368,6 +370,49 @@ shuffl.getTagList = function (card, selector)
 {
     return jQuery.trim(card.find(selector).text()).split(/[\s]*,[\s]*/);
 };
+
+// ----------------------------------------------------------------
+// Card MVC support functions
+// ----------------------------------------------------------------
+
+/**
+ * Return a model-change event handler that sets the text value in a supplied
+ * field.
+ * 
+ * @param fieldobj  is a jQuery object correspondingto a field that is to be 
+ *                  updated with new values assigned to a model element.
+ * @return          a function to be used as the update handler for a model
+ *                  field.
+ * 
+ * Example:
+ *    card.modelBind("shuffl:title", modelSetText(card.find("ctitle"));
+ */
+shuffl.modelSetText = function (fieldobj)
+{
+    function setText(event, data) {
+        fieldobj.text(data.newval);
+    }
+    return setText;
+};
+
+/**
+ * Return an edit-completion function that sets a model value on a given card
+ * 
+ * @param card      is a jQuery card object whose model is linked to an 
+ *                  editable field.
+ * @param name      is the name of the field to be updated with changes to the
+ *                  editable field.
+ * @return          a function to be used as an edit-completion function.
+ * 
+ */
+shuffl.editSetModel = function (card, name)
+{
+    function setModel(val, settings) {
+        card.model(name, val);
+    };
+    return setModel;
+};
+
 
 // ----------------------------------------------------------------
 // Text editing support functions

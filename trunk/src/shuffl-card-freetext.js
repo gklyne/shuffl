@@ -67,10 +67,11 @@ shuffl.card.freetext.blank = jQuery(
  * @param carddata      an object or string containing additional data used in constructing
  *                      the body of the card.  This is either a string or an object structure
  *                      with fields 'shuffl:title', 'shuffl:tags' and 'shuffl:text'.
- * @return a jQuery object representing the new card.
+ * @return              a jQuery object representing the new card.
  */
 shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
-    //log.debug("shuffl.card.freetext.newCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
+    //log.debug("shuffl.card.freetext.newCard: "+
+    //    cardtype+", "+cardcss+", "+cardid+", "+carddata);
     var card = shuffl.card.freetext.blank.clone();
     card.data('shuffl:class',  cardtype);
     card.data('shuffl:id',     cardid);
