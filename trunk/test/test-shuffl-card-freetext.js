@@ -217,14 +217,12 @@ TestCardFreetext = function() {
             var d = testcardfreetext_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-freetext-pink", d);
             // Simulate user input: set model to update title, tags and body text
-            log.debug("- cbody "+jQuery.toJSON(c.find("cbody").html()));
             equals(c.find("ctitle").text(), "Card N title", "card title field");
             equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
             equals(c.find("cbody").html(),  "Card N free-form text here<br>line 2<br>line3<br>yellow", "card body field");
             c.model("shuffl:title", "Card N updated");
             c.model("shuffl:tags", "card_N_tag,bartag");
             c.model("shuffl:text", "Card N updated text<br/>more");
-            log.debug("- cbody "+jQuery.toJSON(c.find("cbody").html()));
             equals(c.find("ctitle").text(), "Card N updated", "updated title field");
             equals(c.find("ctags").text(),  "card_N_tag,bartag", "updated tags field");
             equals(c.find("cbody").html(),  "Card N updated text<br>more", "updated body field");

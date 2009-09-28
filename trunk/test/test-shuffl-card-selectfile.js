@@ -111,7 +111,7 @@ TestCardSelectfile = function() {
             equals(c.find("ctitle").text(),     card_id+" - type shuffl-selectfile", "card title field");
             equals(c.find("ctags").text(),      card_id+",shuffl-selectfile", "card tags field");
             equals(c.find("cbaseuri").text(),   baseuri, "card cbaseuri field");
-            equals(c.find("cfile").text(),      "Double-click to edit", "card cfile field");
+            equals(c.find("cfile").text(),      "", "card cfile field");
             equals(c.find("curi").text(),       baseuri, "card curi field");
             // Check saved card data
             var d = testcardselectfile_carddata;
@@ -162,6 +162,41 @@ TestCardSelectfile = function() {
             equals(e['shuffl:data']['shuffl:file'],  "path/file",       'shuffl:file');
             equals(e['shuffl:data']['shuffl:baseuri'], "http://example.com/base/", 'shuffl:baseuri');
         });
+
+    test("shuffl.card.selectfile model setting",
+        function () {
+            log.debug("shuffl.card.selectfile model setting");
+            expect(18);
+            // Create card (copy of code already tested)
+            var d = testcardselectfile_carddata;
+            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
+            // Simulate user input: set model to update title, tags and body text
+            equals(c.find("ctitle").text(),     "Card N title", "card title field");
+            equals(c.find("ctags").text(),      "card_N_tag,footag", "card tags field");
+            equals(c.find("cbaseuri").text(),   "http://example.com/base/", "card cbaseuri field");
+            equals(c.find("cfile").text(),      "path/file", "card cfile field");
+            equals(c.find("curi").text(),       "http://example.com/base/path/file", "card curi field");
+            // Update title and tags
+            c.model("shuffl:title", "Card N updated");
+            c.model("shuffl:tags", "card_N_tag,bartag");
+            equals(c.find("ctitle").text(),     "Card N updated", "updated title field");
+            equals(c.find("ctags").text(),      "card_N_tag,bartag", "updated tags field");
+            equals(c.find("cbaseuri").text(),   "http://example.com/base/", "card cbaseuri field");
+            equals(c.find("cfile").text(),      "path/file", "card cfile field");
+            equals(c.find("curi").text(),       "http://example.com/base/path/file", "card curi field");
+            // Update base URI
+            c.model("shuffl:baseuri", "http://example.com/newbase/");
+            equals(c.find("cbaseuri").text(),   "http://example.com/newbase/", "updated cbaseuri field (1)");
+            equals(c.find("cfile").text(),      "path/file", "card cfile field (1)");
+            equals(c.find("curi").text(),       "http://example.com/newbase/path/file", "updated curi field (1)");
+            // Update file name
+            c.model("shuffl:file", "newpath/newfile");
+            equals(c.find("ctitle").text(),     "Card N updated", "recheck title field");
+            equals(c.find("ctags").text(),      "card_N_tag,bartag", "recheck tags field");
+            equals(c.find("cbaseuri").text(),   "http://example.com/newbase/", "updated cbaseuri field (2)");
+            equals(c.find("cfile").text(),      "newpath/newfile", "updated cfile field (2)");
+            equals(c.find("curi").text(),       "http://example.com/newbase/newpath/newfile", "updated curi field (2)");
+    });
 
 };
 
