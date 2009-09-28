@@ -158,9 +158,7 @@ cbody {
     padding: 0 0.5em;
 }
 
-/*
- * Shuffl card classes
- */
+/* Shuffl card classes */
 
 /* Apply this class to *all* shuffl cards */
 .shuffl-card {
@@ -180,15 +178,6 @@ cbody {
     height:auto;
 }
 
-/* TODO: delete?
-.shuffl-card-edit {
-    display:block;
-    position:absolute;
-    width:auto;   
-    height:auto;
-}
-*/
-
 /* Specific identified fields */
 
 .dialog-save {
@@ -198,7 +187,6 @@ cbody {
 .dialog-open {
     width: 60em;
 }
-
 
 /* Stock card colours */
 
