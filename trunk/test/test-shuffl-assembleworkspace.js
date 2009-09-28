@@ -113,7 +113,7 @@ TestAssembleWorkspaceDescription = function() {
                 var p = lo[i]['pos'];
                 equals(Math.floor(p.left), testlo[i]['pos'].left,   "position-left");
                 equals(Math.floor(p.top),  testlo[i]['pos'].top,    "position-top");
-                var testsize = testlo[i]['size'] || {width:267, height:133};
+                var testsize = testlo[i]['size'] || {width:119, height:21};
                 same(lo[i]['size'],    testsize,                    "shuffl:layout["+i+"].size");
                 var testzindex = testlo[i]['zindex'] || 11;
                 same(lo[i]['zindex'],  testzindex,                  "shuffl:layout["+i+"].zindex");

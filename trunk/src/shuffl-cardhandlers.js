@@ -103,7 +103,7 @@ shuffl.card.defaultcard.data =
  * jQuery base element for building new default cards
  */
 shuffl.card.defaultcard.blank = jQuery(
-    "<div class='shuffl-card' style='z-index:10;'>\n"+
+    "<div class='shuffl-card-autosize' style='z-index:10;'>\n"+
     "  <chead>\n"+
     "    <chandle><c></c></chandle>" +
     "    <ctitle>card title</ctitle>\n"+
@@ -147,7 +147,7 @@ shuffl.card.defaultcard.newCard = function (cardtype, cardcss, cardid, carddata)
 shuffl.card.defaultcard.serialize = function (card) 
 {
     var carddata = shuffl.card.defaultcard.data;
-    carddata['shuffl:title'] = card.find("ctitle").text();
+    carddata['shuffl:title'] = card.model("shuffl:title");
     return carddata;
 };
 
@@ -246,17 +246,20 @@ shuffl.createStockpile = function(sid, sclass, slabel, stype)
 
 /**
  * Function attached to stockpile to liberate a new card from that pile
- */    
+ */
 shuffl.createCardFromStock = function (stockpile) { 
     log.debug("makeCard "+stockpile);
     var cardtype = stockpile.data("CardType");
+    /* TODO: delete
     var cardclass = stockpile.attr("class")
         .replace(/shuffl-stockpile/,'')
         .replace(/ui-draggable/,'')
         .replace(/ui-draggable-dragging/,'');
+    */
     var cardid = shuffl.makeId(shuffl.idpref);
     // log.debug("cardclass '"+cardclass+"'");
     var newcard = shuffl.getCardFactory(cardtype)(cardid, {});
+    newcard.addClass('shuffl-card');
     // Initialize card workspace parameters
     // See: http://code.google.com/p/shuffl/wiki/CardReadWriteOptions
     // Use id of new card as hint for file name
@@ -297,6 +300,7 @@ shuffl.createCardFromData = function (cardid, cardclass, origdata)
     // Create card using card factory
     //log.debug("shuffl.createCardFromData, cardid: "+cardid+", cardclass: "+cardclass);
     var newcard   = shuffl.getCardFactory(cardclass)(cardid, carddata);
+    newcard.addClass('shuffl-card');
     // Initialize card workspace parameters
     // See: http://code.google.com/p/shuffl/wiki/CardReadWriteOptions
     newcard.data('shuffl:dataref', copydata['shuffl:dataref']);
