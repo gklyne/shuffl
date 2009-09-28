@@ -158,26 +158,36 @@ cbody {
     padding: 0 0.5em;
 }
 
+/*
+ * Shuffl card classes
+ */
+
+/* Apply this class to *all* shuffl cards */
 .shuffl-card {
     display:block;
     position:absolute;
+}
+
+/* Define initial size for resizable cards */
+.shuffl-card-setsize {
     width:20em;   
     height:10em;
 }
 
-.shuffl-card-dialog {
-    display:block;
-    position:absolute;
+/* Allow auto-sizing for cards that are not resizable */
+.shuffl-card-autosize {
     width:auto;   
     height:auto;
 }
 
+/* TODO: delete?
 .shuffl-card-edit {
     display:block;
     position:absolute;
     width:auto;   
     height:auto;
 }
+*/
 
 /* Specific identified fields */
 

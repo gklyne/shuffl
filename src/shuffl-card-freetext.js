@@ -9,21 +9,6 @@
 // ----------------------------------------------------------------
 // Globals and data
 // ----------------------------------------------------------------
-
-/**
- *  Add logging functions to global namespace, for convenience
- */
-/*
-log = {};
-log.debug = MochiKit.Logging.logDebug   ;
-log.info  = MochiKit.Logging.log    ;
-log.warn  = MochiKit.Logging.logWarning ;
-log.error = MochiKit.Logging.logError   ;
-
-// Mochikit logging hack as default is no limit and default firebug off:
-//MochiKit.Logging.logger.useNativeConsole = false;
-//MochiKit.Logging.logger.maxSize = 2000;
-*/
  
 /**
  * create shuffl namespace
@@ -55,7 +40,7 @@ shuffl.card.freetext.data =
  * jQuery base element for building new cards (used by shuffl.makeCard)
  */
 shuffl.card.freetext.blank = jQuery(
-    "<div class='shuffl-card' style='z-index:10;'>\n"+
+    "<div class='shuffl-card-setsize' style='z-index:10;'>\n"+
     "  <chead>\n"+
     "    <chandle><c></c></chandle>" +
     "    <ctitle>card title</ctitle>\n"+

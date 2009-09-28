@@ -64,7 +64,10 @@ TestCardSelectfile = function() {
                 , 'shuffl:baseuri': "http://example.com/base/"
     			});
     		equals(c.attr('id'), "card-1", "card id attribute");
-            ok(c.hasClass('shuffl-card-dialog'),   "shuffl card class");
+            //ok(c.hasClass('shuffl-card'),   "shuffl card class");
+            ok(c.hasClass('shuffl-card-autosize'),   "shuffl-card-autosize class");
+            ok(c.hasClass('stock-default'),   "stock-default class");
+            equals(c.attr('class'), 'shuffl-card-autosize stock-default', "CSS class");
             ok(c.hasClass('stock-default'), "default colour class");
     		equals(c.find("cident").text(), "card-1", "card id field");
     		equals(c.find("cclass").text(), "shuffl-selectfile", "card class field");
@@ -99,9 +102,10 @@ TestCardSelectfile = function() {
             log.debug("- card "+shuffl.objectString(c));
     		var card_id = shuffl.lastId("card_");
             equals(c.attr('id'), card_id,       "card id attribute");
-            ok(c.hasClass('shuffl-card-dialog'), "shuffl card class");
-            ok(c.hasClass('stock-default'),     "stock-default");
-            equals(c.attr('class'), 'shuffl-card-dialog stock-default', "CSS class");
+            ok(c.hasClass('shuffl-card'),   "shuffl card class");
+            ok(c.hasClass('shuffl-card-autosize'),   "shuffl-card-autosize class");
+            ok(c.hasClass('stock-default'),   "stock-default class");
+            equals(c.attr('class'), 'shuffl-card-autosize stock-default shuffl-card', "CSS class");
             equals(c.find("cident").text(),     card_id, "card id field");
             equals(c.find("cclass").text(),     "shuffl-selectfile", "card type");
             equals(c.find("ctitle").text(),     card_id+" - type shuffl-selectfile", "card title field");
@@ -128,7 +132,7 @@ TestCardSelectfile = function() {
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
             // Check card details
             equals(c.attr('id'), "cardfromdata_id", "card id attribute");
-            ok(c.hasClass('shuffl-card-dialog'), "shuffl card class");
+            ok(c.hasClass('shuffl-card-autosize'), "shuffl card class");
             ok(c.hasClass('stock-default'),     "CSS class");
             equals(c.find("cident").text(),     "cardfromdata_id", "card id field");
             equals(c.find("cclass").text(),     "shuffl-selectfile", "card class field");
