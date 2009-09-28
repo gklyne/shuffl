@@ -51,6 +51,8 @@ In preparing this plan, I found that I'd "lost" a few days in the original sprin
  * (1.0) Test case for saving new workspace - to complete (*Done* 16-Sep-2009)
  * (1.0) Test case for workspace update (*Done* 16-Sep-2009)
 
+Actual effort: 1.3 days
+
 == 3.2: Initial content persistence ==
 
 3.0 days:
@@ -58,15 +60,17 @@ In preparing this plan, I found that I'd "lost" a few days in the original sprin
  * (1.0) complete static save of new workspace (*Save as...*), and implement load (*Open...*) to test this. (*Done*: 17-Sep-2009)
  * (0.5) implement resave of workspace (*Save*) (*Done* 18-Sep-2009)
  * (1.0) implement on-the-fly saving of changes to card content, layout, etc.  (*Defered* - need to also think about handling of read-only workspaces, etc.)
- * (0.5) save card size as well as position
+ * (0.5) save card size as well as position (*Done* 21-Sep-2009)
+
+Actual effort: 2.3 days (for 2.0 -planned activity)
 
 == 3.3: Import CSV data as card collection ==
 
 6.0 days:
 
- * (0.5) UI to locate CSV data in file system
+ * (0.5) UI to locate CSV data in file system (actual: 0.6)
  * (1.0) Read and parse CSV data, with test cases
- * (0.5) Create plan for testing card plug-ins 
+ * (0.5) Create plan for testing card plug-ins (actual 2.3 (!))
  * (1.0) Design, implement, test card plug-in for a row of values
  * (1.0) Design, implement, test card plug-in for a collection of rows
  * (2.0) Design, implement, test alternative (e.g. collapsed) card views for collections and alternative workspace views (e.g. one-line display, small "icon" or "flag" display, etc.).  These will need to be implemented for all existing cards.
@@ -135,4 +139,3 @@ Friday, 25 September, 2009
 
 Monday, 28 September, 2009
  * (1.0) Completed Shuffl card plugin refactoring to us an MVC-based pattern.
-
