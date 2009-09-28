@@ -136,9 +136,11 @@ TestCardHandlers = function() {
     test("shuffl.createCardFromData",
         function () {
             log.debug("test shuffl.createCardFromData");
-            expect(11);
+            expect(13);
             var d = testcardhandlers_carddata;
+            equals(d['shuffl:id'], 'card_id', 'd:card-id (1)');
             var c = shuffl.createCardFromData("cardfromdata_id", "test-type", d);
+            equals(d['shuffl:id'], 'card_id', 'd:card-id (2)'); // Test original not trashed
             // Check card details
             equals(c.attr('id'), "cardfromdata_id", "card id attribute");
             ok(c.hasClass('shuffl-card'),   "shuffl card type");
@@ -235,6 +237,19 @@ TestCardHandlers = function() {
             equals(Math.floor(c.width()), 333, "width");
             equals(Math.floor(c.height()), 222,  "height");
             equals(c.css("zIndex"), "14", "card zIndex");
+        });
+
+    test("shuffl.card.defaultcard model setting",
+        function () {
+            log.debug("shuffl.card.defaultcard model setting");
+            expect(2);
+            // Create card (copy of code already tested)
+            var d = testcardhandlers_carddata;
+            var c = shuffl.createCardFromData("cardfromdata_id", "test-type", d);
+            equals(c.find("ctitle").text(), "Card 1 title", "card title field");
+            // Simulate user input: set model to update title
+            c.model("shuffl:title", "Card 1 updated");
+            equals(c.find("ctitle").text(), "Card 1 updated", "updated title field");
         });
     
     test("shuffl.lineEditable",
