@@ -1,6 +1,6 @@
 #summary Related work and systems that may have a bearing on this project
 
-|| <wiki:toc max_depth="1" /> ||
+|| <wiki:toc max_depth="2" /> ||
 
 = jQuery =
 
