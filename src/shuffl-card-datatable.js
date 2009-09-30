@@ -44,7 +44,7 @@ shuffl.card.datatable = {};
 shuffl.card.datatable.data =
     { 'shuffl:title':   undefined
     , 'shuffl:tags':    [ undefined ]
-    , 'shuffl:text':    undefined
+    , 'shuffl:data':    undefined
     };
 
 /**
@@ -59,9 +59,9 @@ shuffl.card.datatable.blank = jQuery(
     "  <crow>\n"+
     "    <cbody>\n"+
     "      <table>\n"+
-    "        <tr><th>col1</th><th>col2</th><th>col3</th></tr>\n"+
-    "        <tr><td>1.1</td><td>1.2</td><td>1.3</td></tr>\n"+
-    "        <tr><td>2.1</td><td>2.2</td><td>2.3</td></tr>\n"+
+    "        <tr><th></th><th>col1</th><th>col2</th><th>col3</th></tr>\n"+
+    "        <tr><td>row1</td><td>1.1</td><td>1.2</td><td>1.3</td></tr>\n"+
+    "        <tr><td>row1</td><td>2.1</td><td>2.2</td><td>2.3</td></tr>\n"+
     "        <tr><td>End.</td></tr>\n"+
     "      </table>\n"+
     "    </cbody>\n"+
