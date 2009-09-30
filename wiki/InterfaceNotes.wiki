@@ -8,5 +8,4 @@ This page is for notes about the user interface design and high-level functional
 
 = Data table card =
 
-[[[Image here]]]
-
+[images/shuffl-card-datatable-sketch.jpg]
