@@ -3,7 +3,7 @@
  *  jQuery.csv plugin, parsses CSV data from a string
  *  
  * @author Graham Klyne (adpated from 'root.node' [1,2])
- * @version $Id: $
+ * @version $Id$
  * 
  * [1] http://plugins.jquery.com/project/csv
  * [2] http://code.google.com/p/js-tables/wiki/CSV
