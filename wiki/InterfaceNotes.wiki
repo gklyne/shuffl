@@ -1,0 +1,12 @@
+#summary InterfaceNotes - User interface design notes
+
+<wiki:toc max_depth="2" />
+
+= Introduction =
+
+This page is for notes about the user interface design and high-level functionality.
+
+= Data table card =
+
+[[[Image here]]]
+
