@@ -42,6 +42,9 @@
  * http://www.jnathanson.com/blog/client/jquery/heatcolor/index.cfm - pretty!
  * http://omnipotent.net/jquery.sparkline/ - jQuery sparklines
 
+See also:
+ * http://www.webdesignbooth.com/15-great-jquery-plugins-for-better-table-manipulation/
+
 == Atom and feeds ==
 
  * http://plugins.jquery.com/project/jFeed - despite earlier searching, I discovered this after I'd started work on the !AtomPub handler.  It's mainly complementary, as it focuses on feed parsing. 
