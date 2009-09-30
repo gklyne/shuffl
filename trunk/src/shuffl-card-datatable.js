@@ -48,6 +48,23 @@ shuffl.card.datatable.data =
     };
 
 /**
+ * Temporary default data for testing...
+ * TODO: reset this when done testing
+ */
+shuffl.card.datatable.table =
+    [ [ "",     "col1", "col2", "col3", "col4_is_much_wider", "col5" ]
+    , [ "row1", "1.1",  "1.2",  "1.3",  "1.4",                "1.5"  ]
+    , [ "row2", "2.1",  "2.2",  "2.3",  "2.4",                "2.5"  ]
+    , [ "row3", "3.1",  "3.2",  "3.3",  "3.4",                "3.5"  ]
+    , [ "row4", "4.1",  "4.2",  "4.3",  "4.4",                "4.5"  ]
+    , [ "row5", "5.1",  "5.2",  "5.3",  "5.4",                "5.5"  ]
+    , [ "row6", "6.1",  "6.2",  "6.3",  "6.4",                "6.5"  ]
+    , [ "row7", "7.1",  "7.2",  "7.3",  "7.4",                "7.5"  ]
+    , [ "row8", "8.1",  "8.2",  "8.3",  "8.4",                "8.5"  ]
+    , [ "End." ]
+    ];
+
+/**
  * jQuery base element for building new cards (used by shuffl.makeCard)
  */
 shuffl.card.datatable.blank = jQuery(
@@ -113,7 +130,7 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     // Initialize the model
     var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
     var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
-    var cardtable = shuffl.get(carddata, 'shuffl:table', []);
+    var cardtable = shuffl.get(carddata, 'shuffl:table', shuffl.card.datatable.table);
     card.model("shuffl:title", cardtitle);
     card.model("shuffl:tags",  cardtags.join(","));
     card.model("shuffl:table", cardtable);

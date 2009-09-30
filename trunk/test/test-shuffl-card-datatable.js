@@ -6,7 +6,7 @@
 var TestDataTable =
     [ [ "",      "col1",  "col2",  "col3" ]
     , [ "row_1", "1.11",  "1.22",  "1.33" ]
-    , [ "row_1", "2.11",  "2.22",  "2.33" ]
+    , [ "row_2", "2.11",  "2.22",  "2.33" ]
     , [ "End." ]
     ];
 
@@ -230,7 +230,7 @@ TestCardDatatable = function() {
             // Simulate user input: set model to update title, tags and body text
             equals(c.find("ctitle").text(), "Card N title", "card title field");
             equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
-            equals(c.find("cbody").text(),  "col1col2col3row_11.111.221.33row_12.112.222.33End.", "card data table text");
+            equals(c.find("cbody").text(),  "col1col2col3row_11.111.221.33row_22.112.222.33End.", "card data table text");
             same(c.find("cbody").table(), TestDataTable, "card data table");
             c.model("shuffl:title", "Card N updated");
             c.model("shuffl:tags",  "card_N_tag,bartag");
