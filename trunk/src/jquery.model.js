@@ -7,7 +7,7 @@
  */
 
 /**
- * The 'model' method gets or sets a model value and,. when setting a value, 
+ * The 'model' method gets or sets a model value and, when setting a value, 
  * triggers any listeners.  Note that this method follows the style of jQuery's
  * .data method, and access the same values.
  * 

@@ -3,6 +3,13 @@
 /**
  * Test suite for free text card functions
  */
+TestDataTable =
+    [ [ "",     "col1", "col2", "col3" ]
+    , [ "row1", "1.1",  "1.2",  "1.3"  ]
+    , [ "row1", "2.1",  "2.2",  "2.3"  ]
+    , [ "End." ]
+    ];
+
 
 /**
  * Data
@@ -22,7 +29,7 @@ var testcarddatatable_carddata =
     , 'shuffl:data':
       { 'shuffl:title':   "Card N title"
       , 'shuffl:tags':    [ 'card_N_tag', 'footag' ]
-      //TODO: test data here
+      , 'shuffl:data':    TestDataTable
       }
     };
 
@@ -69,19 +76,19 @@ TestCardDatatable = function() {
         function () {
             log.debug("test shuffl.card.datatable.newCard");
             var css = 'stock-yellow';
-    		var c   = shuffl.card.datatable.newCard("shuffl-datatable-yellow", css, "card-1",
-    			{ 'shuffl:tags': 	["card-tag"]
-    			, 'shuffl:title':	"card-title"
-    			});
-    		equals(c.attr('id'), "card-1", "card id attribute");
-            //ok(c.hasClass('shuffl-card'),   "shuffl card class");
+            var c   = shuffl.card.datatable.newCard("shuffl-datatable-yellow", css, "card-1",
+            	{ 'shuffl:tags': 	["card-tag"]
+            	, 'shuffl:title':	"card-title"
+            	, 'shuffl:data':    TestDataTable
+            	});
+            equals(c.attr('id'), "card-1", "card id attribute");
             ok(c.hasClass('stock-yellow'),  "yellow colour class");
             ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
             equals(c.attr('class'), 'shuffl-card-setsize stock-yellow ui-resizable', "CSS class");
-    		equals(c.find("cident").text(), "card-1", "card id field");
-    		equals(c.find("cclass").text(), "shuffl-datatable-yellow", "card class field");
-    		equals(c.find("ctitle").text(), "card-title", "card title field");
-    		equals(c.find("ctags").text(),  "card-tag", "card tags field");
+            equals(c.find("cident").text(), "card-1", "card id field");
+            equals(c.find("cclass").text(), "shuffl-datatable-yellow", "card class field");
+            equals(c.find("ctitle").text(), "card-title", "card title field");
+            equals(c.find("ctags").text(),  "card-tag", "card tags field");
         });
 
     test("shuffl.createStockpiles",
