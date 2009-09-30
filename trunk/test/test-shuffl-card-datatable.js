@@ -3,10 +3,10 @@
 /**
  * Test suite for free text card functions
  */
-TestDataTable =
-    [ [ "",     "col1", "col2", "col3" ]
-    , [ "row1", "1.1",  "1.2",  "1.3"  ]
-    , [ "row1", "2.1",  "2.2",  "2.3"  ]
+var TestDataTable =
+    [ [ "",      "col1",  "col2",  "col3" ]
+    , [ "row_1", "1.11",  "1.22",  "1.33" ]
+    , [ "row_1", "2.11",  "2.22",  "2.33" ]
     , [ "End." ]
     ];
 
@@ -28,7 +28,7 @@ var testcarddatatable_carddata =
     , 'shuffl:data':
       { 'shuffl:title':   "Card N title"
       , 'shuffl:tags':    [ 'card_N_tag', 'footag' ]
-      , 'shuffl:data':    TestDataTable
+      , 'shuffl:table':   TestDataTable
       }
     };
 
@@ -78,7 +78,7 @@ TestCardDatatable = function() {
             var c   = shuffl.card.datatable.newCard("shuffl-datatable-yellow", css, "card-1",
             	{ 'shuffl:tags': 	["card-tag"]
             	, 'shuffl:title':	"card-title"
-            	, 'shuffl:data':    TestDataTable
+            	, 'shuffl:table':   TestDataTable
             	});
             equals(c.attr('id'), "card-1", "card id attribute");
             ok(c.hasClass('stock-yellow'),  "yellow colour class");
@@ -88,6 +88,9 @@ TestCardDatatable = function() {
             equals(c.find("cclass").text(), "shuffl-datatable-yellow", "card class field");
             equals(c.find("ctitle").text(), "card-title", "card title field");
             equals(c.find("ctags").text(),  "card-tag", "card tags field");
+            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
+            same(c.find("cbody").table(),   TestDataTable, "card data table");
+            //log.debug("- table :"+jQuery.toJSON(c.find("cbody").table()));
         });
 
     test("shuffl.createStockpiles",
@@ -163,6 +166,7 @@ TestCardDatatable = function() {
             equals(c.find("cclass").text(), "shuffl-datatable-green", "card type");
             equals(c.find("ctitle").text(), card_id+" - type shuffl-datatable-green", "card title field");
             equals(c.find("ctags").text(),  card_id+",shuffl-datatable-green", "card tags field");
+            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
             // Check saved card data
             var d = testcarddatatable_carddata;
             equals(c.data('shuffl:id'),    card_id, "layout card id");
@@ -190,6 +194,8 @@ TestCardDatatable = function() {
             equals(c.find("cclass").text(), "shuffl-datatable-orange", "card class field");
             equals(c.find("ctitle").text(), "Card N title", "card title field");
             equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
+            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
+            same(c.find("cbody").table(),   TestDataTable, "card data table");
             same(c.data('shuffl:external'), d, "card data");
         });
 
@@ -207,7 +213,8 @@ TestCardDatatable = function() {
             equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],      'shuffl:base-uri');
             same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');
             equals(e['shuffl:data']['shuffl:title'], "Card N title",   'shuffl:data-title');
-            same(e['shuffl:data']['shuffl:tags'],  [ 'card_N_tag', 'footag' ],   'shuffl:data-tags');
+            same(e['shuffl:data']['shuffl:tags'],  [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
+            same(e['shuffl:data']['shuffl:table'],  TestDataTable,     'shuffl:data-table');
         });
 
     test("shuffl.card.datatable model setting",
@@ -216,13 +223,22 @@ TestCardDatatable = function() {
             // Create card (copy of code already tested)
             var d = testcarddatatable_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datatable-pink", d);
+            var NewDataTable =
+                [ [ "",      "zzz1",  "zzz2",  "zzz3" ]
+                , [ "row_1", "rz1",   "rz2",   "rz3"  ]
+                ];
             // Simulate user input: set model to update title, tags and body text
             equals(c.find("ctitle").text(), "Card N title", "card title field");
             equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
+            equals(c.find("cbody").text(),  "col1col2col3row_11.111.221.33row_12.112.222.33End.", "card data table text");
+            same(c.find("cbody").table(), TestDataTable, "card data table");
             c.model("shuffl:title", "Card N updated");
-            c.model("shuffl:tags", "card_N_tag,bartag");
+            c.model("shuffl:tags",  "card_N_tag,bartag");
+            c.model("shuffl:table", NewDataTable);
             equals(c.find("ctitle").text(), "Card N updated", "updated title field");
             equals(c.find("ctags").text(),  "card_N_tag,bartag", "updated tags field");
+            equals(c.find("cbody").text(),  "zzz1zzz2zzz3row_1rz1rz2rz3", "updated data table text");
+            same(c.find("cbody").table(), NewDataTable, "updated data table");
         });
 
 };

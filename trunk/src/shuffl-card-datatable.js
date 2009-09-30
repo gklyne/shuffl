@@ -108,12 +108,15 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     var ctags = card.find("ctags");
     card.modelBind("shuffl:tags", shuffl.modelSetText(ctags, true));
     shuffl.lineEditable(card, ctags, shuffl.editSetModel(card, "shuffl:tags"));
-    //TODO: setup for data table in card body
+    var cbody = card.find("cbody");
+    card.modelBind("shuffl:table", shuffl.modelSetTable(cbody));
     // Initialize the model
     var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
     var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
+    var cardtable = shuffl.get(carddata, 'shuffl:table', []);
     card.model("shuffl:title", cardtitle);
     card.model("shuffl:tags",  cardtags.join(","));
+    card.model("shuffl:table", cardtable);
     return card;
 };
 
@@ -127,7 +130,7 @@ shuffl.card.datatable.serialize = function (card) {
     var carddata = shuffl.card.datatable.data;
     carddata['shuffl:title'] = card.model("shuffl:title");
     carddata['shuffl:tags']  = shuffl.makeTagList(card.model("shuffl:tags"));
-    //TODO: serialize data table (and display options?)
+    carddata['shuffl:table'] = card.model("shuffl:table");
     return carddata;
 };
 
