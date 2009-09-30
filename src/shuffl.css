@@ -191,8 +191,8 @@ cbody {
 /* Stock card colours */
 
 .stock-default {
-    color: black;
     background-color: #FFFFFF;    /* White */
+    color: black;
     border:thin #888888 solid;
 }
 
@@ -205,13 +205,15 @@ cbody {
     color: grey;
 }
 
-.stock-yellow {
-    color: black;
+.stock-yellow ,
+.stock-yellow cbody td {
     background-color: #FFFFCC;    /* Yellow */
+    color: black;
     border:thin #CCCC66 solid;
 }
 
-.stock-yellow chead {
+.stock-yellow chead , 
+.stock-yellow cbody thx {
     background-color: #DDDD60;
 }
 
@@ -220,43 +222,49 @@ cbody {
     color: grey;
 }
 
-.stock-blue {
-    color: black;
+.stock-blue , 
+.stock-blue cbody td {
     background-color:#CCFFFF;    /* Cyan */
+    color: black;
     border:thin #66CCCC solid;
 }
 
-.stock-blue chead {
-    background-color: #80EEEE;
+.stock-blue chead ,
+.stock-blue cbody thx {
+	    background-color: #80EEEE;
 }
 
 .stock-blue chandle {
     background-color: #66CCCC;
-    color: grey;
+	  color: grey;
 }
 
-.stock-green {
-    color: black;
-    background-color:#DDFFDD;      /* Green */
+.stock-green ,
+.stock-green cbody td {
+	  background-color:#DDFFDD;      /* Green */
+	  color: black;
     border:thin #66CC66 solid;
 }
 
-.stock-green chead {
+.stock-green chead ,
+.stock-green cbody thx {
     background-color: #80EE80;
 }
 
 .stock-green chandle {
-    background-color: #66CC66;
+	  background-color: #66CC66;
     color: grey;
 }
 
-.stock-orange {
-    color: black;
+.stock-orange ,
+.stock-orange cbody td {
     background-color:#FFDDDD;    /* Pink */
+    color: black;
     border:thin #CC6666 solid;
 }
 
-.stock-orange chead {
+.stock-orange chead ,
+.stock-orange cbody thx {
     background-color: #EE8080;
 }
 
@@ -265,13 +273,15 @@ cbody {
     color: grey;
 }
 
-.stock-pink {
-    color: black;
+.stock-pink ,
+.stock-pink cbody td {
     background-color:#FFDDFF;    /* Magenta */
+    color: black;
     border:thin #CC66CC solid;
 }
 
-.stock-pink chead {
+.stock-pink chead ,
+.stock-pink cbody thx {
     background-color: #EE80EE;
 }
 
@@ -280,13 +290,15 @@ cbody {
     color: grey;
 }
 
-.stock-purple {
-    color: black;
+.stock-purple ,
+.stock-purple cbody td {
     background-color:#DDDDFF;    /* Purple */
+    color: black;
     border:thin #6666CC solid;
 }
 
-.stock-purple chead {
+.stock-purple chead ,
+.stock-purple cbody thx {
     background-color: #A0A0EE;
 }
 
@@ -295,14 +307,4 @@ cbody {
     color: grey;
 }
 
-/* Extra stuff for testing - to be removed */
-
-#card_1 {
-    left:2em;
-    z-index:2;
-}
-
-#card_2 {
-    top:2em;
-    z-index:1;
-}
+/* End. */

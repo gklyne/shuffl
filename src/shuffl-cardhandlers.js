@@ -389,7 +389,7 @@ shuffl.makeTagList = function (ttext)
 
 /**
  * Return a model-change event handler that sets the text value in a supplied
- * field to a placeholder value if the model value is empty.
+ * field, or a placeholder value if the model text value is empty.
  * 
  * @param fieldobj  is a jQuery object corresponding to a field that is to be 
  *                  updated with new values assigned to a model element.
@@ -442,6 +442,28 @@ shuffl.modelSetHtml = function (fieldobj, holder, thencall)
     if (holder === true)      { holder = shuffl.PlaceHolder; };
     if (holder === undefined) { holder = ""; };
     return setHtml;
+};
+
+/**
+ * Return a model-change event handler that sets a table value in a supplied
+ * field.
+ * 
+ * @param fieldobj  is a jQuery object corresponding to a field that is to be 
+ *                  updated with new values assigned to a model element.
+ * @param nh        number of table rows to be treated as headers in the
+ *                  rendered table object.
+ * @param thencall  if defined, this is an additional function to call
+ *                  after the card text has been updated.
+ * @return          a function to be used as the update handler for a model
+ *                  field.
+ */
+shuffl.modelSetTable = function (fieldobj, nh, thencall)
+{
+    function setTable(event, data) {
+        fieldobj.table(data.newval || [], nh);
+        if (thencall !== undefined) { thencall(event, data); };
+    }
+    return setTable;
 };
 
 /**
