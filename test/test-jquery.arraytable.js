@@ -42,7 +42,8 @@ var test_table_html =
 /**
  * Function to register tests
  */
-TestJqueryArrayTable = function() {
+TestJqueryArrayTable = function()
+{
 
     module("TestJqueryArrayTable");
 
@@ -75,7 +76,21 @@ TestJqueryArrayTable = function() {
         };
     });
 
-    test("Insert table from array", function ()
+    test("Insert table from array (no headers)", function ()
+    {
+        expect(9);
+        var elm = jQuery("<div/>");
+        elm.table(test_table_data_nohead);
+        equals(elm.children().outerhtml(), test_table_html_nohead);
+        for (var i = 0 ; i < test_table_data_nohead.length ; i++) {
+            var row = test_table_data_nohead[i];
+            for (var j = 0 ; j < row.length ; j++) {
+                equals(elm.find("tr").eq(i).children().eq(j).text(), row[j], "table element["+i+","+j+"]");
+            };
+        };
+    });
+
+    test("Insert table from array (with headers)", function ()
     {
         expect(14);
         var elm = jQuery("<div/>");
