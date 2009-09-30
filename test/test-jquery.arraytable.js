@@ -79,7 +79,7 @@ TestJqueryArrayTable = function() {
     {
         expect(14);
         var elm = jQuery("<div/>");
-        elm.table(test_table_data.slice(0,1), test_table_data.slice(1));
+        elm.table(test_table_data, 1);
         equals(elm.children().outerhtml(), test_table_html);
         for (var i = 0 ; i < test_table_data.length ; i++) {
             var row = test_table_data[i];

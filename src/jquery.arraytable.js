@@ -74,25 +74,22 @@ jQuery.extend({
  * The 'table' method gets or sets a table value in the DOM corresponding to
  * this jQuery object.  The interface is styled after .text() and .html().
  * 
- * @param head      if provided, this is an array that is converted to headings 
- *                  or body of a table which becomes the child of the current 
- *                  element.
- * @param body      if provided, this is an array that is converted to body 
- *                  elements of a new table.  If not supplied, the value of 
- *                  'head' may be used to populate the table body.
- * @param body      if provided, this is an array that is converted to footer 
- *                  elements of a new table.
+ * @param array     if provided, this is an array that is converted to rows 
+ *                  of a table which becomes the child of the current element.
+ * @param nh        if provided, specifies the number of rows in the array that
+ *                  are to be rendered as a table header.
  * @return          if setting a table value, the jQuery object for the current 
  *                  element, otherwise an array corresponding to the contents 
  *                  of the current element interpreted as a table.
  *                  (Table header, body and footer are not distinguished in
  *                  the returned array.)
  */
-jQuery.fn.table = function (head, body, foot)
+jQuery.fn.table = function (array, nh)
 {
     //log.debug("jQuery(...).table");
-    if (head || body || foot) {
-        this.empty().append(jQuery.table(head, body, foot));
+    if (array) {
+        nh = nh || 0;
+        this.empty().append(jQuery.table(array.slice(0,nh), array.slice(nh)));
         return this;
     } else {
         array = [];
