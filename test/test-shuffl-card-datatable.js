@@ -249,7 +249,6 @@ TestCardDatatable = function() {
             same(c.find("cbody").table(), NewDataTable, "updated data table");
         });
 
-
     test("shuffl.card.datatable model URI setting",
         function () {
             log.debug("shuffl.card.datatable model URI setting");
