@@ -58,7 +58,6 @@ ctags {
 
 cbody {
     display:block;
-    height: 7em;
     overflow: auto;
 }
 
@@ -169,7 +168,7 @@ cbody {
 /* Define initial size for resizable cards */
 .shuffl-card-setsize {
     width:20em;   
-    height:10em;
+    /*height:10em;*/
 }
 
 /* Allow auto-sizing for cards that are not resizable */

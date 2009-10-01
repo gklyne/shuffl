@@ -616,7 +616,7 @@ shuffl.resizeAlso = function (card, selector)
     if (elem.length == 1) {
         var dw = card.width() - elem.width();
         var dh = card.height() - elem.height();
-        var handleResize = function (event, ui) 
+        var handleResize = function (/*event, ui*/) 
         {
             // Track changes in width and height
             var c = jQuery(this);
@@ -643,14 +643,10 @@ shuffl.placeCard = function (layout, card, pos, size, zindex)
 {
     layout.append(card);
     var resizefn = shuffl.resizeAlso(card, card.data("resizeAlso"));
+    card.data("resizeFunc", resizefn);
     if (resizefn) { card.bind('resize', resizefn); };
     card.css(pos).css('position', 'absolute');
-    if (size.width > 0 || size.height > 0) 
-    {
-        if (size.width  > 0) { card.width(size.width);   };
-        if (size.height > 0) { card.height(size.height); };
-        if (resizefn) { resizefn.call(card, null, null); };
-    };    
+    shuffl.resizeCard(card, size);
     // Make card draggable and to front of display
     card.draggable(shuffl.cardDraggable);
     if (zindex) 
@@ -685,6 +681,20 @@ shuffl.dropCard = function(frompile, tolayout, pos)
     pos = shuffl.positionRelative(pos, tolayout);
     pos = shuffl.positionRel(pos, { left:5, top:1 });   // TODO calculate this properly
     shuffl.placeCard(tolayout, newcard, pos, shuffl.defaultSize, 0);
+    if (newcard.hasClass("shuffl-card-setsize")) {
+        shuffl.resizeCard(newcard, {height:"10em"});
+    };
+};
+
+/**
+ * Resize card, invoking the card resize handler as needed to adjust internal
+ * component sizes.
+ */
+shuffl.resizeCard = function (card, size) {
+    if (size.height) { card.height(size.height); };
+    if (size.width)  { card.width(size.width); };
+    var resizefn = card.data("resizeFunc");
+    if (resizefn) { resizefn.call(card /*, null, null*/); };        
 };
 
 /**

@@ -122,6 +122,10 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     card.find("cclass").text(cardtype);         // Set card class/type text
     card.data("resizeAlso", "cbody");
     card.resizable();
+    ////var cardh = card.height();
+    ////var bodyh = card("cbody").height();
+    ////card.height("10em");
+    ////card.addclass('shuffl-card-setsize');       // After setting resizable
     // Set up model listener and user input handlers
     var ctitle = card.find("ctitle");
     card.modelBind("shuffl:title", shuffl.modelSetText(ctitle, true));
