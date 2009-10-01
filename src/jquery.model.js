@@ -76,4 +76,26 @@ jQuery.fn.modelEvent = function (name)
     return "model_"+this.data("")+"_"+name;
 };
 
+/**
+ * Bind a function to a model-change event, then initiate some action that
+ * should eventually result in the model value being updated.
+ * 
+ * This function takes two function parameters in the order that they are 
+ * expected to execute - this is mainly a syntactic suguaring to make the
+ * calling code more readable.
+ * 
+ * @param name      name of model value to bind
+ * @param fexec     function to execute - jQuery object supplied
+ * @param fhandler  event handler invoked when the model value is updated 
+ */
+jQuery.fn.modelBindExec = function (name, fexec, fhandler)
+{
+    this.each(function()
+    {
+        var j = jQuery(this);
+        j.bind(j.modelEvent(name), fhandler);
+        fexec(j);
+    });
+};
+
 // End.

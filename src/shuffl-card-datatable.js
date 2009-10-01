@@ -74,6 +74,10 @@ shuffl.card.datatable.blank = jQuery(
     "    <ctitle>card title</ctitle>\n"+
     "  </chead>\n"+
     "  <crow>\n"+
+    "    <curi>card_ZZZ uri</curi>\n"+
+    "    <button value='readcsv'>Read CSV data</button>\n"+
+    "  </crow>\n"+
+    "  <crow>\n"+
     "    <cbody>\n"+
     "      <table>\n"+
     "        <tr><th></th><th>col1</th><th>col2</th><th>col3</th></tr>\n"+
@@ -125,15 +129,27 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     var ctags = card.find("ctags");
     card.modelBind("shuffl:tags", shuffl.modelSetText(ctags, true));
     shuffl.lineEditable(card, ctags, shuffl.editSetModel(card, "shuffl:tags"));
+    var curi = card.find("curi");
+    card.modelBind("shuffl:uri", shuffl.modelSetText(curi, true));
+    shuffl.lineEditable(card, curi, shuffl.editSetModel(card, "shuffl:uri"));
     var cbody = card.find("cbody");
     card.modelBind("shuffl:table", shuffl.modelSetTable(cbody));
+    card.modelBind("shuffl:readcsv", function (event, data) {
+        ////log.debug("Read "+data.newval+" into data table");
+        jQuery.getCSV(data.newval, function (data, status) {
+            ////log.debug("- data "+jQuery.toJSON(data));
+            card.model("shuffl:table", data);
+        });
+    });
     // Initialize the model
     var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
     var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
+    var carduri   = shuffl.get(carddata, 'shuffl:uri',   "");
     var cardtable = shuffl.get(carddata, 'shuffl:table', shuffl.card.datatable.table);
     card.model("shuffl:title", cardtitle);
     card.model("shuffl:tags",  cardtags.join(","));
     card.model("shuffl:table", cardtable);
+    card.model("shuffl:uri",   carduri);
     return card;
 };
 
@@ -141,12 +157,13 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
  * Serializes a tabular data card to JSON for storage
  * 
  * @param card      a jQuery object corresponding to the card
- * @return an object containing the card data
+ * @return          an object containing the card data
  */
 shuffl.card.datatable.serialize = function (card) {
     var carddata = shuffl.card.datatable.data;
     carddata['shuffl:title'] = card.model("shuffl:title");
     carddata['shuffl:tags']  = shuffl.makeTagList(card.model("shuffl:tags"));
+    carddata['shuffl:uri']   = card.model("shuffl:uri");
     carddata['shuffl:table'] = card.model("shuffl:table");
     return carddata;
 };
