@@ -42,7 +42,7 @@
  * http://www.jnathanson.com/blog/client/jquery/heatcolor/index.cfm - pretty!
  * http://omnipotent.net/jquery.sparkline/ - jQuery sparklines
  * http://blog.parkerfox.co.uk/2009/09/22/bezier-curves-and-arcs-in-jquery/ - bezier curves (focuses on animation, but bezier calculation is there. I wonder if anyone has done a bezier-drawing plugin?)
-
+ * http://www.openstudio.fr/Library-for-simple-drawing-with.html - *note* viral licence
 See also:
  * http://www.webdesignbooth.com/15-great-jquery-plugins-for-better-table-manipulation/
 
