@@ -20,7 +20,7 @@ A pragmatic advantage of focusing on this application would be that it is one th
 
 Notes from meeting with Chris Holland: 2-Sep-2009, 10:00
 
-From initial email:
+From my initial email, setting up the meeting:
 
   I'd like to keep it fairly brief (say 30mins-1hour). What I'd like to get from this is:
    # a feeling for the types, diversity and volume of data that you collect in your research, and
