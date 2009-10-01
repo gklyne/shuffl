@@ -28,6 +28,7 @@ var testcarddatatable_carddata =
     , 'shuffl:data':
       { 'shuffl:title':   "Card N title"
       , 'shuffl:tags':    [ 'card_N_tag', 'footag' ]
+      , 'shuffl:uri':     "test-table.csv"
       , 'shuffl:table':   TestDataTable
       }
     };
@@ -78,7 +79,7 @@ TestCardDatatable = function() {
             var c   = shuffl.card.datatable.newCard("shuffl-datatable-yellow", css, "card-1",
             	{ 'shuffl:tags': 	["card-tag"]
             	, 'shuffl:title':	"card-title"
-                , 'shuffl:uri':     ""
+                , 'shuffl:uri':     "http://example.org/test-uri.csv"
             	, 'shuffl:table':   TestDataTable
             	});
             equals(c.attr('id'), "card-1",  "card id attribute");
@@ -89,7 +90,7 @@ TestCardDatatable = function() {
             equals(c.find("cclass").text(), "shuffl-datatable-yellow", "card class field");
             equals(c.find("ctitle").text(), "card-title", "card title field");
             equals(c.find("ctags").text(),  "card-tag", "card tags field");
-            equals(c.find("curi").text(),   "", "card URI field");
+            equals(c.find("curi").text(),   "http://example.org/test-uri.csv", "card URI field");
             equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
             same(c.find("cbody").table(),   TestDataTable, "card data table");
             //log.debug("- table :"+jQuery.toJSON(c.find("cbody").table()));
@@ -168,7 +169,7 @@ TestCardDatatable = function() {
             equals(c.find("cclass").text(), "shuffl-datatable-green", "card type");
             equals(c.find("ctitle").text(), card_id+" - type shuffl-datatable-green", "card title field");
             equals(c.find("ctags").text(),  card_id+",shuffl-datatable-green", "card tags field");
-            equals(c.find("curi").text(),   "", "card URI field");
+            equals(c.find("curi").text(),   "(Double-click to edit)", "card URI field");
             equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
             // Check saved card data
             var d = testcarddatatable_carddata;
@@ -239,11 +240,50 @@ TestCardDatatable = function() {
             same(c.find("cbody").table(), TestDataTable, "card data table");
             c.model("shuffl:title", "Card N updated");
             c.model("shuffl:tags",  "card_N_tag,bartag");
+            c.model("shuffl:uri",   "http://example.org/update/uri.csv");
             c.model("shuffl:table", NewDataTable);
             equals(c.find("ctitle").text(), "Card N updated", "updated title field");
             equals(c.find("ctags").text(),  "card_N_tag,bartag", "updated tags field");
+            equals(c.find("curi").text(),   "http://example.org/update/uri.csv", "updated uri field");
             equals(c.find("cbody").text(),  "zzz1zzz2zzz3row_1rz1rz2rz3", "updated data table text");
             same(c.find("cbody").table(), NewDataTable, "updated data table");
+        });
+
+
+    test("shuffl.card.datatable model URI setting",
+        function () {
+            log.debug("shuffl.card.datatable model URI setting");
+            // Create card (copy of code already tested)
+            var d = testcarddatatable_carddata;
+            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datatable-pink", d);
+            var NewDataTable =
+                [ [ "",      "zzz1",  "zzz2",  "zzz3" ]
+                , [ "row_1", "rz1",   "rz2",   "rz3"  ]
+                ];
+            // Simulate user input: set model URI - should read data file
+            equals(c.find("ctitle").text(), "Card N title", "card title field");
+            equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
+            equals(c.find("cbody").text(),  "col1col2col3row_11.111.221.33row_22.112.222.33End.", "card data table text");
+            equals(c.find("cbody").table().length, 4, "card data table length");
+            same(c.find("cbody").table(), TestDataTable, "card data table");
+            c.model("shuffl:uri", "test-csv-table-new.csv");
+            c.modelBindExec("shuffl:table",
+                function () {
+                    // Executed immediately
+                    c.model("shuffl:readcsv", c.model("shuffl:uri"));
+                },
+                function () {
+                    // Executed when shuffl:table is updated...
+                    equals(c.find("curi").text(),   "test-csv-table-new.csv", "updated uri field");
+                    equals(c.find("cbody").table().length, 5, "updated data table length");
+                    same(c.find("cbody").table()[0], NewDataTable[0], "updated data table (0)");
+                    same(c.find("cbody").table()[1], NewDataTable[1], "updated data table (1)");
+                    equals(c.find("cbody").table()[2][0], "row_2", "updated data table (2)");
+                    equals(c.find("cbody").table()[3][0], "row_3", "updated data table (3)");
+                    equals(c.find("cbody").table()[4][0], "row_4", "updated data table (4)");
+                    start();
+                }),
+            stop(2000);
         });
 
 };

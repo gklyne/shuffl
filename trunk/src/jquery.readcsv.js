@@ -79,10 +79,14 @@ jQuery.extend({
         function(uri, callback)
         {
             function parseCSV(data, status) {
-                if (status != "success") { callback(null, status); };
-                callback(jQuery.csv()(data), status);
+                if (status == "success") {
+                    data = jQuery.csv()(data); 
+                } else {
+                    data = null; 
+                };
+                callback(data, status);
             };
-            jQuery.get("test-shuffl-csv.csv", {}, parseCSV, "text");
+            jQuery.get(uri, {}, parseCSV, "text");
         }    
 
 });
