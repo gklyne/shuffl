@@ -133,13 +133,17 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     card.modelBind("shuffl:uri", shuffl.modelSetText(curi, true));
     shuffl.lineEditable(card, curi, shuffl.editSetModel(card, "shuffl:uri"));
     var cbody = card.find("cbody");
-    card.modelBind("shuffl:table", shuffl.modelSetTable(cbody));
+    card.modelBind("shuffl:table", shuffl.modelSetTable(cbody, 1));
     card.modelBind("shuffl:readcsv", function (event, data) {
-        ////log.debug("Read "+data.newval+" into data table");
+        log.debug("Read "+data.newval+" into data table");
         jQuery.getCSV(data.newval, function (data, status) {
             ////log.debug("- data "+jQuery.toJSON(data));
             card.model("shuffl:table", data);
         });
+    });
+    card.find("button[value='readcsv']").click(function (eventobj) {
+        log.debug("shuffl.card.datatable readcsv button clicked");
+        card.model("shuffl:readcsv", card.model("shuffl:uri"));
     });
     // Initialize the model
     var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
