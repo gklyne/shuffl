@@ -625,6 +625,7 @@ shuffl.resizeAlso = function (card, selector)
             var c = jQuery(this);
             elem.width(c.width()-dw);
             elem.height(c.height()-dh);
+            log.debug("shuffl.resizeAlso:handleResize elem "+elem.width()+", "+elem.height());
         };
         return handleResize;
     };
@@ -644,10 +645,16 @@ shuffl.resizeAlso = function (card, selector)
  */
 shuffl.placeCard = function (layout, card, pos, size, zindex) 
 {
+    log.debug("shuffl.placeCard pos: "+
+        jQuery.toJSON(pos)+", size: "+jQuery.toJSON(size));
     layout.append(card);
     var resizefn = shuffl.resizeAlso(card, card.data("resizeAlso"));
     card.data("resizeFunc", resizefn);
+    // TODO: clean up this logic - resize less frequently? 
+    //       - provide more flexible hook to resize?
     if (resizefn) { card.bind('resize', resizefn); };
+    var redrawfn = card.data("redrawFunc");
+    if (redrawfn) { card.bind('resize', redrawfn); };
     card.css(pos).css('position', 'absolute');
     shuffl.resizeCard(card, size);
     // Make card draggable and to front of display
@@ -663,6 +670,7 @@ shuffl.placeCard = function (layout, card, pos, size, zindex)
     // Click brings card back to top
     card.click( function () { shuffl.toFront(jQuery(this)); });
     // TODO: Consider making card-sized drag
+    log.debug("shuffl.placeCard End.");
 };
 
 /**
@@ -698,6 +706,8 @@ shuffl.resizeCard = function (card, size) {
     if (size.width)  { card.width(size.width); };
     var resizefn = card.data("resizeFunc");
     if (resizefn) { resizefn.call(card /*, null, null*/); };        
+    var redrawfn = card.data("redrawFunc");
+    if (redrawfn) { redrawfn.call(card, card); };
 };
 
 /**

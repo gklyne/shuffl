@@ -44,7 +44,8 @@ shuffl.card.datatable = {};
 shuffl.card.datatable.data =
     { 'shuffl:title':   undefined
     , 'shuffl:tags':    [ undefined ]
-    , 'shuffl:data':    undefined
+    , 'shuffl:uri':     undefined
+    , 'shuffl:table':   undefined
     };
 
 /**
@@ -93,19 +94,18 @@ shuffl.card.datatable.blank = jQuery(
     "  </cfoot>"+
     "</div>");
 
-// TODO: refactor this to run from full card object as converted from JSON
-//       (to preserve prefixes, etc.)
-
 /**
  * Creates and return a new card instance.
  * 
  * @param cardtype      type identifier for the new card element
  * @param cardcss       CSS class name(s) for the new card element
- * @param cardid        local card identifier - a local name for the card, which may be
- *                      combined with a base URI to form a URI for the card.
- * @param carddata      an object or string containing additional data used in constructing
- *                      the body of the card.  This is either a string or an object structure
- *                      with fields 'shuffl:title', 'shuffl:tags' and 'shuffl:text'.
+ * @param cardid        local card identifier - a local name for the card, 
+ *                      which may be combined with a base URI to form a URI 
+ *                      for the card.
+ * @param carddata      an object or string containing additional data used in 
+ *                      constructing the body of the card.  This is either a 
+ *                      string or an object structure with fields 
+ *                      'shuffl:title', 'shuffl:tags' and 'shuffl:table'.
  * @return              a jQuery object representing the new card.
  */
 shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
@@ -122,10 +122,6 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     card.find("cclass").text(cardtype);         // Set card class/type text
     card.data("resizeAlso", "cbody");
     card.resizable();
-    ////var cardh = card.height();
-    ////var bodyh = card("cbody").height();
-    ////card.height("10em");
-    ////card.addclass('shuffl-card-setsize');       // After setting resizable
     // Set up model listener and user input handlers
     var ctitle = card.find("ctitle");
     card.modelBind("shuffl:title", shuffl.modelSetText(ctitle, true));

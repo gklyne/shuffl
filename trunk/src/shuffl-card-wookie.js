@@ -7,8 +7,10 @@
  * cannot be said to be covered by the same license as the rest of the Shuffl 
  * code.
  * 
- * @author Scott Wilson 
- */ 
+ * @author Graham Klyne 
+ * (based closely on a sketch by Scott Wilson:
+ * http://groups.google.com/group/shuffl-discuss/browse_frm/thread/1c236df7e334c233)
+ */
 
 // ---------------------------------------------------------------- 
 // Globals and data 
@@ -89,7 +91,7 @@ shuffl.makeWookieCard = function (cardtype, cardcss, cardid, carddata)
  *        do we need to suspend card activation until the widget returns?
  *        Or just put a message in the iframe?
  * 
- * TODO:  think about publication as web data:  maybe we just need to publich
+ * TODO:  think about publication as web data:  maybe we just need to publish
  *        the metadata used to create the widget?
  * 
  * @param card        card for which the widget is grabbed
@@ -119,7 +121,7 @@ shuffl.getWidget = function(card, widgetType)
  * TODO: serialize Wookie metadata?
  * 
  * @param card      a jQuery object corresponding to the card 
- * @return an object containing the card data 
+ * @return          an object containing the card data 
  */ 
 shuffl.jsonWookieCard = function (card) 
 { 
@@ -132,6 +134,6 @@ shuffl.jsonWookieCard = function (card)
 /** 
  *   Add new card type factory/ies 
  */ 
-shuffl.addCardFactory("shuffl-wookie-purple", "stock-purple", shuffl.makeWookieCard); 
+shuffl.addCardFactory("shuffl-wookie-yellow", "stock-yellow", shuffl.makeWookieCard); 
 
 // End. 

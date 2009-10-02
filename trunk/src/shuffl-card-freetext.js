@@ -62,11 +62,13 @@ shuffl.card.freetext.blank = jQuery(
  * 
  * @param cardtype      type identifier for the new card element
  * @param cardcss       CSS class name(s) for the new card element
- * @param cardid        local card identifier - a local name for the card, which may be
- *                      combined with a base URI to form a URI for the card.
- * @param carddata      an object or string containing additional data used in constructing
- *                      the body of the card.  This is either a string or an object structure
- *                      with fields 'shuffl:title', 'shuffl:tags' and 'shuffl:text'.
+ * @param cardid        local card identifier - a local name for the card, 
+ *                      which may be combined with a base URI to form a URI 
+ *                      for the card.
+ * @param carddata      an object or string containing additional data used in 
+ *                      constructing the body of the card.  This is either a 
+ *                      string or an object structure with fields 
+ *                      'shuffl:title', 'shuffl:tags' and 'shuffl:text'.
  * @return              a jQuery object representing the new card.
  */
 shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
