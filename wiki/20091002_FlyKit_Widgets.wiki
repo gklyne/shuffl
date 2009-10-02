@@ -1,0 +1,9 @@
+#summary 20091002-FlyKit-widgets: Bioinformatic widgets in custom cards
+
+= Introduction =
+
+Jun is working on !FlyKit, a development of !FlyWeb/FlyUI.  It may be that being able to embed the individual !FlyKit widgets in Shuffl cards and link them together will be of some value.
+
+= Details =
+
+(TBD)
