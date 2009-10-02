@@ -78,7 +78,7 @@ shuffl.card.datatable.blank = jQuery(
     "    <button value='readcsv'>Read CSV data</button>\n"+
     "  </crow>\n"+
     "  <crow>\n"+
-    "    <cbody>\n"+
+    "    <cbody class='shuffl-nodrag'>\n"+
     "      <table>\n"+
     "        <tr><th></th><th>col1</th><th>col2</th><th>col3</th></tr>\n"+
     "        <tr><td>row1</td><td>1.1</td><td>1.2</td><td>1.3</td></tr>\n"+

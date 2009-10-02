@@ -212,8 +212,9 @@ shuffl.stockDraggable =
  */
 shuffl.cardDraggable = 
 { 
-    opacity: 0.5, 
-    stack: { group: '.shuffl-card', min: 10 } 
+    opacity: 0.5,
+    cancel: '.shuffl-nodrag, :input, option', // add to default no-drag
+    stack: { group: '.shuffl-card', min: 10 }
 };
 
 /**
@@ -598,6 +599,8 @@ shuffl.blockEditable = function (card, field, callback)
 
 shuffl.defaultSize = {width:0, height:0};
 
+shuffl.defaultSetSize = {width:"20em", height:"10em"};
+
 /**
  * Returns a function that catches a resize event to resize specified 
  * sub-elements in sync with any changes the main card element.
@@ -682,7 +685,7 @@ shuffl.dropCard = function(frompile, tolayout, pos)
     pos = shuffl.positionRel(pos, { left:5, top:1 });   // TODO calculate this properly
     shuffl.placeCard(tolayout, newcard, pos, shuffl.defaultSize, 0);
     if (newcard.hasClass("shuffl-card-setsize")) {
-        shuffl.resizeCard(newcard, {height:"10em"});
+        shuffl.resizeCard(newcard, shuffl.defaultSetSize);
     };
 };
 
