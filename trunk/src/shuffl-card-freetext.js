@@ -46,7 +46,7 @@ shuffl.card.freetext.blank = jQuery(
     "    <ctitle>card title</ctitle>\n"+
     "  </chead>\n"+
     "  <crow>\n"+
-    "    <cbody>card_ZZZ body</cbody>\n"+
+    "    <cbody class='shuffl-nodrag'>card_ZZZ body</cbody>\n"+
     "  </crow>\n"+
     "  <cfoot>\n"+
     "    <cident>card_ZZZ_ident</cident>:<cclass>card_ZZZ class</cclass>\n"+
