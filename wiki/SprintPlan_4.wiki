@@ -91,6 +91,12 @@ In activity 3.2 (initial persistence), I have decided to defer implementation of
 
 == End-of-sprint review ==
 
+Outline of activity:
+ * week 1: complete workspace persistence (initial cut)
+ * week 2: UI for data access; expand testing framework; card refactoring to MVC pattern
+ * week 3: tabular data loading and display; started on data graphing
+
+
 (TBD)
 
 (Note velocity as planned effort complete/total sprint effort)
@@ -123,7 +129,7 @@ Monday, 21 September, 2009
 
 Tuesday, 22 September, 2009
  * (0.4) Misc emails
- * (0.6) Exploring options for UI tom upload data (e.g. CSV). Have a fairly primitive option working, but will want to find a way to make it more user friendly; browser restrictions are making this tough.
+ * (0.6) Exploring options for UI to upload data (e.g. CSV). Have a fairly primitive option working, but will want to find a way to make it more user friendly; browser restrictions are making this tough.
 
 Wednesday, 23 September, 2009
  * (0.2) Email & admin, look at Wookie card from Scott
@@ -148,17 +154,17 @@ Tuesday, 29 September, 2009
  * (0.4) CSV import - support code implemented and tested
 
 Wednesday, 30 September, 2009
-* (1.0) progress on card for CSV data handling. I've backed of the original plan to use a collection of cards for this tabular data. I have created basic card to hold tabular data, and jQuery plugin for mapping data between array-of-arrays and HTML table. Next step is to hook it up to the file selection card and CSV reader software.
+ * (1.0) progress on card for CSV data handling. I've backed off the original plan to use a collection of cards for this tabular data. I have created basic card to hold tabular data, and jQuery plugin for mapping data between array-of-arrays and HTML table. Next step is to hook it up to the file selection card and CSV reader software.
 
 Thursday, 1 October, 2009
- * (0.2) email and admin stuff
- * (0.3) experimenting with jQuery and svg plugin to create animated/rubberband lines for connectors. Can't update SVG attributes directly, but can remove and reinsert line elements in response to mouse events. Will come back to this later.
- * (0.5) have data table card working, though not linked to external file selector. Next step is to look at visualization options.
+  * (0.2) email and admin stuff
+  * (0.3) experimenting with jQuery and svg plugin to create animated/rubberband lines for connectors. Can't update SVG attributes directly, but can remove and reinsert line elements in response to mouse events. Will come back to this later.
+  * (0.5) have data table card working, though not linked to external file selector. Next step is to look at visualization options.
 
 Friday, 2 October, 2009
-* (0.2) Help Jun with Fly-Ted HTTPD problem - caused by my botched attempt to update the server SSL certificate. Updated documentation at http://zoo-garos.zoo.ox.ac.uk/ibrg/index.php/Milos_setup#Server_certificate_checking
-* (0.1) Other admin - emails - ordering toner - ...
-* (0.1) Fixed scrollbar dragging problem
-* (0.1) Review and comment on CLA for Shuffl (from Ross)
-* (0.2) meeting with Jo; discussed use of SemWeb in possible e-learning project, and possible use-case for Shuffl.
-* (0.3) investigate jQuery graphing plug-ins, selected flot (without looking at much else), and started work on graph-display card to use flot.  Got initial graph display working.
+ * (0.2) Help Jun with Fly-Ted HTTPD problem - caused by my botched attempt to update the server SSL certificate. Updated documentation at http://zoo-garos.zoo.ox.ac.uk/ibrg/index.php/Milos_setup#Server_certificate_checking
+ * (0.1) Other admin - emails - ordering toner - ...
+ * (0.1) Fixed scrollbar dragging problem
+ * (0.1) Review and comment on CLA for Shuffl (from Ross)
+ * (0.2) meeting with Jo; discussed use of SemWeb in possible e-learning project, and possible use-case for Shuffl.
+ * (0.3) investigate jQuery graphing plug-ins, selected flot (without looking at much else), and started work on graph-display card to use flot.  Got initial graph display working.
