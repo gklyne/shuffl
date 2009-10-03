@@ -12,3 +12,4 @@ I am noticing that many intended technical features are being deferred in order 
  * Card linking drag-and-drop, intended for linking file selector to data, and data to graph.  At this stage, it was simply quicker to use an editable area on the target card to get the required information in place. Need to investigate using draggable/droppable for setting up card interactions.
  * Getting visual linking indication (e.g. line between cards) requires disproportionate effort for this stage (e.g. drawing "rubberband" lines on workspace.  Have done a little spike code with a jQuery SVG plugin, but more effort is required. For now, cards are stand-alone.
  * On-the-fly saving of card changes.  I think the backend framework needs to be reviewed (maybe also supporting WebDAV) before this is really practical.
+ * Alternative card views (1-line, icon, etc.)  Not needed yet.
