@@ -146,10 +146,8 @@ Friday, 25 September, 2009
 Monday, 28 September, 2009
  * (1.0) Completed Shuffl card plugin refactoring to us an MVC-based pattern.
 
-...
-
 Tuesday, 29 September, 2009
- * (0.2) admin (prepare toner order), email, etc.
+ * (0.2) admin (prepare toner order), email, etc.
  * (0.2) BL meeting
  * (0.4) CSV import - support code implemented and tested
 
