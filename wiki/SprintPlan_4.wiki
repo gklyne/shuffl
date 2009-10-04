@@ -182,7 +182,7 @@ Friday, 2 October, 2009
  * (0.1) Other admin - emails - ordering toner - ...
  * (0.1) Fixed scrollbar dragging problem
  * (0.1) Review and comment on CLA for Shuffl (from Ross)
- * (0.2) meeting with Jo; discussed use of !SemWeb in possible e-learning project, and possible use-case for Shuffl.
+ * (0.2) meeting with Joanne Skerry (Agilisys); discussed use of !SemWeb in e-learning, and possible use-case for Shuffl.
  * (0.3) investigate jQuery graphing plug-ins, selected flot (without looking at much else), and started work on graph-display card to use flot.  Got initial graph display working.
 
 Sunday, 4 October, 2009
