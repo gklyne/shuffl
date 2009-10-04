@@ -1,0 +1,290 @@
+// $Id: $
+
+/**
+ * Test suite for free text card functions
+ */
+var TestDataTable =
+    [ [ "",      "col1",  "col2",  "col3" ]
+    , [ "row_1", "1.11",  "1.22",  "1.33" ]
+    , [ "row_2", "2.11",  "2.22",  "2.33" ]
+    , [ "End." ]
+    ];
+
+/**
+ * Data
+ */
+var testcarddatagraph_carddata = 
+    { 'shuffl:id':        'card_N'
+    , 'shuffl:class':     'shuffl-datagraph-ZZZZZZ'
+    , 'shuffl:version':   '0.1'
+    , 'shuffl:base-uri':  '#'
+    , 'shuffl:uses-prefixes':
+      [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
+      , { 'shuffl:prefix':  'rdf',    'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
+      , { 'shuffl:prefix':  'rdfs',   'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
+      , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
+      , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
+      ]
+    , 'shuffl:data':
+      { 'shuffl:title':   "Card N title"
+      , 'shuffl:tags':    [ 'card_N_tag', 'footag' ]
+      , 'shuffl:uri':     "test-table.csv"
+      , 'shuffl:table':   TestDataTable
+      }
+    };
+
+/**
+ * Function to register tests
+ */
+
+TestCardDatatable = function() {
+
+    module("TestCardDatatable");
+
+    test("shuffl.addCardFactories",
+        function () {
+            log.debug("test shuffl.addCardFactories");
+            // Card factories are created when shuffl-card-datagraph module is loaded
+    		equals(shuffl.CardFactoryMap['shuffl-datagraph-yellow'].cardcss, "stock-yellow", "shuffl-datagraph-yellow");
+            equals(shuffl.CardFactoryMap['shuffl-datagraph-blue'  ].cardcss, "stock-blue",   "shuffl-datagraph-blue");
+            equals(shuffl.CardFactoryMap['shuffl-datagraph-green' ].cardcss, "stock-green",  "shuffl-datagraph-green");
+            equals(shuffl.CardFactoryMap['shuffl-datagraph-orange'].cardcss, "stock-orange", "shuffl-datagraph-orange");
+            equals(shuffl.CardFactoryMap['shuffl-datagraph-pink'  ].cardcss, "stock-pink",   "shuffl-datagraph-pink");
+            equals(shuffl.CardFactoryMap['shuffl-datagraph-purple'].cardcss, "stock-purple", "shuffl-datagraph-purple");
+        });
+    
+    test("shuffl.getCardFactories",
+        function () {
+            log.debug("test shuffl.getCardFactories");
+            var c0 = shuffl.getCardFactory("default-type");
+            equals(typeof c0, "function", "default factory");
+    		var c1 = shuffl.getCardFactory("shuffl-datagraph-yellow");
+    		equals(typeof c1, "function", "retrieved factory yellow");
+            var c2 = shuffl.getCardFactory("shuffl-datagraph-blue");
+            equals(typeof c2, "function", "retrieved factory blue");
+            var c3 = shuffl.getCardFactory("shuffl-datagraph-green");
+            equals(typeof c3, "function", "retrieved factory green");
+            var c4 = shuffl.getCardFactory("shuffl-datagraph-orange");
+            equals(typeof c4, "function", "retrieved factory orange");
+            var c5 = shuffl.getCardFactory("shuffl-datagraph-pink");
+            equals(typeof c5, "function", "retrieved factory pink");
+            var c6 = shuffl.getCardFactory("shuffl-datagraph-purple");
+            equals(typeof c6, "function", "retrieved factory purple");
+        });
+
+    test("shuffl.card.datagraph.newCard",
+        function () {
+            log.debug("test shuffl.card.datagraph.newCard");
+            var css = 'stock-yellow';
+            var c   = shuffl.card.datagraph.newCard("shuffl-datagraph-yellow", css, "card-1",
+            	{ 'shuffl:tags': 	["card-tag"]
+            	, 'shuffl:title':	"card-title"
+                , 'shuffl:uri':     "http://example.org/test-uri.csv"
+            	, 'shuffl:table':   TestDataTable
+            	});
+            equals(c.attr('id'), "card-1",  "card id attribute");
+            ok(c.hasClass('stock-yellow'),  "yellow colour class");
+            ok(c.hasClass('shuffl-card-setsize'), "shuffl card setsize class");
+            equals(c.attr('class'), 'shuffl-card-setsize stock-yellow ui-resizable', "CSS class");
+            equals(c.find("cident").text(), "card-1", "card id field");
+            equals(c.find("cclass").text(), "shuffl-datagraph-yellow", "card class field");
+            equals(c.find("ctitle").text(), "card-title", "card title field");
+            equals(c.find("ctags").text(),  "card-tag", "card tags field");
+            equals(c.find("curi").text(),   "http://example.org/test-uri.csv", "card URI field");
+            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
+            same(c.find("cbody").table(),   TestDataTable, "card data table");
+            //log.debug("- table :"+jQuery.toJSON(c.find("cbody").table()));
+        });
+
+    test("shuffl.createStockpiles",
+        function () {
+            log.debug("test shuffl.createStockpiles");
+            equals(jQuery('#stockbar').children().length, 1, "old stockbar content");
+    		var s1 = shuffl.createStockpile(
+    			"stock_1", "stock-yellow", "Y", "shuffl-datagraph-yellow");
+            var s2 = shuffl.createStockpile(
+                "stock_2", "stock-blue", "B", "shuffl-datagraph-blue");
+            var s3 = shuffl.createStockpile(
+                "stock_3", "stock-green", "G", "shuffl-datagraph-green");
+            var s4 = shuffl.createStockpile(
+                "stock_4", "stock-orange", "O", "shuffl-datagraph-orange");
+            var s5 = shuffl.createStockpile(
+                "stock_5", "stock-pink", "P", "shuffl-datagraph-pink");
+            var s6 = shuffl.createStockpile(
+                "stock_6", "stock-purple", "P", "shuffl-datagraph-purple");
+    		equals(jQuery('#stockbar').children().length, 13, "new stockbar content");
+    		//1
+    		equals(s1.attr('id'), "stock_1", "stock 1 id");
+    	    ok(s1.hasClass("stock-yellow"), "stock 1 class");
+    	    equals(s1.text(), "Y", "stock 1 label");
+    	    equals(typeof s1.data('makeCard'), "function", "stock 1 function");
+    	    equals(s1.data('CardType'), "shuffl-datagraph-yellow", "stock 1 type");
+    	    //2
+            equals(s2.attr('id'), "stock_2", "stock 2 id");
+            ok(s2.hasClass("stock-blue"), "stock 2 class");
+            equals(s2.text(), "B", "stock 2 label");
+            equals(typeof s2.data('makeCard'), "function", "stock 2 function");
+            equals(s2.data('CardType'), "shuffl-datagraph-blue", "stock 2 type");
+            //3
+            equals(s3.attr('id'), "stock_3", "stock 3 id");
+            ok(s3.hasClass("stock-green"), "stock 3 class");
+            equals(s3.text(), "G", "stock 3 label");
+            equals(typeof s3.data('makeCard'), "function", "stock 3 function");
+            equals(s3.data('CardType'), "shuffl-datagraph-green", "stock 3 type");
+            //4
+            equals(s4.attr('id'), "stock_4", "stock 4 id");
+            ok(s4.hasClass("stock-orange"), "stock 4 class");
+            equals(s4.text(), "O", "stock 4 label");
+            equals(typeof s4.data('makeCard'), "function", "stock 4 function");
+            equals(s4.data('CardType'), "shuffl-datagraph-orange", "stock 4 type");
+            //5
+            equals(s5.attr('id'), "stock_5", "stock 5 id");
+            ok(s5.hasClass("stock-pink"), "stock 5 class");
+            equals(s5.text(), "P", "stock 5 label");
+            equals(typeof s5.data('makeCard'), "function", "stock 5 function");
+            equals(s5.data('CardType'), "shuffl-datagraph-pink", "stock 5 type");
+            //6
+            equals(s6.attr('id'), "stock_6", "stock 6 id");
+            ok(s6.hasClass("stock-purple"), "stock 6 class");
+            equals(s6.text(), "P", "stock 6 label");
+            equals(typeof s6.data('makeCard'), "function", "stock 6 function");
+            equals(s6.data('CardType'), "shuffl-datagraph-purple", "stock 6 type");
+    });
+
+    test("shuffl.createCardFromStock",
+        function () {
+            log.debug("test shuffl.createCardFromStock");
+			var s = shuffl.createStockpile(
+			    "stock_id", "stock-green", "stock-label", "shuffl-datagraph-green");
+    		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
+            log.debug("- card "+shuffl.objectString(c));
+    		var card_id = shuffl.lastId("card_");
+            equals(c.attr('id'), card_id, "card id attribute");
+            ok(c.hasClass('shuffl-card'),   "shuffl card class");
+            ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
+            ok(c.hasClass('stock-green'),   "stock-green");
+            ok(c.hasClass('ui-resizable'),  "ui-resizable");
+            equals(c.attr('class'), 'shuffl-card-setsize stock-green ui-resizable shuffl-card', "CSS class");
+            equals(c.find("cident").text(), card_id, "card id field");
+            equals(c.find("cclass").text(), "shuffl-datagraph-green", "card type");
+            equals(c.find("ctitle").text(), card_id+" - type shuffl-datagraph-green", "card title field");
+            equals(c.find("ctags").text(),  card_id+",shuffl-datagraph-green", "card tags field");
+            equals(c.find("curi").text(),   "(Double-click to edit)", "card URI field");
+            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
+            // Check saved card data
+            var d = testcarddatagraph_carddata;
+            equals(c.data('shuffl:id'),    card_id, "layout card id");
+            equals(c.data('shuffl:class'), "shuffl-datagraph-green", "saved card type");
+            equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
+            equals(c.data('shuffl:external')['shuffl:class'],       "shuffl-datagraph-green", "card data class");
+            equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
+            equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
+            same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
+            equals(c.data('shuffl:external')['shuffl:data'],        undefined, "card data");
+        });
+
+    test("shuffl.createCardFromData",
+        function () {
+            log.debug("test shuffl.createCardFromData");
+            var d = testcarddatagraph_carddata;
+            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-orange", d);
+            // Check card details
+            equals(c.attr('id'), "cardfromdata_id", "card id attribute");
+            ok(c.hasClass('shuffl-card'),   "shuffl card type");
+            ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
+            ok(c.hasClass('stock-orange'),  "stock-orange class");
+            equals(c.attr('class'), 'shuffl-card-setsize stock-orange ui-resizable shuffl-card', "CSS class");
+            equals(c.find("cident").text(), "cardfromdata_id", "card id field");
+            equals(c.find("cclass").text(), "shuffl-datagraph-orange", "card class field");
+            equals(c.find("ctitle").text(), "Card N title", "card title field");
+            equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
+            equals(c.find("curi").text(),   "test-table.csv", "card URI field");
+            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
+            same(c.find("cbody").table(),   TestDataTable, "card data table");
+            same(c.data('shuffl:external'), d, "card data");
+        });
+
+    test("shuffl.createDataFromCard",
+        function () {
+            log.debug("test shuffl.createDataFromCard");
+            // Create card (copy of code already tested)
+            var d = testcarddatagraph_carddata;
+            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-pink", d);
+            // (Re)create data and test
+            var e = shuffl.createDataFromCard(c);
+            equals(e['shuffl:id'],          "cardfromdata_id",         'shuffl:id');
+            equals(e['shuffl:class'],       "shuffl-datagraph-pink",    'shuffl:class');
+            equals(e['shuffl:version'],     d['shuffl:version'],       'shuffl:version');
+            equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],      'shuffl:base-uri');
+            same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');
+            equals(e['shuffl:data']['shuffl:title'], "Card N title",   'shuffl:data-title');
+            same(e['shuffl:data']['shuffl:tags'],    [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
+            same(e['shuffl:data']['shuffl:uri'],     "test-table.csv", 'shuffl:data-uri');
+            same(e['shuffl:data']['shuffl:table'],   TestDataTable,    'shuffl:data-table');
+        });
+
+    test("shuffl.card.datagraph model setting",
+        function () {
+            log.debug("shuffl.card.datagraph model setting");
+            // Create card (copy of code already tested)
+            var d = testcarddatagraph_carddata;
+            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-pink", d);
+            var NewDataTable =
+                [ [ "",      "zzz1",  "zzz2",  "zzz3" ]
+                , [ "row_1", "rz1",   "rz2",   "rz3"  ]
+                ];
+            // Simulate user input: set model to update title, tags and body text
+            equals(c.find("ctitle").text(), "Card N title", "card title field");
+            equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
+            equals(c.find("cbody").text(),  "col1col2col3row_11.111.221.33row_22.112.222.33End.", "card data table text");
+            same(c.find("cbody").table(), TestDataTable, "card data table");
+            c.model("shuffl:title", "Card N updated");
+            c.model("shuffl:tags",  "card_N_tag,bartag");
+            c.model("shuffl:uri",   "http://example.org/update/uri.csv");
+            c.model("shuffl:table", NewDataTable);
+            equals(c.find("ctitle").text(), "Card N updated", "updated title field");
+            equals(c.find("ctags").text(),  "card_N_tag,bartag", "updated tags field");
+            equals(c.find("curi").text(),   "http://example.org/update/uri.csv", "updated uri field");
+            equals(c.find("cbody").text(),  "zzz1zzz2zzz3row_1rz1rz2rz3", "updated data table text");
+            same(c.find("cbody").table(), NewDataTable, "updated data table");
+        });
+
+    test("shuffl.card.datagraph model URI setting",
+        function () {
+            log.debug("shuffl.card.datagraph model URI setting");
+            // Create card (copy of code already tested)
+            var d = testcarddatagraph_carddata;
+            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-pink", d);
+            var NewDataTable =
+                [ [ "",      "zzz1",  "zzz2",  "zzz3" ]
+                , [ "row_1", "rz1",   "rz2",   "rz3"  ]
+                ];
+            // Simulate user input: set model URI - should read data file
+            equals(c.find("ctitle").text(), "Card N title", "card title field");
+            equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
+            equals(c.find("cbody").text(),  "col1col2col3row_11.111.221.33row_22.112.222.33End.", "card data table text");
+            equals(c.find("cbody").table().length, 4, "card data table length");
+            same(c.find("cbody").table(), TestDataTable, "card data table");
+            c.model("shuffl:uri", "test-csv-table-new.csv");
+            c.modelBindExec("shuffl:table",
+                function () {
+                    // Executed immediately
+                    c.model("shuffl:readcsv", c.model("shuffl:uri"));
+                },
+                function () {
+                    // Executed when shuffl:table is updated...
+                    equals(c.find("curi").text(),   "test-csv-table-new.csv", "updated uri field");
+                    equals(c.find("cbody").table().length, 5, "updated data table length");
+                    same(c.find("cbody").table()[0], NewDataTable[0], "updated data table (0)");
+                    same(c.find("cbody").table()[1], NewDataTable[1], "updated data table (1)");
+                    equals(c.find("cbody").table()[2][0], "row_2", "updated data table (2)");
+                    equals(c.find("cbody").table()[3][0], "row_3", "updated data table (3)");
+                    equals(c.find("cbody").table()[4][0], "row_4", "updated data table (4)");
+                    start();
+                }),
+            stop(2000);
+        });
+
+};
+
+// End
