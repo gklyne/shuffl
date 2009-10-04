@@ -91,11 +91,17 @@ Actual effort: 0.3 days (for 0.5 planned activity)
 
 = Sprint review notes =
 
-There has been a fair distraction by non-project/admin activities.  Despite this, the workspace persistence work has proceeded reasonably well to plan.
+There has been a fair distraction by non-project and admin activities.  Despite this, the workspace persistence and data visualization work has proceeded reasonably well to plan, albeit with a number of technical compromises to get something demonstrable as soon as possible.  There has been less community engagement than planned, though some new use-cases have been noted (!FlyWeb, e-learning).
 
 In activity 3.2 (initial persistence), I have decided to defer implementation of on-the-fly saving of changes to card content, layout, etc., as I also need to think about handling of read-only workspaces, etc.)
 
 Admin and misc email: allow 1 day/week?
+
+About half a day more than planned was lost to CLAROS.
+
+Velocity (tasks completed/effort spent): 11.0/11.4 = 0.96
+
+ * This velocity figure is a surprise to me: I was expecting it to be lower on account of the unplanned time spent on admin, etc.  Prediction of progress remains challenging with so many competing demands on limited time.
 
 
 == End-of-sprint review ==
