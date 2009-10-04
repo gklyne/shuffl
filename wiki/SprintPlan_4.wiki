@@ -109,7 +109,7 @@ Outline of activity:
  * week 2: UI for data access; expand testing framework; card refactoring to MVC pattern
  * week 3: tabular data loading and display; started on data graphing
 
-There has been less community engagement than planned, though some new use-cases have been noted (!FlyWeb, e-learning).
+There has been less community engagement than planned, though some new use-cases have been noted (!FlyKit, e-learning).
 
 Admin and misc email: allow 1 day/week?
 
