@@ -46,7 +46,7 @@ shuffl.card.datagraph.data =
  * TODO: reset this when done testing
  */
 shuffl.card.datagraph.labels =
-    [ "series1", "series2", "series3", "series4" ]
+    [ "series1", "series2", "series3", "series4" ];
 
 shuffl.card.datagraph.series = [ [], [], [], [] ];
 
@@ -58,7 +58,7 @@ shuffl.card.datagraph.series = [ [], [], [], [] ];
         if (val>max) { return null; };
         return val;
     }
-    for (var x = 0.0 ; x <= 10.0 ; x = x+0.1) 
+    for (var x = 0.0 ; x <= 10.0 ; x = x+0.2) 
     {
         shuffl.card.datagraph.series[0].push([x, Math.sin(x) ]);
         shuffl.card.datagraph.series[1].push([x, Math.cos(x) ]);
