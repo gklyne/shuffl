@@ -91,17 +91,15 @@ Actual effort: 0.3 days (for 0.5 planned activity)
 
 = Sprint review notes =
 
-There has been a fair distraction by non-project and admin activities.  Despite this, the workspace persistence and data visualization work has proceeded reasonably well to plan, albeit with a number of technical compromises to get something demonstrable as soon as possible.  There has been less community engagement than planned, though some new use-cases have been noted (!FlyWeb, e-learning).
+There has been a fair distraction by non-project and admin activities.  Despite this, the workspace persistence and data visualization work has proceeded reasonably well to plan, albeit with a number of technical compromises to get something demonstrable as soon as possible.
 
-In activity 3.2 (initial persistence), I have decided to defer implementation of on-the-fly saving of changes to card content, layout, etc., as I also need to think about handling of read-only workspaces, etc.)
+In activity 3.2 (initial persistence), I have decided to defer implementation of on-the-fly saving of changes to card content, layout, etc., as I also need to think about handling of read-only workspaces, etc.).  The user interface for accessing stored card/layout data is still very primitive.
 
-Admin and misc email: allow 1 day/week?
+In activity 3.3 (CSV data import), I changed the technical design to use a single card to hold the entire table, rather than creating a collection with one card for each row.  Implementing card-per-row threatened to introduce complications I didn't want to think about, so table-per-card seemed the expedient approach for getting a demo working.
 
-About half a day more than planned was lost to CLAROS.
+In view of the compromises incurred, I've started a new wiki page for [TechnicalDebt Technical debt].
 
-Velocity (tasks completed/effort spent): 11.0/11.4 = 0.96
 
- * This velocity figure is a surprise to me: I was expecting it to be lower on account of the unplanned time spent on admin, etc.  Prediction of progress remains challenging with so many competing demands on limited time.
 
 
 == End-of-sprint review ==
@@ -111,10 +109,15 @@ Outline of activity:
  * week 2: UI for data access; expand testing framework; card refactoring to MVC pattern
  * week 3: tabular data loading and display; started on data graphing
 
+There has been less community engagement than planned, though some new use-cases have been noted (!FlyWeb, e-learning).
 
-(TBD)
+Admin and misc email: allow 1 day/week?
 
-(Note velocity as planned effort complete/total sprint effort)
+About half a day more than planned was lost to CLAROS.
+
+Velocity (tasks completed/effort spent): 11.0/11.4 = 0.96
+
+ * This velocity figure is a surprise to me: I was expecting it to be lower on account of the unplanned time spent on admin, etc.  Prediction of progress remains challenging with so many competing demands on limited time.
 
 = Activity summary =
 
