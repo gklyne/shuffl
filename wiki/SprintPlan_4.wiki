@@ -178,12 +178,12 @@ Thursday, 1 October, 2009
   * (0.5) have data table card working, though not linked to external file selector. Next step is to look at visualization options.
 
 Friday, 2 October, 2009
- * (0.2) Help Jun with Fly-Ted HTTPD problem - caused by my botched attempt to update the server SSL certificate. Updated documentation at http://zoo-garos.zoo.ox.ac.uk/ibrg/index.php/Milos_setup#Server_certificate_checking
- * (0.1) Other admin - emails - ordering toner - ...
+ * (0.2) Help Jun with Fly-Ted HTTPD problem
+ * (0.1) Other admin - emails
  * (0.1) Fixed scrollbar dragging problem
  * (0.1) Review and comment on CLA for Shuffl (from Ross)
  * (0.2) meeting with Joanne Skerry (Agilisys); discussed use of !SemWeb in e-learning, and possible use-case for Shuffl.
- * (0.3) investigate jQuery graphing plug-ins, selected flot (without looking at much else), and started work on graph-display card to use flot.  Got initial graph display working.
+ * (0.3) investigate jQuery graphing plug-ins, selected flot (without looking at much else), and started work on graph-display card to use 'flot'.  Got initial graph display working.
 
 Sunday, 4 October, 2009
  * (0.3) Sprint review
