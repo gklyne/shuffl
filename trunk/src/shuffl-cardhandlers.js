@@ -202,6 +202,7 @@ shuffl.loadId = function(cardid)
 shuffl.stockDraggable = 
 { 
     opacity: 0.8, 
+    containment: [0,0,10000,100001],
     revert: true, 
     revertDuration: 0, 
     stack: { group: '.shuffl-card', min: 10 } 
@@ -213,6 +214,7 @@ shuffl.stockDraggable =
 shuffl.cardDraggable = 
 { 
     opacity: 0.5,
+    containment: [0,0,10000,100001],
     cancel: '.shuffl-nodrag, :input, option', // add to default no-drag
     stack: { group: '.shuffl-card', min: 10 }
 };

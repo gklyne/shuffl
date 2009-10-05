@@ -1,18 +1,36 @@
-// $Id: $
+// $Id$
 
 /**
- * Test suite for free text card functions
+ * Test suite for data graphing card functions
  */
-var TestDataTable =
-    [ [ "",      "col1",  "col2",  "col3" ]
-    , [ "row_1", "1.11",  "1.22",  "1.33" ]
-    , [ "row_2", "2.11",  "2.22",  "2.33" ]
-    , [ "End." ]
-    ];
 
 /**
  * Data
  */
+
+var testcarddatagraph_labels =
+    ["graph1", "graph2", "graph3", "graph4"];
+
+var testcarddatagraph_series = [ [], [], [], [] ];
+
+(function (series)
+{
+    var limit = function (val,min,max)
+    {
+        if (val<min) { return null; };
+        if (val>max) { return null; };
+        return val;
+    };
+    for (var x = -3.0 ; x <= 5.0 ; x = x+0.2) 
+    {
+        series[0].push([x, Math.sin(x)]);
+        series[1].push([x, Math.cos(x)]);
+        series[2].push([x, limit(Math.tan(x)/5.0, -1.0, +1.0)]);
+        var y = Math.abs(x*4);
+        series[3].push([x, (y>0.0 ? Math.sin(y)/y : 1.0)]);
+    };
+})(testcarddatagraph_series);
+
 var testcarddatagraph_carddata = 
     { 'shuffl:id':        'card_N'
     , 'shuffl:class':     'shuffl-datagraph-ZZZZZZ'
@@ -28,8 +46,9 @@ var testcarddatagraph_carddata =
     , 'shuffl:data':
       { 'shuffl:title':   "Card N title"
       , 'shuffl:tags':    [ 'card_N_tag', 'footag' ]
-      , 'shuffl:uri':     "test-table.csv"
-      , 'shuffl:table':   TestDataTable
+      , 'shuffl:uri':     "test-graph.csv"
+      , 'shuffl:labels':  testcarddatagraph_labels
+      , 'shuffl:series':  testcarddatagraph_series
       }
     };
 
@@ -37,7 +56,7 @@ var testcarddatagraph_carddata =
  * Function to register tests
  */
 
-TestCardDatatable = function() {
+TestCardDatagraph = function() {
 
     module("TestCardDatatable");
 
@@ -80,7 +99,8 @@ TestCardDatatable = function() {
             	{ 'shuffl:tags': 	["card-tag"]
             	, 'shuffl:title':	"card-title"
                 , 'shuffl:uri':     "http://example.org/test-uri.csv"
-            	, 'shuffl:table':   TestDataTable
+                , 'shuffl:labels':  testcarddatagraph_labels
+                , 'shuffl:series':  testcarddatagraph_series
             	});
             equals(c.attr('id'), "card-1",  "card id attribute");
             ok(c.hasClass('stock-yellow'),  "yellow colour class");
@@ -91,65 +111,9 @@ TestCardDatatable = function() {
             equals(c.find("ctitle").text(), "card-title", "card title field");
             equals(c.find("ctags").text(),  "card-tag", "card tags field");
             equals(c.find("curi").text(),   "http://example.org/test-uri.csv", "card URI field");
-            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
-            same(c.find("cbody").table(),   TestDataTable, "card data table");
-            //log.debug("- table :"+jQuery.toJSON(c.find("cbody").table()));
+            equals(c.find("crow").eq(0).find("button").val(), "readcsv", "readcsv button value");
+            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "div", "card body contains <div>");
         });
-
-    test("shuffl.createStockpiles",
-        function () {
-            log.debug("test shuffl.createStockpiles");
-            equals(jQuery('#stockbar').children().length, 1, "old stockbar content");
-    		var s1 = shuffl.createStockpile(
-    			"stock_1", "stock-yellow", "Y", "shuffl-datagraph-yellow");
-            var s2 = shuffl.createStockpile(
-                "stock_2", "stock-blue", "B", "shuffl-datagraph-blue");
-            var s3 = shuffl.createStockpile(
-                "stock_3", "stock-green", "G", "shuffl-datagraph-green");
-            var s4 = shuffl.createStockpile(
-                "stock_4", "stock-orange", "O", "shuffl-datagraph-orange");
-            var s5 = shuffl.createStockpile(
-                "stock_5", "stock-pink", "P", "shuffl-datagraph-pink");
-            var s6 = shuffl.createStockpile(
-                "stock_6", "stock-purple", "P", "shuffl-datagraph-purple");
-    		equals(jQuery('#stockbar').children().length, 13, "new stockbar content");
-    		//1
-    		equals(s1.attr('id'), "stock_1", "stock 1 id");
-    	    ok(s1.hasClass("stock-yellow"), "stock 1 class");
-    	    equals(s1.text(), "Y", "stock 1 label");
-    	    equals(typeof s1.data('makeCard'), "function", "stock 1 function");
-    	    equals(s1.data('CardType'), "shuffl-datagraph-yellow", "stock 1 type");
-    	    //2
-            equals(s2.attr('id'), "stock_2", "stock 2 id");
-            ok(s2.hasClass("stock-blue"), "stock 2 class");
-            equals(s2.text(), "B", "stock 2 label");
-            equals(typeof s2.data('makeCard'), "function", "stock 2 function");
-            equals(s2.data('CardType'), "shuffl-datagraph-blue", "stock 2 type");
-            //3
-            equals(s3.attr('id'), "stock_3", "stock 3 id");
-            ok(s3.hasClass("stock-green"), "stock 3 class");
-            equals(s3.text(), "G", "stock 3 label");
-            equals(typeof s3.data('makeCard'), "function", "stock 3 function");
-            equals(s3.data('CardType'), "shuffl-datagraph-green", "stock 3 type");
-            //4
-            equals(s4.attr('id'), "stock_4", "stock 4 id");
-            ok(s4.hasClass("stock-orange"), "stock 4 class");
-            equals(s4.text(), "O", "stock 4 label");
-            equals(typeof s4.data('makeCard'), "function", "stock 4 function");
-            equals(s4.data('CardType'), "shuffl-datagraph-orange", "stock 4 type");
-            //5
-            equals(s5.attr('id'), "stock_5", "stock 5 id");
-            ok(s5.hasClass("stock-pink"), "stock 5 class");
-            equals(s5.text(), "P", "stock 5 label");
-            equals(typeof s5.data('makeCard'), "function", "stock 5 function");
-            equals(s5.data('CardType'), "shuffl-datagraph-pink", "stock 5 type");
-            //6
-            equals(s6.attr('id'), "stock_6", "stock 6 id");
-            ok(s6.hasClass("stock-purple"), "stock 6 class");
-            equals(s6.text(), "P", "stock 6 label");
-            equals(typeof s6.data('makeCard'), "function", "stock 6 function");
-            equals(s6.data('CardType'), "shuffl-datagraph-purple", "stock 6 type");
-    });
 
     test("shuffl.createCardFromStock",
         function () {
@@ -157,7 +121,7 @@ TestCardDatatable = function() {
 			var s = shuffl.createStockpile(
 			    "stock_id", "stock-green", "stock-label", "shuffl-datagraph-green");
     		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
-            log.debug("- card "+shuffl.objectString(c));
+            //log.debug("- card "+shuffl.objectString(c));
     		var card_id = shuffl.lastId("card_");
             equals(c.attr('id'), card_id, "card id attribute");
             ok(c.hasClass('shuffl-card'),   "shuffl card class");
@@ -170,7 +134,8 @@ TestCardDatatable = function() {
             equals(c.find("ctitle").text(), card_id+" - type shuffl-datagraph-green", "card title field");
             equals(c.find("ctags").text(),  card_id+",shuffl-datagraph-green", "card tags field");
             equals(c.find("curi").text(),   "(Double-click to edit)", "card URI field");
-            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
+            equals(c.find("crow").eq(0).find("button").val(), "readcsv", "readcsv button value");
+            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "div", "card body contains <div>");
             // Check saved card data
             var d = testcarddatagraph_carddata;
             equals(c.data('shuffl:id'),    card_id, "layout card id");
@@ -198,9 +163,9 @@ TestCardDatatable = function() {
             equals(c.find("cclass").text(), "shuffl-datagraph-orange", "card class field");
             equals(c.find("ctitle").text(), "Card N title", "card title field");
             equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
-            equals(c.find("curi").text(),   "test-table.csv", "card URI field");
-            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
-            same(c.find("cbody").table(),   TestDataTable, "card data table");
+            equals(c.find("curi").text(),   "test-graph.csv", "card URI field");
+            equals(c.find("crow").eq(0).find("button").val(), "readcsv", "readcsv button value");
+            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "div", "card body contains <div>");
             same(c.data('shuffl:external'), d, "card data");
         });
 
@@ -219,8 +184,9 @@ TestCardDatatable = function() {
             same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');
             equals(e['shuffl:data']['shuffl:title'], "Card N title",   'shuffl:data-title');
             same(e['shuffl:data']['shuffl:tags'],    [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
-            same(e['shuffl:data']['shuffl:uri'],     "test-table.csv", 'shuffl:data-uri');
-            same(e['shuffl:data']['shuffl:table'],   TestDataTable,    'shuffl:data-table');
+            same(e['shuffl:data']['shuffl:uri'],     "test-graph.csv", 'shuffl:data-uri');
+            same(e['shuffl:data']['shuffl:labels'], testcarddatagraph_labels, 'shuffl:data-labels');
+            same(e['shuffl:data']['shuffl:series'], testcarddatagraph_series, 'shuffl:data-series');
         });
 
     test("shuffl.card.datagraph model setting",
@@ -229,6 +195,7 @@ TestCardDatatable = function() {
             // Create card (copy of code already tested)
             var d = testcarddatagraph_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-pink", d);
+            // TODO: get some suitable graph data
             var NewDataTable =
                 [ [ "",      "zzz1",  "zzz2",  "zzz3" ]
                 , [ "row_1", "rz1",   "rz2",   "rz3"  ]
@@ -255,6 +222,7 @@ TestCardDatatable = function() {
             // Create card (copy of code already tested)
             var d = testcarddatagraph_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-pink", d);
+            // TODO: get some suitable graph data
             var NewDataTable =
                 [ [ "",      "zzz1",  "zzz2",  "zzz3" ]
                 , [ "row_1", "rz1",   "rz2",   "rz3"  ]
@@ -265,6 +233,7 @@ TestCardDatatable = function() {
             equals(c.find("cbody").text(),  "col1col2col3row_11.111.221.33row_22.112.222.33End.", "card data table text");
             equals(c.find("cbody").table().length, 4, "card data table length");
             same(c.find("cbody").table(), TestDataTable, "card data table");
+            // TODO: create a file of matching graph data
             c.model("shuffl:uri", "test-csv-table-new.csv");
             c.modelBindExec("shuffl:table",
                 function () {
