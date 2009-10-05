@@ -67,7 +67,7 @@ See: http://code.google.com/p/jiscri/wiki/ProjectDocumentation
 || Small WIN(s) & FAIL(s) || announce small wins for the project, e.g. when you finish a coding sprint or when a user has a 'wow your software is cool' moment. The more of these short "win" posts the better! Also don't forget to post the FAIL(s) as well: telling people where thing went wrong so they don't repeat mistakes is priceless for a thriving community || WIN, progressPosts, rapidInnovation, JISCRI, JISC, Shuffl ||
 || || _or_ || FAIL, progressPosts, rapidInnovation, JISCRI, JISC, Shuffl ||
 || || _or_ || progressPosts, rapidInnovation, JISCRI, JISC, Shuffl ||
-|| Sprint plans || New and revised plans generated periodically, responding to user requirements and actual prior progress || progressPosts, rapidInnovation, JISCRI, JISC, Shuffl, Planning ||
+|| Sprint plans || New and revised plans generated periodically, responding to user requirements and actual prior progress.  Also, meta-issues about project conduct and reporting. || progressPosts, rapidInnovation, JISCRI, JISC, Shuffl, Planning ||
 || Final Progress Post || <This is a special post that will have criteria and template added to it so please watch this space as your project is getting closer to the end> - see link above || ... || ?? ||
 
 Project announcements blog: http://shuffl-announce.blogspot.com/
