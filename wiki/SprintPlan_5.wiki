@@ -38,7 +38,7 @@ Project outline plan: [ProjectPlanOutline_200906_200911].
 || 3.   || *Technical development*              || *--* || *--* ||
 || 3.1  || Bug fixes                            || --   || -- || (ongoing) || -- ||
 || 3.2  || Basic graphing of data collections   || 3.0  || -- || (sprint)  || -- ||
-|| _3.3 || Load/Save user interface improvement || 6.0  || -- || (out of scope) || -- ||
+|| _3.3_ || _Load/Save user interface improvement_ || _6.0_  || -- || _(out of scope)_ || -- ||
 
 
 = Task breakdowns =
