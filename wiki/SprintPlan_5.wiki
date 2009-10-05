@@ -8,7 +8,7 @@ Responding to expressed user desiderata, project activities are now diverging qu
 
 The primary focus for this sprint will be (a) to complete the initial data graphing display for the visualization use case, to demonstrate this to Chris Holland, and use that session to gather more detailed requirements for this aspect of Shuffl.  Secondary foci will be: improving aspects of the user interface, especially for workspace loading/saving, and creating some user documentation.
 
-I also have an ongoing discussion with Ross Gardler about long-term sustainability and CLAs (contributor licence agreements) - see the issue list for details
+I also have an ongoing discussion with Ross Gardler about long-term sustainability and CLAs (contributor licence agreements) - see the issue list for details.
 
 == Current milestone ==
 
