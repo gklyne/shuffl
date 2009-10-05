@@ -1,0 +1,86 @@
+#summary Sprint 5 plan : 5 Oct - 16 Oct
+
+<wiki:toc max_depth="2" />
+
+= Introduction =
+
+Responding to expressed user desiderata, project activities are now diverging quite significantly from the original outline plan (other than user engagement still being a key activity at this stage).  The original milestone is included below for reference and interest.
+
+The primary focus for this sprint will be (a) to complete the initial data graphing display for the visualization use case, to demonstrate this to Chris Holland, and use that session to gather more detailed requirements for this aspect of Shuffl.  Secondary foci will be: improving aspects of the user interface, especially for workspace loading/saving, and creating some user documentation.
+
+I also have an ongoing discussion with Ross Gardler about long-term sustainability and CLAs (contributor licence agreements) - see the issue list for details
+
+== Current milestone ==
+
+|| Month || Activity || Deliverables || 
+|| 4: 30Oct 16days || Further enhancements. External linking and data integration. Continued user engagement. || Updated system, more examples of system in use. Updated feature list. Initial community web page describing the system and applications. ||
+
+== Current sprint ==
+
+|| Sprint 5 || 5 Oct - 16 Oct  || 8 days ||
+
+Previous sprint plan: [SprintPlan_5].
+
+Project outline plan: [ProjectPlanOutline_200906_200911 ].
+
+= User stories and activities =
+
+|| *Activity number* || *Description* || *Effort est* || *Effort actual* || *Target date* || *Completion date* ||
+|| 1.   || *Project mananement*             || *2.5* || *--* ||
+|| 1.1. || Sprint 5 plan                    || 0.25 || -- || 05-Oct-2009 || -- ||
+|| 1.1. || Sprint 5 review (retrospective)  || 0.25 || -- || 16-Oct-2009 || -- ||
+|| 1.2. || Sustainability plan              || 0.25 || -- || (ongoing)   || -- ||
+|| 1.3. || Miscellaneous admin, email, etc  || 1.75 || -- || --          || -- ||
+|| 2.   || *Community engagement and dissemination* || *1.5* || *--* ||
+|| 2.1  || Other use cases                          || 0.5 || -- || (ongoing) || -- ||
+|| 2.2  || Demo initial graphing to Chris Holland   || 0.5 || -- || (sprint)  || -- ||
+|| 2.3  || Introductory user documentation          || 0.5 || -- || (sprint)  || -- ||   
+|| 3.   || *Technical development*              || *--* || *--* ||
+|| 3.1  || Bug fixes                            || --   || -- || (ongoing) || -- ||
+|| 3.2  || Basic graphing of data collections   || 3.0  || -- || (sprint)  || -- ||
+|| _3.3 || Load/Save user interface improvement || 6.0  || -- || (out of scope) || -- ||
+
+
+= Task breakdowns =
+
+(effort estimates in days to nearest 0.25)
+
+== 3.2: Basic graphing of data collections ==
+
+Estimated effort: 3.0 days
+
+ * (0.5) Investigate card-to-card drag-and-drop
+ * (0.5) Finalize design of graphing card interface
+ * (1.0) Write test suite for graphing card
+ * (1.0) Implement graphing card
+
+Actual effort: ??? days (for ??? planned activity)
+
+== 3.3: User interface for load/save workspace ==
+
+This task is bartered out of scope for this sprint, but may be started if time permits.
+It may be reviewed in light of the planned meeting with Chris Holland.
+
+Estimated effort: 6.0 days
+
+ * (0.5) review requirements for generic back-end interface
+ * (0.5) design generic back-end and plugin interface
+ * (1.0) implement generic interface plugin for AtomPub
+ * (0.5) implement generic read-only interface plugin for local files
+ * (1.0) implemented simplified load/save user interface using back-end plugin features
+ * (0.5) investigate Google data interface
+ * (2.0) implement generic interface plugin for Google Data
+
+Actual effort: ??? days (for ??? planned activity)
+
+= Sprint review notes =
+
+(TBD)
+
+== End-of-sprint review ==
+
+(TBD)
+
+= Activity summary =
+
+...
