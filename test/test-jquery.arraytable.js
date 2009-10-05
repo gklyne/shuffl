@@ -1,4 +1,4 @@
-// $Id: test-jquery.arraytable.js 420 2009-09-30 10:48:52Z gk-google@ninebynine.org $
+// $Id$
 
 /**
  * Test suite for jquery.arraytable plugin

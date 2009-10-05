@@ -6,7 +6,7 @@
  * that the display area is rendered using 'flot' rather than as an HTML table.
  *  
  * @author Graham Klyne
- * @version $Id: $
+ * @version $Id$
  */
 
 // ----------------------------------------------------------------
@@ -50,7 +50,7 @@ shuffl.card.datagraph.labels =
 
 shuffl.card.datagraph.series = [ [], [], [], [] ];
 
-(function ()
+(function (series)
 {
     function limit(val,min,max)
     {
@@ -60,13 +60,13 @@ shuffl.card.datagraph.series = [ [], [], [], [] ];
     }
     for (var x = 0.0 ; x <= 10.0 ; x = x+0.2) 
     {
-        shuffl.card.datagraph.series[0].push([x, Math.sin(x) ]);
-        shuffl.card.datagraph.series[1].push([x, Math.cos(x) ]);
-        shuffl.card.datagraph.series[2].push([x, limit(Math.tan(x)/5.0, -1.0, +1.0) ]);
+        series[0].push([x, Math.sin(x)]);
+        series[1].push([x, Math.cos(x)]);
+        series[2].push([x, limit(Math.tan(x)/5.0, -1.0, +1.0)]);
         var y = Math.abs((x-5.0)*4);
-        shuffl.card.datagraph.series[3].push([x, (y>0.0 ? Math.sin(y)/y : 1.0)  ]);
+        series[3].push([x, (y>0.0 ? Math.sin(y)/y : 1.0)]);
     };
-})();
+})(shuffl.card.datagraph.series);
 
 /**
  * jQuery base element for building new cards (used by shuffl.makeCard)
@@ -83,7 +83,7 @@ shuffl.card.datagraph.blank = jQuery(
     "  </crow>\n"+
     "  <crow>\n"+
     "    <cbody class='shuffl-nodrag'>\n"+
-    "      <div style='width:95%; height:95%;'/>\n"+
+    "      <div style='width:99%; height:96%;'/>\n"+
     "    </cbody>\n"+
     "  </crow>\n"+
     "  <cfoot>\n"+
