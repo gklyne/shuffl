@@ -26,7 +26,7 @@ Project outline plan: [ProjectPlanOutline_200906_200911].
 = User stories and activities =
 
 || *Activity number* || *Description* || *Effort est* || *Effort actual* || *Target date* || *Completion date* ||
-|| 1.   || *Project mananement*             || *2.5* || *--* ||
+|| 1.   || *Project administration*             || *2.5* || *--* ||
 || 1.1. || Sprint 5 plan                    || 0.25 || -- || 05-Oct-2009 || -- ||
 || 1.1. || Sprint 5 review (retrospective)  || 0.25 || -- || 16-Oct-2009 || -- ||
 || 1.2. || Sustainability plan              || 0.25 || -- || (ongoing)   || -- ||
