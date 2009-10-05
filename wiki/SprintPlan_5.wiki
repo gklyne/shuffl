@@ -19,7 +19,7 @@ I also have an ongoing discussion with Ross Gardler about long-term sustainabili
 
 || Sprint 5 || 5 Oct - 16 Oct  || 8 days ||
 
-Previous sprint plan: [SprintPlan_5].
+Previous sprint plan: [SprintPlan_4].
 
 Project outline plan: [ProjectPlanOutline_200906_200911].
 
