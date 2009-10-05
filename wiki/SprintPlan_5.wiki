@@ -21,7 +21,7 @@ I also have an ongoing discussion with Ross Gardler about long-term sustainabili
 
 Previous sprint plan: [SprintPlan_5].
 
-Project outline plan: [ProjectPlanOutline_200906_200911 ].
+Project outline plan: [ProjectPlanOutline_200906_200911].
 
 = User stories and activities =
 
