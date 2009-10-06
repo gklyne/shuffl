@@ -22,8 +22,8 @@ jQuery.extend({
         {
             delim = delim || ",";
             lined = typeof lined == "string" 
-                ? new RegExp( "[" + (lined || "\r\n") + "]+") 
-                : lined || "\n";
+                ? new RegExp( "[" + (lined || "\\r\\n") + "]+") 
+                : lined || new RegExp("[\r\n]+");
             var mitem  = "\\s*"+
                          '((("[^"]*["])+)'+           // 2
                          "|(('[^']*['])+)"+           // 4

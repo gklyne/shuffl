@@ -83,7 +83,7 @@ shuffl.card.datagraph.blank = jQuery(
     "  </crow>\n"+
     "  <crow>\n"+
     "    <cbody class='shuffl-nodrag'>\n"+
-    "      <div style='width:99%; height:96%;'/>\n"+
+    "      <div style='width:98%; height:98%;'/>\n"+
     "    </cbody>\n"+
     "  </crow>\n"+
     "  <cfoot>\n"+
@@ -133,22 +133,20 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     var curi = card.find("curi");
     card.modelBind("shuffl:uri",     shuffl.modelSetText(curi, true));
     shuffl.lineEditable(card, curi, shuffl.editSetModel(card, "shuffl:uri"));
-    card.modelBind("shuffl:labels",  shuffl.card.datagraph.redraw(card));
-    card.modelBind("shuffl:series",  shuffl.card.datagraph.redraw(card));
+    card.modelBind("shuffl:labels", shuffl.card.datagraph.redraw(card));
+    card.modelBind("shuffl:series", shuffl.card.datagraph.redraw(card));
+    card.modelBind("shuffl:table",  shuffl.card.datagraph.setgraphdata(card));
     card.modelBind("shuffl:readcsv", function (event, data) 
     {
         log.debug("Read "+data.newval+" into data table");
         jQuery.getCSV(data.newval, function (data, status) 
         {
-            ////log.debug("- data "+jQuery.toJSON(data));
-            // First row is series labels
-            card.model("shuffl:labels", data.slice(0,1));
-            card.model("shuffl:series", data.slice(1));
+            ////log.debug("- table "+jQuery.toJSON(data));
+            card.model("shuffl:table", data);
         });
     });
     card.find("button[value='readcsv']").click(function (eventobj) 
     {
-        ////log.debug("shuffl.card.datagraph readcsv button clicked");
         card.model("shuffl:readcsv", card.model("shuffl:uri"));
     });
     // Initialize the model
@@ -163,6 +161,34 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     card.model("shuffl:labels", cardlabels);
     card.model("shuffl:series", cardseries);
     return card;
+};
+
+/**
+ * Returns a function to set graphing data from a supplied table, where the 
+ * first row of the table is graph labels, the first column contains X-values, 
+ * and the remaining columns contain Y-values for each graph.
+ */
+shuffl.card.datagraph.setgraphdata = function (card) 
+{
+    function setgraphvalues(_event, data)
+    {
+        ////log.debug("- data "+jQuery.toJSON(data));
+        var table = data.newval;
+        card.data("shuffl:table",  null);
+        card.data("shuffl:labels", table[0].slice(1));
+        var series = [];
+        for (var j = 1 ; j < table[0].length ; j++)
+        {
+            var graph = [];
+            for (var i = 1 ; i < table.length ; i++)
+            {
+                graph.push([parseFloat(table[i][0]), parseFloat(table[i][j])]);
+            };
+            series.push(graph);
+        };
+        card.model("shuffl:series", series);
+    };
+    return setgraphvalues;
 };
 
 /**
@@ -190,6 +216,9 @@ shuffl.card.datagraph.redraw = function (card)
                 { series:
                     { lines:  { show: true}
                     , points: { show: false, fill: false }
+                    }
+                , xaxis:
+                    { labelWidth: 40
                     }
                 };
             var plot = jQuery.plot(gelem, data, options);

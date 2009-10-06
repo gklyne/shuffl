@@ -20,6 +20,18 @@ test_shuffl_csv = (
     "End.");
 
 /**
+ * Graph data test data values
+ */
+test_shuffl_csv_c135 = (
+    '"x", "c=cos x", "c3=cos 3x", "c5=cos 5x"' +'\n'+
+    '"0.0",  "1",       "1",       "1"'        +'\n'+
+    '"0.2",  "0.9801",  "0.8253", "0.5403"'    +'\n'+
+    '"0.4",  "0.9211",  "0.3624", "-0.4161"'   +'\n'+
+    '"0.6",  "0.8253",  "-0.2272", "-0.99"'    +'\n'+
+    '"0.8",  "0.6967",  "-0.7374", "-0.6536"'  +'\n'+
+    '"1.0",  "0.5403",  "-0.99", "0.2837"');
+
+/**
  * Function to register tests
  */
 TestJqueryReadCSV = function() {
@@ -34,7 +46,7 @@ TestJqueryReadCSV = function() {
             "row1,a1,b1,c1,d1"+"\n"+
             "End.");
         var tbl = jQuery.csv(",")(csv);
-        equals(tbl.length, 3, "just theree rows");
+        equals(tbl.length, 3, "just three rows");
         same(tbl[0],["rowlabel", "col1", "col2", "col3", "col4"], "header row");
         same(tbl[1],["row1", "a1", "b1", "c1", "d1"],             "row 1");
         same(tbl[2],["End."],                                     "end row");
@@ -48,7 +60,7 @@ TestJqueryReadCSV = function() {
             ' " row5 " , " a5 " , " b5 " , " c5 " , " d5 " '+"\n"+
             "End.");
         var tbl = jQuery.csv(",")(csv);
-        equals(tbl.length, 3, "just theree rows");
+        equals(tbl.length, 3, "just three rows");
         same(tbl[0],[" row4 ", " a4 ", " b4 ", " c4 ", " d4 "],             "row 4");
         same(tbl[1],[" row5 ", " a5 ", " b5 ", " c5 ", " d5 "],             "row 5");
         same(tbl[2],["End."],                                             "end row");
@@ -58,7 +70,7 @@ TestJqueryReadCSV = function() {
     {
         expect(11);
         var tbl = jQuery.csv(",")(test_shuffl_csv);
-        equals(tbl.length, 10, "just theree rows");
+        equals(tbl.length, 10, "ten rows");
         same(tbl[0],["rowlabel", "col1", "col2", "col3", "col4"],         "header row");
         same(tbl[1],["row1", "a1", "b1", "c1", "d1"],                     "row 1");
         same(tbl[2],["row2", "a2", "b2", "c2", "d2"],                     "row 2");
@@ -69,6 +81,20 @@ TestJqueryReadCSV = function() {
         same(tbl[7],["row7", "a7'7a", "b7'7b", "c7'7c", "d7'7d"],         "row 7");
         same(tbl[8],["row8", "a8', 8a", "b8', 8b", "c8', 8c", "d8', 8d"], "row 8");
         same(tbl[9],["End."],                                             "end row");
+    });
+
+    test("parse graph data CSV from string", function ()
+    {
+        expect(8);
+        var tbl = jQuery.csv(",")(test_shuffl_csv_c135);
+        equals(tbl.length, 7, "7 rows");
+        same(tbl[0],[ "x", "c=cos x", "c3=cos 3x", "c5=cos 5x" ], "header row");
+        same(tbl[1],[ "0.0", "1", "1", "1" ],                     "row 1");
+        same(tbl[2],[ "0.2", "0.9801", "0.8253", "0.5403" ],      "row 2");
+        same(tbl[3],[ "0.4", "0.9211", "0.3624", "-0.4161" ],     "row 3");
+        same(tbl[4],[ "0.6", "0.8253", "-0.2272", "-0.99" ],      "row 4");
+        same(tbl[5],[ "0.8", "0.6967", "-0.7374", "-0.6536" ],    "row 5");
+        same(tbl[6],[ "1.0", "0.5403", "-0.99", "0.2837" ],       "row 6");
     });
 
     test("read file as string", function ()
@@ -102,6 +128,26 @@ TestJqueryReadCSV = function() {
             start();
         };
         jQuery.getCSV("test-csv.csv", checkdata);
+        stop(2000);
+    });
+
+    test("read graph data file as CSV", function ()
+    {
+        expect(10);
+        function checkdata(tbl, status) {
+            equals(status, "success", "jQuery.get status");
+            equals(tbl.length, 7, "7 rows");
+            same(tbl[0],[ "x", "c=cos x", "c3=cos 3x", "c5=cos 5x" ],         "header row");
+            same(tbl[1],[ "0.0", "1", "1", "1" ],                     "row 1");
+            same(tbl[2],[ "0.2", "0.9801", "0.8253", "0.5403" ],      "row 2");
+            same(tbl[3],[ "0.4", "0.9211", "0.3624", "-0.4161" ],     "row 3");
+            same(tbl[4],[ "0.6", "0.8253", "-0.2272", "-0.99" ],      "row 4");
+            same(tbl[5],[ "0.8", "0.6967", "-0.7374", "-0.6536" ],    "row 5");
+            same(tbl[6],[ "1.0", "0.5403", "-0.99", "0.2837" ],       "row 6");
+            same(tbl[7],undefined,                                    "row 7");
+            start();
+        };
+        jQuery.getCSV("test-csv-graph-c135.csv", checkdata);
         stop(2000);
     });
 

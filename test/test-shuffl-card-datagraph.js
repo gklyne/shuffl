@@ -195,25 +195,56 @@ TestCardDatagraph = function() {
             // Create card (copy of code already tested)
             var d = testcarddatagraph_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-pink", d);
-            // TODO: get some suitable graph data
             var NewDataTable =
-                [ [ "",      "zzz1",  "zzz2",  "zzz3" ]
-                , [ "row_1", "rz1",   "rz2",   "rz3"  ]
+                [ [ "x", "c=cos x", "c3=cos 3x", "c5=cos 5x" ]
+                , [ "0.0",  "1",       "1",       "1"        ]
+                , [ "0.2",  "0.9801",  "0.8253",  "0.5403"   ]
+                , [ "0.4",  "0.9211",  "0.3624",  "-0.4161"  ]
+                , [ "0.6",  "0.8253",  "-0.2272", "-0.99"    ]
+                , [ "0.8",  "0.6967",  "-0.7374", "-0.6536"  ]
+                , [ "1.0",  "0.5403",  "-0.99",   "0.2837"   ]
+                ];
+            var NewDataLabels =
+                [ "c=cos x", "c3=cos 3x", "c5=cos 5x" ];
+            var NewDataSeries = [];
+            NewDataSeries[0] =
+                [ [ 0.0,  1,     ]
+                , [ 0.2,  0.9801 ]
+                , [ 0.4,  0.9211 ]
+                , [ 0.6,  0.8253 ]
+                , [ 0.8,  0.6967 ]
+                , [ 1.0,  0.5403 ]
+                ];
+            NewDataSeries[1] =
+                [ [ 0.0,  1,       ]
+                , [ 0.2,  0.8253,  ]
+                , [ 0.4,  0.3624,  ]
+                , [ 0.6,  -0.2272, ]
+                , [ 0.8,  -0.7374, ]
+                , [ 1.0,  -0.99,   ]
+                ];
+            NewDataSeries[2] =
+                [ [ 0.0,  1,       ]
+                , [ 0.2,  0.5403,  ]
+                , [ 0.4,  -0.4161, ]
+                , [ 0.6,  -0.99,   ]
+                , [ 0.8,  -0.6536, ]
+                , [ 1.0,  0.2837,  ]
                 ];
             // Simulate user input: set model to update title, tags and body text
             equals(c.find("ctitle").text(), "Card N title", "card title field");
             equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
-            equals(c.find("cbody").text(),  "col1col2col3row_11.111.221.33row_22.112.222.33End.", "card data table text");
-            same(c.find("cbody").table(), TestDataTable, "card data table");
             c.model("shuffl:title", "Card N updated");
             c.model("shuffl:tags",  "card_N_tag,bartag");
             c.model("shuffl:uri",   "http://example.org/update/uri.csv");
-            c.model("shuffl:table", NewDataTable);
             equals(c.find("ctitle").text(), "Card N updated", "updated title field");
             equals(c.find("ctags").text(),  "card_N_tag,bartag", "updated tags field");
             equals(c.find("curi").text(),   "http://example.org/update/uri.csv", "updated uri field");
-            equals(c.find("cbody").text(),  "zzz1zzz2zzz3row_1rz1rz2rz3", "updated data table text");
-            same(c.find("cbody").table(), NewDataTable, "updated data table");
+            // Setting table updates labels and series..
+            c.model("shuffl:table", NewDataTable);
+            same(c.model("shuffl:table"),  null,          "shuffl:table");
+            same(c.model("shuffl:labels"), NewDataLabels, "shuffl:labels");
+            same(c.model("shuffl:series"), NewDataSeries, "shuffl:series");
         });
 
     test("shuffl.card.datagraph model URI setting",
@@ -222,19 +253,38 @@ TestCardDatagraph = function() {
             // Create card (copy of code already tested)
             var d = testcarddatagraph_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-pink", d);
-            // TODO: get some suitable graph data
-            var NewDataTable =
-                [ [ "",      "zzz1",  "zzz2",  "zzz3" ]
-                , [ "row_1", "rz1",   "rz2",   "rz3"  ]
+            var NewDataLabels =
+                [ "c=cos x", "c3=cos 3x", "c5=cos 5x" ];
+            var NewDataSeries = [];
+            NewDataSeries[0] =
+                [ [ 0.0,  1,     ]
+                , [ 0.2,  0.9801 ]
+                , [ 0.4,  0.9211 ]
+                , [ 0.6,  0.8253 ]
+                , [ 0.8,  0.6967 ]
+                , [ 1.0,  0.5403 ]
+                ];
+            NewDataSeries[1] =
+                [ [ 0.0,  1,       ]
+                , [ 0.2,  0.8253,  ]
+                , [ 0.4,  0.3624,  ]
+                , [ 0.6,  -0.2272, ]
+                , [ 0.8,  -0.7374, ]
+                , [ 1.0,  -0.99,   ]
+                ];
+            NewDataSeries[2] =
+                [ [ 0.0,  1,       ]
+                , [ 0.2,  0.5403,  ]
+                , [ 0.4,  -0.4161, ]
+                , [ 0.6,  -0.99,   ]
+                , [ 0.8,  -0.6536, ]
+                , [ 1.0,  0.2837,  ]
                 ];
             // Simulate user input: set model URI - should read data file
             equals(c.find("ctitle").text(), "Card N title", "card title field");
             equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
-            equals(c.find("cbody").text(),  "col1col2col3row_11.111.221.33row_22.112.222.33End.", "card data table text");
-            equals(c.find("cbody").table().length, 4, "card data table length");
-            same(c.find("cbody").table(), TestDataTable, "card data table");
-            // TODO: create a file of matching graph data
-            c.model("shuffl:uri", "test-csv-table-new.csv");
+            // Simulate user input: set model URI - should read data file
+            c.model("shuffl:uri", "test-csv-graph-c135.csv");
             c.modelBindExec("shuffl:table",
                 function () {
                     // Executed immediately
@@ -242,13 +292,10 @@ TestCardDatagraph = function() {
                 },
                 function () {
                     // Executed when shuffl:table is updated...
-                    equals(c.find("curi").text(),   "test-csv-table-new.csv", "updated uri field");
-                    equals(c.find("cbody").table().length, 5, "updated data table length");
-                    same(c.find("cbody").table()[0], NewDataTable[0], "updated data table (0)");
-                    same(c.find("cbody").table()[1], NewDataTable[1], "updated data table (1)");
-                    equals(c.find("cbody").table()[2][0], "row_2", "updated data table (2)");
-                    equals(c.find("cbody").table()[3][0], "row_3", "updated data table (3)");
-                    equals(c.find("cbody").table()[4][0], "row_4", "updated data table (4)");
+                    equals(c.find("curi").text(),  "test-csv-graph-c135.csv", "updated uri field");
+                    same(c.model("shuffl:table"),  null,          "shuffl:table");
+                    same(c.model("shuffl:labels"), NewDataLabels, "shuffl:labels");
+                    same(c.model("shuffl:series"), NewDataSeries, "shuffl:series");
                     start();
                 }),
             stop(2000);
