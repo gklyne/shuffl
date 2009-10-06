@@ -611,12 +611,15 @@ shuffl.defaultSetSize = {width:"20em", height:"10em"};
  *                  be tracked.
  * @param selector  jQuery selector string for the sub-element to be resized 
  *                  with changes to the card element.
+ * @param redrawfn  a function called to redraw card elements when the card 
+ *                  is resized.  When called, the current card is supplied
+ *                  as 'this' and also as the single call argument.
  * @return          a function that serves as a resize handler for the
  *                  selected sub-element.
  */
-shuffl.resizeAlso = function (card, selector) 
+shuffl.resizeHandler = function (card, selector, redrawfn) 
 {
-    //log.debug("shuffl.resizeAlso "+selector);
+    //log.debug("shuffl.resizeHandler "+selector);
     var elem = card.find(selector);
     if (elem.length == 1) {
         var dw = card.width() - elem.width();
@@ -627,7 +630,14 @@ shuffl.resizeAlso = function (card, selector)
             var c = jQuery(this);
             elem.width(c.width()-dw);
             elem.height(c.height()-dh);
-            log.debug("shuffl.resizeAlso:handleResize elem "+elem.width()+", "+elem.height());
+            //log.debug("shuffl.resizeHandler:handleResize elem "+elem.width()+", "+elem.height());
+            if (redrawfn)
+            {
+                var t = card.data("redrawTimer");
+                if (t) { clearTimeout(t); };  // Cancel pending redraw
+                t = setTimeout(function () { redrawfn.call(card, card); }, 250.0);
+                card.data("redrawTimer", t);
+            };
         };
         return handleResize;
     };
@@ -635,7 +645,18 @@ shuffl.resizeAlso = function (card, selector)
 };
 
 /**
- * Place card on the shuffl layout area
+ * Place card on the shuffl layout area, and set up common event handlers
+ * and properties.
+ * 
+ * All cards are draggable, and clicking on them brings them to the front
+ * of the display stack.
+ * 
+ * If card data value "resizeAlso" is specified, it is a jQuery selector for
+ * an element within the card that is resized in sync with the main card.
+ * 
+ * If card data value "redrawFunc" is specified, it is called when parts of
+ * the card may need redrawing to accommodate a changed card size (this value
+ * is used only when "resizeAlso" is defined).
  * 
  * @param layout    the layout area where the card will be placed
  * @param card      the card to be placed
@@ -650,15 +671,12 @@ shuffl.placeCard = function (layout, card, pos, size, zindex)
     log.debug("shuffl.placeCard pos: "+
         jQuery.toJSON(pos)+", size: "+jQuery.toJSON(size));
     layout.append(card);
-    var resizefn = shuffl.resizeAlso(card, card.data("resizeAlso"));
+    var resizefn = shuffl.resizeHandler(
+        card, card.data("resizeAlso"), card.data("redrawFunc"));
     card.data("resizeFunc", resizefn);
-    // TODO: clean up this logic - resize less frequently? 
-    //       - provide more flexible hook to resize?
     if (resizefn) { card.bind('resize', resizefn); };
-    var redrawfn = card.data("redrawFunc");
-    if (redrawfn) { card.bind('resize', redrawfn); };
     card.css(pos).css('position', 'absolute');
-    shuffl.resizeCard(card, size);
+    shuffl.setCardSize(card, size);
     // Make card draggable and to front of display
     card.draggable(shuffl.cardDraggable);
     if (zindex) 
@@ -695,21 +713,19 @@ shuffl.dropCard = function(frompile, tolayout, pos)
     pos = shuffl.positionRel(pos, { left:5, top:1 });   // TODO calculate this properly
     shuffl.placeCard(tolayout, newcard, pos, shuffl.defaultSize, 0);
     if (newcard.hasClass("shuffl-card-setsize")) {
-        shuffl.resizeCard(newcard, shuffl.defaultSetSize);
+        shuffl.setCardSize(newcard, shuffl.defaultSetSize);
     };
 };
 
 /**
  * Resize card, invoking the card resize handler as needed to adjust internal
- * component sizes.
+ * component sizes and redraw card contents.
  */
-shuffl.resizeCard = function (card, size) {
+shuffl.setCardSize = function (card, size) {
     if (size.height) { card.height(size.height); };
     if (size.width)  { card.width(size.width); };
     var resizefn = card.data("resizeFunc");
     if (resizefn) { resizefn.call(card /*, null, null*/); };        
-    var redrawfn = card.data("redrawFunc");
-    if (redrawfn) { redrawfn.call(card, card); };
 };
 
 /**
