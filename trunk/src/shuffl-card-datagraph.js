@@ -206,7 +206,7 @@ shuffl.card.datagraph.redraw = function (card)
         //log.debug("shuffl.card.datagraph.redraw:drawgraph "+gelem.width()+", "+gelem.height());
         if (labels && series && gelem.width() && gelem.height())
         {
-            log.debug("- plot graphs");
+            ////log.debug("- plot graphs");
             var data   = [];
             for (var i = 0 ; i < labels.length ; i++)
             {
@@ -224,15 +224,7 @@ shuffl.card.datagraph.redraw = function (card)
             var plot = jQuery.plot(gelem, data, options);
         };
     };
-    function redrawlater(_event,_data)
-    {
-        // Delay redraw for 200ms so that dragging can work more smoothly
-        var t = card.data("shuffl:redrawtimer");
-        if (t) { clearTimeout(t); };  // Cancel pending redraw
-        t = setTimeout(function (_e,_d) { drawgraph(_e, _d); }, 200.0);
-        card.data("shuffl:redrawtimer", t);
-    };
-    return redrawlater;
+    return drawgraph;
 };
 
 /**
