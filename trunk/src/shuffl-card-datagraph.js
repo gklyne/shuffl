@@ -34,23 +34,27 @@ shuffl.card.datagraph = {};
  * Template for creating new card object for serialization
  */
 shuffl.card.datagraph.data =
-    { 'shuffl:title':   undefined
-    , 'shuffl:tags':    [ undefined ]
-    , 'shuffl:uri':     undefined
-    , 'shuffl:labels':  undefined
-    , 'shuffl:series':  undefined
+    { 'shuffl:title':     undefined
+    , 'shuffl:tags':      [ undefined ]
+    , 'shuffl:uri':       undefined
+    , 'shuffl:table':     undefined
+    , 'shuffl:labelrow':  undefined
+    , 'shuffl:datarow':   undefined
+    , 'shuffl:columns':   undefined
+    , 'shuffl:labels':    undefined
+    , 'shuffl:series':    undefined
+    , 'shuffl:dataminy':  undefined
+    , 'shuffl:datamaxy':  undefined
     };
 
 /*
  * Temporary default data for testing...
  * TODO: reset this when done testing
  */
-shuffl.card.datagraph.labels =
-    [ "series1", "series2", "series3", "series4" ];
+shuffl.card.datagraph.table =
+    [ [ "", "series1", "series2", "series3", "series4" ] ];
 
-shuffl.card.datagraph.series = [ [], [], [], [] ];
-
-(function (series)
+(function (table)
 {
     function limit(val,min,max)
     {
@@ -60,13 +64,16 @@ shuffl.card.datagraph.series = [ [], [], [], [] ];
     }
     for (var x = 0.0 ; x <= 10.0 ; x = x+0.2) 
     {
-        series[0].push([x, Math.sin(x)]);
-        series[1].push([x, Math.cos(x)]);
-        series[2].push([x, limit(Math.tan(x)/5.0, -1.0, +1.0)]);
-        var y = Math.abs((x-5.0)*4);
-        series[3].push([x, (y>0.0 ? Math.sin(y)/y : 1.0)]);
+        var x4 = Math.abs((x-5.0)*4);
+        table.push(
+          [ x
+          , Math.sin(x)
+          , Math.cos(x)
+          , limit(Math.tan(x)*0.2, -1.0, +1.0)
+          , (x4>0.0 ? Math.sin(x4)/x4 : 1.0)
+          ]);
     };
-})(shuffl.card.datagraph.series);
+})(shuffl.card.datagraph.table);
 
 /**
  * jQuery base element for building new cards (used by shuffl.makeCard)
@@ -108,8 +115,8 @@ shuffl.card.datagraph.blank = jQuery(
  */
 shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata) 
 {
-    //log.debug("shuffl.card.datagraph.newCard: "+
-    //    cardtype+", "+cardcss+", "+cardid+", "+carddata);
+    ////log.debug("shuffl.card.datagraph.newCard: "+cardtype+", "+cardcss+", "+cardid);
+    ////log.debug("- data: "+jQuery.toJSON(carddata));
     // Initialize the card object
     var card = shuffl.card.datagraph.blank.clone();
     card.data('shuffl:class',  cardtype);
@@ -150,21 +157,38 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
         card.model("shuffl:readcsv", card.model("shuffl:uri"));
     });
     // Initialize the model
-    var cardtitle  = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
-    var cardtags   = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
-    var carduri    = shuffl.get(carddata, 'shuffl:uri',   "");
-    var cardlabels = shuffl.get(carddata, 'shuffl:labels', shuffl.card.datagraph.labels);
-    var cardseries = shuffl.get(carddata, 'shuffl:series', shuffl.card.datagraph.series);
-    card.model("shuffl:title",  cardtitle);
-    card.model("shuffl:tags",   cardtags.join(","));
-    card.model("shuffl:uri",    carduri);
-    card.model("shuffl:labels", cardlabels);
-    card.model("shuffl:series", cardseries);
+    var cardtitle     = shuffl.get(carddata, 'shuffl:title',        cardid);
+    var cardtags      = shuffl.get(carddata, 'shuffl:tags',         [cardtype]);
+    var carduri       = shuffl.get(carddata, 'shuffl:uri',          "");
+    var cardtable     = shuffl.get(carddata, 'shuffl:table',        undefined);
+    var cardlabelrow  = shuffl.get(carddata, 'shuffl:labelrow',     undefined);
+    var carddatarow   = shuffl.get(carddata, 'shuffl:datarow',      undefined);
+    var cardcolumns   = shuffl.get(carddata, 'shuffl:columns',      undefined);
+    var cardlabels    = shuffl.get(carddata, 'shuffl:labels',       undefined);
+    var cardseries    = shuffl.get(carddata, 'shuffl:series',       undefined);
+    var carddataminy  = shuffl.get(carddata, 'shuffl:dataminy',     undefined);
+    var carddatamaxy  = shuffl.get(carddata, 'shuffl:datamaxy',     undefined);
+    card.model("shuffl:title",    cardtitle);
+    card.model("shuffl:tags",     cardtags.join(","));
+    card.model("shuffl:uri",      carduri);
+    card.data("shuffl:table",     cardtable);
+    card.data("shuffl:labelrow",  cardlabelrow);
+    card.data("shuffl:datarow",   carddatarow);
+    card.data("shuffl:columns",   cardcolumns);
+    card.data("shuffl:labels",    cardlabels);
+    card.data("shuffl:series",    cardseries);
+    card.data("shuffl:dataminy",  carddataminy);
+    card.data("shuffl:datamaxy",  carddatamaxy);
+    // TODO: remove this temporary code to define table data if none provided
+    if (!cardtable && !cardseries)
+    {
+        card.model("shuffl:table", shuffl.card.datagraph.table);
+    };
     return card;
 };
 
 /**
- * Returns a function to set graphing data from a supplied table, where the 
+ * Returns a function to set graphing data from an assigned table, where the 
  * first row of the table is graph labels, the first column contains X-values, 
  * and the remaining columns contain Y-values for each graph.
  */
@@ -236,11 +260,17 @@ shuffl.card.datagraph.redraw = function (card)
 shuffl.card.datagraph.serialize = function (card) 
 {
     var carddata = shuffl.card.datagraph.data;
-    carddata['shuffl:title']  = card.model("shuffl:title");
-    carddata['shuffl:tags']   = shuffl.makeTagList(card.model("shuffl:tags"));
-    carddata['shuffl:uri']    = card.model("shuffl:uri");
-    carddata['shuffl:labels'] = card.model("shuffl:labels");
-    carddata['shuffl:series'] = card.model("shuffl:series");
+    carddata['shuffl:title']    = card.model("shuffl:title");
+    carddata['shuffl:tags']     = shuffl.makeTagList(card.model("shuffl:tags"));
+    carddata['shuffl:uri']      = card.model("shuffl:uri");
+    carddata['shuffl:table']    = card.model("shuffl:table");      
+    carddata['shuffl:labelrow'] = card.model("shuffl:labelrow");
+    carddata['shuffl:datarow']  = card.model("shuffl:datarow");
+    carddata['shuffl:columns']  = card.model("shuffl:columns");
+    carddata['shuffl:labels']   = card.model("shuffl:labels");
+    carddata['shuffl:series']   = card.model("shuffl:series");
+    carddata['shuffl:dataminy'] = card.model("shuffl:dataminy");
+    carddata['shuffl:datamaxy'] = card.model("shuffl:datamaxy");
     return carddata;
 };
 
