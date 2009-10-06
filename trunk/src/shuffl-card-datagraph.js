@@ -224,7 +224,15 @@ shuffl.card.datagraph.redraw = function (card)
             var plot = jQuery.plot(gelem, data, options);
         };
     };
-    return drawgraph;
+    function redrawlater(_event,_data)
+    {
+        // Delay redraw for 200ms so that dragging can work more smoothly
+        var t = card.data("shuffl:redrawtimer");
+        if (t) { clearTimeout(t); };  // Cancel pending redraw
+        t = setTimeout(function (_e,_d) { drawgraph(_e, _d); }, 200.0);
+        card.data("shuffl:redrawtimer", t);
+    };
+    return redrawlater;
 };
 
 /**
