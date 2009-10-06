@@ -58,7 +58,7 @@ var testcarddatagraph_carddata =
 
 TestCardDatagraph = function() {
 
-    module("TestCardDatatable");
+    module("TestCardDatagraph");
 
     test("shuffl.addCardFactories",
         function () {
