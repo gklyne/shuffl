@@ -171,8 +171,11 @@ shuffl.interpolate = function(template, dict) {
 shuffl.get = function (obj, key, def) {
     if (typeof obj == "object" && obj.hasOwnProperty(key)) {
         var val = obj[key];
+        // Be very picky about what we let through...
         if (typeof val == "string") { return val; }
+        if (typeof val == "number") { return val; }
         if (val instanceof Array)   { return val; }
+        log.error("shuffl.get: unexpected value type "+val);
     };
     return def;
 };
