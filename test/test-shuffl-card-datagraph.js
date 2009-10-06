@@ -186,6 +186,9 @@ TestCardDatagraph = function() {
             equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
             equals(c.find("curi").text(),   "test-graph.csv", "card URI field");
             equals(c.find("crow").eq(0).find("button").val(), "readcsv", "readcsv button value");
+            equals(c.find("clabelrow").text(), "0", "label row field");
+            equals(c.find("cdatarow").text(),  "1", "data row field");
+            equals(c.find("ccolumns").text(),    "1,2,3,4", "data columns field");
             equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "div", "card body contains <div>");
             same(c.data('shuffl:external'), d,      "card data");
             same(c.data('shuffl:table'), testcarddatagraph_table, 'shuffl:data-table');
@@ -355,7 +358,7 @@ TestCardDatagraph = function() {
             equals(c.data("shuffl:dataminy"), -1.0, "shuffl:dataminy");
             equals(c.data("shuffl:datamaxy"),  1.0, "shuffl:datamaxy");
         });
-
+    
     test("shuffl.card.datagraph model URI setting",
         function () {
             log.debug("shuffl.card.datagraph model URI setting");
