@@ -605,7 +605,7 @@ shuffl.floatEditable = function (card, field, callback)
 {
     function parseEditFloat(newtext, _s)
     {
-        if (newtext.match(/^\s*\d+(.\d*)?\s*$/))
+        if (newtext.match(/^\s*[+-]?\d+(.\d*)?\s*$/))
         {
             callback(parseFloat(newtext), _s);
         } 
@@ -624,6 +624,7 @@ shuffl.floatEditable = function (card, field, callback)
         , submit: 'OK'
         , cancel: 'cancel'
         , cssclass: 'shuffl-lineedit'
+        , width: 40
         , callback: parseEditFloat  // (new inerHTML, settings)
         });
 };

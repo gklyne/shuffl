@@ -59,14 +59,14 @@ shuffl.card.datagraph.table =
         if (val>max) { return null; };
         return val;
     }
-    for (var x = 0.0 ; x <= 10.0 ; x = x+0.2) 
+    for (var x = 0.0 ; x <= 10.0 ; x = x+0.1) 
     {
         var x4 = Math.abs((x-5.0)*4);
         table.push(
           [ x
           , Math.sin(x)
           , Math.cos(x)
-          , limit(Math.tan(x)*0.2, -1.0, +1.0)
+          , limit(Math.tan(x)*0.2, -4.0, +4.0)
           , (x4>0.0 ? Math.sin(x4)/x4 : 1.0)
           ]);
     };
@@ -84,13 +84,15 @@ shuffl.card.datagraph.blank = jQuery(
     "  <crow>\n"+
     "    <curi>card_ZZZ uri</curi>\n"+
     "    <button value='readcsv'>Read CSV data</button>\n"+
-    "    - min Y: <cdataminy/>\n"+
-    "    - max Y: <cdatamaxy/>\n"+
     "  </crow>\n"+
     "  <crow>\n"+
     "    <cbody class='shuffl-nodrag'>\n"+
     "      <div style='width:98%; height:98%;'/>\n"+
     "    </cbody>\n"+
+    "  </crow>\n"+
+    "  <crow style='width: 100%;'>\n"+
+    "    <span style='display: inline-block; width: 45%;'>min Y: <cdataminy style='display: inline-block; width: 20%;'>-100.0</cdataminy></span>\n"+
+    "    <span style='display: inline-block; width: 45%;'>max Y: <cdatamaxy style='display: inline-block; width: 20%;'> 100.0</cdatamaxy></span>\n"+
     "  </crow>\n"+
     "  <cfoot>\n"+
     "    <cident>card_ZZZ_ident</cident>:<cclass>card_ZZZ class</cclass>\n"+
@@ -146,12 +148,14 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     shuffl.lineEditable(card, curi, shuffl.editSetModel(card, "shuffl:uri"));
 
     var cdataminy = card.find("cdataminy");
-    card.modelBind("shuffl:dataminy", shuffl.modelSetText(cdataminy, true));
+    card.modelBind("shuffl:dataminy", 
+        shuffl.modelSetText(cdataminy, true, shuffl.card.datagraph.redraw(card)));
     shuffl.floatEditable(card, cdataminy, shuffl.editSetModel(card, "shuffl:dataminy"));
 
-    var cdataminy = card.find("cdatamaxy");
-    card.modelBind("shuffl:datamaxy", shuffl.modelSetText(cdataminy, true));
-    shuffl.floatEditable(card, cdataminy, shuffl.editSetModel(card, "shuffl:dataminy"));
+    var cdatamaxy = card.find("cdatamaxy");
+    card.modelBind("shuffl:datamaxy", 
+        shuffl.modelSetText(cdatamaxy, true, shuffl.card.datagraph.redraw(card)));
+    shuffl.floatEditable(card, cdatamaxy, shuffl.editSetModel(card, "shuffl:datamaxy"));
 
     card.modelBind("shuffl:labels", shuffl.card.datagraph.redraw(card));
     card.modelBind("shuffl:series", shuffl.card.datagraph.setseriesdata(card));
@@ -287,7 +291,7 @@ shuffl.card.datagraph.draw = function (card)
     ////log.debug("shuffl.card.datagraph.redraw:drawgraph "+gelem.width()+", "+gelem.height());
     if (labels && series && gelem.width() && gelem.height())
     {
-        ////log.debug("- plot graphs");
+        log.debug("- plot graphs "+ymin+", "+ymax);
         var data   = [];
         for (var i = 0 ; i < labels.length ; i++)
         {
@@ -301,11 +305,11 @@ shuffl.card.datagraph.draw = function (card)
             , xaxis:
                 { labelWidth: 40
                 }
-            , yaxis:
-                { min: ymin
-                , max: ymax
-                }
             };
+        if (isFinite(ymin) && isFinite(ymax) && (ymin<ymax))
+        {
+            options.yaxis = { min: ymin, max: ymax };
+        }
         var plot = jQuery.plot(gelem, data, options);
     };
 };
