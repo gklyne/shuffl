@@ -494,6 +494,47 @@ shuffl.editSetModel = function (card, name)
     return setModel;
 };
 
+/**
+ * Function to initialize a single-line editable field and bind its value
+ * to a text-valued model variable. 
+ * 
+ * Updates to the model variable are reflected in the card field, and changes
+ * to the field are reflected back to the model variable.
+ * 
+ * @param card      is a jQuery card object being set up.
+ * @param modelvar  is the name of a card model variable that is associated
+ *                  with the field.
+ * @param fieldsel  is a jQuery selector string for a field within the card
+ * @param onchange  if defined, is a function that is called when the model
+ *                  value is changed by user interaction or by program action.
+ */
+shuffl.bindLineEditable = function (card, modelvar, fieldsel, onchange)
+{
+    var cfield = card.find(fieldsel);
+    card.modelBind(modelvar, shuffl.modelSetText(cfield, true, onchange));
+    shuffl.lineEditable(card, cfield, shuffl.editSetModel(card, modelvar));
+};
+
+/**
+ * Function to initialize a single-line editable field and bind its value
+ * to a float-valued model variable. 
+ * 
+ * Updates to the model variable are reflected in the card field, and changes
+ * to the field are reflected back to the model variable.
+ * 
+ * @param card      is a jQuery card object being set up.
+ * @param modelvar  is the name of a card model variable that is associated
+ *                  with the field.
+ * @param fieldsel  is a jQuery selector string for a field within the card
+ * @param onchange  if defined, is a function that is called when the model
+ *                  value is changed by user interaction or by program action.
+ */
+shuffl.bindFloatEditable = function (card, modelvar, fieldsel, onchange)
+{
+    var cfield = card.find(fieldsel);
+    card.modelBind(modelvar, shuffl.modelSetText(cfield, true, onchange));
+    shuffl.floatEditable(card, cfield, shuffl.editSetModel(card, modelvar));
+};
 
 // ----------------------------------------------------------------
 // Text editing support functions

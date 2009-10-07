@@ -132,31 +132,13 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     // Set up function to (re)draw the card when placed or resized
     card.data("redrawFunc", shuffl.card.datagraph.redraw(card));
     // Set up model listener and user input handlers
-
-    // TODO: factor out common model/field linkage logic
-    // e.g. shuffl.bindXXX(card, modelvar, selector, fieldsetup, modelchange);
-    var ctitle = card.find("ctitle");
-    card.modelBind("shuffl:title",   shuffl.modelSetText(ctitle, true));
-    shuffl.lineEditable(card, ctitle, shuffl.editSetModel(card, "shuffl:title"));
-
-    var ctags = card.find("ctags");
-    card.modelBind("shuffl:tags", shuffl.modelSetText(ctags, true));
-    shuffl.lineEditable(card, ctags, shuffl.editSetModel(card, "shuffl:tags"));
-
-    var curi = card.find("curi");
-    card.modelBind("shuffl:uri",     shuffl.modelSetText(curi, true));
-    shuffl.lineEditable(card, curi, shuffl.editSetModel(card, "shuffl:uri"));
-
-    var cdataminy = card.find("cdataminy");
-    card.modelBind("shuffl:dataminy", 
-        shuffl.modelSetText(cdataminy, true, shuffl.card.datagraph.redraw(card)));
-    shuffl.floatEditable(card, cdataminy, shuffl.editSetModel(card, "shuffl:dataminy"));
-
-    var cdatamaxy = card.find("cdatamaxy");
-    card.modelBind("shuffl:datamaxy", 
-        shuffl.modelSetText(cdatamaxy, true, shuffl.card.datagraph.redraw(card)));
-    shuffl.floatEditable(card, cdatamaxy, shuffl.editSetModel(card, "shuffl:datamaxy"));
-
+    shuffl.bindLineEditable(card, "shuffl:title", "ctitle");
+    shuffl.bindLineEditable(card, "shuffl:tags",  "ctags");
+    shuffl.bindLineEditable(card, "shuffl:uri",   "curi");
+    shuffl.bindFloatEditable(card, "shuffl:dataminy", "cdataminy", 
+        shuffl.card.datagraph.redraw(card));
+    shuffl.bindFloatEditable(card, "shuffl:datamaxy", "cdatamaxy", 
+        shuffl.card.datagraph.redraw(card));
     card.modelBind("shuffl:labels", shuffl.card.datagraph.redraw(card));
     card.modelBind("shuffl:series", shuffl.card.datagraph.setseriesdata(card));
     card.modelBind("shuffl:table",  shuffl.card.datagraph.setgraphdata(card));

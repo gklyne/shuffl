@@ -150,8 +150,8 @@ TestCardDatagraph = function() {
             equals(c.model("shuffl:tags"),  "shuffl-datagraph-green", "shuffl:tags");
             equals(c.model("shuffl:uri"),   "", "shuffl:uri");
             //TODO: reinstate these tests when dummy data is removed from new cards
-            equals(c.model("shuffl:dataminy"), -1.0, "shuffl:dataminy");
-            equals(c.model("shuffl:datamaxy"), 1.0, "shuffl:datamaxy");
+            equals(c.model("shuffl:dataminy"), -3.0, "shuffl:dataminy");
+            equals(c.model("shuffl:datamaxy"), 4.0, "shuffl:datamaxy");
             //equals(c.model("shuffl:dataminy"), undefined, "shuffl:dataminy");
             //equals(c.model("shuffl:datamaxy"), undefined, "shuffl:datamaxy");
             //same(c.model("shuffl:table"),  undefined, "shuffl:table");
@@ -171,8 +171,8 @@ TestCardDatagraph = function() {
             equals(c.find("curi").text(),   shuffl.PlaceHolder, "card URI field");
             equals(c.find("crow").eq(0).find("button").val(), "readcsv", "readcsv button value");
             //TODO: reinstate these tests when dummy data is removed from new cards
-            equals(c.find("cdataminy").text(), "-1", "minimum Y field");
-            equals(c.find("cdatamaxy").text(),  "1", "maximum Y field");
+            equals(c.find("cdataminy").text(), "-3", "minimum Y field");
+            equals(c.find("cdatamaxy").text(),  "4", "maximum Y field");
             //equals(c.find("cdataminy").text(), shuffl.PlaceHolder, "minimum Y field");
             //equals(c.find("cdatamaxy").text(), shuffl.PlaceHolder, "maximum Y field");
             equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "div", "card body contains <div>");
