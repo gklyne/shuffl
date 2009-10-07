@@ -86,12 +86,8 @@ shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
     card.data("resizeAlso", "cbody");
     card.resizable();
     // Set up model listener and user input handlers
-    var ctitle = card.find("ctitle");
-    card.modelBind("shuffl:title", shuffl.modelSetText(ctitle, true));
-    shuffl.lineEditable(card, ctitle, shuffl.editSetModel(card, "shuffl:title"));
-    var ctags = card.find("ctags");
-    card.modelBind("shuffl:tags", shuffl.modelSetText(ctags, true));
-    shuffl.lineEditable(card, ctags, shuffl.editSetModel(card, "shuffl:tags"));
+    shuffl.bindLineEditable(card, "shuffl:title", "ctitle");
+    shuffl.bindLineEditable(card, "shuffl:tags",  "ctags");
     var cbody = card.find("cbody");
     card.modelBind("shuffl:text", shuffl.modelSetHtml(cbody, true));
     shuffl.blockEditable(card, cbody, shuffl.editSetModel(card, "shuffl:text"));
