@@ -123,15 +123,9 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     card.data("resizeAlso", "cbody");
     card.resizable();
     // Set up model listener and user input handlers
-    var ctitle = card.find("ctitle");
-    card.modelBind("shuffl:title", shuffl.modelSetText(ctitle, true));
-    shuffl.lineEditable(card, ctitle, shuffl.editSetModel(card, "shuffl:title"));
-    var ctags = card.find("ctags");
-    card.modelBind("shuffl:tags", shuffl.modelSetText(ctags, true));
-    shuffl.lineEditable(card, ctags, shuffl.editSetModel(card, "shuffl:tags"));
-    var curi = card.find("curi");
-    card.modelBind("shuffl:uri", shuffl.modelSetText(curi, true));
-    shuffl.lineEditable(card, curi, shuffl.editSetModel(card, "shuffl:uri"));
+    shuffl.bindLineEditable(card, "shuffl:title", "ctitle");
+    shuffl.bindLineEditable(card, "shuffl:tags",  "ctags");
+    shuffl.bindLineEditable(card, "shuffl:uri",   "curi");
     var cbody = card.find("cbody");
     card.modelBind("shuffl:table", shuffl.modelSetTable(cbody, 1));
     card.modelBind("shuffl:readcsv", function (event, data) {
