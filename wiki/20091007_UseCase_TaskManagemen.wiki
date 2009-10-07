@@ -2,7 +2,15 @@
 
 = Introduction =
 
-Add your content here.
+ * Effort
+ * Importance
+ * Immediacy (urgency)
+
+Just 3 values in each dimension
+
+ * Deadline:  missable, desirable, absolute
+
+
 
 
 = Details =
