@@ -70,16 +70,21 @@ shuffl.makeWookieCard = function (cardtype, cardcss, cardid, carddata)
     card.data("shuffl:tojson", shuffl.jsonWookieCard); 
     card.attr('id', cardid); 
     card.addClass(cardcss); 
-    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]); 
-    var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype); 
-    card.find("cident").text(cardid);           // Set card id text 
-    card.find("cclass").text(cardtype);         // Set card class/type text 
-    card.find("ctitle").text(cardtitle);        // Set card title text (editable) .. 
-    shuffl.lineEditable(card, card.find("ctitle")); 
-    card.find("ctags").text(cardtags.join(",")); 
-    shuffl.lineEditable(card, card.find("ctags"));    // Set card tags (editable) .. 
+    card.find("cident").text(cardid);           // Set card id text
+    card.find("cclass").text(cardtype);         // Set card class/type text
+    card.data("resizeAlso", "cbody");
+    card.resizable();
+    // Set up model listener and user input handlers
+    shuffl.bindLineEditable(card, "shuffl:title",   "ctitle");
+    shuffl.bindLineEditable(card, "shuffl:tags",    "ctags");
     card.data("resizeAlso", "cbody"); 
     card.resizable(); 
+    // Initialize the model
+    var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
+    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
+    card.model("shuffl:title", cardtitle);
+    card.model("shuffl:tags",  cardtags.join(","));
+    // Initialize the widget
     shuffl.getWidget(card, "http://www.getwookie.org/widgets/weather"); 
     return card; 
 }; 
