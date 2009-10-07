@@ -248,7 +248,6 @@ shuffl.createStockpile = function(sid, sclass, slabel, stype)
     stockpile.data( 'makeCard', shuffl.createCardFromStock );
     stockpile.data( 'CardType', stype);
     stockpile.draggable(shuffl.stockDraggable);
-    log.debug("- append to stockbar");
     jQuery('#stockbar').append(shuffl.stockpile_space.clone())
     jQuery('#stockbar').append(stockpile);
     return stockpile;
@@ -397,7 +396,8 @@ shuffl.makeTagList = function (ttext)
  * @param fieldobj  is a jQuery object corresponding to a field that is to be 
  *                  updated with new values assigned to a model element.
  * @param holder    is a placeholder string which, if defined, is displayed 
- *                  if the model value is an empty string.
+ *                  if the model value is an empty string, or true to use
+ *                  the default placeholder value at shuffl.placeHolder.
  * @param thencall  if defined, this is an additional function to call
  *                  after the card text has been updated.
  * @return          a function to be used as the update handler for a model
@@ -409,7 +409,7 @@ shuffl.makeTagList = function (ttext)
 shuffl.modelSetText = function (fieldobj, holder, thencall)
 {
     function setText(event, data) {
-        var newtext = jQuery.trim(data.newval);
+        var newtext = jQuery.trim(""+data.newval);
         fieldobj.text(newtext || holder);
         if (thencall !== undefined) { thencall(event, data); };
     }
@@ -478,12 +478,15 @@ shuffl.modelSetTable = function (fieldobj, nh, thencall)
  *                  editable field.
  * @return          a function to be used as an edit-completion function.
  * 
+ * The returned function uses its first argument as the new value to be 
+ * stored in the card model.
+ * 
  * Example:
  *    shuffl.lineEditable(card, ctitle, shuffl.editSetModel(card, "shuffl:title")); 
  */
 shuffl.editSetModel = function (card, name)
 {
-    function setModel(val, settings) {
+    function setModel(val, _settings) {
         //log.debug("shuffl.editSetModel: "+val);
         card.model(name, val);
         card.data('shuffl:datamod', true);
@@ -592,6 +595,36 @@ shuffl.blockEditable = function (card, field, callback)
         , cancel: 'cancel'
         , cssclass: 'shuffl-blockedit'
         , callback: callback    // (new inerHTML, settings)
+        });
+};
+
+/**
+ * Set up floating point number edit field
+ */
+shuffl.floatEditable = function (card, field, callback) 
+{
+    function parseEditFloat(newtext, _s)
+    {
+        if (newtext.match(/^\s*\d+(.\d*)?\s*$/))
+        {
+            callback(parseFloat(newtext), _s);
+        } 
+        else 
+        {
+            // TODO: flag problem with bad syntax
+        };
+    };
+    field.editable(shuffl.passEditText,
+        { data: shuffl.passEditText
+        , onblur: 'submit'
+        //, tooltip: 'Click to edit...'
+        , tooltip: 'Double-click to edit...'
+        , placeholder: shuffl.PlaceHolder
+        , event:   'dblclick'
+        , submit: 'OK'
+        , cancel: 'cancel'
+        , cssclass: 'shuffl-lineedit'
+        , callback: parseEditFloat  // (new inerHTML, settings)
         });
 };
 
