@@ -1,21 +1,21 @@
 #summary 20091007_UseCase_TaskManagement
 
-= Introduction =
+= Summary =
 
- * Effort
- * Importance
- * Immediacy (urgency)
+Use-case suggested by David Shotton
 
-Just 3 values in each dimension
+ * Effort  - small / moderate / larse (e.g. <day ~day >day
+ * Importance - useful / important / critical
+ * Immediacy (urgency) - future / pressing / urgent  (... + overdue?)
 
- * Deadline:  missable, desirable, absolute
+Note: just 3 values in each dimension, keeps interface simple
 
+ * Deadline, + missable / desirable / absolute; allows immediacy to be updated automatically by reference to current date.
 
+Each task is captured on a card, and Shuffl chooses display attributes and position for each card that make it easy to see what tasks are candidates for doing next.
 
+_GK thoughts:  blocked tasks?_
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+(David's text and images here)
