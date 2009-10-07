@@ -88,18 +88,10 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     card.find("cident").text(cardid);               // Set card id text
     card.find("cclass").text(cardtype);             // Set card class/type text
     // Set up model listener and user input handlers
-    var ctitle = card.find("ctitle");
-    card.modelBind("shuffl:title", shuffl.modelSetText(ctitle, true));
-    shuffl.lineEditable(card, ctitle, shuffl.editSetModel(card, "shuffl:title"));
-    var ctags = card.find("ctags");
-    card.modelBind("shuffl:tags", shuffl.modelSetText(ctags, true));
-    shuffl.lineEditable(card, ctags, shuffl.editSetModel(card, "shuffl:tags"));
-    var cbaseuri = card.find("cbaseuri");
-    card.modelBind("shuffl:baseuri", shuffl.modelSetText(cbaseuri, true, updateCuri));
-    shuffl.lineEditable(card, cbaseuri, shuffl.editSetModel(card, "shuffl:baseuri"));
-    var cfile = card.find("cfile");
-    card.modelBind("shuffl:file", shuffl.modelSetText(cfile, true, updateCuri));
-    shuffl.lineEditable(card, cfile, shuffl.editSetModel(card, "shuffl:file"));
+    shuffl.bindLineEditable(card, "shuffl:title",   "ctitle");
+    shuffl.bindLineEditable(card, "shuffl:tags",    "ctags");
+    shuffl.bindLineEditable(card, "shuffl:baseuri", "cbaseuri", updateCuri);
+    shuffl.bindLineEditable(card, "shuffl:file",    "cfile",    updateCuri);
     // Initialize the model
     var cardtitle   = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
     var cardtags    = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
