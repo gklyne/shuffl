@@ -38,9 +38,6 @@ shuffl.card.datagraph.data =
     , 'shuffl:tags':      [ undefined ]
     , 'shuffl:uri':       undefined
     , 'shuffl:table':     undefined
-    , 'shuffl:labelrow':  undefined
-    , 'shuffl:datarow':   undefined
-    , 'shuffl:columns':   undefined
     , 'shuffl:labels':    undefined
     , 'shuffl:series':    undefined
     , 'shuffl:dataminy':  undefined
@@ -87,6 +84,8 @@ shuffl.card.datagraph.blank = jQuery(
     "  <crow>\n"+
     "    <curi>card_ZZZ uri</curi>\n"+
     "    <button value='readcsv'>Read CSV data</button>\n"+
+    "    - min Y: <cdataminy/>\n"+
+    "    - max Y: <cdatamaxy/>\n"+
     "  </crow>\n"+
     "  <crow>\n"+
     "    <cbody class='shuffl-nodrag'>\n"+
@@ -131,17 +130,31 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     // Set up function to (re)draw the card when placed or resized
     card.data("redrawFunc", shuffl.card.datagraph.redraw(card));
     // Set up model listener and user input handlers
+
+    // TODO: factor out common model/field linkage logic
+    // e.g. shuffl.bindXXX(card, modelvar, selector, fieldsetup, modelchange);
     var ctitle = card.find("ctitle");
     card.modelBind("shuffl:title",   shuffl.modelSetText(ctitle, true));
     shuffl.lineEditable(card, ctitle, shuffl.editSetModel(card, "shuffl:title"));
+
     var ctags = card.find("ctags");
     card.modelBind("shuffl:tags", shuffl.modelSetText(ctags, true));
     shuffl.lineEditable(card, ctags, shuffl.editSetModel(card, "shuffl:tags"));
+
     var curi = card.find("curi");
     card.modelBind("shuffl:uri",     shuffl.modelSetText(curi, true));
     shuffl.lineEditable(card, curi, shuffl.editSetModel(card, "shuffl:uri"));
+
+    var cdataminy = card.find("cdataminy");
+    card.modelBind("shuffl:dataminy", shuffl.modelSetText(cdataminy, true));
+    shuffl.floatEditable(card, cdataminy, shuffl.editSetModel(card, "shuffl:dataminy"));
+
+    var cdataminy = card.find("cdatamaxy");
+    card.modelBind("shuffl:datamaxy", shuffl.modelSetText(cdataminy, true));
+    shuffl.floatEditable(card, cdataminy, shuffl.editSetModel(card, "shuffl:dataminy"));
+
     card.modelBind("shuffl:labels", shuffl.card.datagraph.redraw(card));
-    card.modelBind("shuffl:series", shuffl.card.datagraph.redraw(card));
+    card.modelBind("shuffl:series", shuffl.card.datagraph.setseriesdata(card));
     card.modelBind("shuffl:table",  shuffl.card.datagraph.setgraphdata(card));
     card.modelBind("shuffl:readcsv", function (event, data) 
     {
@@ -160,10 +173,6 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     var cardtitle     = shuffl.get(carddata, 'shuffl:title',        cardid);
     var cardtags      = shuffl.get(carddata, 'shuffl:tags',         [cardtype]);
     var carduri       = shuffl.get(carddata, 'shuffl:uri',          "");
-    var cardtable     = shuffl.get(carddata, 'shuffl:table',        undefined);
-    var cardlabelrow  = shuffl.get(carddata, 'shuffl:labelrow',     undefined);
-    var carddatarow   = shuffl.get(carddata, 'shuffl:datarow',      undefined);
-    var cardcolumns   = shuffl.get(carddata, 'shuffl:columns',      undefined);
     var cardlabels    = shuffl.get(carddata, 'shuffl:labels',       undefined);
     var cardseries    = shuffl.get(carddata, 'shuffl:series',       undefined);
     var carddataminy  = shuffl.get(carddata, 'shuffl:dataminy',     undefined);
@@ -171,16 +180,12 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     card.model("shuffl:title",    cardtitle);
     card.model("shuffl:tags",     cardtags.join(","));
     card.model("shuffl:uri",      carduri);
-    card.data("shuffl:table",     cardtable);
-    card.data("shuffl:labelrow",  cardlabelrow);
-    card.data("shuffl:datarow",   carddatarow);
-    card.data("shuffl:columns",   cardcolumns);
+    card.model("shuffl:dataminy", carddataminy);
+    card.model("shuffl:datamaxy", carddatamaxy);
     card.data("shuffl:labels",    cardlabels);
     card.data("shuffl:series",    cardseries);
-    card.data("shuffl:dataminy",  carddataminy);
-    card.data("shuffl:datamaxy",  carddatamaxy);
     // TODO: remove this temporary code to define table data if none provided
-    if (!cardtable && !cardseries)
+    if (!cardseries)
     {
         card.model("shuffl:table", shuffl.card.datagraph.table);
     };
@@ -216,39 +221,93 @@ shuffl.card.datagraph.setgraphdata = function (card)
 };
 
 /**
+ * Returns a function to set graphing data from an assigned series, which
+ * is an array, each element of which is a list of [x,y] pairs.  
+ * Minimum and maximum Y values are recalculated.
+ */
+shuffl.card.datagraph.setseriesdata = function (card) 
+{
+    function setseriesvalues(_event, data)
+    {
+        var series = data.newval;
+        if (series && series.length)
+        {
+            ////log.debug("- series "+jQuery.toJSON(series));
+            var ymin = series[0][0][1];
+            var ymax = series[0][0][1];
+            ////log.debug("- ymin "+ymin+", ymax "+ymax);
+            for (var i = 0 ; i < series.length ; i++)
+            {
+                var graph = series[i];
+                for (var j = 0 ; j < graph.length ; j++)
+                {
+                    var y = graph[j][1];
+                    if (isFinite(y))
+                    {
+                        ymin = Math.min(ymin, y);
+                        ymax = Math.max(ymax, graph[j][1]);
+                    };
+                };
+            };
+            ymin = Math.floor(ymin);
+            ymax = Math.ceil(ymax);
+            ////log.debug("- ymin "+ymin+", ymax "+ymax);
+            card.model("shuffl:dataminy", ymin);
+            card.model("shuffl:datamaxy", ymax);
+            shuffl.card.datagraph.draw(card);
+        };
+    };
+    return setseriesvalues;
+};
+
+/**
  * Return function to redraw the graph in a supplied datagraph card
  */
 shuffl.card.datagraph.redraw = function (card)
 {
     function drawgraph(_event, _data)
     {
-        var labels = card.model('shuffl:labels');
-        var series = card.model('shuffl:series');
-        var cbody  = card.find("cbody");
-        var gelem  = cbody.find("div");
-        //log.debug("shuffl.card.datagraph.redraw:drawgraph "+cbody.width()+", "+cbody.height());
-        //log.debug("shuffl.card.datagraph.redraw:drawgraph "+gelem.width()+", "+gelem.height());
-        if (labels && series && gelem.width() && gelem.height())
-        {
-            ////log.debug("- plot graphs");
-            var data   = [];
-            for (var i = 0 ; i < labels.length ; i++)
-            {
-                data.push({label: labels[i], data: series[i]});
-            }
-            var options =
-                { series:
-                    { lines:  { show: true}
-                    , points: { show: false, fill: false }
-                    }
-                , xaxis:
-                    { labelWidth: 40
-                    }
-                };
-            var plot = jQuery.plot(gelem, data, options);
-        };
+        shuffl.card.datagraph.draw(card);
     };
     return drawgraph;
+};
+
+/**
+ * Function to draw the graph in a supplied datagraph card
+ */
+shuffl.card.datagraph.draw = function (card)
+{
+    var ymin   = card.model('shuffl:dataminy');
+    var ymax   = card.model('shuffl:datamaxy');
+    var labels = card.model('shuffl:labels');
+    var series = card.model('shuffl:series');
+    var cbody  = card.find("cbody");
+    var gelem  = cbody.find("div");
+    ////log.debug("shuffl.card.datagraph.redraw:drawgraph "+cbody.width()+", "+cbody.height());
+    ////log.debug("shuffl.card.datagraph.redraw:drawgraph "+gelem.width()+", "+gelem.height());
+    if (labels && series && gelem.width() && gelem.height())
+    {
+        ////log.debug("- plot graphs");
+        var data   = [];
+        for (var i = 0 ; i < labels.length ; i++)
+        {
+            data.push({label: labels[i], data: series[i]});
+        }
+        var options =
+            { series:
+                { lines:  { show: true}
+                , points: { show: false, fill: false }
+                }
+            , xaxis:
+                { labelWidth: 40
+                }
+            , yaxis:
+                { min: ymin
+                , max: ymax
+                }
+            };
+        var plot = jQuery.plot(gelem, data, options);
+    };
 };
 
 /**
