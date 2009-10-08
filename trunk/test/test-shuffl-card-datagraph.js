@@ -139,7 +139,7 @@ TestCardDatagraph = function() {
             equals(c.attr('id'), "card-1",  "card id attribute");
             ok(c.hasClass('stock-yellow'),  "yellow colour class");
             ok(c.hasClass('shuffl-card-setsize'), "shuffl card setsize class");
-            equals(c.attr('class'), 'shuffl-card-setsize stock-yellow ui-resizable', "CSS class");
+            equals(c.attr('class'), 'shuffl-card-setsize stock-yellow ui-resizable ui-droppable', "CSS class");
             equals(c.find("cident").text(), "card-1", "card id field");
             equals(c.find("cclass").text(), "shuffl-datagraph-yellow", "card class field");
             equals(c.find("ctitle").text(), "card-title", "card title field");
@@ -177,7 +177,7 @@ TestCardDatagraph = function() {
             ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
             ok(c.hasClass('stock-green'),   "stock-green");
             ok(c.hasClass('ui-resizable'),  "ui-resizable");
-            equals(c.attr('class'), 'shuffl-card-setsize stock-green ui-resizable shuffl-card', "CSS class");
+            equals(c.attr('class'), 'shuffl-card-setsize stock-green ui-resizable ui-droppable shuffl-card', "CSS class");
             equals(c.find("cident").text(), card_id, "card id field");
             equals(c.find("cclass").text(), "shuffl-datagraph-green", "card type");
             equals(c.find("ctitle").text(), card_id, "card title field");
@@ -221,7 +221,7 @@ TestCardDatagraph = function() {
             ok(c.hasClass('shuffl-card'),   "shuffl card type");
             ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
             ok(c.hasClass('stock-orange'),  "stock-orange class");
-            equals(c.attr('class'), 'shuffl-card-setsize stock-orange ui-resizable shuffl-card', "CSS class");
+            equals(c.attr('class'), 'shuffl-card-setsize stock-orange ui-resizable ui-droppable shuffl-card', "CSS class");
             equals(c.find("cident").text(), "cardfromdata_id", "card id field");
             equals(c.find("cclass").text(), "shuffl-datagraph-orange", "card class field");
             equals(c.find("ctitle").text(), "Card N title", "card title field");

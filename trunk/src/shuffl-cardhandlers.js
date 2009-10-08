@@ -230,7 +230,8 @@ shuffl.cardDraggable =
 { 
     opacity: 0.5,
     containment: [0,0,10000,100001],
-    cancel: '.shuffl-nodrag, :input, option', // add to default no-drag
+    revert: 'valid',                          // revert if dropped on a valid target
+    cancel: '.shuffl-nodrag, :input, option', // add to default no-drag sub-elements
     stack: { group: '.shuffl-card', min: 10 }
 };
 
