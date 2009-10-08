@@ -424,7 +424,7 @@ shuffl.makeTagList = function (ttext)
 shuffl.modelSetText = function (fieldobj, holder, thencall)
 {
     function setText(event, data) {
-        var newtext = jQuery.trim(""+data.newval);
+        var newtext = jQuery.trim(data.newval);
         fieldobj.text(newtext || holder);
         if (thencall !== undefined) { thencall(event, data); };
     }
@@ -463,6 +463,32 @@ shuffl.modelSetHtml = function (fieldobj, holder, thencall)
 };
 
 /**
+ * Return a model-change event handler that sets a formatted number value in 
+ * a supplied field, or a placeholder value if the model text value is empty.
+ * 
+ * @param fieldobj  is a jQuery object corresponding to a field that is to be 
+ *                  updated with new values assigned to a model element.
+ * @param numdig    the number of fractional digits to display
+ * @param thencall  if defined, this is an additional function to call
+ *                  after the card text has been updated.
+ * @return          a function to be used as the update handler for a model
+ *                  field.
+ */
+shuffl.modelSetFloat = function (fieldobj, numdig, thencall)
+{
+    function setFloat(event, data) {
+        var newtext = data.newval;
+        if (typeof newtext == "number")
+        { 
+            newtext = data.newval.toFixed(numdig);
+        };
+        fieldobj.text(newtext);
+        if (thencall !== undefined) { thencall(event, data); };
+    }
+    return setFloat;
+};
+
+/**
  * Return a model-change event handler that sets a table value in a supplied
  * field.
  * 
@@ -483,6 +509,8 @@ shuffl.modelSetTable = function (fieldobj, nh, thencall)
     }
     return setTable;
 };
+
+// ------------------------
 
 /**
  * Return an edit-completion function that sets a model value on a given card
@@ -541,13 +569,14 @@ shuffl.bindLineEditable = function (card, modelvar, fieldsel, onchange)
  * @param modelvar  is the name of a card model variable that is associated
  *                  with the field.
  * @param fieldsel  is a jQuery selector string for a field within the card
+ * @param numdig    the number of fractional digits to display
  * @param onchange  if defined, is a function that is called when the model
  *                  value is changed by user interaction or by program action.
  */
-shuffl.bindFloatEditable = function (card, modelvar, fieldsel, onchange)
+shuffl.bindFloatEditable = function (card, modelvar, fieldsel, numdig, onchange)
 {
     var cfield = card.find(fieldsel);
-    card.modelBind(modelvar, shuffl.modelSetText(cfield, true, onchange));
+    card.modelBind(modelvar, shuffl.modelSetFloat(cfield, numdig, onchange));
     shuffl.floatEditable(card, cfield, shuffl.editSetModel(card, modelvar));
 };
 
