@@ -27,24 +27,25 @@ var carddatagraph_labels0 = [];
 var carddatagraph_series0 = [];
 
 var carddatatable_table1 =
-    [ [ "col1",  "col2",  "col3" ]
-    , [ "1.11",  "1.22",  "1.33" ]
-    , [ "2.11",  "2.22",  "2.33" ]
+    [ [ "",  "col1",  "col2",  "col3" ]
+    , [ "1", "1.11",  "1.22",  "1.33" ]
+    , [ "2", "2.11",  "2.22",  "2.33" ]
     ];
 
 var carddatagraph_labels1 =
     [ "col1", "col2", "col3" ];
                                 
 var carddatagraph_series1 = 
-    [ [ 1.11,  1.22,  1.33 ]
-    , [ 2.11,  2.22,  2.33 ]
+    [ [ [1, 1.11],  [2, 2.11] ]
+    , [ [1, 1.22],  [2, 2.22] ]
+    , [ [1, 1.33],  [2, 2.33] ]
     ];
 
 var carddatatable_table2 =
-    [ [ "",      "col1",  "col2",  "col3" ]
+    [ [ "",  "col1",  "col2",  "col3" ]
     , [ "" ]
-    , [ "row_1", "1.11",  "1.22",  "1.33" ]
-    , [ "row_2", "2.11",  "2.22",  "2.33" ]
+    , [ "1", "1.11",  "1.22",  "1.33" ]
+    , [ "2", "2.11",  "2.22",  "2.33" ]
     , [ "End." ]
     ];
 
@@ -98,7 +99,7 @@ TestCardDatagraphDrop = function()
         tc.data('shuffl:labels', carddatagraph_labels1);
         tc.data('shuffl:series', carddatagraph_series1);
         // Simulate drop on datagraph card
-        c.model('shuffl:drop', tc);
+        c.model('shuffl:source', tc);
         // Check updated datagraph model values
         equals(c.model("shuffl:title"), "card-title", "shuffl:title");
         equals(c.model("shuffl:tags"),  "card-tag",   "shuffl:tags");
