@@ -147,9 +147,9 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     shuffl.bindLineEditable(card, "shuffl:title", "ctitle");
     shuffl.bindLineEditable(card, "shuffl:tags",  "ctags");
     shuffl.bindLineEditable(card, "shuffl:uri",   "curi");
-    shuffl.bindFloatEditable(card, "shuffl:dataminy", "cdataminy", 
+    shuffl.bindFloatEditable(card, "shuffl:dataminy", "cdataminy", 2,
         shuffl.card.datagraph.redraw(card));
-    shuffl.bindFloatEditable(card, "shuffl:datamaxy", "cdatamaxy", 
+    shuffl.bindFloatEditable(card, "shuffl:datamaxy", "cdatamaxy", 2,
         shuffl.card.datagraph.redraw(card));
     card.modelBind("shuffl:labels", shuffl.card.datagraph.redraw(card));
     card.modelBind("shuffl:series", shuffl.card.datagraph.setseriesdata(card));
@@ -247,8 +247,6 @@ shuffl.card.datagraph.setseriesdata = function (card)
                     };
                 };
             };
-            ymin = Math.floor(ymin);
-            ymax = Math.ceil(ymax);
             ////log.debug("- ymin "+ymin+", ymax "+ymax);
             card.model("shuffl:dataminy", ymin);
             card.model("shuffl:datamaxy", ymax);
