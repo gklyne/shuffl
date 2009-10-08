@@ -1,15 +1,23 @@
 /** 
  * @fileoverview 
- *  Shuffl card plug-in for wookie widget. 
- * 
- * NOTE: the licensing state of this code is currently unclear.  It was posted
- * to a public mailing list, so is in any case visible to all, but at this time
- * cannot be said to be covered by the same license as the rest of the Shuffl 
- * code.
+ *  Shuffl card plug-in for wookie widget (illustration).
  * 
  * @author Graham Klyne 
- * (based closely on a sketch by Scott Wilson:
- * http://groups.google.com/group/shuffl-discuss/browse_frm/thread/1c236df7e334c233)
+ *  (based on an idea by Scott Wilson:
+ *  http://groups.google.com/group/shuffl-discuss/browse_frm/thread/1c236df7e334c233)
+ * @version $Id$
+ * 
+ * Coypyright (C) 2009, University of Oxford
+ *
+ * Licensed under the MIT License.  You may obtain a copy of the License at:
+ *
+ *     http://www.opensource.org/licenses/mit-license.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 // ---------------------------------------------------------------- 
