@@ -149,16 +149,16 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
         { accept:     '.shuffl-series'      // Accept objects with series data
         , hoverClass: 'shuffl-highlight'
         , tolerance:  'pointer'
-        , drop:       function (event, ui)
+        , drop:       function (_event, _ui)
               {
               // ui.draggable - current draggable element, a jQuery object.
               // ui.helper - current draggable helper, a jQuery object
               // ui.position - current position of the draggable helper { top: , left: }
               // ui.offset - current absolute position of the draggable helper { top: , left: }
-              card.model('shuffl:drop', ui.draggable);
+              card.model('shuffl:drop', _ui.draggable);
               }
-        , over:       function  (event, ui) {}
-        , out:        function  (event, ui) {}
+        , over:       function  (_event, _ui) {}
+        , out:        function  (_event, _ui) {}
         });
     // Set up model listener and user input handlers
     shuffl.bindLineEditable(card, "shuffl:title", "ctitle");
@@ -171,7 +171,7 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     card.modelBind("shuffl:labels", shuffl.card.datagraph.redraw(card));
     card.modelBind("shuffl:series", shuffl.card.datagraph.setseriesdata(card));
     card.modelBind("shuffl:table",  shuffl.card.datagraph.setgraphdata(card));
-    card.modelBind("shuffl:readcsv", function (event, data) 
+    card.modelBind("shuffl:readcsv", function (_event, data) 
     {
         log.debug("Read "+data.newval+" into data table");
         jQuery.getCSV(data.newval, function (data, status) 
@@ -183,6 +183,12 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     card.find("button[value='readcsv']").click(function (eventobj) 
     {
         card.model("shuffl:readcsv", card.model("shuffl:uri"));
+    });
+    card.modelBind("shuffl:source", function (_event, data) 
+    {
+        var src = data.newval;
+        card.data("shuffl:labels", src.model("shuffl:labels"));
+        card.model("shuffl:series", src.model("shuffl:series"));
     });
     // Initialize the model
     var cardtitle     = shuffl.get(carddata, 'shuffl:title',        cardid);
