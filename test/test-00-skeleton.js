@@ -33,8 +33,10 @@ TestZZZZZZ = function()
     test("testAAA", function ()
     {
         expect(1);
-        equals(val, expect, "what");
-        same(val, expect, "what");
+        var val=1;
+        var exp=1;
+        equals(val, exp, "what");
+        same(val, exp, "what");
     });
 
     test("testBBB", function ()

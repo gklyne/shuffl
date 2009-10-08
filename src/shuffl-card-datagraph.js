@@ -137,12 +137,29 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     card.data("shuffl:tojson", shuffl.card.datagraph.serialize);
     card.attr('id', cardid);
     card.addClass(cardcss);
-    card.find("cident").text(cardid);           // Set card id text
-    card.find("cclass").text(cardtype);         // Set card class/type text
+    card.find("cident").text(cardid);       // Set card id text
+    card.find("cclass").text(cardtype);     // Set card class/type text
     card.data("resizeAlso", "cbody");
     card.resizable();
     // Set up function to (re)draw the card when placed or resized
     card.data("redrawFunc", shuffl.card.datagraph.redraw(card));
+    // Set up card as drop-target for data table
+    // TODO: refactor common logic to cardhandlers?
+    card.droppable(
+        { accept:     '.shuffl-series'      // Accept objects with series data
+        , hoverClass: 'shuffl-highlight'
+        , tolerance:  'pointer'
+        , drop:       function (event, ui)
+              {
+              // ui.draggable - current draggable element, a jQuery object.
+              // ui.helper - current draggable helper, a jQuery object
+              // ui.position - current position of the draggable helper { top: , left: }
+              // ui.offset - current absolute position of the draggable helper { top: , left: }
+              card.model('shuffl:drop', ui.draggable);
+              }
+        , over:       function  (event, ui) {}
+        , out:        function  (event, ui) {}
+        });
     // Set up model listener and user input handlers
     shuffl.bindLineEditable(card, "shuffl:title", "ctitle");
     shuffl.bindLineEditable(card, "shuffl:tags",  "ctags");

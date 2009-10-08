@@ -85,7 +85,8 @@ TestCardDatatable = function() {
             equals(c.attr('id'), "card-1",  "card id attribute");
             ok(c.hasClass('stock-yellow'),  "yellow colour class");
             ok(c.hasClass('shuffl-card-setsize'), "shuffl card setsize class");
-            equals(c.attr('class'), 'shuffl-card-setsize stock-yellow ui-resizable', "CSS class");
+            ok(c.hasClass('shuffl-series'), "shuffl card series data class");
+            equals(c.attr('class'), 'shuffl-card-setsize shuffl-series stock-yellow ui-resizable', "CSS class");
             equals(c.find("cident").text(), "card-1", "card id field");
             equals(c.find("cclass").text(), "shuffl-datatable-yellow", "card class field");
             equals(c.find("ctitle").text(), "card-title", "card title field");
@@ -163,9 +164,9 @@ TestCardDatatable = function() {
             equals(c.attr('id'), card_id, "card id attribute");
             ok(c.hasClass('shuffl-card'),   "shuffl card class");
             ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
+            ok(c.hasClass('shuffl-series'), "shuffl card series data class");
             ok(c.hasClass('stock-green'),   "stock-green");
-            ok(c.hasClass('ui-resizable'),  "ui-resizable");
-            equals(c.attr('class'), 'shuffl-card-setsize stock-green ui-resizable shuffl-card', "CSS class");
+            equals(c.attr('class'), 'shuffl-card-setsize shuffl-series stock-green ui-resizable shuffl-card', "CSS class");
             equals(c.find("cident").text(), card_id, "card id field");
             equals(c.find("cclass").text(), "shuffl-datatable-green", "card type");
             equals(c.find("ctitle").text(), card_id+" - type shuffl-datatable-green", "card title field");
@@ -193,8 +194,9 @@ TestCardDatatable = function() {
             equals(c.attr('id'), "cardfromdata_id", "card id attribute");
             ok(c.hasClass('shuffl-card'),   "shuffl card type");
             ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
+            ok(c.hasClass('shuffl-series'), "shuffl card series data class");
             ok(c.hasClass('stock-orange'),  "stock-orange class");
-            equals(c.attr('class'), 'shuffl-card-setsize stock-orange ui-resizable shuffl-card', "CSS class");
+            equals(c.attr('class'), 'shuffl-card-setsize shuffl-series stock-orange ui-resizable shuffl-card', "CSS class");
             equals(c.find("cident").text(), "cardfromdata_id", "card id field");
             equals(c.find("cclass").text(), "shuffl-datatable-orange", "card class field");
             equals(c.find("ctitle").text(), "Card N title", "card title field");
