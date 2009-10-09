@@ -139,7 +139,7 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     shuffl.bindLineEditable(card, "shuffl:tags",  "ctags");
     shuffl.bindLineEditable(card, "shuffl:uri",   "curi");
     var cbody = card.find("cbody");
-    card.modelBind("shuffl:table", shuffl.modelSetTable(cbody, 1));
+    card.modelBind("shuffl:table", shuffl.modelSetTable(cbody));
     card.modelBind("shuffl:readcsv", function (event, data) {
         log.debug("Read "+data.newval+" into data table");
         jQuery.getCSV(data.newval, function (data, status) {

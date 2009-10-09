@@ -32,6 +32,7 @@ TestZZZZZZ = function()
 
     test("testAAA", function ()
     {
+        log.debug("test testAAA");
         expect(1);
         var val=1;
         var exp=1;
