@@ -43,26 +43,26 @@ var testlayoutdatasized =
     , 'zindex': 14
     };
 
-var carddatatable_labels0 = [];
+var carddataseries_labels0 = [];
                                 
-var carddatatable_series0 = [];
+var carddataseries_series0 = [];
 
-var carddatatable_table1 =
+var carddataseries_table1 =
     [ [ "x", "col1",  "col2",  "col3" ]
     , [ "1", "1.11",  "1.22",  "1.33" ]
     , [ "2", "2.11",  "2.22",  "2.33" ]
     ];
 
-var carddatatable_labels1 =
+var carddataseries_labels1 =
     [ "col1", "col2", "col3" ];
                                 
-var carddatatable_series1 = 
+var carddataseries_series1 = 
     [ [ [1, 1.11],  [2, 2.11] ]
     , [ [1, 1.22],  [2, 2.22] ]
     , [ [1, 1.33],  [2, 2.33] ]
     ];
 
-var carddatatable_table2 =
+var carddataseries_table2 =
     [ ["General table heading"] 
     , [ "",  "col1",  "col2",  "col3" ]
     , [ "" ]
@@ -71,10 +71,10 @@ var carddatatable_table2 =
     , [ "End." ]
     ];
 
-var carddatatable_labels2 =
+var carddataseries_labels2 =
     [ "col3", "col2", "col1" ];
                                 
-var carddatatable_series2 = 
+var carddataseries_series2 = 
     [ [ [1, 1.33],  [2, 2.33] ]
     , [ [1, 1.22],  [2, 2.22] ]
     , [ [1, 1.11],  [2, 2.11] ]
@@ -421,9 +421,9 @@ TestCardHandlers = function() {
         expect(2);
         var c = jQuery("<div/>");    // Mock card
         c.modelBind('shuffl:table', shuffl.modelSetSeries(c));
-        c.model('shuffl:table', carddatatable_table1);
-        same(c.data('shuffl:labels'), carddatatable_labels1, "shuffl:labels");
-        same(c.data('shuffl:series'), carddatatable_series1, "shuffl:series");
+        c.model('shuffl:table', carddataseries_table1);
+        same(c.data('shuffl:labels'), carddataseries_labels1, "shuffl:labels");
+        same(c.data('shuffl:series'), carddataseries_series1, "shuffl:series");
     });
 
     test("shuffl.modelSetSeries (non-default options)", function ()
@@ -440,11 +440,11 @@ TestCardHandlers = function() {
             , setseries:  'shuffl:series2'
             };
         c.modelBind('shuffl:table2', shuffl.modelSetSeries(c, opts));
-        c.model('shuffl:table2', carddatatable_table2);
+        c.model('shuffl:table2', carddataseries_table2);
         equals(c.data('shuffl:labels'), undefined, "shuffl:labels");
         equals(c.data('shuffl:series'), undefined, "shuffl:series");
-        same(c.data('shuffl:labels2'), carddatatable_labels2, "shuffl:labels2");
-        same(c.data('shuffl:series2'), carddatatable_series2, "shuffl:series2");
+        same(c.data('shuffl:labels2'), carddataseries_labels2, "shuffl:labels2");
+        same(c.data('shuffl:series2'), carddataseries_series2, "shuffl:series2");
     });
     
 };
