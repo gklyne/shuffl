@@ -106,7 +106,7 @@ TestJqueryReadCSV = function() {
             equals(jQuery.toJSON(data), jQuery.toJSON(test_shuffl_csv), "jQuery.get data");
             start();
         };
-        jQuery.get("test-csv.csv", {}, checkdata, "text");
+        jQuery.get("data/test-csv.csv", {}, checkdata, "text");
         stop(2000);
     });
 
@@ -127,7 +127,7 @@ TestJqueryReadCSV = function() {
             same(tbl[9],["End."],                                             "end row");
             start();
         };
-        jQuery.getCSV("test-csv.csv", checkdata);
+        jQuery.getCSV("data/test-csv.csv", checkdata);
         stop(2000);
     });
 
@@ -147,7 +147,7 @@ TestJqueryReadCSV = function() {
             same(tbl[7],undefined,                                    "row 7");
             start();
         };
-        jQuery.getCSV("test-csv-graph-c135.csv", checkdata);
+        jQuery.getCSV("data/test-csv-graph-c135.csv", checkdata);
         stop(2000);
     });
 

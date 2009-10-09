@@ -28,36 +28,32 @@
      -->
     <script type="text/javascript" src="../../jQuery/jquery.uri.js"></script>
 
+    <!-- JSON conversion script -->
+    <script type="text/javascript" src="../../jQuery/jquery.json-1.3.js"></script>
+
     <!-- Import shuffl modules -->
-    <script src="../../src/shuffl-base.js"></script>
+    <script type="text/javascript" src="../../src/shuffl-base.js"></script>
+    <script type="text/javascript" src="../../src/AsyncComputation.js"></script>
+    <script type="text/javascript" src="../../src/AtomPub.js"></script>
 
-    <!-- Execute tests -->
-    <script>
+    <!-- Import test modules -->
+	  <script type="text/javascript" src="../../src/test/testAtomPub.js"></script>
 
-    jQuery(document).ready( function () {
-        test("TestInterpolate", function () {
-        	  var template = "A string with %(first)s and %(second)s and another %(first)s bits";
-        	  var dict     = {first: "No1", second: "No2"};
-        	  var result   = shuffl.interpolate(template, dict);
-        	  equals(result, "A string with No1 and No2 and another No1 bits");
-        });
-    });
-  
-
-    </script>  
+    <!-- Execute the tests -->
+	  <script>
+	  jQuery(document).ready( function () {
+		    TestAtomPub();
+	  });
+	  </script>  
 
 </head>
 
 <body>
-    <h1>Shuffl tests</h1>
-    <h2 id="banner"></h2>
-    <h2 id="userAgent"></h2>
-    <ol id="tests"></ol>
-    <div id="main"></div> 
+		<h1>Shuffl tests</h1>
+		<h2 id="banner"></h2>
+		<h2 id="userAgent"></h2>
+		<ol id="tests"></ol>
+		<div id="main"></div> 
 </body>
 
 </html>
-
-
-
-

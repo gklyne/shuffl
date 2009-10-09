@@ -379,7 +379,7 @@ TestCardDatagraph = function() {
             equals(c.find("cdataminy").text(), "-2.0", "updated minimum Y field");
             equals(c.find("cdatamaxy").text(),  "2.0", "updated maximum Y field");
             // Simulate user input: set model URI - should read data file
-            c.model("shuffl:uri", "test-csv-graph-c135.csv");
+            c.model("shuffl:uri", "data/test-csv-graph-c135.csv");
             c.modelBindExec("shuffl:table",
                 function () {
                     // Executed immediately
@@ -387,7 +387,7 @@ TestCardDatagraph = function() {
                 },
                 function () {
                     // Executed when shuffl:table is updated...
-                    equals(c.find("curi").text(),  "test-csv-graph-c135.csv", "updated uri field");
+                    equals(c.find("curi").text(),  "data/test-csv-graph-c135.csv", "updated uri field");
                     range(c.find("cdataminy").text(), -1.1, -0.9, "minimum Y field");
                     range(c.find("cdatamaxy").text(),  0.9,  1.1, "maximum Y field");
                     same(c.model("shuffl:table"),  null,          "read shuffl:table");

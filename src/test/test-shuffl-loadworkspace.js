@@ -21,10 +21,10 @@ TestLoadWorkspace = function() {
         log.debug("test shuffl.LoadWorkspace");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
-            shuffl.loadWorkspace("test-shuffl-loadworkspace-layout.json", callback);
+            shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.json", callback);
         });
         m.eval(function(val,callback) {
-            var u = jQuery.uri().resolve("test-shuffl-loadworkspace-layout.json");
+            var u = jQuery.uri().resolve("data/test-shuffl-loadworkspace-layout.json");
             equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
             //1
@@ -42,7 +42,7 @@ TestLoadWorkspace = function() {
             equals(c1.data('shuffl:dataref'), 
                 "test-shuffl-loadworkspace-card_1.json",                "card 1 shuffl:dataref");          
             equals(c1.data('shuffl:datauri'), 
-                jQuery.uri("test-shuffl-loadworkspace-card_1.json"),    "card 1 shuffl:datauri");          
+                jQuery.uri("test-shuffl-loadworkspace-card_1.json", u), "card 1 shuffl:datauri");          
             equals(c1.data('shuffl:datamod'), false,                    "card 1 shuffl:datamod");          
             equals(c1.data('shuffl:dataRW'),  false,                    "card 1 shuffl:dataRW");          
             var p1 = c1.position();
@@ -64,7 +64,7 @@ TestLoadWorkspace = function() {
             equals(c2.data('shuffl:dataref'), 
                 "test-shuffl-loadworkspace-card_2.json",                "card 2 shuffl:dataref");          
             equals(c2.data('shuffl:datauri'), 
-                jQuery.uri("test-shuffl-loadworkspace-card_2.json"),    "card 2 shuffl:datauri");          
+                jQuery.uri("test-shuffl-loadworkspace-card_2.json", u), "card 2 shuffl:datauri");          
             equals(c2.data('shuffl:datamod'), false,                    "card 2 shuffl:datamod");          
             equals(c2.data('shuffl:dataRW'),  false,                    "card 2 shuffl:dataRW");          
             var p2 = c2.position();
@@ -86,7 +86,7 @@ TestLoadWorkspace = function() {
             equals(c3.data('shuffl:dataref'), 
                 "test-shuffl-loadworkspace-card_3.json",                "card 3 shuffl:dataref");          
             equals(c3.data('shuffl:datauri'), 
-                jQuery.uri("test-shuffl-loadworkspace-card_3.json"),    "card 3 shuffl:datauri");          
+                jQuery.uri("test-shuffl-loadworkspace-card_3.json", u), "card 3 shuffl:datauri");          
             equals(c3.data('shuffl:datamod'), false,                    "card 3 shuffl:datamod");          
             equals(c3.data('shuffl:dataRW'),  false,                    "card 3 shuffl:dataRW");          
             var p3 = c3.position();
@@ -98,18 +98,18 @@ TestLoadWorkspace = function() {
         });        
         m.exec({}, start);
         ok(true, "shuffl.LoadWorkspace initiated");
-        stop();
+        stop(2000);
     });
 
     test("shuffl.ResetWorkspace", function () {
         log.debug("test shuffl.ResetWorkspace");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
-            shuffl.loadWorkspace("test-shuffl-loadworkspace-layout.json", callback);
+            shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.json", callback);
         });
         m.eval(function(val,callback) {
             log.debug("Test workspace reloaded");
-            var u = jQuery.uri().resolve("test-shuffl-loadworkspace-layout.json");
+            var u = jQuery.uri().resolve("data/test-shuffl-loadworkspace-layout.json");
             equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
             equals(jQuery('#workspace').data('wsname'), "test-shuffl-loadworkspace-layout.json", "wsname");
@@ -132,7 +132,7 @@ TestLoadWorkspace = function() {
         });        
         m.exec({}, start);
         ok(true, "shuffl.ResetWorkspace initiated");
-        stop();
+        stop(2000);
     });
 
 };
