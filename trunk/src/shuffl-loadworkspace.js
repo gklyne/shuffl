@@ -41,8 +41,9 @@ shuffl.readCard = function (baseuri, dataref, callback) {
     var datauri = jQuery.uri(baseuri).resolve(dataref);
     log.debug("- datauri "+datauri);
     jQuery.getJSON(datauri.toString(), function(data) {
-        //log.debug("shuffl.readCard from: "+uri);
-        //log.debug("- data: "+jQuery.toJSON(data));
+        ////log.debug("shuffl.readCard from: "+datauri);
+        ////log.debug("shuffl.readCard from: "+dataref);
+        ////log.debug("- data: "+jQuery.toJSON(data));
         data['shuffl:dataref'] = dataref.toString();
         data['shuffl:datauri'] = datauri.toString();
         data['shuffl:dataRW']  = false;     // Assume not writeable for now
@@ -82,7 +83,7 @@ shuffl.loadWorkspace = function(uri, callback) {
             //log.debug("- layout: "+jQuery.toJSON(layout));
             // Display and save location information
             var wsuri = jQuery.uri().resolve(uri);
-            //log.debug("Display location of workspace, and save values: "+wsuri);
+            ////log.debug("Display location of workspace, and save values: "+wsuri);
             jQuery('#workspaceuri').text(wsuri.toString());
             // TODO: save URI not string?
             jQuery('#workspace').data('location', wsuri.toString());
@@ -90,7 +91,7 @@ shuffl.loadWorkspace = function(uri, callback) {
             jQuery('#workspace').data('wsdata',   json);
             // Load up stock bar
             for (i = 0 ; i < stockbar.length ; i++) {
-                //log.debug("Loading stockbar["+i+"]: "+shuffl.objectString(stockbar[i]));
+                ////log.debug("Loading stockbar["+i+"]: "+shuffl.objectString(stockbar[i]));
                 // Create and append new blank stockpile element
                 // TODO: use createStockpile helper
                 var stockpile = shuffl.stockpile_blank.clone();

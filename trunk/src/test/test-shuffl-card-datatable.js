@@ -268,7 +268,7 @@ TestCardDatatable = function() {
             equals(c.find("cbody").text(),  "col1col2col3row_11.111.221.33row_22.112.222.33End.", "card data table text");
             equals(c.find("cbody").table().length, 4, "card data table length");
             same(c.find("cbody").table(), TestDataTable, "card data table");
-            c.model("shuffl:uri", "test-csv-table-new.csv");
+            c.model("shuffl:uri", "data/test-csv-table-new.csv");
             c.modelBindExec("shuffl:table",
                 function () {
                     // Executed immediately
@@ -276,7 +276,7 @@ TestCardDatatable = function() {
                 },
                 function () {
                     // Executed when shuffl:table is updated...
-                    equals(c.find("curi").text(),   "test-csv-table-new.csv", "updated uri field");
+                    equals(c.find("curi").text(),   "data/test-csv-table-new.csv", "updated uri field");
                     equals(c.find("cbody").table().length, 5, "updated data table length");
                     same(c.find("cbody").table()[0], NewDataTable[0], "updated data table (0)");
                     same(c.find("cbody").table()[1], NewDataTable[1], "updated data table (1)");

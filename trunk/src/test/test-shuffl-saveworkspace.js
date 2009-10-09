@@ -42,8 +42,9 @@ TestSaveWorkspace = function() {
     var feeduri    = "http://localhost:8080/exist/atom/edit/shuffltest1/";
     var feedpath   = "/shuffltest1/";
     var layoutname = "test-shuffl-saveworkspace-layout.json";
+    var layoutref  = "data/test-shuffl-saveworkspace-layout.json";
     var layouturi  = jQuery.uri(layoutname, feeduri);
-    var initialuri = jQuery.uri(layoutname);
+    var initialuri = jQuery.uri(layoutref);
     var card3uri   = jQuery.uri("test-shuffl-loadworkspace-card_3.json", feeduri);
 
     var shuffl_prefixes =
@@ -64,11 +65,11 @@ TestSaveWorkspace = function() {
         expect(38);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
-            shuffl.loadWorkspace(layoutname, callback);
+            shuffl.loadWorkspace(layoutref, callback);
         });
         m.eval(function(val,callback) {
             // Check empty workspace
-            var u = jQuery.uri().resolve(layoutname);
+            var u = jQuery.uri().resolve(layoutref);
             equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
             equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
@@ -93,7 +94,7 @@ TestSaveWorkspace = function() {
         });        
         m.exec({}, start);
         ok(true, "shuffl.LoadWorkspace (empty) initiated");
-        stop();
+        stop(2000);
     });
 
     test("shuffl.saveNewWorkspace (empty)", function () {
@@ -103,7 +104,7 @@ TestSaveWorkspace = function() {
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace");
-            shuffl.loadWorkspace(layoutname, callback);
+            shuffl.loadWorkspace(layoutref, callback);
         });
         m.eval(function(val,callback) {
             log.debug("Check workspace loaded");
@@ -169,7 +170,7 @@ TestSaveWorkspace = function() {
         });        
         m.exec({}, start);
         ok(true, "shuffl.SaveNewWorkspace (empty) initiated");
-        stop();
+        stop(2000);
     });
 
     test("shuffl.saveCard", function () {
@@ -184,7 +185,7 @@ TestSaveWorkspace = function() {
         });
         m.eval(function(val,callback) {
             log.debug("Get new card data");
-            shuffl.readCard("", "test-shuffl-loadworkspace-card_1.json", callback)
+            shuffl.readCard("", "data/test-shuffl-loadworkspace-card_1.json", callback)
         });
         m.eval(function(val,callback) {
             log.debug("Check new card data");
@@ -225,7 +226,7 @@ TestSaveWorkspace = function() {
         });
         m.exec({}, start);
         ok(true, "shuffl.saveCard initiated");
-        stop();
+        stop(2000);
     });
 
     // eXist won't delete a media resource
@@ -253,7 +254,7 @@ TestSaveWorkspace = function() {
         });
         m.exec({}, start);
         ok(true, "shuffl.deleteCard initiated");
-        stop();
+        stop(2000);
     });
 
     // This "test" is run to remove the card saved previously.
@@ -264,7 +265,7 @@ TestSaveWorkspace = function() {
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace");
-            shuffl.loadWorkspace(layoutname, callback);
+            shuffl.loadWorkspace(layoutref, callback);
         });
         m.eval(function(val,callback) {
             log.debug("Delete old workspace");
@@ -295,22 +296,23 @@ TestSaveWorkspace = function() {
         });
         m.exec({}, start);
         ok(true, "Reload empty workspace initiated");
-        stop();
+        stop(2000);
     });
 
     // Add card to workspace, save workspace, read back, check content
     test("shuffl.saveNewWorkspace (with card)", function () {
         log.info("----------");
-        log.info((testnum++)+". test shuffl.saveNewWorkspace new workspace with card");
-        expect(76);
+        log.info((testnum++)+". test shuffl.saveNewWorkspace (with card)");
+        expect(78);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace");
-            shuffl.loadWorkspace(layoutname, callback);
+            shuffl.loadWorkspace(layoutref, callback);
         });
         m.eval(function(val,callback) {
             log.debug("Read card data from local file");
-            shuffl.readCard("", "test-shuffl-loadworkspace-card_3.json", callback);
+            // Note use of base URI so that dataref matches existing value in layout
+            shuffl.readCard("data/", "test-shuffl-loadworkspace-card_3.json", callback);
         });
         m.eval(function(val,callback) {
             //log.debug("readCard response: "+shuffl.objectString(val));
@@ -319,7 +321,7 @@ TestSaveWorkspace = function() {
             equals(val['shuffl:dataref'], 
                 "test-shuffl-loadworkspace-card_3.json",            "new card shuffl:dataref");          
             equals(val['shuffl:datauri'], 
-                "http://localhost:8080/exist/shuffl/test/test-shuffl-loadworkspace-card_3.json", 
+                "http://localhost:8080/exist/shuffl/static/test/data/test-shuffl-loadworkspace-card_3.json", 
                                                                     "new card shuffl:datauri");          
             //equals(val['shuffl:datamod'], undefined,                "new card shuffl:datamod");          
             equals(val['shuffl:dataRW'],  false,                    "new card shuffl:dataRW");
@@ -341,7 +343,7 @@ TestSaveWorkspace = function() {
             equals(c3.data('shuffl:dataref'), 
                 "test-shuffl-loadworkspace-card_3.json",                "card 3 shuffl:dataref");          
             equals(c3.data('shuffl:datauri'), 
-                "http://localhost:8080/exist/shuffl/test/test-shuffl-loadworkspace-card_3.json", 
+                "http://localhost:8080/exist/shuffl/static/test/data/test-shuffl-loadworkspace-card_3.json", 
                                                                         "card 3 shuffl:datauri");          
             equals(c3.data('shuffl:datamod'), false,                    "card 3 shuffl:datamod");          
             equals(c3.data('shuffl:dataRW'),  false,                    "card 3 shuffl:dataRW");          
@@ -371,15 +373,17 @@ TestSaveWorkspace = function() {
             equals(val.feeduri,  feeduri,  "val.feeduri");
             equals(val.feedpath, feedpath, "val.feedpath");
             equals(val.atomuri,  atomuri,  "val.atomuri");
-            log.debug("Reset workspace...");
+            log.debug("***** Reset workspace...");
             shuffl.resetWorkspace(callback);
         });
         m.eval(function(val,callback) {
+            ok(true, "Workspace is reset: "+this.wsuri);
             log.debug("Workspace is reset");
             log.debug("Reload empty workspace from AtomPub...");
             shuffl.loadWorkspace(this.wsuri, callback);
         });
         m.eval(function(val,callback) {
+            ok(true, "Workspace is reloaded: "+this.wsuri);
             log.debug("Check reloaded workspace "+this.wsuri);
             var u = jQuery.uri(this.wsuri);
             equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
@@ -422,7 +426,7 @@ TestSaveWorkspace = function() {
         });
         m.exec({}, start);
         ok(true, "shuffl.SaveNewWorkspace (with card) initiated");
-        stop();
+        stop(2000);
     });
 
     // Update card in atom feed, re-read workspace, check content
@@ -494,7 +498,7 @@ TestSaveWorkspace = function() {
         });        
         m.exec({}, start);
         ok(true, "shuffl.updateCard");
-        stop();
+        stop(2000);
     });
 
     // Update and move card in workspace, save workspace, read back, check content
@@ -575,7 +579,7 @@ TestSaveWorkspace = function() {
         });        
         m.exec({}, start);
         ok(true, "shuffl.SaveNewWorkspace (updated moved card) initiated");
-        stop();
+        stop(2000);
     });
     
     // TODO: create workspace with mix of absolute and relative card references
