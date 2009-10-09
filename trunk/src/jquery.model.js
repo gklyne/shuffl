@@ -35,7 +35,7 @@ jQuery.fn.model = function (name, value)
 {
     //log.debug("jQuery.model "+name+", "+value);
     //var config = {'foo': 'bar'};
-    //if (settings) $.extend(config, settings);
+    //if (settings) jQuery.extend(config, settings);
     var retval = undefined;
     this.each(function()
     {

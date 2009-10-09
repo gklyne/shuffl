@@ -492,7 +492,7 @@ shuffl.modelSetFloat = function (fieldobj, numdig, thencall)
 /**
  * Return a model-change event handler that sets a table value in a supplied
  * field.
- * 
+ *
  * @param fieldobj  is a jQuery object corresponding to a field that is to be 
  *                  updated with new values assigned to a model element.
  * @param nh        number of table rows to be treated as headers in the
@@ -509,6 +509,87 @@ shuffl.modelSetTable = function (fieldobj, nh, thencall)
         if (thencall !== undefined) { thencall(event, data); };
     }
     return setTable;
+};
+
+/**
+ * Returns a function to set series data from an assigned table, where the 
+ * first row of the table is graph labels, the first column contains X-values, 
+ * and the remaining columns contain Y-values for each graph.
+ * 
+ * @param card      is a jQuery card object whose model is updated with series
+ *                  data extracted from the new table value.
+ * @param options   is an object containing options for extracting data from 
+ *                  the table value and creating the series data.
+ *
+ * Options value fields (default values):
+ *   labelrow   (0) table row from which series labels are taken
+ *   firstrow   (1) first row of table from which data values are taken
+ *   lastrow    (0) last row +1 from which data values are taken
+ *              Zero means last row of table. 
+ *              Negative values are offsets back from end of table.
+ *   datacols   ([[0,1],[0,2],...[0,width-1]]) list of pairs of column numbers
+ *              from which [x,y] values are taken for each series.  The second
+ *              of each pair is also used to access the series label from the
+ *              row designated by 'labelrow'.
+ *   setlabels  name of model field that recieves series label values
+ *   setseries  name of model field that recieves series data values
+ */
+shuffl.modelSetSeries = function (card, options) 
+{
+    // Sort out options
+    var useopts = 
+        { labelrow:   0
+        , firstrow:   1
+        , lastrow:    0
+        , datacols:   null
+        , setlabels:  'shuffl:labels'
+        , setseries:  'shuffl:series'
+        };
+    if (options) jQuery.extend(useopts, options);
+    // Function returned
+    function setseriesvalues(_event, data)
+    {
+        ////log.debug("- data "+jQuery.toJSON(data));
+        ////log.debug("- opts "+jQuery.toJSON(useopts));
+        // Sort out table value and options
+        var table = data.newval;
+        var lastrow = useopts.lastrow;
+        if (lastrow <= 0) { lastrow = table.length+lastrow; };
+        var datacols = useopts.datacols;
+        if (datacols == null)
+        {
+            datacols = [];
+            for (var j = 1 ; j < table[useopts.labelrow].length ; j++)
+            {
+                datacols.push([0,j]);
+            };
+        };
+        ////log.debug("- lastrow "+lastrow);
+        ////log.debug("- datacols "+jQuery.toJSON(datacols));
+        // Construct label and series data
+        var labels = [];
+        var series = [];
+        for (var k = 0 ; k < datacols.length ; k++)
+        {
+            var xcol = datacols[k][0];
+            var ycol = datacols[k][1];
+            var graph = [];
+            for (var i = useopts.firstrow ; i < lastrow ; i++)
+            {
+                ////log.debug("- row "+i+", series "+k+", xcol "+xcol+", ycol "+ycol);
+                graph.push(
+                    [ parseFloat(table[i][xcol])
+                    , parseFloat(table[i][ycol])
+                    ]);
+            };
+            labels.push(table[useopts.labelrow][ycol]);
+            series.push(graph);
+        };
+        // Store label and series data into model
+        card.data(useopts.setlabels, labels);
+        card.model(useopts.setseries, series);
+    };
+    return setseriesvalues;
 };
 
 // ------------------------
