@@ -177,6 +177,13 @@ cbody {
     height:auto;
 }
 
+/* Highlight a card selected as drop target */
+
+.shuffl-card.shuffl-highlight {
+    border-width: thick; 
+}
+
+
 /* Specific identified fields */
 
 .dialog-save {

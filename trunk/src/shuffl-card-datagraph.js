@@ -149,13 +149,15 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
         { accept:     '.shuffl-series'      // Accept objects with series data
         , hoverClass: 'shuffl-highlight'
         , tolerance:  'pointer'
-        , drop:       function (_event, _ui)
+        , drop:       function (_event, ui)
               {
               // ui.draggable - current draggable element, a jQuery object.
               // ui.helper - current draggable helper, a jQuery object
               // ui.position - current position of the draggable helper { top: , left: }
               // ui.offset - current absolute position of the draggable helper { top: , left: }
-              card.model('shuffl:drop', _ui.draggable);
+              var tc = ui.draggable;
+              ////log.debug("shuffl.card.datagraph - drop "+tc.attr('id')+", "+tc.attr('class'));
+              card.model('shuffl:source', tc);
               }
         , over:       function  (_event, _ui) {}
         , out:        function  (_event, _ui) {}
