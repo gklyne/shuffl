@@ -31,6 +31,7 @@ Project outline plan: [ProjectPlanOutline_200906_200911].
 || 1.1. || Sprint 5 review (retrospective)  || 0.25 || -- || 16-Oct-2009 || -- ||
 || 1.2. || Sustainability plan              || 0.25 || -- || (ongoing)   || -- ||
 || 1.3. || Miscellaneous admin, email, etc  || 1.75 || -- || --          || -- ||
+|| 1.4. || Admiral project meeting with SImon Hodson  || 0.5 || 14-Oct-2009 || --          || -- ||
 || 2.   || *Community engagement and dissemination* || *2.0* || *--* ||
 || 2.1  || Other use cases                          || 0.5 || -- || (ongoing) || -- ||
 || 2.2  || Demo initial graphing to Chris Holland   || 0.5 || -- || (sprint)  || -- ||
