@@ -1,0 +1,19 @@
+#summary Shuffl work-in-progress demonstration
+
+= Introduction =
+
+The current shuffl work-in-progress test/demonstration application can be run directly from t6he Google code subversion repository.
+
+This is far from being a final, but rather shows where I am on the path to where I'd like to be.  I'll update this page from time to time, as development proceeds.  It is quite possible that this demonstration will occasionally be completely broken.
+
+= Instructions =
+
+ # Browse to http://shuffl.googlecode.com/svn/trunk/static/apps/shuffl-sample-4.xhtml (tested using safari or firefox.  Internet Exploder probably doesn't work.)
+ # Drag a card "/\/.." (that's a graph!) onto the workspace.  A dummy graph display is shown
+ # You will probably need to make the card larger to see this - drag the lower-right-hand corner or lower- and right-edges to resize.
+ # Drag a card labeled "123.." (numbers) onto the workspace
+ # Drag another card labelled 123.. onto the workspace
+ # In one of the "123.." cards, double-click in the top-left text field (where it says "double-click to edit"), and enter "test-csv-graph.csv" into the text field and click OK.  A table of new data values is displayed (x, sin x, cos x ...).
+ # Drag and drop the card with data values over the graph card.  New graphs are displayed.
+ # Drag and drop the other data table card over the graph card.  Different (boring, straight-line) graphs are displayed.
+ # Repeat until bored. 
