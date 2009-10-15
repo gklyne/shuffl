@@ -177,9 +177,12 @@ shuffl.AtomPub.decodeFeedListResponse = function (atompubobj, feedinfo, callback
  *   datapath: atom service relative path to media resource
  */
 shuffl.AtomPub.decodeItemResponse = function 
-        (atompubobj, iteminfo, callback, trace) {
-    function decodeResponse(data, status) {
-        if (trace) {
+    (atompubobj, iteminfo, callback, trace) 
+{
+    function decodeResponse(data, status)
+    {
+        if (trace)
+        {
             log.debug("shuffl.AtomPub.decodeResponse: "+
                 iteminfo.path+", "+status);
             log.debug("shuffl.AtomPub.decodeResponse: "+
@@ -217,7 +220,7 @@ shuffl.AtomPub.decodeItemResponse = function
             title:    itemelems.filter("title").text(),
             data:     itemelems.filter("content").text(),
             dataref:  itemelems.filter("link[rel='edit-media']").attr("href"),
-            datatype: itemelems.filter("link[rel='edit-media']").attr("type"),
+            datatype: itemelems.filter("link[rel='edit-media']").attr("type")
         };
         if (ii.dataref != undefined && ii.data == "") { 
             var pathuri = atompubobj.getAtomPathUri(iteminfo, ii.dataref); 
@@ -228,6 +231,18 @@ shuffl.AtomPub.decodeItemResponse = function
         callback(ii);
     }
     return decodeResponse;
+};
+
+/**
+ * Return function that returns a media resource response
+ */
+shuffl.AtomPub.returnMediaItemResponse = function (iteminfo, callback) 
+{
+    function returnResponse(data, status)
+    {
+        callback(data);
+    }
+    return returnResponse;
 };
 
 /**
@@ -268,6 +283,7 @@ shuffl.AtomPub.updateTitle = function(atompubobj, iteminfo, callback) {
 /**
  * Function for handling ajax request failure
  */
+ // TODO: use shuffl.requestFailed
 shuffl.AtomPub.requestFailed = function (callback) {
     return function (xhr, status, except) {
         log.debug("shuffl.AtomPub.requestFailed: "+status);
@@ -288,7 +304,8 @@ shuffl.AtomPub.requestFailed = function (callback) {
  * Method to extract an Atom feed or item path from an Atom URI
  * 
  * @param uri       URI of Atom feed or item
- * @return          path of Atom feed or item with service elements stripped out.
+ * @return          path string of Atom feed or item with service elements 
+ *                  stripped out.
  */
 shuffl.AtomPub.prototype.getAtomPath = function(uri) {
     if (typeof uri == "string") {
@@ -314,11 +331,14 @@ shuffl.AtomPub.prototype.getAtomService = function(uri) {
 };
 
 /**
- * Method to return an Atom service URI for operations on a feed or item.
+ * Method to return an AtomPub service URI for operations on a feed or item.
  * 
- * @param feedinfo  object identifying a feed.
+ * @param info      object identifying a feed.
  * @param service   string indicating what feed service is required:
  *                  "introspect", "edit" or "content". Defaults to 'edit'
+ * @param feed      if true, constructs a feed URI with a trailing '/' on
+ *                  its path.
+ * @return          a jQuery.uri object with the required AtomPub service URI.
  *
  * The feed identification object has the following fields: 
  *   path:  is feed uri path of the feed or item to be accessed,
@@ -330,16 +350,21 @@ shuffl.AtomPub.prototype.getAtomService = function(uri) {
  *   uri:   a uri, the path+query elements of which are extrtacted by
  *          getAtomPath, and resolved relative to the AtomPub service URI.
  */
-shuffl.AtomPub.prototype.serviceUri = function (info, service) {
+shuffl.AtomPub.prototype.serviceUri = function (info, service, feed) {
     //log.debug("shuffl.AtomPub.serviceUri: "+shuffl.objectString(info));
     if ( !service   ) { service   = 'edit'; };
     if ( !info.path ) { info.path = info.base+info.name; };
     if ( !info.path ) { info.path = this.getAtomPath(info.uri); };
-    if ( !info.path ) { 
+    if ( !info.path )
+    { 
         return shuffl.Error(
             "shuffl.AtomPub.serviceUri: insufficient information ", 
             shuffl.objectString(info)); 
     };
+    if (feed)
+    {   // Ensure trailing '/' on path
+        info.path = (info.path+'/').replace(/\/\/$/,"/");
+    }    
     info.uri = shuffl.extendUriPath(
         jQuery.uri(this.svcbase).resolve(service+"/"),
         info.path);
@@ -352,8 +377,8 @@ shuffl.AtomPub.prototype.serviceUri = function (info, service) {
  * 
  * @param info      is the feed or item information for which the request 
  *                  was issued, containing the request path and URI
- * @param elems     is a jQuery object containing the immediate child
- *                  elements of an atom feed or item description.
+ * @param atomref   is a string containing the URI reference of the 'edit'
+ *                  link for the corresponding item.
  * @return          a structure containing .path and .uri fields assembled
  *                  from base URI information from the current request
  *                  and local reference information in the atompub response.
@@ -469,7 +494,7 @@ shuffl.AtomPub.prototype.feedInfo = function (feedinfo, callback) {
         log.debug("shuffl.AtomPub.feedinfo.responseComplete: "+status);
         log.debug("shuffl.AtomPub.feedinfo.responseComplete: "+xhr.responseText);
     }
-    var uri = this.serviceUri(feedinfo, "introspect");
+    var uri = this.serviceUri(feedinfo, "introspect", true);
     log.debug("shuffl.AtomPub.feedInfo: "+uri);
     jQuery.ajax({
             type:         "GET",
@@ -501,7 +526,7 @@ shuffl.AtomPub.prototype.feedInfo = function (feedinfo, callback) {
  *   title:   a textual title for the new feed.
  */
 shuffl.AtomPub.prototype.createFeed = function (feedinfo, callback) {
-    var uri = this.serviceUri(feedinfo, "edit");
+    var uri = this.serviceUri(feedinfo, "edit", true);
     var template = '<?xml version="1.0" ?>'+'\n'+
                    '<feed xmlns="http://www.w3.org/2005/Atom">'+'\n'+
                    '  <title>%(title)s</title>'+'\n'+
@@ -535,7 +560,7 @@ shuffl.AtomPub.prototype.deleteFeed = function (feedinfo, callback) {
     function decodeResponse(data, status) {
         callback({});
     }
-    var uri = this.serviceUri(feedinfo, "edit");
+    var uri = this.serviceUri(feedinfo, "edit", true);
     log.debug("shuffl.AtomPub.deleteFeed: "+uri);
     jQuery.ajax({
             type:         "DELETE",
@@ -572,7 +597,7 @@ shuffl.AtomPub.prototype.deleteFeed = function (feedinfo, callback) {
  */
 shuffl.AtomPub.prototype.listFeed = function (feedinfo, callback) {
     // listFeed main body starts here
-    var uri = this.serviceUri(feedinfo, "content");
+    var uri = this.serviceUri(feedinfo, "content", true);
     log.debug("shuffl.AtomPub.listFeed: "+uri);
     jQuery.ajax({
             type:         "GET",
@@ -600,7 +625,7 @@ shuffl.AtomPub.prototype.createItem = function (iteminfo, callback) {
             xhr.setRequestHeader("SLUG", iteminfo.slug);
         }
     }
-    var uri      = this.serviceUri(iteminfo, "edit");
+    var uri      = this.serviceUri(iteminfo, "edit", true);
     var datainfo = shuffl.AtomPub.assembleData(iteminfo);
     log.debug("shuffl.AtomPub.createItem: "+uri);
     //log.debug("shuffl.AtomPub.createItem: "+shuffl.objectString(iteminfo));
@@ -630,17 +655,26 @@ shuffl.AtomPub.prototype.createItem = function (iteminfo, callback) {
  *              "application/atom+xml" indicates a media resource is accessed.
  */
 shuffl.AtomPub.prototype.getItem = function (iteminfo, callback) {
-    //log.debug("shuffl.AtomPub.getItem: "+shuffl.objectString(iteminfo));
+    ////log.debug("shuffl.AtomPub.getItem: "+shuffl.objectString(iteminfo));
     var uri = this.serviceUri(iteminfo, "content");
     // Atom response expected as XML, but no response for media resource
     var datatype = "xml";
-    if (iteminfo.datatype != "application/atom+xml") { datatype = undefined; };
-    log.debug("shuffl.AtomPub.getItem: "+uri);
+    var handler  = shuffl.AtomPub.decodeItemResponse(this, iteminfo, callback);
+    if (iteminfo.datatype && (iteminfo.datatype != "application/atom+xml")) 
+    { 
+        datatype = undefined;
+        handler  = shuffl.AtomPub.returnMediaItemResponse(iteminfo, callback); 
+        if (iteminfo.datatype == "application/json") 
+        {
+            datatype = "json";
+        };
+    };
+    log.debug("shuffl.AtomPub.getItem: "+uri+", datatype "+datatype);
     jQuery.ajax({
             type:         "GET",
             url:          uri.toString(),
             dataType:     datatype,
-            success:      shuffl.AtomPub.decodeItemResponse(this, iteminfo, callback),
+            success:      handler,
             error:        shuffl.AtomPub.requestFailed(callback),
             cache:        false
         });
