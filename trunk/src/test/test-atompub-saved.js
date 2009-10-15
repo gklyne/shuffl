@@ -1,7 +1,21 @@
-// $Id$
-
 /**
- * Test suite for AtomPub protocol handler
+ * @fileoverview
+ *  Test suite for AtomPub protocol handler
+ *  
+ * @author Graham Klyne
+ * @version $Id$
+ * 
+ * Coypyright (C) 2009, University of Oxford
+ *
+ * Licensed under the MIT License.  You may obtain a copy of the license at:
+ *
+ *     http://www.opensource.org/licenses/mit-license.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 /**
@@ -68,15 +82,15 @@ TestAtomPub = function() {
                 });
             m.eval(
                 function (val, callback) {
-                    equals(val.path, "/testfeed", "New feed path returned");
+                    equals(val.path, "/testfeed/", "createFeed feed path returned");
                     equals(val.uri,  
-                        "http://localhost:8080/exist/atom/edit/testfeed",
-                        "New feed URI returned");
+                        "http://localhost:8080/exist/atom/edit/testfeed/",
+                        "createFeed feed URI returned");
                     m.atompub.feedInfo({path: "/testfeed"}, callback);
                 });
             m.eval(
                 function (val, callback) {
-                    equals(val.path, "/testfeed", "New feed path retrieved");
+                    equals(val.path, "/testfeed/", "feedInfo feed path retrieved");
                     equals(val.uri,
                         "http://localhost:8080/exist/atom/edit/testfeed",
                         "New feed URI retrieved");
@@ -85,9 +99,9 @@ TestAtomPub = function() {
                 });
             m.exec(atomserviceuri,
                 function(val) {
-                    equals(val.path, "/testfeed", "New feed path listed");
+                    equals(val.path, "/testfeed/", "New feed path listed");
                     equals(shuffl.uriWithoutFragment(val.uri),
-                        "http://localhost:8080/exist/atom/edit/testfeed",
+                        "http://localhost:8080/exist/atom/edit/testfeed/",
                         "New feed URI listed");
                     equals(val.title, "Test feed", "New feed title listed");
                     equals(val.id.slice(0,8), "urn:uuid", "New feed id listed");
@@ -99,9 +113,75 @@ TestAtomPub = function() {
             stop(2000);
         });
 
+    test("Create new feed at service root ('/'-terminated)", 
+        function () {
+            log.debug("----- 3. Create new feed at service root -----");
+            expect(19);
+            var m = new shuffl.AsyncComputation();
+            m.eval(
+                function (val, callback) {
+                    m.atompub = new shuffl.AtomPub(val);
+                    // First delete old feed, ignore status response
+                    m.atompub.deleteFeed(
+                        {path:"/testfeed"}, 
+                        callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    same(val, {}, "deleteFeed returned result")
+                    m.atompub.createFeed(
+                        {base:"/", name:"testfeed/", title:"Test feed"}, 
+                        callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    equals(val.path, "/testfeed/", "createFeed feed path returned");
+                    equals(val.uri,  
+                        "http://localhost:8080/exist/atom/edit/testfeed/",
+                        "createFeed feed URI returned");
+                    m.atompub.feedInfo({path: "/testfeed"}, callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    equals(val.path, "/testfeed/", "feedInfo feed path retrieved");
+                    equals(val.uri,
+                        "http://localhost:8080/exist/atom/edit/testfeed",
+                        "feedInfo feed URI retrieved");
+                    equals(val.title, "Test feed", "New feed title retrieved");
+                    m.atompub.listFeed({path: "/testfeed"}, callback);
+                });
+            m.eval(
+                function(val, callback) {
+                    equals(val.path, "/testfeed/", "New feed path listed");
+                    equals(shuffl.uriWithoutFragment(val.uri),
+                        "http://localhost:8080/exist/atom/edit/testfeed/",
+                        "New feed URI listed");
+                    equals(val.title, "Test feed", "New feed title listed");
+                    equals(val.id.slice(0,8), "urn:uuid", "New feed id listed");
+                    equals(val.updated.slice(0,2), "20", "New feed update-date listed");
+                    same(val.entries, [], "New feed empty");
+                    ok(true, "atompub.listFeed /testfeed/ ...");
+                    m.atompub.listFeed({path: "/testfeed/"}, callback);
+                });
+            m.exec(atomserviceuri,
+                function(val) {
+                    equals(val.path, "/testfeed/", "New feed path listed");
+                    equals(shuffl.uriWithoutFragment(val.uri),
+                        "http://localhost:8080/exist/atom/edit/testfeed/",
+                        "New feed URI listed");
+                    equals(val.title, "Test feed", "New feed title listed");
+                    equals(val.id.slice(0,8), "urn:uuid", "New feed id listed");
+                    equals(val.updated.slice(0,2), "20", "New feed update-date listed");
+                    same(val.entries, [], "New feed empty");
+                    log.debug("----- 3. -----");
+                    start();
+                });
+            stop(2000);
+        });
+
     test("Create feed in non-root location", 
         function () {
-            log.debug("----- 3. Create feed in non-root location -----");
+            log.debug("----- 4. Create feed in non-root location -----");
             expect(4);
             var m = new shuffl.AsyncComputation();
             m.eval(
@@ -121,19 +201,19 @@ TestAtomPub = function() {
             m.eval(
                 function (val, callback) {
                     //log.debug("- createFeed return: "+shuffl.objectString(val));
-                    equals(val.path, "/other/loc/otherfeed", "New feed path returned");
+                    equals(val.path, "/other/loc/otherfeed/", "createFeed feed path returned");
                     equals(val.uri,  
-                        "http://localhost:8080/exist/atom/edit/other/loc/otherfeed",
-                        "New feed URI returned");
+                        "http://localhost:8080/exist/atom/edit/other/loc/otherfeed/",
+                        "createFeed feed URI returned");
                     callback(val);
                 });
             m.exec(atomserviceuri,
                 function(val) {
-                    equals(val.path, "/other/loc/otherfeed", "New feed path returned");
+                    equals(val.path, "/other/loc/otherfeed/", "New feed path returned");
                     equals(val.uri,  
-                        "http://localhost:8080/exist/atom/edit/other/loc/otherfeed",
+                        "http://localhost:8080/exist/atom/edit/other/loc/otherfeed/",
                         "New feed URI returned");
-                    log.debug("----- 3. -----");
+                    log.debug("----- 4. -----");
                     start();
                 });
             stop(2000);
@@ -141,7 +221,7 @@ TestAtomPub = function() {
 
     test("Try to create feed in unavailable service", 
         function () {
-            log.debug("----- 4. Try to create feed in unavailable service -----");
+            log.debug("----- 5. Try to create feed in unavailable service -----");
             expect(6);
             var m = new shuffl.AsyncComputation();
             m.eval(
@@ -165,9 +245,9 @@ TestAtomPub = function() {
                     equals(val.msg, "AtomPub request failed", "msg");
                     equals(val.message, "AtomPub request failed", "message");
                     equals(val.HTTPstatus, 404);
-                    equals(val.HTTPstatusText, "%2Fnoexist%2Fatom%2Fedit%2Fotherfeed+Not+Found");
-                    equals(val.response, "404 %2Fnoexist%2Fatom%2Fedit%2Fotherfeed+Not+Found", "response");
-                    log.debug("----- 4. -----");
+                    equals(val.HTTPstatusText, "%2Fnoexist%2Fatom%2Fedit%2Fotherfeed%2F+Not+Found");
+                    equals(val.response, "404 %2Fnoexist%2Fatom%2Fedit%2Fotherfeed%2F+Not+Found", "response");
+                    log.debug("----- 5. -----");
                     start();
                 });
             stop(2000);
@@ -175,7 +255,7 @@ TestAtomPub = function() {
 
     test("Delete feed at root", 
         function () {
-            log.debug("----- 5. Delete feed just created -----");
+            log.debug("----- 6. Delete feed just created -----");
             expect(9);
             var m = new shuffl.AsyncComputation();
             m.eval(
@@ -201,7 +281,7 @@ TestAtomPub = function() {
                     equals(val.HTTPstatus, 400, 
                         "feedInfo return HTTPstatus");
                     equals(val.HTTPstatusText, 
-                        "Collection+%2Ftestfeed+does+not+exist%2E", 
+                        "Collection+%2Ftestfeed%2F+does+not+exist%2E", 
                         "feedInfo return HTTPstatusText");
                     m.atompub.listFeed({path: "/testfeed"}, callback);
                 });
@@ -215,9 +295,9 @@ TestAtomPub = function() {
                     equals(val.HTTPstatus, 404,
                         "feedInfo return HTTPstatus");
                     equals(val.HTTPstatusText, 
-                        "Resource+%2Ftestfeed+not+found", 
+                        "Resource+%2Ftestfeed%2F+not+found", 
                         "feedInfo return HTTPstatusText");
-                    log.debug("----- 5. -----");
+                    log.debug("----- 6. -----");
                     start();
                 });
             stop(2000);
@@ -230,7 +310,7 @@ TestAtomPub = function() {
     // 1. Create item test feed.  Check response and no content.
     test("Create item test feed", 
         function () {
-            log.debug("----- 6. Create item test feed -----");
+            log.debug("----- 7. Create item test feed -----");
             expect(11);
             var m = new shuffl.AsyncComputation();
             m.eval(
@@ -238,7 +318,7 @@ TestAtomPub = function() {
                     m.atompub = new shuffl.AtomPub(val);
                     // First delete old feed, ignore status response
                     m.atompub.deleteFeed(
-                        {path:"/item/test/feed"}, 
+                        {path:"/item/test/feed/"}, 
                         callback);
                 });
             m.eval(
@@ -249,15 +329,15 @@ TestAtomPub = function() {
                 });
             m.eval(
                 function (val, callback) {
-                    equals(val.path, "/item/test/feed", "Item test feed path returned");
+                    equals(val.path, "/item/test/feed/", "Item test feed path returned");
                     equals(val.uri,  
-                        "http://localhost:8080/exist/atom/edit/item/test/feed",
+                        "http://localhost:8080/exist/atom/edit/item/test/feed/",
                         "Item test feed URI returned");
                     m.atompub.feedInfo({path: "/item/test/feed"}, callback);
                 });
             m.eval(
                 function (val, callback) {
-                    equals(val.path, "/item/test/feed", "Item test feed path retrieved");
+                    equals(val.path, "/item/test/feed/", "Item test feed path retrieved");
                     equals(val.uri,
                         "http://localhost:8080/exist/atom/edit/item/test/feed",
                         "Item test feed URI retrieved");
@@ -266,9 +346,9 @@ TestAtomPub = function() {
                 });
             m.eval(
                 function (val, callback) {
-                    equals(val.path, "/item/test/feed", "Item test feed path listed");
+                    equals(val.path, "/item/test/feed/", "Item test feed path listed");
                     equals(shuffl.uriWithoutFragment(val.uri),
-                        "http://localhost:8080/exist/atom/edit/item/test/feed",
+                        "http://localhost:8080/exist/atom/edit/item/test/feed/",
                         "Item test feed URI listed");
                     equals(val.title, "Item test feed", "Item test feed title listed");
                     equals(val.id.slice(0,8), "urn:uuid", "Item test feed id listed");
@@ -279,7 +359,7 @@ TestAtomPub = function() {
             m.exec(atomserviceuri,
                 function(val) {
                     // final tests
-                    log.debug("----- 6. -----");
+                    log.debug("----- 7. -----");
                     start();
                 });
             stop(2000);
@@ -290,7 +370,7 @@ TestAtomPub = function() {
     // 4. List feed content; check item is listed. 
     test("Create new item", 
         function () {
-            log.debug("----- 7. Create new item -----");
+            log.debug("----- 8. Create new item -----");
             expect(22);
             var m = new shuffl.AsyncComputation();
             m.atompub = new shuffl.AtomPub(atomserviceuri);
@@ -310,7 +390,7 @@ TestAtomPub = function() {
                 function (val, callback) {
                     //log.debug("- createItem return: "+shuffl.objectString(val));
                     equals(val.uri.toString().replace(/urn:uuid:.*$/, "urn:uuid:..."),
-                        "http://localhost:8080/exist/atom/edit/item/test/feed?id=urn:uuid:...",
+                        "http://localhost:8080/exist/atom/edit/item/test/feed/?id=urn:uuid:...",
                         "Item URI returned");
                     equals(val.path, m.atompub.getAtomPath(val.uri), 
                         "Item path returned");
@@ -344,9 +424,9 @@ TestAtomPub = function() {
                 });
             m.eval(
                 function (val, callback) {
-                    equals(val.path, "/item/test/feed", "Item test feed path listed");
+                    equals(val.path, "/item/test/feed/", "Item test feed path listed");
                     equals(shuffl.uriWithoutFragment(val.uri),
-                        "http://localhost:8080/exist/atom/edit/item/test/feed",
+                        "http://localhost:8080/exist/atom/edit/item/test/feed/",
                         "Item test feed URI listed");
                     equals(val.title, "Item test feed", "Item test feed title listed");
                     equals(val.id.slice(0,8), "urn:uuid", "Item test feed id listed");
@@ -362,7 +442,7 @@ TestAtomPub = function() {
                 });
             m.exec(null,
                 function(val) {
-                    log.debug("----- 7. -----");
+                    log.debug("----- 8. -----");
                     start();
                 });
             stop(2000);
@@ -372,7 +452,7 @@ TestAtomPub = function() {
     // 7. Get item: check is updated as appropriate
     test("Update item", 
         function () {
-            log.debug("----- 8. Update item -----");
+            log.debug("----- 9. Update item -----");
             expect(9);
             var m = new shuffl.AsyncComputation();
             m.atompub = new shuffl.AtomPub(atomserviceuri);
@@ -422,7 +502,7 @@ TestAtomPub = function() {
                 });
             m.exec(null,
                 function(val) {
-                    log.debug("----- 8. -----");
+                    log.debug("----- 9. -----");
                     start();
                 });
             stop(2000);
@@ -431,8 +511,8 @@ TestAtomPub = function() {
     // 8. Add second item with non Atom type, check response
     test("Create item with non-atom data", 
         function () {
-            log.debug("----- 9. Create item with non-atom data -----");
-            expect(12);
+            log.debug("----- 10. Create item with non-atom data -----");
+            expect(14);
             var m = new shuffl.AsyncComputation();
             m.atompub = new shuffl.AtomPub(atomserviceuri);
             m.eval(
@@ -450,7 +530,7 @@ TestAtomPub = function() {
                 function (val, callback) {
                     //log.debug("- createItem (non-atom) return: "+shuffl.objectString(val));
                     equals(val.uri.toString().replace(/urn:uuid:.*$/, "urn:uuid:..."),
-                        "http://localhost:8080/exist/atom/edit/item/test/feed?id=urn:uuid:...",
+                        "http://localhost:8080/exist/atom/edit/item/test/feed/?id=urn:uuid:...",
                         "Item URI returned");
                     equals(val.path, m.atompub.getAtomPath(val.uri), 
                         "Item path returned");
@@ -471,9 +551,9 @@ TestAtomPub = function() {
                         "Item data reference returned");
                     equals(val.datatype, "application/octet-stream", // TODO: "application/json", 
                         "Item data content-type returned");
-                    equals(val.datauri, "http://localhost:8080/exist/atom/edit/item/test/testitem2.json", 
+                    equals(val.datauri, "http://localhost:8080/exist/atom/edit/item/test/feed/testitem2.json", 
                         "Item data URI returned");
-                    equals(val.datapath, "/item/test/testitem2.json", 
+                    equals(val.datapath, "/item/test/feed/testitem2.json", 
                         "Item data URI path returned");
                     save_item_uri2 = val.uri;
                     save_item_val2 = val;
@@ -483,11 +563,19 @@ TestAtomPub = function() {
                 function (val, callback) {
                     //log.debug("- getItem return: "+shuffl.objectString(val));
                     same(val, save_item_val2, "getItem item details retrieved");
+                    equals(val.datauri, "http://localhost:8080/exist/atom/edit/item/test/feed/testitem2.json", 
+                        "Item data URI returned");
+                    m.atompub.getItem({uri: val.datauri, datatype: "application/json"}, callback);
+                });
+            m.eval(
+                function (val, callback) {
+                    //log.debug("- getItem data return: "+shuffl.objectString(val));
+                    same(val, {a:"A2", b:"B2"}, "getItem data returned");
                     callback(val);
                 });
             m.exec(null,
                 function(val) {
-                    log.debug("----- 9. -----");
+                    log.debug("----- 10. -----");
                     start();
                 });
             stop(2000);
@@ -496,7 +584,7 @@ TestAtomPub = function() {
     // 10. List feed, check two items.
     test("List feed, check two items", 
         function () {
-            log.debug("----- 10. List feed, check two items -----");
+            log.debug("----- 11. List feed, check two items -----");
             expect(18);
             var m = new shuffl.AsyncComputation();
             m.atompub = new shuffl.AtomPub(atomserviceuri);
@@ -506,9 +594,9 @@ TestAtomPub = function() {
                 });
             m.eval(
                 function (val, callback) {
-                    equals(val.path, "/item/test/feed", "Item test feed path listed");
+                    equals(val.path, "/item/test/feed/", "Item test feed path listed");
                     equals(shuffl.uriWithoutFragment(val.uri),
-                        "http://localhost:8080/exist/atom/edit/item/test/feed",
+                        "http://localhost:8080/exist/atom/edit/item/test/feed/",
                         "Item test feed URI listed");
                     equals(val.title, "Item test feed", "Item test feed title listed");
                     equals(val.id.slice(0,8), "urn:uuid", "Item test feed id listed");
@@ -533,7 +621,7 @@ TestAtomPub = function() {
                 });
             m.exec(null,
                 function(val) {
-                    log.debug("----- 10. -----");
+                    log.debug("----- 11. -----");
                     start();
                 });
             stop(2000);
@@ -542,7 +630,7 @@ TestAtomPub = function() {
     // 11. Delete first item; check response.
     test("Delete item", 
         function () {
-            log.debug("----- 11. Delete item -----");
+            log.debug("----- 12. Delete item -----");
             expect(5);
             var m = new shuffl.AsyncComputation();
             m.atompub = new shuffl.AtomPub(atomserviceuri);
@@ -572,7 +660,7 @@ TestAtomPub = function() {
                 });
             m.exec(null,
                 function(val) {
-                    log.debug("----- 11. -----");
+                    log.debug("----- 12. -----");
                     start();
                 });
             stop(2000);
@@ -582,7 +670,7 @@ TestAtomPub = function() {
     // 13. List feed; check only second item remains.
     test("List feed; check only second item remains", 
         function () {
-            log.debug("----- 12. List feed; check only second item remains -----");
+            log.debug("----- 13. List feed; check only second item remains -----");
             expect(13);
             var m = new shuffl.AsyncComputation();
             m.atompub = new shuffl.AtomPub(atomserviceuri);
@@ -592,9 +680,9 @@ TestAtomPub = function() {
                 });
             m.eval(
                 function (val, callback) {
-                    equals(val.path, "/item/test/feed", "Item test feed path listed");
+                    equals(val.path, "/item/test/feed/", "Item test feed path listed");
                     equals(shuffl.uriWithoutFragment(val.uri),
-                        "http://localhost:8080/exist/atom/edit/item/test/feed",
+                        "http://localhost:8080/exist/atom/edit/item/test/feed/",
                         "Item test feed URI listed");
                     equals(val.title, "Item test feed", "Item test feed title listed");
                     equals(val.id.slice(0,8), "urn:uuid", "Item test feed id listed");
@@ -616,7 +704,7 @@ TestAtomPub = function() {
                 });
             m.exec(null,
                 function(val) {
-                    log.debug("----- 12. -----");
+                    log.debug("----- 13. -----");
                     start();
                 });
             stop(2000);
@@ -625,7 +713,7 @@ TestAtomPub = function() {
     // 14. Delete test feed.
     test("Delete test feed", 
         function () {
-            log.debug("----- 13. Delete test feed -----");
+            log.debug("----- 14. Delete test feed -----");
             expect(5);
             var m = new shuffl.AsyncComputation();
             m.eval(
@@ -651,13 +739,13 @@ TestAtomPub = function() {
                     equals(val.HTTPstatus, 400, 
                         "feedInfo return HTTPstatus");
                     equals(val.HTTPstatusText, 
-                        "Collection+%2Fitem%2Ftest%2Ffeed+does+not+exist%2E", 
+                        "Collection+%2Fitem%2Ftest%2Ffeed%2F+does+not+exist%2E", 
                         "feedInfo return HTTPstatusText");
                     callback(val);
                 });
             m.exec(atomserviceuri,
                 function(val) {
-                    log.debug("----- 13. -----");
+                    log.debug("----- 14. -----");
                     start();
                 });
             stop(2000);
@@ -666,7 +754,7 @@ TestAtomPub = function() {
     // 15. Get item; check it no longer exists
     test("Get item; check it no longer exists", 
         function () {
-            log.debug("----- 14. Get item; check it no longer exists -----");
+            log.debug("----- 15. Get item; check it no longer exists -----");
             expect(4);
             var m = new shuffl.AsyncComputation();
             m.atompub = new shuffl.AtomPub(atomserviceuri);
@@ -684,13 +772,13 @@ TestAtomPub = function() {
                     equals(val.HTTPstatus, 404, 
                         "getItem deleted item return HTTPstatus");
                     equals(val.HTTPstatusText, 
-                        "Resource+%2Fitem%2Ftest%2Ffeed+not+found", 
+                        "Resource+%2Fitem%2Ftest%2Ffeed%2F+not+found", 
                         "getItem deleted item return HTTPstatusText");
                     callback(val);
                 });
             m.exec(null,
                 function(val) {
-                    log.debug("----- 14. -----");
+                    log.debug("----- 15. -----");
                     start();
                 });
             stop(2000);
@@ -698,7 +786,7 @@ TestAtomPub = function() {
 
     // Create feed again, create media resource, try to delete media resource
     test("Delete media resource", function () {
-            log.debug("----- 15. Delete media resource -----");
+            log.debug("----- 16. Delete media resource -----");
             expect(8);
             var m = new shuffl.AsyncComputation();
             m.atompub = new shuffl.AtomPub(atomserviceuri);
@@ -711,7 +799,7 @@ TestAtomPub = function() {
             m.eval(
                 function (val, callback) {
                     equals(val.uri.toString(),  
-                        "http://localhost:8080/exist/atom/edit/item/test/feed",
+                        "http://localhost:8080/exist/atom/edit/item/test/feed/",
                         "New feed URI");
                     m.atompub.createItem(
                         { path:     "/item/test/feed"
@@ -725,9 +813,9 @@ TestAtomPub = function() {
             m.eval(
                 function (val, callback) {
                     //log.debug("- createItem (non-atom) return: "+shuffl.objectString(val));
-                    equals(val.uri.toString(), "http://localhost:8080/exist/atom/edit/item/test/feed?id="+val.id,
+                    equals(val.uri.toString(), "http://localhost:8080/exist/atom/edit/item/test/feed/?id="+val.id,
                         "Item URI returned");
-                    equals(val.datauri, "http://localhost:8080/exist/atom/edit/item/test/testitem3.json", 
+                    equals(val.datauri, "http://localhost:8080/exist/atom/edit/item/test/feed/testitem3.json", 
                         "Item data URI returned");
                     save_item_uri3 = val.uri;
                     save_item_val3 = val;
@@ -758,7 +846,7 @@ TestAtomPub = function() {
                 });
             m.exec(null,
                 function(val) {
-                    log.debug("----- 15. -----");
+                    log.debug("----- 16. -----");
                     start();
                 });
             stop(2000);
@@ -767,7 +855,7 @@ TestAtomPub = function() {
     // Delete test feed again.
     test("Delete test feed again", 
         function () {
-            log.debug("----- 16. Delete test feed again -----");
+            log.debug("----- 17. Delete test feed again -----");
             expect(1);
             var m = new shuffl.AsyncComputation();
             m.eval(
@@ -785,7 +873,7 @@ TestAtomPub = function() {
                 });
             m.exec(atomserviceuri,
                 function(val) {
-                    log.debug("----- 16. -----");
+                    log.debug("----- 17. -----");
                     start();
                 });
             stop(2000);
@@ -793,8 +881,8 @@ TestAtomPub = function() {
 
     // Create feed, create media resource, update media resource
     test("Update media resource", function () {
-            log.debug("----- 17. Update media resource -----");
-            expect(11);
+            log.debug("----- 18. Update media resource -----");
+            expect(8);
             var m = new shuffl.AsyncComputation();
             m.atompub = new shuffl.AtomPub(atomserviceuri);
             m.eval(
@@ -829,19 +917,15 @@ TestAtomPub = function() {
                     // Update media resource ..
                     m.atompub.putItem(
                         { uri: val.datauri
-                        //  base: "/item/test/feed/"
-                        //, name: "testitem4.json"
                         , title: "Test item 4 updated"
                         , data: {a:"A4updated", b:"B"}
                         , datatype: "application/json"
                         }, callback);
-                    // Use feed URI for now...
-                    //m.atompub.deleteItem({uri: val.uri}, callback);
                 });
             m.eval(
                 function (val, callback) {
                     log.debug("- putItem (non-atom) return: "+shuffl.objectString(val));
-                    equals(val.uri,  save_item_uri4, 
+                    equals(val.uri.toString(),  save_item_uri4.toString(), 
                         "Updated item URI returned");
                     equals(val.path, m.atompub.getAtomPath(save_item_uri4), 
                         "Updated item path returned");
@@ -857,19 +941,12 @@ TestAtomPub = function() {
             m.eval(
                 function (val, callback) {
                     log.debug("- getItem (non-atom) return: "+shuffl.objectString(val));
-                    equals(val.uri, save_item_uri4, 
-                        "Updated item URI returned");
-                    equals(val.path, m.atompub.getAtomPath(save_item_uri4), 
-                        "Updated item path returned");
-                    equals(typeof val.data, "string",
-                        "Updated item data type returned");
-                    equals(val.dataref, undefined, 
-                        "Item data reference returned");
+                    same(val, {a:"A4updated", b:"B"}, "media resource returned")
                     callback(val);
                 });
             m.exec(null,
                 function(val) {
-                    log.debug("----- 17. -----");
+                    log.debug("----- 18. -----");
                     start();
                 });
             stop(2000);
@@ -878,7 +955,7 @@ TestAtomPub = function() {
     // Delete test feed again.
     test("Delete test feed again", 
         function () {
-            log.debug("----- 18. Delete test feed again -----");
+            log.debug("----- 19. Delete test feed again -----");
             expect(1);
             var m = new shuffl.AsyncComputation();
             m.eval(
@@ -896,7 +973,7 @@ TestAtomPub = function() {
                 });
             m.exec(atomserviceuri,
                 function(val) {
-                    log.debug("----- 18. -----");
+                    log.debug("----- 19. -----");
                     start();
                 });
             stop(2000);
