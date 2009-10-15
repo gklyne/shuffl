@@ -144,24 +144,7 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     // Set up function to (re)draw the card when placed or resized
     card.data("redrawFunc", shuffl.card.datagraph.redraw(card));
     // Set up card as drop-target for data table
-    // TODO: refactor common logic to cardhandlers?
-    card.droppable(
-        { accept:     '.shuffl-series'      // Accept objects with series data
-        , hoverClass: 'shuffl-highlight'
-        , tolerance:  'pointer'
-        , drop:       function (_event, ui)
-              {
-              // ui.draggable - current draggable element, a jQuery object.
-              // ui.helper - current draggable helper, a jQuery object
-              // ui.position - current position of the draggable helper { top: , left: }
-              // ui.offset - current absolute position of the draggable helper { top: , left: }
-              var tc = ui.draggable;
-              ////log.debug("shuffl.card.datagraph - drop "+tc.attr('id')+", "+tc.attr('class'));
-              card.model('shuffl:source', tc);
-              }
-        , over:       function  (_event, _ui) {}
-        , out:        function  (_event, _ui) {}
-        });
+    shuffl.dropTarget(card, '.shuffl-series', 'shuffl:source');
     // Set up model listener and user input handlers
     shuffl.bindLineEditable(card, "shuffl:title", "ctitle");
     shuffl.bindLineEditable(card, "shuffl:tags",  "ctags");
