@@ -349,8 +349,8 @@ TestSaveWorkspace = function() {
             equals(c3.data('shuffl:dataRW'),  false,                    "card 3 shuffl:dataRW");          
             log.debug("Reset workspace...");
             var p3 = c3.position();
-            equals(Math.floor(p3.left), 200, "position-left");
-            equals(Math.floor(p3.top),  90,  "position-top");
+            range(p3.left, 199, 201, "position-left");
+            range(p3.top,   89,  91,  "position-top");
             equals(c3.css("zIndex"), "11", "card zIndex");
             log.debug("Delete old workspace");
             shuffl.deleteWorkspace(atomuri, feedpath, callback);
@@ -418,8 +418,8 @@ TestSaveWorkspace = function() {
             equals(c3.data('shuffl:datamod'), false,                    "card 3 shuffl:datamod");          
             equals(c3.data('shuffl:dataRW'),  false,                    "card 3 shuffl:dataRW");          
             var p3 = c3.position();
-            equals(Math.floor(p3.left), 200, "position-left");
-            equals(Math.floor(p3.top),  90,  "position-top");
+            range(p3.left, 199, 202, "position-left");
+            range(p3.top,   89,  92,  "position-top");
             equals(c3.css("zIndex"), "11", "card zIndex");
             // Done
             callback(true);
@@ -490,8 +490,8 @@ TestSaveWorkspace = function() {
             ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
             equals(c3.find("ctitle").text(), "Card 3 updated", "Card 3 title");
             var p3 = c3.position();
-            equals(Math.floor(p3.left), 200, "position-left");
-            equals(Math.floor(p3.top),  90,  "position-top");
+            range(p3.left, 199, 202, "position-left");
+            range(p3.top,   89,  92,  "position-top");
             equals(c3.css("zIndex"), "11", "card zIndex");
             // Done
             callback(true);
@@ -571,8 +571,8 @@ TestSaveWorkspace = function() {
             ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
             equals(c3.find("ctitle").text(), "Card 3 updated and moved", "Card 3 title");
             var p3 = c3.position();
-            equals(Math.floor(p3.left), 20, "position-left");
-            equals(Math.floor(p3.top),  10,  "position-top");
+            range(p3.left, 19, 22, "position-left");
+            range(p3.top,   9, 12,  "position-top");
             equals(c3.css("zIndex"), "11", "card zIndex");
             // Done
             callback(true);
