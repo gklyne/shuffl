@@ -25,7 +25,7 @@ TestLoadWorkspace = function() {
         });
         m.eval(function(val,callback) {
             var u = jQuery.uri().resolve("data/test-shuffl-loadworkspace-layout.json");
-            equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
+            equals(jQuery('#workspace_status').text(), u.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
             //1
             var c1 = jQuery("#id_1");
@@ -110,7 +110,7 @@ TestLoadWorkspace = function() {
         m.eval(function(val,callback) {
             log.debug("Test workspace reloaded");
             var u = jQuery.uri().resolve("data/test-shuffl-loadworkspace-layout.json");
-            equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
+            equals(jQuery('#workspace_status').text(), u.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
             equals(jQuery('#workspace').data('wsname'), "test-shuffl-loadworkspace-layout.json", "wsname");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
@@ -119,7 +119,7 @@ TestLoadWorkspace = function() {
         });        
         m.eval(function(val,callback) {
             log.debug("Workspace reset")
-            equals(jQuery('#workspaceuri').text(), "", '#workspaceuri');
+            equals(jQuery('#workspace_status').text(), "", '#workspace_status');
             equals(jQuery('#workspace').data('location'), null, "location");
             equals(jQuery('#workspace').data('wsname'), null, "wsname");
             equals(jQuery('#workspace').data('wsdata'), null, "wsdata");
