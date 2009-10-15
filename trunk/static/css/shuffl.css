@@ -185,11 +185,6 @@ cbody {
     overflow: auto;
 }
 
-.shuffl-handle {
-    display:inline-block;
-    width: 1em;
-}
-
 .shuffl-blockedit {
     display: block;
 	  position: absolute;

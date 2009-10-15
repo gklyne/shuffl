@@ -245,12 +245,6 @@ shuffl.stockpile_blank = jQuery("<div class='shuffl-stockpile' style='z-index:1;
 shuffl.stockpile_space = jQuery("<div class='shuffl-spacer' />");
 
 /**
- * jQuery element for drag handle in card title bar
- * (this is just an inactive area that doesn't try to do anything when clicked)
- */
-shuffl.stockpile_handle = jQuery("<div class='shuffl-handle' />");
-
-/**
  * Create a new stockpile
  */
 shuffl.createStockpile = function(sid, sclass, slabel, stype) 
