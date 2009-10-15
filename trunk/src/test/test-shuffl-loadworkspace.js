@@ -18,6 +18,7 @@ TestLoadWorkspace = function() {
     module("TestLoadWorkspace");
 
     test("shuffl.LoadWorkspace", function () {
+        expect(54);
         log.debug("test shuffl.LoadWorkspace");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -101,6 +102,54 @@ TestLoadWorkspace = function() {
         stop(2000);
     });
 
+    test("shuffl.LoadWorkspace (non-existent feed/directory)", function () {
+        expect(1);
+        log.debug("test shuffl.LoadWorkspace (non-existent feed)");
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
+            shuffl.loadWorkspace("dataz/test-shuffl-loadworkspace-layout.json", callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("shuffl.LoadWorkspace return: "+jQuery.toJSON(val));
+            callback(true);
+        });        
+        m.exec({}, start);
+        ok(true, "shuffl.LoadWorkspace initiated");
+        stop(2000);
+    });
+
+    test("shuffl.LoadWorkspace (non-existent layout file)", function () {
+        expect(1);
+        log.debug("test shuffl.LoadWorkspace (non-existent feed)");
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
+            shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.json", callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("shuffl.LoadWorkspace return: "+jQuery.toJSON(val));
+            callback(true);
+        });        
+        m.exec({}, start);
+        ok(true, "shuffl.LoadWorkspace initiated");
+        stop(2000);
+    });
+
+    test("shuffl.LoadWorkspace (missing card file)", function () {
+        expect(1);
+        log.debug("test shuffl.LoadWorkspace (non-existent feed)");
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
+            shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.json", callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("shuffl.LoadWorkspace return: "+jQuery.toJSON(val));
+            callback(true);
+        });        
+        m.exec({}, start);
+        ok(true, "shuffl.LoadWorkspace initiated");
+        stop(2000);
+    });
+    
     test("shuffl.ResetWorkspace", function () {
         log.debug("test shuffl.ResetWorkspace");
         var m = new shuffl.AsyncComputation();
