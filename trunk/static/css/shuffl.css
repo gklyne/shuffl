@@ -1,8 +1,132 @@
+/* Page styles */
+
 html, body { 
 	margin: 0; 
 	padding: 0; 
 	height: 100%; 
 }
+
+/* Workspace styles */
+
+.shuffl-workspace {
+    display:block;
+    /* border:thin black solid; */
+    border:none;
+    width:100%;
+    height:100% ;
+}
+
+.shuffl-header {
+    height: 0.25em;
+    margin: 0;
+}
+
+.shuffl-stockbar {
+    border: thin #999999 solid;
+    margin: 0em 0.25em 0.25em 0.25em ; /* top, right, bottom, left */
+    height: 1.6em;
+}
+
+.shuffl-workspacemenu {
+    display:inline-block;
+    font-family: "Comic Sans MS", Trebuchet, sans-serif;    
+    font-weight:bold;
+    background-color:#DDDDDD;    /* Grey */
+    border:thin #666666 solid;
+    top: 0.2em;
+}
+
+.shuffl-spacer {
+    display:inline-block;
+    width: 0.5em;
+}
+
+.shuffl-stockpile {
+    display:inline-block;
+    vertical-align: top;
+    top: 0.2em;
+}
+
+.shuffl-layout {
+    display:block;
+    position:relative;
+    border:thin #999999 solid;
+    margin: 0em 0.25em 0.25em 0.25em ; /* top, right, bottom, left */
+}
+
+.shuffl-footer {
+    display:block;
+    font-face: font-family: Georgia, "Times New Roman", Times, serif;
+    font-weight: lighter;
+    font-size: small;
+    font-style: italic;
+    width: 100%;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.shuffl-footer-left {
+    float: left;
+    padding: 0 0.5em;
+}
+
+.shuffl-footer-right {
+    float: right;
+    padding: 0 0.5em;
+}
+
+.shuffl-error {
+    color: red;
+    font-weight: heavier;
+}
+
+
+
+
+.shuffl-contextmenu {
+    font-weight:bold;
+    background-color:#DDDDDD;    /* Grey */
+    border:thin #666666 solid;
+    /* width: 20em; */
+}
+
+/* Specific identified fields */
+
+.dialog-save {
+    width: 60em;
+}
+
+.dialog-open {
+    width: 60em;
+}
+
+/* Shuffl card styles */
+
+/* Apply this class to *all* shuffl cards */
+.shuffl-card {
+    display:block;
+    position:absolute;
+}
+
+/* Define initial size for resizable cards */
+.shuffl-card-setsize {
+    width:20em;   
+    /*height:10em;*/
+}
+
+/* Allow auto-sizing for cards that are not resizable */
+.shuffl-card-autosize {
+    width:auto;   
+    height:auto;
+}
+
+/* Highlight a card selected as drop target */
+.shuffl-card.shuffl-highlight {
+    border-width: thick; 
+}
+
+/* Card field styles */
 
 chead, cfoot {
     height: 1.2em;
@@ -61,6 +185,11 @@ cbody {
     overflow: auto;
 }
 
+.shuffl-handle {
+    display:inline-block;
+    width: 1em;
+}
+
 .shuffl-blockedit {
     display: block;
 	  position: absolute;
@@ -75,123 +204,6 @@ cbody {
     display: block;
 	  position: absolute;
     overflow: visible;
-}
-
-.shuffl-workspace {
-    display:block;
-    /* border:thin black solid; */
-    border:none;
-    width:100%;
-    height:100% ;
-}
-
-.shuffl-header {
-	  height: 0.25em;
-	  marging: 0;
-}
-
-.shuffl-stockbar {
-	  border: thin #999999 solid;
-    margin: 0em 0.25em 0.25em 0.25em ; /* top, right, bottom, left */
-    height: 1.6em;
-}
-
-.shuffl-workspacemenu {
-	  display:inline-block;
-    font-family: "Comic Sans MS", Trebuchet, sans-serif;    
-    font-weight:bold;
-    background-color:#DDDDDD;    /* Grey */
-    border:thin #666666 solid;
-    top: 0.2em;
-}
-
-.shuffl-stockpile {
-    display:inline-block;
-    vertical-align: top;
-    top: 0.2em;
-}
-
-.shuffl-spacer {
-    display:inline-block;
-    width: 0.5em;
-}
-
-.shuffl-handle {
-    display:inline-block;
-    width: 1em;
-}
-
-.shuffl-contextmenu {
-    font-weight:bold;
-    background-color:#DDDDDD;    /* Grey */
-    border:thin #666666 solid;
-    /* width: 20em; */
-}
-
-.shuffl-layout {
-    display:block;
-    position:relative;
-    border:thin #999999 solid;
-    margin: 0em 0.25em 0.25em 0.25em ; /* top, right, bottom, left */
-}
-
-.shuffl-footer {
-    display:block;
-    font-face: font-family: Georgia, "Times New Roman", Times, serif;
-    font-weight: lighter;
-    font-size: small;
-    font-style: italic;
-    width: 100%;
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-
-.shuffl-footer-left {
-    float: left;
-    padding: 0 0.5em;
-}
-
-.shuffl-footer-right {
-    float: right;
-    padding: 0 0.5em;
-}
-
-/* Shuffl card classes */
-
-/* Apply this class to *all* shuffl cards */
-.shuffl-card {
-    display:block;
-    position:absolute;
-}
-
-/* Define initial size for resizable cards */
-.shuffl-card-setsize {
-    width:20em;   
-    /*height:10em;*/
-}
-
-/* Allow auto-sizing for cards that are not resizable */
-.shuffl-card-autosize {
-    width:auto;   
-    height:auto;
-}
-
-/* Highlight a card selected as drop target */
-
-.shuffl-card.shuffl-highlight {
-    border-width: thick; 
-}
-
-
-/* Specific identified fields */
-
-.dialog-save {
-    width: 60em;
-}
-
-.dialog-open {
-    width: 60em;
 }
 
 /* Stock card colours */

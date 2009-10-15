@@ -52,9 +52,7 @@ mk.map     = MochiKit.Base.map;
 /**
  * Ensure shuffl namespace is defined
  */
-if (typeof shuffl == "undefined") {
-    shuffl = {};
-}
+if (typeof shuffl == "undefined") { shuffl = {}; };
 
 // ----------------------------------------------------------------
 // Error class
@@ -63,19 +61,47 @@ if (typeof shuffl == "undefined") {
 /**
  * Error class for Shuffl
  */
-shuffl.Error = function(msg, val) {
+shuffl.Error = function(msg, val) 
+{
     this.msg = this.message = msg;
     this.val = val;
 };
 
 shuffl.Error.prototype = new Error("(shuffl)");
 
-shuffl.Error.prototype.toString = function () {
+shuffl.Error.prototype.toString = function () 
+{
     var s = "shuffl error: "+this.msg;
     if (this.val) {
         s += " ("+this.val.toString()+")";
     }
     return s;
+};
+
+// ----------------------------------------------------------------
+// Status display
+// ----------------------------------------------------------------
+
+/**
+ * Display workspace location in status bar.
+ * 
+ * @param uri       is the location URI or string to be displayed.
+ *                  If not supplied, the current base uri is used.
+ */
+shuffl.showLocation = function (uri)
+{
+    uri = uri || jQuery.uri();
+    jQuery('#workspace_status').text(uri.toString()).removeClass('shuffl-error');
+};
+
+/**
+ * Display error message in status bar.
+ * 
+ * @param msg       is the error message to be displayed.
+ */
+shuffl.showError = function (msg)
+{
+    jQuery('#workspace_status').text(msg).addClass('shuffl-error');
 };
 
 // ----------------------------------------------------------------
