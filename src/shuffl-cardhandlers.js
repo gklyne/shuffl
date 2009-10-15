@@ -993,4 +993,39 @@ shuffl.positionAbs = function (base, off)
     return { left: base.left+off.left, top: base.top+off.top };
 };
 
+// ----------------------------------------------------------------
+// Card linking support functions
+// ----------------------------------------------------------------
+
+/**
+ * Set up indicated card as a drop target.
+ * 
+ * @param card      jQuery card object to be configured as drop target
+ * @param sourcesel source object selector string:  specifies what draggable 
+ *                  source objects may be dropped on this card.
+ * @param modelvar  name of model variable that is set to the source object
+ *                  dropped onto this target. The target should use model 
+ *                  listener functions to respond to the drop.
+ */
+shuffl.dropTarget = function (card, sourcesel, modelvar)
+{
+    card.droppable(
+        { accept:     sourcesel
+        , hoverClass: 'shuffl-highlight'
+        , tolerance:  'pointer'
+        , drop:       function (_event, ui)
+              {
+              // ui.draggable - current draggable element, a jQuery object.
+              // ui.helper - current draggable helper, a jQuery object
+              // ui.position - current position of the draggable helper { top: , left: }
+              // ui.offset - current absolute position of the draggable helper { top: , left: }
+              var tc = ui.draggable;
+              ////log.debug("shuffl.card.datagraph - drop "+tc.attr('id')+", "+tc.attr('class'));
+              card.model(modelvar, tc);
+              }
+        ////, over:       function  (_event, _ui) {}
+        ////, out:        function  (_event, _ui) {}
+        });
+};
+
 // End.
