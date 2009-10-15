@@ -84,7 +84,7 @@ shuffl.loadWorkspace = function(uri, callback) {
             // Display and save location information
             var wsuri = jQuery.uri().resolve(uri);
             ////log.debug("Display location of workspace, and save values: "+wsuri);
-            jQuery('#workspaceuri').text(wsuri.toString());
+            jQuery('#workspace_status').text(wsuri.toString());
             // TODO: save URI not string?
             jQuery('#workspace').data('location', wsuri.toString());
             jQuery('#workspace').data('wsname',   shuffl.uriName(wsuri));
@@ -140,7 +140,7 @@ shuffl.loadWorkspace = function(uri, callback) {
  */
 shuffl.resetWorkspace = function(callback) {
     log.debug("Reset workspace");
-    jQuery('#workspaceuri').text("");
+    jQuery('#workspace_status').text("");
     jQuery('#workspace').data('location', null);
     jQuery('#workspace').data('wsname',   null);
     jQuery('#workspace').data('wsdata',   null);

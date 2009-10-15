@@ -70,7 +70,7 @@ TestSaveWorkspace = function() {
         m.eval(function(val,callback) {
             // Check empty workspace
             var u = jQuery.uri().resolve(layoutref);
-            equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
+            equals(jQuery('#workspace_status').text(), u.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
             equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
             equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
@@ -146,7 +146,7 @@ TestSaveWorkspace = function() {
         m.eval(function(val,callback) {
             log.debug("Check reloaded workspace "+this.wsuri);
             var u = jQuery.uri(this.wsuri);
-            equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
+            equals(jQuery('#workspace_status').text(), u.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
             equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
             equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
@@ -291,7 +291,7 @@ TestSaveWorkspace = function() {
         m.eval(function(val,callback) {
             log.debug("Check reloaded workspace "+this.wsuri);
             var u = jQuery.uri(this.wsuri);
-            equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
+            equals(jQuery('#workspace_status').text(), u.toString(), '#workspace_status');
             callback(true);
         });
         m.exec({}, start);
@@ -386,7 +386,7 @@ TestSaveWorkspace = function() {
             ok(true, "Workspace is reloaded: "+this.wsuri);
             log.debug("Check reloaded workspace "+this.wsuri);
             var u = jQuery.uri(this.wsuri);
-            equals(jQuery('#workspaceuri').text(), u.toString(), '#workspaceuri');
+            equals(jQuery('#workspace_status').text(), u.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
             equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
             equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
@@ -466,7 +466,7 @@ TestSaveWorkspace = function() {
         });
         m.eval(function(val,callback) {
             log.debug("Check reloaded workspace ");
-            equals(jQuery('#workspaceuri').text(), layouturi.toString(), '#workspaceuri');
+            equals(jQuery('#workspace_status').text(), layouturi.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), layouturi.toString(), "location");
             equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
             equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
@@ -547,7 +547,7 @@ TestSaveWorkspace = function() {
         });
         m.eval(function(val,callback) {
             log.debug("Check reloaded workspace ");
-            equals(jQuery('#workspaceuri').text(), layouturi.toString(), '#workspaceuri');
+            equals(jQuery('#workspace_status').text(), layouturi.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), layouturi.toString(), "location");
             equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
             equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");

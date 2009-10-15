@@ -301,7 +301,7 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, wsname, callback) {
             callback(val); 
         } else {
             //log.debug("shuffl.saveNewWorkspace:createComplete "+shuffl.objectString(val));
-            jQuery('#workspaceuri').text(val.datauri.toString());
+            jQuery('#workspace_status').text(val.datauri.toString());
             jQuery('#workspace').data('location', val.datauri);
             jQuery('#workspace').data('wsname',   wsname);
             jQuery('#workspace').data('wsdata',   wsdata);
