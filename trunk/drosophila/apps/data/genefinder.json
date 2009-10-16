@@ -1,0 +1,38 @@
+{ 'shuffl:id':        'sample-4'
+, 'shuffl:class':     'shuffl:workspace'
+, 'shuffl:version':   '0.1'
+, 'shuffl:atomuri':   'http://localhost:8080/exist/atom/'
+, 'shuffl:feeduri':   'http://localhost:8080/shuffl/'
+, 'shuffl:base-uri':  '#'
+, 'shuffl:uses-prefixes':
+  [ { 'shuffl:prefix':  'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
+  , { 'shuffl:prefix':  'rdf',     'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
+  , { 'shuffl:prefix':  'rdfs',    'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
+  , { 'shuffl:prefix':  'owl',     'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
+  , { 'shuffl:prefix':  'xsd',     'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
+  ]
+, 'shuffl:workspace':
+  { 'shuffl:stockbar':
+      [ { 'id': 'stockpile_1', 'class': 'stock-yellow',  'label': 'Abc..',  'type': 'shuffl-freetext-yellow'  }
+      , { 'id': 'stockpile_2', 'class': 'stock-blue',    'label': 'Abc..',  'type': 'shuffl-freetext-blue'    }
+      , { 'id': 'stockpile_3', 'class': 'stock-green',   'label': 'Abc..',  'type': 'shuffl-freetext-green'   }
+      , { 'id': 'stockpile_4', 'class': 'stock-orange',  'label': 'Abc..',  'type': 'shuffl-freetext-orange'  }
+      , { 'id': 'stockpile_5', 'class': 'stock-pink',    'label': 'Abc..',  'type': 'shuffl-freetext-pink'    }
+      , { 'id': 'stockpile_6', 'class': 'stock-purple',  'label': 'Abc..',  'type': 'shuffl-freetext-purple'  }
+      , { 'id': 'stockpile_7', 'class': 'stock-yellow',  'label': 'Gene',   'type': 'shuffl-geneinput-yellow'  }
+      , { 'id': 'stockpile_8', 'class': 'stock-blue',    'label': 'Gene',   'type': 'shuffl-geneinput-blue'    }
+      , { 'id': 'stockpile_9', 'class': 'stock-green',   'label': 'Gene',   'type': 'shuffl-geneinput-green'   }
+      , { 'id': 'stockpile_10', 'class': 'stock-orange',  'label': 'Gene',  'type': 'shuffl-geneinput-orange'  }
+      , { 'id': 'stockpile_11', 'class': 'stock-pink',    'label': 'Gene',  'type': 'shuffl-geneinput-pink'    }
+      , { 'id': 'stockpile_12', 'class': 'stock-purple',  'label': 'GeneFinder',  'type': 'shuffl-geneinput-purple'  }
+      , { 'id': 'stockpile_13', 'class': 'stock-yellow',  'label': 'GeneFinder',  'type': 'shuffl-genefinder-yellow'  }
+      , { 'id': 'stockpile_14', 'class': 'stock-blue',    'label': 'GeneFinder',  'type': 'shuffl-genefinder-blue'    }
+      , { 'id': 'stockpile_15', 'class': 'stock-green',   'label': 'GeneFinder',  'type': 'shuffl-genefinder-green'   }
+      , { 'id': 'stockpile_16', 'class': 'stock-orange',  'label': 'GeneFinder',  'type': 'shuffl-genefinder-orange'  }
+      , { 'id': 'stockpile_17', 'class': 'stock-pink',    'label': 'GeneFinder',  'type': 'shuffl-genefinder-pink'    }
+      , { 'id': 'stockpile_18', 'class': 'stock-purple',  'label': 'GeneFinder',  'type': 'shuffl-genefinder-purple'  }
+      ]
+  , 'shuffl:layout':
+      [ ]
+  }
+}
