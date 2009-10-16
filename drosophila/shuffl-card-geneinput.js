@@ -73,8 +73,8 @@ shuffl.card.geneinput.blank = jQuery(
  * @return              a jQuery object representing the new card.
  */
 shuffl.card.geneinput.newCard = function (cardtype, cardcss, cardid, carddata) {
-    //log.debug("shuffl.card.geneinput.newCard: "+
-    //    cardtype+", "+cardcss+", "+cardid+", "+carddata);
+    ////log.debug("shuffl.card.geneinput.newCard: "+
+    ////    cardtype+", "+cardcss+", "+cardid+", "+carddata);
     // Initialize the card object
     var card = shuffl.card.geneinput.blank.clone();
     card.data('shuffl:class',  cardtype);
