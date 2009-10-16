@@ -24,7 +24,7 @@
       , { 'id': 'stockpile_9', 'class': 'stock-green',   'label': 'Gene',   'type': 'shuffl-geneinput-green'   }
       , { 'id': 'stockpile_10', 'class': 'stock-orange',  'label': 'Gene',  'type': 'shuffl-geneinput-orange'  }
       , { 'id': 'stockpile_11', 'class': 'stock-pink',    'label': 'Gene',  'type': 'shuffl-geneinput-pink'    }
-      , { 'id': 'stockpile_12', 'class': 'stock-purple',  'label': 'GeneFinder',  'type': 'shuffl-geneinput-purple'  }
+      , { 'id': 'stockpile_12', 'class': 'stock-purple',  'label': 'Gene',  'type': 'shuffl-geneinput-purple'  }
       , { 'id': 'stockpile_13', 'class': 'stock-yellow',  'label': 'GeneFinder',  'type': 'shuffl-genefinder-yellow'  }
       , { 'id': 'stockpile_14', 'class': 'stock-blue',    'label': 'GeneFinder',  'type': 'shuffl-genefinder-blue'    }
       , { 'id': 'stockpile_15', 'class': 'stock-green',   'label': 'GeneFinder',  'type': 'shuffl-genefinder-green'   }

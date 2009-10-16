@@ -1,0 +1,69 @@
+.batchFlyatlasWidget table {
+    width: 100%;
+    margin: auto;
+    border-bottom: 1px solid #777;
+    font-size: 80%;
+}
+
+.batchFlyatlasWidget tbody {
+/*    background-color: #f9f9f9;*/
+/* N.B. border, padding and margin have no effect here for IE6 */
+}
+
+.batchFlyatlasWidget tr.top {
+/*    border-top: 2px solid #ddd;*/
+}
+
+.batchFlyatlasWidget tr.top td {
+    border-top: 2px solid #ddd;
+}
+
+.batchFlyatlasWidget td {
+    border: none;
+    text-align: center;
+    vertical-align: top;
+/*    border-top: 2px solid white;*/
+/*    border-left: 2px solid white; */
+    margin-left: 2px;
+    padding: 4px 4px 4px 4px;
+}
+
+.batchFlyatlasWidget th {
+    border: none;
+    border-bottom: 1px solid #777;
+    border-top: 1px solid #777;
+    font-weight: normal;
+    color: #777;
+    background-color: #f3f3f3;
+    font-size: 100%;
+    padding: 3px;
+    text-align: center;
+}
+
+.batchFlyatlasWidget .callNone {
+    background-color: inherit;
+    color: #aaa;
+}
+
+.batchFlyatlasWidget .callUp {
+/*    background-color: #BEFFA8;*/
+    background-color: #A6C9FF;
+    color: black;
+}
+
+.batchFlyatlasWidget .callDown {
+    background-color: #FFCC99;
+    color: black;
+}
+
+.batchFlyatlasWidget .xx {
+    font-weight: bold;
+}
+
+.batchFlyatlasWidget .flyatlasChangeUp {
+    background-color: green;
+}
+
+.batchFlyatlasWidget .flyatlasChangeDown {
+    background-color: red;
+}

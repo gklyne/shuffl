@@ -1,0 +1,66 @@
+.flyatlasWidget table {
+    width: 100%;
+    margin: auto;
+    border-bottom: 1px solid #777;
+    margin-bottom: 10px;
+    font-size: 80%;
+}
+
+.flyatlasWidget tbody {
+/*    background-color: #f9f9f9;*/
+/* N.B. border, padding and margin have no effect here for IE6 */
+}
+
+.flyatlasWidget tr.top {
+/*    border-top: 2px solid #ddd;*/
+}
+
+.flyatlasWidget tr.top td {
+/*    border-top: 2px solid #ddd; */
+    border-top: 1px solid #777;
+}
+
+.flyatlasWidget td {
+    border: none;
+    text-align: center;
+    vertical-align: top;
+/*    border-top: 2px solid white;*/
+    border:none;
+    padding: 4px 0 4px 0;
+}
+
+.flyatlasWidget th {
+    border: none;
+/*    border-bottom: 2px solid #ddd;*/
+    border-top: 1px solid #777;
+    border-bottom: 1px solid #777;
+    font-weight: normal;
+    color: #777;
+    background-color: #f3f3f3;
+/*    background-color: #fff; */
+    font-size: 100%;
+    padding: 3px;
+    text-align: center;
+}
+
+.flyatlasWidget .callNone {
+    background-color: inherit;
+    color: #aaa;
+}
+
+.flyatlasWidget .callUp {
+/*    background-color: #BEFFA8;*/
+    background-color: #A6C9FF;
+    color: black;
+}
+
+.flyatlasWidget .callDown {
+    background-color: #FFCC99;
+    color: black;
+}
+
+.flyatlasWidget .xx {
+    font-weight: bold;
+}
+
+

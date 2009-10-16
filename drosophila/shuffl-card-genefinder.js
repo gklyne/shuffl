@@ -40,6 +40,11 @@ if (typeof shuffl.card == "undefined")
 shuffl.card.genefinder = {};
 
 /**
+ * Global data
+ */
+shuffl.card.genefinder.FlyBaseSPARQLEndPointUri = "http://openflydata.org/sparqlite-0.4-alpha4/endpoint-lax/flybase-FB2009_02";
+
+/**
  * Template for creating new card object for serialization
  */
 shuffl.card.genefinder.data =
@@ -57,6 +62,9 @@ shuffl.card.genefinder.blank = jQuery(
     "    </crow><crow>\n" +
     "      <b><i>Drosophila</i> FlyBase ID: </b><cflybaseid/>\n"+
     "    </crow>\n"+
+    "    <cbody>\n"+
+    "      <div/>\n"+
+    "    </cbody>\n"+
     "</div>");
 
 /**
@@ -91,6 +99,29 @@ shuffl.card.genefinder.newCard = function (cardtype, cardcss, cardid, carddata) 
     var flybaseid = shuffl.get(carddata, 'drosophila:flybaseid', "(flybase id here)");
     card.model("drosophila:genename", genename);
     card.model("drosophila:flybaseid", flybaseid);
+
+    // Instantiate a FlyUI gene finder service
+    var genefinder = undefined;
+    try {
+		log.debug("instantiate a service for the genefinder widget");
+		var service = new flyui.flybase.Service(shuffl.card.genefinder.FlyBaseSPARQLEndPointUri);
+        log.debug("instantiate a renderer for the genefinder widget");
+        var renderPane = card.find("cbody div").get(0);		// Render flyui widget here
+        var renderer = new flyui.genefinder.DefaultRenderer(); // default renderer
+        renderer.setCanvas(renderPane);
+        log.debug("instantiate a genefinder widget");
+        genefinder = new flyui.genefinder.Widget(service, renderer);
+    } catch (e) {
+        log.error("unexpected error: "+e.name+" "+e.message);
+        throw e;
+    }
+
+	// Hook up user gene name entry to genefinder widget
+	card.modelBind('drosophila:genename', function (event, data) {
+		var caseSensitive = false;
+		genefinder.findGenesByAnyName(data.newval, caseSensitive);
+	});
+
     return card;
 };
 

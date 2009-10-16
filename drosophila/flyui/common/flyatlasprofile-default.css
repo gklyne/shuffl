@@ -1,0 +1,13 @@
+.flyatlasProfileWidget {
+    text-align: left;
+}
+
+.flyatlasProfileWidget p {
+    text-align: left;
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+
+.flyatlasProfileWidget .resultsPane {
+    font-size: 80%;
+}

@@ -1,0 +1,9 @@
+.batchGeneFinderWidget {
+    text-align: left;
+}
+
+.batchGeneFinderWidget p {
+    text-align: left;
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
