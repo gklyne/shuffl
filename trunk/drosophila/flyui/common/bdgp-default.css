@@ -1,0 +1,44 @@
+
+.bdgpImageWidget table {
+    width: 100%;
+    margin: auto;
+    border-bottom: 1px solid #777;
+}
+
+.bdgpImageWidget td {
+    cursor:pointer;
+    border:none;
+    border-bottom: 1px solid #777;
+    border-top: 1px solid #777;
+    text-align: left;
+    vertical-align: top;
+    padding: 5px 0 5px 0;
+}
+
+.bdgpImageWidget th {
+    border: none;
+    border-bottom: 1px solid #777;
+    border-top: 1px solid #777;
+    font-weight: normal;
+    color: #777;
+    background-color: #f3f3f3;
+    font-size: 100%;
+    padding: 3px;
+    text-align: center;
+}
+
+.bdgpImageWidget .terms {
+    clear: both;
+    font-size: 80%;
+    margin-top: 0;
+}
+
+.bdgpImageWidget tr.stagename {
+}
+
+.bdgpImageWidget tr.stagename td {
+    padding: 3px;
+    color: #777;
+    background-color: #f3f3f3;
+    text-align: center;
+}

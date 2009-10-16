@@ -1,0 +1,15 @@
+.flybasePublicationWidget table {
+    border-top: 1px solid #777;
+    font-size: 80%;
+}
+
+.flybasePublicationWidget tr {
+    border: none;
+}
+
+.flybasePublicationWidget td {
+    border: none;
+    padding: 5px 0 5px 0;
+    border-bottom: 1px solid #777;
+}
+

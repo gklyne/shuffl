@@ -1,0 +1,58 @@
+.genefinderWidget {
+    text-align: center;
+}
+
+.genefinderWidget p {
+    text-align: left;
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+
+.genefinderWidget table {
+    width: 100%;
+    margin: auto;
+    border-bottom: 1px solid #777;
+}
+
+.genefinderWidget td {
+    cursor:pointer;
+    border: none;
+    text-align: center;
+    font-size: 80%;
+}
+
+.genefinderWidget th {
+    border: none;
+    border-bottom: 1px solid #777;
+    border-top: 1px solid #777;
+    font-weight: normal;
+    color: #777;
+    background-color: #f3f3f3;
+/*    background-color: #fff;*/
+    font-size: 80%;
+    padding: 3px;
+    text-align: center;
+}
+
+.genefinderWidget tr {
+/*    border-bottom: 1px solid #aaa;*/
+}
+
+.genefinderWidget .isselected {
+    display: none;
+}
+
+.genefinderWidget .selected {
+    background-color: #99f;
+    color: white;
+    font-weight: bold;
+}
+
+.genefinderWidget .selected .selector {
+    display: none;
+}
+
+.genefinderWidget .selected .isselected {
+    display: inline;
+}
+
