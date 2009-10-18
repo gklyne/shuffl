@@ -85,4 +85,70 @@ Actual effort: ??? days (for ??? planned activity)
 
 = Activity summary =
 
-...
+(I'm starting to include notes of activities related to other projects that are intended to build upon Shuffl.)
+
+Date:	 Monday, 5 October, 2009
+ Shuffl:
+ * (0.2) Sprint plan
+ * (0.1) Investigate drag-and-drop for card-to-card drop
+ * (0.1) Update test cases for datagraph card
+
+Date:	 Tuesday, 6 October, 2009
+ Shuffl:
+ * (0.2) New test cases for card-datagraph
+ * (0.1) Debug jQuery.readcsv
+ * (0.1) Plan out datagraph card interface
+ * (0.1) Rework datagraph card redraw logic to ease resizing (NOTE: flot has API for this too)
+ * (0.4) test cases for revised data graphing card interface
+
+Date:	 Wednesday, 7 October, 2009
+ Shuffl:
+ * (0.2) Rethinking graphing card structure. Yesterday's test cases put too much complexity in the card. Separate the data selection from the graphing, simplifiying the graph card. Eventually, the external interface will specify labels and series only (no table or URI value).
+ * (0.2) Implemented display range scanning and setting for data graphing cards.
+ * (0.2) Refactored card implementations to use some generic setup helper functions.
+ Misc:
+ * (0.2) sys admin - Telendos SSL certificate renewal
+
+Date:	 Thursday, 8 October, 2009
+ Shuffl:
+ * (0.2) Added copyright notices to Shuffl source code
+ * (0.2) Reworked some test cases to make them less brittle
+ * (0.3) Work on drag-and-drop logic for data visualization
+ Misc:
+ * (0.3) IEG seminar
+
+Date:	 Friday, 9 October, 2009
+ Shuffl:
+ * (0.5) Test cases for drag-and-drop interface for graphing (new module), and implement drag-and-drop interface for graphing
+ * (0.2) Reorganize code, fix test cases
+ * (0.3) Attended part of OSS-Watch day on open source engagement
+
+Date:	 Tuesday, 13 October, 2009
+ Admiral:
+ * (0.5) Map out Admiral workplan schedule
+
+Date:	 Wednesday, 14 October, 2009
+ Admiral:
+ * (0.3) Meeting with Simon Hodson
+ Misc:
+ * (0.4) Data curation workshop
+
+Date:	 Thursday, 15 October, 2009
+ Shuffl:
+ * (0.2) code cleanup
+ * (0.5) Reviewing error handling. Reworking Atompub module to better handle media resources and treat all feeds as directories.
+ Misc:
+ * (0.1) Email
+ * (0.1) Activity review and planning with David, and follow-up
+
+Date:	 Friday, 16 October, 2009
+ Shuffl:
+ * (0.7) Working with Jun to embed a FlyUI widget in a Shuffl card. The work went well, with good test cases constructed as we went along. (At the end of the day, Jun had a copy of the Genefinder widget running in a Shuffl card.)
+Admiral:
+ * (0.1) Review job ad with David
+Pygmalion:
+ * (0.2) Meeting with Sebastian about Pygmalion proposal - it's starting to shape up into something potentially very interesting, and in which Shuffl could play a useful role
+
+Date:	 Sunday, 18 October, 2009
+ Shuffl:
+ * (??) Sprint review/retrospective
