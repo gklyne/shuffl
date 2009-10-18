@@ -82,7 +82,7 @@ Actual effort: 0.5 days (for 0.0 planned activity)
 
 This was a sprint of highs and lows.  Other project activities and some personal matters eat into the available time, and the direction of progress seems to be diverging more from the original plan.  I have also spent a fair amount of time cleaning up existing code in various ways.
 
-On the positive side, a demonstrable drag-and-drop data graphing interface has been completed (as planned), and I worked with Jun Zhao to successfully implement a card containing a FlyUI gene finder widget (not planned).  This last success further demonstrates the power and flexibility of the Shuffl card plugin model: we were able to embed quite complex FlyUI widget logic unmodified into a Shuffl card.
+On the positive side, a demonstrable drag-and-drop data graphing interface has been completed (as planned), and I worked with Jun Zhao to successfully implement a card containing a FlyUI gene finder widget (not planned).  This last success is an important confidence builder, as it further demonstrates the power and flexibility of the Shuffl card plugin model: we were able to embed quite complex FlyUI widget logic unmodified into a Shuffl card.
 
 One of the harder problems seems to be creating a flexible browser-based data fusion and annotation application without specialized server-side support;  this is a known area of difficulty, caused by browsers' "same origin" security restrictions on Ajax calls. The FlyUI widget required the Shuffl program to be served from an Apache server specifically configured to redirect and proxy requests to the services used, which falls a little short of the desired goal of having an application that "just works".
 
