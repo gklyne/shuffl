@@ -158,8 +158,8 @@ Date:	 Friday, 16 October, 2009
  * (0.7) Working with Jun to embed a FlyUI widget in a Shuffl card. The work went well, with good test cases constructed as we went along. (At the end of the day, Jun had a copy of the Genefinder widget running in a Shuffl card.)
 Admiral:
  * (0.1) Review job ad with David
-Pygmalion:
- * (0.2) Meeting with Sebastian about Pygmalion proposal - it's starting to shape up into something potentially very interesting, and in which Shuffl could play a useful role
+Other:
+ * (0.2) Meet with Sebastian about AHRC proposal - Shuffl could play a useful role
 
 Date:	 Sunday, 18 October, 2009
  Shuffl:
