@@ -39,7 +39,7 @@ Project outline plan: [ProjectPlanOutline_200906_200911].
 || 2.4  || Data curation workshop               || 0.5 || 0.4 || 14-Oct-2009 || 14-Oct-2009 ||
 || 3.   || *Technical development*              || *3.0* || *4.5* ||
 || 3.1  || Code maintenance / bug fixes      || --   || 0.6 || (ongoing) || -- ||
-|| 3.2  || Basic graphing of data collections   || 3.0  || 2.7 || (sprint)  || 08-Oct-2009 ||
+|| 3.2  || Basic graphing of data collections   || 3.0  || 2.7 || (sprint)  || 09-Oct-2009 ||
 || _3.3_ || _Load/Save user interface improvement_ || _6.0_  || 0.5 || _(out of scope)_ || -- ||
 || 3.4  || FlyUI cards (unplanned) || --  || 0.7 || --  || 16-Oct-2009 ||
 
@@ -52,12 +52,12 @@ Project outline plan: [ProjectPlanOutline_200906_200911].
 
 Estimated effort: 3.0 days
 
- * (0.5) Investigate card-to-card drag-and-drop
- * (0.5) Finalize design of graphing card interface
- * (1.0) Write test suite for graphing card
- * (1.0) Implement graphing card
+ * (0.5) Investigate card-to-card drag-and-drop (*Done*)
+ * (0.5) Finalize design of graphing card interface (*Done*)
+ * (1.0) Write test suite for graphing card (*Done*)
+ * (1.0) Implement graphing card (*Done*)
 
-Actual effort: ??? days (for ??? planned activity)
+Actual effort: 2.7 days (for 3.0 planned activity)
 
 == 3.3: User interface for load/save workspace ==
 
@@ -74,15 +74,26 @@ Estimated effort: 6.0 days
  * (0.5) investigate Google data interface
  * (2.0) implement generic interface plugin for Google Data
 
-Actual effort: ??? days (for ??? planned activity)
+Actual effort: 0.5 days (for 0.0 planned activity)
 
 = Sprint review notes =
 
-(TBD)
-
 == End-of-sprint review ==
 
-(TBD)
+This was a sprint of highs and lows.  Other project activities and some personal matters eat into the available time, and the direction of progress seems to be diverging more from the original plan.  I have also spent a fair amount of time cleaning up existing code in various ways.
+
+On the positive side, a demonstrable drag-and-drop data graphing interface has been completed (as planned), and I worked with Jun Zhao to successfully implement a card containing a FlyUI gene finder widget (not planned).  This last success further demonstrates the power and flexibility of the Shuffl card plugin model: we were able to embed quite complex FlyUI widget logic unmodified into a Shuffl card.
+
+One of the harder problems seems to be creating a flexible browser-based data fusion and annotation application without specialized server-side support;  this is a known area of difficulty, caused by browsers' "same origin" security restrictions on Ajax calls. The FlyUI widget required the Shuffl program to be served from an Apache server specifically configured to redirect and proxy requests to the services used, which falls a little short of the desired goal of having an application that "just works".
+
+A session to demonstrate the nascent data graphing capability to Chris Holland was scheduled, but had to be postponed at the last minute because of external factors.  This is now rescheduled to take place early in the next sprint.
+
+I have started to look at making the data access modules more robust - currently, an I/O error (such as accessing a non-existent web resource) can leave the application broken.
+
+Funding for the ADMIRAL project has been announced, which is good for Shuffl as parts of ADMIRAL will be based on Shuffl, and this means that there will be continuing development of Shuffl over the coming year.  I am also discussing with colleagues the possibility of a proposal that may also use Shuffl to provide some user interface elements over a classical arts data web.  Both of these projects will require other developers to become involved in creating Shuffl plug-in card components, and hopefully to help in maintaining the core framework.
+
+Velocity (tasks completed/effort spent): ??.?/??.? = ?.??
+
 
 = Activity summary =
 
