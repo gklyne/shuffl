@@ -14,9 +14,9 @@ I read recently:
 
 = Strengths =
 
- * Simple, adaptable underlying structure; it has been easy to see how unanticipated user requests
+ * Simple, adaptable underlying structure; it has been easy to see how unanticipated user requests can be satisfied.
  * Most potential users respond quickly and positively to the basic UI ideas
- * Card plug-in framework seems to mean that almost any desired functionality is possible
+ * Card plug-in framework seems to mean that almost any desired functionality is possible. We also have proof-of-concept implementations of quite diverse plugins.
 
 = Weaknesses =
 
