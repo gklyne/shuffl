@@ -115,7 +115,7 @@ Admin and misc email: allow 1 day/week?
 
 About half a day more than planned was lost to CLAROS.
 
-Velocity (tasks completed/effort spent): 11.0/11.4 = 0.96
+Velocity (tasks completed/effort spent): 10.75/11.4 = 0.94
 
  * This velocity figure is a surprise to me: I was expecting it to be lower on account of the unplanned time spent on admin, etc.  Prediction of progress remains challenging with so many competing demands on limited time.
 
