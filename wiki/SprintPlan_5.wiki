@@ -92,6 +92,8 @@ I have started to look at making the data access modules more robust - currently
 
 Funding for the ADMIRAL project has been announced, which is good for Shuffl as parts of ADMIRAL will be based on Shuffl, and this means that there will be continuing development of Shuffl over the coming year.  I am also discussing with colleagues the possibility of a proposal that may also use Shuffl to provide some user interface elements over a classical arts data web.  Both of these projects will require other developers to become involved in creating Shuffl plug-in card components, and hopefully to help in maintaining the core framework.
 
+Although it doesn't appear explicitly in the sprint plan, I have updated the project home page to show a screenshot and also link to a page that describes how to play with the Shuffl data graphing (which goes some way to one of the milestone objectives for this month).
+
 Velocity (tasks completed/effort spent): 4.5/7.4 = 0.61
 
 This lower velocity compared with the last sprint reflects the various distractions from the intended development plan.  
