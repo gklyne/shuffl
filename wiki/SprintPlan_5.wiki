@@ -92,6 +92,8 @@ Date:	 Monday, 5 October, 2009
  * (0.2) Sprint plan
  * (0.1) Investigate drag-and-drop for card-to-card drop
  * (0.1) Update test cases for datagraph card
+ Other:
+ * (0.6)
 
 Date:	 Tuesday, 6 October, 2009
  Shuffl:
@@ -110,6 +112,8 @@ Date:	 Wednesday, 7 October, 2009
  * (0.2) Refactored card implementations to use some generic setup helper functions.
  Misc:
  * (0.2) sys admin - Telendos SSL certificate renewal
+ Other:
+ * (0.2)
 
 Date:	 Thursday, 8 October, 2009
  Shuffl:
@@ -128,12 +132,16 @@ Date:	 Friday, 9 October, 2009
 Date:	 Tuesday, 13 October, 2009
  Admiral:
  * (0.5) Map out Admiral workplan schedule
+ Sick:
+ * (0.5)
 
 Date:	 Wednesday, 14 October, 2009
  Admiral:
  * (0.3) Meeting with Simon Hodson
  Misc:
  * (0.4) Data curation workshop
+ Other:
+ * (0.5)
 
 Date:	 Thursday, 15 October, 2009
  Shuffl:
@@ -142,6 +150,8 @@ Date:	 Thursday, 15 October, 2009
  Misc:
  * (0.1) Email
  * (0.1) Activity review and planning with David, and follow-up
+ Other:
+ * (0.1)
 
 Date:	 Friday, 16 October, 2009
  Shuffl:
@@ -153,4 +163,4 @@ Pygmalion:
 
 Date:	 Sunday, 18 October, 2009
  Shuffl:
- * (??) Sprint review/retrospective
+ * (0.3) Sprint review/retrospective
