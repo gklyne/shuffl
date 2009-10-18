@@ -141,7 +141,7 @@ Date:	 Wednesday, 14 October, 2009
  Misc:
  * (0.4) Data curation workshop
  Other:
- * (0.5)
+ * (0.3)
 
 Date:	 Thursday, 15 October, 2009
  Shuffl:
