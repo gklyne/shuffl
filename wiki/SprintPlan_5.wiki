@@ -94,7 +94,9 @@ Funding for the ADMIRAL project has been announced, which is good for Shuffl as 
 
 Although it doesn't appear explicitly in the sprint plan, I have updated the project home page to show a screenshot and also link to a page that describes how to play with the Shuffl data graphing (which goes some way to one of the milestone objectives for this month).
 
-Velocity (tasks completed/effort spent): 4.5/7.4 = 0.61
+== Velocity ==
+
+Tasks completed/effort spent: 4.5/7.4 = 0.61
 
 This lower velocity compared with the last sprint reflects the various distractions from the intended development plan.  
 
