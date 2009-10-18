@@ -100,6 +100,8 @@ Date:	 Tuesday, 6 October, 2009
  * (0.1) Plan out datagraph card interface
  * (0.1) Rework datagraph card redraw logic to ease resizing (NOTE: flot has API for this too)
  * (0.4) test cases for revised data graphing card interface
+ Misc:
+ * (0.1) Check Rodos disk usage and performance (Postgtres databases and Virtuoso)
 
 Date:	 Wednesday, 7 October, 2009
  Shuffl:
