@@ -476,6 +476,10 @@ shuffl.AtomPub.assembleData = function (iteminfo) {
     return datainfo;
 };
 
+// ------------------------------------------
+// Exported methods on AtomPub session object
+// ------------------------------------------
+
 /**
  * Function to obtain information about a feed
  * 
