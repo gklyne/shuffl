@@ -45,6 +45,8 @@ shuffl.cccccc = function (aaaa, bbbb)
     throw shuffl.Error("shuffl.cccccc not implemented");
 };
 
+//// shuffl.cccccc.prototype = new prototypeclass(....);
+
 /**
  * .....
  * 
