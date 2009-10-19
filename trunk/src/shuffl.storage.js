@@ -48,7 +48,7 @@
 shuffl.listStorageHandlers = function ()
 {
     ////log.debug("shuffl.listStorageHandlers");
-    throw shuffl.Error("shuffl.listStorageHandlers" not implemented);
+    throw shuffl.Error("shuffl.listStorageHandlers not implemented");
     return [];
 };
 
@@ -259,10 +259,10 @@ shuffl.LocalFileStorage.prototype.put = function (aaaa, bbbb)
  * @param bbbb      zzzzzz
  * @return          zzzzzz
  */
-shuffl.LocalFileStorage.prototype.delete = function (aaaa, bbbb)
+shuffl.LocalFileStorage.prototype.remove = function (aaaa, bbbb)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.delete "+aaaa+", "+bbbb);
-    throw shuffl.Error("shuffl.LocalFileStorage.prototype.delete not implemented");
+    ////log.debug("shuffl.LocalFileStorage.prototype.remove "+aaaa+", "+bbbb);
+    throw shuffl.Error("shuffl.LocalFileStorage.prototype.remove not implemented");
 };
 
 /**
