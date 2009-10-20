@@ -37,6 +37,7 @@ shuffl.AsyncComputation = function() {
 shuffl.AsyncComputation.prototype.eval = function(fn) {
     //log.debug("shuffl.AsyncComputation.eval");
     this.proc.push(fn);
+    return this;
 };
 
 /**
@@ -86,6 +87,7 @@ shuffl.AsyncComputation.prototype.bind = function(name) {
         return assign_do;
     }
     this.eval(assign_fn(name));
+    return this;
 };
 
 // End.constructor
