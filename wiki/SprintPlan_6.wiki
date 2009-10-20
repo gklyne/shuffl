@@ -39,6 +39,7 @@ Project outline plan: [ProjectPlanOutline_200906_200911].
 || 3.1  || Code maintenance / bug fixes             || --    || -- || (ongoing) || -- ||
 || 3.2  || Revised data import/visualization        || ??    || -- || -- || -- ||
 || 3.3  || Load/Save user interface improvement     || 6.0   || -- || -- || -- ||
+|| 3.4  || Improve I/O error handling     || 1.0   || -- || -- || -- ||
 
 = Task breakdowns =
 
@@ -68,6 +69,18 @@ Estimated effort: 6.0 days
  * (1.0) implemented simplified load/save user interface using back-end plugin features
  * (0.5) investigate Google data interface
  * (2.0) implement generic interface plugin for Google Data
+
+Actual effort: ?? days (for ?? planned activity)
+
+== 3.4: Improve I/O error handling ==
+
+The main goal of this task is to prevent I/O errors on workspace load (e.g. non-existent files) from completely locking up further Shuffl I/O.
+
+Estimated effort: 1.0 days
+
+ * (0.25) complete new error reporting functions
+ * (0.25) revise existing code to use new error reporting function
+ * (0.5) review workspace load/save code to catch I/O errors, report them and take appropriate recovery steps
 
 Actual effort: ?? days (for ?? planned activity)
 
