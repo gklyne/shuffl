@@ -38,6 +38,7 @@
 
 === Data viewing and  Visualization ===
 
+ * http://code.google.com/p/flot/ - very nice graphing package
  * http://www.datatables.net/ - sorting *and* filtering
  * http://www.jnathanson.com/blog/client/jquery/heatcolor/index.cfm - pretty!
  * http://omnipotent.net/jquery.sparkline/ - jQuery sparklines
