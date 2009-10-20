@@ -7,6 +7,7 @@
 The main targets for this sprint will be to work towards improved usability in two areas:
  * Visualization of data: after demonstrating the data graphing interface to Chris Holland, I hope to find out what he _really_ wants, and to get some representative sample data from him.
  * Improve usability of the interface for importing data and loading/saving workspaces.
+ * Improve reliability around load/save workspaces
 
 == Current milestone ==
 
