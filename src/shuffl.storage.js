@@ -94,9 +94,13 @@ shuffl.LocalFileStorage = function (baseuri)
 /**
  * Resolve a URI handled by the current storage handler session.
  * 
- * @param uri       A URI to be resolved.  This may be a relative URI reference,
- *                  in which case it is interpreted relative to the base URI
- *                  for the current session.
+ * @param uri       a URI to be resolved.  This may be a relative URI reference,
+ *                  in which case it is interpreted relative to the supplied
+ *                  base URI or the base URI for the current session.
+ * @param baseuri   if present, a base URI against which the supplied URI is
+ *                  resolved.  If relative, this URI is resolved against the
+ *                  session base URI.  Typically, this would be used for
+ *                  resolving a resource URI relative to a collection.
  * @return          an object containing information about the supplied URI,
  *                  or null if the URI is not handled by the current session.
  * 
@@ -105,9 +109,9 @@ shuffl.LocalFileStorage = function (baseuri)
  *    relref    the URI expressed as relative to the session base URI.
  *    (others may be added as required)
  */
-shuffl.LocalFileStorage.prototype.resolve = function (uri)
+shuffl.LocalFileStorage.prototype.resolve = function (uri, baseuri)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.resolve "+uri);
+    ////log.debug("shuffl.LocalFileStorage.prototype.resolve "+uri+", "+baseuri);
     throw shuffl.Error("shuffl.LocalFileStorage.prototype.resolve not implemented");
 };
 
@@ -128,9 +132,9 @@ shuffl.LocalFileStorage.prototype.resolve = function (uri)
  *    canWrite  'true' is resource can be modified
  *    canDelete 'true' is resource can be deleted
  */
-shuffl.LocalFileStorage.prototype.info = function (aaaa, bbbb)
+shuffl.LocalFileStorage.prototype.info = function (uri)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.info "+aaaa+", "+bbbb);
+    ////log.debug("shuffl.LocalFileStorage.prototype.info "+uri);
     throw shuffl.Error("shuffl.LocalFileStorage.prototype.info not implemented");
 };
 
@@ -154,12 +158,11 @@ shuffl.LocalFileStorage.prototype.info = function (aaaa, bbbb)
  *    uri       the fully qualified URI of the created collection as a 
  *              jQuery.uri object.
  *    relref    the URI expressed as relative to the session base URI.
- *    type      is set to 'collection'
  */
 shuffl.LocalFileStorage.prototype.createCollection = 
     function (coluri, colslug, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.createCollection "+aaaa+", "+bbbb);
+    ////log.debug("shuffl.LocalFileStorage.prototype.createCollection "+coluri+", "+colslug);
     throw shuffl.Error("shuffl.LocalFileStorage.prototype.createCollection not implemented");
 };
 
@@ -186,7 +189,7 @@ shuffl.LocalFileStorage.prototype.createCollection =
  */
 shuffl.LocalFileStorage.prototype.listCollection = function (coluri, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.listCollection "+aaaa+", "+bbbb);
+    ////log.debug("shuffl.LocalFileStorage.prototype.listCollection "+coluri);
     throw shuffl.Error("shuffl.LocalFileStorage.prototype.listCollection not implemented");
 };
 
@@ -205,77 +208,114 @@ shuffl.LocalFileStorage.prototype.listCollection = function (coluri, callback)
  *        // this = session object
  *    };
  * where 'response' is an Error value, or null if the named collection has
- * beed successfully deleted.
+ * been successfully deleted.
  */
-shuffl.LocalFileStorage.prototype.deleteCollection = function (aaaa, bbbb)
+shuffl.LocalFileStorage.prototype.removeCollection = function (coluri, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.deleteCollection "+aaaa+", "+bbbb);
-    throw shuffl.Error("shuffl.LocalFileStorage.prototype.deleteCollection not implemented");
+    ////log.debug("shuffl.LocalFileStorage.prototype.removeCollection "+coluri);
+    throw shuffl.Error("shuffl.LocalFileStorage.prototype.removeCollection not implemented");
 };
 
 /**
- * .....
+ * Create a data resource in a collection.
  * 
- * @param aaaa      zzzzzz
- * @param bbbb      zzzzzz
- * @return          zzzzzz
+ * @param coluri    is the URI reference of an existing collection within 
+ *                  which the new resourcve is created.  The base URI of
+ *                  a session can be used as a 'root' collection for this.
+ * @param slug      is a suggested URI for the new resource.  If a new
+ *                  resource is successfully created, the actual URI used is
+ *                  returned in the callback response.
+ * @param data      is a string or object containing data that is written to
+ *                  the created resource.  If a string, it is written verbatim
+ *                  as a byte sequence.  If an object, it is converted to a
+ *                  suitable representation (JSON) and written.
+ * @param callback  is a function called when the outcome of the request is
+ *                  known.
+ * 
+ * The callback function is called as:
+ *    callback(response) {
+ *        // this = session object
+ *    };
+ * where 'response' is an Error value, or an object with the following fields:
+ *    uri       the fully qualified URI of the created resource as a 
+ *              jQuery.uri object.
+ *    relref    the URI expressed as relative to the session base URI.
  */
-shuffl.LocalFileStorage.prototype.create = function (aaaa, bbbb)
+shuffl.LocalFileStorage.prototype.create = 
+    function (coluri, slug, data, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.create "+aaaa+", "+bbbb);
+    ////log.debug("shuffl.LocalFileStorage.prototype.create "+coluri+", "+slug);
     throw shuffl.Error("shuffl.LocalFileStorage.prototype.create not implemented");
 };
 
 /**
- * .....
+ * Read resource data.
  * 
- * @param aaaa      zzzzzz
- * @param bbbb      zzzzzz
- * @return          zzzzzz
+ * @param uri       the URI of a resource to be read.
+ * @param callback  is a function called when the outcome of the request is
+ *                  known.
+ * 
+ * The callback function is called as:
+ *    callback(response) {
+ *        // this = session object
+ *    };
+ * where 'response' is an Error value, or an object with the following fields:
+ *    uri       the fully qualified URI of the created resource as a 
+ *              jQuery.uri object.
+ *    relref    the URI expressed as relative to the session base URI.
+ *    data      the data read, either as an object value if the type of the
+ *              data resource could be decoded, otherwise as a string value. 
  */
-shuffl.LocalFileStorage.prototype.get = function (aaaa, bbbb)
+shuffl.LocalFileStorage.prototype.get = function (uri)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.get "+aaaa+", "+bbbb);
+    ////log.debug("shuffl.LocalFileStorage.prototype.get "+uri);
     throw shuffl.Error("shuffl.LocalFileStorage.prototype.get not implemented");
 };
 
 /**
- * .....
+ * Update resource data.
  * 
- * @param aaaa      zzzzzz
- * @param bbbb      zzzzzz
- * @return          zzzzzz
+ * @param uri       the URI of a resource to be updated.
+ * @param data      is a string or object containing data that is written to
+ *                  the created resource.  If a string, it is written verbatim
+ *                  as a byte sequence.  If an object, it is converted to a
+ *                  suitable representation (JSON) and written.
+ * @param callback  is a function called when the outcome of the request is
+ *                  known.
+ * 
+ * The callback function is called as:
+ *    callback(response) {
+ *        // this = session object
+ *    };
+ * where 'response' is an Error value, or an object with the following fields:
+ *    uri       the fully qualified URI of the updated resource as a 
+ *              jQuery.uri object.
+ *    relref    the URI expressed as relative to the session base URI.
  */
-shuffl.LocalFileStorage.prototype.put = function (aaaa, bbbb)
+shuffl.LocalFileStorage.prototype.put = function (uri, data, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.put "+aaaa+", "+bbbb);
+    ////log.debug("shuffl.LocalFileStorage.prototype.put "+uri);
     throw shuffl.Error("shuffl.LocalFileStorage.prototype.put not implemented");
 };
 
 /**
- * .....
+ * Delete a resource.
  * 
- * @param aaaa      zzzzzz
- * @param bbbb      zzzzzz
- * @return          zzzzzz
+ * @param uri       the URI of a resource to be deleted.
+ * @param callback  is a function called when the outcome of the request is
+ *                  known.
+ * 
+ * The callback function is called as:
+ *    callback(response) {
+ *        // this = session object
+ *    };
+ * where 'response' is an Error value, or null if the named collection has
+ * been successfully deleted.
  */
-shuffl.LocalFileStorage.prototype.remove = function (aaaa, bbbb)
+shuffl.LocalFileStorage.prototype.remove = function (uri, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.remove "+aaaa+", "+bbbb);
+    ////log.debug("shuffl.LocalFileStorage.prototype.remove "+uri);
     throw shuffl.Error("shuffl.LocalFileStorage.prototype.remove not implemented");
-};
-
-/**
- * .....
- * 
- * @param aaaa      zzzzzz
- * @param bbbb      zzzzzz
- * @return          zzzzzz
- */
-shuffl.LocalFileStorage.prototype.ffffff = function (aaaa, bbbb)
-{
-    ////log.debug("shuffl.LocalFileStorage.prototype.ffffff "+aaaa+", "+bbbb);
-    throw shuffl.Error("shuffl.LocalFileStorage.prototype.ffffff not implemented");
 };
 
 // End.
