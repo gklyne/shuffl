@@ -506,8 +506,10 @@ shuffl.modelSetTable = function (fieldobj, nh, thencall)
 
 /**
  * Returns a function to set series data from an assigned table, where the 
- * first row of the table is graph labels, the first column contains X-values, 
- * and the remaining columns contain Y-values for each graph.
+ * graph labels, X-values, and Y-values for each graph are extracted from
+ * the table as defined by the 'options' value (defaulting to 1st row for
+ * labels, 2nd-to-final rows for graph data, 1st column for X-values and 
+ * the remaining columns for successive Y-values).
  * 
  * @param card      is a jQuery card object whose model is updated with series
  *                  data extracted from the new table value.
