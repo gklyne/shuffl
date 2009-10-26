@@ -32,7 +32,7 @@ TestZZZZZZ = function()
 
     test("testAAA", function ()
     {
-        log.debug("test testAAA");
+        logtest("testAAA");
         expect(1);
         var val=1;
         var exp=1;
@@ -42,24 +42,25 @@ TestZZZZZZ = function()
 
     test("testBBB", function ()
     {
-            log.debug("----- testBBB start -----");
-            expect(11);
-            var m = new shuffl.AsyncComputation();
-            m.eval(
-                function (val, callback) {
-                    m.dosomethingBBB(
-                        val,
-                        paramsBBB, 
-                        callback);
-                });
-            m.exec(initvalBBB,
-                function(val) {
-                    equals(val, expect, "what");
-                    same(val, expect, "what");
-                    log.debug("----- testBBB end -----");
-                    start();
-                });
-            stop(2000);
+        logtest("testBBB");
+        expect(11);
+        log.debug("----- testBBB start -----");
+        var m = new shuffl.AsyncComputation();
+        m.eval(
+            function (val, callback) {
+                m.dosomethingBBB(
+                    val,
+                    paramsBBB, 
+                    callback);
+            });
+        m.exec(initvalBBB,
+            function(val) {
+                equals(val, expect, "what");
+                same(val, expect, "what");
+                log.debug("----- testBBB end -----");
+                start();
+            });
+        stop(2000);
     });
 
 };
