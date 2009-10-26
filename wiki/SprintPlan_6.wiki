@@ -70,8 +70,8 @@ It may be reviewed in light of the planned meeting with Chris Holland.
 
 Estimated effort: 6.0 days
 
- * (0.5) review requirements for generic back-end interface (*Done* 19-Oct-2009)
- * (0.5) design generic back-end and plugin interface (*Done* 19-Oct-2009)
+ * (0.5) review requirements for generic back-end interface (*Done* 19-Oct-2009/...)
+ * (0.5) design generic back-end and plugin interface (*Done* 19-Oct-2009/0.5)
  * (0.5) implement generic read-only interface plugin for local files
  * (1.0) implement generic interface plugin for AtomPub
  * (1.0) implemented simplified load/save user interface using back-end plugin features
