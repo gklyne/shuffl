@@ -150,11 +150,22 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     card.modelBind("shuffl:labels", shuffl.card.datagraph.redraw(card));
     card.modelBind("shuffl:series", shuffl.card.datagraph.setseriesdata(card));
     card.modelBind("shuffl:table",  shuffl.card.datagraph.setgraphdata(card));
+    // Handle source drop, including subscription to changes in the source data
     card.modelBind("shuffl:source", function (_event, data) 
     {
-        var src = data.newval;
-        card.data("shuffl:labels", src.model("shuffl:labels"));
-        card.model("shuffl:series", src.model("shuffl:series"));
+        var oldsub = card.data("updatesubs");
+        if (oldsub)
+        {
+            var oldsrc = data.oldval;
+            oldsrc.modelUnbind("shuffl:labels", oldsub);
+            oldsrc.modelUnbind("shuffl:series", oldsub);
+        };
+        var src    = data.newval;
+        var newsub = shuffl.card.datagraph.updatedata(card, src);
+        newsub();
+        src.modelBind("shuffl:labels", newsub);
+        src.modelBind("shuffl:series", newsub);
+        card.data("updatesubs", newsub);
     });
     // Initialize the model
     var cardtitle     = shuffl.get(carddata, 'shuffl:title',        cardid);
@@ -243,6 +254,19 @@ shuffl.card.datagraph.setseriesdata = function (card)
         };
     };
     return setseriesvalues;
+};
+
+/**
+ * Return function to update graph data from the supplied drop source
+ */
+shuffl.card.datagraph.updatedata = function (card, src)
+{
+    function update(_event, _data)
+    {
+        card.data("shuffl:labels", src.model("shuffl:labels"));
+        card.model("shuffl:series", src.model("shuffl:series"));
+    };
+    return update;
 };
 
 /**
