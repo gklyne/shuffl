@@ -250,7 +250,7 @@ shuffl.card.datagraph.setseriesdata = function (card)
             ////log.debug("- ymin "+ymin+", ymax "+ymax);
             card.model("shuffl:dataminy", ymin);
             card.model("shuffl:datamaxy", ymax);
-            shuffl.card.datagraph.draw(card);
+            shuffl.card.datagraph.redraw(card)();
         };
     };
     return setseriesvalues;
@@ -276,7 +276,8 @@ shuffl.card.datagraph.redraw = function (card)
 {
     function drawgraph(_event, _data)
     {
-        shuffl.card.datagraph.draw(card);
+        // Redraw after 50ms
+        shuffl.redrawAfter(card, shuffl.card.datagraph.draw, 50.0);
     };
     return drawgraph;
 };
@@ -292,8 +293,8 @@ shuffl.card.datagraph.draw = function (card)
     var series = card.model('shuffl:series');
     var cbody  = card.find("cbody");
     var gelem  = cbody.find("div");
-    ////log.debug("shuffl.card.datagraph.redraw:drawgraph "+cbody.width()+", "+cbody.height());
-    ////log.debug("shuffl.card.datagraph.redraw:drawgraph "+gelem.width()+", "+gelem.height());
+    ////log.debug("shuffl.card.datagraph.draw "+cbody.width()+", "+cbody.height());
+    ////log.debug("shuffl.card.datagraph.draw "+gelem.width()+", "+gelem.height());
     if (labels && series && gelem.width() && gelem.height())
     {
         log.debug("- plot graphs "+ymin+", "+ymax);

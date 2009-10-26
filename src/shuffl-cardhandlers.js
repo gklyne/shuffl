@@ -853,15 +853,8 @@ shuffl.resizeHandler = function (card, selector, redrawfn)
             var c = jQuery(this);
             elem.width(c.width()-dw);
             elem.height(c.height()-dh);
-            //log.debug("shuffl.resizeHandler:handleResize elem "+elem.width()+", "+elem.height());
+            ////log.debug("shuffl.resizeHandler:handleResize elem "+elem.width()+", "+elem.height());
             shuffl.redrawAfter(card, redrawfn, 250.0);
-            ////if (redrawfn)
-            ////{
-            ////    var t = card.data("redrawTimer");
-            ////    if (t) { clearTimeout(t); };  // Cancel pending redraw
-            ////    t = setTimeout(function () { redrawfn.call(card, card); }, 250.0);
-            ////    card.data("redrawTimer", t);
-            ////};
         };
         return handleResize;
     };
