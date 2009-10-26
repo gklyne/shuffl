@@ -88,7 +88,6 @@ shuffl.card.datatable.blank = jQuery(
     "  </chead>\n"+
     "  <crow>\n"+
     "    <curi>card_ZZZ uri</curi>\n"+
-    "    <button value='readcsv'>Read CSV data</button>\n"+
     "  </crow>\n"+
     "  <crow>\n"+
     "    <cbody class='shuffl-nodrag'>\n"+
@@ -142,17 +141,6 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     card.modelBind("shuffl:table", 
         shuffl.modelSetTable(cbody, 1, 
         shuffl.modelSetSeries(card)));
-    card.modelBind("shuffl:readcsv", function (event, data) {
-        log.debug("Read "+data.newval+" into data table");
-        jQuery.getCSV(data.newval, function (data, status) {
-            ////log.debug("- data "+jQuery.toJSON(data));
-            card.model("shuffl:table", data);
-        });
-    });
-    card.find("button[value='readcsv']").click(function (eventobj) {
-        log.debug("shuffl.card.datatable readcsv button clicked");
-        card.model("shuffl:readcsv", card.model("shuffl:uri"));
-    });
     // Initialize the model
     var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
     var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
@@ -162,6 +150,16 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     card.model("shuffl:tags",  cardtags.join(","));
     card.model("shuffl:table", cardtable);
     card.model("shuffl:uri",   carduri);
+    // Finally, set listener for changes to URI value to read new data
+    // This comes last so that the setting of shuffl:uri (above) does not
+    // trigger a read when initializing a card.
+    card.modelBind("shuffl:uri", function (event, data) {
+        log.debug("Read "+data.newval+" into data table");
+        jQuery.getCSV(data.newval, function (data, status) {
+            ////log.debug("- data "+jQuery.toJSON(data));
+            card.model("shuffl:table", data);
+        });
+    });
     return card;
 };
 

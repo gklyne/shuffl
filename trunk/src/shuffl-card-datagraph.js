@@ -48,8 +48,6 @@ shuffl.card.datagraph = {};
 shuffl.card.datagraph.data =
     { 'shuffl:title':     undefined
     , 'shuffl:tags':      [ undefined ]
-    , 'shuffl:uri':       undefined
-    , 'shuffl:table':     undefined
     , 'shuffl:labels':    undefined
     , 'shuffl:series':    undefined
     , 'shuffl:dataminy':  undefined
@@ -119,7 +117,8 @@ shuffl.card.datagraph.blank = jQuery(
  * @param carddata      an object or string containing additional data used in 
  *                      constructing the body of the card.  This is either a 
  *                      string or an object structure with fields 
- *                      'shuffl:title', 'shuffl:tags' and 'shuffl:table'.
+ *                      'shuffl:title', 'shuffl:tags', 'shuffl:labels' and 
+ *                      'shuffl:series'.
  * @return              a jQuery object representing the new card.
  */
 shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata) 
@@ -307,8 +306,6 @@ shuffl.card.datagraph.serialize = function (card)
     var carddata = shuffl.card.datagraph.data;
     carddata['shuffl:title']    = card.model("shuffl:title");
     carddata['shuffl:tags']     = shuffl.makeTagList(card.model("shuffl:tags"));
-    carddata['shuffl:uri']      = card.model("shuffl:uri");
-    carddata['shuffl:table']    = card.model("shuffl:table");      
     carddata['shuffl:labelrow'] = card.model("shuffl:labelrow");
     carddata['shuffl:datarow']  = card.model("shuffl:datarow");
     carddata['shuffl:columns']  = card.model("shuffl:columns");

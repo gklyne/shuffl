@@ -92,7 +92,6 @@ TestCardDatatable = function() {
             equals(c.find("ctitle").text(), "card-title", "card title field");
             equals(c.find("ctags").text(),  "card-tag", "card tags field");
             equals(c.find("curi").text(),   "http://example.org/test-uri.csv", "card URI field");
-            equals(c.find("crow").eq(0).find("button").val(), "readcsv", "readcsv button value");
             equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
             same(c.find("cbody").table(),   TestDataTable, "card data table");
             //log.debug("- table :"+jQuery.toJSON(c.find("cbody").table()));
@@ -159,7 +158,7 @@ TestCardDatatable = function() {
 			var s = shuffl.createStockpile(
 			    "stock_id", "stock-green", "stock-label", "shuffl-datatable-green");
     		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
-            //log.debug("- card "+shuffl.objectString(c));
+            log.debug("- card "+shuffl.objectString(c));
     		var card_id = shuffl.lastId("card_");
             equals(c.attr('id'), card_id, "card id attribute");
             ok(c.hasClass('shuffl-card'),   "shuffl card class");
