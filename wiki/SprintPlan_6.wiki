@@ -98,6 +98,7 @@ Following the meeting with Chris Holland, the first user function to tackle next
 
 Task 3.2 remains a priority.  Usability and error handling issues also remain important to address.
 
+The first week of this sprint has been largely wiped out by non-project activities.
 
 == End-of-sprint review ==
 
