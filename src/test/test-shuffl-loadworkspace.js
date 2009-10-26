@@ -19,7 +19,7 @@ TestLoadWorkspace = function() {
 
     test("shuffl.LoadWorkspace", function () {
         expect(54);
-        log.debug("test shuffl.LoadWorkspace");
+        logtest("shuffl.LoadWorkspace");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.json", callback);
@@ -102,9 +102,9 @@ TestLoadWorkspace = function() {
         stop(2000);
     });
 
-    test("shuffl.LoadWorkspace (non-existent feed/directory)", function () {
+    notest("shuffl.LoadWorkspace (non-existent feed/directory)", function () {
         expect(1);
-        log.debug("test shuffl.LoadWorkspace (non-existent feed)");
+        logtest("shuffl.LoadWorkspace (non-existent feed)");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             shuffl.loadWorkspace("dataz/test-shuffl-loadworkspace-layout.json", callback);
@@ -118,9 +118,9 @@ TestLoadWorkspace = function() {
         stop(2000);
     });
 
-    test("shuffl.LoadWorkspace (non-existent layout file)", function () {
+    notest("shuffl.LoadWorkspace (non-existent layout file)", function () {
         expect(1);
-        log.debug("test shuffl.LoadWorkspace (non-existent feed)");
+        logtest("shuffl.LoadWorkspace (non-existent feed)");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.json", callback);
@@ -134,9 +134,9 @@ TestLoadWorkspace = function() {
         stop(2000);
     });
 
-    test("shuffl.LoadWorkspace (missing card file)", function () {
+    notest("shuffl.LoadWorkspace (missing card file)", function () {
         expect(1);
-        log.debug("test shuffl.LoadWorkspace (non-existent feed)");
+        logtest("shuffl.LoadWorkspace (missing card file)");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.json", callback);
@@ -151,7 +151,7 @@ TestLoadWorkspace = function() {
     });
     
     test("shuffl.ResetWorkspace", function () {
-        log.debug("test shuffl.ResetWorkspace");
+        logtest("shuffl.ResetWorkspace");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.json", callback);

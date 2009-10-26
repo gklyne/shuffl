@@ -15,22 +15,6 @@
  */
 
 /**
- * Test case counter
- */
-var testnum = 1;
-
-/**
- * Skip test function (change 'test' to 'notest' and leave the body intact)
- */
-function notest(name, fn) {
-    test("SKIPPED TEST: "+name, function() {
-        ok(true, "SKIPPED TEST: "+name);
-        log.info("----------");
-        log.info((testnum++)+". SKIPPED: "+name);
-    });
-}
-
-/**
  * Function to register tests
  */
 
@@ -60,8 +44,7 @@ TestSaveWorkspace = function() {
     test("NOTE: this test must be run from the AtomPub server used to store shuffl workspace data", shuffl.noop);
     
     test("shuffl.loadWorkspace (empty)", function () {
-        log.info("----------");
-        log.info((testnum++)+". test shuffl.loadWorkspace empty workspace");
+        logtest("shuffl.loadWorkspace empty workspace");
         expect(38);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -98,8 +81,7 @@ TestSaveWorkspace = function() {
     });
 
     test("shuffl.saveNewWorkspace (empty)", function () {
-        log.info("----------");
-        log.info((testnum++)+". test shuffl.saveNewWorkspace new empty workspace");
+        logtest("shuffl.saveNewWorkspace (empty)");
         expect(52);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -174,8 +156,7 @@ TestSaveWorkspace = function() {
     });
 
     test("shuffl.saveCard", function () {
-        log.info("----------");
-        log.info((testnum++)+". test shuffl.saveCard");
+        logtest("shuffl.saveCard");
         expect(26);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -231,8 +212,7 @@ TestSaveWorkspace = function() {
 
     // eXist won't delete a media resource
     notest("shuffl.deleteCard", function () {
-        log.info("----------");
-        log.info((testnum++)+". test shuffl.deleteCard");
+        logtest("shuffl.deleteCard");
         expect(3);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -259,8 +239,7 @@ TestSaveWorkspace = function() {
 
     // This "test" is run to remove the card saved previously.
     test("Recreate empty workspace", function() {
-        log.info("----------");
-        log.info((testnum++)+". Recreate empty workspace");
+        logtest("Recreate empty workspace");
         expect(4);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -301,8 +280,7 @@ TestSaveWorkspace = function() {
 
     // Add card to workspace, save workspace, read back, check content
     test("shuffl.saveNewWorkspace (with card)", function () {
-        log.info("----------");
-        log.info((testnum++)+". test shuffl.saveNewWorkspace (with card)");
+        logtest("shuffl.saveNewWorkspace (with card)");
         expect(78);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -431,8 +409,7 @@ TestSaveWorkspace = function() {
 
     // Update card in atom feed, re-read workspace, check content
     test("shuffl.updateCard", function () {
-        log.info("----------");
-        log.info((testnum++)+". test shuffl.updateCard");
+        logtest("shuffl.updateCard");
         expect(50);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -503,8 +480,7 @@ TestSaveWorkspace = function() {
 
     // Update and move card in workspace, save workspace, read back, check content
     test("shuffl.saveWorkspace (updated moved card)", function () {
-        log.info("----------");
-        log.info((testnum++)+". test shuffl.saveWorkspace with updated and moved card");
+        logtest("shuffl.saveWorkspace (updated moved card)");
         expect(54);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {

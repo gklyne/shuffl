@@ -19,6 +19,29 @@
  */
 
 /**
+ * Test case counter
+ */
+var testnum = 1;
+
+/**
+ * Count and log test case
+ */
+function logtest(name) {
+    log.info("----------");
+    log.info((testnum++)+". "+name);
+}
+
+/**
+ * Skip test function (change 'test' to 'notest' and leave the body intact)
+ */
+function notest(name, fn) {
+    test("SKIPPED TEST: "+name, function() {
+        ok(true, "SKIPPED TEST: "+name);
+        logtest("SKIPPED: "+name);
+    });
+}
+
+/**
  * Test for value in given range
  */
 function range(val, lo, hi, message) {
