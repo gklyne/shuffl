@@ -53,7 +53,7 @@ Estimated effort: 4.0 days
  * Agree next-steps with Chris Holland (task 2.2) - focus on data selection from table cards
  * Finalize design of graphing card interface (*Done*)
  * (0.25) Remove filename/read option from graphing card (*Done* 26-Oct-2009/0.1)
- * (0.25) Subscribe graph card to changes in data table card
+ * (0.25) Subscribe graph card to changes in data table card (*Done* 26-Oct-2009/0.2)
  * (0.25) remove "read CSV" button from table card, re-read data whenever filename is changed, provide user feedback when data is updated. (*Done* 26-Oct-2009/0.2)
  * (0.5) implement label-row selection and link to output
  * (0.5) implement data-rows selection and link to output
