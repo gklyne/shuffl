@@ -144,8 +144,6 @@ TestCardDatagraph = function() {
             equals(c.find("cclass").text(), "shuffl-datagraph-yellow", "card class field");
             equals(c.find("ctitle").text(), "card-title", "card title field");
             equals(c.find("ctags").text(),  "card-tag", "card tags field");
-            equals(c.find("curi").text(),   "http://example.org/test-uri.csv", "card URI field");
-            equals(c.find("crow").eq(0).find("button").val(), "readcsv", "readcsv button value");
             equals(c.find("cdataminy").text(), "-1.20", "minimum Y field");
             equals(c.find("cdatamaxy").text(),  "1.20", "maximum Y field");
             equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "div", "card body contains <div>");
@@ -162,7 +160,6 @@ TestCardDatagraph = function() {
             // Check model values
             equals(c.model("shuffl:title"), card_id, "shuffl:title");
             equals(c.model("shuffl:tags"),  "shuffl-datagraph-green", "shuffl:tags");
-            equals(c.model("shuffl:uri"),   "", "shuffl:uri");
             //TODO: reinstate these tests when dummy data is removed from new cards
             range(c.model("shuffl:dataminy"), -3.0, -2.0, "shuffl:dataminy");
             range(c.model("shuffl:datamaxy"),  3.0,  4.0, "shuffl:datamaxy");
@@ -182,8 +179,6 @@ TestCardDatagraph = function() {
             equals(c.find("cclass").text(), "shuffl-datagraph-green", "card type");
             equals(c.find("ctitle").text(), card_id, "card title field");
             equals(c.find("ctags").text(),  "shuffl-datagraph-green", "card tags field");
-            equals(c.find("curi").text(),   shuffl.PlaceHolder, "card URI field");
-            equals(c.find("crow").eq(0).find("button").val(), "readcsv", "readcsv button value");
             //TODO: reinstate these tests when dummy data is removed from new cards
             range(c.find("cdataminy").text(), -3.0, -2.0, "minimum Y field");
             range(c.find("cdatamaxy").text(),  3.0,  4.0, "maximum Y field");
@@ -210,7 +205,6 @@ TestCardDatagraph = function() {
             // Check model values
             equals(c.model("shuffl:title"), "Card N title",      "shuffl:title");
             equals(c.model("shuffl:tags"),  "card_N_tag,footag", "shuffl:tags");
-            equals(c.model("shuffl:uri"),   "test-graph.csv",    "shuffl:uri");
             equals(c.model("shuffl:dataminy"), -1.2, "shuffl:dataminy");
             equals(c.model("shuffl:datamaxy"),  1.2, "shuffl:datamaxy");
             same(c.model("shuffl:table"),  undefined,                "shuffl:table");
@@ -226,8 +220,6 @@ TestCardDatagraph = function() {
             equals(c.find("cclass").text(), "shuffl-datagraph-orange", "card class field");
             equals(c.find("ctitle").text(), "Card N title", "card title field");
             equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
-            equals(c.find("curi").text(),   "test-graph.csv", "card URI field");
-            equals(c.find("crow").eq(0).find("button").val(), "readcsv", "readcsv button value");
             equals(c.find("cdataminy").text(), "-1.20", "minimum Y field");
             equals(c.find("cdatamaxy").text(),  "1.20", "maximum Y field");
             equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "div", "card body contains <div>");
@@ -250,7 +242,6 @@ TestCardDatagraph = function() {
             same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');
             equals(e['shuffl:data']['shuffl:title'], "Card N title",   'shuffl:data-title');
             same(e['shuffl:data']['shuffl:tags'],    [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
-            equals(e['shuffl:data']['shuffl:uri'],   "test-graph.csv", 'shuffl:data-uri');
             equals(e['shuffl:data']['shuffl:dataminy'], -1.2,          'shuffl:data-dataminy');
             equals(e['shuffl:data']['shuffl:datamaxy'],  1.2,          'shuffl:data-datamaxy');
             same(e['shuffl:data']['shuffl:labels'],  testcarddatagraph_labels,  'shuffl:data-labels');
@@ -302,18 +293,15 @@ TestCardDatagraph = function() {
             // Check initial values
             equals(c.find("ctitle").text(), "Card N title", "card title field");
             equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
-            equals(c.find("curi").text(),   "test-graph.csv", "card URI field");
             equals(c.find("cdataminy").text(), "-1.20", "minimum Y field");
             equals(c.find("cdatamaxy").text(),  "1.20", "maximum Y field");
             // Simulate user input: set model to update title, tags, etc.
             c.model("shuffl:title",     "Card N updated");
             c.model("shuffl:tags",      "card_N_tag,bartag");
-            c.model("shuffl:uri",       "http://example.org/update/uri.csv");
             c.model("shuffl:dataminy",  "-2.0");
             c.model("shuffl:datamaxy",  "2.0");
             equals(c.find("ctitle").text(), "Card N updated", "updated title field");
             equals(c.find("ctags").text(),  "card_N_tag,bartag", "updated tags field");
-            equals(c.find("curi").text(),   "http://example.org/update/uri.csv", "updated uri field");
             equals(c.find("cdataminy").text(), "-2.0", "updated minimum Y field");
             equals(c.find("cdatamaxy").text(),  "2.0", "updated maximum Y field");
             // -----------
@@ -333,13 +321,21 @@ TestCardDatagraph = function() {
             same(c.model("shuffl:series"), NewDataSeries, "shuffl:series");
         });
 
-    // TODO: replace with simulated drag-and-drop test
-    test("shuffl.card.datagraph model URI setting",
+    test("shuffl.card.datagraph model data table setting",
         function () {
-            log.debug("shuffl.card.datagraph model URI setting");
+            log.debug("shuffl.card.datagraph model data table setting");
             // Create card (copy of code already tested)
             var d = testcarddatagraph_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-pink", d);
+            var NewDataTable =
+                [ [ "", "c=cos x", "c3=cos 3x", "c5=cos 5x" ]
+                , [ 0.0,   1,           1,           1      ]
+                , [ 0.2,   0.9801,      0.8253,      0.5403 ]
+                , [ 0.4,   0.9211,      0.3624,     -0.4161 ]
+                , [ 0.6,   0.8253,     -0.2272,     -0.99   ]
+                , [ 0.8,   0.6967,     -0.7374,     -0.6536 ]
+                , [ 1.0,   0.5403,     -0.99,        0.2837 ]
+                ];
             var NewDataLabels =
                 [ "c=cos x", "c3=cos 3x", "c5=cos 5x" ];
             var NewDataSeries = [];
@@ -370,7 +366,6 @@ TestCardDatagraph = function() {
             // Check initial values
             equals(c.find("ctitle").text(), "Card N title", "card title field");
             equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
-            equals(c.find("curi").text(),   "test-graph.csv", "card URI field");
             equals(c.find("cdataminy").text(), "-1.20", "minimum Y field");
             equals(c.find("cdatamaxy").text(),  "1.20", "maximum Y field");
             // Simulate user input: update data range
@@ -378,16 +373,15 @@ TestCardDatagraph = function() {
             c.model("shuffl:datamaxy",  "2.0");
             equals(c.find("cdataminy").text(), "-2.0", "updated minimum Y field");
             equals(c.find("cdatamaxy").text(),  "2.0", "updated maximum Y field");
-            // Simulate user input: set model URI - should read data file
-            c.model("shuffl:uri", "data/test-csv-graph-c135.csv");
+            // Simulate user input: set table data
+            // See also module test-shuffl-card-datagraph-drop
             c.modelBindExec("shuffl:table",
                 function () {
                     // Executed immediately
-                    c.model("shuffl:readcsv", c.model("shuffl:uri"));
+                    c.model("shuffl:table", NewDataTable);
                 },
                 function () {
                     // Executed when shuffl:table is updated...
-                    equals(c.find("curi").text(),  "data/test-csv-graph-c135.csv", "updated uri field");
                     range(c.find("cdataminy").text(), -1.1, -0.9, "minimum Y field");
                     range(c.find("cdatamaxy").text(),  0.9,  1.1, "maximum Y field");
                     same(c.model("shuffl:table"),  null,          "read shuffl:table");
