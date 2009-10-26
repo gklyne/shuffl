@@ -94,10 +94,6 @@ shuffl.card.datagraph.blank = jQuery(
     "    <ctitle>card title</ctitle>\n"+
     "  </chead>\n"+
     "  <crow>\n"+
-    "    <curi>card_ZZZ uri</curi>\n"+
-    "    <button value='readcsv'>Read CSV data</button>\n"+
-    "  </crow>\n"+
-    "  <crow>\n"+
     "    <cbody class='shuffl-nodrag'>\n"+
     "      <div style='width:98%; height:98%;'/>\n"+
     "    </cbody>\n"+
@@ -148,7 +144,6 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     // Set up model listener and user input handlers
     shuffl.bindLineEditable(card, "shuffl:title", "ctitle");
     shuffl.bindLineEditable(card, "shuffl:tags",  "ctags");
-    shuffl.bindLineEditable(card, "shuffl:uri",   "curi");
     shuffl.bindFloatEditable(card, "shuffl:dataminy", "cdataminy", 2,
         shuffl.card.datagraph.redraw(card));
     shuffl.bindFloatEditable(card, "shuffl:datamaxy", "cdatamaxy", 2,
@@ -156,19 +151,6 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     card.modelBind("shuffl:labels", shuffl.card.datagraph.redraw(card));
     card.modelBind("shuffl:series", shuffl.card.datagraph.setseriesdata(card));
     card.modelBind("shuffl:table",  shuffl.card.datagraph.setgraphdata(card));
-    card.modelBind("shuffl:readcsv", function (_event, data) 
-    {
-        log.debug("Read "+data.newval+" into data table");
-        jQuery.getCSV(data.newval, function (data, status) 
-        {
-            ////log.debug("- table "+jQuery.toJSON(data));
-            card.model("shuffl:table", data);
-        });
-    });
-    card.find("button[value='readcsv']").click(function (eventobj) 
-    {
-        card.model("shuffl:readcsv", card.model("shuffl:uri"));
-    });
     card.modelBind("shuffl:source", function (_event, data) 
     {
         var src = data.newval;
