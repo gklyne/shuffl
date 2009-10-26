@@ -200,28 +200,17 @@ shuffl.card.datagraph.setgraphdata = function (card)
     function setgraphvalues(_event, data)
     {
         ////log.debug("- data "+jQuery.toJSON(data));
-        var table = data.newval;
         card.data("shuffl:table",  null);
-        card.data("shuffl:labels", table[0].slice(1));
-        var series = [];
-        for (var j = 1 ; j < table[0].length ; j++)
-        {
-            var graph = [];
-            for (var i = 1 ; i < table.length ; i++)
-            {
-                graph.push([parseFloat(table[i][0]), parseFloat(table[i][j])]);
-            };
-            series.push(graph);
-        };
-        card.model("shuffl:series", series);
+        shuffl.modelSetSeries(card)(_event, data);
     };
     return setgraphvalues;
 };
 
 /**
- * Returns a function to set graphing data from an assigned series, which
- * is an array, each element of which is a list of [x,y] pairs.  
- * Minimum and maximum Y values are recalculated.
+ * Returns a function to handle new graph data assigned to a series, which
+ * is an array, each element of which is a list of [x,y] pairs.
+ *   
+ * Minimum and maximum Y values are recalculated, and a redraw is scheduled.
  */
 shuffl.card.datagraph.setseriesdata = function (card) 
 {
