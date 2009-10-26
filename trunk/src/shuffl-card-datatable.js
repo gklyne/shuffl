@@ -139,8 +139,7 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     shuffl.bindLineEditable(card, "shuffl:uri",   "curi");
     var cbody = card.find("cbody");
     card.modelBind("shuffl:table", 
-        shuffl.modelSetTable(cbody, 1, 
-        shuffl.modelSetSeries(card)));
+        shuffl.modelSetTable(cbody, 1, shuffl.modelSetSeries(card)));
     // Initialize the model
     var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
     var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
