@@ -798,8 +798,37 @@ shuffl.defaultSize = {width:0, height:0};
 shuffl.defaultSetSize = {width:"20em", height:"10em"};
 
 /**
+ * Invoke the supplied function to redraw the current card after a specified
+ * delay.  Any previous pending redraws are cancelld.
+ * 
+ * @param card      is the card to be redrawn (a jQuery object).  If null,
+ *                  any outstanding redraw is cancelled, but no new redraw is 
+ *                  scheduled.
+ * @param redrawfn  is a function called to redraw the card.  The card object
+ *                  is supplied as the first parameter and the value of 'this'.
+ * @param delay     a number of milliseconds to delay before doing the redraw.
+ */
+shuffl.redrawAfter = function (card, redrawfn, delay)
+{
+    var t = card.data("redrawTimer");
+    if (t) 
+    { 
+        clearTimeout(t);        // Cancel pending redraw
+        t = null;
+    };
+    if (redrawfn)
+    {
+        t = setTimeout(function () { redrawfn.call(card, card); }, delay);
+    };
+    card.data("redrawTimer", t);
+};
+
+/**
  * Returns a function that catches a resize event to resize specified 
  * sub-elements in sync with any changes the main card element.
+ * 
+ * Contains logic to delay the redraw for 0.25 second, so that redraws
+ * don't happen whilke the card is actively being resized.
  * 
  * @param card      card element jQuery object whose resize events are to 
  *                  be tracked.
@@ -825,13 +854,14 @@ shuffl.resizeHandler = function (card, selector, redrawfn)
             elem.width(c.width()-dw);
             elem.height(c.height()-dh);
             //log.debug("shuffl.resizeHandler:handleResize elem "+elem.width()+", "+elem.height());
-            if (redrawfn)
-            {
-                var t = card.data("redrawTimer");
-                if (t) { clearTimeout(t); };  // Cancel pending redraw
-                t = setTimeout(function () { redrawfn.call(card, card); }, 250.0);
-                card.data("redrawTimer", t);
-            };
+            shuffl.redrawAfter(card, redrawfn, 250.0);
+            ////if (redrawfn)
+            ////{
+            ////    var t = card.data("redrawTimer");
+            ////    if (t) { clearTimeout(t); };  // Cancel pending redraw
+            ////    t = setTimeout(function () { redrawfn.call(card, card); }, 250.0);
+            ////    card.data("redrawTimer", t);
+            ////};
         };
         return handleResize;
     };
