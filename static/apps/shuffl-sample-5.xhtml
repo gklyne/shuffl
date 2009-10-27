@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Shuffl workspace</title>
+    
+    <!-- Shuffl style rules -->
+    <link type="text/css" href="../css/shuffl.css" rel="stylesheet"/>
+ 
+    <!-- Import MochiKit modules: require MochiKit library functions to be fully qualified -->
+    <script type="text/javascript">MochiKit = {__export__: false};</script>
+    <script type="text/javascript" src="../../MochiKit/Base.js"></script>
+    <script type="text/javascript" src="../../MochiKit/Iter.js"></script>
+    <script type="text/javascript" src="../../MochiKit/Logging.js"></script>
+     
+    <!-- Import jQuery and related scripts -->
+    <link type="text/css" href="../../jQuery/css/ui-lightness/jquery-ui-1.7.2.custom.css" rel="stylesheet" />  
+    <script type="text/javascript" src="../../jQuery/js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="../../jQuery/js/jquery-ui-1.7.2.custom.min.js"></script>
+    <script>
+    // Use jQuery via jQuery(...)
+      jQuery.noConflict();
+    </script>
+
+    <!-- rddfQuery plug-ins -->
+    <script type="text/javascript" src="../../jQuery/jquery.uri.js"></script>
+    <!-- 
+    <script type="text/javascript" src="../../jQuery/jquery.rdfquery.core-1.0.js"></script>
+     -->
+
+    <!-- JSON conversion script -->
+    <script type="text/javascript" src="../../jQuery/jquery.json-1.3.js"></script>
+
+    <!-- inline text editing script -->
+    <script type="text/javascript" src="../../jQuery/jquery.jeditable.js"></script>
+
+    <!-- pop-up menu script -->
+    <script type="text/javascript" src="../../jQuery/jquery.contextmenu.js"></script>
+
+    <!-- "Flot" graph plotting script -->
+    <script type="text/javascript" src="../../jQuery/jquery.flot.js"></script>
+    
+    <!-- Shuffl script -->    
+    <script type="text/javascript" src="../../src/jquery.model.js"></script>
+    <script type="text/javascript" src="../../src/jquery.readcsv.js"></script>
+    <script type="text/javascript" src="../../src/jquery.arraytable.js"></script>
+    <script type="text/javascript" src="../../src/shuffl-base.js"></script>
+    <script type="text/javascript" src="../../src/AsyncComputation.js"></script>
+    <script type="text/javascript" src="../../src/AtomPub.js"></script>
+    <script type="text/javascript" src="../../src/shuffl-cardhandlers.js"></script>
+    <script type="text/javascript" src="../../src/shuffl-loadworkspace.js"></script>
+    <script type="text/javascript" src="../../src/shuffl-saveworkspace.js"></script>
+    <script type="text/javascript" src="../../src/shuffl.js"></script>
+
+    <!--  Shuffl card type plugins -->
+    <script type="text/javascript" src="../../src/shuffl-card-freetext.js"></script>
+    <script type="text/javascript" src="../../src/shuffl-card-selectfile.js"></script>
+    <script type="text/javascript" src="../../src/shuffl-card-datatable.js"></script>
+    <script type="text/javascript" src="../../src/shuffl-card-dataworksheet.js"></script>
+    <script type="text/javascript" src="../../src/shuffl-card-datagraph.js"></script>
+    
+  </head>
+  
+  <body>
+
+    <!--  Load a pre-existing workspace from RDF -->
+	  <script type="text/javascript">
+      jQuery(document).ready(function(){
+          shuffl.loadWorkspace("data/shuffl-sample-5.json", shuffl.noop);
+      });
+	  </script>
+
+    <div id="dialog_open" title="Open workspace" style="display:none;">
+      <p>Enter the URI of an Atom Publishing Protocol service, AtomPub feed path and workspace name where the workspace is to be loaded from.</p>
+      <form>
+        <fieldset>
+          <legend>Location of workspace data</legend>
+          <!--
+          <label for="location">Location:</label>
+          <input type="text" name="location" id="location" class="text ui-widget-content ui-corner-all" size="80"/>
+           -->
+          <label for="open_atomuri">AtomPub service URI:</label>
+          <input type="text" name="atomuri" id="open_atomuri" class="text ui-widget-content ui-corner-all" size="80"/>
+          <label for="open_feedpath">Atom feed path:</label>
+          <input type="text" name="feedpath" id="open_feedpath" class="text ui-widget-content ui-corner-all" size="80"/>
+          <label for="open_wsname">Workspace name:</label>
+          <input type="text" name="wsname" id="open_wsname" class="text ui-widget-content ui-corner-all" size="80"/>
+        </fieldset>
+      </form>
+    </div>
+
+    <div id="dialog_save" title="Save as new workspace" style="display:none;">
+		  <p>Enter the URI of an Atom Publishing Protocol service, AtomPub feed path and workspace name where the new workspace is to be saved.</p>
+		  <form>
+			  <fieldset>
+			    <legend>Location for saved workspace</legend>
+			    <!--
+          <label for="location">Location:</label>
+			    <input type="text" name="location" id="location" class="text ui-widget-content ui-corner-all" size="80"/>
+			     -->
+          <label for="save_atomuri">AtomPub service URI:</label>
+          <input type="text" name="atomuri" id="save_atomuri" class="text ui-widget-content ui-corner-all" size="80"/>
+          <label for="save_feedpath">Atom feed path:</label>
+          <input type="text" name="feedpath" id="save_feedpath" class="text ui-widget-content ui-corner-all" size="80"/>
+          <label for="save_wsname">Workspace name:</label>
+          <input type="text" name="wsname" id="save_wsname" class="text ui-widget-content ui-corner-all" size="80"/>
+			  </fieldset>
+		  </form>
+		</div>
+    
+    <div id="workspace" class="shuffl-workspace">
+
+      <!-- padding top space down stockbar -->
+      <div class="shuffl-header"></div>
+
+      <!-- Stock bar goes here -->
+      <div id="stockbar" class="shuffl-stockbar">
+        <div class="shuffl-workspacemenu" id="workspacemenu"><c class="stock-yellow">s</c><c class="stock-blue">h</c><c class="stock-green">u</c><c class="stock-orange">f</c><c class="stock-pink">f</c><c class="stock-purple">l</c></div>
+      </div>
+
+      <!-- CLASSES=(white yellow blue green orange pink purple)  -->
+
+      <!-- cards go here -->
+      <div id="layout" class="shuffl-layout">
+      </div>
+ 
+      <p id="footer" class="shuffl-footer">
+        <span id="workspaceuri" class="shuffl-footer-left">(location)</span>
+        <span id="shufflhome" class="shuffl-footer-right">
+          <a href="http://code.google.com/p/shuffl/">shuffl project</a>
+        </span>
+      </p>
+
+      <!-- context menu stuff -->
+	
+			<div class="contextMenu" id="workspacemenuoptions">
+			  <ul>		
+			    <li id="open"><img src="folder.png" />Open workspace...</li>
+			    <li id="save"><img src="disk.png" />Save workspace</li>
+          <li id="savenew"><img src="disk.png" />Save as new workspace...</li>
+			  </ul>
+			</div>
+
+    </div>
+ 
+  </body>
+</html>

@@ -3,7 +3,7 @@
  *  Test helpers for use with jQuery qunit testing framework.
  *  
  * @author Graham Klyne
- * @version $Id: jquery.model.js 485 2009-10-08 08:52:45Z gk-google@ninebynine.org $
+ * @version $Id$
  * 
  * Coypyright (C) 2009, University of Oxford
  *

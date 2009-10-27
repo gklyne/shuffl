@@ -3,11 +3,56 @@
 /**
  * Test suite for free text card functions
  */
+
+var NaN = Number.NaN;
+
 var TestDataTable =
     [ [ "",      "col1",  "col2",  "col3" ]
     , [ "row_1", "1.11",  "1.22",  "1.33" ]
     , [ "row_2", "2.11",  "2.22",  "2.33" ]
     , [ "End." ]
+    ];
+
+var TestDataLabels = ["col1",  "col2",  "col3"];
+
+var TestDataSeries =
+    [ [ [NaN, 1.11], [NaN, 2.11], [NaN, NaN] ]
+    , [ [NaN, 1.22], [NaN, 2.22], [NaN, NaN] ]
+    , [ [NaN, 1.33], [NaN, 2.33], [NaN, NaN] ]
+    ];
+
+/**
+ * Default model values
+ * 
+ * TODO: revert to undefined when testing is done
+ */
+var DefaultDataTable  = undefined;
+
+var DefaultDataLabels = undefined;
+
+var DefaultDataSeries = undefined;
+
+DefaultDataTable =
+    [ [ "", "col1", "col2", "col3", "col4_is_much_wider", "col5" ]
+    , [ "1", "1.1", "1.2", "1.3", "1.4", "1.5" ]
+    , [ "2", "2.1", "2.2", "2.3", "2.4", "2.5" ]
+    , [ "3", "3.1", "3.2", "3.3", "3.4", "3.5" ]
+    , [ "4", "4.1", "4.2", "4.3", "4.4", "4.5" ]
+    , [ "5", "5.1", "5.2", "5.3", "5.4", "5.5" ]
+    , [ "6", "6.1", "6.2", "6.3", "6.4", "6.5" ]
+    , [ "7", "7.1", "7.2", "7.3", "7.4", "7.5" ]
+    , [ "8", "8.1", "8.2", "8.3", "8.4", "8.5" ]
+    , [ "End." ]
+    ];
+  
+DefaultDataLabels = [ "col1", "col2", "col3", "col4_is_much_wider", "col5" ];
+
+DefaultDataSeries =
+    [ [ [ 1, 1.1 ], [ 2, 2.1 ], [ 3, 3.1 ], [ 4, 4.1 ], [ 5, 5.1 ], [ 6, 6.1 ], [ 7, 7.1 ], [ 8, 8.1 ], [ NaN, NaN ] ]
+    , [ [ 1, 1.2 ], [ 2, 2.2 ], [ 3, 3.2 ], [ 4, 4.2 ], [ 5, 5.2 ], [ 6, 6.2 ], [ 7, 7.2 ], [ 8, 8.2 ], [ NaN, NaN ] ]
+    , [ [ 1, 1.3 ], [ 2, 2.3 ], [ 3, 3.3 ], [ 4, 4.3 ], [ 5, 5.3 ], [ 6, 6.3 ], [ 7, 7.3 ], [ 8, 8.3 ], [ NaN, NaN ] ]
+    , [ [ 1, 1.4 ], [ 2, 2.4 ], [ 3, 3.4 ], [ 4, 4.4 ], [ 5, 5.4 ], [ 6, 6.4 ], [ 7, 7.4 ], [ 8, 8.4 ], [ NaN, NaN ] ]
+    , [ [ 1, 1.5 ], [ 2, 2.5 ], [ 3, 3.5 ], [ 4, 4.5 ], [ 5, 5.5 ], [ 6, 6.5 ], [ 7, 7.5 ], [ 8, 8.5 ], [ NaN, NaN ] ]
     ];
 
 /**
@@ -30,6 +75,8 @@ var testcarddatatable_carddata =
       , 'shuffl:tags':    [ 'card_N_tag', 'footag' ]
       , 'shuffl:uri':     "test-table.csv"
       , 'shuffl:table':   TestDataTable
+      , 'shuffl:labels':  TestDataLabels
+      , 'shuffl:series':  TestDataSeries
       }
     };
 
@@ -81,6 +128,8 @@ TestCardDatatable = function() {
             	, 'shuffl:title':	"card-title"
                 , 'shuffl:uri':     "http://example.org/test-uri.csv"
             	, 'shuffl:table':   TestDataTable
+                , 'shuffl:labels':  TestDataLabels
+                , 'shuffl:series':  TestDataSeries
             	});
             equals(c.attr('id'), "card-1",  "card id attribute");
             ok(c.hasClass('stock-yellow'),  "yellow colour class");
@@ -176,6 +225,9 @@ TestCardDatatable = function() {
             var d = testcarddatatable_carddata;
             equals(c.data('shuffl:id'),    card_id, "layout card id");
             equals(c.data('shuffl:class'), "shuffl-datatable-green", "saved card type");
+            same(c.data('shuffl:table'),  DefaultDataTable,  "shuffl:table");
+            same(c.data('shuffl:labels'), DefaultDataLabels, "shuffl:labels");
+            same(c.data('shuffl:series'), DefaultDataSeries, "shuffl:series");
             equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
             equals(c.data('shuffl:external')['shuffl:class'],       "shuffl-datatable-green", "card data class");
             equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
@@ -202,7 +254,10 @@ TestCardDatatable = function() {
             equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
             equals(c.find("curi").text(),   "test-table.csv", "card URI field");
             equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
-            same(c.find("cbody").table(),   TestDataTable, "card data table");
+            same(c.find("cbody").table(), TestDataTable, "card data table");
+            same(c.data('shuffl:table'),  TestDataTable,  "shuffl:table");
+            same(c.data('shuffl:labels'), TestDataLabels, "shuffl:labels");
+            same(c.data('shuffl:series'), TestDataSeries, "shuffl:series");
             same(c.data('shuffl:external'), d, "card data");
         });
 
@@ -223,6 +278,8 @@ TestCardDatatable = function() {
             same(e['shuffl:data']['shuffl:tags'],    [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
             same(e['shuffl:data']['shuffl:uri'],     "test-table.csv", 'shuffl:data-uri');
             same(e['shuffl:data']['shuffl:table'],   TestDataTable,    'shuffl:data-table');
+            same(e['shuffl:data']['shuffl:labels'],  TestDataLabels,   'shuffl:data-labels');
+            same(e['shuffl:data']['shuffl:series'],  TestDataSeries,   'shuffl:data-series');
         });
 
     test("shuffl.card.datatable model setting",
@@ -233,7 +290,13 @@ TestCardDatatable = function() {
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datatable-pink", d);
             var NewDataTable =
                 [ [ "",      "zzz1",  "zzz2",  "zzz3" ]
-                , [ "row_1", "rz1",   "rz2",   "rz3"  ]
+                , [ "zzz_1", "1.11",  "1.22",  "1.33" ]
+                ];
+            var NewDataLabels = ["zzz1", "zzz2", "zzz3"];
+            var NewDataSeries =
+                [ [ [NaN, 1.11] ]
+                , [ [NaN, 1.22] ]
+                , [ [NaN, 1.33] ]
                 ];
             // Simulate user input: set model to update title, tags and body text
             equals(c.find("ctitle").text(), "Card N title", "card title field");
@@ -244,10 +307,13 @@ TestCardDatatable = function() {
             c.model("shuffl:tags",  "card_N_tag,bartag");
             c.model("shuffl:uri",   "http://example.org/update/uri.csv");
             c.model("shuffl:table", NewDataTable);
+            same(c.data('shuffl:table'),    NewDataTable,  'shuffl:data-table');
+            same(c.data('shuffl:labels'),   NewDataLabels, 'shuffl:data-labels');
+            same(c.data('shuffl:series'),   NewDataSeries, 'shuffl:data-series');
             equals(c.find("ctitle").text(), "Card N updated", "updated title field");
             equals(c.find("ctags").text(),  "card_N_tag,bartag", "updated tags field");
             equals(c.find("curi").text(),   "http://example.org/update/uri.csv", "updated uri field");
-            equals(c.find("cbody").text(),  "zzz1zzz2zzz3row_1rz1rz2rz3", "updated data table text");
+            equals(c.find("cbody").text(),  "zzz1zzz2zzz3zzz_11.111.221.33", "updated data table text");
             same(c.find("cbody").table(), NewDataTable, "updated data table");
         });
 
@@ -258,8 +324,17 @@ TestCardDatatable = function() {
             var d = testcarddatatable_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datatable-pink", d);
             var NewDataTable =
-                [ [ "",      "zzz1",  "zzz2",  "zzz3" ]
-                , [ "row_1", "rz1",   "rz2",   "rz3"  ]
+                [ [ "",      "zzz1", "zzz2", "zzz3" ]
+                , [ "zzz_1", "1.11", "1.22", "1.33" ]
+                , [ "zzz_2", "2.11", "2.22", "2.33" ]
+                , [ "zzz_3", "3.11", "3.22", "3.33" ]
+                , [ "zzz_4", "4.11", "4.22", "4.33" ]
+                ];
+            var NewDataLabels = ["zzz1", "zzz2", "zzz3"];
+            var NewDataSeries =
+                [ [ [ NaN, 1.11 ], [ NaN, 2.11 ], [ NaN, 3.11 ], [ NaN, 4.11 ] ]
+                , [ [ NaN, 1.22 ], [ NaN, 2.22 ], [ NaN, 3.22 ], [ NaN, 4.22 ] ]
+                , [ [ NaN, 1.33 ], [ NaN, 2.33 ], [ NaN, 3.33 ], [ NaN, 4.33 ] ] 
                 ];
             // Simulate user input: set model URI - should read data file
             equals(c.find("ctitle").text(), "Card N title", "card title field");
@@ -275,13 +350,16 @@ TestCardDatatable = function() {
                 },
                 function () {
                     // Executed when shuffl:table is updated...
-                    equals(c.find("curi").text(),   "data/test-csv-table-new.csv", "updated uri field");
+                    same(c.data('shuffl:table'),   NewDataTable,  'shuffl:data-table');
+                    same(c.data('shuffl:labels'),  NewDataLabels, 'shuffl:data-labels');
+                    same(c.data('shuffl:series'),  NewDataSeries, 'shuffl:data-series');
+                    equals(c.find("curi").text(),  "data/test-csv-table-new.csv", "updated uri field");
                     equals(c.find("cbody").table().length, 5, "updated data table length");
                     same(c.find("cbody").table()[0], NewDataTable[0], "updated data table (0)");
                     same(c.find("cbody").table()[1], NewDataTable[1], "updated data table (1)");
-                    equals(c.find("cbody").table()[2][0], "row_2", "updated data table (2)");
-                    equals(c.find("cbody").table()[3][0], "row_3", "updated data table (3)");
-                    equals(c.find("cbody").table()[4][0], "row_4", "updated data table (4)");
+                    equals(c.find("cbody").table()[2][0], "zzz_2", "updated data table (2)");
+                    equals(c.find("cbody").table()[3][0], "zzz_3", "updated data table (3)");
+                    equals(c.find("cbody").table()[4][0], "zzz_4", "updated data table (4)");
                     start();
                 }),
             stop(2000);

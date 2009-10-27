@@ -33,7 +33,7 @@ jQuery.extend({
          * @param body      if provided, this is an array that is converted to body 
          *                  elements of a new table.  If not supplied, the value of 
          *                  'head' may be used to populate the table body.
-         * @param body      if provided, this is an array that is converted to footer 
+         * @param foot      if provided, this is an array that is converted to footer 
          *                  elements of a new table.
          * @return          the jQuery object for the new table element.
          */
@@ -61,7 +61,7 @@ jQuery.extend({
             foot = foot || [];
             if (jQuery.isArray(head) && jQuery.isArray(body) && jQuery.isArray(foot)) {
                 var tblelem = jQuery("<table/>");
-                var tblhead = jQuery("<th/>")
+                var tblhead = jQuery("<th/>");
                 var tblitem = jQuery("<td/>");
                 if (body.length == 0) {
                     body = head;
