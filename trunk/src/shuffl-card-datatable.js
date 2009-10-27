@@ -58,8 +58,6 @@ shuffl.card.datatable.data =
     , 'shuffl:tags':    [ undefined ]
     , 'shuffl:uri':     undefined
     , 'shuffl:table':   undefined
-    , 'shuffl:labels':  undefined
-    , 'shuffl:series':  undefined
     };
 
 /**
@@ -176,8 +174,6 @@ shuffl.card.datatable.serialize = function (card) {
     carddata['shuffl:tags']  = shuffl.makeTagList(card.model("shuffl:tags"));
     carddata['shuffl:uri']   = card.model("shuffl:uri");
     carddata['shuffl:table'] = card.model("shuffl:table");
-    carddata['shuffl:labels'] = card.model("shuffl:labels");
-    carddata['shuffl:series'] = card.model("shuffl:series");
     return carddata;
 };
 

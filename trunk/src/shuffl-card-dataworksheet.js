@@ -72,13 +72,6 @@ shuffl.card.dataworksheet.blank = jQuery(
     "    <curi>card_ZZZ uri</curi>\n"+
     "  </crow>\n"+
     "  <crow>\n"+
-    "    <clabels>\n"+
-    "      <table>\n"+
-    "        <tr><th></th><th>col1</th><th>col2</th><th>col3</th></tr>\n"+
-    "      </table>\n"+
-    "    </clabels>\n"+
-    "  </crow>\n"+
-    "  <crow>\n"+
     "    <cbody class='shuffl-nodrag'>\n"+
     "      <table>\n"+
     "        <tr><td></td><td>col1</td><td>col2</td><td>col3</td></tr>\n"+
@@ -107,8 +100,8 @@ shuffl.card.dataworksheet.blank = jQuery(
  * @return              a jQuery object representing the new card.
  */
 shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddata) {
-    //log.debug("shuffl.card.dataworksheet.newCard: "+
-    //    cardtype+", "+cardcss+", "+cardid+", "+carddata);
+    log.debug("shuffl.card.dataworksheet.newCard: "+
+        cardtype+", "+cardcss+", "+cardid+", "+carddata);
     // Initialize the card object
     var card = shuffl.card.dataworksheet.blank.clone();
     card.data('shuffl:class',  cardtype);
@@ -124,20 +117,34 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
     shuffl.bindLineEditable(card, "shuffl:title", "ctitle");
     shuffl.bindLineEditable(card, "shuffl:tags",  "ctags");
     shuffl.bindLineEditable(card, "shuffl:uri",   "curi");
-    var cbody = card.find("cbody");
+    var cbody    = card.find("cbody");
+    var updatefn = shuffl.card.dataworksheet.updatedata(card, cbody);
     card.modelBind("shuffl:table", function (_event, data)
     {
-        card.data('shuffl:labels')
+        log.debug("shuffl.card.dataworksheet: shuffl:table updated");
+        card.data("shuffl:header_row",    0);
+        card.data("shuffl:data_firstrow", 1);
+        card.data("shuffl:data_lastrow",  0);
+        updatefn(_event, undefined);
     });
+    card.modelBind("shuffl:header_row",    updatefn);
+    card.modelBind("shuffl:data_firstrow", updatefn);
+    card.modelBind("shuffl:data_lastrow",  updatefn);
     // Initialize the model
-    var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid);
-    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardtype]);
-    var carduri   = shuffl.get(carddata, 'shuffl:uri',   "");
-    var cardtable = shuffl.get(carddata, 'shuffl:table', shuffl.card.dataworksheet.table);
+    var cardtitle  = shuffl.get(carddata, 'shuffl:title',  cardid);
+    var cardtags   = shuffl.get(carddata, 'shuffl:tags',   [cardtype]);
+    var carduri    = shuffl.get(carddata, 'shuffl:uri',    "");
+    var cardtable  = shuffl.get(carddata, 'shuffl:table',  shuffl.card.dataworksheet.table);
+    var cardhrow   = shuffl.get(carddata, 'shuffl:header_row', 0);
+    var cardfrow   = shuffl.get(carddata, 'shuffl:data_firstrow',  1);
+    var cardlrow   = shuffl.get(carddata, 'shuffl:data_lastrow',  0);
     card.model("shuffl:title", cardtitle);
     card.model("shuffl:tags",  cardtags.join(","));
-    card.model("shuffl:table", cardtable);
     card.model("shuffl:uri",   carduri);
+    card.model("shuffl:header_row",    cardhrow);
+    card.model("shuffl:data_firstrow", cardfrow);
+    card.model("shuffl:data_lastrow",  cardlrow);
+    card.model("shuffl:table",         cardtable);
     // Finally, set listener for changes to URI value to read new data
     // This comes last so that the setting of shuffl:uri (above) does not
     // trigger a read when initializing a card.
@@ -162,8 +169,45 @@ shuffl.card.dataworksheet.serialize = function (card) {
     carddata['shuffl:title'] = card.model("shuffl:title");
     carddata['shuffl:tags']  = shuffl.makeTagList(card.model("shuffl:tags"));
     carddata['shuffl:uri']   = card.model("shuffl:uri");
-    carddata['shuffl:table'] = card.model("shuffl:table");
+    carddata['shuffl:header_row']    = card.model("shuffl:header_row");
+    carddata['shuffl:data_firstrow'] = card.model("shuffl:data_firstrow");
+    carddata['shuffl:data_lastrow']  = card.model("shuffl:data_lastrow");
+    carddata['shuffl:table']         = card.model("shuffl:table");
     return carddata;
+};
+
+/**
+ * Helper function to update data labels and series values in model, using
+ * dynamically set row values from the card model.
+ * 
+ * @param card      is the card object containing the table data for display.
+ * @param cbody     is the card element where the table data is displayed.
+ */
+shuffl.card.dataworksheet.updatedata = function (card, cbody)
+{
+    function update(_event, _data)
+    {
+        ////log.debug("shuffl.card.dataworksheet.updatedata:update");
+        // Set header row above table
+        var table = card.model("shuffl:table");
+        if (table)
+        {
+            var hrow = card.model("shuffl:header_row");
+            var htbl = [ table[hrow] ].concat(table);
+            cbody.table(htbl, 1);
+            // Now set up graph labels and series data
+            var options =
+                { labelrow:   hrow
+                , firstrow:   card.model("shuffl:data_firstrow")
+                , lastrow:    card.model("shuffl:data_lastrow")
+                ////, datacols:   null
+                ////, setlabels:  'shuffl:labels'
+                ////, setseries:  'shuffl:series'
+                };
+            shuffl.modelSetSeries(card, options)(_event, {newval: table});
+        };
+    };
+    return update;
 };
 
 /**

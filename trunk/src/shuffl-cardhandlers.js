@@ -548,41 +548,44 @@ shuffl.modelSetSeries = function (card, options)
         ////log.debug("- opts "+jQuery.toJSON(useopts));
         // Sort out table value and options
         var table = data.newval;
-        var lastrow = useopts.lastrow;
-        if (lastrow <= 0) { lastrow = table.length+lastrow; };
-        var datacols = useopts.datacols;
-        if (datacols == null)
+        if (table)
         {
-            datacols = [];
-            for (var j = 1 ; j < table[useopts.labelrow].length ; j++)
+            var lastrow = useopts.lastrow;
+            if (lastrow <= 0) { lastrow = table.length+lastrow; };
+            var datacols = useopts.datacols;
+            if (datacols == null)
             {
-                datacols.push([0,j]);
+                datacols = [];
+                for (var j = 1 ; j < table[useopts.labelrow].length ; j++)
+                {
+                    datacols.push([0,j]);
+                };
             };
-        };
-        ////log.debug("- lastrow "+lastrow);
-        ////log.debug("- datacols "+jQuery.toJSON(datacols));
-        // Construct label and series data
-        var labels = [];
-        var series = [];
-        for (var k = 0 ; k < datacols.length ; k++)
-        {
-            var xcol = datacols[k][0];
-            var ycol = datacols[k][1];
-            var graph = [];
-            for (var i = useopts.firstrow ; i < lastrow ; i++)
+            ////log.debug("- lastrow "+lastrow);
+            ////log.debug("- datacols "+jQuery.toJSON(datacols));
+            // Construct label and series data
+            var labels = [];
+            var series = [];
+            for (var k = 0 ; k < datacols.length ; k++)
             {
-                ////log.debug("- row "+i+", series "+k+", xcol "+xcol+", ycol "+ycol);
-                graph.push(
-                    [ parseFloat(table[i][xcol])
-                    , parseFloat(table[i][ycol])
-                    ]);
+                var xcol = datacols[k][0];
+                var ycol = datacols[k][1];
+                var graph = [];
+                for (var i = useopts.firstrow ; i < lastrow ; i++)
+                {
+                    ////log.debug("- row "+i+", series "+k+", xcol "+xcol+", ycol "+ycol);
+                    graph.push(
+                        [ parseFloat(table[i][xcol])
+                        , parseFloat(table[i][ycol])
+                        ]);
+                };
+                labels.push(table[useopts.labelrow][ycol]);
+                series.push(graph);
             };
-            labels.push(table[useopts.labelrow][ycol]);
-            series.push(graph);
+            // Store label and series data into model
+            card.data(useopts.setlabels, labels);
+            card.model(useopts.setseries, series);
         };
-        // Store label and series data into model
-        card.data(useopts.setlabels, labels);
-        card.model(useopts.setseries, series);
     };
     return setseriesvalues;
 };

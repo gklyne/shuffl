@@ -278,8 +278,6 @@ TestCardDatatable = function() {
             same(e['shuffl:data']['shuffl:tags'],    [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
             same(e['shuffl:data']['shuffl:uri'],     "test-table.csv", 'shuffl:data-uri');
             same(e['shuffl:data']['shuffl:table'],   TestDataTable,    'shuffl:data-table');
-            same(e['shuffl:data']['shuffl:labels'],  TestDataLabels,   'shuffl:data-labels');
-            same(e['shuffl:data']['shuffl:series'],  TestDataSeries,   'shuffl:data-series');
         });
 
     test("shuffl.card.datatable model setting",
