@@ -81,9 +81,6 @@ html, body {
     font-weight: heavier;
 }
 
-
-
-
 .shuffl-contextmenu {
     font-weight:bold;
     background-color:#DDDDDD;    /* Grey */
@@ -175,7 +172,7 @@ cclass {
     font-size:smaller;
 }
 
-ctags {
+ctags, ctagslabel {
     display:inline;
     font-size:smaller;
 }

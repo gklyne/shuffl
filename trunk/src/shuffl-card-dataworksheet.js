@@ -1,17 +1,10 @@
 /**
  * @fileoverview
- * Shuffl card plug-in for simple card containing tabular data.
+ * Shuffl card plug-in for a card containing a data worksheet.
  * 
- * The original intent was to have a collection card for the table, and 
- * represent each row as a separate card, but on closer examination this 
- * would create problems about when or which cards should be deleted, 
- * e.g., when the table is reloaded.  So, instead, I've gone for a table
- * resource, with the intent that, in due course, individual rows can be 
- * pulled out as separate cards when required.
- * 
- * Also, I think this approach is better suited for working with existing
- * research data sets - the card-first approach may be more appropriate for 
- * primary data capture activities.
+ * This card is based on the "datatable" card, but expects a general 
+ * spreadsheet worksheet from which label rows, data rows and data columns
+ * can be selected from arbitrary locations.
  *  
  * @author Graham Klyne
  * @version $Id$
@@ -38,51 +31,38 @@
  */
 if (typeof shuffl == "undefined") 
 {
-    alert("shuffl-card-datatable.js: shuffl-base.js must be loaded first");
+    alert("shuffl-card-dataworksheet.js: shuffl-base.js must be loaded first");
 }
 if (typeof shuffl.card == "undefined") 
 {
-    alert("shuffl-card-datatable.js: shuffl-cardhandlers.js must be loaded before this");
+    alert("shuffl-card-dataworksheet.js: shuffl-cardhandlers.js must be loaded before this");
 }
 
 /**
  * Create namespace for this card type
  */
-shuffl.card.datatable = {};
+shuffl.card.dataworksheet = {};
 
 /**
  * Template for creating new card object for serialization
  */
-shuffl.card.datatable.data =
+shuffl.card.dataworksheet.data =
     { 'shuffl:title':   undefined
     , 'shuffl:tags':    [ undefined ]
     , 'shuffl:uri':     undefined
     , 'shuffl:table':   undefined
-    , 'shuffl:labels':  undefined
-    , 'shuffl:series':  undefined
     };
 
 /**
  * Temporary default data for testing...
  * TODO: reset this when done testing
  */
-shuffl.card.datatable.table =
-    [ [ "",  "col1", "col2", "col3", "col4_is_much_wider", "col5" ]
-    , [ "1", "1.1",  "1.2",  "1.3",  "1.4",                "1.5"  ]
-    , [ "2", "2.1",  "2.2",  "2.3",  "2.4",                "2.5"  ]
-    , [ "3", "3.1",  "3.2",  "3.3",  "3.4",                "3.5"  ]
-    , [ "4", "4.1",  "4.2",  "4.3",  "4.4",                "4.5"  ]
-    , [ "5", "5.1",  "5.2",  "5.3",  "5.4",                "5.5"  ]
-    , [ "6", "6.1",  "6.2",  "6.3",  "6.4",                "6.5"  ]
-    , [ "7", "7.1",  "7.2",  "7.3",  "7.4",                "7.5"  ]
-    , [ "8", "8.1",  "8.2",  "8.3",  "8.4",                "8.5"  ]
-    , [ "End." ]
-    ];
+shuffl.card.dataworksheet.table = [ [] ];
 
 /**
  * jQuery base element for building new cards (used by shuffl.makeCard)
  */
-shuffl.card.datatable.blank = jQuery(
+shuffl.card.dataworksheet.blank = jQuery(
     "<div class='shuffl-card-setsize shuffl-series' style='z-index:10;'>\n"+
     "  <chead>\n"+
     "    <chandle><c></c></chandle>" +
@@ -92,18 +72,23 @@ shuffl.card.datatable.blank = jQuery(
     "    <curi>card_ZZZ uri</curi>\n"+
     "  </crow>\n"+
     "  <crow>\n"+
-    "    <cbody class='shuffl-nodrag'>\n"+
+    "    <clabels>\n"+
     "      <table>\n"+
     "        <tr><th></th><th>col1</th><th>col2</th><th>col3</th></tr>\n"+
+    "      </table>\n"+
+    "    </clabels>\n"+
+    "  </crow>\n"+
+    "  <crow>\n"+
+    "    <cbody class='shuffl-nodrag'>\n"+
+    "      <table>\n"+
+    "        <tr><td></td><td>col1</td><td>col2</td><td>col3</td></tr>\n"+
     "        <tr><td>row1</td><td>1.1</td><td>1.2</td><td>1.3</td></tr>\n"+
-    "        <tr><td>row1</td><td>2.1</td><td>2.2</td><td>2.3</td></tr>\n"+
     "        <tr><td>End.</td></tr>\n"+
     "      </table>\n"+
     "    </cbody>\n"+
     "  </crow>\n"+
     "  <cfoot>\n"+
-    "    <cident>card_ZZZ_ident</cident>:<cclass>card_ZZZ class</cclass>\n"+
-    "    (<ctags>card_ZZZ tags</ctags>)\n"+
+    "    <ctagslabel>Tags: </ctagslabel><ctags>card_ZZZ tags</ctags>\n"+
     "  </cfoot>"+
     "</div>");
 
@@ -121,14 +106,14 @@ shuffl.card.datatable.blank = jQuery(
  *                      'shuffl:title', 'shuffl:tags' and 'shuffl:table'.
  * @return              a jQuery object representing the new card.
  */
-shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
-    //log.debug("shuffl.card.datatable.newCard: "+
+shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddata) {
+    //log.debug("shuffl.card.dataworksheet.newCard: "+
     //    cardtype+", "+cardcss+", "+cardid+", "+carddata);
     // Initialize the card object
-    var card = shuffl.card.datatable.blank.clone();
+    var card = shuffl.card.dataworksheet.blank.clone();
     card.data('shuffl:class',  cardtype);
     card.data('shuffl:id',     cardid);
-    card.data("shuffl:tojson", shuffl.card.datatable.serialize);
+    card.data("shuffl:tojson", shuffl.card.dataworksheet.serialize);
     card.attr('id', cardid);
     card.addClass(cardcss);
     card.find("cident").text(cardid);           // Set card id text
@@ -140,13 +125,15 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     shuffl.bindLineEditable(card, "shuffl:tags",  "ctags");
     shuffl.bindLineEditable(card, "shuffl:uri",   "curi");
     var cbody = card.find("cbody");
-    card.modelBind("shuffl:table", 
-        shuffl.modelSetTable(cbody, 1, shuffl.modelSetSeries(card)));
+    card.modelBind("shuffl:table", function (_event, data)
+    {
+        card.data('shuffl:labels')
+    });
     // Initialize the model
-    var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
-    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
+    var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid);
+    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardtype]);
     var carduri   = shuffl.get(carddata, 'shuffl:uri',   "");
-    var cardtable = shuffl.get(carddata, 'shuffl:table', shuffl.card.datatable.table);
+    var cardtable = shuffl.get(carddata, 'shuffl:table', shuffl.card.dataworksheet.table);
     card.model("shuffl:title", cardtitle);
     card.model("shuffl:tags",  cardtags.join(","));
     card.model("shuffl:table", cardtable);
@@ -170,25 +157,23 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
  * @param card      a jQuery object corresponding to the card
  * @return          an object containing the card data
  */
-shuffl.card.datatable.serialize = function (card) {
-    var carddata = shuffl.card.datatable.data;
+shuffl.card.dataworksheet.serialize = function (card) {
+    var carddata = shuffl.card.dataworksheet.data;
     carddata['shuffl:title'] = card.model("shuffl:title");
     carddata['shuffl:tags']  = shuffl.makeTagList(card.model("shuffl:tags"));
     carddata['shuffl:uri']   = card.model("shuffl:uri");
     carddata['shuffl:table'] = card.model("shuffl:table");
-    carddata['shuffl:labels'] = card.model("shuffl:labels");
-    carddata['shuffl:series'] = card.model("shuffl:series");
     return carddata;
 };
 
 /**
  *   Add new card type factories
  */
-shuffl.addCardFactory("shuffl-datatable-yellow", "stock-yellow", shuffl.card.datatable.newCard);
-shuffl.addCardFactory("shuffl-datatable-blue",   "stock-blue",   shuffl.card.datatable.newCard);
-shuffl.addCardFactory("shuffl-datatable-green",  "stock-green",  shuffl.card.datatable.newCard);
-shuffl.addCardFactory("shuffl-datatable-orange", "stock-orange", shuffl.card.datatable.newCard);
-shuffl.addCardFactory("shuffl-datatable-pink",   "stock-pink",   shuffl.card.datatable.newCard);
-shuffl.addCardFactory("shuffl-datatable-purple", "stock-purple", shuffl.card.datatable.newCard);
+shuffl.addCardFactory("shuffl-dataworksheet-yellow", "stock-yellow", shuffl.card.dataworksheet.newCard);
+shuffl.addCardFactory("shuffl-dataworksheet-blue",   "stock-blue",   shuffl.card.dataworksheet.newCard);
+shuffl.addCardFactory("shuffl-dataworksheet-green",  "stock-green",  shuffl.card.dataworksheet.newCard);
+shuffl.addCardFactory("shuffl-dataworksheet-orange", "stock-orange", shuffl.card.dataworksheet.newCard);
+shuffl.addCardFactory("shuffl-dataworksheet-pink",   "stock-pink",   shuffl.card.dataworksheet.newCard);
+shuffl.addCardFactory("shuffl-dataworksheet-purple", "stock-purple", shuffl.card.dataworksheet.newCard);
 
 // End.

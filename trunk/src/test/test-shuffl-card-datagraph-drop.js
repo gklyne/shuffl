@@ -3,7 +3,7 @@
  *  Test suite for dropping datatable card on datagraph card
  *  
  * @author Graham Klyne
- * @version $Id: $
+ * @version $Id$
  * 
  * Coypyright (C) 2009, University of Oxford
  *

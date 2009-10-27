@@ -1,0 +1,33 @@
+{ 'shuffl:id':        'sample-4'
+, 'shuffl:class':     'shuffl:workspace'
+, 'shuffl:version':   '0.1'
+, 'shuffl:atomuri':   'http://localhost:8080/exist/atom/'
+, 'shuffl:feeduri':   'http://localhost:8080/shuffl/'
+, 'shuffl:base-uri':  '#'
+, 'shuffl:uses-prefixes':
+  [ { 'shuffl:prefix':  'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
+  , { 'shuffl:prefix':  'rdf',     'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
+  , { 'shuffl:prefix':  'rdfs',    'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
+  , { 'shuffl:prefix':  'owl',     'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
+  , { 'shuffl:prefix':  'xsd',     'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
+  ]
+, 'shuffl:workspace':
+  { 'shuffl:stockbar':
+      [ { 'id': 'stockpile_0', 'class': 'stock-default', 'label': 'file',   'type': 'shuffl-selectfile' }
+      , { 'id': 'stockpile_1', 'class': 'stock-yellow',  'label': '|WS|',   'type': 'shuffl-dataworksheet-yellow'  }
+      , { 'id': 'stockpile_2', 'class': 'stock-blue',    'label': '|WS|',   'type': 'shuffl-dataworksheet-blue'    }
+      , { 'id': 'stockpile_3', 'class': 'stock-green',   'label': '|WS|',   'type': 'shuffl-dataworksheet-green'   }
+      , { 'id': 'stockpile_4', 'class': 'stock-orange',  'label': '/\\/..', 'type': 'shuffl-datagraph-orange'  }
+      , { 'id': 'stockpile_5', 'class': 'stock-pink',    'label': '/\\/..', 'type': 'shuffl-datagraph-pink'    }
+      , { 'id': 'stockpile_6', 'class': 'stock-purple',  'label': '/\\/..', 'type': 'shuffl-datagraph-purple'  }
+      , { 'id': 'stockpile_1', 'class': 'stock-yellow',  'label': 'Abc..',  'type': 'shuffl-freetext-yellow'  }
+      , { 'id': 'stockpile_2', 'class': 'stock-blue',    'label': 'Abc..',  'type': 'shuffl-freetext-blue'    }
+      , { 'id': 'stockpile_3', 'class': 'stock-green',   'label': 'Abc..',  'type': 'shuffl-freetext-green'   }
+      , { 'id': 'stockpile_4', 'class': 'stock-orange',  'label': 'Abc..',  'type': 'shuffl-freetext-orange'  }
+      , { 'id': 'stockpile_5', 'class': 'stock-pink',    'label': 'Abc..',  'type': 'shuffl-freetext-pink'    }
+      , { 'id': 'stockpile_6', 'class': 'stock-purple',  'label': 'Abc..',  'type': 'shuffl-freetext-purple'  }
+      ]
+  , 'shuffl:layout':
+      [ ]
+  }
+}
