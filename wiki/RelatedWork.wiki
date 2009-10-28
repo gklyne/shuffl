@@ -81,7 +81,7 @@ See also:
  * Semantic Media Wiki - http://semantic-mediawiki.org/wiki/Semantic_MediaWiki
  * http://code.google.com/p/dsn-chassis/wiki/DocFractalUi- _FractalUI_ - Alistair Miles notes about a pattern that he originally developed for !FlyWeb and is now re-employing in other contexts.  The self-similarity theme is neat.
  * http://www.langegger.at/content/xlwrap-released - _XLWrap released_ -  Spreadsheet-to-RDF wrapper XLWrap and XLWrap-Server, which can be used to: publish information stored in spreadsheets; semantically integrate multiple spreadsheets in LANs/Intra/Extranets; support rapid prototyping of Linked Data apps (edit human-readable live data behind the exposed SPARQL endpoint).
-
+ * http://projects.csail.mit.edu/exhibit/Dido/ - _Dido_ - The Data-Interactive Document
 
 = Back-end storage and serving options =
 
