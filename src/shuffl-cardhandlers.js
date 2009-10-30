@@ -737,6 +737,7 @@ shuffl.lineEditable = function (card, field, callback)
         , cancel: 'cancel'
         , cssclass: 'shuffl-lineedit'
         , width: 400
+        , select: true
         , callback: callback    // (new inerHTML, settings)
         });
 };
@@ -759,6 +760,7 @@ shuffl.blockEditable = function (card, field, callback)
         , submit: 'OK'
         , cancel: 'cancel'
         , cssclass: 'shuffl-blockedit'
+        , select: true
         , callback: callback    // (new inerHTML, settings)
         });
 };
