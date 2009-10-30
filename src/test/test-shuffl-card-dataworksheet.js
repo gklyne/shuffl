@@ -22,17 +22,9 @@ var Test_dataworksheet_DataSeries =
     ];
 
 /**
- * Default model values
- * 
- * TODO: revert to undefined when testing is done
+ * Larger data table to test data row selection
  */
-var Default_dataworksheet_DataTable  = [ [] ];
-
-var Default_dataworksheet_DataLabels = [];
-
-var Default_dataworksheet_DataSeries = [];
-
-zzzDefault_dataworksheet_DataTable =
+var Larger_dataworksheet_DataTable =
     [ [ "", "col1", "col2", "col3", "col4_is_much_wider", "col5" ]
     , [ "1", "1.1", "1.2", "1.3", "1.4", "1.5" ]
     , [ "2", "2.1", "2.2", "2.3", "2.4", "2.5" ]
@@ -45,16 +37,33 @@ zzzDefault_dataworksheet_DataTable =
     , [ "End." ]
     ];
   
-zzzDefault_dataworksheet_DataLabels = 
+var Larger_dataworksheet_DataLabels = 
     [ "col1", "col2", "col3", "col4_is_much_wider", "col5" ];
 
-zzzDefault_dataworksheet_DataSeries =
+var Larger_dataworksheet_DataSeries =
     [ [ [ 1, 1.1 ], [ 2, 2.1 ], [ 3, 3.1 ], [ 4, 4.1 ], [ 5, 5.1 ], [ 6, 6.1 ], [ 7, 7.1 ], [ 8, 8.1 ], [ NaN, NaN ] ]
     , [ [ 1, 1.2 ], [ 2, 2.2 ], [ 3, 3.2 ], [ 4, 4.2 ], [ 5, 5.2 ], [ 6, 6.2 ], [ 7, 7.2 ], [ 8, 8.2 ], [ NaN, NaN ] ]
     , [ [ 1, 1.3 ], [ 2, 2.3 ], [ 3, 3.3 ], [ 4, 4.3 ], [ 5, 5.3 ], [ 6, 6.3 ], [ 7, 7.3 ], [ 8, 8.3 ], [ NaN, NaN ] ]
     , [ [ 1, 1.4 ], [ 2, 2.4 ], [ 3, 3.4 ], [ 4, 4.4 ], [ 5, 5.4 ], [ 6, 6.4 ], [ 7, 7.4 ], [ 8, 8.4 ], [ NaN, NaN ] ]
     , [ [ 1, 1.5 ], [ 2, 2.5 ], [ 3, 3.5 ], [ 4, 4.5 ], [ 5, 5.5 ], [ 6, 6.5 ], [ 7, 7.5 ], [ 8, 8.5 ], [ NaN, NaN ] ]
     ];
+
+var Larger_dataworksheet_DataSeries_2_6 =
+    [ [ [ 2, 2.1 ], [ 3, 3.1 ], [ 4, 4.1 ], [ 5, 5.1 ], [ 6, 6.1 ] ]
+    , [ [ 2, 2.2 ], [ 3, 3.2 ], [ 4, 4.2 ], [ 5, 5.2 ], [ 6, 6.2 ] ]
+    , [ [ 2, 2.3 ], [ 3, 3.3 ], [ 4, 4.3 ], [ 5, 5.3 ], [ 6, 6.3 ] ]
+    , [ [ 2, 2.4 ], [ 3, 3.4 ], [ 4, 4.4 ], [ 5, 5.4 ], [ 6, 6.4 ] ]
+    , [ [ 2, 2.5 ], [ 3, 3.5 ], [ 4, 4.5 ], [ 5, 5.5 ], [ 6, 6.5 ] ]
+    ];
+
+/**
+ * Default model values
+ */
+var Default_dataworksheet_DataTable  = [ [] ];
+
+var Default_dataworksheet_DataLabels = [];
+
+var Default_dataworksheet_DataSeries = [];
 
 /**
  * Data
@@ -401,6 +410,39 @@ TestCardDataWorksheet = function() {
             equals(e['shuffl:data']['shuffl:data_firstrow'],  1,  'shuffl:data-data_firstrow');
             equals(e['shuffl:data']['shuffl:data_lastrow'],   0,  'shuffl:data-data_lastrow');
             same(e['shuffl:data']['shuffl:table'],   Test_dataworksheet_DataTable, 'shuffl:data-table');
+        });
+
+    test("shuffl.card.dataworksheet - data row selection",
+        function () {
+            log.debug("shuffl.card.dataworksheet - data row selection");
+            var c = shuffl.createCardFromData("card_id", "shuffl-dataworksheet-pink", null);
+            c.model('shuffl:table',  Larger_dataworksheet_DataTable)
+            // Check card details
+            equals(c.attr('id'), "card_id", "card id attribute");
+            same(c.find("cbody").table()[0], Larger_dataworksheet_DataTable[0],    "card data table label row");
+            same(c.find("cbody").table().slice(1), Larger_dataworksheet_DataTable, "card data table");
+            equals(c.data("shuffl:header_row"),    0, "shuffl:header_row");
+            equals(c.data("shuffl:data_firstrow"), 1, "shuffl:data_firstrow");
+            equals(c.data("shuffl:data_lastrow"),  0, "shuffl:data_lastrow");
+            same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,  "shuffl:table");
+            same(c.data('shuffl:labels'), Larger_dataworksheet_DataLabels, "shuffl:labels");
+            same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries, "shuffl:series");
+            // Now select data rows
+            c.model('shuffl:data_firstrow', 2);
+            c.model('shuffl:data_lastrow',  6);
+            equals(c.data("shuffl:header_row"),    0, "shuffl:header_row");
+            equals(c.data("shuffl:data_firstrow"), 2, "shuffl:data_firstrow");
+            equals(c.data("shuffl:data_lastrow"),  6, "shuffl:data_lastrow");
+            same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,     "shuffl:table");
+            same(c.data('shuffl:labels'), Larger_dataworksheet_DataTable[0].slice(1),  "shuffl:labels");
+            same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries_2_6, "shuffl:series");
+            // (Re)create data and test
+            var e = shuffl.createDataFromCard(c);
+            equals(e['shuffl:id'],          "card_id",    'shuffl:id');
+            equals(e['shuffl:data']['shuffl:header_row'],     0,  'shuffl:data-header_row');
+            equals(e['shuffl:data']['shuffl:data_firstrow'],  2,  'shuffl:data-data_firstrow');
+            equals(e['shuffl:data']['shuffl:data_lastrow'],   6,  'shuffl:data-data_lastrow');
+            same(e['shuffl:data']['shuffl:table'],   Larger_dataworksheet_DataTable, 'shuffl:data-table');
         });
 
 };
