@@ -99,7 +99,8 @@ shuffl.card.dataworksheet.blank = jQuery(
  *                      'shuffl:title', 'shuffl:tags' and 'shuffl:table'.
  * @return              a jQuery object representing the new card.
  */
-shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddata) {
+shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddata)
+{
     log.debug("shuffl.card.dataworksheet.newCard: "+
         cardtype+", "+cardcss+", "+cardid+", "+carddata);
     // Initialize the card object
@@ -166,7 +167,8 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
  * @param card      a jQuery object corresponding to the card
  * @return          an object containing the card data
  */
-shuffl.card.dataworksheet.serialize = function (card) {
+shuffl.card.dataworksheet.serialize = function (card) 
+{
     var carddata = shuffl.card.dataworksheet.data;
     carddata['shuffl:title'] = card.model("shuffl:title");
     carddata['shuffl:tags']  = shuffl.makeTagList(card.model("shuffl:tags"));
