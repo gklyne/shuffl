@@ -130,9 +130,8 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
     card.modelBind("shuffl:header_row",    updatefn);
     card.modelBind("shuffl:data_firstrow", updatefn);
     card.modelBind("shuffl:data_lastrow",  updatefn);
-    // Set up click handler on body that can be used to handle row selection
-    ////cbody.mousedown(shuffl.card.dataworksheet.rowSelect(card, cbody)); 
-    // Create a pop-up row-selection menu
+    // Hook up the row-selection pop-up menu
+    // TODO: extract to separate function
     log.debug("shuffl.card.dataworksheet.newCard: connect row select menu");
     cbody.contextMenu('dataworksheet_rowSelectMenu', {
         menuStyle: {
@@ -172,7 +171,6 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
             }
         }
     });
-
     // Initialize the model
     var cardtitle  = shuffl.get(carddata, 'shuffl:title',  cardid);
     var cardtags   = shuffl.get(carddata, 'shuffl:tags',   [cardtype]);
@@ -184,10 +182,11 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
     card.model("shuffl:title", cardtitle);
     card.model("shuffl:tags",  cardtags.join(","));
     card.model("shuffl:uri",   carduri);
-    card.model("shuffl:header_row",    cardhrow);
-    card.model("shuffl:data_firstrow", cardfrow);
-    card.model("shuffl:data_lastrow",  cardlrow);
+    // Note that setting the table resets the row values..
     card.model("shuffl:table",         cardtable);
+    card.model("shuffl:header_row",    cardhrow);
+    card.model("shuffl:data_firstrow", cardfrow); 
+    card.model("shuffl:data_lastrow",  cardlrow);
     // Finally, set listener for changes to URI value to read new data
     // This comes last so that the setting of shuffl:uri (above) does not
     // trigger a read when initializing a card.
@@ -221,32 +220,6 @@ shuffl.card.dataworksheet.serialize = function (card)
 };
 
 /**
- * Helper function returns a mouse event handler for row selection: 
- * determines which row has been selected, then pops up a local context menu 
- * to allow that row to be associated with a data selection option.
- * 
- * @param card      is the card object containing the table data for display.
- * @param cbody     is the card element where the table data is displayed.
- */
-// TODO: remve this?
-shuffl.card.dataworksheet.rowSelect = function (card, cbody)
-{
-    function select(event)
-    {   // this = DOM element
-        var elem = jQuery(event.target);
-        cbody.find("tbody tr").each(function (rownum) {
-            // this = dom element
-            if (jQuery(this).find("*").index(event.target) >= 0) {
-                ////log.debug("- selected row number "+rownum);
-                card.model("shuffl:header_row", rownum);
-            };
-        });
-        return this;
-    };
-    return select;
-};
-
-/**
  * Helper function sets an indicated card model variable to the previously 
  * saved row number.
  * 
@@ -258,6 +231,7 @@ shuffl.card.dataworksheet.setRowNumber = function (card, modelvar)
     var rownum = card.data("rownum");
     log.debug("- menu select: modelvar "+modelvar+", row "+rownum);
     card.model(modelvar, rownum);
+    card.model('shuffl:datamod', true);
 };
 
 /**
