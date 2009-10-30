@@ -54,8 +54,7 @@ shuffl.card.dataworksheet.data =
     };
 
 /**
- * Temporary default data for testing...
- * TODO: reset this when done testing
+ * Default table data
  */
 shuffl.card.dataworksheet.table = [ [] ];
 
@@ -82,7 +81,7 @@ shuffl.card.dataworksheet.blank = jQuery(
     "  </crow>\n"+
     "  <cfoot>\n"+
     "    <ctagslabel>Tags: </ctagslabel><ctags>card_ZZZ tags</ctags>\n"+
-    "  </cfoot>"+
+    "  </cfoot>\n"+
     "</div>");
 
 /**
@@ -132,7 +131,48 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
     card.modelBind("shuffl:data_firstrow", updatefn);
     card.modelBind("shuffl:data_lastrow",  updatefn);
     // Set up click handler on body that can be used to handle row selection
-    cbody.click(shuffl.card.dataworksheet.rowSelect(card, cbody)); 
+    ////cbody.mousedown(shuffl.card.dataworksheet.rowSelect(card, cbody)); 
+    // Create a pop-up row-selection menu
+    log.debug("shuffl.card.dataworksheet.newCard: connect row select menu");
+    cbody.contextMenu('dataworksheet_rowSelectMenu', {
+        menuStyle: {
+            'class': 'shuffl-contextmenu',
+            'font-weight': 'bold',
+            'background-color': '#DDDDDD',
+            'border': 'thin #666666 solid'
+            },
+        showOnClick: true,
+        onContextMenu: function (event)
+        {
+            cbody.find("tbody tr").each(function (rownum)
+            {
+                // this = dom element
+                if (jQuery(this).find("*").index(event.target) >= 0) {
+                    log.debug("- selected row number "+rownum);
+                    card.data("rownum", rownum);
+                };
+            });
+            return true;
+        },
+        bindings: {
+            'dataworksheet_labelrow': function (_elem)
+            {
+                log.debug('Row select dataworksheet_labelrow');
+                shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:header_row');
+            },
+            'dataworksheet_firstrow': function (_elem)
+            {
+                log.debug('Row select dataworksheet_firstrow');
+                shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_firstrow');
+            },
+            'dataworksheet_lastrow': function (_elem)
+            {
+                log.debug('Row select dataworksheet_lastrow');
+                shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_lastrow');
+            }
+        }
+    });
+
     // Initialize the model
     var cardtitle  = shuffl.get(carddata, 'shuffl:title',  cardid);
     var cardtags   = shuffl.get(carddata, 'shuffl:tags',   [cardtype]);
@@ -181,13 +221,14 @@ shuffl.card.dataworksheet.serialize = function (card)
 };
 
 /**
- * Helper function returns a click event handler for row selection: 
+ * Helper function returns a mouse event handler for row selection: 
  * determines which row has been selected, then pops up a local context menu 
  * to allow that row to be associated with a data selection option.
  * 
  * @param card      is the card object containing the table data for display.
  * @param cbody     is the card element where the table data is displayed.
  */
+// TODO: remve this?
 shuffl.card.dataworksheet.rowSelect = function (card, cbody)
 {
     function select(event)
@@ -203,6 +244,20 @@ shuffl.card.dataworksheet.rowSelect = function (card, cbody)
         return this;
     };
     return select;
+};
+
+/**
+ * Helper function sets an indicated card model variable to the previously 
+ * saved row number.
+ * 
+ * @param card      is the card object containing the table data for display.
+ * @param modelvar  is the card model variable that is set to the row number.
+ */
+shuffl.card.dataworksheet.setRowNumber = function (card, modelvar)
+{
+    var rownum = card.data("rownum");
+    log.debug("- menu select: modelvar "+modelvar+", row "+rownum);
+    card.model(modelvar, rownum);
 };
 
 /**
@@ -224,11 +279,35 @@ shuffl.card.dataworksheet.updatedata = function (card, cbody)
             var hrow = card.model("shuffl:header_row");
             var htbl = [ table[hrow] ].concat(table);
             cbody.table(htbl, 1);
+            // Sort out first and last data rows
+            var frow = card.model("shuffl:data_firstrow");
+            var lrow  = card.model("shuffl:data_lastrow");
+            if (lrow <= 0) { lrow = table.length-1; }
+            if (frow > lrow)
+            {
+                frow = lrow;
+                lrow = card.model("shuffl:data_firstrow");
+            }
+            // Reflect this in the display - unselect out-of-range rows
+            cbody.find("tbody tr").each(function (rownum)
+            {
+                // this = dom element
+                var elem = jQuery(this);
+                if (rownum >= frow && rownum <= lrow)
+                {
+                    elem.removeClass("shuffl-deselected");
+                } 
+                else 
+                {
+                    elem.addClass("shuffl-deselected");
+                };
+            });
+
             // Now set up graph labels and series data
             var options =
                 { labelrow:   hrow
-                , firstrow:   card.model("shuffl:data_firstrow")
-                , lastrow:    card.model("shuffl:data_lastrow")
+                , firstrow:   frow
+                , lastrow:    lrow
                 ////, datacols:   null
                 ////, setlabels:  'shuffl:labels'
                 ////, setseries:  'shuffl:series'
@@ -238,6 +317,22 @@ shuffl.card.dataworksheet.updatedata = function (card, cbody)
     };
     return update;
 };
+
+/**
+ * Add row-selectr menu to main workspace
+ */
+jQuery(document).ready(function() 
+{
+    var rowSelectMenu = 
+        "  <div class='contextMenu' id='dataworksheet_rowSelectMenu' style='display:none;'>\n"+
+        "    <ul>\n"+
+        "      <li id='dataworksheet_labelrow'>Label row</li>\n"+
+        "      <li id='dataworksheet_firstrow'>First data row</li>\n"+
+        "      <li id='dataworksheet_lastrow'>Last data row</li>\n"+
+        "    </ul>\n"+
+        "  </div>\n";
+    jQuery("body").append(rowSelectMenu);
+});
 
 /**
  *   Add new card type factories

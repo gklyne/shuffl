@@ -81,6 +81,10 @@ html, body {
     font-weight: heavier;
 }
 
+.shuffl-deselected {
+    color: #888888;
+}
+
 .shuffl-contextmenu {
     font-weight:bold;
     background-color:#DDDDDD;    /* Grey */
@@ -218,7 +222,6 @@ cbody {
 .stock-yellow ,
 .stock-yellow cbody td {
     background-color: #FFFFCC;    /* Yellow */
-    color: black;
     border:thin #CCCC66 solid;
 }
 
@@ -235,7 +238,6 @@ cbody {
 .stock-blue , 
 .stock-blue cbody td {
     background-color:#CCFFFF;    /* Cyan */
-    color: black;
     border:thin #66CCCC solid;
 }
 
@@ -252,7 +254,6 @@ cbody {
 .stock-green ,
 .stock-green cbody td {
 	  background-color:#DDFFDD;      /* Green */
-	  color: black;
     border:thin #66CC66 solid;
 }
 
@@ -269,7 +270,6 @@ cbody {
 .stock-orange ,
 .stock-orange cbody td {
     background-color:#FFDDDD;    /* Pink */
-    color: black;
     border:thin #CC6666 solid;
 }
 
@@ -286,7 +286,6 @@ cbody {
 .stock-pink ,
 .stock-pink cbody td {
     background-color:#FFDDFF;    /* Magenta */
-    color: black;
     border:thin #CC66CC solid;
 }
 
@@ -303,7 +302,6 @@ cbody {
 .stock-purple ,
 .stock-purple cbody td {
     background-color:#DDDDFF;    /* Purple */
-    color: black;
     border:thin #6666CC solid;
 }
 
