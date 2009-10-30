@@ -151,7 +151,7 @@ shuffl.menuSaveNewWorkspace = function () {
 // ----------------------------------------------------------------
 
 shuffl.MainMenuHTML =
-    "<div class='contextMenu' id='workspacemenuoptions'>\n"+
+    "<div class='contextMenu' id='workspacemenuoptions'  style='display:none;'>\n"+
     "  <ul>\n"+
     "    <li id='open'><img src='folder.png' />Open workspace...</li>\n"+
     "    <li id='save'><img src='folder.png' />Save workspace</li>\n"+
