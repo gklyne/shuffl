@@ -55,7 +55,7 @@ Estimated effort: 4.0 days
  * (0.25) Remove filename/read option from graphing card (*Done* 26-Oct-2009/0.1)
  * (0.25) Subscribe graph card to changes in data table card (*Done* 26-Oct-2009/0.2)
  * (0.25) remove "read CSV" button from table card, re-read data whenever filename is changed, provide user feedback when data is updated. (*Done* 26-Oct-2009/0.2)
- * (0.5) implement label-row selection and link to output (*Done* 30-Oct-2009/1.4)
+ * (0.5) implement label-row selection and link to output (*Done* 30-Oct-2009/1.3)
  * (0.5) implement data-rows selection and link to output (*Done* 30-Oct-2009/0.4)
  * (0.25) Implement user-editable labels and link to output
  * (1.0) add row of column status selectors (none, x1, x2, y1, y2) and link to output data
