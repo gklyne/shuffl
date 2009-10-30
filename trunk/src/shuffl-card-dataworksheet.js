@@ -130,6 +130,8 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
     card.modelBind("shuffl:header_row",    updatefn);
     card.modelBind("shuffl:data_firstrow", updatefn);
     card.modelBind("shuffl:data_lastrow",  updatefn);
+    // Set up click handler on body that can be used to handle row selection
+    cbody.click(shuffl.card.dataworksheet.rowSelect(card, cbody)); 
     // Initialize the model
     var cardtitle  = shuffl.get(carddata, 'shuffl:title',  cardid);
     var cardtags   = shuffl.get(carddata, 'shuffl:tags',   [cardtype]);
@@ -174,6 +176,31 @@ shuffl.card.dataworksheet.serialize = function (card) {
     carddata['shuffl:data_lastrow']  = card.model("shuffl:data_lastrow");
     carddata['shuffl:table']         = card.model("shuffl:table");
     return carddata;
+};
+
+/**
+ * Helper function returns a click event handler for row selection: 
+ * determines which row has been selected, then pops up a local context menu 
+ * to allow that row to be associated with a data selection option.
+ * 
+ * @param card      is the card object containing the table data for display.
+ * @param cbody     is the card element where the table data is displayed.
+ */
+shuffl.card.dataworksheet.rowSelect = function (card, cbody)
+{
+    function select(event)
+    {   // this = DOM element
+        var elem = jQuery(event.target);
+        cbody.find("tbody tr").each(function (rownum) {
+            // this = dom element
+            if (jQuery(this).find("*").index(event.target) >= 0) {
+                ////log.debug("- selected row number "+rownum);
+                card.model("shuffl:header_row", rownum);
+            };
+        });
+        return this;
+    };
+    return select;
 };
 
 /**

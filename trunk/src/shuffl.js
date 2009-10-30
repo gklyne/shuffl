@@ -147,7 +147,7 @@ shuffl.menuSaveNewWorkspace = function () {
 };
 
 // ----------------------------------------------------------------
-// Add menus and dialogs HTML templates
+// Menu and dialogs HTML templates
 // ----------------------------------------------------------------
 
 shuffl.MainMenuHTML =
