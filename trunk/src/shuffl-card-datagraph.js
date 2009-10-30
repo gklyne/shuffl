@@ -157,12 +157,14 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
         if (oldsub)
         {
             var oldsrc = data.oldval;
+            oldsrc.modelUnbind("shuffl:title",  oldsub);
             oldsrc.modelUnbind("shuffl:labels", oldsub);
             oldsrc.modelUnbind("shuffl:series", oldsub);
         };
         var src    = data.newval;
         var newsub = shuffl.card.datagraph.updatedata(card, src);
         newsub();
+        src.modelBind("shuffl:title",  newsub);
         src.modelBind("shuffl:labels", newsub);
         src.modelBind("shuffl:series", newsub);
         card.data("updatesubs", newsub);
@@ -252,6 +254,12 @@ shuffl.card.datagraph.updatedata = function (card, src)
 {
     function update(_event, _data)
     {
+        var srctitle = src.model("shuffl:title");
+        if (srctitle)
+        {
+            var title = card.model("shuffl:title").replace(/ \([^)]+\)$/,"");
+            card.model("shuffl:title", title+" ("+src.model("shuffl:title")+")");
+        }
         card.data("shuffl:labels", src.model("shuffl:labels"));
         card.model("shuffl:series", src.model("shuffl:series"));
     };

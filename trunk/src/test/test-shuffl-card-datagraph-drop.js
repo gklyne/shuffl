@@ -153,14 +153,14 @@ TestCardDatagraphDrop = function()
         // Simulate drop on datagraph card
         c.model('shuffl:source', tc);
         // Check updated datagraph model values
-        equals(c.model("shuffl:title"), "Graph card", "shuffl:title");
+        equals(c.model("shuffl:title"), "Graph card (Table card)", "shuffl:title");
         equals(c.model("shuffl:tags"),  "graph-card", "shuffl:tags");
         equals(c.model("shuffl:dataminy"), 1.11, "shuffl:dataminy");
         equals(c.model("shuffl:datamaxy"), 2.33, "shuffl:datamaxy");
         same(c.model("shuffl:labels"), carddatagraph_labels1, "shuffl:labels");
         same(c.model("shuffl:series"), carddatagraph_series1, "shuffl:series");
         // Check updated datagraph rendered card
-        equals(c.find("ctitle").text(), "Graph card", "card title field");
+        equals(c.find("ctitle").text(), "Graph card (Table card)", "card title field");
         equals(c.find("ctags").text(),  "graph-card", "card tags field");
         equals(c.find("cdataminy").text(), "1.11", "minimum Y field");
         equals(c.find("cdatamaxy").text(), "2.33", "maximum Y field");
@@ -205,14 +205,14 @@ TestCardDatagraphDrop = function()
         // Simulate drop on datagraph card
         c.model('shuffl:source', tc);
         // Check updated datagraph model values
-        equals(c.model("shuffl:title"), "Graph card", "shuffl:title");
+        equals(c.model("shuffl:title"), "Graph card (Table card)", "shuffl:title");
         equals(c.model("shuffl:tags"),  "graph-card", "shuffl:tags");
         equals(c.model("shuffl:dataminy"), 1.11, "shuffl:dataminy");
         equals(c.model("shuffl:datamaxy"), 2.33, "shuffl:datamaxy");
         same(c.model("shuffl:labels"), carddatagraph_labels1, "shuffl:labels");
         same(c.model("shuffl:series"), carddatagraph_series1, "shuffl:series");
         // Check updated datagraph rendered card
-        equals(c.find("ctitle").text(), "Graph card", "card title field");
+        equals(c.find("ctitle").text(), "Graph card (Table card)", "card title field");
         equals(c.find("ctags").text(),  "graph-card", "card tags field");
         equals(c.find("cdataminy").text(), "1.11", "minimum Y field");
         equals(c.find("cdatamaxy").text(), "2.33", "maximum Y field");
@@ -227,14 +227,14 @@ TestCardDatagraphDrop = function()
         // Simulate drop on datagraph card
         c.model('shuffl:source', tc2);
         // Check updated datagraph model values
-        equals(c.model("shuffl:title"), "Graph card", "shuffl:title(2)");
+        equals(c.model("shuffl:title"), "Graph card (Table card 2)", "shuffl:title(2)");
         equals(c.model("shuffl:tags"),  "graph-card", "shuffl:tags(2)");
         equals(c.model("shuffl:dataminy"), 21.11, "shuffl:dataminy(2)");
         equals(c.model("shuffl:datamaxy"), 22.33, "shuffl:datamaxy(2)");
         same(c.model("shuffl:labels"), carddatagraph_labels2, "shuffl:labels(2)");
         same(c.model("shuffl:series"), carddatagraph_series2, "shuffl:series(2)");
         // Check updated datagraph rendered card
-        equals(c.find("ctitle").text(), "Graph card", "card title field(2)");
+        equals(c.find("ctitle").text(), "Graph card (Table card 2)", "card title field(2)");
         equals(c.find("ctags").text(),  "graph-card", "card tags field(2)");
         equals(c.find("cdataminy").text(), "21.11", "minimum Y field(2)");
         equals(c.find("cdatamaxy").text(), "22.33", "maximum Y field(2)");
@@ -278,14 +278,14 @@ TestCardDatagraphDrop = function()
         // Simulate drop on datagraph card
         c.model('shuffl:source', tc);
         // Check updated datagraph model values
-        equals(c.model("shuffl:title"), "Graph card", "shuffl:title");
+        equals(c.model("shuffl:title"), "Graph card (Table card)", "shuffl:title");
         equals(c.model("shuffl:tags"),  "graph-card", "shuffl:tags");
         equals(c.model("shuffl:dataminy"), 1.11, "shuffl:dataminy");
         equals(c.model("shuffl:datamaxy"), 2.33, "shuffl:datamaxy");
         same(c.model("shuffl:labels"), carddatagraph_labels1, "shuffl:labels");
         same(c.model("shuffl:series"), carddatagraph_series1, "shuffl:series");
         // Check updated datagraph rendered card
-        equals(c.find("ctitle").text(), "Graph card", "card title field");
+        equals(c.find("ctitle").text(), "Graph card (Table card)", "card title field");
         equals(c.find("ctags").text(),  "graph-card", "card tags field");
         equals(c.find("cdataminy").text(), "1.11", "minimum Y field");
         equals(c.find("cdatamaxy").text(), "2.33", "maximum Y field");
