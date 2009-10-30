@@ -195,7 +195,8 @@ shuffl.SaveNewDialogHTML =
 // Start-up logic
 // ----------------------------------------------------------------
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function()
+{
     log.info("shuffl starting");
 
     // Add menus and dialogs to the workspace
@@ -264,6 +265,6 @@ jQuery(document).ready(function() {
 
     // Initialization is done - now it's all event-driven
     log.info("shuffl initialization done");
-    });
+});
 
 // End.
