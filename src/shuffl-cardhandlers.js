@@ -892,8 +892,8 @@ shuffl.resizeHandler = function (card, selector, redrawfn)
  */
 shuffl.placeCard = function (layout, card, pos, size, zindex) 
 {
-    log.debug("shuffl.placeCard pos: "+
-        jQuery.toJSON(pos)+", size: "+jQuery.toJSON(size));
+    ////log.debug("shuffl.placeCard pos: "+
+    ////    jQuery.toJSON(pos)+", size: "+jQuery.toJSON(size));
     layout.append(card);
     var resizefn = shuffl.resizeHandler(
         card, card.data("resizeAlso"), card.data("redrawFunc"));
@@ -914,7 +914,7 @@ shuffl.placeCard = function (layout, card, pos, size, zindex)
     // Click brings card back to top
     card.click( function () { shuffl.toFront(jQuery(this)); });
     // TODO: Consider making card-sized drag
-    log.debug("shuffl.placeCard End.");
+    ////log.debug("shuffl.placeCard End.");
 };
 
 /**
