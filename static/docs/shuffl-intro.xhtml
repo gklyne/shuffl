@@ -65,23 +65,6 @@
           shuffl.loadWorkspace("shuffl-intro.json", shuffl.noop);
       });
 	  </script>
-
-    <div id="dialog_savenew" title="Save as new workspace" style="display:none;">
-		  <p>Enter the URI of an Atom Publishing Protocol service and item feed where the new workspace is to be saved.</p>
-		  <form>
-			  <fieldset>
-			    <legend>Location for saved workspace</legend>
-			    <!--
-          <label for="location">Location:</label>
-			    <input type="text" name="location" id="location" class="text ui-widget-content ui-corner-all" size="80"/>
-			     -->
-          <label for="atomuri">AtomPub service URI:</label>
-          <input type="text" name="atomuri" id="atomuri" class="text ui-widget-content ui-corner-all" size="80"/>
-          <label for="feedpath">Atom feed path:</label>
-          <input type="text" name="feedpath" id="feedpath" class="text ui-widget-content ui-corner-all" size="80"/>
-			  </fieldset>
-		  </form>
-		</div>
     
     <div id="workspace" class="shuffl-workspace">
 
@@ -93,21 +76,9 @@
         <div class="shuffl-workspacemenu" id="workspacemenu"><c class="stock-yellow">s</c><c class="stock-blue">h</c><c class="stock-green">u</c><c class="stock-orange">f</c><c class="stock-pink">f</c><c class="stock-purple">l</c></div>
       </div>
 
-      <!-- CLASSES=(white yellow blue green orange pink purple)  -->
-
       <!-- cards go here -->
       <div id="layout" class="shuffl-layout">
       </div>
-
-      <!-- context menu stuff -->
-	
-			<div class="contextMenu" id="workspacemenuoptions">
-			  <ul>		
-			    <li id="open"><img src="folder.png" />Open workspace...</li>
-			    <li id="save"><img src="disk.png" />Save workspace</li>
-          <li id="savenew"><img src="disk.png" />Save as new workspace...</li>
-			  </ul>
-			</div>
  
       <p id="footer" class="shuffl-footer">
         <span id="workspaceuri" class="shuffl-footer-left">(location)</span>
