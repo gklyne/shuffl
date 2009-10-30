@@ -74,8 +74,9 @@ shuffl.menuOpenWorkspace = function () {
               Ok: function() {
                   atomuri  = jQuery('#open_atomuri').val();
                   feedpath = jQuery('#open_feedpath').val();
-                  wsname   = jQuery('#save_wsname').val();
+                  wsname   = jQuery('#open_wsname').val();
                   atompub  = new shuffl.AtomPub(atomuri);
+                  ////log.debug("- OK: feedpath "+feedpath+", wsname "+wsname);
                   feeduri  = atompub.serviceUri({base: feedpath, name:wsname});
                   atompub  = null;
                   jQuery(this).dialog('destroy');

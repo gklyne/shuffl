@@ -80,7 +80,7 @@ shuffl.loadWorkspace = function(uri, callback) {
             var feeduri  = json['shuffl:feeduri'];
             var stockbar = json['shuffl:workspace']['shuffl:stockbar'];
             var layout   = json['shuffl:workspace']['shuffl:layout'];
-            //log.debug("- layout: "+jQuery.toJSON(layout));
+            ////log.debug("- layout: "+jQuery.toJSON(layout));
             // Display and save location information
             var wsuri = jQuery.uri().resolve(uri);
             ////log.debug("Display location of workspace, and save values: "+wsuri);
@@ -106,8 +106,10 @@ shuffl.loadWorkspace = function(uri, callback) {
             // Load up card data
             log.debug("Loading layout");
             function readLayoutCard(layout) {
+                ////log.debug("readLayoutCard "+feeduri+", "+layout['data']);
                 // Function creates closure with specific layout definition
                 return function(val, callback) {
+                    ////log.debug("readCard "+feeduri+", "+layout['data']);
                     shuffl.readCard(feeduri, layout['data'], function (data) {
                         // Card data available
                         shuffl.placeCardFromData(layout, data);
