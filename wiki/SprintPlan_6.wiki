@@ -133,7 +133,7 @@ Date:	 Wednesday, 21 October, 2009
  ADMIRAL:
  * (0.4) Work on project plan
 
- Date:	 Thursday, 22 October, 2009
+Date:	 Thursday, 22 October, 2009
  ADMIRAL:
  * (0.8) Project plan, first draft done
  Misc:
@@ -152,7 +152,7 @@ Date:	 Monday, 26 October, 2009
 
 Date:	 Tuesday, 27 October, 2009
  Shuffl:
- * (0.9) working on revised data table to allow label row selection
+ * (0.9) working on revised data table to allow label row selection (task 3.2)
  Claros:
  * (0.1) Sort out screencast for Reinhard
 
@@ -162,7 +162,7 @@ Date:	 Wednesday, 28 October, 2009
 
 Date:	 Thursday, 29 October, 2009
  Shuffl:
- * (0.1) email discussion about related work
+ * (0.1) email discussion about related work (task 1.5)
  Claros:
  * (0.1) Berlin
  * (0.1) AHRC bid discussion
