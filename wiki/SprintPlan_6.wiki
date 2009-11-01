@@ -89,7 +89,7 @@ Estimated effort: 1.0 days
  * (0.25) revise existing code to use new error reporting function
  * (0.5) review workspace load/save code to catch I/O errors, report them and take appropriate recovery steps
 
-Actual effort: ?? days (for ?? planned activity)
+Actual effort: 0 days (for 0 planned activity)
 
 = Sprint review notes =
 
@@ -101,11 +101,15 @@ The first week of this sprint has been largely wiped out by non-project activiti
 
 == End-of-sprint review ==
 
-(((TBD)))
+Progress during this sprint has been fairly poor, largely due to distraction from both personal and non-project affairs.  The total amount of effort spent was 3.5 days against planned effort of 8 days. A further factor impacting progress was that reorganizing the code to enable label-row selection took somewhat longer than planned.
+
+On the positive side, I did hold a review meeting with Chris Holland, and the current development is being conducted very much in response to his feedback, to make the data graphing display more useful to him.
 
 == Velocity ==
 
-Tasks completed/effort spent: ??/?? = ??
+On a strict measure, velocity is zero as no tasks were fully completed in this sprint.  But taking account of partially completed tasks, I get:
+
+Tasks completed/effort spent: 2.25/3.5 = 0.64, which is comparable with last sprint.
 
 = Activity summary =
 
