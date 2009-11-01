@@ -68,4 +68,4 @@ It seems that, without really planning it, this approach is broadly what I've be
 
 A difficult area has been poor estimation of effort and tasks. Getting the balance of granularity right for estimating is critical: too coarse a granularity and key elements are overlooked; too fine and the plans made don't reflect the actual development process when code has to be cut. Part of the problem here may be working alone without the benefit of  team discussion and review.  Also helpful has been to use a fine-grained breakdown for estimating, but a coarser-grained units of work for progress recording - this allows details to change as development progresses without having to change the recording structure in mid-sprint.
 
- # _Agile Model Driven Development (AMDD_, by Scott Ambler. http://www.agilemodeling.com/essays/amdd.htm 
+ # _Agile Model Driven Development (AMDD)_, by Scott Ambler. http://www.agilemodeling.com/essays/amdd.htm 
