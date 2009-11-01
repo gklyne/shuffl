@@ -14,7 +14,7 @@ The outcomes of sprint reviews should be reflected here.
 
  * Use Google code project for code and the wiki for administrative notes and plans
 
- * Iterations (sprints): aim for 2 weeks, but allow some flexibility to accommodate circumstances and other commitments.  The sprint timetable for the initial phase to Nov 2009 has been determined at project startup.
+ * Iterations (sprints): aim for 2 weeks, with a minimum of 10-15 days effort, and allowing some flexibility to accommodate circumstances and other commitments.  Thus, for one person working alone and with other responsibilities, a 2-week sprint duration may be too short.  The sprint timetable for the initial phase to Nov 2009 has been determined at project startup.
 
  * Allow 10-15% overall effort for sprint planning, review, recoding and routine reporting
 
