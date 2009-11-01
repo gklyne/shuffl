@@ -77,7 +77,7 @@ Estimated effort: 6.0 days
  * (0.5) investigate Google data interface
  * (2.0) implement generic interface plugin for Google Data
 
-Actual effort: 0.5 days (for 0.5 planned activity)
+Actual effort: 0.5 days (for 1.0 planned activity)
 
 == 3.4: Improve I/O error handling ==
 
@@ -109,7 +109,7 @@ On the positive side, I did hold a review meeting with Chris Holland, and the cu
 
 On a strict measure, velocity is zero as no tasks were fully completed in this sprint.  But taking account of partially completed tasks, I get:
 
-Tasks completed/effort spent: 2.25/3.5 = 0.64, which is comparable with last sprint.
+Tasks completed/effort spent: 2.75/3.7 = 0.74.
 
 = Activity summary =
 
