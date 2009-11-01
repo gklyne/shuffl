@@ -110,4 +110,72 @@ Tasks completed/effort spent: ??/?? = ??
 
 = Activity summary =
 
-(((TBD)))
+Date:	 Monday, 19 October, 2009
+ Shuffl:
+ * (0.2) sprint plan (initial: review after meeting with Chris Holland) (task 1.1)
+ * (0.5) draft API for generic storage interface (task 3.3)
+ Claros:
+ * (0.2) respond to AHRC proposal document 
+ Misc:
+ * (0.1) Email
+
+Date:	 Tuesday, 20 October, 2009
+ Shuffl:
+ * (0.3) Meeting with Chris Holland to discuss next steps, and write-up (task 2.2)
+ Claros:
+ * (0.5) Meetings for AHRC bid, drafting work on AHRC bid
+ Misc:
+ * (0.2) Meeting with Daviud Duce, Brian Mattews and "Oz" to discuss CIDOC CRM
+
+Date:	 Wednesday, 21 October, 2009
+ Claros:
+ * (0.6) Meetings with Ian Horrocks and LASIMOS
+ ADMIRAL:
+ * (0.4) Work on project plan
+
+ Date:	 Thursday, 22 October, 2009
+ ADMIRAL:
+ * (0.8) Project plan, first draft done
+ Misc:
+ * (0.2) Discuss RDF data use with Birte from Ian Horrocks' group 
+
+Date:	 Monday, 26 October, 2009
+ Shuffl:
+ * (0.1) clean up some test cases (task 3.1)
+ * (0.1) remove URI field from graph card (task 3.2)
+ * (0.2) remove read CSV button from data table card (task 3.2)
+ * (0.2) graph card subscribed to changes in data source (task 3.2)
+ Claros:
+ * (0.2) Summary of ongoing work and proposals for partners
+ Misc:
+ * (0.2) URI registration (oid:) review
+
+Date:	 Tuesday, 27 October, 2009
+ Shuffl:
+ * (0.9) working on revised data table to allow label row selection
+ Claros:
+ * (0.1) Sort out screencast for Reinhard
+
+Date:	 Wednesday, 28 October, 2009
+ Claros:
+ * (1.0) CLAROS meetings and presentation
+
+Date:	 Thursday, 29 October, 2009
+ Shuffl:
+ * (0.1) email discussion about related work
+ Claros:
+ * (0.1) Berlin
+ * (0.1) AHRC bid discussion
+ * (0.1) plans for Berlin
+ * (0.1) MILARQ bid discussion
+ ADMIRAL:
+ * (0.1) Project plan revised, send to Simon Hodson
+ * (0.4) Meeting with Paul Jeffreys, John Milner, at al
+
+Date:	 Friday, 30 October, 2009
+ Shuffl:
+ * (0.4) table label-row selection (task 3.2)
+ * (0.4) table data range selection (task 3.2)
+ * (0.1) code improvement and bug fixes (task 3.1)
+ Claros:
+ * (0.1) MILARQ bid discussion and revision
