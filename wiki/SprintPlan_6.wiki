@@ -179,3 +179,7 @@ Date:	 Friday, 30 October, 2009
  * (0.1) code improvement and bug fixes (task 3.1)
  Claros:
  * (0.1) MILARQ bid discussion and revision
+
+Date:	 Sunday, 1 November, 2009
+ Shuffl:
+ * (0.2) Sprint review
