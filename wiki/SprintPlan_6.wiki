@@ -103,9 +103,11 @@ The first week of this sprint has been largely wiped out by non-project activiti
 
 Progress during this sprint has been fairly poor, largely due to distraction from both personal and non-project affairs.  The total amount of effort spent was 3.5 days against planned effort of 8 days. A further factor impacting progress was that reorganizing the code to enable label-row selection took somewhat longer than planned.
 
-On the positive side, I did hold a review meeting with Chris Holland, and the current development is being conducted very much in response to his feedback, to make the data graphing display more useful to him.
+On the positive side, I did hold a second review meeting with Chris Holland, and the current development is being conducted very much in response to his feedback, to make the data graphing display more useful to him.
 
-For a sprint with fewer than 4 days actual effort expended, the sprint planning process seems to lack sufficient data to be meaningful.  In setting sprint duration, it would seem reasonable to take account of the total amount of effort being applied rather than simply the number of elapsed days.  I don't plan to change the duration of remaining sprints for this project, but for future projects, planning sprints with fewer than 10-15 total days of effort may be something to avoid.
+Also on the positive side, the mechanisms for linking data between cards seem to be working nicely (e.g. when I reload new data into a table card, or change the label row, an associated graph card updates immediately.  But I do need to capture this relationship when I save and restore a workspace.
+
+Some thoughts about sprint planning: for a sprint with fewer than 4 days actual effort expended, the sprint planning process seems to lack sufficient data to be meaningful.  In setting sprint duration, it would seem reasonable to take account of the total amount of effort being applied rather than simply the number of elapsed days.  I don't plan to change the duration of the remaining two sprints for this project, but for future projects, planning sprints with fewer than 10-15 total days of effort may be something to avoid.
 
 == Velocity ==
 
