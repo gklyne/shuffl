@@ -47,8 +47,8 @@ TestLoadWorkspace = function() {
             equals(c1.data('shuffl:datamod'), false,                    "card 1 shuffl:datamod");          
             equals(c1.data('shuffl:dataRW'),  false,                    "card 1 shuffl:dataRW");          
             var p1 = c1.position();
-            equals(Math.floor(p1.left), 100,                            "card 1 position-left");
-            equals(Math.floor(p1.top),  30,                             "card 1 position-top");
+            range(p1.left, 99, 101,                                     "card 1 position-left");
+            range(p1.top,  29,  31,                                     "card 1 position-top");
             equals(c1.css("zIndex"), "11",                              "card 1 zIndex");
             //2
             var c2 = jQuery("#id_2");
@@ -69,8 +69,8 @@ TestLoadWorkspace = function() {
             equals(c2.data('shuffl:datamod'), false,                    "card 2 shuffl:datamod");          
             equals(c2.data('shuffl:dataRW'),  false,                    "card 2 shuffl:dataRW");          
             var p2 = c2.position();
-            equals(Math.floor(p2.left), 150,                            "card 2 position-left");
-            equals(Math.floor(p2.top),  60,                             "card 2 position-top");
+            range(p2.left, 149, 151,                                    "card 2 position-left");
+            range(p2.top,   59,  61,                                    "card 2 position-top");
             equals(c2.css("zIndex"), "12",                              "card 2 zIndex");
             //3 (third case mainly intended to check z-index values)
             var c3 = jQuery("#id_3");
@@ -91,8 +91,8 @@ TestLoadWorkspace = function() {
             equals(c3.data('shuffl:datamod'), false,                    "card 3 shuffl:datamod");          
             equals(c3.data('shuffl:dataRW'),  false,                    "card 3 shuffl:dataRW");          
             var p3 = c3.position();
-            equals(Math.floor(p3.left), 200,                            "card 3 position-left");
-            equals(Math.floor(p3.top),  90,                             "card 3 position-top");
+            range(p3.left, 199, 201,                                    "card 3 position-left");
+            range(p3.top,   89,  91,                                    "card 3 position-top");
             equals(c3.css("zIndex"), "13",                              "card 3 zIndex");
             //Done
             callback(true);
