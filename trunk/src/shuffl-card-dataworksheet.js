@@ -45,12 +45,28 @@ shuffl.card.dataworksheet = {};
 
 /**
  * Template for creating new card object for serialization
+ * 
+ * 'shuffl:coluse' is a list of values:
+ *   null         column ignored
+ *   {axis: 'x1'} value used for 'x1' axis
+ *   {axis: 'x2'} value used for 'x2' axis
+ *   {axis: 'y1'} value plotted on 'y1' axis (against 'x1')
+ *   {axis: 'y2'} value plotted on 'y2' axis (against 'x2')
+ * 
+ * For {axis: 'y1'} and {axis: 'y2'} values, additional fields may be defined:
+ *   col: colour  colour of graph, as index number or CSS value
+ *
+ * TODO: style (line/bar/scatter/etc), transform (lin/log/etc)
  */
 shuffl.card.dataworksheet.data =
-    { 'shuffl:title':   undefined
-    , 'shuffl:tags':    [ undefined ]
-    , 'shuffl:uri':     undefined
-    , 'shuffl:table':   undefined
+    { 'shuffl:title':         undefined
+    , 'shuffl:tags':          [ undefined ]
+    , 'shuffl:uri':           undefined
+    , 'shuffl:header_row':    0
+    , 'shuffl:data_firstrow': 1
+    , 'shuffl:data_lastrow':  0
+    , 'shuffl:coluse':        undefined
+    , 'shuffl:table':         undefined
     };
 
 /**
@@ -125,13 +141,27 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
         card.data("shuffl:header_row",    0);
         card.data("shuffl:data_firstrow", 1);
         card.data("shuffl:data_lastrow",  0);
+        card.data("shuffl:coluse",        []);
         updatefn(_event, undefined);
     });
-    card.modelBind("shuffl:header_row",    updatefn);
+    card.modelBind("shuffl:header_row", function (_event, data)
+    {
+        log.debug("shuffl.card.dataworksheet: shuffl:data_firstrow updated: "+data.newval);
+        card.data("shuffl:data_firstrow", data.newval+1);
+        try
+        {
+            updatefn(_event, undefined);
+        }
+        catch (e)
+        {
+            log.error("Error "+e)
+        }
+    });
     card.modelBind("shuffl:data_firstrow", updatefn);
     card.modelBind("shuffl:data_lastrow",  updatefn);
     // Hook up the row-selection pop-up menu
     // TODO: extract to separate function
+    // @@@ shuffl.card.dataworksheet.contextMenu(card, cbody);
     log.debug("shuffl.card.dataworksheet.newCard: connect row select menu");
     cbody.contextMenu('dataworksheet_rowSelectMenu', {
         menuStyle: {
@@ -143,9 +173,11 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
         showOnClick: true,
         onContextMenu: function (event)
         {
+            // TODO: is there a better way to find which row was clicked?
             cbody.find("tbody tr").each(function (rownum)
             {
                 // this = dom element
+                // TODO: is there a better way to test for ancestry?
                 if (jQuery(this).find("*").index(event.target) >= 0) {
                     log.debug("- selected row number "+rownum);
                     card.data("rownum", rownum);
@@ -171,6 +203,7 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
             }
         }
     });
+    // @@@
     // Initialize the model
     var cardtitle  = shuffl.get(carddata, 'shuffl:title',  cardid);
     var cardtags   = shuffl.get(carddata, 'shuffl:tags',   [cardtype]);
@@ -208,13 +241,14 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
  */
 shuffl.card.dataworksheet.serialize = function (card) 
 {
-    var carddata = shuffl.card.dataworksheet.data;
+    var carddata = jQuery.extend({}, shuffl.card.dataworksheet.data);
     carddata['shuffl:title'] = card.model("shuffl:title");
     carddata['shuffl:tags']  = shuffl.makeTagList(card.model("shuffl:tags"));
     carddata['shuffl:uri']   = card.model("shuffl:uri");
     carddata['shuffl:header_row']    = card.model("shuffl:header_row");
     carddata['shuffl:data_firstrow'] = card.model("shuffl:data_firstrow");
     carddata['shuffl:data_lastrow']  = card.model("shuffl:data_lastrow");
+    carddata['shuffl:coluse']        = card.model("shuffl:coluse");
     carddata['shuffl:table']         = card.model("shuffl:table");
     return carddata;
 };
@@ -250,38 +284,106 @@ shuffl.card.dataworksheet.updatedata = function (card, cbody)
         var table = card.model("shuffl:table");
         if (table)
         {
+            // Sort out header row and data
             var hrow = card.model("shuffl:header_row");
-            var htbl = [ table[hrow] ].concat(table);
+            var hdrs = table[hrow];
+            // Set new table data
+            var htbl = [ hdrs ].concat(table);
             cbody.table(htbl, 1);
+            // TODO: extract function + test case
+            // @@@ datarows = shuffl.card.dataworksheet.rowuse(card, table);
+            // @@@ datarows.first ...
+            // @@@ datarows.last  ...
             // Sort out first and last data rows
             var frow = card.model("shuffl:data_firstrow");
-            var lrow  = card.model("shuffl:data_lastrow");
+            var lrow = card.model("shuffl:data_lastrow");
             if (lrow <= 0) { lrow = table.length-1; }
             if (frow > lrow)
             {
                 frow = lrow;
                 lrow = card.model("shuffl:data_firstrow");
             }
-            // Reflect this in the display - unselect out-of-range rows
+            // TODO: Extract function + test case
+            // @@@ coluse = shuffl.card.dataworksheet.coluse(card, hdrs);
+            // Sort out column usage
+            var coluse   = card.model("shuffl:coluse");
+            ////log.debug("- coluse "+jQuery.toJSON(coluse));
+            if (!coluse || !coluse.length)
+            {
+                ////log.debug("- coluse default");
+                coluse = [];
+                var nxtuse = {axis: 'x1'};
+                for (var i = 0 ; i < hdrs.length ; i++)
+                {
+                    if (hdrs[i])
+                    {
+                        coluse.push(nxtuse);
+                        nxtuse = {axis: 'y1'};
+                    }
+                    else
+                    {
+                        coluse.push(null);
+                    }
+                };
+            };
+            // @@@
+            // TODO: extract function + test case
+            // @@@ datacols = shuffl.card.dataworksheet.datacols(card, coluse);
+            var x1 = undefined;
+            for (i=0 ; i<coluse.length ; i++)
+            {
+                if (coluse[i] && coluse[i].axis == 'x1') { x1 = i; };
+            };
+            var datacols = [];
+            for (i=0 ; i<coluse.length ; i++)
+            {
+                if (coluse[i] && coluse[i].axis == 'y1')
+                {
+                    datacols.push([x1,i]);
+                }
+            };
+            // @@@
+            // Reflect this in the display:
+            // unselect out-of-range rows and columns
+            // @@@ shuffl.card.dataworksheet.???(cbody, datarows, datacols);
+            log.debug("- datarows "+frow+", "+lrow);
+            log.debug("- coluse   "+jQuery.toJSON(coluse));
+            log.debug("- datacols "+jQuery.toJSON(datacols));
             cbody.find("tbody tr").each(function (rownum)
             {
                 // this = dom element
-                var elem = jQuery(this);
+               var trelem = jQuery(this);
                 if (rownum >= frow && rownum <= lrow)
                 {
-                    elem.removeClass("shuffl-deselected");
+                    // In row range: test column
+                    trelem.removeClass("shuffl-deselected");
+                    trelem.find("td").each(function (colnum)
+                    {
+                        ////log.debug("- colnum "+colnum+", coluse "+coluse[colnum]);
+                        var tdelem = jQuery(this);
+                        if (coluse[colnum])
+                        {
+                            tdelem.removeClass("shuffl-deselected");
+                        }
+                        else
+                        {
+                            tdelem.addClass("shuffl-deselected");
+                        };
+                    });
                 } 
                 else 
                 {
-                    elem.addClass("shuffl-deselected");
+                    // Out of row range
+                    trelem.addClass("shuffl-deselected");
                 };
             });
+            // @@@
             // Now set up graph labels and series data
             var options =
                 { labelrow:   hrow
                 , firstrow:   frow
                 , lastrow:    lrow
-                ////, datacols:   [[1,2], [1,3], [1,4]]
+                , datacols:   datacols
                 ////, setlabels:  'shuffl:labels'
                 ////, setseries:  'shuffl:series'
                 };
