@@ -276,13 +276,12 @@ shuffl.card.dataworksheet.updatedata = function (card, cbody)
                     elem.addClass("shuffl-deselected");
                 };
             });
-
             // Now set up graph labels and series data
             var options =
                 { labelrow:   hrow
                 , firstrow:   frow
                 , lastrow:    lrow
-                ////, datacols:   null
+                ////, datacols:   [[1,2], [1,3], [1,4]]
                 ////, setlabels:  'shuffl:labels'
                 ////, setseries:  'shuffl:series'
                 };

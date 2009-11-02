@@ -550,8 +550,13 @@ shuffl.modelSetSeries = function (card, options)
         var table = data.newval;
         if (table)
         {
-            var lastrow = useopts.lastrow;
+            var firstrow = useopts.firstrow;
+            var lastrow  = useopts.lastrow;
             if (lastrow <= 0) { lastrow = table.length+lastrow-1; };
+            if (firstrow <  0)            {firstrow = 0; };
+            if (firstrow >= table.length) {firstrow = table.length-1; };
+            if (lastrow  <  0)            {lastrow  = 0; };
+            if (lastrow  >= table.length) {lastrow  = table.length-1; };
             var datacols = useopts.datacols;
             if (datacols == null)
             {
@@ -571,7 +576,7 @@ shuffl.modelSetSeries = function (card, options)
                 var xcol = datacols[k][0];
                 var ycol = datacols[k][1];
                 var graph = [];
-                for (var i = useopts.firstrow ; i <= lastrow ; i++)
+                for (var i = firstrow ; i <= lastrow ; i++)
                 {
                     ////log.debug("- row "+i+", series "+k+", xcol "+xcol+", ycol "+ycol);
                     graph.push(
