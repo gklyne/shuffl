@@ -240,7 +240,6 @@ shuffl.card.dataworksheet.updatedata = function (card, cbody)
             // Set new table data
             var htbl = [ hdrs ].concat(table);
             cbody.table(htbl, 1);
-            // TODO: extract function + test case
             // @@@ datarows = shuffl.card.dataworksheet.rowuse(card, table);
             // @@@ datarows.first ...
             // @@@ datarows.last  ...
@@ -278,18 +277,18 @@ shuffl.card.dataworksheet.updatedata = function (card, cbody)
             };
             // @@@
             // TODO: extract function + test case
-            // @@@ datacols = shuffl.card.dataworksheet.datacols(card, coluse);
+            // @@@ dataplot = shuffl.card.dataworksheet.dataplot(card, coluse);
             var x1 = undefined;
             for (i=0 ; i<coluse.length ; i++)
             {
                 if (coluse[i] && coluse[i].axis == 'x1') { x1 = i; };
             };
-            var datacols = [];
+            var dataplot = [];
             for (i=0 ; i<coluse.length ; i++)
             {
                 if (coluse[i] && coluse[i].axis == 'y1')
                 {
-                    datacols.push([x1,i]);
+                    dataplot.push([x1,i]);
                 }
             };
             // @@@
@@ -298,7 +297,7 @@ shuffl.card.dataworksheet.updatedata = function (card, cbody)
             // @@@ shuffl.card.dataworksheet.???(cbody, datarows, datacols);
             log.debug("- datarows "+frow+", "+lrow);
             log.debug("- coluse   "+jQuery.toJSON(coluse));
-            log.debug("- datacols "+jQuery.toJSON(datacols));
+            log.debug("- datacols "+jQuery.toJSON(dataplot));
             cbody.find("tbody tr").each(function (rownum)
             {
                 // this = dom element
@@ -333,7 +332,7 @@ shuffl.card.dataworksheet.updatedata = function (card, cbody)
                 { labelrow:   hrow
                 , firstrow:   frow
                 , lastrow:    lrow
-                , datacols:   datacols
+                , datacols:   dataplot
                 ////, setlabels:  'shuffl:labels'
                 ////, setseries:  'shuffl:series'
                 };
@@ -394,27 +393,138 @@ shuffl.card.dataworksheet.contextMenu = function (card, cbody)
     });
 };
 
-// @@@ datarows = shuffl.card.dataworksheet.rowuse(card, table);
-// @@@ datarows.first ...
-// @@@ datarows.last  ...
-
 /**
- * Determine first and last data rows
+ * Determine first and last data rows of data in the table.
  * 
  * @param card      reference to card object
  * @param table     data table contained within the card object
+ * @return          an object {first:rownum, last: rownum}, indicating the 
+ *                  first and last rows (inclusive) of data.
  */
-////shuffl.card.dataworksheet.rowuse(card, table);
+shuffl.card.dataworksheet.rowuse = function (card, table)
+{
+    ////log.debug("shuffl.card.dataworksheet.rowuse");
+    var frow = card.model("shuffl:data_firstrow");
+    var lrow = card.model("shuffl:data_lastrow");
+    if (frow <  0 || frow >= table.length) { frow = 0; }
+    if (lrow <= 0 || lrow >= table.length) { lrow = table.length-1; }
+    if (frow > lrow)
+    {
+        frow = lrow;
+        lrow = card.model("shuffl:data_firstrow");
+    }
+    return {first: frow, last:lrow};
+};
 
+/**
+ * Sort out columns to use.
+ * 
+ * @param card      reference to card object
+ * @param hdrs      column headers: by default, columns used are those with
+ *                  non-empty header labels, with the first such column being 
+ *                  the x-axis variable.
+ * @return          a list of column-use values, {} for unused columns, or
+ *                  an object {axis:axisname}, where:
+ *                  axis:'x1' indicates an x1-axis variable
+ *                  axis:'y1' indicates a variable to be plotted on the y1-axis
+ */
+shuffl.card.dataworksheet.coluse = function (card, hdrs)
+{
+    var coluse   = card.model("shuffl:coluse");
+    ////log.debug("- coluse "+jQuery.toJSON(coluse));
+    if (!coluse || !coluse.length)
+    {
+        ////log.debug("- coluse default");
+        coluse = [];
+        var nxtuse = {axis: 'x1'};
+        for (var i = 0 ; i < hdrs.length ; i++)
+        {
+            if (hdrs[i])
+            {
+                coluse.push(nxtuse);
+                nxtuse = {axis: 'y1'};
+            }
+            else
+            {
+                coluse.push({});
+            }
+        };
+    };
+    return coluse;
+};
 
+/**
+ * Return list of data plots to be generated
+ * 
+ * @param card      reference to card object
+ * @param coluse    Column usage array, as returned by shuffl.card.dataworksheet.coluse
+ * @return          a list of graph descriptors, where each descriptor consists
+ *                  of a pair of column numbers for x and y values to plot.
+ * 
+ * TODO: return an object, with additional descriptions.
+ */
+shuffl.card.dataworksheet.dataplot = function (card, coluse)
+{
+    var x1 = undefined;
+    for (i=0 ; i<coluse.length ; i++)
+    {
+        if (coluse[i] && coluse[i].axis == 'x1') { x1 = i; };
+    };
+    var dataplot = [];
+    for (i=0 ; i<coluse.length ; i++)
+    {
+        if (coluse[i] && coluse[i].axis == 'y1')
+        {
+            dataplot.push([x1,i]);
+        }
+    };
+    return dataplot;
+};
 
-
-// @@@ coluse = shuffl.card.dataworksheet.coluse(card, hdrs);
-
-// @@@ datacols = shuffl.card.dataworksheet.datacols(card, coluse);
-
-// unselect out-of-range rows and columns
-// @@@ shuffl.card.dataworksheet.highlightData(cbody, datarows, datacols);
+/**
+ * Grey out rows and columns that are not part of selected data 
+ * (apply 'shuffl-deselected' style).
+ * 
+ * @param cbody     reference to the card body displaying the worksheet.
+ * @param datarows  first and last data rows, as returned by
+ *                  shuffl.card.dataworksheet.rowuse.
+ * @param coluse    column use descriptor, as returned by 
+ *                  shuffl.card.dataworksheet.coluse.
+ */
+shuffl.card.dataworksheet.highlightData = function (cbody, datarows, coluse)
+{
+    ////log.debug("shuffl.card.dataworksheet.highlightData");
+    ////log.debug("- datarows "+datarows.first+", "+datarows.last);
+    ////log.debug("- dataplot "+jQuery.toJSON(coluse));
+    cbody.find("tbody tr").each(function (rownum)
+    {
+        // this = dom element
+        var trelem = jQuery(this);
+        if (rownum >= datarows.first && rownum <= datarows.last)
+        {
+            // In row range: select/deselect columns
+            trelem.removeClass("shuffl-deselected");
+            trelem.find("td").each(function (colnum)
+            {
+                ////log.debug("- colnum "+colnum+", coluse "+coluse[colnum]);
+                var tdelem = jQuery(this);
+                if (coluse[colnum] && coluse[colnum].axis)
+                {
+                    tdelem.removeClass("shuffl-deselected");
+                }
+                else
+                {
+                    tdelem.addClass("shuffl-deselected");
+                };
+            });
+        } 
+        else 
+        {
+            // Out of row range: deselect row
+            trelem.addClass("shuffl-deselected");
+        };
+   });
+};
 
 // ----------------------------------------------------------------
 // Initialization
