@@ -68,7 +68,7 @@ TestCardDatagraphDrop = function()
 
     test("Mock drop on datagraph card", function ()
     {
-        expect(21);
+        expect(22);
         logtest("Mock drop on datagraph card");
         // Instantiate empty datagraph card
         var css = 'stock-yellow';
@@ -96,17 +96,19 @@ TestCardDatagraphDrop = function()
         equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "div", "card body contains <div>");
         // Instantiate mock table card
         var tc = jQuery("<div/>");
+        tc.model('shuffl:id',     'tc_id');
         tc.model('shuffl:labels', carddatagraph_labels1);
         tc.model('shuffl:series', carddatagraph_series1);
         // Simulate drop on datagraph card
         c.model('shuffl:source', tc);
         // Check updated datagraph model values
-        equals(c.model("shuffl:title"), "card-title", "shuffl:title");
-        equals(c.model("shuffl:tags"),  "card-tag",   "shuffl:tags");
-        equals(c.model("shuffl:dataminy"), 1.11, "shuffl:dataminy");
-        equals(c.model("shuffl:datamaxy"), 2.33, "shuffl:datamaxy");
-        same(c.model("shuffl:labels"), carddatagraph_labels1, "shuffl:labels");
-        same(c.model("shuffl:series"), carddatagraph_series1, "shuffl:series");
+        equals(c.model("shuffl:title"),     "card-title", "shuffl:title");
+        equals(c.model("shuffl:tags"),      "card-tag",   "shuffl:tags");
+        equals(c.model("shuffl:source_id"), "tc_id",      "shuffl:source_id");
+        equals(c.model("shuffl:dataminy"),  1.11, "shuffl:dataminy");
+        equals(c.model("shuffl:datamaxy"),  2.33, "shuffl:datamaxy");
+        same(c.model("shuffl:labels"),      carddatagraph_labels1, "shuffl:labels");
+        same(c.model("shuffl:series"),      carddatagraph_series1, "shuffl:series");
         // Check updated datagraph rendered card
         equals(c.find("ctitle").text(), "card-title", "card title field");
         equals(c.find("ctags").text(),  "card-tag", "card tags field");
@@ -116,7 +118,7 @@ TestCardDatagraphDrop = function()
 
     test("Datatable drop on datagraph card", function ()
     {
-        expect(21);
+        expect(22);
         logtest("Datatable drop on datagraph card");
         // Instantiate empty datagraph card
         var c   = shuffl.card.datagraph.newCard("shuffl-datagraph-yellow", 
@@ -130,10 +132,10 @@ TestCardDatagraphDrop = function()
             , 'shuffl:series':   carddatagraph_series0
             });
         // Check datagraph model values
-        equals(c.model("shuffl:title"), "Graph card", "shuffl:title");
-        equals(c.model("shuffl:tags"),  "graph-card",   "shuffl:tags");
-        equals(c.model("shuffl:dataminy"), -1.2, "shuffl:dataminy");
-        equals(c.model("shuffl:datamaxy"),  1.2, "shuffl:datamaxy");
+        equals(c.model("shuffl:title"), "Graph card",         "shuffl:title");
+        equals(c.model("shuffl:tags"),  "graph-card",         "shuffl:tags");
+        equals(c.model("shuffl:dataminy"), -1.2,              "shuffl:dataminy");
+        equals(c.model("shuffl:datamaxy"),  1.2,              "shuffl:datamaxy");
         same(c.model("shuffl:labels"), carddatagraph_labels0, "shuffl:labels");
         same(c.model("shuffl:series"), carddatagraph_series0, "shuffl:series");
         // Check datagraph rendered card
@@ -142,7 +144,7 @@ TestCardDatagraphDrop = function()
         equals(c.find("cdataminy").text(), "-1.20",   "minimum Y field");
         equals(c.find("cdatamaxy").text(),  "1.20",   "maximum Y field");
         equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "div", "card body contains <div>");
-        // Instatiate datatable card
+        // Instantiate datatable card
         var tc = shuffl.card.datatable.newCard("shuffl-datatable-blue", 
             'stock-blue', "card-2",
             { 'shuffl:title': "Table card"
@@ -153,10 +155,11 @@ TestCardDatagraphDrop = function()
         // Simulate drop on datagraph card
         c.model('shuffl:source', tc);
         // Check updated datagraph model values
-        equals(c.model("shuffl:title"), "Graph card (Table card)", "shuffl:title");
-        equals(c.model("shuffl:tags"),  "graph-card", "shuffl:tags");
-        equals(c.model("shuffl:dataminy"), 1.11, "shuffl:dataminy");
-        equals(c.model("shuffl:datamaxy"), 2.33, "shuffl:datamaxy");
+        equals(c.model("shuffl:title"),     "Graph card (Table card)", "shuffl:title");
+        equals(c.model("shuffl:tags"),      "graph-card",     "shuffl:tags");
+        equals(c.model("shuffl:source_id"), "card-2",         "shuffl:source_id");
+        equals(c.model("shuffl:dataminy"),  1.11,             "shuffl:dataminy");
+        equals(c.model("shuffl:datamaxy"),  2.33,             "shuffl:datamaxy");
         same(c.model("shuffl:labels"), carddatagraph_labels1, "shuffl:labels");
         same(c.model("shuffl:series"), carddatagraph_series1, "shuffl:series");
         // Check updated datagraph rendered card
@@ -168,7 +171,7 @@ TestCardDatagraphDrop = function()
 
     test("Datatable second drop on datagraph card", function ()
     {
-        expect(31);
+        expect(33);
         logtest("Datatable second drop on datagraph card");
         // Instantiate empty datagraph card
         var c   = shuffl.card.datagraph.newCard("shuffl-datagraph-yellow", 
@@ -194,7 +197,7 @@ TestCardDatagraphDrop = function()
         equals(c.find("cdataminy").text(), "-1.20",   "minimum Y field");
         equals(c.find("cdatamaxy").text(),  "1.20",   "maximum Y field");
         equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "div", "card body contains <div>");
-        // Instatiate datatable card
+        // Instantiate datatable card
         var tc = shuffl.card.datatable.newCard("shuffl-datatable-blue", 
             'stock-blue', "card-2",
             { 'shuffl:title': "Table card"
@@ -205,10 +208,11 @@ TestCardDatagraphDrop = function()
         // Simulate drop on datagraph card
         c.model('shuffl:source', tc);
         // Check updated datagraph model values
-        equals(c.model("shuffl:title"), "Graph card (Table card)", "shuffl:title");
-        equals(c.model("shuffl:tags"),  "graph-card", "shuffl:tags");
-        equals(c.model("shuffl:dataminy"), 1.11, "shuffl:dataminy");
-        equals(c.model("shuffl:datamaxy"), 2.33, "shuffl:datamaxy");
+        equals(c.model("shuffl:title"),     "Graph card (Table card)", "shuffl:title");
+        equals(c.model("shuffl:tags"),      "graph-card",     "shuffl:tags");
+        equals(c.model("shuffl:source_id"), "card-2",         "shuffl:source_id");
+        equals(c.model("shuffl:dataminy"),  1.11,             "shuffl:dataminy");
+        equals(c.model("shuffl:datamaxy"),  2.33,             "shuffl:datamaxy");
         same(c.model("shuffl:labels"), carddatagraph_labels1, "shuffl:labels");
         same(c.model("shuffl:series"), carddatagraph_series1, "shuffl:series");
         // Check updated datagraph rendered card
@@ -228,9 +232,10 @@ TestCardDatagraphDrop = function()
         c.model('shuffl:source', tc2);
         // Check updated datagraph model values
         equals(c.model("shuffl:title"), "Graph card (Table card 2)", "shuffl:title(2)");
-        equals(c.model("shuffl:tags"),  "graph-card", "shuffl:tags(2)");
-        equals(c.model("shuffl:dataminy"), 21.11, "shuffl:dataminy(2)");
-        equals(c.model("shuffl:datamaxy"), 22.33, "shuffl:datamaxy(2)");
+        equals(c.model("shuffl:tags"),  "graph-card",         "shuffl:tags(2)");
+        equals(c.model("shuffl:source_id"), "card-3",         "shuffl:source_id");
+        equals(c.model("shuffl:dataminy"), 21.11,             "shuffl:dataminy(2)");
+        equals(c.model("shuffl:datamaxy"), 22.33,             "shuffl:datamaxy(2)");
         same(c.model("shuffl:labels"), carddatagraph_labels2, "shuffl:labels(2)");
         same(c.model("shuffl:series"), carddatagraph_series2, "shuffl:series(2)");
         // Check updated datagraph rendered card
@@ -242,24 +247,26 @@ TestCardDatagraphDrop = function()
 
     test("Datagraph subscription to datatable changes", function ()
     {
-        expect(32);
+        expect(34);
         logtest("Datagraph subscription to datatable changes");
         // Instantiate empty datagraph card
         var c   = shuffl.card.datagraph.newCard("shuffl-datagraph-yellow", 
             'stock-yellow', "card-1",
-            { 'shuffl:title':   "Graph card"
-            , 'shuffl:tags':    ["graph-card"]
-            , 'shuffl:uri':     ""
-            , 'shuffl:dataminy': -1.2
-            , 'shuffl:datamaxy': 1.2
-            , 'shuffl:labels':   carddatagraph_labels0
-            , 'shuffl:series':   carddatagraph_series0
+            { 'shuffl:title':     "Graph card"
+            , 'shuffl:tags':      ["graph-card"]
+            , 'shuffl:uri':       ""
+            , 'shuffl:source_id': "srcid"
+            , 'shuffl:dataminy':  -1.2
+            , 'shuffl:datamaxy':  1.2
+            , 'shuffl:labels':    carddatagraph_labels0
+            , 'shuffl:series':    carddatagraph_series0
             });
         // Check datagraph model values
-        equals(c.model("shuffl:title"), "Graph card", "shuffl:title");
-        equals(c.model("shuffl:tags"),  "graph-card",   "shuffl:tags");
-        equals(c.model("shuffl:dataminy"), -1.2, "shuffl:dataminy");
-        equals(c.model("shuffl:datamaxy"),  1.2, "shuffl:datamaxy");
+        equals(c.model("shuffl:title"), "Graph card",         "shuffl:title");
+        equals(c.model("shuffl:tags"),  "graph-card",         "shuffl:tags");
+        equals(c.model("shuffl:source_id"), "srcid",          "shuffl:source_id");
+        equals(c.model("shuffl:dataminy"), -1.2,              "shuffl:dataminy");
+        equals(c.model("shuffl:datamaxy"),  1.2,              "shuffl:datamaxy");
         same(c.model("shuffl:labels"), carddatagraph_labels0, "shuffl:labels");
         same(c.model("shuffl:series"), carddatagraph_series0, "shuffl:series");
         // Check datagraph rendered card
@@ -279,9 +286,10 @@ TestCardDatagraphDrop = function()
         c.model('shuffl:source', tc);
         // Check updated datagraph model values
         equals(c.model("shuffl:title"), "Graph card (Table card)", "shuffl:title");
-        equals(c.model("shuffl:tags"),  "graph-card", "shuffl:tags");
-        equals(c.model("shuffl:dataminy"), 1.11, "shuffl:dataminy");
-        equals(c.model("shuffl:datamaxy"), 2.33, "shuffl:datamaxy");
+        equals(c.model("shuffl:tags"),  "graph-card",         "shuffl:tags");
+        equals(c.model("shuffl:source_id"), "card-2",         "shuffl:source_id");
+        equals(c.model("shuffl:dataminy"), 1.11,              "shuffl:dataminy");
+        equals(c.model("shuffl:datamaxy"), 2.33,              "shuffl:datamaxy");
         same(c.model("shuffl:labels"), carddatagraph_labels1, "shuffl:labels");
         same(c.model("shuffl:series"), carddatagraph_series1, "shuffl:series");
         // Check updated datagraph rendered card
