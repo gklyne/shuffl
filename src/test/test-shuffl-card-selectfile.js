@@ -108,8 +108,8 @@ TestCardSelectfile = function() {
             equals(c.attr('class'), 'shuffl-card-autosize stock-default shuffl-card', "CSS class");
             equals(c.find("cident").text(),     card_id, "card id field");
             equals(c.find("cclass").text(),     "shuffl-selectfile", "card type");
-            equals(c.find("ctitle").text(),     card_id+" - type shuffl-selectfile", "card title field");
-            equals(c.find("ctags").text(),      card_id+",shuffl-selectfile", "card tags field");
+            equals(c.find("ctitle").text(),     card_id, "card title field");
+            equals(c.find("ctags").text(),      "shuffl-selectfile", "card tags field");
             equals(c.find("cbaseuri").text(),   baseuri, "card cbaseuri field");
             equals(c.find("cfile").text(),      "(Double-click to edit)", "card cfile field");
             equals(c.find("curi").text(),       baseuri, "card curi field");
