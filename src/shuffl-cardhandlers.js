@@ -394,6 +394,28 @@ shuffl.makeTagList = function (ttext)
     return jQuery.trim(ttext).split(/[\s]*,[\s]*/);
 };
 
+/**
+ * Initialize model variable from data, or using default value.
+ * 
+ * @param card      card object whose model is being initialized
+ * @param modelvar  model variable to initialize, also used as field name in
+ *                  card data provided.
+ * @param carddata  an object containing values used to initialize a card,
+ *                  usually obtained from a serialized card description. 
+ * @param valdef    a default value to use if no value is given by carddata
+ * @param valtype   if present, indicates the type of value to be initialized:
+ *                  this affects conversion from the supplied value for
+ *                  storage in the model.  The following values are recognized:
+ *                    array   value is an array, stored internaly as a comma-
+ *                            separated list.
+ */
+shuffl.initModelVar = function (card, modelvar, carddata, valdef, valtype)
+{
+    var val = shuffl.get(carddata, modelvar, valdef);
+    if (valtype == 'array') { val = val.join(","); };
+    card.model(modelvar, val);
+}
+
 // ----------------------------------------------------------------
 // Card MVC support functions
 // ----------------------------------------------------------------

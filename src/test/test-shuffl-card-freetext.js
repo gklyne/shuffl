@@ -157,8 +157,8 @@ TestCardFreetext = function() {
             equals(c.attr('class'), 'shuffl-card-setsize stock-green ui-resizable shuffl-card', "CSS class");
             equals(c.find("cident").text(), card_id, "card id field");
             equals(c.find("cclass").text(), "shuffl-freetext-green", "card type");
-            equals(c.find("ctitle").text(), card_id+" - type shuffl-freetext-green", "card title field");
-            equals(c.find("ctags").text(),  card_id+",shuffl-freetext-green", "card tags field");
+            equals(c.find("ctitle").text(), card_id, "card title field");
+            equals(c.find("ctags").text(),  "shuffl-freetext-green", "card tags field");
             // Check saved card data
             var d = testcardfreetext_carddata;
             equals(c.data('shuffl:id'),    card_id, "layout card id");
