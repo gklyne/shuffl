@@ -217,8 +217,8 @@ TestCardDatatable = function() {
             equals(c.attr('class'), 'shuffl-card-setsize shuffl-series stock-green ui-resizable shuffl-card', "CSS class");
             equals(c.find("cident").text(), card_id, "card id field");
             equals(c.find("cclass").text(), "shuffl-datatable-green", "card type");
-            equals(c.find("ctitle").text(), card_id+" - type shuffl-datatable-green", "card title field");
-            equals(c.find("ctags").text(),  card_id+",shuffl-datatable-green", "card tags field");
+            equals(c.find("ctitle").text(), card_id, "card title field");
+            equals(c.find("ctags").text(),  "shuffl-datatable-green", "card tags field");
             equals(c.find("curi").text(),   "(Double-click to edit)", "card URI field");
             equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
             // Check saved card data
