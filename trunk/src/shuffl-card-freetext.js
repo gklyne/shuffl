@@ -66,9 +66,6 @@ shuffl.card.freetext.blank = jQuery(
     "  </cfoot>"+
     "</div>");
 
-// TODO: refactor this to run from full card object as converted from JSON
-//       (to preserve prefixes, etc.)
-
 /**
  * Creates and return a new card instance.
  * 
@@ -104,12 +101,9 @@ shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
     card.modelBind("shuffl:text", shuffl.modelSetHtml(cbody, true));
     shuffl.blockEditable(card, cbody, shuffl.editSetModel(card, "shuffl:text"));
     // Initialize the model
-    var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
-    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
-    var cardtext  = shuffl.get(carddata, 'shuffl:text',  "");
-    card.model("shuffl:title", cardtitle);
-    card.model("shuffl:tags",  cardtags.join(","));
-    card.model("shuffl:text",  cardtext);
+    shuffl.initModelVar(card, 'shuffl:title', carddata, cardid);
+    shuffl.initModelVar(card, 'shuffl:tags',  carddata, [cardtype], 'array');
+    shuffl.initModelVar(card, 'shuffl:text',  carddata, "");
     return card;
 };
 
