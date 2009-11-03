@@ -392,6 +392,10 @@ shuffl.makeTagList = function (ttext)
     return jQuery.trim(ttext).split(/[\s]*,[\s]*/);
 };
 
+// ----------------------------------------------------------------
+// Card initialization/serialization support functions
+// ----------------------------------------------------------------
+
 /**
  * Initialize model variable from data, or using default value.
  * 
@@ -410,9 +414,62 @@ shuffl.makeTagList = function (ttext)
 shuffl.initModelVar = function (card, modelvar, carddata, valdef, valtype)
 {
     var val = shuffl.get(carddata, modelvar, valdef);
+    log.debug("shuffl.initModelVar "+modelvar+", "+val+", "+valtype);
     if (valtype == 'array') { val = val.join(","); };
     card.model(modelvar, val);
-}
+};
+
+/**
+ * Initialize model data from the supplied card data, using the supplied
+ * data map structure.
+ * 
+ * @param card      card object whose model is being initialized
+ * @param carddata  an object containing values used to initialize a card,
+ *                  usually obtained from a serialized card description. 
+ * @param datamap   an object that describes the mapping between serialized 
+ *                  data and the card model user internally.  Also defines
+ *                  default values for initializing a new card.
+ * @param defvals   a dictionary of default values referenced by datamap 
+ *                  references of the form '@key'
+ */
+shuffl.initModel = function (card, carddata, datamap, defvals)
+{
+    for ( var k in datamap )
+    {
+        var d = datamap[k].def;
+        if (d.slice(0,1) == '@')
+        {
+            d = defvals[d.slice(1)];
+        }
+        shuffl.initModelVar(card, k, carddata, d, datamap[k].type);
+    };
+};
+
+/**
+ * Serialize a supplied card model using the supplied data map structure
+ * 
+ * @param card      card object whose model is being initialized
+ * @param datamap   an object that describes the mapping between serialized 
+ *                  data and the card model user internally.  Also defines
+ *                  default values for initializing a new card.
+ * @return          a card descriptionb as a Javascript object ready for 
+ *                  serialization as JSON or some other format.
+ */
+shuffl.serializeModel = function (card, datamap)
+{
+    var carddata = {};
+    for ( var k in datamap )
+    {
+        var v = card.model(k);
+        if (datamap[k].type == 'array')
+        {
+            v = shuffl.makeTagList(v);
+        }
+        carddata[k] = v;
+    };
+    return carddata;
+};
+
 
 // ----------------------------------------------------------------
 // Card MVC support functions
