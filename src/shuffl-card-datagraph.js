@@ -172,24 +172,17 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
         card.data("shuffl:source_id", src.data('shuffl:id'));
     });
     // Initialize the model
-    var cardtitle     = shuffl.get(carddata, 'shuffl:title',        cardid);
-    var cardtags      = shuffl.get(carddata, 'shuffl:tags',         [cardtype]);
-    var carduri       = shuffl.get(carddata, 'shuffl:uri',          "");
-    var cardsrcid     = shuffl.get(carddata, 'shuffl:source_id',    undefined);
-    var cardlabels    = shuffl.get(carddata, 'shuffl:labels',       undefined);
-    var cardseries    = shuffl.get(carddata, 'shuffl:series',       undefined);
-    var carddataminy  = shuffl.get(carddata, 'shuffl:dataminy',     undefined);
-    var carddatamaxy  = shuffl.get(carddata, 'shuffl:datamaxy',     undefined);
-    card.model("shuffl:title",      cardtitle);
-    card.model("shuffl:tags",       cardtags.join(","));
-    card.model("shuffl:uri",        carduri);
-    card.model("shuffl:source_id",  cardsrcid);
-    card.model("shuffl:dataminy",   carddataminy);
-    card.model("shuffl:datamaxy",   carddatamaxy);
-    card.data("shuffl:labels",      cardlabels);
-    card.data("shuffl:series",      cardseries);
+    shuffl.initModelVar(card, 'shuffl:title',     carddata, cardid);
+    shuffl.initModelVar(card, 'shuffl:tags',      carddata, [cardtype], 'array');
+    shuffl.initModelVar(card, 'shuffl:uri',       carddata, "");
+    shuffl.initModelVar(card, 'shuffl:source_id', carddata, undefined);
+    shuffl.initModelVar(card, 'shuffl:labels',    carddata, undefined);
+    shuffl.initModelVar(card, 'shuffl:series',    carddata, undefined);
+    shuffl.initModelVar(card, 'shuffl:dataminy',  carddata, undefined);
+    shuffl.initModelVar(card, 'shuffl:datamaxy',  carddata, undefined);
     // If card is linked, complete setting link when all cards have been loaded
     // (shuffl.LoadWorkspace triggers an event when all cards have been loaded)
+    var cardsrcid = card.model('shuffl:source_id');
     if (cardsrcid)
     {
         card.one("shuffl:AllCardsLoaded", function () {
@@ -201,7 +194,7 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
         });
     };
     // TODO: remove this temporary code to define table data if none provided
-    if (!cardseries)
+    if (!card.model('shuffl:series'))
     {
         card.model("shuffl:table", shuffl.card.datagraph.table);
     };
