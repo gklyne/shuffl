@@ -1032,11 +1032,11 @@ shuffl.positionAbs = function (base, off)
  * @param card      jQuery card object to be configured as drop target
  * @param sourcesel source object selector string:  specifies what draggable 
  *                  source objects may be dropped on this card.
- * @param modelvar  name of model variable that is set to the source object
+ * @param srcvar    name of model variable that is set to the source object
  *                  dropped onto this target. The target should use model 
  *                  listener functions to respond to the drop.
  */
-shuffl.dropTarget = function (card, sourcesel, modelvar)
+shuffl.dropTarget = function (card, sourcesel, srcvar)
 {
     card.droppable(
         { accept:     sourcesel
@@ -1050,7 +1050,7 @@ shuffl.dropTarget = function (card, sourcesel, modelvar)
               // ui.offset - current absolute position of the draggable helper { top: , left: }
               var tc = ui.draggable;
               ////log.debug("shuffl.card.datagraph - drop "+tc.attr('id')+", "+tc.attr('class'));
-              card.model(modelvar, tc);
+              card.model(srcvar, tc);
               }
         ////, over:       function  (_event, _ui) {}
         ////, out:        function  (_event, _ui) {}

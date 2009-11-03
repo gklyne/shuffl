@@ -64,13 +64,14 @@ var testcarddatagraph_carddata =
       , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
       ]
     , 'shuffl:data':
-      { 'shuffl:title':    "Card N title"
-      , 'shuffl:tags':     [ 'card_N_tag', 'footag' ]
-      , 'shuffl:uri':      "test-graph.csv"
-      , 'shuffl:dataminy': -1.2
-      , 'shuffl:datamaxy': 1.2
-      , 'shuffl:labels':   testcarddatagraph_labels
-      , 'shuffl:series':   testcarddatagraph_series
+      { 'shuffl:title':     "Card N title"
+      , 'shuffl:tags':      [ 'card_N_tag', 'footag' ]
+      , 'shuffl:uri':       "test-graph.csv"
+      , 'shuffl:source_id': "srcid"
+      , 'shuffl:dataminy':  -1.2
+      , 'shuffl:datamaxy':  1.2
+      , 'shuffl:labels':    testcarddatagraph_labels
+      , 'shuffl:series':    testcarddatagraph_series
       }
     };
 
@@ -130,8 +131,9 @@ TestCardDatagraph = function() {
             equals(c.model("shuffl:title"), "card-title", "shuffl:title");
             equals(c.model("shuffl:tags"),  "card-tag",   "shuffl:tags");
             equals(c.model("shuffl:uri"),   "http://example.org/test-uri.csv", "shuffl:uri");
-            equals(c.model("shuffl:dataminy"), -1.2, "shuffl:dataminy");
-            equals(c.model("shuffl:datamaxy"),  1.2, "shuffl:datamaxy");
+            equals(c.model("shuffl:source_id"), undefined,           "shuffl:source_id");
+            equals(c.model("shuffl:dataminy"), -1.2,                 "shuffl:dataminy");
+            equals(c.model("shuffl:datamaxy"),  1.2,                 "shuffl:datamaxy");
             same(c.model("shuffl:table"),  undefined,                "shuffl:table");
             same(c.model("shuffl:labels"), testcarddatagraph_labels, "shuffl:labels");
             same(c.model("shuffl:series"), testcarddatagraph_series, "shuffl:series");
@@ -160,6 +162,7 @@ TestCardDatagraph = function() {
             // Check model values
             equals(c.model("shuffl:title"), card_id, "shuffl:title");
             equals(c.model("shuffl:tags"),  "shuffl-datagraph-green", "shuffl:tags");
+            equals(c.model("shuffl:source_id"), undefined,            "shuffl:source_id");
             //TODO: reinstate these tests when dummy data is removed from new cards
             range(c.model("shuffl:dataminy"), -3.0, -2.0, "shuffl:dataminy");
             range(c.model("shuffl:datamaxy"),  3.0,  4.0, "shuffl:datamaxy");
@@ -203,10 +206,11 @@ TestCardDatagraph = function() {
             var d = testcarddatagraph_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-orange", d);
             // Check model values
-            equals(c.model("shuffl:title"), "Card N title",      "shuffl:title");
-            equals(c.model("shuffl:tags"),  "card_N_tag,footag", "shuffl:tags");
-            equals(c.model("shuffl:dataminy"), -1.2, "shuffl:dataminy");
-            equals(c.model("shuffl:datamaxy"),  1.2, "shuffl:datamaxy");
+            equals(c.model("shuffl:title"), "Card N title",          "shuffl:title");
+            equals(c.model("shuffl:tags"),  "card_N_tag,footag",     "shuffl:tags");
+            equals(c.model("shuffl:source_id"), "srcid",             "shuffl:source_id");
+            equals(c.model("shuffl:dataminy"), -1.2,                 "shuffl:dataminy");
+            equals(c.model("shuffl:datamaxy"),  1.2,                 "shuffl:datamaxy");
             same(c.model("shuffl:table"),  undefined,                "shuffl:table");
             same(c.model("shuffl:labels"), testcarddatagraph_labels, "shuffl:labels");
             same(c.model("shuffl:series"), testcarddatagraph_series, "shuffl:series");
@@ -242,8 +246,9 @@ TestCardDatagraph = function() {
             same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');
             equals(e['shuffl:data']['shuffl:title'], "Card N title",   'shuffl:data-title');
             same(e['shuffl:data']['shuffl:tags'],    [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
-            equals(e['shuffl:data']['shuffl:dataminy'], -1.2,          'shuffl:data-dataminy');
-            equals(e['shuffl:data']['shuffl:datamaxy'],  1.2,          'shuffl:data-datamaxy');
+            equals(e['shuffl:data']['shuffl:source_id'], "srcid",       'shuffl:data-dataminy');
+            equals(e['shuffl:data']['shuffl:dataminy'],  -1.2,          'shuffl:data-dataminy');
+            equals(e['shuffl:data']['shuffl:datamaxy'],   1.2,          'shuffl:data-datamaxy');
             same(e['shuffl:data']['shuffl:labels'],  testcarddatagraph_labels,  'shuffl:data-labels');
             same(e['shuffl:data']['shuffl:series'],  testcarddatagraph_series,  'shuffl:data-series');
         });
