@@ -188,6 +188,18 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     card.model("shuffl:datamaxy",   carddatamaxy);
     card.data("shuffl:labels",      cardlabels);
     card.data("shuffl:series",      cardseries);
+    // If card is linked, complete setting link when all cards have been loaded
+    // (shuffl.LoadWorkspace triggers an event when all cards have been loaded)
+    if (cardsrcid)
+    {
+        card.one("shuffl:AllCardsLoaded", function () {
+            var src = jQuery(document.getElementById(cardsrcid));
+            if (src.length == 1)
+            {
+                card.model("shuffl:source", src.eq(0));
+            };
+        });
+    };
     // TODO: remove this temporary code to define table data if none provided
     if (!cardseries)
     {

@@ -56,6 +56,13 @@ jQuery.fn.model = function (name, value)
 /**
  * Bind a model-change listener to a particular model value in all selected
  * elements.
+ * 
+ * The callback is invoked thus:
+ *   fn(event, data) {
+ *      // this  = jQuery object containing changed model variable
+ *      // event = jQuery event object
+ *      // data  = {name:modelvarname, oldval:oldval, newval:value}
+ *   };
  */
 jQuery.fn.modelBind = function (name, fn)
 {
