@@ -4,10 +4,16 @@
  * Test suite for workspace loading function
  * 
  * Dependencies:
- *  test-shuffl-loadworkspace-layout.json
- *  test-shuffl-loadworkspace-card_1.json
- *  test-shuffl-loadworkspace-card_2.json
+ *  data/test-shuffl-loadworkspace-layout.json
+ *  data/test-shuffl-loadworkspace-card_1.json
+ *  data/test-shuffl-loadworkspace-card_2.json
+ *  data/test-shuffl-loadworkspace-card_3.json
+ *  data/test-shuffl-loadworkspace-linked-layout.json
+ *  data/test-shuffl-loadworkspace-linked-card_1.json
+ *  data/test-shuffl-loadworkspace-linked-card_2.json
  */
+
+var NaN = Number.NaN;
 
 /**
  * Function to register tests
@@ -181,6 +187,53 @@ TestLoadWorkspace = function() {
         });        
         m.exec({}, start);
         ok(true, "shuffl.ResetWorkspace initiated");
+        stop(2000);
+    });
+    
+    test("shuffl.LoadWorkspace (linked cards)", function () {
+        logtest("shuffl.LoadWorkspace (linked cards)");
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
+            shuffl.loadWorkspace("data/test-shuffl-loadworkspace-linked-layout.json", callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Test workspace reloaded");
+            var u = jQuery.uri().resolve("data/test-shuffl-loadworkspace-linked-layout.json");
+            equals(jQuery('#workspace_status').text(), u.toString(), '#workspace_status');
+            equals(jQuery('#workspace').data('location'), u.toString(), "location");
+            this.c1 = jQuery("#id_1");
+            equals(this.c1.model('shuffl:title'), "Data table card", "c2[shuffl:title]");
+            same(this.c1.model('shuffl:table')[0], [ "",      "col1",  "col2",  "col3" ], "c1[shuffl:table][0]");
+            same(this.c1.model('shuffl:table')[1], [ "row_1", "1.11",  "1.22",  "1.33" ], "c1[shuffl:table][1]");
+            same(this.c1.model('shuffl:table')[2], [ "row_2", "2.11",  "2.22",  "2.33" ], "c1[shuffl:table][2]");
+            this.c2 = jQuery("#id_2");
+            equals(this.c2.model('shuffl:title'), "Data graph card (Data table card)", "c2[shuffl:title]");
+            same(this.c2.model('shuffl:labels'), ["col1",  "col2",  "col3"], "c2[shuffl:labels]");
+            same(this.c2.model('shuffl:series')[0], [ [NaN, 1.11], [NaN, 2.11], [NaN, NaN] ], "c2[shuffl:series][0]");
+            same(this.c2.model('shuffl:series')[1], [ [NaN, 1.22], [NaN, 2.22], [NaN, NaN] ], "c2[shuffl:series][1]");
+            same(this.c2.model('shuffl:series')[2], [ [NaN, 1.33], [NaN, 2.33], [NaN, NaN] ], "c2[shuffl:series][2]");
+            callback(true);
+        });        
+        m.eval(function(val,callback) {
+            // Change source title
+            this.c1.model("shuffl:title", "Update table title");
+            equals(this.c1.model('shuffl:title'), "Update table title", "c2[shuffl:title] (2)");
+            equals(this.c2.model('shuffl:title'), "Data graph card (Update table title)", "c2[shuffl:title] (2)");
+            // Change source table
+            var newtable =
+                [ [ "", "ccc1", "ccc2", "ccc3" ]
+                , [  1, 11.11,  11.22,  11.33  ]
+                , [  2, 12.11,  12.22,  12.33  ]
+                ]
+            this.c1.model("shuffl:table", newtable);
+            same(this.c2.model('shuffl:labels'), ["ccc1",  "ccc2",  "ccc3"], "c2[shuffl:labels] (3)");
+            same(this.c2.model('shuffl:series')[0], [ [1, 11.11], [2, 12.11] ], "c2[shuffl:series][0] (3)");
+            same(this.c2.model('shuffl:series')[1], [ [1, 11.22], [2, 12.22] ], "c2[shuffl:series][1] (3)");
+            same(this.c2.model('shuffl:series')[2], [ [1, 11.33], [2, 12.33] ], "c2[shuffl:series][2] (3)");
+            // Done
+            callback(true);
+        });
+        m.exec({}, start);
         stop(2000);
     });
 

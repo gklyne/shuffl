@@ -60,6 +60,10 @@ shuffl.readCard = function (baseuri, dataref, callback) {
  * 
  * The data loaded is added to any data which may already be present.
  * 
+ * A "shuffl:AllCardsLoaded" event is triggered to allow cards to complete 
+ * initializing when the all cards defined by the indicated resource have
+ * been loaded.
+ * 
  * @param uri       URI of workspace description.
  * @param callback  function called when the load is complete.
  * 
@@ -123,7 +127,17 @@ shuffl.loadWorkspace = function(uri, callback) {
                 m2.eval(readLayoutCard(layout[i]));
             };
             // Kick off loading cards
-            m2.exec({}, callback);
+            m2.exec({}, function (val) {
+                // All cards loaded: fire a "shuffl:AllCardsLoaded" event
+                // if no error returned, then invoke caller's callback.
+                // The "shuffl:AllCardsLoaded" event is provided to allow 
+                // cards to complete initializing when the workspace is loaded.
+                if (!(val instanceof Error))
+                {
+                    jQuery(".shuffl-card").trigger("shuffl:AllCardsLoaded");
+                }
+                callback(val);
+            });
         });
     // Kick of the workspace load
     m.exec(uri, callback);
