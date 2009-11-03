@@ -100,91 +100,91 @@ TestCardDataWorksheet = function() {
 
     module("TestCardDataWorksheet");
 
-    test("shuffl.addCardFactories",
-        function () {
-            log.debug("test shuffl.addCardFactories");
-            // Card factories are created when shuffl-card-dataworksheet module is loaded
-    		    equals(shuffl.CardFactoryMap['shuffl-dataworksheet-yellow'].cardcss, "stock-yellow", "shuffl-dataworksheet-yellow");
-            equals(shuffl.CardFactoryMap['shuffl-dataworksheet-blue'  ].cardcss, "stock-blue",   "shuffl-dataworksheet-blue");
-            equals(shuffl.CardFactoryMap['shuffl-dataworksheet-green' ].cardcss, "stock-green",  "shuffl-dataworksheet-green");
-            equals(shuffl.CardFactoryMap['shuffl-dataworksheet-orange'].cardcss, "stock-orange", "shuffl-dataworksheet-orange");
-            equals(shuffl.CardFactoryMap['shuffl-dataworksheet-pink'  ].cardcss, "stock-pink",   "shuffl-dataworksheet-pink");
-            equals(shuffl.CardFactoryMap['shuffl-dataworksheet-purple'].cardcss, "stock-purple", "shuffl-dataworksheet-purple");
-        });
+    test("shuffl.addCardFactories", function () 
+    {
+        logtest("test shuffl.addCardFactories");
+        // Card factories are created when shuffl-card-dataworksheet module is loaded
+		    equals(shuffl.CardFactoryMap['shuffl-dataworksheet-yellow'].cardcss, "stock-yellow", "shuffl-dataworksheet-yellow");
+        equals(shuffl.CardFactoryMap['shuffl-dataworksheet-blue'  ].cardcss, "stock-blue",   "shuffl-dataworksheet-blue");
+        equals(shuffl.CardFactoryMap['shuffl-dataworksheet-green' ].cardcss, "stock-green",  "shuffl-dataworksheet-green");
+        equals(shuffl.CardFactoryMap['shuffl-dataworksheet-orange'].cardcss, "stock-orange", "shuffl-dataworksheet-orange");
+        equals(shuffl.CardFactoryMap['shuffl-dataworksheet-pink'  ].cardcss, "stock-pink",   "shuffl-dataworksheet-pink");
+        equals(shuffl.CardFactoryMap['shuffl-dataworksheet-purple'].cardcss, "stock-purple", "shuffl-dataworksheet-purple");
+    });
     
-    test("shuffl.getCardFactories",
-        function () {
-            log.debug("test shuffl.getCardFactories");
-            var c0 = shuffl.getCardFactory("default-type");
-            equals(typeof c0, "function", "default factory");
-    		    var c1 = shuffl.getCardFactory("shuffl-dataworksheet-yellow");
-    		    equals(typeof c1, "function", "retrieved factory yellow");
-            var c2 = shuffl.getCardFactory("shuffl-dataworksheet-blue");
-            equals(typeof c2, "function", "retrieved factory blue");
-            var c3 = shuffl.getCardFactory("shuffl-dataworksheet-green");
-            equals(typeof c3, "function", "retrieved factory green");
-            var c4 = shuffl.getCardFactory("shuffl-dataworksheet-orange");
-            equals(typeof c4, "function", "retrieved factory orange");
-            var c5 = shuffl.getCardFactory("shuffl-dataworksheet-pink");
-            equals(typeof c5, "function", "retrieved factory pink");
-            var c6 = shuffl.getCardFactory("shuffl-dataworksheet-purple");
-            equals(typeof c6, "function", "retrieved factory purple");
-        });
+    test("shuffl.getCardFactories", function () 
+    {
+        logtest("test shuffl.getCardFactories");
+        var c0 = shuffl.getCardFactory("default-type");
+        equals(typeof c0, "function", "default factory");
+		    var c1 = shuffl.getCardFactory("shuffl-dataworksheet-yellow");
+		    equals(typeof c1, "function", "retrieved factory yellow");
+        var c2 = shuffl.getCardFactory("shuffl-dataworksheet-blue");
+        equals(typeof c2, "function", "retrieved factory blue");
+        var c3 = shuffl.getCardFactory("shuffl-dataworksheet-green");
+        equals(typeof c3, "function", "retrieved factory green");
+        var c4 = shuffl.getCardFactory("shuffl-dataworksheet-orange");
+        equals(typeof c4, "function", "retrieved factory orange");
+        var c5 = shuffl.getCardFactory("shuffl-dataworksheet-pink");
+        equals(typeof c5, "function", "retrieved factory pink");
+        var c6 = shuffl.getCardFactory("shuffl-dataworksheet-purple");
+        equals(typeof c6, "function", "retrieved factory purple");
+    });
 
-    test("shuffl.card.dataworksheet.newCard",
-        function () {
-            log.debug("test shuffl.card.dataworksheet.newCard");
-            var css = 'stock-yellow';
-            var c   = shuffl.card.dataworksheet.newCard("shuffl-dataworksheet-yellow", css, "card-1",
-            	{ 'shuffl:tags': 	["card-tag"]
-            	, 'shuffl:title':	"card-title"
-              , 'shuffl:uri':     "http://example.org/test-uri.csv"
-            	, 'shuffl:table':   Test_dataworksheet_DataTable
-              , 'shuffl:labels':  Test_dataworksheet_DataLabels
-              , 'shuffl:series':  Test_dataworksheet_DataSeries
-            	});
-            equals(c.attr('id'), "card-1",  "card id attribute");
-            ok(c.hasClass('stock-yellow'),  "yellow colour class");
-            ok(c.hasClass('shuffl-card-setsize'), "shuffl card setsize class");
-            ok(c.hasClass('shuffl-series'), "shuffl card series data class");
-            equals(c.attr('class'), 'shuffl-card-setsize shuffl-series stock-yellow ui-resizable', "CSS class");
-            equals(c.find("ctitle").text(), "card-title", "card title field");
-            equals(c.find("ctags").text(),  "card-tag", "card tags field");
-            equals(c.find("curi").text(),   "http://example.org/test-uri.csv", "card URI field");
-            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
-            same(c.find("cbody").table()[0], Test_dataworksheet_DataTable[0],    "card data table label row");
-            same(c.find("cbody").table().slice(1), Test_dataworksheet_DataTable, "card data table");
-            //log.debug("- table :"+jQuery.toJSON(c.find("cbody").table()));
-            // Check saved card data
-            equals(c.data('shuffl:id'),             "card-1", "layout card id");
-            equals(c.data('shuffl:class'),          "shuffl-dataworksheet-yellow", "saved card type");
-            equals(c.data('shuffl:title'),          "card-title", "shuffl:title");
-            equals(c.data('shuffl:tags'),           "card-tag", "shuffl:tags");
-            equals(c.data('shuffl:uri'),            "http://example.org/test-uri.csv", "shuffl:uri");
-            equals(c.data('shuffl:header_row'),     0, "shuffl:header_row");
-            equals(c.data('shuffl:data_firstrow'),  1, "shuffl:data_firstrow");
-            equals(c.data('shuffl:data_lastrow'),   0, "shuffl:data_lastrow");
-            same(c.data('shuffl:table'),  Test_dataworksheet_DataTable,  "shuffl:table");
-            same(c.data('shuffl:labels'), Test_dataworksheet_DataLabels, "shuffl:labels");
-            same(c.data('shuffl:series'), Test_dataworksheet_DataSeries, "shuffl:series");
-        });
+    test("shuffl.card.dataworksheet.newCard", function () 
+    {
+        logtest("test shuffl.card.dataworksheet.newCard");
+        var css = 'stock-yellow';
+        var c   = shuffl.card.dataworksheet.newCard("shuffl-dataworksheet-yellow", css, "card-1",
+        	{ 'shuffl:tags': 	["card-tag"]
+        	, 'shuffl:title':	"card-title"
+          , 'shuffl:uri':     "http://example.org/test-uri.csv"
+        	, 'shuffl:table':   Test_dataworksheet_DataTable
+          , 'shuffl:labels':  Test_dataworksheet_DataLabels
+          , 'shuffl:series':  Test_dataworksheet_DataSeries
+        	});
+        equals(c.attr('id'), "card-1",  "card id attribute");
+        ok(c.hasClass('stock-yellow'),  "yellow colour class");
+        ok(c.hasClass('shuffl-card-setsize'), "shuffl card setsize class");
+        ok(c.hasClass('shuffl-series'), "shuffl card series data class");
+        equals(c.attr('class'), 'shuffl-card-setsize shuffl-series stock-yellow ui-resizable', "CSS class");
+        equals(c.find("ctitle").text(), "card-title", "card title field");
+        equals(c.find("ctags").text(),  "card-tag", "card tags field");
+        equals(c.find("curi").text(),   "http://example.org/test-uri.csv", "card URI field");
+        equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
+        same(c.find("cbody").table()[0], Test_dataworksheet_DataTable[0],    "card data table label row");
+        same(c.find("cbody").table().slice(1), Test_dataworksheet_DataTable, "card data table");
+        //log.debug("- table :"+jQuery.toJSON(c.find("cbody").table()));
+        // Check saved card data
+        equals(c.data('shuffl:id'),             "card-1", "layout card id");
+        equals(c.data('shuffl:class'),          "shuffl-dataworksheet-yellow", "saved card type");
+        equals(c.data('shuffl:title'),          "card-title", "shuffl:title");
+        equals(c.data('shuffl:tags'),           "card-tag", "shuffl:tags");
+        equals(c.data('shuffl:uri'),            "http://example.org/test-uri.csv", "shuffl:uri");
+        equals(c.data('shuffl:header_row'),     0, "shuffl:header_row");
+        equals(c.data('shuffl:data_firstrow'),  1, "shuffl:data_firstrow");
+        equals(c.data('shuffl:data_lastrow'),   0, "shuffl:data_lastrow");
+        same(c.data('shuffl:table'),  Test_dataworksheet_DataTable,  "shuffl:table");
+        same(c.data('shuffl:labels'), Test_dataworksheet_DataLabels, "shuffl:labels");
+        same(c.data('shuffl:series'), Test_dataworksheet_DataSeries, "shuffl:series");
+    });
 
-    test("shuffl.createStockpiles",
-        function () {
-            log.debug("test shuffl.createStockpiles");
-            equals(jQuery('#stockbar').children().length, 1, "old stockbar content");
-        		var s1 = shuffl.createStockpile(
-        			"stock_1", "stock-yellow", "Y", "shuffl-dataworksheet-yellow");
-            var s2 = shuffl.createStockpile(
-                "stock_2", "stock-blue", "B", "shuffl-dataworksheet-blue");
-            var s3 = shuffl.createStockpile(
-                "stock_3", "stock-green", "G", "shuffl-dataworksheet-green");
-            var s4 = shuffl.createStockpile(
-                "stock_4", "stock-orange", "O", "shuffl-dataworksheet-orange");
-            var s5 = shuffl.createStockpile(
-                "stock_5", "stock-pink", "P", "shuffl-dataworksheet-pink");
-            var s6 = shuffl.createStockpile(
-                "stock_6", "stock-purple", "P", "shuffl-dataworksheet-purple");
+    test("shuffl.createStockpiles", function () 
+    {
+        logtest("test shuffl.createStockpiles");
+        equals(jQuery('#stockbar').children().length, 1, "old stockbar content");
+    		var s1 = shuffl.createStockpile(
+    			"stock_1", "stock-yellow", "Y", "shuffl-dataworksheet-yellow");
+        var s2 = shuffl.createStockpile(
+            "stock_2", "stock-blue", "B", "shuffl-dataworksheet-blue");
+        var s3 = shuffl.createStockpile(
+            "stock_3", "stock-green", "G", "shuffl-dataworksheet-green");
+        var s4 = shuffl.createStockpile(
+            "stock_4", "stock-orange", "O", "shuffl-dataworksheet-orange");
+        var s5 = shuffl.createStockpile(
+            "stock_5", "stock-pink", "P", "shuffl-dataworksheet-pink");
+        var s6 = shuffl.createStockpile(
+            "stock_6", "stock-purple", "P", "shuffl-dataworksheet-purple");
     		equals(jQuery('#stockbar').children().length, 13, "new stockbar content");
     		//1
     		equals(s1.attr('id'), "stock_1", "stock 1 id");
@@ -224,274 +224,409 @@ TestCardDataWorksheet = function() {
         equals(s6.data('CardType'), "shuffl-dataworksheet-purple", "stock 6 type");
     });
 
-    test("shuffl.createCardFromStock",
-        function () {
-            log.debug("test shuffl.createCardFromStock");
-      			var s = shuffl.createStockpile(
-      			    "stock_id", "stock-green", "stock-label", "shuffl-dataworksheet-green");
-        		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
-            log.debug("- card "+shuffl.objectString(c));
-        		var card_id = shuffl.lastId("card_");
-            equals(c.attr('id'), card_id, "card id attribute");
-            ok(c.hasClass('shuffl-card'),   "shuffl card class");
-            ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
-            ok(c.hasClass('shuffl-series'), "shuffl card series data class");
-            ok(c.hasClass('stock-green'),   "stock-green");
-            equals(c.attr('class'), 'shuffl-card-setsize shuffl-series stock-green ui-resizable shuffl-card', "CSS class");
-            equals(c.find("ctitle").text(), card_id, "card title field");
-            equals(c.find("ctags").text(),  "shuffl-dataworksheet-green", "card tags field");
-            equals(c.find("curi").text(),   "(Double-click to edit)", "card URI field");
-            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
-            // Check saved card data
-            var d = testcarddataworksheet_carddata;
-            equals(c.data('shuffl:id'),             card_id, "layout card id");
-            equals(c.data('shuffl:class'),          "shuffl-dataworksheet-green", "saved card type");
-            equals(c.data('shuffl:title'),          card_id, "shuffl:title");
-            equals(c.data('shuffl:tags'),           "shuffl-dataworksheet-green", "shuffl:tags");
-            equals(c.data('shuffl:uri'),            "", "shuffl:uri");
-            equals(c.data('shuffl:header_row'),     0, "shuffl:header_row");
-            equals(c.data('shuffl:data_firstrow'),  1, "shuffl:data_firstrow");
-            equals(c.data('shuffl:data_lastrow'),   0, "shuffl:data_lastrow");
-            same(c.data('shuffl:table'),  Default_dataworksheet_DataTable,  "shuffl:table");
-            same(c.data('shuffl:labels'), Default_dataworksheet_DataLabels, "shuffl:labels");
-            same(c.data('shuffl:series'), Default_dataworksheet_DataSeries, "shuffl:series");
-            equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
-            equals(c.data('shuffl:external')['shuffl:class'],       "shuffl-dataworksheet-green", "card data class");
-            equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
-            equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
-            same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
-            equals(c.data('shuffl:external')['shuffl:data'],        undefined, "card data");
-        });
+    test("shuffl.createCardFromStock", function () 
+    {
+        logtest("test shuffl.createCardFromStock");
+  			var s = shuffl.createStockpile(
+  			    "stock_id", "stock-green", "stock-label", "shuffl-dataworksheet-green");
+    		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
+        log.debug("- card "+shuffl.objectString(c));
+    		var card_id = shuffl.lastId("card_");
+        equals(c.attr('id'), card_id, "card id attribute");
+        ok(c.hasClass('shuffl-card'),   "shuffl card class");
+        ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
+        ok(c.hasClass('shuffl-series'), "shuffl card series data class");
+        ok(c.hasClass('stock-green'),   "stock-green");
+        equals(c.attr('class'), 'shuffl-card-setsize shuffl-series stock-green ui-resizable shuffl-card', "CSS class");
+        equals(c.find("ctitle").text(), card_id, "card title field");
+        equals(c.find("ctags").text(),  "shuffl-dataworksheet-green", "card tags field");
+        equals(c.find("curi").text(),   "(Double-click to edit)", "card URI field");
+        equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
+        // Check saved card data
+        var d = testcarddataworksheet_carddata;
+        equals(c.data('shuffl:id'),             card_id, "layout card id");
+        equals(c.data('shuffl:class'),          "shuffl-dataworksheet-green", "saved card type");
+        equals(c.data('shuffl:title'),          card_id, "shuffl:title");
+        equals(c.data('shuffl:tags'),           "shuffl-dataworksheet-green", "shuffl:tags");
+        equals(c.data('shuffl:uri'),            "", "shuffl:uri");
+        equals(c.data('shuffl:header_row'),     0, "shuffl:header_row");
+        equals(c.data('shuffl:data_firstrow'),  1, "shuffl:data_firstrow");
+        equals(c.data('shuffl:data_lastrow'),   0, "shuffl:data_lastrow");
+        same(c.data('shuffl:table'),  Default_dataworksheet_DataTable,  "shuffl:table");
+        same(c.data('shuffl:labels'), Default_dataworksheet_DataLabels, "shuffl:labels");
+        same(c.data('shuffl:series'), Default_dataworksheet_DataSeries, "shuffl:series");
+        equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
+        equals(c.data('shuffl:external')['shuffl:class'],       "shuffl-dataworksheet-green", "card data class");
+        equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
+        equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
+        same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
+        equals(c.data('shuffl:external')['shuffl:data'],        undefined, "card data");
+    });
 
-    test("shuffl.createCardFromData",
-        function () {
-            log.debug("test shuffl.createCardFromData");
-            var d = testcarddataworksheet_carddata;
-            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-dataworksheet-orange", d);
-            // Check card details
-            equals(c.attr('id'), "cardfromdata_id", "card id attribute");
-            ok(c.hasClass('shuffl-card'),   "shuffl card type");
-            ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
-            ok(c.hasClass('shuffl-series'), "shuffl card series data class");
-            ok(c.hasClass('stock-orange'),  "stock-orange class");
-            equals(c.attr('class'), 'shuffl-card-setsize shuffl-series stock-orange ui-resizable shuffl-card', "CSS class");
-            equals(c.find("ctitle").text(), "Card N title", "card title field");
-            equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
-            equals(c.find("curi").text(),   "test-table.csv", "card URI field");
-            equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
-            same(c.find("cbody").table()[0], Larger_dataworksheet_DataTable[1],    "card data table label row");
-            same(c.find("cbody").table().slice(1), Larger_dataworksheet_DataTable, "card data table");
-            // Check saved card data
-            equals(c.data('shuffl:id'),             "cardfromdata_id", "layout card id");
-            equals(c.data('shuffl:class'),          "shuffl-dataworksheet-orange", "saved card type");
-            equals(c.data('shuffl:title'),          "Card N title", "shuffl:title");
-            equals(c.data('shuffl:tags'),           "card_N_tag,footag", "shuffl:tags");
-            equals(c.data('shuffl:uri'),            "test-table.csv", "shuffl:uri");
-            equals(c.data('shuffl:header_row'),     1, "shuffl:header_row");
-            equals(c.data('shuffl:data_firstrow'),  2, "shuffl:data_firstrow");
-            equals(c.data('shuffl:data_lastrow'),   10, "shuffl:data_lastrow");
-            same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,  "shuffl:table");
-            same(c.data('shuffl:labels'), Larger_dataworksheet_DataLabels, "shuffl:labels");
-            same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries, "shuffl:series");
-            equals(c.data('shuffl:external')['shuffl:id'],          d['shuffl:id'], "card data id");
-            equals(c.data('shuffl:external')['shuffl:class'],       d['shuffl:class'], "card data class");
-            equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
-            equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
-            same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
-            same(c.data('shuffl:external')['shuffl:data'],          d['shuffl:data'], "card data");
-            same(c.data('shuffl:external'), d, "card data");
-        });
+    test("shuffl.createCardFromData", function () 
+    {
+        logtest("test shuffl.createCardFromData");
+        var d = testcarddataworksheet_carddata;
+        var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-dataworksheet-orange", d);
+        // Check card details
+        equals(c.attr('id'), "cardfromdata_id", "card id attribute");
+        ok(c.hasClass('shuffl-card'),   "shuffl card type");
+        ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
+        ok(c.hasClass('shuffl-series'), "shuffl card series data class");
+        ok(c.hasClass('stock-orange'),  "stock-orange class");
+        equals(c.attr('class'), 'shuffl-card-setsize shuffl-series stock-orange ui-resizable shuffl-card', "CSS class");
+        equals(c.find("ctitle").text(), "Card N title", "card title field");
+        equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
+        equals(c.find("curi").text(),   "test-table.csv", "card URI field");
+        equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "table", "card body contains <table>");
+        same(c.find("cbody").table()[0], Larger_dataworksheet_DataTable[1],    "card data table label row");
+        same(c.find("cbody").table().slice(1), Larger_dataworksheet_DataTable, "card data table");
+        // Check saved card data
+        equals(c.data('shuffl:id'),             "cardfromdata_id", "layout card id");
+        equals(c.data('shuffl:class'),          "shuffl-dataworksheet-orange", "saved card type");
+        equals(c.data('shuffl:title'),          "Card N title", "shuffl:title");
+        equals(c.data('shuffl:tags'),           "card_N_tag,footag", "shuffl:tags");
+        equals(c.data('shuffl:uri'),            "test-table.csv", "shuffl:uri");
+        equals(c.data('shuffl:header_row'),     1, "shuffl:header_row");
+        equals(c.data('shuffl:data_firstrow'),  2, "shuffl:data_firstrow");
+        equals(c.data('shuffl:data_lastrow'),   10, "shuffl:data_lastrow");
+        same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,  "shuffl:table");
+        same(c.data('shuffl:labels'), Larger_dataworksheet_DataLabels, "shuffl:labels");
+        same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries, "shuffl:series");
+        equals(c.data('shuffl:external')['shuffl:id'],          d['shuffl:id'], "card data id");
+        equals(c.data('shuffl:external')['shuffl:class'],       d['shuffl:class'], "card data class");
+        equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
+        equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
+        same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
+        same(c.data('shuffl:external')['shuffl:data'],          d['shuffl:data'], "card data");
+        same(c.data('shuffl:external'), d, "card data");
+    });
 
-    test("shuffl.createDataFromCard",
-        function () {
-            log.debug("test shuffl.createDataFromCard");
-            // Create card (copy of code already tested)
-            var d = testcarddataworksheet_carddata;
-            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-dataworksheet-pink", d);
-            // (Re)create data and test
-            var e = shuffl.createDataFromCard(c);
-            equals(e['shuffl:id'],          "cardfromdata_id",          'shuffl:id');
-            equals(e['shuffl:class'],       "shuffl-dataworksheet-pink", 'shuffl:class');
-            equals(e['shuffl:version'],     d['shuffl:version'],        'shuffl:version');
-            equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],       'shuffl:base-uri');
-            same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'],  'shuffl:uses-prefixes');
-            equals(e['shuffl:data']['shuffl:title'], "Card N title",    'shuffl:data-title');
-            same(e['shuffl:data']['shuffl:tags'],    [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
-            same(e['shuffl:data']['shuffl:uri'],     "test-table.csv",  'shuffl:data-uri');
-            equals(e['shuffl:data']['shuffl:header_row'],     1,        'shuffl:data-header_row');
-            equals(e['shuffl:data']['shuffl:data_firstrow'],  2,        'shuffl:data-data_firstrow');
-            equals(e['shuffl:data']['shuffl:data_lastrow'],   10,       'shuffl:data-data_lastrow');
-            same(e['shuffl:data']['shuffl:table'],   Larger_dataworksheet_DataTable, 'shuffl:data-table');
-        });
+    test("shuffl.createDataFromCard", function () 
+    {
+        logtest("test shuffl.createDataFromCard");
+        // Create card (copy of code already tested)
+        var d = testcarddataworksheet_carddata;
+        var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-dataworksheet-pink", d);
+        // (Re)create data and test
+        var e = shuffl.createDataFromCard(c);
+        equals(e['shuffl:id'],          "cardfromdata_id",          'shuffl:id');
+        equals(e['shuffl:class'],       "shuffl-dataworksheet-pink", 'shuffl:class');
+        equals(e['shuffl:version'],     d['shuffl:version'],        'shuffl:version');
+        equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],       'shuffl:base-uri');
+        same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'],  'shuffl:uses-prefixes');
+        equals(e['shuffl:data']['shuffl:title'], "Card N title",    'shuffl:data-title');
+        same(e['shuffl:data']['shuffl:tags'],    [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
+        same(e['shuffl:data']['shuffl:uri'],     "test-table.csv",  'shuffl:data-uri');
+        equals(e['shuffl:data']['shuffl:header_row'],     1,        'shuffl:data-header_row');
+        equals(e['shuffl:data']['shuffl:data_firstrow'],  2,        'shuffl:data-data_firstrow');
+        equals(e['shuffl:data']['shuffl:data_lastrow'],   10,       'shuffl:data-data_lastrow');
+        same(e['shuffl:data']['shuffl:table'],   Larger_dataworksheet_DataTable, 'shuffl:data-table');
+    });
 
-    test("shuffl.card.dataworksheet model setting",
-        function () {
-            log.debug("shuffl.card.dataworksheet model setting");
-            // Create card (copy of code already tested)
-            var d = testcarddataworksheet_carddata;
-            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-dataworksheet-pink", d);
-            var NewDataTable =
-                [ [ "row",   "zzz1",  "zzz2",  "zzz3" ]
-                , [ "zzz_1", "1.11",  "1.22",  "1.33" ]
-                ];
-            var NewDataLabels = ["zzz1", "zzz2", "zzz3"];
-            var NewDataSeries =
-                [ [ [NaN, 1.11] ]
-                , [ [NaN, 1.22] ]
-                , [ [NaN, 1.33] ]
-                ];
-            // Simulate user input: set model to update title, tags and body text
-            equals(c.find("ctitle").text(), "Card N title", "card title field");
-            equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
-            same(c.find("cbody").table()[0], Larger_dataworksheet_DataTable[1],    "card data table label row");
-            same(c.find("cbody").table().slice(1), Larger_dataworksheet_DataTable, "card data table");
-            c.model("shuffl:title", "Card N updated");
-            c.model("shuffl:tags",  "card_N_tag,bartag");
-            c.model("shuffl:uri",   "http://example.org/update/uri.csv");
-            c.model("shuffl:table", NewDataTable);
-            equals(c.data('shuffl:id'),             "cardfromdata_id", "layout card id");
-            equals(c.data('shuffl:class'),          "shuffl-dataworksheet-pink", "saved card type");
-            equals(c.data('shuffl:title'),          "Card N updated", "shuffl:title");
-            equals(c.data('shuffl:tags'),           "card_N_tag,bartag", "shuffl:tags");
-            equals(c.data('shuffl:uri'),            "http://example.org/update/uri.csv", "shuffl:uri");
-            equals(c.data('shuffl:header_row'),     0, "shuffl:header_row");
-            equals(c.data('shuffl:data_firstrow'),  1, "shuffl:data_firstrow");
-            equals(c.data('shuffl:data_lastrow'),   0, "shuffl:data_lastrow");
-            same(c.data('shuffl:table'),    NewDataTable,  'shuffl:data-table');
-            same(c.data('shuffl:labels'),   NewDataLabels, 'shuffl:data-labels');
-            same(c.data('shuffl:series'),   NewDataSeries, 'shuffl:data-series');
-            equals(c.find("ctitle").text(), "Card N updated", "updated title field");
-            equals(c.find("ctags").text(),  "card_N_tag,bartag", "updated tags field");
-            equals(c.find("curi").text(),   "http://example.org/update/uri.csv", "updated uri field");
-            equals(c.find("cbody").text(),  "rowzzz1zzz2zzz3rowzzz1zzz2zzz3zzz_11.111.221.33", "updated data table text");
-            same(c.find("cbody").table()[0], NewDataTable[0],    "updated data table label row");
-            same(c.find("cbody").table().slice(1), NewDataTable, "updated data table");
-        });
+    test("shuffl.card.dataworksheet model setting", function () 
+    {
+        logtest("shuffl.card.dataworksheet model setting");
+        // Create card (copy of code already tested)
+        var d = testcarddataworksheet_carddata;
+        var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-dataworksheet-pink", d);
+        var NewDataTable =
+            [ [ "row",   "zzz1",  "zzz2",  "zzz3" ]
+            , [ "zzz_1", "1.11",  "1.22",  "1.33" ]
+            ];
+        var NewDataLabels = ["zzz1", "zzz2", "zzz3"];
+        var NewDataSeries =
+            [ [ [NaN, 1.11] ]
+            , [ [NaN, 1.22] ]
+            , [ [NaN, 1.33] ]
+            ];
+        // Simulate user input: set model to update title, tags and body text
+        equals(c.find("ctitle").text(), "Card N title", "card title field");
+        equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
+        same(c.find("cbody").table()[0], Larger_dataworksheet_DataTable[1],    "card data table label row");
+        same(c.find("cbody").table().slice(1), Larger_dataworksheet_DataTable, "card data table");
+        c.model("shuffl:title", "Card N updated");
+        c.model("shuffl:tags",  "card_N_tag,bartag");
+        c.model("shuffl:uri",   "http://example.org/update/uri.csv");
+        c.model("shuffl:table", NewDataTable);
+        equals(c.data('shuffl:id'),             "cardfromdata_id", "layout card id");
+        equals(c.data('shuffl:class'),          "shuffl-dataworksheet-pink", "saved card type");
+        equals(c.data('shuffl:title'),          "Card N updated", "shuffl:title");
+        equals(c.data('shuffl:tags'),           "card_N_tag,bartag", "shuffl:tags");
+        equals(c.data('shuffl:uri'),            "http://example.org/update/uri.csv", "shuffl:uri");
+        equals(c.data('shuffl:header_row'),     0, "shuffl:header_row");
+        equals(c.data('shuffl:data_firstrow'),  1, "shuffl:data_firstrow");
+        equals(c.data('shuffl:data_lastrow'),   0, "shuffl:data_lastrow");
+        same(c.data('shuffl:table'),    NewDataTable,  'shuffl:data-table');
+        same(c.data('shuffl:labels'),   NewDataLabels, 'shuffl:data-labels');
+        same(c.data('shuffl:series'),   NewDataSeries, 'shuffl:data-series');
+        equals(c.find("ctitle").text(), "Card N updated", "updated title field");
+        equals(c.find("ctags").text(),  "card_N_tag,bartag", "updated tags field");
+        equals(c.find("curi").text(),   "http://example.org/update/uri.csv", "updated uri field");
+        equals(c.find("cbody").text(),  "rowzzz1zzz2zzz3rowzzz1zzz2zzz3zzz_11.111.221.33", "updated data table text");
+        same(c.find("cbody").table()[0], NewDataTable[0],    "updated data table label row");
+        same(c.find("cbody").table().slice(1), NewDataTable, "updated data table");
+    });
 
-    test("shuffl.card.dataworksheet model URI setting",
-        function () {
-            log.debug("shuffl.card.dataworksheet model URI setting");
-            // Create card (copy of code already tested)
-            var d = testcarddataworksheet_carddata;
-            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-dataworksheet-pink", d);
-            var NewDataTable =
-                [ [ "row",   "zzz1", "zzz2", "zzz3" ]
-                , [ "zzz_1", "1.11", "1.22", "1.33" ]
-                , [ "zzz_2", "2.11", "2.22", "2.33" ]
-                , [ "zzz_3", "3.11", "3.22", "3.33" ]
-                , [ "zzz_4", "4.11", "4.22", "4.33" ]
-                ];
-            var NewDataLabels = ["zzz1", "zzz2", "zzz3"];
-            var NewDataSeries =
-                [ [ [ NaN, 1.11 ], [ NaN, 2.11 ], [ NaN, 3.11 ], [ NaN, 4.11 ] ]
-                , [ [ NaN, 1.22 ], [ NaN, 2.22 ], [ NaN, 3.22 ], [ NaN, 4.22 ] ]
-                , [ [ NaN, 1.33 ], [ NaN, 2.33 ], [ NaN, 3.33 ], [ NaN, 4.33 ] ] 
-                ];
-            // Simulate user input: set model URI - should read data file
-            equals(c.find("ctitle").text(), "Card N title", "card title field");
-            equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
-            equals(c.find("cbody").table().length, 12, "card data table length");
-            same(c.find("cbody").table()[0], Larger_dataworksheet_DataTable[1],    "card data table label row");
-            same(c.find("cbody").table().slice(1), Larger_dataworksheet_DataTable, "card data table");
-            c.model("shuffl:uri", "data/test-csv-table-new.csv");
-            c.modelBindExec("shuffl:table",
-                function () {
-                    // Executed immediately
-                    c.model("shuffl:readcsv", c.model("shuffl:uri"));
-                },
-                function () {
-                    // Executed when shuffl:table is updated...
-                    equals(c.data('shuffl:id'),             "cardfromdata_id", "layout card id");
-                    equals(c.data('shuffl:class'),          "shuffl-dataworksheet-pink", "saved card type");
-                    equals(c.data('shuffl:title'),          "Card N title", "shuffl:title");
-                    equals(c.data('shuffl:tags'),           "card_N_tag,footag", "shuffl:tags");
-                    equals(c.data('shuffl:uri'),            "data/test-csv-table-new.csv", "shuffl:uri");
-                    equals(c.data('shuffl:header_row'),     0, "shuffl:header_row");
-                    equals(c.data('shuffl:data_firstrow'),  1, "shuffl:data_firstrow");
-                    equals(c.data('shuffl:data_lastrow'),   0, "shuffl:data_lastrow");
-                    same(c.data('shuffl:table'),   NewDataTable,  'shuffl:data-table');
-                    same(c.data('shuffl:labels'),  NewDataLabels, 'shuffl:data-labels');
-                    same(c.data('shuffl:series'),  NewDataSeries, 'shuffl:data-series');
-                    equals(c.find("curi").text(),  "data/test-csv-table-new.csv", "updated uri field");
-                    equals(c.find("cbody").table().length, 6, "updated data table length");
-                    same(c.find("cbody").table()[0], NewDataTable[0], "updated data table (0)");
-                    same(c.find("cbody").table()[1], NewDataTable[0], "updated data table (0)");
-                    same(c.find("cbody").table()[2], NewDataTable[1], "updated data table (1)");
-                    equals(c.find("cbody").table()[3][0], "zzz_2", "updated data table (2)");
-                    equals(c.find("cbody").table()[4][0], "zzz_3", "updated data table (3)");
-                    equals(c.find("cbody").table()[5][0], "zzz_4", "updated data table (4)");
-                    start();
-                }),
-            stop(2000);
-        });
+    test("shuffl.card.dataworksheet model URI setting", function () 
+    {
+        logtest("shuffl.card.dataworksheet model URI setting");
+        // Create card (copy of code already tested)
+        var d = testcarddataworksheet_carddata;
+        var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-dataworksheet-pink", d);
+        var NewDataTable =
+            [ [ "row",   "zzz1", "zzz2", "zzz3" ]
+            , [ "zzz_1", "1.11", "1.22", "1.33" ]
+            , [ "zzz_2", "2.11", "2.22", "2.33" ]
+            , [ "zzz_3", "3.11", "3.22", "3.33" ]
+            , [ "zzz_4", "4.11", "4.22", "4.33" ]
+            ];
+        var NewDataLabels = ["zzz1", "zzz2", "zzz3"];
+        var NewDataSeries =
+            [ [ [ NaN, 1.11 ], [ NaN, 2.11 ], [ NaN, 3.11 ], [ NaN, 4.11 ] ]
+            , [ [ NaN, 1.22 ], [ NaN, 2.22 ], [ NaN, 3.22 ], [ NaN, 4.22 ] ]
+            , [ [ NaN, 1.33 ], [ NaN, 2.33 ], [ NaN, 3.33 ], [ NaN, 4.33 ] ] 
+            ];
+        // Simulate user input: set model URI - should read data file
+        equals(c.find("ctitle").text(), "Card N title", "card title field");
+        equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
+        equals(c.find("cbody").table().length, 12, "card data table length");
+        same(c.find("cbody").table()[0], Larger_dataworksheet_DataTable[1],    "card data table label row");
+        same(c.find("cbody").table().slice(1), Larger_dataworksheet_DataTable, "card data table");
+        c.model("shuffl:uri", "data/test-csv-table-new.csv");
+        c.modelBindExec("shuffl:table",
+            function () {
+                // Executed immediately
+                c.model("shuffl:readcsv", c.model("shuffl:uri"));
+            },
+            function () {
+                // Executed when shuffl:table is updated...
+                equals(c.data('shuffl:id'),             "cardfromdata_id", "layout card id");
+                equals(c.data('shuffl:class'),          "shuffl-dataworksheet-pink", "saved card type");
+                equals(c.data('shuffl:title'),          "Card N title", "shuffl:title");
+                equals(c.data('shuffl:tags'),           "card_N_tag,footag", "shuffl:tags");
+                equals(c.data('shuffl:uri'),            "data/test-csv-table-new.csv", "shuffl:uri");
+                equals(c.data('shuffl:header_row'),     0, "shuffl:header_row");
+                equals(c.data('shuffl:data_firstrow'),  1, "shuffl:data_firstrow");
+                equals(c.data('shuffl:data_lastrow'),   0, "shuffl:data_lastrow");
+                same(c.data('shuffl:table'),   NewDataTable,  'shuffl:data-table');
+                same(c.data('shuffl:labels'),  NewDataLabels, 'shuffl:data-labels');
+                same(c.data('shuffl:series'),  NewDataSeries, 'shuffl:data-series');
+                equals(c.find("curi").text(),  "data/test-csv-table-new.csv", "updated uri field");
+                equals(c.find("cbody").table().length, 6, "updated data table length");
+                same(c.find("cbody").table()[0], NewDataTable[0], "updated data table (0)");
+                same(c.find("cbody").table()[1], NewDataTable[0], "updated data table (0)");
+                same(c.find("cbody").table()[2], NewDataTable[1], "updated data table (1)");
+                equals(c.find("cbody").table()[3][0], "zzz_2", "updated data table (2)");
+                equals(c.find("cbody").table()[4][0], "zzz_3", "updated data table (3)");
+                equals(c.find("cbody").table()[5][0], "zzz_4", "updated data table (4)");
+                start();
+            }),
+        stop(2000);
+    });
 
-    test("shuffl.card.dataworksheet - label row selection",
-        function () {
-            log.debug("shuffl.card.dataworksheet - label row selection");
-            var d = testcarddataworksheet_carddata;
-            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-dataworksheet-orange", d);
-            // Check card details
-            equals(c.attr('id'), "cardfromdata_id", "card id attribute");
-            same(c.find("cbody").table()[0], Larger_dataworksheet_DataTable[1],    "card data table label row");
-            same(c.find("cbody").table().slice(1), Larger_dataworksheet_DataTable, "card data table");
-            equals(c.data("shuffl:header_row"),    1,   "shuffl:header_row");
-            equals(c.data("shuffl:data_firstrow"), 2,   "shuffl:data_firstrow");
-            equals(c.data("shuffl:data_lastrow"),  10,  "shuffl:data_lastrow");
-            same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,  "shuffl:table");
-            same(c.data('shuffl:labels'), Larger_dataworksheet_DataLabels, "shuffl:labels");
-            same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries, "shuffl:series");
-            same(c.data('shuffl:external'), d, "card data");
-            // Now select label row
-            c.model('shuffl:header_row', 2);
-            equals(c.data("shuffl:header_row"),    2,   "shuffl:header_row");
-            equals(c.data("shuffl:data_firstrow"), 3,   "shuffl:data_firstrow");
-            equals(c.data("shuffl:data_lastrow"),  10,  "shuffl:data_lastrow");
-            c.model('shuffl:data_firstrow', 2);
-            equals(c.data("shuffl:data_firstrow"), 2,   "shuffl:data_firstrow reset");
-            same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,   "shuffl:table");
-            same(c.data('shuffl:labels'), Larger_dataworksheet_DataTable[2].slice(1),  "shuffl:labels");
-            same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries,  "shuffl:series");
-            // (Re)create data and test
-            var e = shuffl.createDataFromCard(c);
-            equals(e['shuffl:id'],          "cardfromdata_id",    'shuffl:id');
-            equals(e['shuffl:data']['shuffl:header_row'],     2,  'shuffl:data-header_row');
-            equals(e['shuffl:data']['shuffl:data_firstrow'],  2,  'shuffl:data-data_firstrow');
-            equals(e['shuffl:data']['shuffl:data_lastrow'],   10, 'shuffl:data-data_lastrow');
-            same(e['shuffl:data']['shuffl:table'],   Larger_dataworksheet_DataTable, 'shuffl:data-table');
-        });
+    test("shuffl.card.dataworksheet - label row selection", function () 
+    {
+        logtest("shuffl.card.dataworksheet - label row selection");
+        var d = testcarddataworksheet_carddata;
+        var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-dataworksheet-orange", d);
+        // Check card details
+        equals(c.attr('id'), "cardfromdata_id", "card id attribute");
+        same(c.find("cbody").table()[0], Larger_dataworksheet_DataTable[1],    "card data table label row");
+        same(c.find("cbody").table().slice(1), Larger_dataworksheet_DataTable, "card data table");
+        equals(c.data("shuffl:header_row"),    1,   "shuffl:header_row");
+        equals(c.data("shuffl:data_firstrow"), 2,   "shuffl:data_firstrow");
+        equals(c.data("shuffl:data_lastrow"),  10,  "shuffl:data_lastrow");
+        same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,  "shuffl:table");
+        same(c.data('shuffl:labels'), Larger_dataworksheet_DataLabels, "shuffl:labels");
+        same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries, "shuffl:series");
+        same(c.data('shuffl:external'), d, "card data");
+        // Now select label row
+        c.model('shuffl:header_row', 2);
+        equals(c.data("shuffl:header_row"),    2,   "shuffl:header_row");
+        equals(c.data("shuffl:data_firstrow"), 3,   "shuffl:data_firstrow");
+        equals(c.data("shuffl:data_lastrow"),  10,  "shuffl:data_lastrow");
+        c.model('shuffl:data_firstrow', 2);
+        equals(c.data("shuffl:data_firstrow"), 2,   "shuffl:data_firstrow reset");
+        same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,   "shuffl:table");
+        same(c.data('shuffl:labels'), Larger_dataworksheet_DataTable[2].slice(1),  "shuffl:labels");
+        same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries,  "shuffl:series");
+        // (Re)create data and test
+        var e = shuffl.createDataFromCard(c);
+        equals(e['shuffl:id'],          "cardfromdata_id",    'shuffl:id');
+        equals(e['shuffl:data']['shuffl:header_row'],     2,  'shuffl:data-header_row');
+        equals(e['shuffl:data']['shuffl:data_firstrow'],  2,  'shuffl:data-data_firstrow');
+        equals(e['shuffl:data']['shuffl:data_lastrow'],   10, 'shuffl:data-data_lastrow');
+        same(e['shuffl:data']['shuffl:table'],   Larger_dataworksheet_DataTable, 'shuffl:data-table');
+    });
 
-    test("shuffl.card.dataworksheet - data row selection",
-        function () {
-            log.debug("shuffl.card.dataworksheet - data row selection");
-            var d = testcarddataworksheet_carddata;
-            var c = shuffl.createCardFromData("card_id", "shuffl-dataworksheet-pink", d);
-            // Check card details
-            equals(c.attr('id'), "card_id", "card id attribute");
-            same(c.find("cbody").table()[0], Larger_dataworksheet_DataTable[1],    "card data table label row");
-            same(c.find("cbody").table().slice(1), Larger_dataworksheet_DataTable, "card data table");
-            equals(c.data("shuffl:header_row"),    1,   "shuffl:header_row");
-            equals(c.data("shuffl:data_firstrow"), 2,   "shuffl:data_firstrow");
-            equals(c.data("shuffl:data_lastrow"),  10,  "shuffl:data_lastrow");
-            same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,  "shuffl:table");
-            same(c.data('shuffl:labels'), Larger_dataworksheet_DataLabels, "shuffl:labels");
-            same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries, "shuffl:series");
-            // Now select data rows
-            c.model('shuffl:data_firstrow', 3);
-            c.model('shuffl:data_lastrow',  7);
-            equals(c.data("shuffl:header_row"),    1, "shuffl:header_row");
-            equals(c.data("shuffl:data_firstrow"), 3, "shuffl:data_firstrow");
-            equals(c.data("shuffl:data_lastrow"),  7, "shuffl:data_lastrow");
-            same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,     "shuffl:table");
-            same(c.data('shuffl:labels'), Larger_dataworksheet_DataTable[1].slice(1),  "shuffl:labels");
-            same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries_2_6, "shuffl:series");
-            // (Re)create data and test
-            var e = shuffl.createDataFromCard(c);
-            equals(e['shuffl:id'],          "card_id",    'shuffl:id');
-            equals(e['shuffl:data']['shuffl:header_row'],     1,  'shuffl:data-header_row');
-            equals(e['shuffl:data']['shuffl:data_firstrow'],  3,  'shuffl:data-data_firstrow');
-            equals(e['shuffl:data']['shuffl:data_lastrow'],   7,  'shuffl:data-data_lastrow');
-            same(e['shuffl:data']['shuffl:table'],   Larger_dataworksheet_DataTable, 'shuffl:data-table');
-        });
+    test("shuffl.card.dataworksheet - data row selection", function () 
+    {
+        logtest("shuffl.card.dataworksheet - data row selection");
+        var d = testcarddataworksheet_carddata;
+        var c = shuffl.createCardFromData("card_id", "shuffl-dataworksheet-pink", d);
+        // Check card details
+        equals(c.attr('id'), "card_id", "card id attribute");
+        same(c.find("cbody").table()[0], Larger_dataworksheet_DataTable[1],    "card data table label row");
+        same(c.find("cbody").table().slice(1), Larger_dataworksheet_DataTable, "card data table");
+        equals(c.data("shuffl:header_row"),    1,   "shuffl:header_row");
+        equals(c.data("shuffl:data_firstrow"), 2,   "shuffl:data_firstrow");
+        equals(c.data("shuffl:data_lastrow"),  10,  "shuffl:data_lastrow");
+        same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,  "shuffl:table");
+        same(c.data('shuffl:labels'), Larger_dataworksheet_DataLabels, "shuffl:labels");
+        same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries, "shuffl:series");
+        // Now select data rows
+        c.model('shuffl:data_firstrow', 3);
+        c.model('shuffl:data_lastrow',  7);
+        equals(c.data("shuffl:header_row"),    1, "shuffl:header_row");
+        equals(c.data("shuffl:data_firstrow"), 3, "shuffl:data_firstrow");
+        equals(c.data("shuffl:data_lastrow"),  7, "shuffl:data_lastrow");
+        same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,     "shuffl:table");
+        same(c.data('shuffl:labels'), Larger_dataworksheet_DataTable[1].slice(1),  "shuffl:labels");
+        same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries_2_6, "shuffl:series");
+        // (Re)create data and test
+        var e = shuffl.createDataFromCard(c);
+        equals(e['shuffl:id'],          "card_id",    'shuffl:id');
+        equals(e['shuffl:data']['shuffl:header_row'],     1,  'shuffl:data-header_row');
+        equals(e['shuffl:data']['shuffl:data_firstrow'],  3,  'shuffl:data-data_firstrow');
+        equals(e['shuffl:data']['shuffl:data_lastrow'],   7,  'shuffl:data-data_lastrow');
+        same(e['shuffl:data']['shuffl:table'],   Larger_dataworksheet_DataTable, 'shuffl:data-table');
+    });
+
+    test("shuffl.card.dataworksheet.rowuse", function ()
+    {
+        logtest("shuffl.card.dataworksheet.rowuse");
+        expect(8);
+        // Instantiate mock card
+        var c = jQuery("<div/>");
+        // Default test
+        c.model('shuffl:data_firstrow', -1);
+        c.model('shuffl:data_lastrow',  -1);
+        var r = shuffl.card.dataworksheet.rowuse(c, Larger_dataworksheet_DataTable);
+        equals(r.first,  0, "first (1)");
+        equals(r.last,  10, "last  (1)");
+        // Set both test
+        c.model('shuffl:data_firstrow', 2);
+        c.model('shuffl:data_lastrow',  4);
+        var r = shuffl.card.dataworksheet.rowuse(c, Larger_dataworksheet_DataTable);
+        equals(r.first, 2, "first (2)");
+        equals(r.last,  4, "last  (2)");
+        // Swap test
+        c.model('shuffl:data_firstrow', 4);
+        c.model('shuffl:data_lastrow',  2);
+        var r = shuffl.card.dataworksheet.rowuse(c, Larger_dataworksheet_DataTable);
+        equals(r.first, 2, "first (3)");
+        equals(r.last,  4, "last  (3)");
+        // Range test
+        c.model('shuffl:data_firstrow', 200);
+        c.model('shuffl:data_lastrow',  100);
+        var r = shuffl.card.dataworksheet.rowuse(c, Larger_dataworksheet_DataTable);
+        equals(r.first,  0, "first (4)");
+        equals(r.last,  10, "last  (4)");
+    });
+
+    test("shuffl.card.dataworksheet.coluse", function ()
+    {
+        logtest("shuffl.card.dataworksheet.coluse");
+        expect(16);
+        // Instantiate mock card
+        var c = jQuery("<div/>");
+        // Default test
+        c.model('shuffl:coluse', undefined);
+        var h  = ["x1", "y1a", "y1b", "y1c", "y1d"];
+        var cu = shuffl.card.dataworksheet.coluse(c, h);
+        equals(cu.length,  5,    "length (1)");
+        equals(cu[0].axis, 'x1', "[0]:x1 (1)");
+        equals(cu[1].axis, 'y1', "[1]:y1 (1)");
+        equals(cu[2].axis, 'y1', "[2]:y1 (1)");
+        equals(cu[3].axis, 'y1', "[3]:y1 (1)");
+        equals(cu[4].axis, 'y1', "[4]:y1 (1)");
+        // Explicit value test
+        c.model('shuffl:coluse', [{axis:'y1'},{},{axis:'x1'},{axis:'y1'}]);
+        var h  = ["x1", "y1a", "y1b", "y1c", "y1d"];
+        var cu = shuffl.card.dataworksheet.coluse(c, h);
+        equals(cu.length,  4,         "length (2)");
+        equals(cu[0].axis, 'y1',      "[0]:y1 (2)");
+        equals(cu[1].axis, undefined, "[1]:-- (2)");
+        equals(cu[2].axis, 'x1',      "[2]:x1 (2)");
+        equals(cu[3].axis, 'y1',      "[3]:y1 (2)");
+        // Blank label test
+        c.model('shuffl:coluse', undefined);
+        var h  = ["y1", "", "x1", "y1"];
+        var cu = shuffl.card.dataworksheet.coluse(c, h);
+        equals(cu.length,  4,         "length (3)");
+        equals(cu[0].axis, 'y1',      "[0]:y1 (3)");
+        equals(cu[1].axis, undefined, "[1]:-- (3)");
+        equals(cu[2].axis, 'x1',      "[2]:x1 (3)");
+        equals(cu[3].axis, 'y1',      "[3]:y1 (3)");
+    });
+
+    test("shuffl.card.dataworksheet.dataplot", function ()
+    {
+        logtest("shuffl.card.dataworksheet.dataplot");
+        expect(4);
+        // Instantiate mock card
+        var c = jQuery("<div/>");
+        // Simple test
+        var cu = 
+            [ {axis:'x1'}
+            , {axis:'y1'}
+            , {axis:'y1'}
+            , {axis:'y1'}
+            , {axis:'y1'} 
+            ];
+        var dp = shuffl.card.dataworksheet.dataplot(c, cu);
+        equals(dp.length,  4, "length (1)");
+        same(dp, [[0,1], [0,2], [0,3], [0,4]], "dataplot (1)");
+        // Out-of-order and null value test
+        var cu = 
+            [ {axis:'y1'}
+            , {}
+            , {axis:'x1'}
+            , {axis:'y1'}
+            ];
+        var dp = shuffl.card.dataworksheet.dataplot(c, cu);
+        equals(dp.length,  2, "length (2)");
+        same(dp, [[2,0], [2,3]], "dataplot (1)");
+    });
+
+    test("shuffl.card.dataworksheet.highlightData", function ()
+    {
+        logtest("shuffl.card.dataworksheet.highlightData");
+        expect(13);
+        var cb_html =
+            "    <cbody class='shuffl-nodrag'>\n"+
+            "      <table>\n"+
+            "        <tr></tr>\n"+
+            "        <tr><td></td><td>col1</td><td>col2</td><td>col3</td></tr>\n"+
+            "        <tr><td>row1</td><td>1.1</td><td>1.2</td><td>1.3</td></tr>\n"+
+            "        <tr><td>row1</td><td>2.1</td><td>2.2</td><td>2.3</td></tr>\n"+
+            "        <tr><td>End.</td></tr>\n"+
+            "      </table>\n"+
+            "    </cbody>\n";
+        var cb = jQuery(cb_html);
+        var dr = {first:2, last:3};
+        var cu = 
+            [ {axis:undefined}
+            , {axis:'y1'}
+            , {axis:'x1'}
+            , {axis:'y1'}
+            ];
+        shuffl.card.dataworksheet.highlightData(cb, dr, cu);
+        equals(cb.find("tr").eq(0).hasClass("shuffl-deselected"), true,  "Row 0 deselected");
+        equals(cb.find("tr").eq(1).hasClass("shuffl-deselected"), true,  "Row 1 deselected");
+        equals(cb.find("tr").eq(2).hasClass("shuffl-deselected"), false, "Row 2 selected");
+        equals(cb.find("tr").eq(3).hasClass("shuffl-deselected"), false, "Row 3 selected");
+        equals(cb.find("tr").eq(4).hasClass("shuffl-deselected"), true,  "Row 4 deselected");
+        equals(cb.find("tr").eq(2).find("td").eq(0).hasClass("shuffl-deselected"), true,  "Row 2/Col 0 deselected");
+        equals(cb.find("tr").eq(2).find("td").eq(1).hasClass("shuffl-deselected"), false, "Row 2/Col 1 selected");
+        equals(cb.find("tr").eq(2).find("td").eq(2).hasClass("shuffl-deselected"), false, "Row 2/Col 2 selected");
+        equals(cb.find("tr").eq(2).find("td").eq(3).hasClass("shuffl-deselected"), false, "Row 2/Col 3 selected");
+        equals(cb.find("tr").eq(3).find("td").eq(0).hasClass("shuffl-deselected"), true,  "Row 3/Col 0 deselected");
+        equals(cb.find("tr").eq(3).find("td").eq(1).hasClass("shuffl-deselected"), false, "Row 3/Col 1 selected");
+        equals(cb.find("tr").eq(3).find("td").eq(2).hasClass("shuffl-deselected"), false, "Row 3/Col 2 selected");
+        equals(cb.find("tr").eq(3).find("td").eq(3).hasClass("shuffl-deselected"), false, "Row 3/Col 3 selected");
+    });
 
 };
 
