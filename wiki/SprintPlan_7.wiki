@@ -70,7 +70,7 @@ Actual effort: ?? days (for ?? planned activity)
 
 == 3.4: User interface for load/save workspace ==
 
-This task will be prigressed but probably not completed within this sprint.
+This task will be progressed but probably not completed within this sprint.
 
 Estimated effort: 5.0 days
 
