@@ -108,15 +108,11 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     shuffl.bindLineEditable(card, "shuffl:baseuri", "cbaseuri", updateCuri);
     shuffl.bindLineEditable(card, "shuffl:file",    "cfile",    updateCuri);
     // Initialize the model
-    var cardtitle   = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
-    var cardtags    = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
+    shuffl.initModelVar(card, 'shuffl:title',   carddata, cardid);
+    shuffl.initModelVar(card, 'shuffl:tags',    carddata, [cardtype], 'array');
+    shuffl.initModelVar(card, 'shuffl:baseuri', carddata, shuffl.uriBase(".."));
+    shuffl.initModelVar(card, 'shuffl:file',    carddata, "");
     // TODO: plug-in backend framework to provide appropriate base URI
-    var cardbaseuri = shuffl.get(carddata, 'shuffl:baseuri',  shuffl.uriBase(".."));
-    var cardfile    = shuffl.get(carddata, 'shuffl:file',     "");
-    card.model("shuffl:title",   cardtitle);
-    card.model("shuffl:tags",    cardtags.join(","));
-    card.model("shuffl:baseuri", cardbaseuri);
-    card.model("shuffl:file",    cardfile);
     return card;
 };
 
