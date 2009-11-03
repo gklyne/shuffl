@@ -240,101 +240,20 @@ shuffl.card.dataworksheet.updatedata = function (card, cbody)
             // Set new table data
             var htbl = [ hdrs ].concat(table);
             cbody.table(htbl, 1);
-            // @@@ datarows = shuffl.card.dataworksheet.rowuse(card, table);
-            // @@@ datarows.first ...
-            // @@@ datarows.last  ...
-            // Sort out first and last data rows
-            var frow = card.model("shuffl:data_firstrow");
-            var lrow = card.model("shuffl:data_lastrow");
-            if (lrow <= 0) { lrow = table.length-1; }
-            if (frow > lrow)
-            {
-                frow = lrow;
-                lrow = card.model("shuffl:data_firstrow");
-            }
-            // TODO: Extract function + test case
-            // @@@ coluse = shuffl.card.dataworksheet.coluse(card, hdrs);
-            // Sort out column usage
-            var coluse   = card.model("shuffl:coluse");
-            ////log.debug("- coluse "+jQuery.toJSON(coluse));
-            if (!coluse || !coluse.length)
-            {
-                ////log.debug("- coluse default");
-                coluse = [];
-                var nxtuse = {axis: 'x1'};
-                for (var i = 0 ; i < hdrs.length ; i++)
-                {
-                    if (hdrs[i])
-                    {
-                        coluse.push(nxtuse);
-                        nxtuse = {axis: 'y1'};
-                    }
-                    else
-                    {
-                        coluse.push(null);
-                    }
-                };
-            };
-            // @@@
-            // TODO: extract function + test case
-            // @@@ dataplot = shuffl.card.dataworksheet.dataplot(card, coluse);
-            var x1 = undefined;
-            for (i=0 ; i<coluse.length ; i++)
-            {
-                if (coluse[i] && coluse[i].axis == 'x1') { x1 = i; };
-            };
-            var dataplot = [];
-            for (i=0 ; i<coluse.length ; i++)
-            {
-                if (coluse[i] && coluse[i].axis == 'y1')
-                {
-                    dataplot.push([x1,i]);
-                }
-            };
-            // @@@
-            // Reflect this in the display:
-            // unselect out-of-range rows and columns
-            // @@@ shuffl.card.dataworksheet.???(cbody, datarows, datacols);
-            log.debug("- datarows "+frow+", "+lrow);
-            log.debug("- coluse   "+jQuery.toJSON(coluse));
-            log.debug("- datacols "+jQuery.toJSON(dataplot));
-            cbody.find("tbody tr").each(function (rownum)
-            {
-                // this = dom element
-               var trelem = jQuery(this);
-                if (rownum >= frow && rownum <= lrow)
-                {
-                    // In row range: test column
-                    trelem.removeClass("shuffl-deselected");
-                    trelem.find("td").each(function (colnum)
-                    {
-                        ////log.debug("- colnum "+colnum+", coluse "+coluse[colnum]);
-                        var tdelem = jQuery(this);
-                        if (coluse[colnum])
-                        {
-                            tdelem.removeClass("shuffl-deselected");
-                        }
-                        else
-                        {
-                            tdelem.addClass("shuffl-deselected");
-                        };
-                    });
-                } 
-                else 
-                {
-                    // Out of row range
-                    trelem.addClass("shuffl-deselected");
-                };
-            });
-            // @@@
-            // Now set up graph labels and series data
+            // Sort out first and last data rows, and column usage
+            var datarows = shuffl.card.dataworksheet.rowuse(card, table);
+            var coluse = shuffl.card.dataworksheet.coluse(card, hdrs);
+            var dataplot = shuffl.card.dataworksheet.dataplot(card, coluse);
+            // Highlight selected data in the table display
+            shuffl.card.dataworksheet.highlightData(cbody, datarows, coluse);
+            // Set up graph labels and series data
             var options =
                 { labelrow:   hrow
-                , firstrow:   frow
-                , lastrow:    lrow
+                , firstrow:   datarows.first
+                , lastrow:    datarows.last
                 , datacols:   dataplot
-                ////, setlabels:  'shuffl:labels'
-                ////, setseries:  'shuffl:series'
+                , setlabels:  'shuffl:labels'
+                , setseries:  'shuffl:series'
                 };
             shuffl.modelSetSeries(card, options)(_event, {newval: table});
         };
