@@ -48,6 +48,12 @@ shuffl.card.freetext.data =
     , 'shuffl:text':    undefined
     };
 
+shuffl.card.freetext.datamap =
+    { 'shuffl:title':   { def: '@id' }
+    , 'shuffl:tags':    { def: '@tags', type: 'array' }
+    , 'shuffl:text':    { def: '' }
+    };
+
 /**
  * jQuery base element for building new cards (used by shuffl.makeCard)
  */
@@ -101,9 +107,9 @@ shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
     card.modelBind("shuffl:text", shuffl.modelSetHtml(cbody, true));
     shuffl.blockEditable(card, cbody, shuffl.editSetModel(card, "shuffl:text"));
     // Initialize the model
-    shuffl.initModelVar(card, 'shuffl:title', carddata, cardid);
-    shuffl.initModelVar(card, 'shuffl:tags',  carddata, [cardtype], 'array');
-    shuffl.initModelVar(card, 'shuffl:text',  carddata, "");
+    shuffl.initModel(card, carddata, shuffl.card.freetext.datamap,
+        {id: cardid, tags: [cardtype]} 
+        );
     return card;
 };
 
@@ -114,11 +120,7 @@ shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
  * @return an object containing the card data
  */
 shuffl.card.freetext.serialize = function (card) {
-    var carddata = shuffl.card.freetext.data;
-    carddata['shuffl:title'] = card.model("shuffl:title");
-    carddata['shuffl:tags']  = shuffl.makeTagList(card.model("shuffl:tags"));
-    carddata['shuffl:text']  = card.model("shuffl:text");
-    return carddata;
+    return carddata = shuffl.serializeModel(card, shuffl.card.freetext.datamap);
 };
 
 /**
