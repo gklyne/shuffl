@@ -153,9 +153,7 @@ shuffl.card.defaultcard.newCard = function (cardtype, cardcss, cardid, carddata)
     shuffl.lineEditable(
         card, ctitle, shuffl.editSetModel(card, true, "shuffl:title"));
     // Initialze card model
-    var cardtitle = shuffl.get(
-        carddata, 'shuffl:title', cardid+" - class "+cardtype);
-    card.model("shuffl:title", cardtitle);
+    shuffl.initModelVar(card, 'shuffl:title', carddata, cardid+" - class "+cardtype);
     return card;
 };
 
