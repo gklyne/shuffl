@@ -141,14 +141,10 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     card.modelBind("shuffl:table", 
         shuffl.modelSetTable(cbody, 1, shuffl.modelSetSeries(card)));
     // Initialize the model
-    var cardtitle = shuffl.get(carddata, 'shuffl:title', cardid+" - type "+cardtype);
-    var cardtags  = shuffl.get(carddata, 'shuffl:tags',  [cardid,cardtype]);
-    var carduri   = shuffl.get(carddata, 'shuffl:uri',   "");
-    var cardtable = shuffl.get(carddata, 'shuffl:table', shuffl.card.datatable.table);
-    card.model("shuffl:title", cardtitle);
-    card.model("shuffl:tags",  cardtags.join(","));
-    card.model("shuffl:table", cardtable);
-    card.model("shuffl:uri",   carduri);
+    shuffl.initModelVar(card, 'shuffl:title', carddata, cardid);
+    shuffl.initModelVar(card, 'shuffl:tags',  carddata, [cardtype], 'array');
+    shuffl.initModelVar(card, 'shuffl:uri',   carddata, "");
+    shuffl.initModelVar(card, 'shuffl:table', carddata, shuffl.card.datatable.table);
     // Finally, set listener for changes to URI value to read new data
     // This comes last so that the setting of shuffl:uri (above) does not
     // trigger a read when initializing a card.
