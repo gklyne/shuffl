@@ -7,7 +7,7 @@
 var NaN = Number.NaN;
 
 var Test_dataworksheet_DataTable =
-    [ [ "",      "col1",  "col2",  "col3" ]
+    [ [ "row",   "col1",  "col2",  "col3" ]
     , [ "row_1", "1.11",  "1.22",  "1.33" ]
     , [ "row_2", "2.11",  "2.22",  "2.33" ]
     , [ "End." ]
@@ -26,7 +26,7 @@ var Test_dataworksheet_DataSeries =
  */
 var Larger_dataworksheet_DataTable =
     [ []
-    , [ "", "col1", "col2", "col3", "col4_is_much_wider", "col5" ]
+    , [ "x", "col1", "col2", "col3", "col4_is_much_wider", "col5" ]
     , [ "1", "1.1", "1.2", "1.3", "1.4", "1.5" ]
     , [ "2", "2.1", "2.2", "2.3", "2.4", "2.5" ]
     , [ "3", "3.1", "3.2", "3.3", "3.4", "3.5" ]
@@ -331,7 +331,7 @@ TestCardDataWorksheet = function() {
             var d = testcarddataworksheet_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-dataworksheet-pink", d);
             var NewDataTable =
-                [ [ "",      "zzz1",  "zzz2",  "zzz3" ]
+                [ [ "row",   "zzz1",  "zzz2",  "zzz3" ]
                 , [ "zzz_1", "1.11",  "1.22",  "1.33" ]
                 ];
             var NewDataLabels = ["zzz1", "zzz2", "zzz3"];
@@ -363,7 +363,7 @@ TestCardDataWorksheet = function() {
             equals(c.find("ctitle").text(), "Card N updated", "updated title field");
             equals(c.find("ctags").text(),  "card_N_tag,bartag", "updated tags field");
             equals(c.find("curi").text(),   "http://example.org/update/uri.csv", "updated uri field");
-            equals(c.find("cbody").text(),  "zzz1zzz2zzz3zzz1zzz2zzz3zzz_11.111.221.33", "updated data table text");
+            equals(c.find("cbody").text(),  "rowzzz1zzz2zzz3rowzzz1zzz2zzz3zzz_11.111.221.33", "updated data table text");
             same(c.find("cbody").table()[0], NewDataTable[0],    "updated data table label row");
             same(c.find("cbody").table().slice(1), NewDataTable, "updated data table");
         });
@@ -375,7 +375,7 @@ TestCardDataWorksheet = function() {
             var d = testcarddataworksheet_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-dataworksheet-pink", d);
             var NewDataTable =
-                [ [ "",      "zzz1", "zzz2", "zzz3" ]
+                [ [ "row",   "zzz1", "zzz2", "zzz3" ]
                 , [ "zzz_1", "1.11", "1.22", "1.33" ]
                 , [ "zzz_2", "2.11", "2.22", "2.33" ]
                 , [ "zzz_3", "3.11", "3.22", "3.33" ]
@@ -444,8 +444,10 @@ TestCardDataWorksheet = function() {
             // Now select label row
             c.model('shuffl:header_row', 2);
             equals(c.data("shuffl:header_row"),    2,   "shuffl:header_row");
-            equals(c.data("shuffl:data_firstrow"), 2,   "shuffl:data_firstrow");
+            equals(c.data("shuffl:data_firstrow"), 3,   "shuffl:data_firstrow");
             equals(c.data("shuffl:data_lastrow"),  10,  "shuffl:data_lastrow");
+            c.model('shuffl:data_firstrow', 2);
+            equals(c.data("shuffl:data_firstrow"), 2,   "shuffl:data_firstrow reset");
             same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,   "shuffl:table");
             same(c.data('shuffl:labels'), Larger_dataworksheet_DataTable[2].slice(1),  "shuffl:labels");
             same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries,  "shuffl:series");

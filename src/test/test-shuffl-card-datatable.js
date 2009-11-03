@@ -322,7 +322,7 @@ TestCardDatatable = function() {
             var d = testcarddatatable_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datatable-pink", d);
             var NewDataTable =
-                [ [ "",      "zzz1", "zzz2", "zzz3" ]
+                [ [ "row",   "zzz1", "zzz2", "zzz3" ]
                 , [ "zzz_1", "1.11", "1.22", "1.33" ]
                 , [ "zzz_2", "2.11", "2.22", "2.33" ]
                 , [ "zzz_3", "3.11", "3.22", "3.33" ]

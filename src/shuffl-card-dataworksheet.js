@@ -148,62 +148,12 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
     {
         log.debug("shuffl.card.dataworksheet: shuffl:data_firstrow updated: "+data.newval);
         card.data("shuffl:data_firstrow", data.newval+1);
-        try
-        {
-            updatefn(_event, undefined);
-        }
-        catch (e)
-        {
-            log.error("Error "+e)
-        }
+        updatefn(_event, undefined);
     });
     card.modelBind("shuffl:data_firstrow", updatefn);
     card.modelBind("shuffl:data_lastrow",  updatefn);
     // Hook up the row-selection pop-up menu
-    // TODO: extract to separate function
-    // @@@ shuffl.card.dataworksheet.contextMenu(card, cbody);
-    log.debug("shuffl.card.dataworksheet.newCard: connect row select menu");
-    cbody.contextMenu('dataworksheet_rowSelectMenu', {
-        menuStyle: {
-            'class': 'shuffl-contextmenu',
-            'font-weight': 'bold',
-            'background-color': '#DDDDDD',
-            'border': 'thin #666666 solid'
-            },
-        showOnClick: true,
-        onContextMenu: function (event)
-        {
-            // TODO: is there a better way to find which row was clicked?
-            cbody.find("tbody tr").each(function (rownum)
-            {
-                // this = dom element
-                // TODO: is there a better way to test for ancestry?
-                if (jQuery(this).find("*").index(event.target) >= 0) {
-                    log.debug("- selected row number "+rownum);
-                    card.data("rownum", rownum);
-                };
-            });
-            return true;
-        },
-        bindings: {
-            'dataworksheet_labelrow': function (_elem)
-            {
-                log.debug('Row select dataworksheet_labelrow');
-                shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:header_row');
-            },
-            'dataworksheet_firstrow': function (_elem)
-            {
-                log.debug('Row select dataworksheet_firstrow');
-                shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_firstrow');
-            },
-            'dataworksheet_lastrow': function (_elem)
-            {
-                log.debug('Row select dataworksheet_lastrow');
-                shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_lastrow');
-            }
-        }
-    });
-    // @@@
+    shuffl.card.dataworksheet.contextMenu(card, cbody);
     // Initialize the model
     var cardtitle  = shuffl.get(carddata, 'shuffl:title',  cardid);
     var cardtags   = shuffl.get(carddata, 'shuffl:tags',   [cardtype]);
@@ -393,8 +343,85 @@ shuffl.card.dataworksheet.updatedata = function (card, cbody)
     return update;
 };
 
+// ----------------------------------------------------------------
+// Helper functions
+// ----------------------------------------------------------------
+
 /**
- * Add row-selectr menu to main workspace
+ * Attach context menu for data selection to the card body element used to
+ * display the tabular data.
+ */
+shuffl.card.dataworksheet.contextMenu = function (card, cbody)
+{
+    cbody.contextMenu('dataworksheet_rowSelectMenu', {
+        menuStyle: {
+            'class': 'shuffl-contextmenu',
+            'font-weight': 'bold',
+            'background-color': '#DDDDDD',
+            'border': 'thin #666666 solid'
+            },
+        showOnClick: true,
+        onContextMenu: function (event)
+        {
+            // TODO: is there a better way to find which row was clicked?
+            cbody.find("tbody tr").each(function (rownum)
+            {
+                // this = dom element
+                // TODO: is there a better way to test for ancestry?
+                if (jQuery(this).find("*").index(event.target) >= 0) {
+                    card.data("rownum", rownum);
+                };
+            });
+            return true;
+        },
+        bindings: {
+            'dataworksheet_labelrow': function (_elem)
+            {
+                log.debug('Row select dataworksheet_labelrow');
+                shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:header_row');
+            },
+            'dataworksheet_firstrow': function (_elem)
+            {
+                log.debug('Row select dataworksheet_firstrow');
+                shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_firstrow');
+            },
+            'dataworksheet_lastrow': function (_elem)
+            {
+                log.debug('Row select dataworksheet_lastrow');
+                shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_lastrow');
+            }
+        }
+    });
+};
+
+// @@@ datarows = shuffl.card.dataworksheet.rowuse(card, table);
+// @@@ datarows.first ...
+// @@@ datarows.last  ...
+
+/**
+ * Determine first and last data rows
+ * 
+ * @param card      reference to card object
+ * @param table     data table contained within the card object
+ */
+////shuffl.card.dataworksheet.rowuse(card, table);
+
+
+
+
+// @@@ coluse = shuffl.card.dataworksheet.coluse(card, hdrs);
+
+// @@@ datacols = shuffl.card.dataworksheet.datacols(card, coluse);
+
+// unselect out-of-range rows and columns
+// @@@ shuffl.card.dataworksheet.highlightData(cbody, datarows, datacols);
+
+// ----------------------------------------------------------------
+// Initialization
+// ----------------------------------------------------------------
+
+/**
+ * Add row-selector menu to main workspace
  */
 jQuery(document).ready(function() 
 {
