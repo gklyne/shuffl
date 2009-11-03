@@ -155,21 +155,14 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
     // Hook up the row-selection pop-up menu
     shuffl.card.dataworksheet.contextMenu(card, cbody);
     // Initialize the model
-    var cardtitle  = shuffl.get(carddata, 'shuffl:title',  cardid);
-    var cardtags   = shuffl.get(carddata, 'shuffl:tags',   [cardtype]);
-    var carduri    = shuffl.get(carddata, 'shuffl:uri',    "");
-    var cardtable  = shuffl.get(carddata, 'shuffl:table',  shuffl.card.dataworksheet.table);
-    var cardhrow   = shuffl.get(carddata, 'shuffl:header_row', 0);
-    var cardfrow   = shuffl.get(carddata, 'shuffl:data_firstrow',  1);
-    var cardlrow   = shuffl.get(carddata, 'shuffl:data_lastrow',  0);
-    card.model("shuffl:title", cardtitle);
-    card.model("shuffl:tags",  cardtags.join(","));
-    card.model("shuffl:uri",   carduri);
+    shuffl.initModelVar(card, 'shuffl:title', carddata, cardid);
+    shuffl.initModelVar(card, 'shuffl:tags',  carddata, [cardtype], 'array');
+    shuffl.initModelVar(card, 'shuffl:uri',   carddata, "");
+    shuffl.initModelVar(card, 'shuffl:table', carddata, shuffl.card.dataworksheet.table);
     // Note that setting the table resets the row values..
-    card.model("shuffl:table",         cardtable);
-    card.model("shuffl:header_row",    cardhrow);
-    card.model("shuffl:data_firstrow", cardfrow); 
-    card.model("shuffl:data_lastrow",  cardlrow);
+    shuffl.initModelVar(card, 'shuffl:header_row',    carddata, 0);
+    shuffl.initModelVar(card, 'shuffl:data_firstrow', carddata, 1);
+    shuffl.initModelVar(card, 'shuffl:data_lastrow',  carddata, 0);
     // Finally, set listener for changes to URI value to read new data
     // This comes last so that the setting of shuffl:uri (above) does not
     // trigger a read when initializing a card.
