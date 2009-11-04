@@ -434,15 +434,38 @@ shuffl.initModelVar = function (card, modelvar, carddata, valdef, valtype)
  */
 shuffl.initModel = function (card, carddata, datamap, defvals)
 {
+    var pass = [];
+    var p;
     for ( var k in datamap )
     {
-        var d = datamap[k].def;
-        if (typeof d == "string" && d.slice(0,1) == '@')
+        if (p = datamap[k].pass)
         {
-            d = defvals[d.slice(1)];
+            // pass number specified: save for later
+            if (!pass[p]) { pass[p] = []; };
+            pass[p].push(k);
         }
-        shuffl.initModelVar(card, k, carddata, d, datamap[k].type);
+        else
+        {
+            // Initiualize now
+            var d = datamap[k].def;
+            if (typeof d == "string" && d.slice(0,1) == '@')
+            {
+                d = defvals[d.slice(1)];
+            }
+            shuffl.initModelVar(card, k, carddata, d, datamap[k].type);          
+        }
     };
+    // Now initialize stuff saved for later
+    for (p = 0 ; p < pass.length ; p++)
+    {
+        var l = 0;
+        if (pass[p] && pass[p].length) { l = pass[p].length; };
+        for (var i = 0 ; i < l ; i++)
+        {
+            k = pass[p][i];
+            shuffl.initModelVar(card, k, carddata, datamap[k].def, datamap[k].type);          
+        };
+    }
 };
 
 /**

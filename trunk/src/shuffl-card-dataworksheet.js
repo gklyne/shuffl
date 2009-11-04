@@ -44,32 +44,6 @@ if (typeof shuffl.card == "undefined")
 shuffl.card.dataworksheet = {};
 
 /**
- * Template for creating new card object for serialization
- * 
- * 'shuffl:coluse' is a list of values:
- *   null         column ignored
- *   {axis: 'x1'} value used for 'x1' axis
- *   {axis: 'x2'} value used for 'x2' axis
- *   {axis: 'y1'} value plotted on 'y1' axis (against 'x1')
- *   {axis: 'y2'} value plotted on 'y2' axis (against 'x2')
- * 
- * For {axis: 'y1'} and {axis: 'y2'} values, additional fields may be defined:
- *   col: colour  colour of graph, as index number or CSS value
- *
- * TODO: style (line/bar/scatter/etc), transform (lin/log/etc)
- */
-shuffl.card.dataworksheet.data =
-    { 'shuffl:title':         undefined
-    , 'shuffl:tags':          [ undefined ]
-    , 'shuffl:uri':           undefined
-    , 'shuffl:header_row':    0
-    , 'shuffl:data_firstrow': 1
-    , 'shuffl:data_lastrow':  0
-    , 'shuffl:coluse':        undefined
-    , 'shuffl:table':         undefined
-    };
-
-/**
  * Default table data
  */
 shuffl.card.dataworksheet.table = [ [] ];
@@ -99,6 +73,34 @@ shuffl.card.dataworksheet.blank = jQuery(
     "    <ctagslabel>Tags: </ctagslabel><ctags>card_ZZZ tags</ctags>\n"+
     "  </cfoot>\n"+
     "</div>");
+
+/**
+ * Template for initializing a card model, and 
+ * creating new card object for serialization.
+ * 
+ * 'shuffl:coluse' is a list of values:
+ *   null         column ignored
+ *   {axis: 'x1'} value used for 'x1' axis
+ *   {axis: 'x2'} value used for 'x2' axis
+ *   {axis: 'y1'} value plotted on 'y1' axis (against 'x1')
+ *   {axis: 'y2'} value plotted on 'y2' axis (against 'x2')
+ * 
+ * For {axis: 'y1'} and {axis: 'y2'} values, additional fields may be defined:
+ *   col: colour  colour of graph, as index number or CSS value
+ *
+ * TODO: style (line/bar/scatter/etc), transform (lin/log/etc)
+ */
+shuffl.card.dataworksheet.datamap =
+    { 'shuffl:title':         { def: '@id' }
+    , 'shuffl:tags':          { def: '@tags', type: 'array' }
+    , 'shuffl:uri':           { def: "" }
+    , 'shuffl:table':         { def: shuffl.card.dataworksheet.table }
+    // Initialize these *after* shuffl:table:
+    , 'shuffl:header_row':    { def: 0,  pass: 2 }
+    , 'shuffl:data_firstrow': { def: 1,  pass: 2 }
+    , 'shuffl:data_lastrow':  { def: 0,  pass: 2 }
+    , 'shuffl:coluse':        { def: [], pass: 2 }
+    };
 
 /**
  * Creates and return a new card instance.
@@ -155,14 +157,13 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
     // Hook up the row-selection pop-up menu
     shuffl.card.dataworksheet.contextMenu(card, cbody);
     // Initialize the model
-    shuffl.initModelVar(card, 'shuffl:title', carddata, cardid);
-    shuffl.initModelVar(card, 'shuffl:tags',  carddata, [cardtype], 'array');
-    shuffl.initModelVar(card, 'shuffl:uri',   carddata, "");
-    shuffl.initModelVar(card, 'shuffl:table', carddata, shuffl.card.dataworksheet.table);
+    shuffl.initModel(card, carddata, shuffl.card.dataworksheet.datamap,
+        {id: cardid, tags: [cardtype]} 
+        );
     // Note that setting the table resets the row values..
-    shuffl.initModelVar(card, 'shuffl:header_row',    carddata, 0);
-    shuffl.initModelVar(card, 'shuffl:data_firstrow', carddata, 1);
-    shuffl.initModelVar(card, 'shuffl:data_lastrow',  carddata, 0);
+    ////shuffl.initModelVar(card, 'shuffl:header_row',    carddata, 0);
+    ////shuffl.initModelVar(card, 'shuffl:data_firstrow', carddata, 1);
+    ////shuffl.initModelVar(card, 'shuffl:data_lastrow',  carddata, 0);
     // Finally, set listener for changes to URI value to read new data
     // This comes last so that the setting of shuffl:uri (above) does not
     // trigger a read when initializing a card.
@@ -184,16 +185,7 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
  */
 shuffl.card.dataworksheet.serialize = function (card) 
 {
-    var carddata = jQuery.extend({}, shuffl.card.dataworksheet.data);
-    carddata['shuffl:title'] = card.model("shuffl:title");
-    carddata['shuffl:tags']  = shuffl.makeTagList(card.model("shuffl:tags"));
-    carddata['shuffl:uri']   = card.model("shuffl:uri");
-    carddata['shuffl:header_row']    = card.model("shuffl:header_row");
-    carddata['shuffl:data_firstrow'] = card.model("shuffl:data_firstrow");
-    carddata['shuffl:data_lastrow']  = card.model("shuffl:data_lastrow");
-    carddata['shuffl:coluse']        = card.model("shuffl:coluse");
-    carddata['shuffl:table']         = card.model("shuffl:table");
-    return carddata;
+    return shuffl.serializeModel(card, shuffl.card.dataworksheet.datamap);
 };
 
 /**
