@@ -96,7 +96,7 @@ shuffl.card.datagraph.blank = jQuery(
     "    <ctitle>card title</ctitle>\n"+
     "  </chead>\n"+
     "  <crow>\n"+
-    "    <cbody class='shuffl-nodrag'>\n"+
+    "    <cbody>\n"+
     "      <div style='width:98%; height:98%;'/>\n"+
     "    </cbody>\n"+
     "  </crow>\n"+
@@ -294,7 +294,7 @@ shuffl.card.datagraph.redraw = function (card)
 shuffl.card.datagraph.log10transform =
     { transform:        function (x) 
         { 
-            if (typeof x != "number" || x<=0.0) { return 0.0; };
+            if (typeof x != "number" || x<=0.0) { return null; };
             return Math.LOG10E*Math.log(x); 
         }
     , inverseTransform: function (x) { return Math.exp(x/Math.LOG10E); }
