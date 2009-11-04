@@ -182,7 +182,10 @@ ctags, ctagslabel {
 }
 
 cbody {
-    display:block;
+    display: block;
+}
+
+cbody.shuffl-nodrag {
     overflow: auto;
 }
 
