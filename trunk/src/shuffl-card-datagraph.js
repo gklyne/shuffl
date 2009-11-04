@@ -332,7 +332,7 @@ shuffl.card.datagraph.draw = function (card)
  */
 shuffl.card.datagraph.serialize = function (card) 
 {
-    return carddata = shuffl.serializeModel(card, shuffl.card.datagraph.datamap);
+    return shuffl.serializeModel(card, shuffl.card.datagraph.datamap);
 };
 
 /**

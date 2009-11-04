@@ -115,7 +115,7 @@ shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
  * @return an object containing the card data
  */
 shuffl.card.freetext.serialize = function (card) {
-    return carddata = shuffl.serializeModel(card, shuffl.card.freetext.datamap);
+    return shuffl.serializeModel(card, shuffl.card.freetext.datamap);
 };
 
 /**
