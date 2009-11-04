@@ -51,16 +51,6 @@ if (typeof shuffl.card == "undefined")
 shuffl.card.datatable = {};
 
 /**
- * Template for creating new card object for serialization
- */
-shuffl.card.datatable.data =
-    { 'shuffl:title':   undefined
-    , 'shuffl:tags':    [ undefined ]
-    , 'shuffl:uri':     undefined
-    , 'shuffl:table':   undefined
-    };
-
-/**
  * Temporary default data for testing...
  * TODO: reset this when done testing
  */
@@ -106,6 +96,17 @@ shuffl.card.datatable.blank = jQuery(
     "</div>");
 
 /**
+ * Template for initializing a card model, and 
+ * creating new card object for serialization.
+ */
+shuffl.card.datatable.datamap =
+    { 'shuffl:title':     { def: '@id' }
+    , 'shuffl:tags':      { def: '@tags', type: 'array' }
+    , 'shuffl:uri':       { def: "" }
+    , 'shuffl:table':     { def: shuffl.card.datatable.table }
+    };
+
+/**
  * Creates and return a new card instance.
  * 
  * @param cardtype      type identifier for the new card element
@@ -141,18 +142,18 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     card.modelBind("shuffl:table", 
         shuffl.modelSetTable(cbody, 1, shuffl.modelSetSeries(card)));
     // Initialize the model
-    shuffl.initModelVar(card, 'shuffl:title', carddata, cardid);
-    shuffl.initModelVar(card, 'shuffl:tags',  carddata, [cardtype], 'array');
-    shuffl.initModelVar(card, 'shuffl:uri',   carddata, "");
-    shuffl.initModelVar(card, 'shuffl:table', carddata, shuffl.card.datatable.table);
+    shuffl.initModel(card, carddata, shuffl.card.datatable.datamap,
+        {id: cardid, tags: [cardtype]} 
+        );
     // Finally, set listener for changes to URI value to read new data
-    // This comes last so that the setting of shuffl:uri (above) does not
+    // This comes last so that the initialization of shuffl:uri does not
     // trigger a read when initializing a card.
     card.modelBind("shuffl:uri", function (event, data) {
         log.debug("Read "+data.newval+" into data table");
         jQuery.getCSV(data.newval, function (data, status) {
             ////log.debug("- data "+jQuery.toJSON(data));
             card.model("shuffl:table", data);
+            card.data('shuffl:datamod', true);
         });
     });
     return card;
@@ -165,12 +166,7 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
  * @return          an object containing the card data
  */
 shuffl.card.datatable.serialize = function (card) {
-    var carddata = shuffl.card.datatable.data;
-    carddata['shuffl:title'] = card.model("shuffl:title");
-    carddata['shuffl:tags']  = shuffl.makeTagList(card.model("shuffl:tags"));
-    carddata['shuffl:uri']   = card.model("shuffl:uri");
-    carddata['shuffl:table'] = card.model("shuffl:table");
-    return carddata;
+    return shuffl.serializeModel(card, shuffl.card.datatable.datamap);
 };
 
 /**
