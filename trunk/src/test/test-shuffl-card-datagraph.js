@@ -66,7 +66,6 @@ var testcarddatagraph_carddata =
     , 'shuffl:data':
       { 'shuffl:title':     "Card N title"
       , 'shuffl:tags':      [ 'card_N_tag', 'footag' ]
-      , 'shuffl:uri':       "test-graph.csv"
       , 'shuffl:source_id': "srcid"
       , 'shuffl:dataminy':  -1.2
       , 'shuffl:datamaxy':  1.2
@@ -121,7 +120,6 @@ TestCardDatagraph = function() {
             var c   = shuffl.card.datagraph.newCard("shuffl-datagraph-yellow", css, "card-1",
             	{ 'shuffl:tags': 	["card-tag"]
             	, 'shuffl:title':	"card-title"
-                , 'shuffl:uri':     "http://example.org/test-uri.csv"
                 , 'shuffl:dataminy': -1.2
                 , 'shuffl:datamaxy': 1.2
                 , 'shuffl:labels':   testcarddatagraph_labels
@@ -130,7 +128,6 @@ TestCardDatagraph = function() {
             // Check model values
             equals(c.model("shuffl:title"), "card-title", "shuffl:title");
             equals(c.model("shuffl:tags"),  "card-tag",   "shuffl:tags");
-            equals(c.model("shuffl:uri"),   "http://example.org/test-uri.csv", "shuffl:uri");
             equals(c.model("shuffl:source_id"), undefined,           "shuffl:source_id");
             equals(c.model("shuffl:dataminy"), -1.2,                 "shuffl:dataminy");
             equals(c.model("shuffl:datamaxy"),  1.2,                 "shuffl:datamaxy");
