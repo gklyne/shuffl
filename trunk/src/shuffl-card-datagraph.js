@@ -300,6 +300,9 @@ shuffl.card.datagraph.log10transform =
     , inverseTransform: function (x) { return Math.exp(x/Math.LOG10E); }
     };
 
+// TODO: need to figure how to apply log scaling so that limits are
+//       used properly, and intervals plotted as required.
+
 /**
  * Function to draw the graph in a supplied datagraph card
  */
