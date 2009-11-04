@@ -762,7 +762,7 @@ shuffl.PlaceHolder = "(Double-click to edit)"
  * @param fn        completion function to be called to process result
  *                  values before they are used to update the card content.
  */
-shuffl.modifiedCard = function(card, fn) 
+shuffl.modifiedCard_NOTUSED = function(card, fn) 
 {
     function editDone() {
         log.debug("shuffl.modifiedCard:editDone");
