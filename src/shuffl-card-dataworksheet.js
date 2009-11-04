@@ -249,6 +249,7 @@ shuffl.card.dataworksheet.updatedata = function (card, cbody)
                 , setseries:  'shuffl:series'
                 };
             shuffl.modelSetSeries(card, options)(_event, {newval: table});
+            card.model('shuffl:datamod', true);
         };
     };
     return update;

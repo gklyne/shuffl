@@ -277,6 +277,7 @@ shuffl.card.datagraph.updatedata = function (card, src)
 
 /**
  * Return function to redraw the graph in a supplied datagraph card
+ * following an update to the card model.
  */
 shuffl.card.datagraph.redraw = function (card)
 {
@@ -284,6 +285,7 @@ shuffl.card.datagraph.redraw = function (card)
     {
         // Redraw after 50ms
         shuffl.redrawAfter(card, shuffl.card.datagraph.draw, 50.0);
+        card.data('shuffl:datamod', true);
     };
     return drawgraph;
 };

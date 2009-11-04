@@ -40,13 +40,9 @@ if (typeof shuffl.card == "undefined")
 shuffl.card.freetext = {};
 
 /**
- * Template for creating new card object for serialization
+ * Template for initializing a card model, and 
+ * creating new card object for serialization.
  */
-shuffl.card.freetext.data =
-    { 'shuffl:title':   undefined
-    , 'shuffl:tags':    [ undefined ]
-    , 'shuffl:text':    undefined
-    };
 
 shuffl.card.freetext.datamap =
     { 'shuffl:title':   { def: '@id' }
