@@ -1,4 +1,4 @@
-#summary Sprint 6 plan : 2 Nov - 13 Nov
+#summary Sprint 7 plan : 2 Nov - 13 Nov
 
 <wiki:toc max_depth="2" />
 
