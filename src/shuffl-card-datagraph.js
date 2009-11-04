@@ -43,16 +43,17 @@ if (typeof shuffl.card == "undefined")
 shuffl.card.datagraph = {};
 
 /**
- * Template for creating new card object for serialization
+ * Template for initializing a card model, and 
+ * creating new card object for serialization.
  */
-shuffl.card.datagraph.data =
-    { 'shuffl:title':     undefined
-    , 'shuffl:tags':      [ undefined ]
-    , 'shuffl:source_id': undefined
-    , 'shuffl:labels':    undefined
-    , 'shuffl:series':    undefined
-    , 'shuffl:dataminy':  undefined
-    , 'shuffl:datamaxy':  undefined
+shuffl.card.datagraph.datamap =
+    { 'shuffl:title':     { def: '@id' }
+    , 'shuffl:tags':      { def: '@tags', type: 'array' }
+    , 'shuffl:source_id': { def: undefined }
+    , 'shuffl:labels':    { def: undefined }
+    , 'shuffl:series':    { def: undefined }
+    , 'shuffl:dataminy':  { def: undefined }
+    , 'shuffl:datamaxy':  { def: undefined }
     };
 
 /*
@@ -172,14 +173,9 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
         card.data("shuffl:source_id", src.data('shuffl:id'));
     });
     // Initialize the model
-    shuffl.initModelVar(card, 'shuffl:title',     carddata, cardid);
-    shuffl.initModelVar(card, 'shuffl:tags',      carddata, [cardtype], 'array');
-    shuffl.initModelVar(card, 'shuffl:uri',       carddata, "");
-    shuffl.initModelVar(card, 'shuffl:source_id', carddata, undefined);
-    shuffl.initModelVar(card, 'shuffl:labels',    carddata, undefined);
-    shuffl.initModelVar(card, 'shuffl:series',    carddata, undefined);
-    shuffl.initModelVar(card, 'shuffl:dataminy',  carddata, undefined);
-    shuffl.initModelVar(card, 'shuffl:datamaxy',  carddata, undefined);
+    shuffl.initModel(card, carddata, shuffl.card.datagraph.datamap,
+        {id: cardid, tags: [cardtype]} 
+        );
     // If card is linked, complete setting link when all cards have been loaded
     // (shuffl.LoadWorkspace triggers an event when all cards have been loaded)
     var cardsrcid = card.model('shuffl:source_id');
@@ -336,15 +332,7 @@ shuffl.card.datagraph.draw = function (card)
  */
 shuffl.card.datagraph.serialize = function (card) 
 {
-    var carddata = shuffl.card.datagraph.data;
-    carddata['shuffl:title']     = card.model("shuffl:title");
-    carddata['shuffl:tags']      = shuffl.makeTagList(card.model("shuffl:tags"));
-    carddata['shuffl:source_id'] = card.model("shuffl:source_id");
-    carddata['shuffl:labels']    = card.model("shuffl:labels");
-    carddata['shuffl:series']    = card.model("shuffl:series");
-    carddata['shuffl:dataminy']  = card.model("shuffl:dataminy");
-    carddata['shuffl:datamaxy']  = card.model("shuffl:datamaxy");
-    return carddata;
+    return carddata = shuffl.serializeModel(card, shuffl.card.datagraph.datamap);
 };
 
 /**

@@ -437,7 +437,7 @@ shuffl.initModel = function (card, carddata, datamap, defvals)
     for ( var k in datamap )
     {
         var d = datamap[k].def;
-        if (d.slice(0,1) == '@')
+        if (typeof d == "string" && d.slice(0,1) == '@')
         {
             d = defvals[d.slice(1)];
         }

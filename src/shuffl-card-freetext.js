@@ -43,7 +43,6 @@ shuffl.card.freetext = {};
  * Template for initializing a card model, and 
  * creating new card object for serialization.
  */
-
 shuffl.card.freetext.datamap =
     { 'shuffl:title':   { def: '@id' }
     , 'shuffl:tags':    { def: '@tags', type: 'array' }
