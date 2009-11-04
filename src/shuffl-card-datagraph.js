@@ -54,6 +54,8 @@ shuffl.card.datagraph.datamap =
     , 'shuffl:series':    { def: undefined }
     , 'shuffl:dataminy':  { def: undefined }
     , 'shuffl:datamaxy':  { def: undefined }
+    , 'shuffl:x1axis':    { def: { transform: 'lin' } }
+    , 'shuffl:y1axis':    { def: { transform: 'lin' } }
     };
 
 /*
@@ -287,12 +289,26 @@ shuffl.card.datagraph.redraw = function (card)
 };
 
 /**
+ * Variable transform Log10
+ */
+shuffl.card.datagraph.log10transform =
+    { transform:        function (x) 
+        { 
+            if (typeof x != "number" || x<=0.0) { return 0.0; };
+            return Math.LOG10E*Math.log(x); 
+        }
+    , inverseTransform: function (x) { return Math.exp(x/Math.LOG10E); }
+    };
+
+/**
  * Function to draw the graph in a supplied datagraph card
  */
 shuffl.card.datagraph.draw = function (card)
 {
     var ymin   = card.model('shuffl:dataminy');
     var ymax   = card.model('shuffl:datamaxy');
+    var x1axis = card.model('shuffl:x1axis');
+    var y1axis = card.model('shuffl:y1axis');
     var labels = card.model('shuffl:labels');
     var series = card.model('shuffl:series');
     var cbody  = card.find("cbody");
@@ -309,16 +325,25 @@ shuffl.card.datagraph.draw = function (card)
         }
         var options =
             { series:
-                { lines:  { show: true}
+                { lines:  { show: true }
                 , points: { show: false, fill: false }
                 }
             , xaxis:
                 { labelWidth: 40
                 }
+            , yaxis: {}
             };
         if (isFinite(ymin) && isFinite(ymax) && (ymin<ymax))
         {
             options.yaxis = { min: ymin, max: ymax };
+        }
+        if (x1axis.transform == 'lin')
+        {
+            jQuery.extend(options.xaxis, shuffl.card.datagraph.log10transform);
+        }
+        if (y1axis.transform == 'log')
+        {
+            jQuery.extend(options.yaxis, shuffl.card.datagraph.log10transform);
         }
         var plot = jQuery.plot(gelem, data, options);
     };

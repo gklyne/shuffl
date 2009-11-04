@@ -118,22 +118,26 @@ TestCardDatagraph = function() {
             log.debug("test shuffl.card.datagraph.newCard");
             var css = 'stock-yellow';
             var c   = shuffl.card.datagraph.newCard("shuffl-datagraph-yellow", css, "card-1",
-            	{ 'shuffl:tags': 	["card-tag"]
-            	, 'shuffl:title':	"card-title"
-                , 'shuffl:dataminy': -1.2
-                , 'shuffl:datamaxy': 1.2
-                , 'shuffl:labels':   testcarddatagraph_labels
-                , 'shuffl:series':   testcarddatagraph_series
-         	});
+              	{ 'shuffl:tags':      ["card-tag"]
+              	, 'shuffl:title':     "card-title"
+                , 'shuffl:dataminy':  -1.2
+                , 'shuffl:datamaxy':  1.2
+                , 'shuffl:x1axis':    { transform: 'lin' }
+                , 'shuffl:y1axis':    { transform: 'lin' }
+                , 'shuffl:labels':    testcarddatagraph_labels
+                , 'shuffl:series':    testcarddatagraph_series
+           	});
             // Check model values
-            equals(c.model("shuffl:title"), "card-title", "shuffl:title");
-            equals(c.model("shuffl:tags"),  "card-tag",   "shuffl:tags");
-            equals(c.model("shuffl:source_id"), undefined,           "shuffl:source_id");
-            equals(c.model("shuffl:dataminy"), -1.2,                 "shuffl:dataminy");
-            equals(c.model("shuffl:datamaxy"),  1.2,                 "shuffl:datamaxy");
-            same(c.model("shuffl:table"),  undefined,                "shuffl:table");
-            same(c.model("shuffl:labels"), testcarddatagraph_labels, "shuffl:labels");
-            same(c.model("shuffl:series"), testcarddatagraph_series, "shuffl:series");
+            equals(c.model("shuffl:title"),     "card-title",         "shuffl:title");
+            equals(c.model("shuffl:tags"),      "card-tag",           "shuffl:tags");
+            equals(c.model("shuffl:source_id"), undefined,            "shuffl:source_id");
+            equals(c.model("shuffl:dataminy"),  -1.2,                 "shuffl:dataminy");
+            equals(c.model("shuffl:datamaxy"),  1.2,                  "shuffl:datamaxy");
+            same(c.model("shuffl:x1axis"),  { transform: 'lin' },     "shuffl:x1axis");
+            same(c.model("shuffl:y1axis"),  { transform: 'lin' },     "shuffl:y1axis");
+            same(c.model("shuffl:table"),   undefined,                "shuffl:table");
+            same(c.model("shuffl:labels"),  testcarddatagraph_labels, "shuffl:labels");
+            same(c.model("shuffl:series"),  testcarddatagraph_series, "shuffl:series");
             // Check rendered card
             equals(c.attr('id'), "card-1",  "card id attribute");
             ok(c.hasClass('stock-yellow'),  "yellow colour class");
@@ -203,11 +207,13 @@ TestCardDatagraph = function() {
             var d = testcarddatagraph_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-orange", d);
             // Check model values
-            equals(c.model("shuffl:title"), "Card N title",          "shuffl:title");
-            equals(c.model("shuffl:tags"),  "card_N_tag,footag",     "shuffl:tags");
+            equals(c.model("shuffl:title"),     "Card N title",      "shuffl:title");
+            equals(c.model("shuffl:tags"),      "card_N_tag,footag", "shuffl:tags");
             equals(c.model("shuffl:source_id"), "srcid",             "shuffl:source_id");
-            equals(c.model("shuffl:dataminy"), -1.2,                 "shuffl:dataminy");
+            equals(c.model("shuffl:dataminy"),  -1.2,                 "shuffl:dataminy");
             equals(c.model("shuffl:datamaxy"),  1.2,                 "shuffl:datamaxy");
+            same(c.model("shuffl:x1axis"), { transform: 'lin' },     "shuffl:x1axis");
+            same(c.model("shuffl:y1axis"), { transform: 'lin' },     "shuffl:y1axis");
             same(c.model("shuffl:table"),  undefined,                "shuffl:table");
             same(c.model("shuffl:labels"), testcarddatagraph_labels, "shuffl:labels");
             same(c.model("shuffl:series"), testcarddatagraph_series, "shuffl:series");
@@ -243,11 +249,13 @@ TestCardDatagraph = function() {
             same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');
             equals(e['shuffl:data']['shuffl:title'], "Card N title",   'shuffl:data-title');
             same(e['shuffl:data']['shuffl:tags'],    [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
-            equals(e['shuffl:data']['shuffl:source_id'], "srcid",       'shuffl:data-dataminy');
-            equals(e['shuffl:data']['shuffl:dataminy'],  -1.2,          'shuffl:data-dataminy');
-            equals(e['shuffl:data']['shuffl:datamaxy'],   1.2,          'shuffl:data-datamaxy');
-            same(e['shuffl:data']['shuffl:labels'],  testcarddatagraph_labels,  'shuffl:data-labels');
-            same(e['shuffl:data']['shuffl:series'],  testcarddatagraph_series,  'shuffl:data-series');
+            equals(e['shuffl:data']['shuffl:source_id'], "srcid",             'shuffl:data-srcid');
+            equals(e['shuffl:data']['shuffl:dataminy'],  -1.2,                'shuffl:data-dataminy');
+            equals(e['shuffl:data']['shuffl:datamaxy'],   1.2,                'shuffl:data-datamaxy');
+            same(e['shuffl:data']['shuffl:x1axis'], { transform: 'lin' },     'shuffl:data-x1axis');
+            same(e['shuffl:data']['shuffl:y1axis'], { transform: 'lin' },     'shuffl:data-y1axis');
+            same(e['shuffl:data']['shuffl:labels'], testcarddatagraph_labels, 'shuffl:data-labels');
+            same(e['shuffl:data']['shuffl:series'], testcarddatagraph_series, 'shuffl:data-series');
         });
 
     test("shuffl.card.datagraph.model setting data",
@@ -393,6 +401,23 @@ TestCardDatagraph = function() {
                 }),
             stop(2000);
         });
+
+    test("shuffl.card.datagraph.log10transform", function ()
+    {
+        logtest("shuffl.card.datagraph.log10transform");
+        var t = shuffl.card.datagraph.log10transform;
+        range(t.transform(10.0),          1.0,     1.0,   "Log10(10)");
+        range(t.transform(1.0),           0.0,     0.0,   "Log10(1)");
+        range(t.transform(0.1),          -1.001,  -0.999, "Log10(0.1)");
+        range(t.transform(100.0),         2.0,     2.0,   "Log10(100)");
+        range(t.transform(0.0007164),    -3.145,  -3.144, "Log10(0.0007164)");
+        range(t.transform(0.0),           0.0,     0.0,   "Log10(0.0)");
+        range(t.transform(-1.0),          0.0,     0.0,   "Log10(-1.0)");
+        range(t.inverseTransform(1.0),    9.999,  10.001, "aLog10(1)");
+        range(t.inverseTransform(0.0),    1.0,     1.0,   "aLog10(0.0)");
+        range(t.inverseTransform(-1.0),   0.099,   0.1,   "aLog10(-1.0)");
+        range(t.inverseTransform(2.0),  100.0,   100.001, "aLog10(100)");
+    });
 
 };
 
