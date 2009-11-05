@@ -13,19 +13,25 @@
   ]
 , 'shuffl:workspace':
   { 'shuffl:stockbar':
-      [ { 'id': 'stockpile_0', 'class': 'stock-default', 'label': 'file',   'type': 'shuffl-selectfile' }
-      , { 'id': 'stockpile_1', 'class': 'stock-yellow',  'label': '|WS|',   'type': 'shuffl-dataworksheet-yellow'  }
-      , { 'id': 'stockpile_2', 'class': 'stock-blue',    'label': '|WS|',   'type': 'shuffl-dataworksheet-blue'    }
-      , { 'id': 'stockpile_3', 'class': 'stock-green',   'label': '|WS|',   'type': 'shuffl-dataworksheet-green'   }
-      , { 'id': 'stockpile_4', 'class': 'stock-orange',  'label': '/\\/..', 'type': 'shuffl-datagraph-orange'  }
-      , { 'id': 'stockpile_5', 'class': 'stock-pink',    'label': '/\\/..', 'type': 'shuffl-datagraph-pink'    }
-      , { 'id': 'stockpile_6', 'class': 'stock-purple',  'label': '/\\/..', 'type': 'shuffl-datagraph-purple'  }
-      , { 'id': 'stockpile_1', 'class': 'stock-yellow',  'label': 'Abc..',  'type': 'shuffl-freetext-yellow'  }
-      , { 'id': 'stockpile_2', 'class': 'stock-blue',    'label': 'Abc..',  'type': 'shuffl-freetext-blue'    }
-      , { 'id': 'stockpile_3', 'class': 'stock-green',   'label': 'Abc..',  'type': 'shuffl-freetext-green'   }
-      , { 'id': 'stockpile_4', 'class': 'stock-orange',  'label': 'Abc..',  'type': 'shuffl-freetext-orange'  }
-      , { 'id': 'stockpile_5', 'class': 'stock-pink',    'label': 'Abc..',  'type': 'shuffl-freetext-pink'    }
-      , { 'id': 'stockpile_6', 'class': 'stock-purple',  'label': 'Abc..',  'type': 'shuffl-freetext-purple'  }
+      [ { 'id': 'stockpile_10', 'class': 'stock-default', 'label': 'file',   'type': 'shuffl-selectfile' }
+      , { 'id': 'stockpile_11', 'class': 'stock-yellow',  'label': '|WS|',   'type': 'shuffl-dataworksheet-yellow' }
+      , { 'id': 'stockpile_12', 'class': 'stock-blue',    'label': '|WS|',   'type': 'shuffl-dataworksheet-blue'   }
+      , { 'id': 'stockpile_13', 'class': 'stock-green',   'label': '|WS|',   'type': 'shuffl-dataworksheet-green'  }
+      , { 'id': 'stockpile_14', 'class': 'stock-orange',  'label': '|WS|',   'type': 'shuffl-dataworksheet-orange' }
+      , { 'id': 'stockpile_15', 'class': 'stock-pink',    'label': '|WS|',   'type': 'shuffl-dataworksheet-pink'   }
+      , { 'id': 'stockpile_16', 'class': 'stock-purple',  'label': '|WS|',   'type': 'shuffl-dataworksheet-purple' }
+      , { 'id': 'stockpile_20', 'class': 'stock-yellow',  'label': '/\\_/',  'type': 'shuffl-datagraph-yellow'  }
+      , { 'id': 'stockpile_21', 'class': 'stock-blue',    'label': '/\\_/',  'type': 'shuffl-datagraph-blue'    }
+      , { 'id': 'stockpile_22', 'class': 'stock-green',   'label': '/\\_/',  'type': 'shuffl-datagraph-green'   }
+      , { 'id': 'stockpile_23', 'class': 'stock-orange',  'label': '/\\_/',  'type': 'shuffl-datagraph-orange'  }
+      , { 'id': 'stockpile_24', 'class': 'stock-pink',    'label': '/\\_/',  'type': 'shuffl-datagraph-pink'    }
+      , { 'id': 'stockpile_25', 'class': 'stock-purple',  'label': '/\\_/',  'type': 'shuffl-datagraph-purple'  }
+      , { 'id': 'stockpile_30', 'class': 'stock-yellow',  'label': 'Abc..',  'type': 'shuffl-freetext-yellow'  }
+      , { 'id': 'stockpile_31', 'class': 'stock-blue',    'label': 'Abc..',  'type': 'shuffl-freetext-blue'    }
+      , { 'id': 'stockpile_32', 'class': 'stock-green',   'label': 'Abc..',  'type': 'shuffl-freetext-green'   }
+      , { 'id': 'stockpile_33', 'class': 'stock-orange',  'label': 'Abc..',  'type': 'shuffl-freetext-orange'  }
+      , { 'id': 'stockpile_34', 'class': 'stock-pink',    'label': 'Abc..',  'type': 'shuffl-freetext-pink'    }
+      , { 'id': 'stockpile_35', 'class': 'stock-purple',  'label': 'Abc..',  'type': 'shuffl-freetext-purple'  }
       ]
   , 'shuffl:layout':
       [ ]

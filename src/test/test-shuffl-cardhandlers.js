@@ -90,7 +90,7 @@ TestCardHandlers = function() {
 
     test("shuffl.addCardFactory", function () 
     {
-        log.debug("test shuffl.addCardFactory");
+        logtest("shuffl.addCardFactory");
         expect(1);
 		shuffl.addCardFactory("test-type", "test-css", shuffl.card.defaultcard.newCard);
 		equals(shuffl.CardFactoryMap['test-type'].cardcss, "test-css", "CardFactoryMap with test entry");
@@ -98,7 +98,7 @@ TestCardHandlers = function() {
 
     test("shuffl.getCardFactory", function () 
     {
-        log.debug("test shuffl.getCardFactory");
+        logtest("shuffl.getCardFactory");
         expect(2);
 		var c1 = shuffl.getCardFactory("test-type");
 		equals(typeof c1, "function", "retrieved factory");
@@ -108,7 +108,7 @@ TestCardHandlers = function() {
 
     test("shuffl.shuffl.card.defaultcard.newCard", function () 
     {
-        log.debug("test shuffl.card.defaultcard.newCard");
+        logtest("shuffl.card.defaultcard.newCard");
         expect(4);
         var css = 'stock-default';
 		var c   = shuffl.card.defaultcard.newCard("card-type", css, "card-id",
@@ -124,7 +124,7 @@ TestCardHandlers = function() {
 
     test("shuffl.createStockpile", function () 
     {
-        log.debug("test shuffl.createStockpile");
+        logtest("shuffl.createStockpile");
         expect(7);
         equals(jQuery('#stockbar').children().length, 1, "old stockbar content");
         // Note: type 'test-type' matches factory added earlier
@@ -140,7 +140,7 @@ TestCardHandlers = function() {
 
     test("shuffl.createCardFromStock", function () 
     {
-        log.debug("test shuffl.createCardFromStock");
+        logtest("shuffl.createCardFromStock");
         expect(18);
         // Note: type 'test-type' matches factory added earlier
 		var s = shuffl.createStockpile(
@@ -172,7 +172,7 @@ TestCardHandlers = function() {
 
     test("shuffl.createCardFromData", function ()
     {
-        log.debug("test shuffl.createCardFromData");
+        logtest("shuffl.createCardFromData");
         expect(13);
         var d = testcardhandlers_carddata;
         equals(d['shuffl:id'], 'card_id', 'd:card-id (1)');
@@ -195,7 +195,7 @@ TestCardHandlers = function() {
 
     test("shuffl.placeCardFromData", function () 
     {
-        log.debug("test shuffl.placeCardFromData");
+        logtest("shuffl.placeCardFromData");
         expect(16);
         var l = testlayoutdata;
         var d = testcardhandlers_carddata;
@@ -224,7 +224,7 @@ TestCardHandlers = function() {
 
     test("shuffl.createDataFromCard", function () 
     {
-        log.debug("test shuffl.createDataFromCard");
+        logtest("shuffl.createDataFromCard");
         expect(14);
         // Create card (copy of code already tested)
         var d = testcardhandlers_carddata;
@@ -249,7 +249,7 @@ TestCardHandlers = function() {
 
     test("shuffl.placeCardFromDataSized", function () 
     {
-        log.debug("test shuffl.placeCardFromDataSized");
+        logtest("shuffl.placeCardFromDataSized");
         expect(16);
         var l = testlayoutdatasized;
         var d = testcardhandlers_carddata;
@@ -291,7 +291,7 @@ TestCardHandlers = function() {
     
     test("shuffl.lineEditable", function () 
     {
-        log.debug("test shuffl.lineEditable");
+        logtest("shuffl.lineEditable");
         expect(5);
         var d = jQuery("<div><span class='edit'>Some text</span></div>");
         d.data('shuffl:datamod', false);
@@ -327,7 +327,7 @@ TestCardHandlers = function() {
 
     test("shuffl.blockEditable", function () 
     {
-        log.debug("test shuffl.blockEditable");
+        logtest("shuffl.blockEditable");
         expect(2);
         var d = jQuery("<div><span class='edit'>Some text<br/>more text</span></div>");
         var e = d.find(".edit");
@@ -343,7 +343,7 @@ TestCardHandlers = function() {
 
     test("shuffl.placeCard", function () 
     {
-        log.debug("test shuffl.placeCard");
+        logtest("shuffl.placeCard");
         expect(12);
         var d = testcardhandlers_carddata;
         var card = shuffl.createCardFromData("placecard_id", "test-type", d);
@@ -368,7 +368,7 @@ TestCardHandlers = function() {
 
     test("shuffl.dropCard", function ()
     {
-        log.debug("test shuffl.dropCard");
+        logtest("shuffl.dropCard");
         expect(15);
         var s = shuffl.createStockpile(
             "stock_id", "stock-class", "stock-label", "test-type");
@@ -406,7 +406,7 @@ TestCardHandlers = function() {
 
     test("shuffl.modelSetSeries (empty table)", function ()
     {
-        log.debug("test shuffl.modelSetSeries (empty table)");
+        logtest("shuffl.modelSetSeries (empty table)");
         expect(2);
         var c = jQuery("<div/>");    // Mock card
         c.modelBind('shuffl:table', shuffl.modelSetSeries(c));
@@ -417,7 +417,7 @@ TestCardHandlers = function() {
 
     test("shuffl.modelSetSeries (default options)", function ()
     {
-        log.debug("test shuffl.modelSetSeries (default options)");
+        logtest("shuffl.modelSetSeries (default options)");
         expect(2);
         var c = jQuery("<div/>");    // Mock card
         c.modelBind('shuffl:table', shuffl.modelSetSeries(c));
@@ -428,7 +428,7 @@ TestCardHandlers = function() {
 
     test("shuffl.modelSetSeries (non-default options)", function ()
     {
-        log.debug("test shuffl.modelSetSeries (non-default options)");
+        logtest("shuffl.modelSetSeries (non-default options)");
         expect(4);
         var c = jQuery("<div/>");    // Mock card
         var opts = 
@@ -445,6 +445,63 @@ TestCardHandlers = function() {
         equals(c.data('shuffl:series'), undefined, "shuffl:series");
         same(c.data('shuffl:labels2'), carddataseries_labels2, "shuffl:labels2");
         same(c.data('shuffl:series2'), carddataseries_series2, "shuffl:series2");
+    });
+    
+    test("shuffl.bindOptionClickCycle", function () 
+    {
+        logtest("shuffl.bindOptionClickCycle");
+        expect(28);
+        var c = 0;
+        function onchange() { c++; };
+        var d = jQuery("<div><clickme>foo</clickme></div>");
+        var e = d.find('clickme');
+        d.data('shuffl:datamod', false);
+        shuffl.bindOptionClickCycle(d, "shuffl:clickme", "clickme", ["one","two","three"], onchange);    
+        // Check initial values
+        equals(d.data('shuffl:datamod'), false, "shuffl:datamod (init)");
+        equals(d.data('shuffl:clickme'), undefined, "shuffl:clickme (init)");
+        equals(e.text(), "foo", "clickme.text() (init)");
+        equals(c, 0, "count (init)");
+        // Set model directly
+        d.model('shuffl:clickme', "zero");
+        equals(d.data('shuffl:datamod'), true, "shuffl:datamod (0)");
+        equals(d.data('shuffl:clickme'), "zero", "shuffl:clickme (0)");
+        equals(e.text(), "zero", "clickme.text() (0)");
+        equals(c, 1, "count (0)");
+        // Click once
+        e.trigger('click');
+        log.debug("- clicked (1): "+shuffl.elemString(e[0]));
+        equals(d.data('shuffl:datamod'), true, "shuffl:datamod (1)");
+        equals(d.data('shuffl:clickme'), "one", "shuffl:clickme (1)");
+        equals(e.text(), "one", "clickme.text() (1)");
+        equals(c, 2, "count (1)");
+        // Click twice
+        e.trigger('click');
+        log.debug("- clicked (2): "+shuffl.elemString(e[0]));
+        equals(d.data('shuffl:datamod'), true, "shuffl:datamod (2)");
+        equals(d.data('shuffl:clickme'), "two", "shuffl:clickme (2)");
+        equals(e.text(), "two", "clickme.text() (2)");
+        equals(c, 3, "count (2)");
+        // Click thrice
+        e.trigger('click');
+        log.debug("- clicked (3): "+shuffl.elemString(e[0]));
+        equals(d.data('shuffl:datamod'), true, "shuffl:datamod (3)");
+        equals(d.data('shuffl:clickme'), "three", "shuffl:clickme (3)");
+        equals(e.text(), "three", "clickme.text() (3)");
+        equals(c, 4, "count (3)");
+        // Click back to first option
+        e.trigger('click');
+        log.debug("- clicked (4): "+shuffl.elemString(e[0]));
+        equals(d.data('shuffl:datamod'), true, "shuffl:datamod (4)");
+        equals(d.data('shuffl:clickme'), "one", "shuffl:clickme (4)");
+        equals(e.text(), "one", "clickme.text() (4)");
+        equals(c, 5, "count (4)");
+        // Set model directly to blank
+        d.model('shuffl:clickme', "");
+        equals(d.data('shuffl:datamod'), true, "shuffl:datamod (5)");
+        equals(d.data('shuffl:clickme'), "", "shuffl:clickme (5)");
+        equals(e.text(), "???", "clickme.text() (5)");
+        equals(c, 6, "count (5)");
     });
     
 };

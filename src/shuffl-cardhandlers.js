@@ -171,7 +171,7 @@ shuffl.card.defaultcard.serialize = function (card)
 };
 
 // ----------------------------------------------------------------
-// Stockpile and card support functions
+// Stockpile and card id generation functions
 // ----------------------------------------------------------------
 
 /**
@@ -286,6 +286,10 @@ shuffl.createCardFromStock = function (stockpile) {
     return newcard;
 };
 
+// ----------------------------------------------------------------
+// Card and workspace placement functions
+// ----------------------------------------------------------------
+
 /**
  * Create a new card using a supplied layout value and card data
  * 
@@ -350,6 +354,10 @@ shuffl.placeCardFromData = function (layout, data)
         layout['pos'], cardsize, layout['zindex']);
 };
 
+// ----------------------------------------------------------------
+// Card serialization and deserialization functions
+// ----------------------------------------------------------------
+
 /**
  * Create an external representation object for a card
  * 
@@ -392,10 +400,6 @@ shuffl.makeTagList = function (ttext)
     return jQuery.trim(ttext).split(/[\s]*,[\s]*/);
 };
 
-// ----------------------------------------------------------------
-// Card initialization/serialization support functions
-// ----------------------------------------------------------------
-
 /**
  * Initialize model variable from data, or using default value.
  * 
@@ -415,7 +419,7 @@ shuffl.initModelVar = function (card, modelvar, carddata, valdef, valtype)
 {
     var val = shuffl.get(carddata, modelvar, valdef);
     log.debug("shuffl.initModelVar "+modelvar+", "+val+", "+valtype);
-    if (valtype == 'array') { val = val.join(","); };
+    if (valtype == 'array')  { val = val.join(","); };
     card.model(modelvar, val);
 };
 
@@ -492,7 +496,6 @@ shuffl.serializeModel = function (card, datamap)
     };
     return carddata;
 };
-
 
 // ----------------------------------------------------------------
 // Card MVC support functions
@@ -690,12 +693,15 @@ shuffl.modelSetSeries = function (card, options)
             // Store label and series data into model
             card.data(useopts.setlabels, labels);
             card.model(useopts.setseries, series);
+            card.data('shuffl:datamod', true);
         };
     };
     return setseriesvalues;
 };
 
-// ------------------------
+// ----------------------------------------------------------------
+// Card model editing functions
+// ----------------------------------------------------------------
 
 /**
  * Return an edit-completion function that sets a model value on a given card
@@ -765,8 +771,41 @@ shuffl.bindFloatEditable = function (card, modelvar, fieldsel, numdig, onchange)
     shuffl.floatEditable(card, cfield, shuffl.editSetModel(card, modelvar));
 };
 
+/**
+ * Function to buind a field to a click hander that cycles the field content
+ * through a supplied list of values.
+ * 
+ * Updates to the model variable are reflected in the card field, and changes
+ * to the field are reflected back to the model variable.
+ * 
+ * @param card      is a jQuery card object.
+ * @param modelvar  is the name of a card model variable that is associated
+ *                  with the field.
+ * @param fieldsel  is a jQuery selector string for a field within the card
+ * @param vals      is a list of values through which the field/model value
+ *                  are cycled with each click on the field.
+ * @param onchange  if defined, is a function that is called when the model
+ *                  value is changed by user interaction or by program action.
+ * 
+ */
+shuffl.bindOptionClickCycle = function (card, modelvar, fieldsel, vals, onchange)
+{
+    var cfield = card.find(fieldsel);
+    card.modelBind(modelvar, 
+        shuffl.modelSetText(cfield, "???", shuffl.modifiedCard(card, onchange)));
+    cfield.click(function (_event) {
+        var old = card.model(modelvar);
+        for (var i = 0 ; i < vals.length ; i++)
+        {
+            if (old == vals[i]) break;
+        };
+        i = (i+1 >= vals.length ? 0 : i+1);
+        card.model(modelvar, vals[i]);
+    });
+};
+
 // ----------------------------------------------------------------
-// Text editing support functions
+// Text and content editing support functions
 // ----------------------------------------------------------------
 
 /**
@@ -785,14 +824,14 @@ shuffl.PlaceHolder = "(Double-click to edit)"
  * @param fn        completion function to be called to process result
  *                  values before they are used to update the card content.
  */
-shuffl.modifiedCard_NOTUSED = function(card, fn) 
+shuffl.modifiedCard = function(card, fn) 
 {
-    function editDone() {
+    function modified() {
         log.debug("shuffl.modifiedCard:editDone");
         card.data('shuffl:datamod', true);
-        return fn.apply(this, arguments);
+        return ( fn ? fn.apply(this, arguments) : undefined );
     };
-    return editDone;
+    return modified;
 }
 
 /**
