@@ -92,6 +92,16 @@ html, body {
     /* width: 20em; */
 }
 
+/* Context menu show/hide elements */
+
+ul.shuffl-colselect li.shuffl-rowoption { 
+    display: none; 
+}
+
+ul.shuffl-rowselect li.shuffl-coloption { 
+    display: none; 
+}
+
 /* Specific identified fields */
 
 .dialog-save {
