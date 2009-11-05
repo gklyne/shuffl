@@ -259,7 +259,6 @@ shuffl.card.dataworksheet.contextMenu = function (card, cbody)
 {
     cbody.contextMenu('dataworksheet_rowSelectMenu', {
         menuStyle: {
-            'class': 'shuffl-contextmenu',
             'font-weight': 'bold',
             'background-color': '#DDDDDD',
             'border': 'thin #666666 solid'
@@ -267,16 +266,43 @@ shuffl.card.dataworksheet.contextMenu = function (card, cbody)
         showOnClick: true,
         onContextMenu: function (event)
         {
+            ////log.debug("- onContextMenu "+this);
+            ////jQuery(event.target).css("border", "2px dotted blue");
             // TODO: is there a better way to find which row was clicked?
+            var cur = this;
             cbody.find("tbody tr").each(function (rownum)
             {
                 // this = dom element
                 // TODO: is there a better way to test for ancestry?
-                if (jQuery(this).find("*").index(event.target) >= 0) {
+                if (jQuery(this).find("*").index(event.target) >= 0) 
+                {
+                    ////log.debug("- rownum "+rownum);
                     card.data("rownum", rownum);
+                    card.data("colnum", -1);
+                };
+            });
+            ////cbody.find("thead th").css("border", "2px dotted blue");
+            cbody.find("thead th").each(function (colnum)
+            {
+                if (jQuery(this).filter("*").index(event.target) >= 0) 
+                {
+                    ////log.debug("- colnum "+colnum);
+                    card.data("colnum", colnum);
                 };
             });
             return true;
+        },
+        onShowMenu: function (e, menu) {
+            ////log.debug("- onShowMenu "+this);
+            if (card.data("colnum") >= 0)
+            {
+                menu.find("li.shuffl-rowoption").hide();
+            }
+            else
+            {
+                menu.find("li.shuffl-coloption").hide();
+            }
+            return menu;
         },
         bindings: {
             'dataworksheet_labelrow': function (_elem)
@@ -293,7 +319,32 @@ shuffl.card.dataworksheet.contextMenu = function (card, cbody)
             {
                 log.debug('Row select dataworksheet_lastrow');
                 shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_lastrow');
-            }
+            },
+            'dataworksheet_noaxis': function (_elem)
+            {
+                log.debug('Col select dataworksheet_noaxis');
+                ////shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_lastrow');
+            },
+            'dataworksheet_x1axis': function (_elem)
+            {
+                log.debug('Col select dataworksheet_x1axis');
+                ////shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_lastrow');
+            },
+            'dataworksheet_x2axis': function (_elem)
+            {
+                log.debug('Col select dataworksheet_x2axis');
+                ////shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_lastrow');
+            },
+            'dataworksheet_y1axis': function (_elem)
+            {
+                log.debug('Col select dataworksheet_y2axis');
+                ////shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_lastrow');
+            },
+            'dataworksheet_y2axis': function (_elem)
+            {
+                log.debug('Col select dataworksheet_y2axis');
+                ////shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_lastrow');
+            },
         }
     });
 };
@@ -443,15 +494,19 @@ shuffl.card.dataworksheet.highlightData = function (cbody, datarows, coluse)
  */
 jQuery(document).ready(function() 
 {
-    var rowSelectMenu = 
+    var contextRowColSelectMenu = 
         "  <div class='contextMenu' id='dataworksheet_rowSelectMenu' style='display:none;'>\n"+
         "    <ul>\n"+
-        "      <li id='dataworksheet_labelrow'>Label row</li>\n"+
-        "      <li id='dataworksheet_firstrow'>First data row</li>\n"+
-        "      <li id='dataworksheet_lastrow'>Last data row</li>\n"+
+        "      <li id='dataworksheet_labelrow' class='shuffl-rowoption'>Label row</li>\n"+
+        "      <li id='dataworksheet_firstrow' class='shuffl-rowoption'>First data row</li>\n"+
+        "      <li id='dataworksheet_lastrow'  class='shuffl-rowoption'>Last data row</li>\n"+
+        "      <li id='dataworksheet_noaxis'   class='shuffl-coloption'>no data</li>\n"+
+        "      <li id='dataworksheet_x1axis'   class='shuffl-coloption'>x1 axis</li>\n"+
+        "      <li id='dataworksheet_y1axis'   class='shuffl-coloption'>y1 axis</li>\n"+
+        "      <li id='dataworksheet_y2axis'   class='shuffl-coloption'>y2 axis</li>\n"+
         "    </ul>\n"+
         "  </div>\n";
-    jQuery("body").append(rowSelectMenu);
+    jQuery("body").append(contextRowColSelectMenu);
 });
 
 /**
