@@ -21,6 +21,12 @@ var Test_dataworksheet_DataSeries =
     , [ [NaN, 1.33], [NaN, 2.33], [NaN, NaN] ]
     ];
 
+var Test_dataworksheet_DataAxes =
+    [ [ 'x1', 'y1' ]
+    , [ 'x1', 'y1' ]
+    , [ 'x1', 'y1' ]
+    ];
+
 /**
  * Larger data table to test data row selection
  */
@@ -49,12 +55,32 @@ var Larger_dataworksheet_DataSeries =
     , [ [ 1, 1.5 ], [ 2, 2.5 ], [ 3, 3.5 ], [ 4, 4.5 ], [ 5, 5.5 ], [ 6, 6.5 ], [ 7, 7.5 ], [ 8, 8.5 ], [ NaN, NaN ] ]
     ];
 
+var Larger_dataworksheet_DataAxes =
+    [ [ 'x1', 'y1' ]
+    , [ 'x1', 'y1' ]
+    , [ 'x1', 'y1' ]
+    , [ 'x1', 'y1' ]
+    , [ 'x1', 'y1' ]
+    ];
+
 var Larger_dataworksheet_DataSeries_2_6 =
     [ [ [ 2, 2.1 ], [ 3, 3.1 ], [ 4, 4.1 ], [ 5, 5.1 ], [ 6, 6.1 ] ]
     , [ [ 2, 2.2 ], [ 3, 3.2 ], [ 4, 4.2 ], [ 5, 5.2 ], [ 6, 6.2 ] ]
     , [ [ 2, 2.3 ], [ 3, 3.3 ], [ 4, 4.3 ], [ 5, 5.3 ], [ 6, 6.3 ] ]
     , [ [ 2, 2.4 ], [ 3, 3.4 ], [ 4, 4.4 ], [ 5, 5.4 ], [ 6, 6.4 ] ]
     , [ [ 2, 2.5 ], [ 3, 3.5 ], [ 4, 4.5 ], [ 5, 5.5 ], [ 6, 6.5 ] ]
+    ];
+
+var Larger_dataworksheet_DataLabels_x1_y1_y2 = [ "x", "col3" ];
+
+var Larger_dataworksheet_DataAxes_x1_y1_y2 =
+    [ [ 'x1', 'y1' ]
+    , [ 'x1', 'y2' ]
+    ];
+
+var Larger_dataworksheet_DataSeries_x1_y1_y2 =
+    [ [ [ 1.2, 1   ], [ 2.2, 2   ], [ 3.2, 3   ], [ 4.2, 4   ], [ 5.2, 5   ], [ 6.2, 6   ], [ 7.2, 7   ], [ 8.2, 8   ] ]
+    , [ [ 1.2, 1.3 ], [ 2.2, 2.3 ], [ 3.2, 3.3 ], [ 4.2, 4.3 ], [ 5.2, 5.3 ], [ 6.2, 6.3 ], [ 7.2, 7.3 ], [ 8.2, 8.3 ] ]
     ];
 
 /**
@@ -65,6 +91,8 @@ var Default_dataworksheet_DataTable  = [ [] ];
 var Default_dataworksheet_DataLabels = [];
 
 var Default_dataworksheet_DataSeries = [];
+
+var Default_dataworksheet_DataAxes = [];
 
 /**
  * Data
@@ -102,7 +130,7 @@ TestCardDataWorksheet = function() {
 
     test("shuffl.addCardFactories", function () 
     {
-        logtest("test shuffl.addCardFactories");
+        logtest("shuffl.addCardFactories");
         // Card factories are created when shuffl-card-dataworksheet module is loaded
 		    equals(shuffl.CardFactoryMap['shuffl-dataworksheet-yellow'].cardcss, "stock-yellow", "shuffl-dataworksheet-yellow");
         equals(shuffl.CardFactoryMap['shuffl-dataworksheet-blue'  ].cardcss, "stock-blue",   "shuffl-dataworksheet-blue");
@@ -114,7 +142,7 @@ TestCardDataWorksheet = function() {
     
     test("shuffl.getCardFactories", function () 
     {
-        logtest("test shuffl.getCardFactories");
+        logtest("shuffl.getCardFactories");
         var c0 = shuffl.getCardFactory("default-type");
         equals(typeof c0, "function", "default factory");
 		    var c1 = shuffl.getCardFactory("shuffl-dataworksheet-yellow");
@@ -133,7 +161,7 @@ TestCardDataWorksheet = function() {
 
     test("shuffl.card.dataworksheet.newCard", function () 
     {
-        logtest("test shuffl.card.dataworksheet.newCard");
+        logtest("shuffl.card.dataworksheet.newCard");
         var css = 'stock-yellow';
         var c   = shuffl.card.dataworksheet.newCard("shuffl-dataworksheet-yellow", css, "card-1",
         	{ 'shuffl:tags': 	["card-tag"]
@@ -167,11 +195,12 @@ TestCardDataWorksheet = function() {
         same(c.data('shuffl:table'),  Test_dataworksheet_DataTable,  "shuffl:table");
         same(c.data('shuffl:labels'), Test_dataworksheet_DataLabels, "shuffl:labels");
         same(c.data('shuffl:series'), Test_dataworksheet_DataSeries, "shuffl:series");
+        same(c.data('shuffl:axes'),   Test_dataworksheet_DataAxes,   "shuffl:axes");
     });
 
     test("shuffl.createStockpiles", function () 
     {
-        logtest("test shuffl.createStockpiles");
+        logtest("shuffl.createStockpiles");
         equals(jQuery('#stockbar').children().length, 1, "old stockbar content");
     		var s1 = shuffl.createStockpile(
     			"stock_1", "stock-yellow", "Y", "shuffl-dataworksheet-yellow");
@@ -226,7 +255,7 @@ TestCardDataWorksheet = function() {
 
     test("shuffl.createCardFromStock", function () 
     {
-        logtest("test shuffl.createCardFromStock");
+        logtest("shuffl.createCardFromStock");
   			var s = shuffl.createStockpile(
   			    "stock_id", "stock-green", "stock-label", "shuffl-dataworksheet-green");
     		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
@@ -255,6 +284,7 @@ TestCardDataWorksheet = function() {
         same(c.data('shuffl:table'),  Default_dataworksheet_DataTable,  "shuffl:table");
         same(c.data('shuffl:labels'), Default_dataworksheet_DataLabels, "shuffl:labels");
         same(c.data('shuffl:series'), Default_dataworksheet_DataSeries, "shuffl:series");
+        same(c.data('shuffl:axes'),   Default_dataworksheet_DataAxes,   "shuffl:axes");
         equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
         equals(c.data('shuffl:external')['shuffl:class'],       "shuffl-dataworksheet-green", "card data class");
         equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
@@ -265,7 +295,7 @@ TestCardDataWorksheet = function() {
 
     test("shuffl.createCardFromData", function () 
     {
-        logtest("test shuffl.createCardFromData");
+        logtest("shuffl.createCardFromData");
         var d = testcarddataworksheet_carddata;
         var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-dataworksheet-orange", d);
         // Check card details
@@ -293,6 +323,7 @@ TestCardDataWorksheet = function() {
         same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,  "shuffl:table");
         same(c.data('shuffl:labels'), Larger_dataworksheet_DataLabels, "shuffl:labels");
         same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries, "shuffl:series");
+        same(c.data('shuffl:axes'),   Larger_dataworksheet_DataAxes,   "shuffl:axes");
         equals(c.data('shuffl:external')['shuffl:id'],          d['shuffl:id'], "card data id");
         equals(c.data('shuffl:external')['shuffl:class'],       d['shuffl:class'], "card data class");
         equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
@@ -304,7 +335,7 @@ TestCardDataWorksheet = function() {
 
     test("shuffl.createDataFromCard", function () 
     {
-        logtest("test shuffl.createDataFromCard");
+        logtest("shuffl.createDataFromCard");
         // Create card (copy of code already tested)
         var d = testcarddataworksheet_carddata;
         var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-dataworksheet-pink", d);
@@ -335,6 +366,7 @@ TestCardDataWorksheet = function() {
             , [ "zzz_1", "1.11",  "1.22",  "1.33" ]
             ];
         var NewDataLabels = ["zzz1", "zzz2", "zzz3"];
+        var NewDataAxes   = [ ['x1', 'y1'], ['x1', 'y1'], ['x1', 'y1'] ];
         var NewDataSeries =
             [ [ [NaN, 1.11] ]
             , [ [NaN, 1.22] ]
@@ -357,9 +389,10 @@ TestCardDataWorksheet = function() {
         equals(c.data('shuffl:header_row'),     0, "shuffl:header_row");
         equals(c.data('shuffl:data_firstrow'),  1, "shuffl:data_firstrow");
         equals(c.data('shuffl:data_lastrow'),   0, "shuffl:data_lastrow");
-        same(c.data('shuffl:table'),    NewDataTable,  'shuffl:data-table');
-        same(c.data('shuffl:labels'),   NewDataLabels, 'shuffl:data-labels');
-        same(c.data('shuffl:series'),   NewDataSeries, 'shuffl:data-series');
+        same(c.data('shuffl:table'),    NewDataTable,  "shuffl:data-table");
+        same(c.data('shuffl:labels'),   NewDataLabels, "shuffl:data-labels");
+        same(c.data('shuffl:series'),   NewDataSeries, "shuffl:data-series");
+        same(c.data('shuffl:axes'),     NewDataAxes,   "shuffl:axes");
         equals(c.find("ctitle").text(), "Card N updated", "updated title field");
         equals(c.find("ctags").text(),  "card_N_tag,bartag", "updated tags field");
         equals(c.find("curi").text(),   "http://example.org/update/uri.csv", "updated uri field");
@@ -382,6 +415,7 @@ TestCardDataWorksheet = function() {
             , [ "zzz_4", "4.11", "4.22", "4.33" ]
             ];
         var NewDataLabels = ["zzz1", "zzz2", "zzz3"];
+        var NewDataAxes   = [ ['x1', 'y1'], ['x1', 'y1'], ['x1', 'y1'] ];
         var NewDataSeries =
             [ [ [ NaN, 1.11 ], [ NaN, 2.11 ], [ NaN, 3.11 ], [ NaN, 4.11 ] ]
             , [ [ NaN, 1.22 ], [ NaN, 2.22 ], [ NaN, 3.22 ], [ NaN, 4.22 ] ]
@@ -409,9 +443,10 @@ TestCardDataWorksheet = function() {
                 equals(c.data('shuffl:header_row'),     0, "shuffl:header_row");
                 equals(c.data('shuffl:data_firstrow'),  1, "shuffl:data_firstrow");
                 equals(c.data('shuffl:data_lastrow'),   0, "shuffl:data_lastrow");
-                same(c.data('shuffl:table'),   NewDataTable,  'shuffl:data-table');
-                same(c.data('shuffl:labels'),  NewDataLabels, 'shuffl:data-labels');
-                same(c.data('shuffl:series'),  NewDataSeries, 'shuffl:data-series');
+                same(c.data('shuffl:table'),    NewDataTable,  "shuffl:data-table");
+                same(c.data('shuffl:labels'),   NewDataLabels, "shuffl:data-labels");
+                same(c.data('shuffl:series'),   NewDataSeries, "shuffl:data-series");
+                same(c.data('shuffl:axes'),     NewDataAxes,   "shuffl:axes");
                 equals(c.find("curi").text(),  "data/test-csv-table-new.csv", "updated uri field");
                 equals(c.find("cbody").table().length, 6, "updated data table length");
                 same(c.find("cbody").table()[0], NewDataTable[0], "updated data table (0)");
@@ -440,6 +475,7 @@ TestCardDataWorksheet = function() {
         same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,  "shuffl:table");
         same(c.data('shuffl:labels'), Larger_dataworksheet_DataLabels, "shuffl:labels");
         same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries, "shuffl:series");
+        same(c.data('shuffl:axes'),   Larger_dataworksheet_DataAxes,   "shuffl:axes");
         same(c.data('shuffl:external'), d, "card data");
         // Now select label row
         c.model('shuffl:header_row', 2);
@@ -475,6 +511,7 @@ TestCardDataWorksheet = function() {
         same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,  "shuffl:table");
         same(c.data('shuffl:labels'), Larger_dataworksheet_DataLabels, "shuffl:labels");
         same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries, "shuffl:series");
+        same(c.data('shuffl:axes'),   Larger_dataworksheet_DataAxes,   "shuffl:axes");
         // Now select data rows
         c.model('shuffl:data_firstrow', 3);
         c.model('shuffl:data_lastrow',  7);
@@ -564,7 +601,7 @@ TestCardDataWorksheet = function() {
     test("shuffl.card.dataworksheet.dataplot", function ()
     {
         logtest("shuffl.card.dataworksheet.dataplot");
-        expect(4);
+        expect(8);
         // Instantiate mock card
         var c = jQuery("<div/>");
         // Simple test
@@ -577,7 +614,10 @@ TestCardDataWorksheet = function() {
             ];
         var dp = shuffl.card.dataworksheet.dataplot(c, cu);
         equals(dp.length,  4, "length (1)");
-        same(dp, [[0,1], [0,2], [0,3], [0,4]], "dataplot (1)");
+        same(dp[0], { "xcol": 0, "ycol": 1, "xaxis": "x1", "yaxis": "y1" }, "dataplot[0] (1)");
+        same(dp[1], { "xcol": 0, "ycol": 2, "xaxis": "x1", "yaxis": "y1" }, "dataplot[1] (1)");
+        same(dp[2], { "xcol": 0, "ycol": 3, "xaxis": "x1", "yaxis": "y1" }, "dataplot[2] (1)");
+        same(dp[3], { "xcol": 0, "ycol": 4, "xaxis": "x1", "yaxis": "y1" }, "dataplot[3] (1)");
         // Out-of-order and null value test
         var cu = 
             [ {axis:'y1'}
@@ -587,7 +627,8 @@ TestCardDataWorksheet = function() {
             ];
         var dp = shuffl.card.dataworksheet.dataplot(c, cu);
         equals(dp.length,  2, "length (2)");
-        same(dp, [[2,0], [2,3]], "dataplot (1)");
+        same(dp[0], { "xcol": 2, "ycol": 0, "xaxis": "x1", "yaxis": "y1" }, "dataplot[0] (2)");
+        same(dp[1], { "xcol": 2, "ycol": 3, "xaxis": "x1", "yaxis": "y1" }, "dataplot[1] (2)");
     });
 
     test("shuffl.card.dataworksheet.highlightData", function ()
@@ -626,6 +667,60 @@ TestCardDataWorksheet = function() {
         equals(cb.find("tr").eq(3).find("td").eq(1).hasClass("shuffl-deselected"), false, "Row 3/Col 1 selected");
         equals(cb.find("tr").eq(3).find("td").eq(2).hasClass("shuffl-deselected"), false, "Row 3/Col 2 selected");
         equals(cb.find("tr").eq(3).find("td").eq(3).hasClass("shuffl-deselected"), false, "Row 3/Col 3 selected");
+    });
+
+    test("shuffl.card.dataworksheet modelSetSeries", function ()
+    {
+        logtest("shuffl.card.dataworksheet modelSetSeries");
+        expect(20);
+        // Instantiate card
+        var d = testcarddataworksheet_carddata;
+        var c = shuffl.createCardFromData("card_id", "shuffl-dataworksheet-pink", d);
+        equals(c.data("shuffl:header_row"),    1,   "shuffl:header_row");
+        equals(c.data("shuffl:data_firstrow"), 2,   "shuffl:data_firstrow");
+        equals(c.data("shuffl:data_lastrow"),  10,  "shuffl:data_lastrow");
+        same(c.data('shuffl:table'),  Larger_dataworksheet_DataTable,  "shuffl:table");
+        same(c.data('shuffl:labels'), Larger_dataworksheet_DataLabels, "shuffl:labels");
+        same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries, "shuffl:series");
+        same(c.data('shuffl:axes'),   Larger_dataworksheet_DataAxes,   "shuffl:axes");
+        // Set up rows
+        c.model('shuffl:data_firstrow', -1);
+        c.model('shuffl:data_lastrow',  -1);
+        var datarows = shuffl.card.dataworksheet.rowuse(c, Larger_dataworksheet_DataTable);
+        equals(datarows.first,  0, "first (1)");
+        equals(datarows.last,  10, "last  (1)");
+        c.model("shuffl:header_row", 1);
+        c.model('shuffl:data_lastrow',  9);
+        var headerrow = c.model("shuffl:header_row");
+        datarows = shuffl.card.dataworksheet.rowuse(c, Larger_dataworksheet_DataTable);
+        equals(headerrow,      1, "header (2)");
+        equals(datarows.first, 2, "first  (2)");
+        equals(datarows.last,  9, "last   (2)");
+        // Set up columns using explicit values
+        c.model('shuffl:coluse', [{axis:'y1'},{},{axis:'x1'},{axis:'y2'}]);
+        var h  = ["y1", "aa", "x1", "y2", "bb"];
+        var coluse = shuffl.card.dataworksheet.coluse(c, h);
+        equals(coluse.length,  4,         "length (3)");
+        equals(coluse[0].axis, 'y1',      "[0]:y1 (3)");
+        equals(coluse[1].axis, undefined, "[1]:-- (3)");
+        equals(coluse[2].axis, 'x1',      "[2]:x1 (3)");
+        equals(coluse[3].axis, 'y2',      "[3]:y2 (3)");
+        // Set model series
+        var dataplot = shuffl.card.dataworksheet.dataplot(c, coluse);
+        var options =
+            { labelrow:   headerrow
+            , firstrow:   datarows.first
+            , lastrow:    datarows.last
+            , datacols:   dataplot
+            , setaxes:    'shuffl:axes'
+            , setlabels:  'shuffl:labels'
+            , setseries:  'shuffl:series'
+            };
+        shuffl.modelSetSeries(c, options)(null, {newval: Larger_dataworksheet_DataTable});
+        // [ "x", "col1", "col2", "col3", "col4_is_much_wider", "col5" ]
+        same(c.data("shuffl:labels"), Larger_dataworksheet_DataLabels_x1_y1_y2, "shuffl:labels (4)");
+        same(c.data("shuffl:axes"),   Larger_dataworksheet_DataAxes_x1_y1_y2,   "shuffl:axes (4)");
+        same(c.data("shuffl:series"), Larger_dataworksheet_DataSeries_x1_y1_y2, "shuffl:series (4)");
     });
 
 };

@@ -435,7 +435,11 @@ TestCardHandlers = function() {
             { labelrow:   1
             , firstrow:   3
             , lastrow:    -1
-            , datacols:   [ [0,3], [0,2], [0,1]]
+            , datacols:   
+              [ { xcol:0, ycol:3, xaxis:'x1', yaxis:'y1' }
+              , { xcol:0, ycol:2, xaxis:'x1', yaxis:'y1' }
+              , { xcol:0, ycol:1, xaxis:'x1', yaxis:'y1' }
+              ]
             , setlabels:  'shuffl:labels2'
             , setseries:  'shuffl:series2'
             };
