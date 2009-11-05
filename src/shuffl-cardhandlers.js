@@ -625,10 +625,13 @@ shuffl.modelSetTable = function (fieldobj, nh, thencall)
  *   lastrow    (0) last row +1 from which data values are taken
  *              Zero means last row of table. 
  *              Negative values are offsets back from end of table.
- *   datacols   ([[0,1],[0,2],...[0,width-1]]) list of pairs of column numbers
- *              from which [x,y] values are taken for each series.  The second
- *              of each pair is also used to access the series label from the
- *              row designated by 'labelrow'.
+ *   datacols   ([[0,1,['x1','y1']],[0,2,['x1','y1']],...[0,width-1],['x1','y1']]) 
+ *              list of column numbers from which [x,y] values are taken for 
+ *              each series, and the graph axes against which they are plotted 
+ *              ('x1', 'x2', 'y1', 'y2').
+ *              The second element (Y-column) of each entry is also used to
+ *              access the series label from the row designated by 'labelrow'.
+ *   setaxes    name of model field that recieves series graph axis tags
  *   setlabels  name of model field that recieves series label values
  *   setseries  name of model field that recieves series data values
  */
@@ -640,6 +643,7 @@ shuffl.modelSetSeries = function (card, options)
         , firstrow:   1
         , lastrow:    0
         , datacols:   null
+        , setaxes:    'shuffl:axes'
         , setlabels:  'shuffl:labels'
         , setseries:  'shuffl:series'
         };
@@ -666,7 +670,7 @@ shuffl.modelSetSeries = function (card, options)
                 datacols = [];
                 for (var j = 1 ; j < table[useopts.labelrow].length ; j++)
                 {
-                    datacols.push([0,j]);
+                    datacols.push({ xcol:0, ycol:j, xaxis:'x1', yaxis:'y1' });
                 };
             };
             ////log.debug("- lastrow "+lastrow);
@@ -674,10 +678,11 @@ shuffl.modelSetSeries = function (card, options)
             // Construct label and series data
             var labels = [];
             var series = [];
+            var axes   = [];
             for (var k = 0 ; k < datacols.length ; k++)
             {
-                var xcol = datacols[k][0];
-                var ycol = datacols[k][1];
+                var xcol = datacols[k].xcol;
+                var ycol = datacols[k].ycol;
                 var graph = [];
                 for (var i = firstrow ; i <= lastrow ; i++)
                 {
@@ -687,13 +692,16 @@ shuffl.modelSetSeries = function (card, options)
                         , parseFloat(table[i][ycol])
                         ]);
                 };
+                // TODO: combine labels and axes into a list of objects; e.g. "graphs"
                 labels.push(table[useopts.labelrow][ycol]);
+                axes.push( [datacols[k].xaxis, datacols[k].yaxis] );
                 series.push(graph);
             };
             // Store label and series data into model
-            card.data(useopts.setlabels, labels);
+            card.data(useopts.setlabels,  labels);
+            card.data(useopts.setaxes,    axes);
             card.model(useopts.setseries, series);
-            card.data('shuffl:datamod', true);
+            card.data('shuffl:datamod',   true);
         };
     };
     return setseriesvalues;

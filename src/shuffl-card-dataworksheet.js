@@ -87,8 +87,6 @@ shuffl.card.dataworksheet.blank = jQuery(
  * 
  * For {axis: 'y1'} and {axis: 'y2'} values, additional fields may be defined:
  *   col: colour  colour of graph, as index number or CSS value
- *
- * TODO: style (line/bar/scatter/etc), transform (lin/log/etc)
  */
 shuffl.card.dataworksheet.datamap =
     { 'shuffl:title':         { def: '@id' }
@@ -154,6 +152,7 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
     });
     card.modelBind("shuffl:data_firstrow", updatefn);
     card.modelBind("shuffl:data_lastrow",  updatefn);
+    card.modelBind("shuffl:coluse",        updatefn);
     // Hook up the row-selection pop-up menu
     shuffl.card.dataworksheet.contextMenu(card, cbody);
     // Initialize the model
@@ -227,7 +226,7 @@ shuffl.card.dataworksheet.updatedata = function (card, cbody)
             cbody.table(htbl, 1);
             // Sort out first and last data rows, and column usage
             var datarows = shuffl.card.dataworksheet.rowuse(card, table);
-            var coluse = shuffl.card.dataworksheet.coluse(card, hdrs);
+            var coluse   = shuffl.card.dataworksheet.coluse(card, hdrs);
             var dataplot = shuffl.card.dataworksheet.dataplot(card, coluse);
             // Highlight selected data in the table display
             shuffl.card.dataworksheet.highlightData(cbody, datarows, coluse);
@@ -237,6 +236,7 @@ shuffl.card.dataworksheet.updatedata = function (card, cbody)
                 , firstrow:   datarows.first
                 , lastrow:    datarows.last
                 , datacols:   dataplot
+                , setaxes:    'shuffl:axes'
                 , setlabels:  'shuffl:labels'
                 , setseries:  'shuffl:series'
                 };
@@ -322,7 +322,9 @@ shuffl.card.dataworksheet.rowuse = function (card, table)
 };
 
 /**
- * Sort out columns to use.
+ * Sort out columns to use.  This function establishes a default column-usage 
+ * based on the selected header row.  If an explicit coluse value is defined,
+ * that is used instead.
  * 
  * @param card      reference to card object
  * @param hdrs      column headers: by default, columns used are those with
@@ -335,7 +337,7 @@ shuffl.card.dataworksheet.rowuse = function (card, table)
  */
 shuffl.card.dataworksheet.coluse = function (card, hdrs)
 {
-    var coluse   = card.model("shuffl:coluse");
+    var coluse   = card.data("shuffl:coluse");
     ////log.debug("- coluse "+jQuery.toJSON(coluse));
     if (!coluse || !coluse.length)
     {
@@ -364,24 +366,25 @@ shuffl.card.dataworksheet.coluse = function (card, hdrs)
  * @param card      reference to card object
  * @param coluse    Column usage array, as returned by shuffl.card.dataworksheet.coluse
  * @return          a list of graph descriptors, where each descriptor consists
- *                  of a pair of column numbers for x and y values to plot.
- * 
- * TODO: return an object, with additional descriptions.
+ *                  of {xcol:col, ycol:col, xaxis:axis, yaxis:axis}
  */
 shuffl.card.dataworksheet.dataplot = function (card, coluse)
 {
     var x1 = undefined;
-    for (i=0 ; i<coluse.length ; i++)
+    var x2 = undefined;
+    for (var i=0 ; i<coluse.length ; i++)
     {
         if (coluse[i] && coluse[i].axis == 'x1') { x1 = i; };
+        if (coluse[i] && coluse[i].axis == 'x2') { x2 = i; };
     };
     var dataplot = [];
     for (i=0 ; i<coluse.length ; i++)
     {
-        if (coluse[i] && coluse[i].axis == 'y1')
+        var yaxis = coluse[i].axis;
+        if (coluse[i] && (yaxis == 'y1' || yaxis == 'y2'))
         {
-            dataplot.push([x1,i]);
-        }
+            dataplot.push({xcol:x1, ycol:i, xaxis:'x1', yaxis:yaxis});
+        };
     };
     return dataplot;
 };
