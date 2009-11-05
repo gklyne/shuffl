@@ -84,7 +84,7 @@ TestCardDatagraph = function() {
 
     test("shuffl.addCardFactories",
         function () {
-            log.debug("test shuffl.addCardFactories");
+            logtest("shuffl.addCardFactories");
             // Card factories are created when shuffl-card-datagraph module is loaded
     		equals(shuffl.CardFactoryMap['shuffl-datagraph-yellow'].cardcss, "stock-yellow", "shuffl-datagraph-yellow");
             equals(shuffl.CardFactoryMap['shuffl-datagraph-blue'  ].cardcss, "stock-blue",   "shuffl-datagraph-blue");
@@ -96,7 +96,7 @@ TestCardDatagraph = function() {
     
     test("shuffl.getCardFactories",
         function () {
-            log.debug("test shuffl.getCardFactories");
+            logtest("shuffl.getCardFactories");
             var c0 = shuffl.getCardFactory("default-type");
             equals(typeof c0, "function", "default factory");
     		var c1 = shuffl.getCardFactory("shuffl-datagraph-yellow");
@@ -115,15 +115,15 @@ TestCardDatagraph = function() {
 
     test("shuffl.card.datagraph.newCard",
         function () {
-            log.debug("test shuffl.card.datagraph.newCard");
+            logtest("shuffl.card.datagraph.newCard");
             var css = 'stock-yellow';
             var c   = shuffl.card.datagraph.newCard("shuffl-datagraph-yellow", css, "card-1",
               	{ 'shuffl:tags':      ["card-tag"]
               	, 'shuffl:title':     "card-title"
                 , 'shuffl:dataminy':  -1.2
                 , 'shuffl:datamaxy':  1.2
-                , 'shuffl:x1axis':    { transform: 'lin' }
-                , 'shuffl:y1axis':    { transform: 'lin' }
+                , 'shuffl:x1axis':    'lin'
+                , 'shuffl:y1axis':    'lin'
                 , 'shuffl:labels':    testcarddatagraph_labels
                 , 'shuffl:series':    testcarddatagraph_series
            	});
@@ -133,8 +133,8 @@ TestCardDatagraph = function() {
             equals(c.model("shuffl:source_id"), undefined,            "shuffl:source_id");
             equals(c.model("shuffl:dataminy"),  -1.2,                 "shuffl:dataminy");
             equals(c.model("shuffl:datamaxy"),  1.2,                  "shuffl:datamaxy");
-            same(c.model("shuffl:x1axis"),  { transform: 'lin' },     "shuffl:x1axis");
-            same(c.model("shuffl:y1axis"),  { transform: 'lin' },     "shuffl:y1axis");
+            same(c.model("shuffl:x1axis"),  'lin',                    "shuffl:x1axis");
+            same(c.model("shuffl:y1axis"),  'lin',                    "shuffl:y1axis");
             same(c.model("shuffl:table"),   undefined,                "shuffl:table");
             same(c.model("shuffl:labels"),  testcarddatagraph_labels, "shuffl:labels");
             same(c.model("shuffl:series"),  testcarddatagraph_series, "shuffl:series");
@@ -154,7 +154,7 @@ TestCardDatagraph = function() {
 
     test("shuffl.createCardFromStock",
         function () {
-            log.debug("test shuffl.createCardFromStock");
+            logtest("shuffl.createCardFromStock");
 			var s = shuffl.createStockpile(
 			    "stock_id", "stock-green", "stock-label", "shuffl-datagraph-green");
     		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
@@ -203,7 +203,7 @@ TestCardDatagraph = function() {
 
     test("shuffl.createCardFromData",
         function () {
-            log.debug("test shuffl.createCardFromData");
+            logtest("shuffl.createCardFromData");
             var d = testcarddatagraph_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-orange", d);
             // Check model values
@@ -212,8 +212,10 @@ TestCardDatagraph = function() {
             equals(c.model("shuffl:source_id"), "srcid",             "shuffl:source_id");
             equals(c.model("shuffl:dataminy"),  -1.2,                 "shuffl:dataminy");
             equals(c.model("shuffl:datamaxy"),  1.2,                 "shuffl:datamaxy");
-            same(c.model("shuffl:x1axis"), { transform: 'lin' },     "shuffl:x1axis");
-            same(c.model("shuffl:y1axis"), { transform: 'lin' },     "shuffl:y1axis");
+            same(c.model("shuffl:x1axis"),  'lin',                    "shuffl:x1axis");
+            same(c.model("shuffl:y1axis"),  'lin',                    "shuffl:y1axis");
+            ////same(c.model("shuffl:x1axis"), { transform: 'lin' },     "shuffl:x1axis");
+            ////same(c.model("shuffl:y1axis"), { transform: 'lin' },     "shuffl:y1axis");
             same(c.model("shuffl:table"),  undefined,                "shuffl:table");
             same(c.model("shuffl:labels"), testcarddatagraph_labels, "shuffl:labels");
             same(c.model("shuffl:series"), testcarddatagraph_series, "shuffl:series");
@@ -236,31 +238,33 @@ TestCardDatagraph = function() {
 
     test("shuffl.createDataFromCard",
         function () {
-            log.debug("test shuffl.createDataFromCard");
+            logtest("shuffl.createDataFromCard");
             // Create card (copy of code already tested)
             var d = testcarddatagraph_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-pink", d);
             // (Re)create data and test
             var e = shuffl.createDataFromCard(c);
-            equals(e['shuffl:id'],          "cardfromdata_id",         'shuffl:id');
+            equals(e['shuffl:id'],          "cardfromdata_id",          'shuffl:id');
             equals(e['shuffl:class'],       "shuffl-datagraph-pink",    'shuffl:class');
-            equals(e['shuffl:version'],     d['shuffl:version'],       'shuffl:version');
-            equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],      'shuffl:base-uri');
-            same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');
-            equals(e['shuffl:data']['shuffl:title'], "Card N title",   'shuffl:data-title');
+            equals(e['shuffl:version'],     d['shuffl:version'],        'shuffl:version');
+            equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],       'shuffl:base-uri');
+            same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'],  'shuffl:uses-prefixes');
+            equals(e['shuffl:data']['shuffl:title'], "Card N title",    'shuffl:data-title');
             same(e['shuffl:data']['shuffl:tags'],    [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
-            equals(e['shuffl:data']['shuffl:source_id'], "srcid",             'shuffl:data-srcid');
-            equals(e['shuffl:data']['shuffl:dataminy'],  -1.2,                'shuffl:data-dataminy');
-            equals(e['shuffl:data']['shuffl:datamaxy'],   1.2,                'shuffl:data-datamaxy');
-            same(e['shuffl:data']['shuffl:x1axis'], { transform: 'lin' },     'shuffl:data-x1axis');
-            same(e['shuffl:data']['shuffl:y1axis'], { transform: 'lin' },     'shuffl:data-y1axis');
+            equals(e['shuffl:data']['shuffl:source_id'], "srcid",       'shuffl:data-srcid');
+            equals(e['shuffl:data']['shuffl:dataminy'],  -1.2,          'shuffl:data-dataminy');
+            equals(e['shuffl:data']['shuffl:datamaxy'],   1.2,          'shuffl:data-datamaxy');
+            equals(e['shuffl:data']['shuffl:x1axis'],    'lin',         'shuffl:data-x1axis');
+            equals(e['shuffl:data']['shuffl:y1axis'],    'lin',         'shuffl:data-y1axis');
+            ////same(e['shuffl:data']['shuffl:x1axis'], { transform: 'lin' }, 'shuffl:data-x1axis');
+            ////same(e['shuffl:data']['shuffl:y1axis'], { transform: 'lin' }, 'shuffl:data-y1axis');
             same(e['shuffl:data']['shuffl:labels'], testcarddatagraph_labels, 'shuffl:data-labels');
             same(e['shuffl:data']['shuffl:series'], testcarddatagraph_series, 'shuffl:data-series');
         });
 
     test("shuffl.card.datagraph.model setting data",
         function () {
-            log.debug("test shuffl.card.datagraph.model setting data");
+            logtest("shuffl.card.datagraph.model setting data");
             // Create card (copy of code already tested)
             var d = testcarddatagraph_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-pink", d);
@@ -333,7 +337,7 @@ TestCardDatagraph = function() {
 
     test("shuffl.card.datagraph model data table setting",
         function () {
-            log.debug("shuffl.card.datagraph model data table setting");
+            logtest("shuffl.card.datagraph model data table setting");
             // Create card (copy of code already tested)
             var d = testcarddatagraph_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-pink", d);
