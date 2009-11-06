@@ -203,6 +203,58 @@ shuffl.card.dataworksheet.setRowNumber = function (card, modelvar)
 };
 
 /**
+ * Helper function saves column use selected by context menu selection.
+ * 
+ * Manual selection causes the column use to be explicitly fixed rather
+ * that dynamically responding to, say, the header row selection.
+ * 
+ * @param card      is the card object containing the table data for display.
+ * @param newcoluse is an object that describes the purpose of the currently
+ *                  selected column.
+ */
+shuffl.card.dataworksheet.setColumnUse = function (card, newcoluse)
+{
+    var colnum = card.data("colnum");
+    log.debug("- menu select: newcoluse "+jQuery.toJSON(newcoluse)+", col "+colnum);
+    // Get current column usage (may calculated default)
+    var table  = card.model("shuffl:table");
+    var hrow   = card.model("shuffl:header_row");
+    var coluse = shuffl.card.dataworksheet.coluse(card, table[hrow]);
+    // Pad out coluse to new length
+    for (var i = coluse.length ; i <= colnum ; i++) coluse[i] = {};
+    // Preserve x-axis selection count by swap with current setting (if any)
+    var oldcoluse = coluse[colnum];
+    var swap  = -1;
+    var oldy1 = -1;
+    var oldy2 = -1;
+    if (newcoluse.axis == 'x1' || newcoluse.axis == 'x2' ||
+        oldcoluse.axis == 'x1' || oldcoluse.axis == 'x2')
+    {
+        for (i = 0 ; i < coluse.length ; i++)
+        {
+            if (oldy1 < 0 && coluse[i].axis == 'y1') oldy1 = i;
+            if (oldy2 < 0 && coluse[i].axis == 'y2') oldy2 = i;
+            if (i != colnum && coluse[i].axis == newcoluse.axis)
+            {
+                swap = i;
+                break;
+            };
+        };
+        // Swap with first y1 or first y2 if no match seen
+        if (swap < 0) swap = (oldy1 >= 0 ? oldy1 : oldy2);
+    };
+    if (swap >= 0)
+    {
+        coluse[swap] = oldcoluse;
+    }
+    // Set new value
+    coluse[colnum] = newcoluse;
+    // Save new column use as explicitly stored model value
+    card.model("shuffl:coluse", coluse);
+    card.model('shuffl:datamod', true);
+};
+
+/**
  * Helper function to update data labels and series values in model, using
  * dynamically set row values from the card model.
  * 
@@ -323,27 +375,27 @@ shuffl.card.dataworksheet.contextMenu = function (card, cbody)
             'dataworksheet_noaxis': function (_elem)
             {
                 log.debug('Col select dataworksheet_noaxis');
-                ////shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_lastrow');
+                shuffl.card.dataworksheet.setColumnUse(card, {});
             },
             'dataworksheet_x1axis': function (_elem)
             {
                 log.debug('Col select dataworksheet_x1axis');
-                ////shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_lastrow');
+                shuffl.card.dataworksheet.setColumnUse(card, { axis: 'x1' });
             },
             'dataworksheet_x2axis': function (_elem)
             {
                 log.debug('Col select dataworksheet_x2axis');
-                ////shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_lastrow');
+                shuffl.card.dataworksheet.setColumnUse(card, { axis: 'x2' });
             },
             'dataworksheet_y1axis': function (_elem)
             {
-                log.debug('Col select dataworksheet_y2axis');
-                ////shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_lastrow');
+                log.debug('Col select dataworksheet_y1axis');
+                shuffl.card.dataworksheet.setColumnUse(card, { axis: 'y1' });
             },
             'dataworksheet_y2axis': function (_elem)
             {
                 log.debug('Col select dataworksheet_y2axis');
-                ////shuffl.card.dataworksheet.setRowNumber(card, 'shuffl:data_lastrow');
+                shuffl.card.dataworksheet.setColumnUse(card, { axis: 'y2' });
             },
         }
     });
@@ -431,10 +483,14 @@ shuffl.card.dataworksheet.dataplot = function (card, coluse)
     var dataplot = [];
     for (i=0 ; i<coluse.length ; i++)
     {
-        var yaxis = coluse[i].axis;
-        if (coluse[i] && (yaxis == 'y1' || yaxis == 'y2'))
+        var yaxis = undefined;
+        if (coluse[i]) 
         {
-            dataplot.push({xcol:x1, ycol:i, xaxis:'x1', yaxis:yaxis});
+            yaxis = coluse[i].axis;
+            if ((yaxis == 'y1' || yaxis == 'y2'))
+            {
+                dataplot.push({xcol:x1, ycol:i, xaxis:'x1', yaxis:yaxis});
+            };
         };
     };
     return dataplot;

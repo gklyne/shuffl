@@ -723,6 +723,94 @@ TestCardDataWorksheet = function() {
         same(c.data("shuffl:series"), Larger_dataworksheet_DataSeries_x1_y1_y2, "shuffl:series (4)");
     });
 
+    test("shuffl.card.dataworksheet.setColumnUse", function ()
+    {
+        logtest("shuffl.card.dataworksheet.setColumnUse");
+        // Instantiate card
+        var d = testcarddataworksheet_carddata;
+        var c = shuffl.createCardFromData("card_id", "shuffl-dataworksheet-pink", d);
+        var h  = ["c1", "c2", "c3", "c4"];
+        var coluse = shuffl.card.dataworksheet.coluse(c, h);
+        // Check data
+        equals(c.data("shuffl:header_row"),    1,   "shuffl:header_row");
+        equals(c.data("shuffl:data_firstrow"), 2,   "shuffl:data_firstrow");
+        equals(c.data("shuffl:data_lastrow"),  10,  "shuffl:data_lastrow");
+        same(c.data('shuffl:labels'), Larger_dataworksheet_DataLabels, "shuffl:labels");
+        same(c.data('shuffl:axes'),   Larger_dataworksheet_DataAxes,   "shuffl:axes");
+        // Check default column use
+        equals(coluse.length,  4,         "length (1)");
+        equals(coluse[0].axis, 'x1',      "[0]:x1 (1)");
+        equals(coluse[1].axis, 'y1',      "[1]:y1 (1)");
+        equals(coluse[2].axis, 'y1',      "[2]:y1 (1)");
+        equals(coluse[3].axis, 'y1',      "[3]:y1 (1)");
+        // Check model value
+        same(c.data('shuffl:coluse'), [], "shuffl:coluse (1)");
+
+        // Update column-use value for column 1
+        c.data('colnum', 1);
+        shuffl.card.dataworksheet.setColumnUse(c, { axis: 'x1' });
+        // Check column use
+        // (Note value swap with old 'x1' column)
+        coluse = shuffl.card.dataworksheet.coluse(c, h);
+        equals(coluse.length,  6,         "length (2)");
+        equals(coluse[0].axis, 'y1',      "[0]:y1 (2)");
+        equals(coluse[1].axis, 'x1',      "[1]:x1 (2)");
+        equals(coluse[2].axis, 'y1',      "[2]:y1 (2)");
+        equals(coluse[3].axis, 'y1',      "[3]:y1 (2)");
+        equals(coluse[4].axis, 'y1',      "[4]:y1 (2)");
+        equals(coluse[5].axis, 'y1',      "[5]:y1 (2)");
+        // Check model value
+        same(c.data('shuffl:coluse'), coluse, "shuffl:coluse (2)");
+
+        // Add new column
+        c.data('colnum', 7);
+        shuffl.card.dataworksheet.setColumnUse(c, { axis: 'x1' });
+        coluse = shuffl.card.dataworksheet.coluse(c, h);
+        equals(coluse.length,  8,         "length (3)");
+        equals(coluse[0].axis, 'y1',      "[0]:y1 (3)");
+        equals(coluse[1].axis, undefined, "[1]:-- (3)");
+        equals(coluse[2].axis, 'y1',      "[2]:y1 (3)");
+        equals(coluse[3].axis, 'y1',      "[3]:y1 (3)");
+        equals(coluse[4].axis, 'y1',      "[4]:y1 (3)");
+        equals(coluse[5].axis, 'y1',      "[5]:y1 (3)");
+        equals(coluse[6].axis, undefined, "[6]:-- (3)");
+        equals(coluse[7].axis, 'x1',      "[7]:x1 (3)");
+        // Check model value
+        same(c.data('shuffl:coluse'), coluse, "shuffl:coluse (3)");
+
+        // Set existing x1-axis to 'y2'
+        c.data('colnum', 7);
+        shuffl.card.dataworksheet.setColumnUse(c, { axis: 'y2' });
+        coluse = shuffl.card.dataworksheet.coluse(c, h);
+        equals(coluse.length,  8,         "length (4)");
+        equals(coluse[0].axis, 'x1',      "[0]:x1 (4)");
+        equals(coluse[1].axis, undefined, "[1]:-- (4)");
+        equals(coluse[2].axis, 'y1',      "[2]:y1 (4)");
+        equals(coluse[3].axis, 'y1',      "[3]:y1 (4)");
+        equals(coluse[4].axis, 'y1',      "[4]:y1 (4)");
+        equals(coluse[5].axis, 'y1',      "[5]:y1 (4)");
+        equals(coluse[6].axis, undefined, "[6]:-- (4)");
+        equals(coluse[7].axis, 'y2',      "[7]:y2 (4)");
+        // Check model value
+        same(c.data('shuffl:coluse'), coluse, "shuffl:coluse (4)");
+
+        // Set existing x1-axis to 'x2'
+        c.data('colnum', 0);
+        shuffl.card.dataworksheet.setColumnUse(c, { axis: 'x2' });
+        coluse = shuffl.card.dataworksheet.coluse(c, h);
+        equals(coluse.length,  8,         "length (5)");
+        equals(coluse[0].axis, 'x2',      "[0]:x2 (5)");
+        equals(coluse[1].axis, undefined, "[1]:-- (5)");
+        equals(coluse[2].axis, 'x1',      "[2]:x1 (5)");
+        equals(coluse[3].axis, 'y1',      "[3]:y1 (5)");
+        equals(coluse[4].axis, 'y1',      "[4]:y1 (5)");
+        equals(coluse[5].axis, 'y1',      "[5]:y1 (5)");
+        equals(coluse[6].axis, undefined, "[6]:-- (5)");
+        equals(coluse[7].axis, 'y2',      "[7]:y2 (5)");
+        // Check model value
+        same(c.data('shuffl:coluse'), coluse, "shuffl:coluse (5)");
+    });
+
 };
 
 // End
