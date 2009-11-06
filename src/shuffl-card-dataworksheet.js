@@ -511,6 +511,19 @@ shuffl.card.dataworksheet.highlightData = function (cbody, datarows, coluse)
     ////log.debug("shuffl.card.dataworksheet.highlightData");
     ////log.debug("- datarows "+datarows.first+", "+datarows.last);
     ////log.debug("- dataplot "+jQuery.toJSON(coluse));
+    cbody.find("thead th").each(function (colnum)
+        {
+            ////log.debug("- colnum "+colnum+", coluse "+coluse[colnum]);
+            var thelem = jQuery(this);
+            if (coluse[colnum] && coluse[colnum].axis)
+            {
+                thelem.removeClass("shuffl-deselected");
+            }
+            else
+            {
+                thelem.addClass("shuffl-deselected");
+            };
+        });
     cbody.find("tbody tr").each(function (rownum)
     {
         // this = dom element
