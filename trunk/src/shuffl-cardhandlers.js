@@ -835,7 +835,7 @@ shuffl.PlaceHolder = "(Double-click to edit)"
 shuffl.modifiedCard = function(card, fn) 
 {
     function modified() {
-        log.debug("shuffl.modifiedCard:editDone");
+        ////log.debug("shuffl.modifiedCard:editDone");
         card.data('shuffl:datamod', true);
         return ( fn ? fn.apply(this, arguments) : undefined );
     };
@@ -848,7 +848,7 @@ shuffl.modifiedCard = function(card, fn)
  */
 shuffl.initEditText = function(value) 
 {
-    log.debug("shuffl.initEditText: "+value);
+    ////log.debug("shuffl.initEditText: "+value);
     return value.replace(/<br[^>]*>/g, "\n\n").replace(/&lt;/g, "<");
 };
 
@@ -858,7 +858,7 @@ shuffl.initEditText = function(value)
  */
 shuffl.doneEditText = function(value, settings) 
 {
-    log.debug("shuffl.doneEditText: "+value);
+    ////log.debug("shuffl.doneEditText: "+value);
     return value.replace(/</g,"&lt;").replace(/\n\n/g, "<br/>");
 };
 

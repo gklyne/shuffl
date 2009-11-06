@@ -51,6 +51,7 @@ shuffl.card.datagraph.datamap =
     , 'shuffl:tags':      { def: '@tags', type: 'array' }
     , 'shuffl:source_id': { def: undefined }
     , 'shuffl:labels':    { def: undefined }
+    , 'shuffl:axes':      { def: undefined }
     , 'shuffl:series':    { def: undefined }
     , 'shuffl:dataminy':  { def: undefined }
     , 'shuffl:datamaxy':  { def: undefined }
@@ -346,7 +347,7 @@ shuffl.card.datagraph.draw = function (card)
     ////log.debug("shuffl.card.datagraph.draw "+gelem.width()+", "+gelem.height());
     if (labels && series && gelem.width() && gelem.height())
     {
-        log.debug("- plot graphs "+ymin+", "+ymax);
+        ////log.debug("- plot graphs "+ymin+", "+ymax);
         var data   = [];
         for (var i = 0 ; i < labels.length ; i++)
         {
