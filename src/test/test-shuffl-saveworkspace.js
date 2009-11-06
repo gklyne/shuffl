@@ -351,7 +351,7 @@ TestSaveWorkspace = function() {
             equals(val.feeduri,  feeduri,  "val.feeduri");
             equals(val.feedpath, feedpath, "val.feedpath");
             equals(val.atomuri,  atomuri,  "val.atomuri");
-            log.debug("***** Reset workspace...");
+            log.debug("Reset workspace...");
             shuffl.resetWorkspace(callback);
         });
         m.eval(function(val,callback) {

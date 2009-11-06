@@ -418,7 +418,7 @@ shuffl.makeTagList = function (ttext)
 shuffl.initModelVar = function (card, modelvar, carddata, valdef, valtype)
 {
     var val = shuffl.get(carddata, modelvar, valdef);
-    log.debug("shuffl.initModelVar "+modelvar+", "+val+", "+valtype);
+    ////log.debug("shuffl.initModelVar "+modelvar+", "+val+", "+valtype);
     if (valtype == 'array')  { val = val.join(","); };
     card.model(modelvar, val);
 };

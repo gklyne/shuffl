@@ -124,8 +124,7 @@ shuffl.card.datagraph.blank = jQuery(
  * @param carddata      an object or string containing additional data used in 
  *                      constructing the body of the card.  This is either a 
  *                      string or an object structure with fields 
- *                      'shuffl:title', 'shuffl:tags', 'shuffl:labels' and 
- *                      'shuffl:series'.
+ *                      'shuffl:title', 'shuffl:tags', 'shuffl:labels', etc.
  * @return              a jQuery object representing the new card.
  */
 shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata) 
@@ -144,21 +143,23 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     card.data("resizeAlso", "cbody");
     card.resizable();
     // Set up function to (re)draw the card when placed or resized
-    card.data("redrawFunc", shuffl.card.datagraph.redraw(card));
+    var redraw = shuffl.card.datagraph.redraw(card);
+    card.data("redrawFunc", redraw);
     // Set up card as drop-target for data table
     shuffl.dropTarget(card, '.shuffl-series', 'shuffl:source');
     // Set up model listener and user input handlers
     shuffl.bindLineEditable(card, "shuffl:title", "ctitle");
     shuffl.bindLineEditable(card, "shuffl:tags",  "ctags");
-    shuffl.bindOptionClickCycle(card, "shuffl:x1axis", "cx1axis", ["lin", "log"],
-        shuffl.card.datagraph.redraw(card));
-    shuffl.bindOptionClickCycle(card, "shuffl:y1axis", "cy1axis", ["lin", "log"],
-        shuffl.card.datagraph.redraw(card));
-    shuffl.bindFloatEditable(card, "shuffl:dataminy", "cdataminy", 2,
-        shuffl.card.datagraph.redraw(card));
-    shuffl.bindFloatEditable(card, "shuffl:datamaxy", "cdatamaxy", 2,
-        shuffl.card.datagraph.redraw(card));
-    card.modelBind("shuffl:labels", shuffl.card.datagraph.redraw(card));
+    shuffl.bindOptionClickCycle(
+        card, "shuffl:x1axis", "cx1axis", ["lin", "log"], redraw);
+    shuffl.bindOptionClickCycle(
+        card, "shuffl:x1axis", "cx1axis", ["lin", "log"], redraw);
+    shuffl.bindFloatEditable(
+        card, "shuffl:dataminy", "cdataminy", 2, redraw);
+    shuffl.bindFloatEditable(
+        card, "shuffl:datamaxy", "cdatamaxy", 2, redraw);
+    card.modelBind("shuffl:labels", redraw);
+    card.modelBind("shuffl:axes",   redraw);
     card.modelBind("shuffl:series", shuffl.card.datagraph.setseriesdata(card));
     card.modelBind("shuffl:table",  shuffl.card.datagraph.setgraphdata(card));
     // Handle source drop, including subscription to changes in the source data
@@ -170,6 +171,7 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
             var oldsrc = data.oldval;
             oldsrc.modelUnbind("shuffl:title",  oldsub);
             oldsrc.modelUnbind("shuffl:labels", oldsub);
+            oldsrc.modelUnbind("shuffl:axes",   oldsub);
             oldsrc.modelUnbind("shuffl:series", oldsub);
         };
         var src    = data.newval;
@@ -177,6 +179,7 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
         newsub();
         src.modelBind("shuffl:title",  newsub);
         src.modelBind("shuffl:labels", newsub);
+        src.modelBind("shuffl:axes",   newsub);
         src.modelBind("shuffl:series", newsub);
         card.data("updatesubs", newsub);
         card.data("shuffl:source_id", src.data('shuffl:id'));
@@ -274,7 +277,8 @@ shuffl.card.datagraph.updatedata = function (card, src)
             var title = card.model("shuffl:title").replace(/ \([^)]+\)$/,"");
             card.model("shuffl:title", title+" ("+src.model("shuffl:title")+")");
         }
-        card.data("shuffl:labels", src.model("shuffl:labels"));
+        card.data("shuffl:labels",  src.model("shuffl:labels"));
+        card.data("shuffl:axes",    src.model("shuffl:axes"));
         card.model("shuffl:series", src.model("shuffl:series"));
     };
     return update;

@@ -442,7 +442,6 @@ TestCardDatagraph = function() {
             equals( actual.length, expected.length, "length - "+message);
             for (var i = 0 ; i < actual.length ; i++)
             {
-                log.debug("- i "+i);
                 var e = expected[i];
                 if (!e) e = [-1,"???"];
                 range(actual[i][0], e[0]*0.99999, e[0]*1.00001, "position["+i+"] -"+message);
