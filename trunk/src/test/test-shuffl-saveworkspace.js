@@ -465,7 +465,7 @@ TestSaveWorkspace = function() {
             var c3 = jQuery("#id_3");
             ok(c3 != undefined, "card id_3 defined")
             ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
-            equals(c3.find("ctitle").text(), "Card 3 updated", "Card 3 title");
+            equals(c3.find("ctitle").text(), "Card 3 updated", "Card 3 updated");
             var p3 = c3.position();
             range(p3.left, 199, 202, "position-left");
             range(p3.top,   89,  92,  "position-top");
