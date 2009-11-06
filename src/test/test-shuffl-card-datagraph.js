@@ -85,6 +85,7 @@ var testcarddatagraph_modeldata =
     , 'shuffl:datamaxy':  1.2
     , 'shuffl:x1axis':    'lin'
     , 'shuffl:y1axis':    'lin'
+    , 'shuffl:y2axis':    'lin'
     , 'shuffl:labels':    testcarddatagraph_labels
     , 'shuffl:axes':      testcarddatagraph_axes
     , 'shuffl:series':    testcarddatagraph_series
@@ -143,6 +144,7 @@ TestCardDatagraph = function() {
         equals(c.model("shuffl:datamaxy"),  1.2,                  "shuffl:datamaxy");
         same(c.model("shuffl:x1axis"),  'lin',                    "shuffl:x1axis");
         same(c.model("shuffl:y1axis"),  'lin',                    "shuffl:y1axis");
+        same(c.model("shuffl:y2axis"),  'lin',                    "shuffl:y2axis");
         same(c.model("shuffl:table"),   undefined,                "shuffl:table");
         same(c.model("shuffl:labels"),  testcarddatagraph_labels, "shuffl:labels");
         same(c.model("shuffl:axes"),    testcarddatagraph_axes,   "shuffl:axes");
@@ -224,8 +226,10 @@ TestCardDatagraph = function() {
         equals(c.model("shuffl:datamaxy"),  1.2,                  "shuffl:datamaxy");
         same(c.model("shuffl:x1axis"),      'lin',                "shuffl:x1axis");
         same(c.model("shuffl:y1axis"),      'lin',                "shuffl:y1axis");
+        same(c.model("shuffl:y2axis"),      'lin',                "shuffl:y2axis");
         ////same(c.model("shuffl:x1axis"), { transform: 'lin' },      "shuffl:x1axis");
         ////same(c.model("shuffl:y1axis"), { transform: 'lin' },      "shuffl:y1axis");
+        ////same(c.model("shuffl:y2axis"), { transform: 'lin' },      "shuffl:y2axis");
         same(c.model("shuffl:table"),   undefined,                "shuffl:table");
         same(c.model("shuffl:labels"),  testcarddatagraph_labels, "shuffl:labels");
         same(c.model("shuffl:axes"),    testcarddatagraph_axes,   "shuffl:axes");
@@ -267,8 +271,10 @@ TestCardDatagraph = function() {
         equals(e['shuffl:data']['shuffl:datamaxy'],   1.2,          'shuffl:data-datamaxy');
         equals(e['shuffl:data']['shuffl:x1axis'],    'lin',         'shuffl:data-x1axis');
         equals(e['shuffl:data']['shuffl:y1axis'],    'lin',         'shuffl:data-y1axis');
+        equals(e['shuffl:data']['shuffl:y2axis'],    'lin',         'shuffl:data-y2axis');
         ////same(e['shuffl:data']['shuffl:x1axis'], { transform: 'lin' }, 'shuffl:data-x1axis');
         ////same(e['shuffl:data']['shuffl:y1axis'], { transform: 'lin' }, 'shuffl:data-y1axis');
+        ////same(e['shuffl:data']['shuffl:y2axis'], { transform: 'lin' }, 'shuffl:data-y2axis');
         same(e['shuffl:data']['shuffl:labels'], testcarddatagraph_labels, 'shuffl:data-labels');
         same(e['shuffl:data']['shuffl:axes'],   testcarddatagraph_axes,   'shuffl:data-axes');
         same(e['shuffl:data']['shuffl:series'], testcarddatagraph_series, 'shuffl:data-series');
