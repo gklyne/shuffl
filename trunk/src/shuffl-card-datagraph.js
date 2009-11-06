@@ -57,6 +57,7 @@ shuffl.card.datagraph.datamap =
     , 'shuffl:datamaxy':  { def: undefined }
     , 'shuffl:x1axis':    { def: 'lin' }
     , 'shuffl:y1axis':    { def: 'lin' }
+    , 'shuffl:y2axis':    { def: 'lin' }
     };
 
 /*
@@ -102,10 +103,11 @@ shuffl.card.datagraph.blank = jQuery(
     "    </cbody>\n"+
     "  </crow>\n"+
     "  <crow style='width: 100%;'>\n"+
-    "    <span style='display: inline-block; width: 14%;'>x1: <cx1axis/></span>\n"+
-    "    <span style='display: inline-block; width: 14%;'>y1: <cy1axis/></span>\n"+
-    "    <span style='display: inline-block; width: 34%;'>min Y: <cdataminy style='display: inline-block; width: 20%;'>-100.0</cdataminy></span>\n"+
-    "    <span style='display: inline-block; width: 34%;'>max Y: <cdatamaxy style='display: inline-block; width: 20%;'> 100.0</cdatamaxy></span>\n"+
+    "    <span style='display: inline-block; width: 10%;'>x1: <cx1axis/></span>\n"+
+    "    <span style='display: inline-block; width: 10%;'>y1: <cy1axis/></span>\n"+
+    "    <span style='display: inline-block; width: 10%;'>y2: <cy2axis/></span>\n"+
+    "    <span style='display: inline-block; width: 33%;'>min Y: <cdataminy style='display: inline-block; width: 20%;'>-100.0</cdataminy></span>\n"+
+    "    <span style='display: inline-block; width: 33%;'>max Y: <cdatamaxy style='display: inline-block; width: 20%;'> 100.0</cdatamaxy></span>\n"+
     "  </crow>\n"+
     "  <cfoot>\n"+
     "    <cident>card_ZZZ_ident</cident>:<cclass>card_ZZZ class</cclass>\n"+
@@ -153,7 +155,9 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     shuffl.bindOptionClickCycle(
         card, "shuffl:x1axis", "cx1axis", ["lin", "log"], redraw);
     shuffl.bindOptionClickCycle(
-        card, "shuffl:x1axis", "cx1axis", ["lin", "log"], redraw);
+        card, "shuffl:y1axis", "cy1axis", ["lin", "log"], redraw);
+    shuffl.bindOptionClickCycle(
+        card, "shuffl:y2axis", "cy2axis", ["lin", "log"], redraw);
     shuffl.bindFloatEditable(
         card, "shuffl:dataminy", "cdataminy", 2, redraw);
     shuffl.bindFloatEditable(
@@ -343,7 +347,9 @@ shuffl.card.datagraph.draw = function (card)
     var ymax   = card.model('shuffl:datamaxy');
     var x1axis = card.model('shuffl:x1axis');
     var y1axis = card.model('shuffl:y1axis');
+    var y2axis = card.model('shuffl:y2axis');
     var labels = card.model('shuffl:labels');
+    var axes   = card.model('shuffl:axes');
     var series = card.model('shuffl:series');
     var cbody  = card.find("cbody");
     var gelem  = cbody.find("div");
@@ -355,7 +361,13 @@ shuffl.card.datagraph.draw = function (card)
         var data   = [];
         for (var i = 0 ; i < labels.length ; i++)
         {
-            data.push({label: labels[i], data: series[i]});
+            var yaxis = ( axes[i][1] == 'y2' ? 2 : 1 );
+            data.push(
+                { data: series[i]
+                , label: labels[i]
+                , xaxis: 1
+                , yaxis: yaxis
+                });
         }
         var options =
             { series:
@@ -366,6 +378,7 @@ shuffl.card.datagraph.draw = function (card)
                 { labelWidth: 40
                 }
             , yaxis: {}
+            , y2axis: {}
             };
         if (isFinite(ymin) && isFinite(ymax) && (ymin<ymax))
         {
@@ -380,6 +393,11 @@ shuffl.card.datagraph.draw = function (card)
         {
             jQuery.extend(options.yaxis, shuffl.card.datagraph.log10transform);
             options.yaxis.ticks = shuffl.card.datagraph.log10tickgenerator;
+        }
+        if (y2axis == 'log')
+        {
+            jQuery.extend(options.y2axis, shuffl.card.datagraph.log10transform);
+            options.y2axis.ticks = shuffl.card.datagraph.log10tickgenerator;
         }
         var plot = jQuery.plot(gelem, data, options);
     };
