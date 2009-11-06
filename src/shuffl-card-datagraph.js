@@ -306,8 +306,28 @@ shuffl.card.datagraph.log10transform =
     , inverseTransform: function (x) { return Math.exp(x/Math.LOG10E); }
     };
 
-// TODO: need to figure how to apply log scaling so that limits are
-//       used properly, and intervals plotted as required.
+/**
+ * Log10 transform tick generator
+ */
+shuffl.card.datagraph.log10tickgenerator = function (axis)
+{
+    function label(log)
+    {
+        return (log == 0 ? "1" : (log > 0 ? "1E+"+log : "1E"+log));
+    };
+    var log10  = shuffl.card.datagraph.log10transform;
+    var minlog = Math.floor(log10.transform(axis.min)+1.0E-8 || -10);
+    var maxlog = Math.ceil(log10.transform(axis.max)-1.0E-8  ||   0);
+    var ticks = [];
+    for (var l = minlog ; l < maxlog ; l++)
+    {
+        var t = log10.inverseTransform(l);
+        ticks.push([t,label(l)]);
+        for (var f = 2.0 ; f <= 8.0 ; f += 2.0) ticks.push([t*f,""]);
+    };
+    ticks.push([log10.inverseTransform(maxlog),label(maxlog)]);
+    return ticks;
+};
 
 /**
  * Function to draw the graph in a supplied datagraph card
@@ -349,10 +369,12 @@ shuffl.card.datagraph.draw = function (card)
         if (x1axis == 'log')
         {
             jQuery.extend(options.xaxis, shuffl.card.datagraph.log10transform);
+            options.xaxis.ticks = shuffl.card.datagraph.log10tickgenerator;
         }
         if (y1axis == 'log')
         {
             jQuery.extend(options.yaxis, shuffl.card.datagraph.log10transform);
+            options.yaxis.ticks = shuffl.card.datagraph.log10tickgenerator;
         }
         var plot = jQuery.plot(gelem, data, options);
     };

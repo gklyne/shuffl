@@ -423,6 +423,50 @@ TestCardDatagraph = function() {
         range(t.inverseTransform(2.0),  100.0,   100.001, "aLog10(100)");
     });
 
+    test("shuffl.card.datagraph.log10tickgenerator", function ()
+    {
+        logtest("shuffl.card.datagraph.log10tickgenerator");
+        var t = shuffl.card.datagraph.log10tickgenerator;
+        function sameticks(actual, expected, message)
+        {
+            equals( actual.length, expected.length, "length - "+message);
+            for (var i = 0 ; i < actual.length ; i++)
+            {
+                log.debug("- i "+i);
+                var e = expected[i];
+                if (!e) e = [-1,"???"];
+                range(actual[i][0], e[0]*0.99999, e[0]*1.00001, "position["+i+"] -"+message);
+                equals(actual[i][1], e[1], "label["+i+"] -"+message);
+            };
+        };
+        // positive logs
+        var a1 = {min:10.0, max:1000.0};
+        var t1 =
+            [ [1E+1,"1E+1"], [2E+1,""], [4E+1,""], [6E+1,""], [8E+1, ""]
+            , [1E+2,"1E+2"], [2E+2,""], [4E+2,""], [6E+2,""], [8E+2, ""]
+            , [1E+3,"1E+3"]
+            ];
+        sameticks(t(a1), t1, "Log ticks for "+jQuery.toJSON(a1));
+        // negative logs
+        var a2 = {min:0.001, max:0.1};
+        var t2 =
+            [ [1E-3,"1E-3"], [2E-3,""], [4E-3,""], [6E-3,""], [8E-3, ""]
+            , [1E-2,"1E-2"], [2E-2,""], [4E-2,""], [6E-2,""], [8E-2, ""]
+            , [1E-1,"1E-1"]
+            ];
+        sameticks(t(a2), t2, "Log ticks for "+jQuery.toJSON(a2));
+        // negative and positive logs
+        var a3 = {min:0.05, max:50.0};
+        var t3 =
+            [ [1E-2,"1E-2"], [2E-2,""], [4E-2,""], [6E-2,""], [8E-2, ""]
+            , [1E-1,"1E-1"], [2E-1,""], [4E-1,""], [6E-1,""], [8E-1, ""]
+            , [1E+0,"1"],    [2E+0,""], [4E+0,""], [6E+0,""], [8E+0, ""]
+            , [1E+1,"1E+1"], [2E+1,""], [4E+1,""], [6E+1,""], [8E+1, ""]
+            , [1E+2,"1E+2"]
+            ];
+        sameticks(t(a3), t3, "Log ticks for "+jQuery.toJSON(a3));
+    });
+
 };
 
 // End
