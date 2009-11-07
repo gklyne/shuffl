@@ -84,7 +84,7 @@ Actual effort: ?? days (for ?? planned activity)
 
 = Sprint review notes =
 
-??
+First week:  most of the effort has been spent working on user interface issues.  Even with the magic of jQuery, UI development is still very time consuming, dealing with the many minutiae that are needed for even rudimentary usability.  Label editing and colour selection are still outstanding, but I think I've done enough for now, at least until I can speak again with Chris.  
 
 == End-of-sprint review ==
 
