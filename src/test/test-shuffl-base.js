@@ -66,6 +66,26 @@ TestShufflBase = function()
         equals(w.text(), jQuery.uri(), "#workspace_status text (default)");
         ok(!w.hasClass("shuffl-error"), "no shuffl-error class (default)");
     });
+
+    test("shuffl.showError", function ()
+    {
+        logtest("shuffl.showLocation");
+        expect(4);
+        shuffl.showError("error message");
+        var w = jQuery("#workspace_status"); 
+        equals(w.text(), "error message", "#workspace_status text (error)");
+        ok(w.hasClass("shuffl-error"), "no shuffl-error class (error)");
+        try
+        {
+            throw new shuffl.Error("exception message");
+        }
+        catch (e)
+        {
+            shuffl.showError(e);
+        };
+        equals(w.text(), "shuffl error: exception message", "#workspace_status text (exception)");
+        ok(w.hasClass("shuffl-error"), "no shuffl-error class (exception)");
+    });
     
 };
 
