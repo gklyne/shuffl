@@ -1,4 +1,4 @@
-#summary Notes for tasks to be tackled
+#summary Notes for TODO tasks to be tackled
 #labels notes,admin,tasks
 
 Project admin:
@@ -6,11 +6,9 @@ Project admin:
     * The first issue though whether you want centrally owned copyright or distributed copyright, see http://www.oss-watch.ac.uk/resources/cla.xml
     * Discussion ongoing with OSS-Watch 
  * Current status on front page
- * Logo and icon images (for menu button, project page, etc.)
 
 Requirements:
  * Start building user stories and requirements
- * Meet with Chris Holland
  * Meet with Helen White-Cooper
  * Meet with Alistair Miles / malariagen group?
  * Meet with someone in Donna's group about annotations
@@ -20,12 +18,11 @@ Architecture:
  * tech issues (separation of data: content, styling, layout, etc.)
  * tech issues (organization of stored data)
  * tech issues (cards and containers)
- * tech issues (view types / render modes)
- * Think about plug-in architecture for extensions
+ * tech issues (different card view types / render modes; e.g. )
 
 Technical spike and development:
  * Refactor CSS so that card layout is more cleanly separated from styling
- * View types - include thumbnail
+ * View types - include thumbnail, row view, ...
  * Atom feed browser
  * Card menu
  * Card grouping / stack management
