@@ -51,8 +51,8 @@ Estimated effort: 3.5 days
  * (1.0) add column status selectors (none, x1, y1, y2) and link to output data (*Done* 06-Nov-2009/??)
  * (0.5) add scale axis transformation options  (*Done* 06-Nov-2009/??)
  * (0.5) save card data linkage in serialization of workspace (*Done* 03-Nov-2009/0.4)
- * (0.5) implement user-editable labels and link to output
- * (1.0) add colour selection and link to output data
+ * (0.5) implement user-editable labels and link to output (*Deferred*)
+ * (1.0) add colour selection and link to output data (*Deferred*)
 
 Actual effort: ?? days (for ?? planned activity)
 
