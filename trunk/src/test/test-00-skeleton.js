@@ -28,7 +28,7 @@
 TestZZZZZZ = function()
 {
 
-    module("TestZZZ");
+    module("TestZZZZZZ");
 
     test("testAAA", function ()
     {

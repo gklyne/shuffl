@@ -31,6 +31,10 @@ if (typeof shuffl == "undefined")
 {
     alert("shuffl-ajax.js: shuffl-base.js must be loaded first");
 };
+if (typeof shuffl.ajax == "undefined") 
+{
+    shuffl.ajax = {};
+};
 
 // ----------------------------------------------------------------
 // Ajax resource access
@@ -39,9 +43,9 @@ if (typeof shuffl == "undefined")
 /**
  * Returns function for handling ajax request failure
  */
-shuffl.requestFailed = function (callback) {
+shuffl.ajax.requestFailed = function (callback) {
     return function (xhr, status, except) {
-        log.debug("shuffl.requestFailed: "+status);
+        log.debug("shuffl.ajax.requestFailed: "+status);
         var err = new shuffl.Error("Ajax request failed", status);
         err.HTTPstatus     = xhr.status;
         err.HTTPstatusText = xhr.statusText; 
@@ -52,16 +56,26 @@ shuffl.requestFailed = function (callback) {
 
 /**
  * Returns function for handling ajax request successful completion
+ * 
+ * @param uri         requested URI
+ * @param callback    callback function with result information.
+ * @param trace       optional parameter, set 'true' if trace output of
+ *                    response data is required.
+ * @return            jQuery.ajax success callback function to decode the
+ *                    response and then call the supplied callback function.
  */
-shuffl.requestFailed = function (callback) {
-    return function (xhr, status, except) {
-        log.debug("shuffl.requestFailed: "+status);
-        var err = new shuffl.Error("Ajax request failed", status);
-        err.HTTPstatus     = xhr.status;
-        err.HTTPstatusText = xhr.statusText; 
-        err.response = err.HTTPstatus+" "+err.HTTPstatusText;
-        callback(err, status);
-    };
+shuffl.ajax.decodeJSONResponse = function (uri, callback, trace) 
+{
+    function decodeResponse(data, status)
+    {
+        if (trace)
+        {
+            log.debug("shuffl.decodeJSONResponse: "+uri+", "+status);
+            log.debug("shuffl.decodeJSONResponse: "+jQuery.toJSON(data));
+        };
+        callback(data);
+    }
+    return decodeResponse;
 };
 
 /**
@@ -75,14 +89,14 @@ shuffl.requestFailed = function (callback) {
  *                  object if trhe request fails.  The second argument supplied
  *                  is a textual status indication.
  */
-shuffl.getJSON = function (uri, callback)
+shuffl.ajax.getJSON = function (uri, callback)
 {
     jQuery.ajax({
             type:         "GET",
             url:          uri.toString(),
-            dataType:     datatype,
-            success:      shuffl.AtomPub.decodeItemResponse(this, iteminfo, callback),
-            error:        shuffl.AtomPub.requestFailed(callback),
+            dataType:     "json",
+            success:      shuffl.ajax.decodeJSONResponse(uri, callback),
+            error:        shuffl.ajax.requestFailed(callback),
             cache:        false
         });
 };

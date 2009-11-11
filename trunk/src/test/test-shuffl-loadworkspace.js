@@ -108,7 +108,7 @@ TestLoadWorkspace = function() {
         stop(2000);
     });
 
-    notest("shuffl.LoadWorkspace (non-existent feed/directory)", function () {
+    test("shuffl.LoadWorkspace (non-existent feed/directory)", function () {
         expect(1);
         logtest("shuffl.LoadWorkspace (non-existent feed)");
         var m = new shuffl.AsyncComputation();
@@ -117,6 +117,7 @@ TestLoadWorkspace = function() {
         });
         m.eval(function(val,callback) {
             log.debug("shuffl.LoadWorkspace return: "+jQuery.toJSON(val));
+            ok(false, "TODO tests");
             callback(true);
         });        
         m.exec({}, start);
@@ -124,9 +125,9 @@ TestLoadWorkspace = function() {
         stop(2000);
     });
 
-    notest("shuffl.LoadWorkspace (non-existent layout file)", function () {
+    test("shuffl.LoadWorkspace (non-existent layout file)", function () {
         expect(1);
-        logtest("shuffl.LoadWorkspace (non-existent feed)");
+        logtest("shuffl.LoadWorkspace (non-existent layout file)");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.json", callback);
@@ -136,11 +137,11 @@ TestLoadWorkspace = function() {
             callback(true);
         });        
         m.exec({}, start);
-        ok(true, "shuffl.LoadWorkspace initiated");
+        ok(false, "shuffl.LoadWorkspace initiated");
         stop(2000);
     });
 
-    notest("shuffl.LoadWorkspace (missing card file)", function () {
+    test("shuffl.LoadWorkspace (missing card file)", function () {
         expect(1);
         logtest("shuffl.LoadWorkspace (missing card file)");
         var m = new shuffl.AsyncComputation();
@@ -152,7 +153,7 @@ TestLoadWorkspace = function() {
             callback(true);
         });        
         m.exec({}, start);
-        ok(true, "shuffl.LoadWorkspace initiated");
+        ok(false, "shuffl.LoadWorkspace initiated");
         stop(2000);
     });
     
@@ -186,7 +187,7 @@ TestLoadWorkspace = function() {
             callback(true);
         });        
         m.exec({}, start);
-        ok(true, "shuffl.ResetWorkspace initiated");
+        ok(false, "shuffl.ResetWorkspace initiated");
         stop(2000);
     });
     
