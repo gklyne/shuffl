@@ -101,6 +101,11 @@ shuffl.showLocation = function (uri)
  */
 shuffl.showError = function (msg)
 {
+    log.debug("- msg "+shuffl.objectString(msg));
+    if (msg instanceof Error)
+    {
+        msg = msg.toString();
+    };
     jQuery('#workspace_status').text(msg).addClass('shuffl-error');
 };
 
