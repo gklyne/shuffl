@@ -54,6 +54,7 @@ if (typeof shuffl.storage == "undefined")
  * 
  * Storage handler description fields:
  *    uri       root URI serviced by the storage handler
+ *    name      name associated with handler (diagnostic)
  *    canRead   'true' if the handler can read data resources identified by 
  *              the associated URIs
  *    canWrite  'true' if the handler can write data resources identified by 
@@ -98,6 +99,18 @@ shuffl.StorageCommon = function (baseuri)
     ////log.debug("shuffl.StorageCommon "+baseuri);
     throw shuffl.Error("shuffl.StorageCommon not implemented");
 };
+
+/**
+ * Retrieve a name for the current storage handler
+ * 
+ * @return          an name associated with the storage handler for the
+ *                  current session.  This function is mainly for diagnostic
+ *                  and testing purposes.
+ */
+shuffl.StorageCommon.prototype.handlerName = function ()
+{
+    return this.handlerName;
+}
 
 /**
  * Resolve a URI handled by the current storage handler session.
