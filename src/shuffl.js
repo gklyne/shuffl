@@ -58,6 +58,21 @@ shuffl.resetWorkspaceOnError = function (val)
 };
 
 /**
+ * Display message when an error is returned
+ */
+shuffl.showMessageOnError = function (val)
+{
+    if (val instanceof Error)
+    {
+        shuffl.showError(val);
+    }
+    else
+    {
+        shuffl.showLocation(jQuery('#workspace').data('location').toString());
+    }
+};
+
+/**
  * Save current workspace values as defaults in subsequent dialogs
  */
 shuffl.saveWorkspaceDefaults = function ()
@@ -143,7 +158,7 @@ shuffl.menuOpenWorkspace = function ()
 shuffl.menuSaveWorkspace = function ()
 {
     log.debug("shuffl.menuSaveWorkspace");
-    shuffl.updateWorkspace(shuffl.noop);
+    shuffl.updateWorkspace(shuffl.showMessageOnError);
 };
 
 /**
@@ -178,8 +193,10 @@ shuffl.menuSaveNewWorkspace = function ()
                   // Save cards, capture locations (or bail if error),
                   // assemble workspace description and save, and
                   // display location saved:
-                  shuffl.deleteWorkspace(atomuri, feedpath, function(val,next) {
-                      shuffl.saveNewWorkspace(atomuri, feedpath, wsname, shuffl.noop);
+                  if (shuffl.invalidWorkspaceName(feedpath, wsname, shuffl.showMessageOnError)) return;
+                  shuffl.deleteWorkspace(atomuri, feedpath, wsname, function(val,next) {
+                      shuffl.saveNewWorkspace(atomuri, feedpath, wsname, 
+                          shuffl.showMessageOnError);
                   });
               },
               Cancel: function() {
