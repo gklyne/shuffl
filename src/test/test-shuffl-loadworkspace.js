@@ -24,7 +24,7 @@ TestLoadWorkspace = function() {
     module("TestLoadWorkspace");
 
     test("shuffl.LoadWorkspace", function () {
-        expect(54);
+        expect(55);
         logtest("shuffl.LoadWorkspace");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
@@ -32,8 +32,10 @@ TestLoadWorkspace = function() {
         });
         m.eval(function(val,callback) {
             var u = jQuery.uri().resolve("data/test-shuffl-loadworkspace-layout.json");
-            equals(jQuery('#workspace_status').text(), u.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
+            var w = jQuery("#workspace_status"); 
+            equals(w.text(), u.toString(), '#workspace_status');
+            ok(!w.hasClass("shuffl-error"), "shuffl-error class");
             //1
             var c1 = jQuery("#id_1");
             ok(c1 != undefined,                                         "card id_1 defined");
@@ -109,15 +111,20 @@ TestLoadWorkspace = function() {
     });
 
     test("shuffl.LoadWorkspace (non-existent feed/directory)", function () {
-        expect(1);
+        expect(6);
         logtest("shuffl.LoadWorkspace (non-existent feed)");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             shuffl.loadWorkspace("dataz/test-shuffl-loadworkspace-layout.json", callback);
         });
         m.eval(function(val,callback) {
-            log.debug("shuffl.LoadWorkspace return: "+jQuery.toJSON(val));
-            ok(false, "TODO tests");
+            log.debug("shuffl.LoadWorkspace return: "+shuffl.objectString(val));
+            ok(val instanceof shuffl.Error, "Error value returned");
+            equals(val.toString(), "shuffl error: Request failed (error; HTTP status: 404 Not Found)", "Error message returned");
+            equals(val.response, "404 Not Found", "Ajax HTTP response details");
+            var w = jQuery("#workspace_status"); 
+            equals(w.text(), "shuffl error: Request failed (error; HTTP status: 404 Not Found)", "#workspace_status text");
+            ok(w.hasClass("shuffl-error"), "shuffl-error class");
             callback(true);
         });        
         m.exec({}, start);
@@ -126,34 +133,46 @@ TestLoadWorkspace = function() {
     });
 
     test("shuffl.LoadWorkspace (non-existent layout file)", function () {
-        expect(1);
+        expect(6);
         logtest("shuffl.LoadWorkspace (non-existent layout file)");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
-            shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.json", callback);
+            shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.NOFILE", callback);
         });
         m.eval(function(val,callback) {
-            log.debug("shuffl.LoadWorkspace return: "+jQuery.toJSON(val));
+            log.debug("shuffl.LoadWorkspace return: "+shuffl.objectString(val));
+            ok(val instanceof shuffl.Error, "Error value returned");
+            equals(val.toString(), "shuffl error: Request failed (error; HTTP status: 404 Not Found)", "Error message returned");
+            equals(val.response, "404 Not Found", "Ajax HTTP response details");
+            var w = jQuery("#workspace_status"); 
+            equals(w.text(), "shuffl error: Request failed (error; HTTP status: 404 Not Found)", "#workspace_status text");
+            ok(w.hasClass("shuffl-error"), "shuffl-error class");
             callback(true);
         });        
         m.exec({}, start);
-        ok(false, "shuffl.LoadWorkspace initiated");
+        ok(true, "shuffl.LoadWorkspace initiated");
         stop(2000);
     });
 
     test("shuffl.LoadWorkspace (missing card file)", function () {
-        expect(1);
+        expect(6);
         logtest("shuffl.LoadWorkspace (missing card file)");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
-            shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.json", callback);
+            shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout-missingcard.json", callback);
         });
         m.eval(function(val,callback) {
-            log.debug("shuffl.LoadWorkspace return: "+jQuery.toJSON(val));
+            log.debug("shuffl.LoadWorkspace return: "+shuffl.objectString(val));
+            ok(val instanceof shuffl.Error, "Error value returned");
+            equals(val.toString(), "shuffl error: Request failed (error; HTTP status: 404 Not Found)", "Error message returned");
+            equals(val.response, "404 Not Found", "Ajax HTTP response details");
+            var w = jQuery("#workspace_status"); 
+            equals(w.text(), "shuffl error: Request failed (error; HTTP status: 404 Not Found)", "#workspace_status text");
+            ok(w.hasClass("shuffl-error"), "shuffl-error class");
             callback(true);
         });        
         m.exec({}, start);
-        ok(false, "shuffl.LoadWorkspace initiated");
+        ok(true, "shuffl.LoadWorkspace initiated");
         stop(2000);
     });
     
@@ -187,7 +206,48 @@ TestLoadWorkspace = function() {
             callback(true);
         });        
         m.exec({}, start);
-        ok(false, "shuffl.ResetWorkspace initiated");
+        ok(true, "shuffl.ResetWorkspace initiated");
+        stop(2000);
+    });
+    
+    test("shuffl.ResetWorkspace then shuffl.loadWorkspace", function () {
+        logtest("shuffl.ResetWorkspace then shuffl.loadWorkspace");
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
+            shuffl.resetWorkspace(callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Workspace reset")
+            equals(jQuery('#workspace_status').text(), "", '#workspace_status');
+            equals(jQuery('#workspace').data('location'), null, "location");
+            equals(jQuery('#workspace').data('wsname'), null, "wsname");
+            equals(jQuery('#workspace').data('wsdata'), null, "wsdata");
+            // Done
+            callback(true);
+        });        
+        m.eval(function(val,callback) {
+            shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.json", callback);
+        });
+        m.eval(function(val,callback) {
+            var u = jQuery.uri().resolve("data/test-shuffl-loadworkspace-layout.json");
+            equals(jQuery('#workspace').data('location'), u.toString(), "location");
+            var w = jQuery("#workspace_status"); 
+            equals(w.text(), u.toString(), '#workspace_status');
+            ok(!w.hasClass("shuffl-error"), "shuffl-error class");
+            var c1 = jQuery("#id_1");
+            equals(c1.attr('id'), "id_1",                               "card 1 id attribute");
+            var c2 = jQuery("#id_2");
+            ok(c2 != undefined,                                         "card id_2 defined");
+            equals(c2.attr('id'), "id_2",                               "card 2 id attribute");
+            //3
+            var c3 = jQuery("#id_3");
+            ok(c3 != undefined,                                         "card id_3 defined");
+            equals(c3.attr('id'), "id_3",                               "card 3 id attribute");
+            //Done
+            callback(true);
+        });        
+        m.exec({}, start);
+        ok(true, "shuffl.ResetWorkspace then shuffl.loadWorkspace initiated");
         stop(2000);
     });
     

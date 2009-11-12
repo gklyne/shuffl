@@ -46,6 +46,7 @@
     <script type="text/javascript" src="../../src/jquery.arraytable.js"></script>
     <script type="text/javascript" src="../../src/shuffl-base.js"></script>
     <script type="text/javascript" src="../../src/AsyncComputation.js"></script>
+    <script type="text/javascript" src="../../src/shuffl-ajax.js"></script>
     <script type="text/javascript" src="../../src/AtomPub.js"></script>
     <script type="text/javascript" src="../../src/shuffl-cardhandlers.js"></script>
     <script type="text/javascript" src="../../src/shuffl-loadworkspace.js"></script>
@@ -66,7 +67,7 @@
     <!--  Load a pre-existing workspace from RDF -->
 	  <script type="text/javascript">
       jQuery(document).ready(function(){
-          shuffl.loadWorkspace("data/shuffl-sample-5.json", shuffl.noop);
+          shuffl.loadWorkspace("data/shuffl-sample-5.json", shuffl.saveWorkspaceDefaults);
       });
 	  </script>
     

@@ -18,9 +18,6 @@
  * limitations under the License.
  */
 
-// TODO: refactor this code to accept a storage session object, so the
-//       interface is more consistent with the save module.
-
 // ----------------------------------------------------------------
 // Load up workspace
 // ----------------------------------------------------------------
@@ -40,7 +37,7 @@ shuffl.readCard = function (baseuri, dataref, callback) {
     log.debug("shuffl.readCard: "+baseuri+", "+dataref);
     var datauri = jQuery.uri(baseuri).resolve(dataref);
     log.debug("- datauri "+datauri);
-    jQuery.getJSON(datauri.toString(), function(data) {
+    shuffl.ajax.getJSON(datauri.toString(), function(data) {
         ////log.debug("shuffl.readCard from: "+datauri);
         ////log.debug("shuffl.readCard from: "+dataref);
         ////log.debug("- data: "+jQuery.toJSON(data));
@@ -74,9 +71,15 @@ shuffl.loadWorkspace = function(uri, callback) {
     var m = new shuffl.AsyncComputation();
     m.eval(function(val,callback) {
             log.debug("Load layout from "+val);
-            jQuery.getJSON(val.toString(), callback);
+            shuffl.ajax.getJSON(val.toString(), callback);
         });
     m.eval(function(json,callback) {
+            if (json instanceof shuffl.Error)
+            {
+                shuffl.showError(json.toString());
+                callback(json);
+                return;
+            }
             // When layout JSON has been read...
             log.debug("Loading workspace content");
             var i;
@@ -88,7 +91,7 @@ shuffl.loadWorkspace = function(uri, callback) {
             // Display and save location information
             var wsuri = jQuery.uri().resolve(uri);
             ////log.debug("Display location of workspace, and save values: "+wsuri);
-            jQuery('#workspace_status').text(wsuri.toString());
+            shuffl.showLocation(wsuri.toString());
             // TODO: save URI not string?
             jQuery('#workspace').data('location', wsuri.toString());
             jQuery('#workspace').data('wsname',   shuffl.uriName(wsuri));
@@ -108,16 +111,31 @@ shuffl.loadWorkspace = function(uri, callback) {
                 jQuery('#stockbar').append(shuffl.stockpile_space.clone()).append(stockpile);
             };
             // Load up card data
-            log.debug("Loading layout");
+            log.debug("Loading layout "+jQuery.toJSON(layout)+", "+layout.length,+", "+(typeof layout.length));
+            if (typeof layout.length != "number")
+            {
+                var e = new shuffl.Error("Invalid workspace description (shuffl:layout should be an array)")
+                shuffl.showError(e);
+                callback(e);
+                return;
+            }
             function readLayoutCard(layout) {
                 ////log.debug("readLayoutCard "+feeduri+", "+layout['data']);
                 // Function creates closure with specific layout definition
                 return function(val, callback) {
                     ////log.debug("readCard "+feeduri+", "+layout['data']);
                     shuffl.readCard(feeduri, layout['data'], function (data) {
-                        // Card data available
-                        shuffl.placeCardFromData(layout, data);
-                        callback({});
+                        if (data instanceof shuffl.Error)
+                        {
+                            shuffl.showError(data.toString());
+                            callback(data);
+                        }
+                        else
+                        {
+                            // Card data available
+                            shuffl.placeCardFromData(layout, data);
+                            callback(val);
+                        };
                     });
                 };
             };
