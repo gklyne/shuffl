@@ -27,10 +27,24 @@
 // ------------------------------------------------
 // Global data
 // ------------------------------------------------
+ 
+/**
+ * Check for shuffl and shuffl.stoage namespaces
+ */
+if (typeof shuffl == "undefined") 
+{
+    alert("shuffl-storage-common.js: shuffl-base.js must be loaded first");
+};
+if (typeof shuffl.storage == "undefined") 
+{
+    shuffl.storage = {};
+};
 
 // ------------------------------------------------
 // Storage handler discovery and session factory
 // ------------------------------------------------
+
+.... shuffl.addStorageHandler ....
 
 /**
  * List storage handler URIs, and the associated capabilities.
@@ -69,26 +83,20 @@ shuffl.makeStorageSession = function (baseuri)
 };
 
 // ------------------------------------------------
-// Local storage session handler base class
-// ------------------------------------------------
-
-// TODO: factor out
-
-// ------------------------------------------------
-// Local file storage session handler
+// Common storage session handler base class
 // ------------------------------------------------
 
 /**
- * Create a local file storage session
+ * Create a storage session object
  * 
  * @constructor
  * @param baseuri   a base URI for the new session.  Relative URI references
  *                  are considered to be relative to this value.
  */
-shuffl.LocalFileStorage = function (baseuri)
+shuffl.StorageCommon = function (baseuri)
 {
-    ////log.debug("shuffl.LocalFileStorage "+baseuri);
-    throw shuffl.Error("shuffl.LocalFileStorage not implemented");
+    ////log.debug("shuffl.StorageCommon "+baseuri);
+    throw shuffl.Error("shuffl.StorageCommon not implemented");
 };
 
 /**
@@ -109,10 +117,10 @@ shuffl.LocalFileStorage = function (baseuri)
  *    relref    the URI expressed as relative to the session base URI.
  *    (others may be added as required)
  */
-shuffl.LocalFileStorage.prototype.resolve = function (uri, baseuri)
+shuffl.StorageCommon.prototype.resolve = function (uri, baseuri)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.resolve "+uri+", "+baseuri);
-    throw shuffl.Error("shuffl.LocalFileStorage.prototype.resolve not implemented");
+    ////log.debug("shuffl.StorageCommon.prototype.resolve "+uri+", "+baseuri);
+    throw shuffl.Error("shuffl.StorageCommon.prototype.resolve not implemented");
 };
 
 /**
@@ -132,10 +140,10 @@ shuffl.LocalFileStorage.prototype.resolve = function (uri, baseuri)
  *    canWrite  'true' is resource can be modified
  *    canDelete 'true' is resource can be deleted
  */
-shuffl.LocalFileStorage.prototype.info = function (uri)
+shuffl.StorageCommon.prototype.info = function (uri)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.info "+uri);
-    throw shuffl.Error("shuffl.LocalFileStorage.prototype.info not implemented");
+    ////log.debug("shuffl.StorageCommon.prototype.info "+uri);
+    throw shuffl.Error("shuffl.StorageCommon.prototype.info not implemented");
 };
 
 /**
@@ -159,11 +167,11 @@ shuffl.LocalFileStorage.prototype.info = function (uri)
  *              jQuery.uri object.
  *    relref    the URI expressed as relative to the session base URI.
  */
-shuffl.LocalFileStorage.prototype.createCollection = 
+shuffl.StorageCommon.prototype.createCollection = 
     function (coluri, colslug, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.createCollection "+coluri+", "+colslug);
-    throw shuffl.Error("shuffl.LocalFileStorage.prototype.createCollection not implemented");
+    ////log.debug("shuffl.StorageCommon.prototype.createCollection "+coluri+", "+colslug);
+    throw shuffl.Error("shuffl.StorageCommon.prototype.createCollection not implemented");
 };
 
 /**
@@ -187,10 +195,10 @@ shuffl.LocalFileStorage.prototype.createCollection =
  *    relref    the URI expressed as relative to the session base URI.
  *    type      'collection' or 'item'
  */
-shuffl.LocalFileStorage.prototype.listCollection = function (coluri, callback)
+shuffl.StorageCommon.prototype.listCollection = function (coluri, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.listCollection "+coluri);
-    throw shuffl.Error("shuffl.LocalFileStorage.prototype.listCollection not implemented");
+    ////log.debug("shuffl.StorageCommon.prototype.listCollection "+coluri);
+    throw shuffl.Error("shuffl.StorageCommon.prototype.listCollection not implemented");
 };
 
 /**
@@ -210,10 +218,10 @@ shuffl.LocalFileStorage.prototype.listCollection = function (coluri, callback)
  * where 'response' is an Error value, or null if the named collection has
  * been successfully deleted.
  */
-shuffl.LocalFileStorage.prototype.removeCollection = function (coluri, callback)
+shuffl.StorageCommon.prototype.removeCollection = function (coluri, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.removeCollection "+coluri);
-    throw shuffl.Error("shuffl.LocalFileStorage.prototype.removeCollection not implemented");
+    ////log.debug("shuffl.StorageCommon.prototype.removeCollection "+coluri);
+    throw shuffl.Error("shuffl.StorageCommon.prototype.removeCollection not implemented");
 };
 
 /**
@@ -241,11 +249,11 @@ shuffl.LocalFileStorage.prototype.removeCollection = function (coluri, callback)
  *              jQuery.uri object.
  *    relref    the URI expressed as relative to the session base URI.
  */
-shuffl.LocalFileStorage.prototype.create = 
+shuffl.StorageCommon.prototype.create = 
     function (coluri, slug, data, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.create "+coluri+", "+slug);
-    throw shuffl.Error("shuffl.LocalFileStorage.prototype.create not implemented");
+    ////log.debug("shuffl.StorageCommon.prototype.create "+coluri+", "+slug);
+    throw shuffl.Error("shuffl.StorageCommon.prototype.create not implemented");
 };
 
 /**
@@ -266,10 +274,10 @@ shuffl.LocalFileStorage.prototype.create =
  *    data      the data read, either as an object value if the type of the
  *              data resource could be decoded, otherwise as a string value. 
  */
-shuffl.LocalFileStorage.prototype.get = function (uri)
+shuffl.StorageCommon.prototype.get = function (uri)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.get "+uri);
-    throw shuffl.Error("shuffl.LocalFileStorage.prototype.get not implemented");
+    ////log.debug("shuffl.StorageCommon.prototype.get "+uri);
+    throw shuffl.Error("shuffl.StorageCommon.prototype.get not implemented");
 };
 
 /**
@@ -292,10 +300,10 @@ shuffl.LocalFileStorage.prototype.get = function (uri)
  *              jQuery.uri object.
  *    relref    the URI expressed as relative to the session base URI.
  */
-shuffl.LocalFileStorage.prototype.put = function (uri, data, callback)
+shuffl.StorageCommon.prototype.put = function (uri, data, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.put "+uri);
-    throw shuffl.Error("shuffl.LocalFileStorage.prototype.put not implemented");
+    ////log.debug("shuffl.StorageCommon.prototype.put "+uri);
+    throw shuffl.Error("shuffl.StorageCommon.prototype.put not implemented");
 };
 
 /**
@@ -312,10 +320,10 @@ shuffl.LocalFileStorage.prototype.put = function (uri, data, callback)
  * where 'response' is an Error value, or null if the named collection has
  * been successfully deleted.
  */
-shuffl.LocalFileStorage.prototype.remove = function (uri, callback)
+shuffl.StorageCommon.prototype.remove = function (uri, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.remove "+uri);
-    throw shuffl.Error("shuffl.LocalFileStorage.prototype.remove not implemented");
+    ////log.debug("shuffl.StorageCommon.prototype.remove "+uri);
+    throw shuffl.Error("shuffl.StorageCommon.prototype.remove not implemented");
 };
 
 // End.
