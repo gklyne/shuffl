@@ -101,7 +101,7 @@ shuffl.showLocation = function (uri)
  */
 shuffl.showError = function (msg)
 {
-    log.debug("- msg "+shuffl.objectString(msg));
+    ////log.debug("- msg "+shuffl.objectString(msg));
     if (msg instanceof Error)
     {
         msg = msg.toString();

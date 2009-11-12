@@ -30,7 +30,8 @@ jQuery = jQuery;
 /**
  * Resize main shuffl spaces to fit current window
  */    
-shuffl.resize = function() {
+shuffl.resize = function()
+{
     log.debug("Resize workspace");
     // Adjust height of layout area
     var layout  = jQuery("#layout"); 
@@ -44,19 +45,59 @@ shuffl.resize = function() {
 // Workspace menu command handlers
 // ----------------------------------------------------------------
 
+/**
+ * Load workspace completion handler that resets the workspace when an error 
+ * is returned
+ */
+shuffl.resetWorkspaceOnError = function (val)
+{
+    if (val instanceof Error)
+    {
+        shuffl.resetWorkspace(function () { shuffl.showError(val); });
+    }
+};
+
+/**
+ * Save current workspace values as defaults in subsequent dialogs
+ */
+shuffl.saveWorkspaceDefaults = function ()
+{
+    log.debug("shuffl.saveWorkspaceDefaults");
+    var ws     = jQuery('#workspace');
+    var wsdata = ws.data('wsdata');
+    if (wsdata)
+    {
+        log.debug("- atomuri "+wsdata['shuffl:atomuri']+", feeduri "+wsdata['shuffl:feeduri']+", wsname "+ws.data('wsname'));
+        ws.data('default_atomuri', wsdata['shuffl:atomuri']);
+        ws.data('default_feeduri', wsdata['shuffl:feeduri']);
+        ws.data('default_wsname',  ws.data('wsname'));
+    }
+    else
+    {
+        shuffl.showError("No default workspace established");
+    }
+};
+
 // TODO: refactor dialog logic and form
-// TODO: generate dialog dynamically instead of relying upon the page HTML
 
 /**
  * Menu command "Open workspace..."
  */
-shuffl.menuOpenWorkspace = function () {
+shuffl.menuOpenWorkspace = function ()
+{
     // Use current location (atomuri/feeduri) as default base
     log.debug("shuffl.menuLoadWorkspace");
     var wsdata   = jQuery('#workspace').data('wsdata');
-    var wsname   = jQuery('#workspace').data('wsname');
-    var atomuri  = wsdata['shuffl:atomuri'];
-    var feeduri  = wsdata['shuffl:feeduri'];
+    var wsname   = jQuery('#workspace').data('default_wsname');
+    var atomuri  = jQuery('#workspace').data('default_atomuri');
+    var feeduri  = jQuery('#workspace').data('default_feeduri');
+    if (wsdata)
+    {
+        atomuri  = wsdata['shuffl:atomuri'];
+        feeduri  = wsdata['shuffl:feeduri'];
+        wsname   = jQuery('#workspace').data('wsname');
+    };
+    log.debug("- atomuri "+atomuri+", feeduri "+feeduri);
     var atompub  = new shuffl.AtomPub(atomuri);
     var feedpath = atompub.getAtomPath(feeduri);
     atompub = null;
@@ -75,8 +116,8 @@ shuffl.menuOpenWorkspace = function () {
                   atomuri  = jQuery('#open_atomuri').val();
                   feedpath = jQuery('#open_feedpath').val();
                   wsname   = jQuery('#open_wsname').val();
+                  log.debug("- OK: atomuri "+atomuri+", feedpath "+feedpath+", wsname "+wsname);
                   atompub  = new shuffl.AtomPub(atomuri);
-                  ////log.debug("- OK: feedpath "+feedpath+", wsname "+wsname);
                   feeduri  = atompub.serviceUri({base: feedpath, name:wsname});
                   atompub  = null;
                   jQuery(this).dialog('destroy');
@@ -85,7 +126,7 @@ shuffl.menuOpenWorkspace = function () {
                   // assemble workspace description and save, and
                   // display location saved:
                   shuffl.resetWorkspace(function(val) {
-                      shuffl.loadWorkspace(feeduri, shuffl.noop);                    
+                      shuffl.loadWorkspace(feeduri, shuffl.resetWorkspaceOnError);                    
                   });
               },
               Cancel: function() {
@@ -99,7 +140,8 @@ shuffl.menuOpenWorkspace = function () {
 /**
  * Menu command "Save workspace"
  */
-shuffl.menuSaveWorkspace = function () {
+shuffl.menuSaveWorkspace = function ()
+{
     log.debug("shuffl.menuSaveWorkspace");
     shuffl.updateWorkspace(shuffl.noop);
 };
@@ -107,7 +149,8 @@ shuffl.menuSaveWorkspace = function () {
 /**
  * Menu command "Save as new workspace..."
  */
-shuffl.menuSaveNewWorkspace = function () {
+shuffl.menuSaveNewWorkspace = function ()
+{
     // Use current location (atomuri/feeduri) as default base
     log.debug("shuffl.menuSaveNewWorkspace");
     var wsdata   = jQuery('#workspace').data('wsdata');
@@ -237,6 +280,10 @@ jQuery(document).ready(function()
     
     // TODO: connect up logic for saving changes on-the-fly to backend store
     log.debug("shuffl TODO: connect content save logic");
+
+    // Initialize menu defaults
+    jQuery("#workspace").data('default_atomuri', "");
+    jQuery("#workspace").data('default_feeduri', "");
 
     // Create a pop-up workspace menu
     log.debug("shuffl: connect connect workspace menu");

@@ -84,7 +84,7 @@ TestShufflAjax = function()
         m.eval(
             function (val, callback) {
                 ok(val instanceof shuffl.Error, "Error value returned");
-                equals(val.toString(), "shuffl error: Ajax request failed (error)", "Error message returned");
+                equals(val.toString(), "shuffl error: Request failed (error; HTTP status: 404 Not Found)", "Error message returned");
                 equals(val.response, "404 Not Found", "Ajax HTTP response details");
                 callback(true);
             });
@@ -109,7 +109,7 @@ TestShufflAjax = function()
         m.eval(
             function (val, callback) {
                 ok(val instanceof shuffl.Error, "Error value returned");
-                equals(val.toString(), "shuffl error: Ajax request failed (parsererror)", "Error message returned");
+                equals(val.toString(), "shuffl error: Request failed (parsererror; HTTP status: 200 OK)", "Error message returned");
                 equals(val.response, "200 OK", "Ajax HTTP response details");
                 callback(true);
             });

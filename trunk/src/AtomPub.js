@@ -308,9 +308,9 @@ shuffl.AtomPub.requestFailed = function (callback) {
  *                  stripped out.
  */
 shuffl.AtomPub.prototype.getAtomPath = function(uri) {
-    if (typeof uri == "string") {
-        uri = jQuery.uri(uri, "http:///nopath/");
-    }
+    ////log.debug("shuffl.AtomPub.getAtomPath: "+(typeof uri)+", "+shuffl.objectString(uri));
+    ////log.debug("shuffl.AtomPub.getAtomPath: "+uri);
+    uri = jQuery.uri(uri, "error:///error");
     return uri.path.replace(/\/exist\/atom\/edit/, "")+shuffl.uriQuery(uri);
 };
 
@@ -351,7 +351,7 @@ shuffl.AtomPub.prototype.getAtomService = function(uri) {
  *          getAtomPath, and resolved relative to the AtomPub service URI.
  */
 shuffl.AtomPub.prototype.serviceUri = function (info, service, feed) {
-    //log.debug("shuffl.AtomPub.serviceUri: "+shuffl.objectString(info));
+    ////log.debug("shuffl.AtomPub.serviceUri: "+shuffl.objectString(info));
     if ( !service   ) { service   = 'edit'; };
     if ( !info.path ) { info.path = info.base+info.name; };
     if ( !info.path ) { info.path = this.getAtomPath(info.uri); };
