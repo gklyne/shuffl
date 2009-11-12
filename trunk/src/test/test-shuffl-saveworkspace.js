@@ -101,7 +101,7 @@ TestSaveWorkspace = function() {
             equals(jQuery('#workspace').data('wsdata')['shuffl:feeduri'],  feeduri, "feeduri");
             equals(this.atompub.getAtomPath(feeduri), "/shuffltest1/", "feedpath");
             log.debug("Delete old workspace");
-            shuffl.deleteWorkspace(atomuri, feedpath, callback);
+            shuffl.deleteWorkspace(atomuri, feedpath, layoutname, callback);
         });
         m.eval(function(val,callback) {
             same(val, {}, "shuffl.deleteWorkspace return");
@@ -255,7 +255,7 @@ TestSaveWorkspace = function() {
         });
         m.eval(function(val,callback) {
             log.debug("Delete old workspace");
-            shuffl.deleteWorkspace(atomuri, feedpath, callback);
+            shuffl.deleteWorkspace(atomuri, feedpath, layoutname, callback);
         });
         m.eval(function(val,callback) {
             same(val, {}, "shuffl.deleteWorkspace return");
@@ -339,7 +339,7 @@ TestSaveWorkspace = function() {
             range(p3.top,   89,  91,  "position-top");
             equals(c3.css("zIndex"), "11", "card zIndex");
             log.debug("Delete old workspace");
-            shuffl.deleteWorkspace(atomuri, feedpath, callback);
+            shuffl.deleteWorkspace(atomuri, feedpath, layoutname, callback);
         });
         m.eval(function(val,callback) {
             same(val, {}, "shuffl.deleteWorkspace return");

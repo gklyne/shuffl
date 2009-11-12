@@ -19,6 +19,40 @@
  */
 
 // ----------------------------------------------------------------
+// Helper functions
+// ----------------------------------------------------------------
+
+/**
+ * Test for an invalid feed path or workspace name.
+ * 
+ * @param feedpath  is a string containing a proposed feed path
+ * @param wsname    is a string containing a proposed workspace name
+ * @param callback  is a callback function that is invoked with an error value
+ *                  if the feed path is not valid
+ * @return          'true' if the feed path is invalied, in which case the 
+ *                  callback has been invoked and the calling function MUST NOT
+ *                  invoke it again;  otherwise 'false', in which the calling 
+ *                  function should continue.
+ */
+shuffl.invalidWorkspaceName = function (feedpath, wsname, callback)
+{
+    log.debug("shuffl.invalidWorkspaceName: "+feedpath+", "+wsname);
+    if (!feedpath.match(/^\/((\w|[-+.])+\/)*$/))
+    {
+        log.error("shuffl.saveNewWorkspace: invalid feed path: "+feedpath);
+        callback(new shuffl.Error("shuffl.saveNewWorkspace: invalid feed path: "+feedpath));
+        return true;
+    };
+    if (!wsname.match(/^(\w|[-+.])+$/))
+    {
+        log.error("shuffl.saveNewWorkspace: invalid workspace name: "+wsname);
+        callback(new shuffl.Error("shuffl.saveNewWorkspace: invalid workspace name: "+wsname));
+        return true;
+    };
+    return false;
+}
+
+// ----------------------------------------------------------------
 // Delete card
 // ----------------------------------------------------------------
 
@@ -291,21 +325,7 @@ shuffl.saveNewCardDetails = function (card, next) {
  */
 shuffl.saveNewWorkspace = function (atomuri, feedpath, wsname, callback) {
     log.debug("shuffl.saveNewWorkspace: "+atomuri+", "+feedpath+", "+wsname);
-
-    // Check feed path form
-    if (!feedpath.match(/^\/((\w|[-+.])+\/)*$/))
-    {
-        log.error("shuffl.saveNewWorkspace: invalid feed path: "+feedpath);
-        callback(new shuffl.Error("shuffl.saveNewWorkspace: invalid feed path: "+feedpath));
-        return;
-    };
-    if (!wsname.match(/^(\w|[-+.])+$/))
-    {
-        log.error("shuffl.saveNewWorkspace: invalid workspace name: "+wsname);
-        callback(new shuffl.Error("shuffl.saveNewWorkspace: invalid workspace name: "+wsname));
-        return;
-    };
-
+    if (shuffl.invalidWorkspaceName(feedpath, wsname, callback)) return;
     var atompub = new shuffl.AtomPub(atomuri);
     var feeduri = atompub.serviceUri({path: feedpath});
     var wsdata  = undefined;
@@ -317,7 +337,7 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, wsname, callback) {
             callback(val); 
         } else {
             //log.debug("shuffl.saveNewWorkspace:createComplete "+shuffl.objectString(val));
-            jQuery('#workspace_status').text(val.datauri.toString());
+            shuffl.showLocation(val.datauri.toString());
             jQuery('#workspace').data('location', val.datauri);
             jQuery('#workspace').data('wsname',   wsname);
             jQuery('#workspace').data('wsdata',   wsdata);
@@ -481,12 +501,14 @@ shuffl.updateWorkspace = function (callback) {
  * 
  * @param atomuri     URI of AtomPub service.
  * @param feedpath    Feed path of workspace to delete
+ * @param wsname      Name of workspace to delete
  * @param callback    function called when the update is complete.
  * 
  * The callback supplies an empty object, or an Error instance
  */
-shuffl.deleteWorkspace = function (atomuri, feedpath, callback) {
+shuffl.deleteWorkspace = function (atomuri, feedpath, wsname, callback) {
     log.debug("shuffl.deleteWorkspace: "+atomuri+", "+feedpath);
+    ////if (shuffl.invalidWorkspaceName(feedpath, wsname, callback)) return;
     this.atompub  = new shuffl.AtomPub(atomuri);
     this.atompub.deleteFeed({path:feedpath}, callback);
 };

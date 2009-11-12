@@ -102,12 +102,12 @@ shuffl.card.datagraph.blank = jQuery(
     "      <div style='width:98%; height:98%;'/>\n"+
     "    </cbody>\n"+
     "  </crow>\n"+
-    "  <crow style='width: 100%;'>\n"+
-    "    <span style='display: inline-block; width: 10%;'>x1: <cx1axis/></span>\n"+
-    "    <span style='display: inline-block; width: 10%;'>y1: <cy1axis/></span>\n"+
-    "    <span style='display: inline-block; width: 10%;'>y2: <cy2axis/></span>\n"+
-    "    <span style='display: inline-block; width: 33%;'>min Y: <cdataminy style='display: inline-block; width: 20%;'>-100.0</cdataminy></span>\n"+
-    "    <span style='display: inline-block; width: 33%;'>max Y: <cdatamaxy style='display: inline-block; width: 20%;'> 100.0</cdatamaxy></span>\n"+
+    "  <crow style='width: 100%; white-space: nowrap;'>\n"+
+    "    <span style='display: inline-block; width: 14%;'>x1: <cx1axis/></span>\n"+
+    "    <span style='display: inline-block; width: 14%;'>y1: <cy1axis/></span>\n"+
+    "    <span style='display: inline-block; width: 14%;'>y2: <cy2axis/></span>\n"+
+    "    <span style='display: inline-block; width: 25%;'>min Y: <cdataminy style='display: inline-block;'>-100.0</cdataminy></span>\n"+
+    "    <span style='display: inline-block; width: 25%;'>max Y: <cdatamaxy style='display: inline-block;'> 100.0</cdatamaxy></span>\n"+
     "  </crow>\n"+
     "  <cfoot>\n"+
     "    <cident>card_ZZZ_ident</cident>:<cclass>card_ZZZ class</cclass>\n"+
