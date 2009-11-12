@@ -1,9 +1,9 @@
 /**
  * @fileoverview
- *  Test suite for 00-skeleton
+ *  Test suite for shuffl-storage-common
  *  
  * @author Graham Klyne
- * @version $Id: test-00-skeleton.js 639 2009-11-11 18:05:13Z gk-google@ninebynine.org $
+ * @version $Id: test-shuffl-storage-common.js 639 2009-11-11 18:05:13Z gk-google@ninebynine.org $
  * 
  * Coypyright (C) 2009, University of Oxford
  *
@@ -23,12 +23,24 @@
  */
 
 /**
+ * Define a dummy storage handler "class" derived from the common handler
+ */
+TestCommonStorage_DummyStorage = function (baseuri)
+{
+    // Invoke common initializer
+    ////shuffl.StorageCommon.call(this, baseuri);
+    this.prototype.constructor.call(this, baseuri);
+};
+
+TestCommonStorage_DummyStorage.prototype = new shuffl.StorageCommon(null);
+
+/**
  * Function to register tests
  */
-TestZZZZZZ = function()
+TestCommonStorage = function()
 {
 
-    module("TestZZZZZZ");
+    module("TestCommonStorage");
 
     test("testAAA", function ()
     {
@@ -62,6 +74,87 @@ TestZZZZZZ = function()
             });
         stop(2000);
     });
+
+
+--------------------
+-- storage handler factory test
+-- instantiate two dummy handlers with different base URIs
+-- add these hanlers with different names
+-- list handlers and check names and properties
+-- make session for first handler; check name
+-- make session for second handler; check name
+// Create Dummy storage handler object
+//shuffl.addStorageHandler
+shuffl.addStorageFactory("file:///", 
+    { name:     "LocalFile"
+    , factory:  shuffl.LocalFileStorage
+    , canRead:  true,
+    , canWrite: false
+    });
+//shuffl.listStorageHandlers = function ()
+//shuffl.makeStorageSession = function (baseuri)
+//shuffl.StorageCommon = function (baseuri) ** constructor **
+//shuffl.StorageCommon.prototype.handlerName = function ()
+--------------------
+
+--------------------
+-- instantiate dummy handler
+-- add new handler
+-- make session for handler
+..... factor above as common function
+-- resolve URI served by handler
+-- resolve URI not served by handler
+//shuffl.StorageCommon.prototype.resolve = function (uri, baseuri)
+--------------------
+
+--------
+//shuffl.StorageCommon.prototype.info = function (uri)
+-- instantiate
+-- invoke info - should throw error
+--------
+
+--------
+//shuffl.StorageCommon.prototype.createCollection =  function (coluri, colslug, callback)
+-- instantiate
+-- invoke createCollection - should throw error
+--------
+
+
+--------
+//shuffl.StorageCommon.prototype.listCollection = function (coluri, callback)
+-- instantiate
+-- invoke function - should throw error
+--------
+
+--------
+//shuffl.StorageCommon.prototype.removeCollection = function (coluri, callback)
+-- instantiate
+-- invoke function - should throw error
+--------
+
+--------
+//shuffl.StorageCommon.prototype.create =  function (coluri, slug, data, callback)
+-- instantiate
+-- invoke function - should throw error
+--------
+
+--------
+//shuffl.StorageCommon.prototype.get = function (uri)
+-- instantiate
+-- invoke function - should throw error
+--------
+
+--------
+//shuffl.StorageCommon.prototype.put = function (uri, data, callback)
+-- instantiate
+-- invoke function - should throw error
+--------
+
+--------
+//shuffl.StorageCommon.prototype.remove = function (uri, callback)
+-- instantiate
+-- invoke function - should throw error
+--------
 
 };
 
