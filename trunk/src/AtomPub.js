@@ -281,18 +281,21 @@ shuffl.AtomPub.updateTitle = function(atompubobj, iteminfo, callback) {
 };
 
 /**
- * Function for handling ajax request failure
+ * Returns function for handling ajax request failure
  */
  // TODO: use shuffl.requestFailed
 shuffl.AtomPub.requestFailed = function (callback) {
     return function (xhr, status, except) {
         log.debug("shuffl.AtomPub.requestFailed: "+status);
-        var err = new shuffl.Error("AtomPub request failed", status);
+        var err = new shuffl.Error(
+            "AtomPub request failed", 
+            status+"; HTTP status: "+xhr.status+" "+xhr.statusText);
         err.HTTPstatus     = xhr.status;
         err.HTTPstatusText = xhr.statusText; 
-        err.response = err.HTTPstatus+" "+err.HTTPstatusText;
-        log.debug("- err: "+shuffl.objectString(err));
-        callback(err);
+        err.response       = err.HTTPstatus+" "+err.HTTPstatusText;
+        ////log.debug("- err: "+shuffl.objectString(err));
+        log.debug("- err: "+err);
+        callback(err, status);
     };
 };
 
