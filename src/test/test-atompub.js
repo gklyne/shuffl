@@ -241,7 +241,9 @@ TestAtomPub = function() {
             m.exec("http://localhost:8080/noexist/atom/",
                 function(val) {
                     //log.debug("- return: "+shuffl.objectString(val));
-                    equals(val.val, "error", "Error response");
+                    equals(val.val, 
+                        "error; HTTP status: 404 %2Fnoexist%2Fatom%2Fedit%2Fotherfeed%2F+Not+Found", 
+                        "Error response");
                     equals(val.msg, "AtomPub request failed", "msg");
                     equals(val.message, "AtomPub request failed", "message");
                     equals(val.HTTPstatus, 404);
@@ -274,7 +276,8 @@ TestAtomPub = function() {
             m.eval(
                 function (val, callback) {
                     //log.debug("- feedInfo return: "+shuffl.objectString(val));
-                    equals(val.val,        "error", 
+                    equals(val.val,
+                        "error; HTTP status: 400 Collection+%2Ftestfeed%2F+does+not+exist%2E", 
                         "feedInfo return val");
                     equals(val.message,    "AtomPub request failed", 
                         "feedInfo return message");
@@ -288,7 +291,8 @@ TestAtomPub = function() {
             m.exec(atomserviceuri,
                 function(val) {
                     //log.debug("- listFeed return: "+shuffl.objectString(val));
-                    equals(val.val,        "error", 
+                    equals(val.val,
+                        "error; HTTP status: 404 Resource+%2Ftestfeed%2F+not+found", 
                         "feedInfo return val");
                     equals(val.message,    "AtomPub request failed", 
                         "feedInfo return message");
@@ -647,7 +651,8 @@ TestAtomPub = function() {
             m.eval(
                 function (val, callback) {
                     //log.debug("- getItem deleted item return: "+shuffl.objectString(val));
-                    equals(val.val,        "error", 
+                    equals(val.val,
+                        "error; HTTP status: 400 No+topic+was+found%2E", 
                         "getItem deleted item return val");
                     equals(val.message,    "AtomPub request failed", 
                         "getItem deleted item return message");
@@ -732,7 +737,8 @@ TestAtomPub = function() {
             m.eval(
                 function (val, callback) {
                     //log.debug("- feedInfo return: "+shuffl.objectString(val));
-                    equals(val.val,        "error", 
+                    equals(val.val,
+                        "error; HTTP status: 400 Collection+%2Fitem%2Ftest%2Ffeed%2F+does+not+exist%2E", 
                         "feedInfo return val");
                     equals(val.message,    "AtomPub request failed", 
                         "feedInfo return message");
@@ -765,7 +771,8 @@ TestAtomPub = function() {
             m.eval(
                 function (val, callback) {
                     //log.debug("- getItem return: "+shuffl.objectString(val));
-                    equals(val.val,        "error", 
+                    equals(val.val,
+                        "error; HTTP status: 404 Resource+%2Fitem%2Ftest%2Ffeed%2F+not+found", 
                         "getItem deleted item return val");
                     equals(val.message,    "AtomPub request failed", 
                         "getItem deleted item return message");
@@ -833,7 +840,8 @@ TestAtomPub = function() {
             m.eval(
                 function (val, callback) {
                     //log.debug("- getItem return: "+shuffl.objectString(val));
-                    equals(val.val,        "error", 
+                    equals(val.val,
+                        "error; HTTP status: 400 No+topic+was+found%2E", 
                         "getItem deleted item return val");
                     equals(val.message,    "AtomPub request failed", 
                         "getItem deleted item return message");

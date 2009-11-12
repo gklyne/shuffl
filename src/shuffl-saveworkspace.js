@@ -291,6 +291,21 @@ shuffl.saveNewCardDetails = function (card, next) {
  */
 shuffl.saveNewWorkspace = function (atomuri, feedpath, wsname, callback) {
     log.debug("shuffl.saveNewWorkspace: "+atomuri+", "+feedpath+", "+wsname);
+
+    // Check feed path form
+    if (!feedpath.match(/^\/((\w|[-+.])+\/)*$/))
+    {
+        log.error("shuffl.saveNewWorkspace: invalid feed path: "+feedpath);
+        callback(new shuffl.Error("shuffl.saveNewWorkspace: invalid feed path: "+feedpath));
+        return;
+    };
+    if (!wsname.match(/^(\w|[-+.])+$/))
+    {
+        log.error("shuffl.saveNewWorkspace: invalid workspace name: "+wsname);
+        callback(new shuffl.Error("shuffl.saveNewWorkspace: invalid workspace name: "+wsname));
+        return;
+    };
+
     var atompub = new shuffl.AtomPub(atomuri);
     var feeduri = atompub.serviceUri({path: feedpath});
     var wsdata  = undefined;

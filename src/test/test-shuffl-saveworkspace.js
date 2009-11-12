@@ -25,6 +25,8 @@ TestSaveWorkspace = function() {
     var atomuri    = "http://localhost:8080/exist/atom/";
     var feeduri    = "http://localhost:8080/exist/atom/edit/shuffltest1/";
     var feedpath   = "/shuffltest1/";
+    var nofeedpath = "/shuffltest_nofeed/";
+    var badfeed    = "/shuffltest?bad#feed";
     var layoutname = "test-shuffl-saveworkspace-layout.json";
     var layoutref  = "data/test-shuffl-saveworkspace-layout.json";
     var layouturi  = jQuery.uri(layoutname, feeduri);
@@ -43,7 +45,8 @@ TestSaveWorkspace = function() {
     
     test("NOTE: this test must be run from the AtomPub server used to store shuffl workspace data", shuffl.noop);
     
-    test("shuffl.loadWorkspace (empty)", function () {
+    test("shuffl.loadWorkspace (empty)", function ()
+    {
         logtest("shuffl.loadWorkspace empty workspace");
         expect(38);
         var m = new shuffl.AsyncComputation();
@@ -80,7 +83,8 @@ TestSaveWorkspace = function() {
         stop(2000);
     });
 
-    test("shuffl.saveNewWorkspace (empty)", function () {
+    test("shuffl.saveNewWorkspace (empty)", function ()
+    {
         logtest("shuffl.saveNewWorkspace (empty)");
         expect(52);
         var m = new shuffl.AsyncComputation();
@@ -155,7 +159,8 @@ TestSaveWorkspace = function() {
         stop(2000);
     });
 
-    test("shuffl.saveCard", function () {
+    test("shuffl.saveCard", function ()
+    {
         logtest("shuffl.saveCard");
         expect(26);
         var m = new shuffl.AsyncComputation();
@@ -211,7 +216,8 @@ TestSaveWorkspace = function() {
     });
 
     // eXist won't delete a media resource
-    notest("shuffl.deleteCard", function () {
+    notest("shuffl.deleteCard", function ()
+    {
         logtest("shuffl.deleteCard");
         expect(3);
         var m = new shuffl.AsyncComputation();
@@ -238,7 +244,8 @@ TestSaveWorkspace = function() {
     });
 
     // This "test" is run to remove the card saved previously.
-    test("Recreate empty workspace", function() {
+    test("Recreate empty workspace", function()
+    {
         logtest("Recreate empty workspace");
         expect(4);
         var m = new shuffl.AsyncComputation();
@@ -279,7 +286,8 @@ TestSaveWorkspace = function() {
     });
 
     // Add card to workspace, save workspace, read back, check content
-    test("shuffl.saveNewWorkspace (with card)", function () {
+    test("shuffl.saveNewWorkspace (with card)", function ()
+    {
         logtest("shuffl.saveNewWorkspace (with card)");
         expect(78);
         var m = new shuffl.AsyncComputation();
@@ -408,7 +416,8 @@ TestSaveWorkspace = function() {
     });
 
     // Update card in atom feed, re-read workspace, check content
-    test("shuffl.updateCard", function () {
+    test("shuffl.updateCard", function ()
+    {
         logtest("shuffl.updateCard");
         expect(50);
         var m = new shuffl.AsyncComputation();
@@ -479,7 +488,8 @@ TestSaveWorkspace = function() {
     });
 
     // Update and move card in workspace, save workspace, read back, check content
-    test("shuffl.saveWorkspace (updated moved card)", function () {
+    test("shuffl.saveWorkspace (updated moved card)", function ()
+    {
         logtest("shuffl.saveWorkspace (updated moved card)");
         expect(54);
         var m = new shuffl.AsyncComputation();
@@ -562,6 +572,76 @@ TestSaveWorkspace = function() {
     //       save workspace as new
     //       reload workspace
     //       check card URIs
+
+    test("shuffl.saveCard (non-existent feed)", function ()
+    {
+        logtest("shuffl.saveCard (non-existent feed)");
+        expect(5);
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
+            log.debug("Load empty workspace from AtomPub");
+            this.atompub  = new shuffl.AtomPub(atomuri);
+            shuffl.loadWorkspace(layouturi, callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Get new card data");
+            shuffl.readCard("", "data/test-shuffl-loadworkspace-card_1.json", callback)
+        });
+        m.eval(function(val,callback) {
+            log.debug("Check new card data");
+            equals(val['shuffl:id'], 'id_1', "shuffl:id");
+            log.debug("Attempt to aave card data");
+            var card = shuffl.createCardFromData(val['shuffl:id'], val['shuffl:class'], val);
+            shuffl.saveCard(this.atompub, nofeedpath, val['shuffl:id']+".json", card, callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Check response");
+            ok(val instanceof shuffl.Error, "Error value returned");
+            equals(val.toString(), 
+                "shuffl error: AtomPub request failed "+
+                "(error; HTTP status: 400 Collection+%2Fshuffltest%5Fnofeed%2F+does+not+exist%2E)", 
+                "Error message returned");
+            equals(val.response,
+                "400 Collection+%2Fshuffltest%5Fnofeed%2F+does+not+exist%2E", 
+                "AtomPub HTTP response details");
+            callback(true);
+        });
+    m.exec({}, start);
+        ok(true, "shuffl.saveCard (non-existent feed) initiated");
+        stop(2000);
+    });
+
+    test("shuffl.saveNewWorkspace (forced error)", function ()
+    {
+        logtest("shuffl.saveNewWorkspace (forced error)");
+        expect(5);
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
+            log.debug("Load empty workspace");
+            shuffl.loadWorkspace(layoutref, callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Check workspace loaded");
+            this.atompub  = new shuffl.AtomPub(atomuri);
+            equals(jQuery('#workspace').data('location'), initialuri.toString(), "location");
+            log.debug("Try to save workspace");
+            shuffl.saveNewWorkspace(atomuri, badfeed, layoutname, callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Check response "+shuffl.objectString(val));
+            ok(val instanceof shuffl.Error, "Error value returned");
+            equals(val.toString(), 
+                "shuffl error: shuffl.saveNewWorkspace: "+
+                "invalid feed path: /shuffltest?bad#feed",
+                "Error message returned");
+            equals(val.response, undefined,
+                "AtomPub HTTP response details");
+            callback(true);
+        });
+        m.exec({}, start);
+        ok(true, "shuffl.SaveNewWorkspace (forced error) initiated");
+        stop(2000);
+    });
     
 };
 
