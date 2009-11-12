@@ -203,7 +203,7 @@ shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
 
 /**
  * Perform some asynchronous-completing operation on each card in the workspace,
- * then call a suppliued function when all are done.
+ * then call a supplied function when all are done.
  * 
  * @param firstval  a parameter value passed to the first function in the
  *                  constructed callback chain.
@@ -223,6 +223,7 @@ shuffl.processWorkspaceCards = function(firstval, firstcall, proccard, thencall)
             function (i) {
                 var card = jQuery(this);
                 //log.debug("- card "+i+", id "+card.id);
+                // TODO: catch errors and pass along chain?
                 m.eval(function (val, next) { proccard(card, next); });
             });
         //log.debug("Invoke exec(...) for saving cards");
