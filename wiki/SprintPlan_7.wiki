@@ -64,9 +64,9 @@ Estimated effort: 1.0 days
 
  * (0.25) complete new error reporting functions (*Done* 11-Nov-2009/0.2)
  * (0.25) revise existing code to use new error reporting function (*Done* 11-Nov-2009/0.2)
- * (0.5) review workspace load/save code to catch I/O errors, report them and take appropriate recovery steps (*Done* 12-Nov-2009/0.5)
+ * (0.5) review workspace load/save code to catch I/O errors, report them and take appropriate recovery steps (*Done* 12-Nov-2009/0.6)
 
-Actual effort: 0.9 days (for 1.0 planned activity)
+Actual effort: 1.0 days (for 1.0 planned activity)
 
 == 3.4: User interface for load/save workspace ==
 
