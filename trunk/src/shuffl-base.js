@@ -30,7 +30,8 @@ jQuery = jQuery;
 /**
  *  Add logging functions to global namespace, for convenience
  */
-if (typeof log == "undefined") {
+if (typeof log == "undefined")
+{
     log = {};
     log.debug = MochiKit.Logging.logDebug   ;
     log.info  = MochiKit.Logging.log    ;
@@ -116,7 +117,8 @@ shuffl.showError = function (msg)
 /**
  * Callback function taking one parameter that does nothing.
  */
-shuffl.noop = function (val) {
+shuffl.noop = function (val)
+{
     return;
 };
 
@@ -127,7 +129,8 @@ shuffl.noop = function (val) {
 /**
  * Get string value representing a supplied element
  */
-shuffl.elemString = function(elem) {
+shuffl.elemString = function(elem) 
+{
     var attrs = elem.attributes || [];
     var attrtext = "";
     for ( var i = 0 ; i < attrs.length ; i++ ) {
@@ -145,7 +148,8 @@ shuffl.elemString = function(elem) {
 /**
  * Get string value representing a supplied node
  */
-shuffl.nodeString = function(node) {
+shuffl.nodeString = function(node) 
+{
     if (node.nodeType == 3) {
         return node.textContent ;
     }
@@ -166,7 +170,8 @@ shuffl.nodeString = function(node) {
 /**
  * Get string value for object attributes
  */
-shuffl.objectString = function (obj) {
+shuffl.objectString = function (obj) 
+{
     var str = "";
     var pre = "";
     for ( var k in obj ) {
@@ -185,12 +190,21 @@ shuffl.objectString = function (obj) {
 };
 
 /**
+ * Function to test if one string starts with another
+ */
+shuffl.starts = function (pre, str)
+{
+    return (str.slice(0,pre.length) == pre);
+};
+
+/**
  * Function to assemble a textual value from a supplied template string and a 
  * dictionary of values.  The template uses a tiny subset of Python string 
  * formatting codes, namely %(name)s is replaced by the corresponding entry 
  * from the dictionary.
  */
-shuffl.interpolate = function(template, dict) {
+shuffl.interpolate = function(template, dict) 
+{
     //log.debug("shuffl.interpolate: "+template+", "+shuffl.objectString(dict));
     var str = template;
     for (k in dict) {
@@ -211,7 +225,8 @@ shuffl.interpolate = function(template, dict) {
  * @param def           the default value to use if there is any
  *                      problem with the object member value.
  */
-shuffl.get = function (obj, key, def) {
+shuffl.get = function (obj, key, def) 
+{
     if (typeof obj == "object" && obj.hasOwnProperty(key)) {
         var val = obj[key];
         // Be very picky about what we let through...
@@ -230,21 +245,24 @@ shuffl.get = function (obj, key, def) {
  * @param rad       radix to parse
  * @param def       default value
  */
-shuffl.parseInt = function (str, rad, def) {
+shuffl.parseInt = function (str, rad, def) 
+{
     return parseInt(str, 10) || def;
 };
 
 /**
  *  Test to see is supplied URI is relative
  */
-shuffl.isRelativeUri = function (uriref) {
+shuffl.isRelativeUri = function (uriref) 
+{
     return shuffl.toAbsoluteUri("abs://nodomain/", uriref) != uriref;
 };
 
 /**
  *  Get absolute URI for specified base and URI reference
  */
-shuffl.toAbsoluteUri = function (baseuri, uriref) {
+shuffl.toAbsoluteUri = function (baseuri, uriref) 
+{
     return jQuery.uri(baseuri).resolve(uriref);
 };
 
@@ -261,7 +279,8 @@ shuffl.toAbsoluteUri = function (baseuri, uriref) {
  * @param pathext   a URI path that extends the base URI.
  * @return          the extended URI.
  */
-shuffl.extendUriPath = function (baseuri, pathext) {
+shuffl.extendUriPath = function (baseuri, pathext) 
+{
     return jQuery.uri(baseuri).resolve(pathext.replace(/^\//,""));
 };
 
@@ -269,7 +288,8 @@ shuffl.extendUriPath = function (baseuri, pathext) {
  * Format URI component:  if defined, the supplied prefix and suffix are added, 
  * otherwise returns an empty string.
  */
-shuffl.uriComponent = function (pre, component, suf) {
+shuffl.uriComponent = function (pre, component, suf) 
+{
     if (component != undefined) { return pre+component+suf; }
     return "";
 };
@@ -277,14 +297,16 @@ shuffl.uriComponent = function (pre, component, suf) {
 /**
  * Function to return query including "?" from a URI, or an empty string.
  */
-shuffl.uriQuery = function (uri) {
+shuffl.uriQuery = function (uri) 
+{
     return shuffl.uriComponent("?", jQuery.uri(uri).query, "");
 };
 
 /**
  *  Get URI without fragment
  */
-shuffl.uriWithoutFragment = function (uri) {
+shuffl.uriWithoutFragment = function (uri) 
+{
     uri = jQuery.uri(uri);
     return shuffl.uriComponent("",   uri.scheme,    ":")+
            shuffl.uriComponent("//", uri.authority, "" )+
@@ -295,21 +317,24 @@ shuffl.uriWithoutFragment = function (uri) {
 /**
  * Get URI component name (path following last '/')
  */
-shuffl.uriName = function (uri) {
+shuffl.uriName = function (uri) 
+{
     return jQuery.uri(uri).path.replace(/.*\//, "");
 };
 
 /**
  * Get URI path excluding component name (path up to last '/')
  */
-shuffl.uriPath = function (uri) {
+shuffl.uriPath = function (uri) 
+{
     return jQuery.uri(uri).path.replace(/\/[^\/]*$/, "/");
 };
 
 /**
  * Get full base URI, excluding component name, query and fragment
  */
-shuffl.uriBase = function (uri) {
+shuffl.uriBase = function (uri) 
+{
     return jQuery.uri(shuffl.uriPath(uri), jQuery.uri(uri)).toString();
 };
 

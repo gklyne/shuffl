@@ -287,11 +287,10 @@ shuffl.LocalFileStorage.prototype.remove = function (uri, callback)
 /**
  *   Add to storage handler factories
  */
-shuffl.addStorageFactory("file:///", 
-    { name:     "LocalFile"
+shuffl.addStorageFactory( 
+    { uri:      "file:///"
+    , name:     "LocalFile"
     , factory:  shuffl.LocalFileStorage
-    , canRead:  true,
-    , canWrite: false
     });
 
 // End.
