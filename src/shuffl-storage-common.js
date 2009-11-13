@@ -40,11 +40,39 @@ if (typeof shuffl.storage == "undefined")
     shuffl.storage = {};
 };
 
+/**
+ * Storage handler registry
+ * 
+ * This is a list of storage handler options, each in the same form as passed
+ * to shuffl.addStorageHandler.
+ */
+shuffl.storage.handlers = [];
+
 // ------------------------------------------------
 // Storage handler discovery and session factory
 // ------------------------------------------------
 
-//.... shuffl.addStorageHandler ....
+/**
+ * Add a new storage handler to the registry of storage handlers
+ * 
+ * @param options   is an object containing details of the new handler.
+ * 
+ * Fields of the new handler options are:
+ *   uri:       a base URI to be associated with this handler.  
+ *              When performing I/O operations, URIs are examined to select
+ *              a corresponding handler based on the leading part of the URI
+ *              matching the base URI of the handler.
+ *   name:      a textual name associated with this handler (used mainly 
+ *              for diagnostic purposes).
+ *   factory:   a storage handler "class" (actually the constructor function)
+ *              used to create an instance of the handler.
+ */
+shuffl.addStorageHandler = function(options)
+{
+    log.debug("shuffl.addStorageHandler");
+    ////log.debug("- options "+shuffl.objectString(options));
+    shuffl.storage.handlers.push(options);
+};
 
 /**
  * List storage handler URIs, and the associated capabilities.
@@ -55,16 +83,33 @@ if (typeof shuffl.storage == "undefined")
  * Storage handler description fields:
  *    uri       root URI serviced by the storage handler
  *    name      name associated with handler (diagnostic)
+ *    canList   'true' if the handler can list data resource collections 
+ *              identified by the associated URIs
  *    canRead   'true' if the handler can read data resources identified by 
  *              the associated URIs
  *    canWrite  'true' if the handler can write data resources identified by 
  *              the associated URIs
+ *    canDelete 'true' if the handler can delete data resources identified by 
+ *              the associated URIs
  */
 shuffl.listStorageHandlers = function ()
 {
-    ////log.debug("shuffl.listStorageHandlers");
-    throw shuffl.Error("shuffl.listStorageHandlers not implemented");
-    return [];
+    log.debug("shuffl.listStorageHandlers");
+    var silist = [];
+    for (var i = 0 ; i < shuffl.storage.handlers.length ; i++)
+    {
+        var sh = shuffl.storage.handlers[i];
+        var si = 
+            { uri:        sh.uri
+            , name:       sh.name
+            , canList:    sh.factory.canList
+            , canRead:    sh.factory.canRead
+            , canWrite:   sh.factory.canWrite
+            , canDelete:  sh.factory.canDelete
+            };
+        silist.push(si);
+    };
+    return silist;
 };
 
 /**
@@ -79,7 +124,14 @@ shuffl.listStorageHandlers = function ()
 shuffl.makeStorageSession = function (baseuri)
 {
     ////log.debug("shuffl.makeStorageSession "+baseuri);
-    throw shuffl.Error("shuffl.makeStorageSession not implemented");
+    for (var i = 0 ; i < shuffl.storage.handlers.length ; i++)
+    {
+        if (shuffl.starts(shuffl.storage.handlers[i].uri, baseuri))
+        {
+            return new shuffl.storage.handlers[i].factory(baseuri,
+                shuffl.storage.handlers[i].name);
+        }
+    };
     return null;
 };
 
@@ -93,12 +145,19 @@ shuffl.makeStorageSession = function (baseuri)
  * @constructor
  * @param baseuri   a base URI for the new session.  Relative URI references
  *                  are considered to be relative to this value.
+ * @param hname     a handler name to be associated with this handler instance
  */
-shuffl.StorageCommon = function (baseuri)
+shuffl.StorageCommon = function (baseuri, hname)
 {
-    ////log.debug("shuffl.StorageCommon "+baseuri);
-    throw shuffl.Error("shuffl.StorageCommon not implemented");
+    log.debug("shuffl.StorageCommon "+baseuri+", "+hname);
+    this.baseUri      = baseuri;
+    this.handlerName  = hname;
 };
+
+shuffl.StorageCommon.canList    = false;
+shuffl.StorageCommon.canRead    = false;
+shuffl.StorageCommon.canWrite   = false;
+shuffl.StorageCommon.canDelete  = false;
 
 /**
  * Retrieve a name for the current storage handler
@@ -107,10 +166,20 @@ shuffl.StorageCommon = function (baseuri)
  *                  current session.  This function is mainly for diagnostic
  *                  and testing purposes.
  */
-shuffl.StorageCommon.prototype.handlerName = function ()
+shuffl.StorageCommon.prototype.getHandlerName = function ()
 {
     return this.handlerName;
-}
+};
+
+/**
+ * Retrieve a base URI for the current session
+ * 
+ * @return          an base URI associated with the current session.
+ */
+shuffl.StorageCommon.prototype.getBaseUri = function ()
+{
+    return this.baseUri;
+};
 
 /**
  * Resolve a URI handled by the current storage handler session.
@@ -141,7 +210,7 @@ shuffl.StorageCommon.prototype.resolve = function (uri, baseuri)
  * 
  * @param uri       a resource URI reference
  * @return          an object containing information about the identified
- *                  resource, or null if no such resoiurce is accessible to
+ *                  resource, or null if no such resource is accessible to
  *                  this handler.
  * 
  * Fields in the return value include:

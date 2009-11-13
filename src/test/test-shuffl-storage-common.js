@@ -26,16 +26,19 @@
  * Constructor for a dummy storage handler "class" derived from the 
  * common handler.
  */
-TestCommonStorage_DummyStorage = function (baseuri)
+TestCommonStorage_DummyStorage = function (baseuri, hname)
 {
     // Invoke common initializer
-    ////shuffl.StorageCommon.call(this, baseuri);
-    this.prototype.constructor.call(this, baseuri);
-    this.canRead  = true;
-    this.canWrite = false;
+    TestCommonStorage_DummyStorage.prototype.constructor.call(this, baseuri, hname);
 };
 
-TestCommonStorage_DummyStorage.prototype = new shuffl.StorageCommon(null);
+TestCommonStorage_DummyStorage.canList    = false;
+TestCommonStorage_DummyStorage.canRead    = true;
+TestCommonStorage_DummyStorage.canWrite   = false;
+TestCommonStorage_DummyStorage.canDelete  = false;
+
+TestCommonStorage_DummyStorage.prototype      = new shuffl.StorageCommon(null);
+TestCommonStorage_DummyStorage.prototype.name = "TestCommonStorage_DummyStorage";    
 
 /**
  * Function to register tests
@@ -45,35 +48,75 @@ TestCommonStorage = function()
 
     module("TestCommonStorage");
 
-    test("Storage handler factory", function ()
+    test("TestCommonStorage", function ()
     {
-        logtest("Storage handler factory");
-        expect(1);
+        logtest("TestCommonStorage");
+        ok(true, "TestCommonStorage running OK");
+    });
+
+    test("Storage handler registry", function ()
+    {
+        logtest("Storage handler registry");
+        expect(3);
         // Instatiate dummy handler for two URIs
-        shuffl.addStorageFactory(
-            { baseuri:  "file://dummy1/"
+        shuffl.addStorageHandler(
+            { uri:      "file://dummy1/"
             , name:     "Dummy1"
             , factory:  TestCommonStorage_DummyStorage
             });
-        shuffl.addStorageFactory(
-            { baseuri:  "file://dummy2/"
+        shuffl.addStorageHandler(
+            { uri:      "file://dummy2/"
             , name:     "Dummy2"
             , factory:  TestCommonStorage_DummyStorage
             });
         // List registered storage handlers
         var shlist = shuffl.listStorageHandlers()
-        equals(shlist.length, 2, "Stoage handler list length");
-
-/*
---------------------
--- make session for first handler; check name
--- make session for second handler; check name
-//shuffl.makeStorageSession = function (baseuri)
-//shuffl.StorageCommon.prototype.handlerName = function ()
---------------------
-*/
-
+        equals(shlist.length, 2, "Storage handler list length");
+        var h1 =
+            { uri:        "file://dummy1/"
+            , name:       "Dummy1"
+            , canList:    false
+            , canRead:    true
+            , canWrite:   false
+            , canDelete:  false
+            };
+        same(shlist[0], h1, "First handler added");
+        var h2 =
+            { uri:        "file://dummy2/"
+            , name:       "Dummy2"
+            , canList:    false
+            , canRead:    true
+            , canWrite:   false
+            , canDelete:  false
+            };
+        same(shlist[1], h2, "Second handler added");
     });
+
+    test("Storage handler factory", function ()
+    {
+        logtest("Storage handler factory");
+        expect(4);
+        // Instatiate dummy handler for two URIs
+        shuffl.addStorageHandler(
+            { uri:      "file://dummy1/"
+            , name:     "Dummy1"
+            , factory:  TestCommonStorage_DummyStorage
+            });
+        shuffl.addStorageHandler(
+            { uri:      "file://dummy2/"
+            , name:     "Dummy2"
+            , factory:  TestCommonStorage_DummyStorage
+            });
+        // Instantiate session for first handler
+        var s1 = shuffl.makeStorageSession("file://dummy1/foo/bar");
+        equals(s1.getHandlerName(), "Dummy1", "s1.handlerName()");
+        equals(s1.getBaseUri(), "file://dummy1/foo/bar", "s1.getBaseUri()");
+        // Instantiate session for second handler
+        var s2 = shuffl.makeStorageSession("file://dummy2/foo/bar");
+        equals(s2.getHandlerName(), "Dummy2", "s2.handlerName()");
+        equals(s2.getBaseUri(), "file://dummy2/foo/bar", "s2.getBaseUri()");
+    });
+
 
 
 /*
