@@ -144,96 +144,142 @@ TestCommonStorage = function()
         equals(ss.resolve("#f"), "file://test/base/path?query#f", "Match fragment URI reference");
     });
 
-
-
-/*
-    test("testAAA", function ()
+    test("shuffl.StorageCommon.info", function ()
     {
-        logtest("testAAA");
-        expect(1);
-        var val=1;
-        var exp=1;
-        equals(val, exp, "what");
-        same(val, exp, "what");
+        logtest("shuffl.StorageCommon.info");
+        var ss = createTestSession();
+        try
+        {
+            ss.info("a/b", shuffl.noop);
+            ok(false, "shuffl.StorageCommon.info exception expected");
+        }
+        catch (e)
+        {
+            log.debug("shuffl.StorageCommon.info exception: "+e.toString());
+            ok(true, "shuffl.StorageCommon.info exception expected");
+            ok(e.toString().match(/not implemented/), "Not implemented");
+        }
     });
 
-    test("testBBB", function ()
+    test("shuffl.StorageCommon.createCollection", function ()
     {
-        logtest("testBBB");
-        expect(11);
-        log.debug("----- testBBB start -----");
-        var m = new shuffl.AsyncComputation();
-        m.eval(
-            function (val, callback) {
-                m.dosomethingBBB(
-                    val,
-                    paramsBBB, 
-                    callback);
-            });
-        m.exec(initvalBBB,
-            function(val) {
-                equals(val, expect, "what");
-                same(val, expect, "what");
-                log.debug("----- testBBB end -----");
-                start();
-            });
-        stop(2000);
+        logtest("shuffl.StorageCommon.createCollection");
+        var ss = createTestSession();
+        try
+        {
+            ss.createCollection("a/b/", "c", shuffl.noop);
+            ok(false, "shuffl.StorageCommon.createCollection exception expected");
+        }
+        catch (e)
+        {
+            log.debug("shuffl.StorageCommon.createCollection exception: "+e);
+            ok(true, "shuffl.StorageCommon.createCollection exception expected");
+            ok(e.toString().match(/not implemented/), "Not implemented");
+        }
     });
-*/
+
+    test("shuffl.StorageCommon.listCollection", function ()
+    {
+        logtest("shuffl.StorageCommon.listCollection");
+        var ss = createTestSession();
+        try
+        {
+            ss.listCollection("a/b/", shuffl.noop);
+            ok(false, "shuffl.StorageCommon.listCollection exception expected");
+        }
+        catch (e)
+        {
+            log.debug("shuffl.StorageCommon.listCollection exception: "+e);
+            ok(true, "shuffl.StorageCommon.listCollection exception expected");
+            ok(e.toString().match(/not implemented/), "Not implemented");
+        }
+    });
+
+    test("shuffl.StorageCommon.removeCollection", function ()
+    {
+        logtest("shuffl.StorageCommon.removeCollection");
+        var ss = createTestSession();
+        try
+        {
+            ss.removeCollection("a/b/", shuffl.noop);
+            ok(false, "shuffl.StorageCommon.removeCollection exception expected");
+        }
+        catch (e)
+        {
+            log.debug("shuffl.StorageCommon.removeCollection exception: "+e);
+            ok(true, "shuffl.StorageCommon.removeCollection exception expected");
+            ok(e.toString().match(/not implemented/), "Not implemented");
+        }
+    });
+
+    test("shuffl.StorageCommon.create", function ()
+    {
+        logtest("shuffl.StorageCommon.create");
+        var ss = createTestSession();
+        try
+        {
+            ss.create("a/b/", "c", "data for new item", shuffl.noop);
+            ok(false, "shuffl.StorageCommon.create exception expected");
+        }
+        catch (e)
+        {
+            log.debug("shuffl.StorageCommon.create exception: "+e);
+            ok(true, "shuffl.StorageCommon.create exception expected");
+            ok(e.toString().match(/not implemented/), "Not implemented");
+        }
+    });
 
 
-/*
+    test("shuffl.StorageCommon.get", function ()
+    {
+        logtest("shuffl.StorageCommon.get");
+        var ss = createTestSession();
+        try
+        {
+            ss.get("a/b/", shuffl.noop);
+            ok(false, "shuffl.StorageCommon.get exception expected");
+        }
+        catch (e)
+        {
+            log.debug("shuffl.StorageCommon.get exception: "+e);
+            ok(true, "shuffl.StorageCommon.get exception expected");
+            ok(e.toString().match(/not implemented/), "Not implemented");
+        }
+    });
 
---------
-//shuffl.StorageCommon.prototype.info = function (uri)
--- instantiate
--- invoke info - should throw error
---------
+    test("shuffl.StorageCommon.put", function ()
+    {
+        logtest("shuffl.StorageCommon.put");
+        var ss = createTestSession();
+        try
+        {
+            ss.put("a/b/", "data for replaced item", shuffl.noop);
+            ok(false, "shuffl.StorageCommon.put exception expected");
+        }
+        catch (e)
+        {
+            log.debug("shuffl.StorageCommon.put exception: "+e);
+            ok(true, "shuffl.StorageCommon.put exception expected");
+            ok(e.toString().match(/not implemented/), "Not implemented");
+        }
+    });
 
---------
-//shuffl.StorageCommon.prototype.createCollection =  function (coluri, colslug, callback)
--- instantiate
--- invoke createCollection - should throw error
---------
-
-
---------
-//shuffl.StorageCommon.prototype.listCollection = function (coluri, callback)
--- instantiate
--- invoke function - should throw error
---------
-
---------
-//shuffl.StorageCommon.prototype.removeCollection = function (coluri, callback)
--- instantiate
--- invoke function - should throw error
---------
-
---------
-//shuffl.StorageCommon.prototype.create =  function (coluri, slug, data, callback)
--- instantiate
--- invoke function - should throw error
---------
-
---------
-//shuffl.StorageCommon.prototype.get = function (uri)
--- instantiate
--- invoke function - should throw error
---------
-
---------
-//shuffl.StorageCommon.prototype.put = function (uri, data, callback)
--- instantiate
--- invoke function - should throw error
---------
-
---------
-//shuffl.StorageCommon.prototype.remove = function (uri, callback)
--- instantiate
--- invoke function - should throw error
---------
-
-*/
+    test("shuffl.StorageCommon.remove", function ()
+    {
+        logtest("shuffl.StorageCommon.remove");
+        var ss = createTestSession();
+        try
+        {
+            ss.remove("a/b/", shuffl.noop);
+            ok(false, "shuffl.StorageCommon.remove exception expected");
+        }
+        catch (e)
+        {
+            log.debug("shuffl.StorageCommon.remove exception: "+e);
+            ok(true, "shuffl.StorageCommon.remove exception expected");
+            ok(e.toString().match(/not implemented/), "Not implemented");
+        }
+    });
 
 };
 
