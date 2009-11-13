@@ -283,7 +283,7 @@ shuffl.AtomPub.updateTitle = function(atompubobj, iteminfo, callback) {
 /**
  * Returns function for handling ajax request failure
  */
- // TODO: use shuffl.requestFailed
+ // TODO: use shuffl.ajax.requestFailed; parameterize with handler name
 shuffl.AtomPub.requestFailed = function (callback) {
     return function (xhr, status, except) {
         log.debug("shuffl.AtomPub.requestFailed: "+status);
