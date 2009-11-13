@@ -228,11 +228,15 @@ shuffl.StorageCommon.prototype.resolve = function (uri, baseuri)
  * Return information about the resource associated with the supplied URI.
  * 
  * @param uri       a resource URI reference
- * @return          an object containing information about the identified
- *                  resource, or null if no such resource is accessible to
- *                  this handler.
+ * @param callback  is a function called when the outcome of the request is
+ *                  known.
  * 
- * Fields in the return value include:
+ * The callback function is called as:
+ *    callback(response) {
+ *        // this = session object
+ *    };
+ * 
+ * where 'response' is an Error value, or an object with the following fields:
  *    uri       the fully qualified URI as a jQuery.uri object.
  *    relref    the URI expressed as relative to the session base URI.
  *    type      'collection' or 'item'
@@ -244,7 +248,7 @@ shuffl.StorageCommon.prototype.resolve = function (uri, baseuri)
 shuffl.StorageCommon.prototype.info = function (uri)
 {
     ////log.debug("shuffl.StorageCommon.prototype.info "+uri);
-    throw shuffl.Error("shuffl.StorageCommon.prototype.info not implemented");
+    throw new shuffl.Error("shuffl.StorageCommon.prototype.info not implemented");
 };
 
 /**
@@ -268,11 +272,10 @@ shuffl.StorageCommon.prototype.info = function (uri)
  *              jQuery.uri object.
  *    relref    the URI expressed as relative to the session base URI.
  */
-shuffl.StorageCommon.prototype.createCollection = 
-    function (coluri, colslug, callback)
+shuffl.StorageCommon.prototype.createCollection = function (coluri, colslug, callback)
 {
     ////log.debug("shuffl.StorageCommon.prototype.createCollection "+coluri+", "+colslug);
-    throw shuffl.Error("shuffl.StorageCommon.prototype.createCollection not implemented");
+    throw new shuffl.Error("shuffl.StorageCommon.prototype.createCollection not implemented");
 };
 
 /**
@@ -299,7 +302,7 @@ shuffl.StorageCommon.prototype.createCollection =
 shuffl.StorageCommon.prototype.listCollection = function (coluri, callback)
 {
     ////log.debug("shuffl.StorageCommon.prototype.listCollection "+coluri);
-    throw shuffl.Error("shuffl.StorageCommon.prototype.listCollection not implemented");
+    throw new shuffl.Error("shuffl.StorageCommon.prototype.listCollection not implemented");
 };
 
 /**
@@ -322,7 +325,7 @@ shuffl.StorageCommon.prototype.listCollection = function (coluri, callback)
 shuffl.StorageCommon.prototype.removeCollection = function (coluri, callback)
 {
     ////log.debug("shuffl.StorageCommon.prototype.removeCollection "+coluri);
-    throw shuffl.Error("shuffl.StorageCommon.prototype.removeCollection not implemented");
+    throw new shuffl.Error("shuffl.StorageCommon.prototype.removeCollection not implemented");
 };
 
 /**
@@ -354,7 +357,7 @@ shuffl.StorageCommon.prototype.create =
     function (coluri, slug, data, callback)
 {
     ////log.debug("shuffl.StorageCommon.prototype.create "+coluri+", "+slug);
-    throw shuffl.Error("shuffl.StorageCommon.prototype.create not implemented");
+    throw new shuffl.Error("shuffl.StorageCommon.prototype.create not implemented");
 };
 
 /**
@@ -375,10 +378,10 @@ shuffl.StorageCommon.prototype.create =
  *    data      the data read, either as an object value if the type of the
  *              data resource could be decoded, otherwise as a string value. 
  */
-shuffl.StorageCommon.prototype.get = function (uri)
+shuffl.StorageCommon.prototype.get = function (uri, callback)
 {
     ////log.debug("shuffl.StorageCommon.prototype.get "+uri);
-    throw shuffl.Error("shuffl.StorageCommon.prototype.get not implemented");
+    throw new shuffl.Error("shuffl.StorageCommon.prototype.get not implemented");
 };
 
 /**
@@ -404,7 +407,7 @@ shuffl.StorageCommon.prototype.get = function (uri)
 shuffl.StorageCommon.prototype.put = function (uri, data, callback)
 {
     ////log.debug("shuffl.StorageCommon.prototype.put "+uri);
-    throw shuffl.Error("shuffl.StorageCommon.prototype.put not implemented");
+    throw new shuffl.Error("shuffl.StorageCommon.prototype.put not implemented");
 };
 
 /**
@@ -424,7 +427,7 @@ shuffl.StorageCommon.prototype.put = function (uri, data, callback)
 shuffl.StorageCommon.prototype.remove = function (uri, callback)
 {
     ////log.debug("shuffl.StorageCommon.prototype.remove "+uri);
-    throw shuffl.Error("shuffl.StorageCommon.prototype.remove not implemented");
+    throw new shuffl.Error("shuffl.StorageCommon.prototype.remove not implemented");
 };
 
 // End.
