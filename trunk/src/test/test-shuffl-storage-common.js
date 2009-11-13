@@ -26,10 +26,10 @@
  * Constructor for a dummy storage handler "class" derived from the 
  * common handler.
  */
-TestCommonStorage_DummyStorage = function (baseuri, hname)
+TestCommonStorage_DummyStorage = function (baseuri, rooturi, hname)
 {
     // Invoke common initializer
-    TestCommonStorage_DummyStorage.prototype.constructor.call(this, baseuri, hname);
+    TestCommonStorage_DummyStorage.prototype.constructor.call(this, baseuri, rooturi, hname);
 };
 
 TestCommonStorage_DummyStorage.canList    = false;
@@ -37,7 +37,7 @@ TestCommonStorage_DummyStorage.canRead    = true;
 TestCommonStorage_DummyStorage.canWrite   = false;
 TestCommonStorage_DummyStorage.canDelete  = false;
 
-TestCommonStorage_DummyStorage.prototype      = new shuffl.StorageCommon(null);
+TestCommonStorage_DummyStorage.prototype      = new shuffl.StorageCommon(null, null, null);
 TestCommonStorage_DummyStorage.prototype.name = "TestCommonStorage_DummyStorage";    
 
 /**
@@ -95,7 +95,7 @@ TestCommonStorage = function()
     test("Storage handler factory", function ()
     {
         logtest("Storage handler factory");
-        expect(4);
+        expect(6);
         // Instatiate dummy handler for two URIs
         shuffl.addStorageHandler(
             { uri:      "file://dummy1/"
@@ -110,11 +110,38 @@ TestCommonStorage = function()
         // Instantiate session for first handler
         var s1 = shuffl.makeStorageSession("file://dummy1/foo/bar");
         equals(s1.getHandlerName(), "Dummy1", "s1.handlerName()");
+        equals(s1.getRootUri(), "file://dummy1/", "s1.getRootUri()");
         equals(s1.getBaseUri(), "file://dummy1/foo/bar", "s1.getBaseUri()");
         // Instantiate session for second handler
         var s2 = shuffl.makeStorageSession("file://dummy2/foo/bar");
         equals(s2.getHandlerName(), "Dummy2", "s2.handlerName()");
+        equals(s2.getRootUri(), "file://dummy2/", "s2.getRootUri()");
         equals(s2.getBaseUri(), "file://dummy2/foo/bar", "s2.getBaseUri()");
+    });
+
+    function createTestSession()
+    {
+        // Instatiate dummy handler
+        shuffl.addStorageHandler(
+            { uri:      "file://test/"
+            , name:     "Test"
+            , factory:  TestCommonStorage_DummyStorage
+            });
+        // Instantiate session for first handler
+        return shuffl.makeStorageSession("file://test/base/path?query");
+    }
+
+    test("shuffl.StorageCommon.resolve", function ()
+    {
+        logtest("shuffl.StorageCommon.resolve");
+        expect(6);
+        var ss = createTestSession();
+        equals(ss.resolve("file://notest/a/b"), null, "Unresolved URI");
+        equals(ss.resolve("file://test/a/b"), "file://test/a/b", "Match absolute URI");
+        equals(ss.resolve("/a/b"), "file://test/a/b", "Match URI reference");
+        equals(ss.resolve("a/b"), "file://test/base/a/b", "Match relative URI reference");
+        equals(ss.resolve("?q"), "file://test/base/path?q", "Match query URI reference");
+        equals(ss.resolve("#f"), "file://test/base/path?query#f", "Match fragment URI reference");
     });
 
 
@@ -154,16 +181,8 @@ TestCommonStorage = function()
     });
 */
 
+
 /*
---------------------
--- instantiate dummy handler
--- add new handler
--- make session for handler
-..... factor above as common function
--- resolve URI served by handler
--- resolve URI not served by handler
-//shuffl.StorageCommon.prototype.resolve = function (uri, baseuri)
---------------------
 
 --------
 //shuffl.StorageCommon.prototype.info = function (uri)

@@ -128,9 +128,11 @@ shuffl.makeStorageSession = function (baseuri)
     {
         if (shuffl.starts(shuffl.storage.handlers[i].uri, baseuri))
         {
-            return new shuffl.storage.handlers[i].factory(baseuri,
+            return new shuffl.storage.handlers[i].factory(
+                baseuri,
+                shuffl.storage.handlers[i].uri,
                 shuffl.storage.handlers[i].name);
-        }
+        };
     };
     return null;
 };
@@ -145,12 +147,15 @@ shuffl.makeStorageSession = function (baseuri)
  * @constructor
  * @param baseuri   a base URI for the new session.  Relative URI references
  *                  are considered to be relative to this value.
+ * @param rooturi   a root URI for the  session.  URIs that do not start with
+ *                  this string cannot be used with this session.
  * @param hname     a handler name to be associated with this handler instance
  */
-shuffl.StorageCommon = function (baseuri, hname)
+shuffl.StorageCommon = function (baseuri, rooturi, hname)
 {
-    log.debug("shuffl.StorageCommon "+baseuri+", "+hname);
+    log.debug("shuffl.StorageCommon "+rooturi+", "+baseuri+", "+hname);
     this.baseUri      = baseuri;
+    this.rootUri      = rooturi;
     this.handlerName  = hname;
 };
 
@@ -169,6 +174,16 @@ shuffl.StorageCommon.canDelete  = false;
 shuffl.StorageCommon.prototype.getHandlerName = function ()
 {
     return this.handlerName;
+};
+
+/**
+ * Retrieve a root URI for the current session handler
+ * 
+ * @return          an root URI associated with the current session handler.
+ */
+shuffl.StorageCommon.prototype.getRootUri = function ()
+{
+    return this.rootUri;
 };
 
 /**
@@ -202,7 +217,11 @@ shuffl.StorageCommon.prototype.getBaseUri = function ()
 shuffl.StorageCommon.prototype.resolve = function (uri, baseuri)
 {
     ////log.debug("shuffl.StorageCommon.prototype.resolve "+uri+", "+baseuri);
-    throw shuffl.Error("shuffl.StorageCommon.prototype.resolve not implemented");
+    if (!baseuri) baseuri = "";
+    var baseuri = jQuery.uri(baseuri, this.baseUri);
+    var u = jQuery.uri(uri, baseuri);
+    if (shuffl.starts(this.rootUri, u.toString())) return u;
+    return null;
 };
 
 /**
