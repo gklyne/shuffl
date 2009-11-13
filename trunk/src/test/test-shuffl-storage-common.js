@@ -23,13 +23,16 @@
  */
 
 /**
- * Define a dummy storage handler "class" derived from the common handler
+ * Constructor for a dummy storage handler "class" derived from the 
+ * common handler.
  */
 TestCommonStorage_DummyStorage = function (baseuri)
 {
     // Invoke common initializer
     ////shuffl.StorageCommon.call(this, baseuri);
     this.prototype.constructor.call(this, baseuri);
+    this.canRead  = true;
+    this.canWrite = false;
 };
 
 TestCommonStorage_DummyStorage.prototype = new shuffl.StorageCommon(null);
@@ -42,6 +45,38 @@ TestCommonStorage = function()
 
     module("TestCommonStorage");
 
+    test("Storage handler factory", function ()
+    {
+        logtest("Storage handler factory");
+        expect(1);
+        // Instatiate dummy handler for two URIs
+        shuffl.addStorageFactory(
+            { baseuri:  "file://dummy1/"
+            , name:     "Dummy1"
+            , factory:  TestCommonStorage_DummyStorage
+            });
+        shuffl.addStorageFactory(
+            { baseuri:  "file://dummy2/"
+            , name:     "Dummy2"
+            , factory:  TestCommonStorage_DummyStorage
+            });
+        // List registered storage handlers
+        var shlist = shuffl.listStorageHandlers()
+        equals(shlist.length, 2, "Stoage handler list length");
+
+/*
+--------------------
+-- make session for first handler; check name
+-- make session for second handler; check name
+//shuffl.makeStorageSession = function (baseuri)
+//shuffl.StorageCommon.prototype.handlerName = function ()
+--------------------
+*/
+
+    });
+
+
+/*
     test("testAAA", function ()
     {
         logtest("testAAA");
@@ -74,29 +109,9 @@ TestCommonStorage = function()
             });
         stop(2000);
     });
+*/
 
-
---------------------
--- storage handler factory test
--- instantiate two dummy handlers with different base URIs
--- add these hanlers with different names
--- list handlers and check names and properties
--- make session for first handler; check name
--- make session for second handler; check name
-// Create Dummy storage handler object
-//shuffl.addStorageHandler
-shuffl.addStorageFactory("file:///", 
-    { name:     "LocalFile"
-    , factory:  shuffl.LocalFileStorage
-    , canRead:  true,
-    , canWrite: false
-    });
-//shuffl.listStorageHandlers = function ()
-//shuffl.makeStorageSession = function (baseuri)
-//shuffl.StorageCommon = function (baseuri) ** constructor **
-//shuffl.StorageCommon.prototype.handlerName = function ()
---------------------
-
+/*
 --------------------
 -- instantiate dummy handler
 -- add new handler
@@ -155,6 +170,8 @@ shuffl.addStorageFactory("file:///",
 -- instantiate
 -- invoke function - should throw error
 --------
+
+*/
 
 };
 

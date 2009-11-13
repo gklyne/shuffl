@@ -44,7 +44,7 @@ if (typeof shuffl.storage == "undefined")
 // Storage handler discovery and session factory
 // ------------------------------------------------
 
-.... shuffl.addStorageHandler ....
+//.... shuffl.addStorageHandler ....
 
 /**
  * List storage handler URIs, and the associated capabilities.
