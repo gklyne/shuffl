@@ -34,7 +34,7 @@ Project outline plan: [ProjectPlanOutline_200906_200911].
 || 2.1  || Other use cases                          || --    || -- || (ongoing) || -- ||
 || 2.2  || Demo revised graphing to Chris Holland (and others)  || 0.5   || 0.3 || (sprint)  || 11-Nov-2009 ||
 || 2.3  || Introductory user documentation          || --    || -- || (sprint)  || -- ||
-|| 3.   || *Technical development*                  || *5.0* || *5.6* ||
+|| 3.   || *Technical development*                  || *5.0+* || *5.6* ||
 || 3.1  || Code maintenance / bug fixes             || 0.5   || 0.8 || (ongoing) || -- ||
 || 3.2  || Revised data import/visualization        || 3.5   || 2.9 || (sprint) || 11-Nov-2009 ||
 || 3.3  || Improve I/O error handling               || 1.0   || 1.0 || (sprint) || 12-Nov-2009 ||
