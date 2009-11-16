@@ -88,7 +88,9 @@ shuffl.LocalFileStorage.prototype.name = "LocalFileStorage";
 shuffl.LocalFileStorage.prototype.info = function (uri)
 {
     ////log.debug("shuffl.LocalFileStorage.prototype.info "+uri);
-    throw new shuffl.Error("shuffl.LocalFileStorage.prototype.info not implemented");
+    ////throw new shuffl.Error("shuffl.LocalFileStorage.prototype.info not implemented");
+    uri = this.resolve(uri);
+    shuffl.ajax.getText(...);
 };
 
 /**
