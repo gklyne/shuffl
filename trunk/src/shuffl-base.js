@@ -198,6 +198,14 @@ shuffl.starts = function (pre, str)
 };
 
 /**
+ * Function to test if one string ends with another
+ */
+shuffl.ends = function (suf, str)
+{
+    return (suf.length == 0 || str.slice(-suf.length) == suf);
+};
+
+/**
  * Function to assemble a textual value from a supplied template string and a 
  * dictionary of values.  The template uses a tiny subset of Python string 
  * formatting codes, namely %(name)s is replaced by the corresponding entry 

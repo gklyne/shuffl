@@ -86,29 +86,6 @@ shuffl.ajax.decodeResponse = function (uri, callback, trace)
  * request fails.
  * 
  * @param uri       URI of resource to retrieve
- * @param callback  function called when operation completes, with either
- *                  the data returned for a successful request, or an error
- *                  object if trhe request fails.  The second argument supplied
- *                  is a textual status indication.
- */
-shuffl.ajax.getJSON = function (uri, callback)
-{
-    jQuery.ajax({
-            type:         "GET",
-            url:          uri.toString(),
-            dataType:     "json",
-            success:      shuffl.ajax.decodeResponse(uri, callback),
-            error:        shuffl.ajax.requestFailed(callback),
-            cache:        false
-        });
-};
-
-/**
- * Retrieve JSON resource.  This function is similar to jQuery.getJSON,
- * except that the callback is invoked with an error value if the
- * request fails.
- * 
- * @param uri       URI of resource to retrieve
  * @param type      type of result expected: "xml", "json", or "text"
  * @param callback  function called when operation completes, with either
  *                  the data returned for a successful request, or an error
@@ -125,6 +102,20 @@ shuffl.ajax.get = function (uri, type, callback)
             error:        shuffl.ajax.requestFailed(callback),
             cache:        false
         });
+};
+
+/**
+ * Retrieve arbitrary resource.
+ * 
+ * @param uri       URI of resource to retrieve
+ * @param callback  function called when operation completes, with either
+ *                  the data returned for a successful request, or an error
+ *                  object if trhe request fails.  The second argument supplied
+ *                  is a textual status indication.
+ */
+shuffl.ajax.getJSON = function (uri, callback)
+{
+    shuffl.ajax.get(uri, "json", callback);
 };
 
 // End.
