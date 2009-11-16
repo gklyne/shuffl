@@ -5,10 +5,10 @@
 = Introduction =
 
 The main goals for this sprint are:
- * to complete the back-end storage interface work started in the previous sprint, and
- * to improve the online prototype demonstrator for project evaluation (mainly, create a new Shuffl workspace with instructions displayed for doing the various things that Shuffl can do.)  Also, notes for installing eXist and Shuffl on a new system.
+ * to complete the back-end storage interface work started in the previous sprint
+ * to improve the online prototype demonstrator for project evaluation (mainly, create a new Shuffl workspace with instructions displayed for doing the various things that Shuffl can do.)  Also, notes for installing eXist and Shuffl on a new system
  * If possible, install a copy of Shuffl and eXist on a machine in CH's workgroup
- * final reporting and project wrap-up.
+ * final reporting and project wrap-up
 
 
 == Current milestone ==
@@ -24,6 +24,7 @@ The main goals for this sprint are:
 Previous sprint plan: [SprintPlan_7].
 
 Project outline plan: [ProjectPlanOutline_200906_200911].
+
 
 = User stories and activities =
 
@@ -43,6 +44,7 @@ Project outline plan: [ProjectPlanOutline_200906_200911].
 || 3.2  || Pluggable back-end storage framework     || 2.5  || -.- || 27-Nov-2009 || -- ||
 || 3.3  || Load/Save user interface improvement     || 1.0  || -.- || 27-Nov-2009 || -- ||
 || 3.4  || Load/Save workspace browsing             || 3.0  || -.- || 27-Nov-2009 || -- ||
+
 
 = Task breakdowns =
 
