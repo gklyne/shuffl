@@ -73,8 +73,6 @@ Actual effort: ?? days (for ?? planned activity)
 
 == 3.4: User interface for workspace browsing ==
 
-The initial goal is to reduce the user interface to work with just a single URI for loading/saving workspace.  Then look into implementing a browsing capability (which may be challenging within the available time).
-
 Estimated effort: 3.0 days
 
  * (0.25) check service document handling in eXist 1.4
