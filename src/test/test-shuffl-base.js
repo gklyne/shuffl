@@ -86,6 +86,32 @@ TestShufflBase = function()
         equals(w.text(), "shuffl error: exception message", "#workspace_status text (exception)");
         ok(w.hasClass("shuffl-error"), "has shuffl-error class (exception)");
     });
+
+    test("shuffl.starts", function ()
+    {
+        logtest("shuffl.starts");
+        expect(7);
+        equals(shuffl.starts("abc", "abcdef"), true,  "shuffl.starts(1)");
+        equals(shuffl.starts("xyz", "abcdef"), false, "shuffl.starts(2)");
+        equals(shuffl.starts("abc", "abc"),    true,  "shuffl.starts(3)");
+        equals(shuffl.starts("xyz", "abc"),    false, "shuffl.starts(4)");
+        equals(shuffl.starts("abc", "ab"),     false, "shuffl.starts(5)");
+        equals(shuffl.starts("",    "abcdef"), true,  "shuffl.starts(6)");
+        equals(shuffl.starts("",    ""),       true,  "shuffl.starts(7)");
+    });
+
+    test("shuffl.ends", function ()
+    {
+        logtest("shuffl.starts");
+        expect(7);
+        equals(shuffl.ends("def", "abcdef"), true,  "shuffl.ends(1)");
+        equals(shuffl.ends("xyz", "abcdef"), false, "shuffl.ends(2)");
+        equals(shuffl.ends("abc", "abc"),    true,  "shuffl.ends(3)");
+        equals(shuffl.ends("xyz", "abc"),    false, "shuffl.ends(4)");
+        equals(shuffl.ends("abc", "bc"),     false, "shuffl.ends(5)");
+        equals(shuffl.ends("",    "abcdef"), true,  "shuffl.ends(6)");
+        equals(shuffl.ends("",    ""),       true,  "shuffl.ends(7)");
+    });
     
 };
 

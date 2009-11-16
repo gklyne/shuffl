@@ -72,11 +72,16 @@ shuffl.LocalFileStorage.prototype.name = "LocalFileStorage";
  * Return information about the resource associated with the supplied URI.
  * 
  * @param uri       a resource URI reference
+ * @param callback  is a function called when the outcome of the request is
+ *                  known.
  * @return          an object containing information about the identified
  *                  resource, or null if no such resource is accessible to
  *                  this handler.
- * 
- * Fields in the return value include:
+ * The callback function is called as:
+ *    callback(response) {
+ *        // this = session object
+ *    };
+ * where 'response' is an Error value, or an object with the following fields:
  *    uri       the fully qualified URI as a jQuery.uri object.
  *    relref    the URI expressed as relative to the session base URI.
  *    type      'collection' or 'item'
@@ -85,12 +90,29 @@ shuffl.LocalFileStorage.prototype.name = "LocalFileStorage";
  *    canWrite  'true' is resource can be modified
  *    canDelete 'true' is resource can be deleted
  */
-shuffl.LocalFileStorage.prototype.info = function (uri)
+shuffl.LocalFileStorage.prototype.info = function (uri, callback)
 {
     ////log.debug("shuffl.LocalFileStorage.prototype.info "+uri);
-    ////throw new shuffl.Error("shuffl.LocalFileStorage.prototype.info not implemented");
-    uri = this.resolve(uri);
-    shuffl.ajax.getText(...);
+    info = this.resolve(uri);
+    ////log.debug("shuffl.LocalFileStorage.prototype.info "+jQuery.toJSON(info));
+    shuffl.ajax.get(info.uri, "text", function (val) {
+        if (val instanceof shuffl.Error)
+        {
+            callback(val);
+        }
+        else
+        {
+            callback(
+                { uri:        info.uri
+                , relref:     info.relref
+                , type:       shuffl.ends("/", info.uri) ? "collection" : "item"
+                , canList:    shuffl.LocalFileStorage.canList
+                , canRead:    shuffl.LocalFileStorage.canRead
+                , canWrite:   shuffl.LocalFileStorage.canWrite
+                , canDelete:  shuffl.LocalFileStorage.canDelete
+                });
+        };
+    });
 };
 
 /**
@@ -219,10 +241,22 @@ shuffl.LocalFileStorage.prototype.create = function (coluri, slug, data, callbac
  *    data      the data read, either as an object value if the type of the
  *              data resource could be decoded, otherwise as a string value. 
  */
-shuffl.LocalFileStorage.prototype.get = function (uri)
+shuffl.LocalFileStorage.prototype.get = function (uri, callback)
 {
     ////log.debug("shuffl.LocalFileStorage.prototype.get "+uri);
-    throw new shuffl.Error("shuffl.LocalFileStorage.prototype.get not implemented");
+    info = this.resolve(uri);
+    ////log.debug("shuffl.LocalFileStorage.prototype.info "+jQuery.toJSON(info));
+    shuffl.ajax.get(info.uri, "text", function (val) {
+        if (!(val instanceof shuffl.Error))
+        {
+            val =
+                { uri:        info.uri
+                , relref:     info.relref
+                , data:       val
+                };
+        };
+        callback(val);
+    });
 };
 
 /**

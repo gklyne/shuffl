@@ -24,6 +24,18 @@
 
 var TestLocalFileStorage_baseUri = jQuery.uri();
 
+var test_csv =
+    "rowlabel,col1,col2,col3,col4\n"+
+    "row1,a1,b1,c1,d1\n"+
+    " row2 , a2 , b2 , c2 , d2 \n"+ 
+    " row3 , a3 3a , b3 3b , c3 3c , d3 3d \n"+
+    " ' row4 ' , ' a4 ' , ' b4 ' , ' c4 ' , ' d4 ' \n"+ 
+    ' " row5 " , " a5 " , " b5 " , " c5 " , " d5 " \n'+
+    " 'row6' , 'a6,6a' , 'b6,6b' , 'c6,6c' , 'd6,6d' \n"+
+    " 'row7' , 'a7''7a' , 'b7''7b' , 'c7''7c' , 'd7''7d' \n"+
+    " 'row8' , 'a8'', 8a' , 'b8'', 8b' , 'c8'', 8c' , 'd8'', 8d' \n"+
+    "End.";
+
 /**
  * Function to register tests
  */
@@ -70,12 +82,39 @@ TestLocalFileStorage = function()
         equals(s3.getBaseUri(), "file:///foo/bar", "s3.getBaseUri()");
     });
 
+    test("shuffl.LocalFileStorage.resolve", function ()
+    {
+        logtest("shuffl.LocalFileStorage.resolve");
+        expect(10);
+        this.rooturi = TestLocalFileStorage_baseUri.toString().replace(/(\/\/.[^\/]+\/).*$/,"$1");
+        shuffl.addStorageHandler(
+            { uri:      this.rooturi
+            , name:     "Test"
+            , factory:  shuffl.LocalFileStorage
+            });
+        var ss = shuffl.makeStorageSession(TestLocalFileStorage_baseUri);
+        var b  = TestLocalFileStorage_baseUri;
+        equals(ss.resolve("file://notest/a/b").uri, null, "Unresolved URI");
+        equals(ss.resolve(b+"/a/b").uri, b+"/a/b", "Match absolute URI");
+        equals(ss.resolve("a/b").uri, b.resolve("a/b").toString(), "Match relative URI reference");
+        equals(ss.resolve("?q").uri, b+"?q", "Match query URI reference");
+        equals(ss.resolve("#f").uri, b+"#f", "Match fragment URI reference");
+        var s4 = shuffl.makeStorageSession(this.rooturi+"p/q/a/");
+        equals(s4.resolve(this.rooturi+"p/q/a/b").relref, "b",      "s4.resolve(p/q/a/b).relref");
+        equals(s4.resolve(this.rooturi+"p/q/x/y").relref, "../x/y", "s4.resolve(p/q/x/y).relref");
+        var s5 = shuffl.makeStorageSession(this.rooturi+"p/q/a/b");
+        equals(s5.resolve(this.rooturi+"p/q/a/b").relref, "",       "s5.resolve(p/q/a/b).relref");
+        equals(s5.resolve(this.rooturi+"p/q/a/c").relref, "c",      "s5.resolve(p/q/a/c).relref");
+        equals(s5.resolve(this.rooturi+"p/q/x/y").relref, "../x/y", "s5.resolve(p/q/x/y).relref");
+    });
+
     function createTestSession()
     {
         // Instatiate dummy handler
-        var rooturi = TestLocalFileStorage_baseUri.toString().replace(/\/.*$/,"");
+        ////this.rooturi = TestLocalFileStorage_baseUri.toString().replace(/(\/\/.[^\/]+\/).*$/,"$1");
+        this.rooturi = TestLocalFileStorage_baseUri.toString().replace(/\/[^\/]*$/,"/");
         shuffl.addStorageHandler(
-            { uri:      rooturi
+            { uri:      this.rooturi
             , name:     "Test"
             , factory:  shuffl.LocalFileStorage
             });
@@ -83,24 +122,10 @@ TestLocalFileStorage = function()
         return shuffl.makeStorageSession(TestLocalFileStorage_baseUri);
     }
 
-    test("shuffl.LocalFileStorage.resolve", function ()
-    {
-        logtest("shuffl.LocalFileStorage.resolve");
-        expect(6);
-        var ss = createTestSession();
-        var b  = TestLocalFileStorage_baseUri;
-        equals(ss.resolve("file://notest/a/b"), null, "Unresolved URI");
-        equals(ss.resolve(b+"/a/b"), b+"/a/b", "Match absolute URI");
-        equals(ss.resolve("/a/b"), b.resolve("/a/b"), "Match URI reference");
-        equals(ss.resolve("a/b"), b.resolve("a/b"), "Match relative URI reference");
-        equals(ss.resolve("?q"), b+"?q", "Match query URI reference");
-        equals(ss.resolve("#f"), b+"#f", "Match fragment URI reference");
-    });
-
     test("shuffl.LocalFileStorage.info", function ()
     {
         logtest("shuffl.LocalFileStorage.info");
-        expect(1);
+        expect(8);
         log.debug("----- test shuffl.LocalFileStorage.info start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
@@ -116,19 +141,52 @@ TestLocalFileStorage = function()
                     log.debug("shuffl.LocalFileStorage.info exception: "+e);
                     ok(false, "shuffl.LocalFileStorage.info exception"+e);
                     callback(e);
-                }
+                };
             });
-        m.exec({},
-            function(val) {
-                log.debug("----- test shuffl.LocalFileStorage.info end -----");
+        m.eval(
+            function (val, callback) {
                 var b = TestLocalFileStorage_baseUri;
-                equals(val.uri,       b.resolve("data/test-csv.csv"), "val.uri");
+                equals(val.uri,       b.resolve("data/test-csv.csv").toString(), "val.uri");
                 equals(val.relref,    "data/test-csv.csv", "val.relref");
                 equals(val.type,      "item", "val.type");
                 equals(val.canList,   false, "val.canList");
                 equals(val.canRead,   true,  "val.canRead");
                 equals(val.canWrite,  false, "val.canWrite");
                 equals(val.canDelete, false, "val.canDelete");
+                callback(val);
+            });
+        // --- only works for HTTP ---
+        /*
+        m.eval(
+            function (val, callback) {
+                try
+                {
+                    ss.info("data/", callback);
+                    ok(true, "shuffl.LocalFileStorage.info no exception");
+                }
+                catch (e)
+                {
+                    log.debug("shuffl.LocalFileStorage.info exception: "+e);
+                    ok(false, "shuffl.LocalFileStorage.info exception"+e);
+                    callback(e);
+                };
+            });
+        m.eval(
+            function (val, callback) {
+                var b = TestLocalFileStorage_baseUri;
+                equals(val.uri,       b.resolve("data/").toString(), "val.uri");
+                equals(val.relref,    "data/", "val.relref");
+                equals(val.type,      "collection", "val.type");
+                equals(val.canList,   false, "val.canList");
+                equals(val.canRead,   true,  "val.canRead");
+                equals(val.canWrite,  false, "val.canWrite");
+                equals(val.canDelete, false, "val.canDelete");
+                callback(val);
+            });
+        */
+        m.exec({},
+            function(val) {
+                log.debug("----- test shuffl.LocalFileStorage.info end -----");
                 start();
             });
         stop(2000);
@@ -137,7 +195,7 @@ TestLocalFileStorage = function()
     test("shuffl.LocalFileStorage.info (non-existent resource)", function ()
     {
         logtest("shuffl.LocalFileStorage.info");
-        expect(1);
+        expect(2);
         log.debug("----- test shuffl.LocalFileStorage.info (non-existent resource) start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
@@ -145,8 +203,10 @@ TestLocalFileStorage = function()
             function (val, callback) {
                 try
                 {
-                    ss.info("data/test-csv.nodata", callback);
-                    ok(true, "shuffl.LocalFileStorage.info no exception");
+                    ss.info("data/test-csv.nodata", function (val) {
+                        ok(true, "shuffl.LocalFileStorage.info no exception");
+                        callback(val);
+                    });
                 }
                 catch (e)
                 {
@@ -157,7 +217,9 @@ TestLocalFileStorage = function()
             });
         m.exec({},
             function(val) {
-                equals(val, null, "val");
+                ////equals(val, null, "val");
+                ////equals(val.toString(), "shuffl error: Request failed (error; HTTP status: 404 Not Found)", "val");
+                equals(val.msg, "Request failed", "val.msg");
                 log.debug("----- test shuffl.LocalFileStorage.info (non-existent resource) end -----");
                 start();
             });
@@ -235,7 +297,7 @@ TestLocalFileStorage = function()
     test("shuffl.LocalFileStorage.get", function ()
     {
         logtest("shuffl.LocalFileStorage.get");
-        expect(1);
+        expect(6);
         log.debug("----- test shuffl.LocalFileStorage.get start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
@@ -243,8 +305,10 @@ TestLocalFileStorage = function()
             function (val, callback) {
                 try
                 {
-                    ss.get("data/test-csv.csv", callback);
-                    ok(true, "shuffl.LocalFileStorage.get no exception");
+                    ss.get("data/test-csv.csv", function (val) {
+                        ok(true, "shuffl.LocalFileStorage.get no exception");
+                        callback(val);
+                    });
                 }
                 catch (e)
                 {
@@ -253,16 +317,18 @@ TestLocalFileStorage = function()
                     callback(e);
                 }
             });
+        m.eval(
+            function (val, callback) {
+                var b = TestLocalFileStorage_baseUri;
+                equals(val.uri,    b.resolve("data/test-csv.csv").toString(), "val.uri");
+                equals(val.relref, "data/test-csv.csv", "val.relref");
+                equals(typeof val.data, typeof test_csv, "typeof val.data");
+                equals(val.data,        test_csv,        "val.data");
+                equals(jQuery.toJSON(val.data), jQuery.toJSON(test_csv), "val.data");
+                callback(val);
+            });
         m.exec({},
             function(val) {
-                var b = TestLocalFileStorage_baseUri;
-                equals(val.uri,       b.resolve("data/test-csv.csv"), "val.uri");
-                equals(val.relref,    "data/test-csv.csv", "val.relref");
-                equals(val.type,      "item", "val.uri");
-                equals(val.canList,   false, "val.canList");
-                equals(val.canRead,   true,  "val.canRead");
-                equals(val.canWrite,  false, "val.canWrite");
-                equals(val.canDelete, false, "val.canDelete");
                 log.debug("----- test shuffl.LocalFileStorage.get end -----");
                 start();
             });

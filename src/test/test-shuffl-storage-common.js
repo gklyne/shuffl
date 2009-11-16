@@ -134,14 +134,33 @@ TestCommonStorage = function()
     test("shuffl.StorageCommon.resolve", function ()
     {
         logtest("shuffl.StorageCommon.resolve");
-        expect(6);
+        expect(20);
         var ss = createTestSession();
-        equals(ss.resolve("file://notest/a/b"), null, "Unresolved URI");
-        equals(ss.resolve("file://test/a/b"), "file://test/a/b", "Match absolute URI");
-        equals(ss.resolve("/a/b"), "file://test/a/b", "Match URI reference");
-        equals(ss.resolve("a/b"), "file://test/base/a/b", "Match relative URI reference");
-        equals(ss.resolve("?q"), "file://test/base/path?q", "Match query URI reference");
-        equals(ss.resolve("#f"), "file://test/base/path?query#f", "Match fragment URI reference");
+        equals(ss.resolve("file://notest/a/b").uri, null, "Unresolved URI");
+        equals(ss.resolve("file://test/a/b").uri, "file://test/a/b", "Match absolute URI");
+        equals(ss.resolve("/a/b").uri, "file://test/a/b", "Match URI reference");
+        equals(ss.resolve("a/b").uri, "file://test/base/a/b", "Match relative URI reference");
+        equals(ss.resolve("?q").uri, "file://test/base/path?q", "Match query URI reference");
+        equals(ss.resolve("#f").uri, "file://test/base/path?query#f", "Match fragment URI reference");
+        equals(ss.resolve("file://test/a/b").relref, "/a/b", "ss.resolve(a/b).relref");
+        equals(ss.resolve("file://test/x/y").relref, "/x/y", "ss.resolve(x/y).relref");
+        var s1 = shuffl.makeStorageSession("file://test/");
+        equals(s1.resolve("file://test/a/b").relref, "/a/b", "s1.resolve(a/b).relref");
+        equals(s1.resolve("file://test/x/y").relref, "/x/y", "s1.resolve(x/y).relref");
+        var s2 = shuffl.makeStorageSession("file://test/a/");
+        equals(s2.resolve("file://test/a/b").relref, "b",    "s2.resolve(a/b).relref");
+        equals(s2.resolve("file://test/x/y").relref, "/x/y", "s2.resolve(x/y).relref");
+        var s3 = shuffl.makeStorageSession("file://test/a/b");
+        equals(s3.resolve("file://test/a/b").relref, "",      "s3.resolve(a/b).relref");
+        equals(s3.resolve("file://test/a/c").relref, "c",      "s3.resolve(a/c).relref");
+        equals(s3.resolve("file://test/x/y").relref, "/x/y", "s3.resolve(x/y).relref");
+        var s4 = shuffl.makeStorageSession("file://test/p/q/a/");
+        equals(s4.resolve("file://test/p/q/a/b").relref, "b",      "s4.resolve(p/q/a/b).relref");
+        equals(s4.resolve("file://test/p/q/x/y").relref, "../x/y", "s4.resolve(p/q/x/y).relref");
+        var s5 = shuffl.makeStorageSession("file://test/p/q/a/b");
+        equals(s5.resolve("file://test/p/q/a/b").relref, "",       "s5.resolve(p/q/a/b).relref");
+        equals(s5.resolve("file://test/p/q/a/c").relref, "c",      "s5.resolve(p/q/a/c).relref");
+        equals(s5.resolve("file://test/p/q/x/y").relref, "../x/y", "s5.resolve(p/q/x/y).relref");
     });
 
     test("shuffl.StorageCommon.info", function ()

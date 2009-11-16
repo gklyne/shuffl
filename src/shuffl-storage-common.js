@@ -218,10 +218,15 @@ shuffl.StorageCommon.prototype.resolve = function (uri, baseuri)
 {
     ////log.debug("shuffl.StorageCommon.prototype.resolve "+uri+", "+baseuri);
     if (!baseuri) baseuri = "";
+    var info = {uri:null};
     var baseuri = jQuery.uri(baseuri, this.baseUri);
     var u = jQuery.uri(uri, baseuri);
-    if (shuffl.starts(this.rootUri, u.toString())) return u;
-    return null;
+    if (shuffl.starts(this.rootUri, u.toString()))
+    {
+        info.uri    = u.toString();
+        info.relref = jQuery.uri.relative(u, baseuri);
+    };
+    return info;
 };
 
 /**
