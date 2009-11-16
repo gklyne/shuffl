@@ -95,3 +95,80 @@ First week:  most of the effort has been spent working on the user interface for
 Tasks completed/effort spent: ??/?? = ??
 
 = Activity summary =
+
+Date:	 Monday, 2 November, 2009
+ Shuffl:
+ * (0.1) Test graph display with CH data (had to hack code for now until column selection is implemented) (task 3.2)
+ * (0.2) Exploratory work on column selection (task 3.2)
+ Claros:
+ * (0.3) MILARQ proposal review, outline plan review, wrestling with Word.
+ * (0.1) Pygmalion words for proposal
+ * (0.3) MILARQ proposal finalizing details.
+
+Date:	 Tuesday, 3 November, 2009
+ Shuffl:
+ * (0.2) Sprint plan (task 1.1, done)
+ * (0.3) Refactored and tested initial column selection code (UI for selection still to do) (task 3.2)
+ * (0.4) Save and restore linkage between graph card and source data card (task 3.2, subtask done)
+ * (0.1) Code refactoring (task 3.1)
+
+Date:	 Wednesday, 4 November, 2009
+ Shuffl:
+ * (0.2) Fix fallout from a rare system crash, including a problem with the eXist database; couldn't see how to re-initialize, so I completely reinstalled the latest version of eXist (1.4rc). Tests all pass. I wonder if atompub service documents work any better now. (task 1.4)
+ * (0.4) continued refactoring of card initialization/serialization code. (task 3.1)
+ * (0.2) started to work on data transformation for log-scale graph displays (task 3.2)
+ Misc:
+ * (0.2) General discussion and catch-up (task 1.4)
+
+Date:	 Thursday, 5 November, 2009
+ Shuffl:
+ * (0.1) flot investigations for log axis labelling (task 3.2)
+ * (0.3) UI for selecting display transformations (task 3.2)
+ * (0.5) UI for selecting columns/axes for display (task 3.2)
+ Misc:
+ * (0.1) Schema hunting, books, etc. (task 1.4)
+
+Date:	 Friday, 6 November, 2009
+ Shuffl:
+ * (0.2) Connect plot axis selection to context menu UI (task 3.2)
+ * (0.1) Update flot to version 0.6, and test (task 3.2)
+ * (0.1) Worksheet headings greyed for no-data columns (task 3.2)
+ * (0.2) Log-scale graph axis displays (task 3.2)
+ * (0.2) Adding axis-selection logic to graph card (task 3.2)
+ Misc:
+ * (0.2) Problems with Ubuntu system upgrade (task 1.4)
+
+Date:	 Monday, 9 November, 2009
+ Claros:
+ * (0.7) Work on presentation for Berlin - about half done
+ Misc:
+ * (0.3) Email catch-up (task 1.4)
+
+Date:	 Tuesday, 10 November, 2009
+ Claros:
+ * (0.8) Work on presentation for Berlin - first draft done
+ * (0.2) Respond to email from Martin Doerr about Time-Span, performance and words about CLAROS for the CRM web site
+
+Date:	 Wednesday, 11 November, 2009
+ Shuffl:
+ * (0.2) Demo to Chris Holland and write up conclusions (task 2.2)
+ * (0.1) Internal research group demo and discussion (task 2.2)
+ * (0.4) Working on I/O error handling (task 3.3) 
+ Claros:
+ * (0.1) Ongoing email discussion about CRM usage with Martin Doerr
+ * (0.1) Final review of MILARQ submission; review David's Semuse slides
+ Misc:
+ * (0.1) Various admin (task 1.4)
+
+Date:	 Thursday, 12 November, 2009
+ Shuffl:
+ * (0.6) completed improvements in I/O error handling (task 3.3)
+ * (0.3) general code and user interaction improvements (task 3.1)
+ * (0.1) started work on new storage framework (task 3.4)
+
+Date:	 Friday, 13 November, 2009
+ Shuffl:
+ * (0.4) Pluggable storage framework - common storage module coded and tested (task 3.4)
+ * (0.4) Pluggable storage framework - local file test cases and module skeleton (task 3.4)
+ Misc:
+ * (0.2) meeting with Paul Taylor (Melbourne) about data policies, etc. (task 1.4)
