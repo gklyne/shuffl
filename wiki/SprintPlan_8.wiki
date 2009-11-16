@@ -1,0 +1,104 @@
+#summary Sprint 8 plan : 16 Nov - 27 Nov
+
+<wiki:toc max_depth="2" />
+
+= Introduction =
+
+The main goals for this sprint are:
+ * to complete the back-end storage interface work started in the previous sprint, and
+ * to improve the online prototype demonstrator for project evaluation (mainly, create a new Shuffl workspace with instructions displayed for doing the various things that Shuffl can do.)  Also, notes for installing eXist and Shuffl on a new system.
+ * If possible, install a copy of Shuffl and eXist on a machine in CH's workgroup
+ * final reporting and project wrap-up.
+
+
+== Current milestone ==
+
+|| Month || Activity || Deliverables || 
+|| 5: 27Nov 16days || Create promotional materials (webcast, dissemination, demonstrations, etc.). Establish a long-term home for the demo service. Ensure that users with whom we have engaged are comfortable with what is available as this project winds down. || Public repository contains fully tested software, documentation, promotional materials, deployment instructions, examples, etc., in a state suitable to support ongoing open community development. ||
+
+
+== Current sprint ==
+
+|| Sprint 8 || 16 Nov - 27 Nov || 8 days || [SprintPlan_8 sprint 8 plan] ||
+
+Previous sprint plan: [SprintPlan_7].
+
+Project outline plan: [ProjectPlanOutline_200906_200911].
+
+= User stories and activities =
+
+|| *Activity number* || *Description* || *Effort est* || *Effort actual* || *Target date* || *Completion date* ||
+|| 1.   || *Project administration*                 || *1.7* || *-.-* ||
+|| 1.1. || Sprint 7 plan                            || 0.2  || 0.2 || 16-Nov-2009 || 16-Nov-2009 ||
+|| 1.2. || Sprint 7 review (retrospective) and final project report notes || 0.3  || -.- || 27-Nov-2009 || 16-Nov-2009 ||
+|| 1.3. || Sustainability plan review/stabilize     || 0.25 || -.- || 27-Nov-2009 || -- ||
+|| 1.4. || Miscellaneous admin, email, etc          || 0.75 || -.- || -- || -- ||
+|| 1.5. || Sprint 6 review (retrospective)          || 0.2  || 0.2 || 13-Nov-2009 || 16-Nov-2009 ||
+|| 2.   || *Community engagement and dissemination* || *0.5* || *0.3* ||
+|| 2.1  || Other use cases                          || --   || -.- || (ongoing)   || -- ||
+|| 2.2  || Install/demo system for Chris Holland    || 0.5  || -.- || 27-Nov-2009 || -- ||
+|| 2.3  || Demonstrator documentation               || 0.5  || -.- || 27-Nov-2009 || -- ||
+|| 3.   || *Technical development*                  || *-.-* || *-.-* ||
+|| 3.1  || Code maintenance / bug fixes             || 0.5  || -.- || (ongoing)   || -- ||
+|| 3.2  || Pluggable back-end storage framework     || 2.5  || -.- || 27-Nov-2009 || -- ||
+|| 3.3  || Load/Save user interface improvement     || 1.0  || -.- || 27-Nov-2009 || -- ||
+|| 3.4  || Load/Save workspace browsing             || 3.0  || -.- || 27-Nov-2009 || -- ||
+
+= Task breakdowns =
+
+(effort estimates in days to nearest 0.25)
+
+
+== 3.2: Pluggable storage framework ==
+
+Implementation to be sufficient to pass the current load/save test suite.
+
+Estimated effort: 2.5 days
+
+ * (0.5) implement generic read-only interface plugin for local files
+ * (1.0) implement generic interface plugin for eXist !AtomPub
+ * (0.5) update load workspace module to use the revised framework
+ * (0.5) update save workspace module to use the revised framework
+
+Actual effort: ?? days (for ?? planned activity)
+
+== 3.3: Load/save workspace user interface improvement ==
+
+Estimated effort: 1.0 days
+
+ * (0.5) Implement simplified load/save user interface with dialogs, using the pluggable storage interface and presenting a single workspace URI rather than 3 fields,
+ * (0.5) Work through and replace all direct references to AtomPub module, except those in the eXist pluggable storage module.
+
+Actual effort: ?? days (for ?? planned activity)
+
+== 3.4: User interface for workspace browsing ==
+
+The initial goal is to reduce the user interface to work with just a single URI for loading/saving workspace.  Then look into implementing a browsing capability (which may be challenging within the available time).
+
+Estimated effort: 3.0 days
+
+ * (0.25) check service document handling in eXist 1.4
+ * (0.25) investigate Google Data API for loading/saving workspaces
+ * (0.5) plan strategy to implement collection/workspace browsing via eXist
+ * (1.0) implement browsing capability in eXist storage plug-in module
+ * (1.0) add browse facility to load/save dialogs
+
+Actual effort: ?? days (for ?? planned activity)
+
+
+= Sprint review notes =
+
+(TBD)
+
+== End-of-sprint review ==
+
+(As this is the last sprint - focus on outputs for demonstration and other projects.)
+
+== Velocity ==
+
+Tasks completed/effort spent: ??/?? = ??
+
+(Completed work excludes task 1.4, which is "non-productive" overhead)
+
+
+= Activity summary =
