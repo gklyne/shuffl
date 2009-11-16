@@ -66,14 +66,14 @@ shuffl.ajax.requestFailed = function (callback) {
  * @return            jQuery.ajax success callback function to decode the
  *                    response and then call the supplied callback function.
  */
-shuffl.ajax.decodeJSONResponse = function (uri, callback, trace) 
+shuffl.ajax.decodeResponse = function (uri, callback, trace) 
 {
     function decodeResponse(data, status)
     {
         if (trace)
         {
-            log.debug("shuffl.decodeJSONResponse: "+uri+", "+status);
-            log.debug("shuffl.decodeJSONResponse: "+jQuery.toJSON(data));
+            log.debug("shuffl.decodeResponse: "+uri+", "+status);
+            log.debug("shuffl.decodeResponse: "+jQuery.toJSON(data));
         };
         callback(data);
     }
@@ -97,7 +97,31 @@ shuffl.ajax.getJSON = function (uri, callback)
             type:         "GET",
             url:          uri.toString(),
             dataType:     "json",
-            success:      shuffl.ajax.decodeJSONResponse(uri, callback),
+            success:      shuffl.ajax.decodeResponse(uri, callback),
+            error:        shuffl.ajax.requestFailed(callback),
+            cache:        false
+        });
+};
+
+/**
+ * Retrieve JSON resource.  This function is similar to jQuery.getJSON,
+ * except that the callback is invoked with an error value if the
+ * request fails.
+ * 
+ * @param uri       URI of resource to retrieve
+ * @param type      type of result expected: "xml", "json", or "text"
+ * @param callback  function called when operation completes, with either
+ *                  the data returned for a successful request, or an error
+ *                  object if trhe request fails.  The second argument supplied
+ *                  is a textual status indication.
+ */
+shuffl.ajax.get = function (uri, type, callback)
+{
+    jQuery.ajax({
+            type:         "GET",
+            url:          uri.toString(),
+            dataType:     type,
+            success:      shuffl.ajax.decodeResponse(uri, callback),
             error:        shuffl.ajax.requestFailed(callback),
             cache:        false
         });

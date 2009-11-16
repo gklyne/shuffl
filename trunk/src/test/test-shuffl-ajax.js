@@ -41,6 +41,18 @@ var TestShufflAjax_JSONdata =
       }
     };
 
+var TestShufflAjax_Text =
+    "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"+
+    "\n"+
+    "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"+
+    "  <head>\n"+
+    "    <title>Shuffl workspace</title>\n"+
+    "  </head>\n"+
+    "  <body>\n"+
+    "    <div />\n"+
+    "  </body>\n"+
+    "</html>\n"
+
 /**
  * Function to register tests
  */
@@ -116,6 +128,28 @@ TestShufflAjax = function()
         m.exec(null,
             function(val) {
                 log.debug("----- shuffl.ajax.getJSON (wrong datatype) end -----");
+                start();
+            });
+        stop(2000);
+    });
+
+    test("shuffl.ajax.get (text)", function ()
+    {
+        logtest("shuffl.ajax.get (text)");
+        expect(1);
+        log.debug("----- shuffl.ajax.get (text) start -----");
+        var m = new shuffl.AsyncComputation();
+        m.eval(function (val, callback) {
+                shuffl.ajax.get("data/test-shuffl-ajax-getJSON.txt", "text", callback);
+            });
+        m.eval(
+            function (val, callback) {
+                equals(jQuery.toJSON(val), jQuery.toJSON(TestShufflAjax_Text), "Text value returned");
+                callback(true);
+            });
+        m.exec(null,
+            function(val) {
+                log.debug("----- shuffl.ajax.get (text) end -----");
                 start();
             });
         stop(2000);
