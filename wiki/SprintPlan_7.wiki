@@ -38,7 +38,7 @@ Project outline plan: [ProjectPlanOutline_200906_200911].
 || 3.1  || Code maintenance / bug fixes             || 0.5   || 0.8 || (ongoing) || -- ||
 || 3.2  || Revised data import/visualization        || 3.5   || 2.9 || (sprint) || 11-Nov-2009 ||
 || 3.3  || Improve I/O error handling               || 1.0   || 1.0 || (sprint) || 12-Nov-2009 ||
-|| 3.4  || Load/Save user interface improvement   || 5.0 || 0.9 || (start) || (ongoing) ||
+|| 3.4  || Load/Save user interface improvement   || _5.0_ || 0.9 || (start) || (ongoing) ||
 
 = Task breakdowns =
 
