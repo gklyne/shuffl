@@ -1,11 +1,11 @@
 /**
  * @fileoverview
  *  Shuffl storage access framework.  This module defines storage session 
- *  class that performs read-only access to the local file system, and can
- *  also be used for read-only access via HTTP.
+ *  class that performs read/write access to data accessed using an eXist 
+ *  AtomPub service module.
  *  
  * @author Graham Klyne
- * @version $Id$
+ * @version $Id: shuffl-storage-existatom.js 671 2009-11-16 18:02:24Z gk-google@ninebynine.org $
  * 
  * Coypyright (C) 2009, University of Oxford
  *
@@ -29,15 +29,15 @@
  */
 if (typeof shuffl == "undefined") 
 {
-    alert("shuffl-storage-localfile.js: shuffl-base.js must be loaded first");
+    alert("shuffl-storage-existatom.js: shuffl-base.js must be loaded first");
 };
 if (typeof shuffl.storage == "undefined") 
 {
-    alert("shuffl-storage-localfile.js: shuffl-storage-common.js must be loaded before this");
+    alert("shuffl-storage-existatom.js: shuffl-storage-common.js must be loaded before this");
 };
 
 // ------------------------------------------------
-// Local file storage session handler
+// eXist AtomPub storage session handler
 // ------------------------------------------------
 
 /**
@@ -50,19 +50,22 @@ if (typeof shuffl.storage == "undefined")
  *                  this string cannot be used with this session.
  * @param hname     a handler name to be associated with this handler instance
  */
-shuffl.LocalFileStorage = function (baseuri, rooturi, hname)
+shuffl.ExistAtomStorage = function (baseuri, rooturi, hname)
 {
     // Invoke common initializer
-    shuffl.LocalFileStorage.prototype.constructor.call(this, baseuri, rooturi, hname);
+    shuffl.ExistAtomStorage.prototype.constructor.call(this, baseuri, rooturi, hname);
+    // Set up atompub service access object - remove trailing "edit/"
+    this.atomuri = rooturi.replace(/edit\/$/,"")
+    this.atompub = new shuffl.AtomPub(this.atomuri);
 };
 
-shuffl.LocalFileStorage.canList    = false;
-shuffl.LocalFileStorage.canRead    = true;
-shuffl.LocalFileStorage.canWrite   = false;
-shuffl.LocalFileStorage.canDelete  = false;
+shuffl.ExistAtomStorage.canList    = false;
+shuffl.ExistAtomStorage.canRead    = true;
+shuffl.ExistAtomStorage.canWrite   = true;
+shuffl.ExistAtomStorage.canDelete  = true;
 
-shuffl.LocalFileStorage.prototype      = new shuffl.StorageCommon(null, null, null);
-shuffl.LocalFileStorage.prototype.name = "LocalFileStorage";    
+shuffl.ExistAtomStorage.prototype      = new shuffl.StorageCommon(null, null, null);
+shuffl.ExistAtomStorage.prototype.name = "ExistAtomStorage";    
 
 /**
  * Return information about the resource associated with the supplied URI.
@@ -86,16 +89,16 @@ shuffl.LocalFileStorage.prototype.name = "LocalFileStorage";
  *    canWrite  'true' is resource can be modified
  *    canDelete 'true' is resource can be deleted
  */
-shuffl.LocalFileStorage.prototype.info = function (uri, callback)
+shuffl.ExistAtomStorage.prototype.info = function (uri, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.info "+uri);
+    ////log.debug("shuffl.ExistAtomStorage.prototype.info "+uri);
     if (!uri)
     {
         callback({ uri: null, relref: null });
         return;
     }
     info = this.resolve(uri);
-    ////log.debug("shuffl.LocalFileStorage.prototype.info "+jQuery.toJSON(info));
+    ////log.debug("shuffl.ExistAtomStorage.prototype.info "+jQuery.toJSON(info));
     shuffl.ajax.get(info.uri, "text", function (val) {
         if (val instanceof shuffl.Error)
         {
@@ -107,10 +110,10 @@ shuffl.LocalFileStorage.prototype.info = function (uri, callback)
                 { uri:        info.uri
                 , relref:     info.relref
                 , type:       shuffl.ends("/", info.uri) ? "collection" : "item"
-                , canList:    shuffl.LocalFileStorage.canList
-                , canRead:    shuffl.LocalFileStorage.canRead
-                , canWrite:   shuffl.LocalFileStorage.canWrite
-                , canDelete:  shuffl.LocalFileStorage.canDelete
+                , canList:    shuffl.ExistAtomStorage.canList
+                , canRead:    shuffl.ExistAtomStorage.canRead
+                , canWrite:   shuffl.ExistAtomStorage.canWrite
+                , canDelete:  shuffl.ExistAtomStorage.canDelete
                 });
         };
     });
@@ -137,10 +140,18 @@ shuffl.LocalFileStorage.prototype.info = function (uri, callback)
  *              jQuery.uri object.
  *    relref    the URI expressed as relative to the session base URI.
  */
-shuffl.LocalFileStorage.prototype.createCollection = function (coluri, colslug, callback)
+shuffl.ExistAtomStorage.prototype.createCollection = function (coluri, colslug, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.createCollection "+coluri+", "+colslug);
-    throw new shuffl.Error("shuffl.LocalFileStorage.prototype.createCollection not implemented");
+    ////log.debug("shuffl.ExistAtomStorage.prototype.createCollection "+coluri+", "+colslug);
+    var colpath = this.atompub.getAtomPath(coluri);
+    var colname = (colslug+"/").replace(/\/\/$/, "/");
+    this.atompub.createFeed(
+        { base:   colpath
+        , name:   colname
+        , title:  "Collection "+colpath+colname
+        }, 
+        shuffl.StorageCommon.resolveReturnedUri(this, callback)
+    );
 };
 
 /**
@@ -164,10 +175,10 @@ shuffl.LocalFileStorage.prototype.createCollection = function (coluri, colslug, 
  *    relref    the URI expressed as relative to the session base URI.
  *    type      'collection' or 'item'
  */
-shuffl.LocalFileStorage.prototype.listCollection = function (coluri, callback)
+shuffl.ExistAtomStorage.prototype.listCollection = function (coluri, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.listCollection "+coluri);
-    throw new shuffl.Error("shuffl.LocalFileStorage.prototype.listCollection not implemented");
+    ////log.debug("shuffl.ExistAtomStorage.prototype.listCollection "+coluri);
+    throw new shuffl.Error("shuffl.ExistAtomStorage.prototype.listCollection not implemented");
 };
 
 /**
@@ -187,10 +198,14 @@ shuffl.LocalFileStorage.prototype.listCollection = function (coluri, callback)
  * where 'response' is an Error value, or null if the named collection has
  * been successfully deleted.
  */
-shuffl.LocalFileStorage.prototype.removeCollection = function (coluri, callback)
+shuffl.ExistAtomStorage.prototype.removeCollection = function (coluri, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.removeCollection "+coluri);
-    throw new shuffl.Error("shuffl.LocalFileStorage.prototype.removeCollection not implemented");
+    ////log.debug("shuffl.ExistAtomStorage.prototype.removeCollection "+coluri);
+    var here    = this;
+    var colpath = this.atompub.getAtomPath(coluri);
+    this.atompub.deleteFeed({path:colpath}, 
+        shuffl.StorageCommon.resolveNullOrError(callback)
+    );
 };
 
 /**
@@ -218,10 +233,19 @@ shuffl.LocalFileStorage.prototype.removeCollection = function (coluri, callback)
  *              jQuery.uri object.
  *    relref    the URI expressed as relative to the session base URI.
  */
-shuffl.LocalFileStorage.prototype.create = function (coluri, slug, data, callback)
+shuffl.ExistAtomStorage.prototype.create = function (coluri, slug, data, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.create "+coluri+", "+slug);
-    throw new shuffl.Error("shuffl.LocalFileStorage.prototype.create not implemented");
+    ////log.debug("shuffl.ExistAtomStorage.prototype.create "+coluri+", "+slug);
+    var colpath = this.atompub.getAtomPath(coluri);
+    this.atompub.createItem(
+        { path:     colpath
+        , slug:     slug
+        , title:    "Item "+colpath+slug
+        , datatype: "application/octet-stream"
+        , data:     data
+        }, 
+        shuffl.ExistAtomStorage.resolveDataUri(this, callback)
+    );
 };
 
 /**
@@ -242,11 +266,12 @@ shuffl.LocalFileStorage.prototype.create = function (coluri, slug, data, callbac
  *    data      the data read, either as an object value if the type of the
  *              data resource could be decoded, otherwise as a string value. 
  */
-shuffl.LocalFileStorage.prototype.get = function (uri, callback)
+// TODO: factor this to common storage module?
+shuffl.ExistAtomStorage.prototype.get = function (uri, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.get "+uri);
+    ////log.debug("shuffl.ExistAtomStorage.prototype.get "+uri);
     info = this.resolve(uri);
-    ////log.debug("shuffl.LocalFileStorage.prototype.info "+jQuery.toJSON(info));
+    ////log.debug("shuffl.ExistAtomStorage.prototype.info "+jQuery.toJSON(info));
     shuffl.ajax.get(info.uri, "text", function (val) {
         if (!(val instanceof shuffl.Error))
         {
@@ -280,10 +305,17 @@ shuffl.LocalFileStorage.prototype.get = function (uri, callback)
  *              jQuery.uri object.
  *    relref    the URI expressed as relative to the session base URI.
  */
-shuffl.LocalFileStorage.prototype.put = function (uri, data, callback)
+shuffl.ExistAtomStorage.prototype.put = function (uri, data, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.put "+uri);
-    throw new shuffl.Error("shuffl.LocalFileStorage.prototype.put not implemented");
+    ////log.debug("shuffl.ExistAtomStorage.prototype.put "+uri);
+    info = this.resolve(uri);
+    this.atompub.putItem(
+        { uri:      info.uri
+        , data:     data
+        , datatype: "application/octet-stream"
+        }, 
+        shuffl.StorageCommon.resolveReturnedUri(this, callback)
+    );
 };
 
 /**
@@ -300,19 +332,50 @@ shuffl.LocalFileStorage.prototype.put = function (uri, data, callback)
  * where 'response' is an Error value, or null if the named collection has
  * been successfully deleted.
  */
-shuffl.LocalFileStorage.prototype.remove = function (uri, callback)
+shuffl.ExistAtomStorage.prototype.remove = function (uri, callback)
 {
-    ////log.debug("shuffl.LocalFileStorage.prototype.remove "+uri);
-    throw new shuffl.Error("shuffl.LocalFileStorage.prototype.remove not implemented");
+    log.debug("shuffl.ExistAtomStorage.prototype.remove "+uri);
+    info = this.resolve(uri);
+    log.debug("shuffl.ExistAtomStorage.prototype.remove "+info.uri);
+    this.atompub.deleteItem({uri: info.uri},
+        shuffl.StorageCommon.resolveNullOrError(callback)
+    );
 };
+
+// ------------------------------------------------
+// Helper functions
+// ------------------------------------------------
+
+/**
+ * Helper function to return a function that can be used as a callback to 
+ * resolve the URI returned (typically by a create function) and call the
+ * indicated callback with the result thus obtained.
+ */
+shuffl.ExistAtomStorage.resolveDataUri = function (self, callback)
+{
+    function resolveDataUri (val)
+    {
+        if (!(val instanceof shuffl.Error))
+        {
+            val = self.resolve(val.datauri /*|| val.uri*/);
+        };
+        callback(val);
+    }
+    return resolveDataUri;
+};
+
+// ------------------------------------------------
+// Initialize on load
+// ------------------------------------------------
 
 /**
  *   Add to storage handler factories
- */
+ * /
 shuffl.addStorageHandler( 
-    { uri:      "file:///"
-    , name:     "LocalFile"
-    , factory:  shuffl.LocalFileStorage
+    { uri:      "zzzfile:///"
+    , name:     "zzzLocalFile"
+    , factory:  shuffl.ExistAtomStorage
     });
+*/
 
 // End.

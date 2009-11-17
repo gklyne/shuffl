@@ -829,7 +829,7 @@ TestAtomPub = function() {
                     // delete media resource should also delete feed item..
                     //TODO: this does not work:
                     //m.atompub.deleteItem({uri: val.datauri}, callback);
-                    // Use feed URI for now...
+                    // Use item URI for now...
                     m.atompub.deleteItem({uri: val.uri}, callback);
                 });
             m.eval(
