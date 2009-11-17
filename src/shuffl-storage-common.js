@@ -444,4 +444,45 @@ shuffl.StorageCommon.prototype.remove = function (uri, callback)
     throw new shuffl.Error("shuffl.StorageCommon.prototype.remove not implemented");
 };
 
+// ------------------------------------------------
+// Helper functions
+// ------------------------------------------------
+
+/**
+ * Helper function to return a function that can be used as a callback to 
+ * resolve the URI returned (typically by a create function) and call the
+ * indicated callback with the result thus obtained.
+ */
+shuffl.StorageCommon.resolveReturnedUri = function (self, callback)
+{
+    function resolveReturnedUri (val)
+    {
+        if (!(val instanceof shuffl.Error))
+        {
+            val = self.resolve(val.uri);
+        };
+        callback(val);
+    }
+    return resolveReturnedUri;
+};
+
+/**
+ * Helper function to return a function that can be used as a callback to 
+ * resolve the returned value as an error or null (typically by a delete 
+ * function) and call the indicated callback with the result thus obtained.
+ */
+shuffl.StorageCommon.resolveNullOrError = function (callback)
+{
+    function resolveReturnedUri (val)
+    {
+        if (!(val instanceof shuffl.Error))
+        {
+            val = null;
+        };
+        callback(val);
+    }
+    return resolveReturnedUri;
+};
+
+
 // End.
