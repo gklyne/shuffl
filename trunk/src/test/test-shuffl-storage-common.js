@@ -51,6 +51,7 @@ TestCommonStorage = function()
     test("TestCommonStorage", function ()
     {
         logtest("TestCommonStorage");
+        shuffl.resetStorageHandlers();
         ok(true, "TestCommonStorage running OK");
     });
 
