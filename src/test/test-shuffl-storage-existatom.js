@@ -22,7 +22,7 @@
  * Test data values
  */
 
-var TestLocalFileStorage_baseUri = jQuery.uri();
+var TestExistAtomStorage_baseUri = jQuery.uri();
 
 var test_csv =
     "rowlabel,col1,col2,col3,col4\n"+
@@ -39,21 +39,15 @@ var test_csv =
 /**
  * Function to register tests
  */
-TestLocalFileStorage = function()
+TestExistAtomStorage = function()
 {
 
-    module("TestLocalFileStorage");
+    module("TestExistAtomStorage");
 
-    test("TestLocalFileStorage", function ()
+    test("TestExistAtomStorage", function ()
     {
-        logtest("TestLocalFileStorage");
-        shuffl.resetStorageHandlers();
-        shuffl.addStorageHandler( 
-            { uri:      "file:///"
-            , name:     "LocalFile"
-            , factory:  shuffl.LocalFileStorage
-            });
-        ok(true, "TestLocalFileStorage running OK");
+        logtest("TestExistAtomStorage");
+        ok(true, "TestExistAtomStorage running OK");
     });
 
     test("Storage handler factory", function ()
@@ -62,45 +56,45 @@ TestLocalFileStorage = function()
         expect(9);
         // Instatiate dummy handler for two URIs
         shuffl.addStorageHandler(
-            { uri:      "file://dummy1/"
+            { uri:      "http://localhost:8080/dummy1/"
             , name:     "Dummy1"
-            , factory:  shuffl.LocalFileStorage
+            , factory:  shuffl.ExistAtomStorage
             });
         shuffl.addStorageHandler(
-            { uri:      "file://dummy2/"
+            { uri:      "http://localhost:8080/dummy2/"
             , name:     "Dummy2"
-            , factory:  shuffl.LocalFileStorage
+            , factory:  shuffl.ExistAtomStorage
             });
         // Instantiate session for first handler
-        var s1 = shuffl.makeStorageSession("file://dummy1/foo/bar");
+        var s1 = shuffl.makeStorageSession("http://localhost:8080/dummy1/foo/bar");
         equals(s1.getHandlerName(), "Dummy1", "s1.handlerName()");
-        equals(s1.getRootUri(), "file://dummy1/", "s1.getRootUri()");
-        equals(s1.getBaseUri(), "file://dummy1/foo/bar", "s1.getBaseUri()");
+        equals(s1.getRootUri(), "http://localhost:8080/dummy1/", "s1.getRootUri()");
+        equals(s1.getBaseUri(), "http://localhost:8080/dummy1/foo/bar", "s1.getBaseUri()");
         // Instantiate session for second handler
-        var s2 = shuffl.makeStorageSession("file://dummy2/foo/bar");
+        var s2 = shuffl.makeStorageSession("http://localhost:8080/dummy2/foo/bar");
         equals(s2.getHandlerName(), "Dummy2", "s2.handlerName()");
-        equals(s2.getRootUri(), "file://dummy2/", "s2.getRootUri()");
-        equals(s2.getBaseUri(), "file://dummy2/foo/bar", "s2.getBaseUri()");
+        equals(s2.getRootUri(), "http://localhost:8080/dummy2/", "s2.getRootUri()");
+        equals(s2.getBaseUri(), "http://localhost:8080/dummy2/foo/bar", "s2.getBaseUri()");
         // Instantiate session for built-in handler
-        var s3 = shuffl.makeStorageSession("file:///foo/bar");
+        var s3 = shuffl.makeStorageSession("http://localhost:8080//foo/bar");
         equals(s3.getHandlerName(), "LocalFile", "s3.handlerName()");
-        equals(s3.getRootUri(), "file:///", "s3.getRootUri()");
-        equals(s3.getBaseUri(), "file:///foo/bar", "s3.getBaseUri()");
+        equals(s3.getRootUri(), "http://localhost:8080//", "s3.getRootUri()");
+        equals(s3.getBaseUri(), "http://localhost:8080//foo/bar", "s3.getBaseUri()");
     });
 
-    test("shuffl.LocalFileStorage.resolve", function ()
+    test("shuffl.ExistAtomStorage.resolve", function ()
     {
-        logtest("shuffl.LocalFileStorage.resolve");
+        logtest("shuffl.ExistAtomStorage.resolve");
         expect(10);
-        this.rooturi = TestLocalFileStorage_baseUri.toString().replace(/(\/\/.[^\/]+\/).*$/,"$1");
+        this.rooturi = TestExistAtomStorage_baseUri.toString().replace(/(\/\/.[^\/]+\/).*$/,"$1");
         shuffl.addStorageHandler(
             { uri:      this.rooturi
             , name:     "Test"
-            , factory:  shuffl.LocalFileStorage
+            , factory:  shuffl.ExistAtomStorage
             });
-        var ss = shuffl.makeStorageSession(TestLocalFileStorage_baseUri);
-        var b  = TestLocalFileStorage_baseUri;
-        equals(ss.resolve("file://notest/a/b").uri, null, "Unresolved URI");
+        var ss = shuffl.makeStorageSession(TestExistAtomStorage_baseUri);
+        var b  = TestExistAtomStorage_baseUri;
+        equals(ss.resolve("http://localhost:8080/notest/a/b").uri, null, "Unresolved URI");
         equals(ss.resolve(b+"/a/b").uri, b+"/a/b", "Match absolute URI");
         equals(ss.resolve("a/b").uri, b.resolve("a/b").toString(), "Match relative URI reference");
         equals(ss.resolve("?q").uri, b+"?q", "Match query URI reference");
@@ -117,22 +111,22 @@ TestLocalFileStorage = function()
     function createTestSession()
     {
         // Instatiate dummy handler
-        ////this.rooturi = TestLocalFileStorage_baseUri.toString().replace(/(\/\/.[^\/]+\/).*$/,"$1");
-        this.rooturi = TestLocalFileStorage_baseUri.toString().replace(/\/[^\/]*$/,"/");
+        ////this.rooturi = TestExistAtomStorage_baseUri.toString().replace(/(\/\/.[^\/]+\/).*$/,"$1");
+        this.rooturi = TestExistAtomStorage_baseUri.toString().replace(/\/[^\/]*$/,"/");
         shuffl.addStorageHandler(
             { uri:      this.rooturi
             , name:     "Test"
-            , factory:  shuffl.LocalFileStorage
+            , factory:  shuffl.ExistAtomStorage
             });
         // Instantiate session for first handler
-        return shuffl.makeStorageSession(TestLocalFileStorage_baseUri);
+        return shuffl.makeStorageSession(TestExistAtomStorage_baseUri);
     }
 
-    test("shuffl.LocalFileStorage.info", function ()
+    test("shuffl.ExistAtomStorage.info", function ()
     {
-        logtest("shuffl.LocalFileStorage.info");
+        logtest("shuffl.ExistAtomStorage.info");
         expect(8);
-        log.debug("----- test shuffl.LocalFileStorage.info start -----");
+        log.debug("----- test shuffl.ExistAtomStorage.info start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
         m.eval(
@@ -140,18 +134,18 @@ TestLocalFileStorage = function()
                 try
                 {
                     ss.info("data/test-csv.csv", callback);
-                    ok(true, "shuffl.LocalFileStorage.info no exception");
+                    ok(true, "shuffl.ExistAtomStorage.info no exception");
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.LocalFileStorage.info exception: "+e);
-                    ok(false, "shuffl.LocalFileStorage.info exception"+e);
+                    log.debug("shuffl.ExistAtomStorage.info exception: "+e);
+                    ok(false, "shuffl.ExistAtomStorage.info exception"+e);
                     callback(e);
                 };
             });
         m.eval(
             function (val, callback) {
-                var b = TestLocalFileStorage_baseUri;
+                var b = TestExistAtomStorage_baseUri;
                 equals(val.uri,       b.resolve("data/test-csv.csv").toString(), "val.uri");
                 equals(val.relref,    "data/test-csv.csv", "val.relref");
                 equals(val.type,      "item", "val.type");
@@ -168,18 +162,18 @@ TestLocalFileStorage = function()
                 try
                 {
                     ss.info("data/", callback);
-                    ok(true, "shuffl.LocalFileStorage.info no exception");
+                    ok(true, "shuffl.ExistAtomStorage.info no exception");
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.LocalFileStorage.info exception: "+e);
-                    ok(false, "shuffl.LocalFileStorage.info exception"+e);
+                    log.debug("shuffl.ExistAtomStorage.info exception: "+e);
+                    ok(false, "shuffl.ExistAtomStorage.info exception"+e);
                     callback(e);
                 };
             });
         m.eval(
             function (val, callback) {
-                var b = TestLocalFileStorage_baseUri;
+                var b = TestExistAtomStorage_baseUri;
                 equals(val.uri,       b.resolve("data/").toString(), "val.uri");
                 equals(val.relref,    "data/", "val.relref");
                 equals(val.type,      "collection", "val.type");
@@ -192,17 +186,17 @@ TestLocalFileStorage = function()
         */
         m.exec({},
             function(val) {
-                log.debug("----- test shuffl.LocalFileStorage.info end -----");
+                log.debug("----- test shuffl.ExistAtomStorage.info end -----");
                 start();
             });
         stop(2000);
     });
 
-    test("shuffl.LocalFileStorage.info (non-existent resource)", function ()
+    test("shuffl.ExistAtomStorage.info (non-existent resource)", function ()
     {
-        logtest("shuffl.LocalFileStorage.info");
+        logtest("shuffl.ExistAtomStorage.info");
         expect(2);
-        log.debug("----- test shuffl.LocalFileStorage.info (non-existent resource) start -----");
+        log.debug("----- test shuffl.ExistAtomStorage.info (non-existent resource) start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
         m.eval(
@@ -210,14 +204,14 @@ TestLocalFileStorage = function()
                 try
                 {
                     ss.info("data/test-csv.nodata", function (val) {
-                        ok(true, "shuffl.LocalFileStorage.info no exception");
+                        ok(true, "shuffl.ExistAtomStorage.info no exception");
                         callback(val);
                     });
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.LocalFileStorage.info exception: "+e);
-                    ok(false, "shuffl.LocalFileStorage.info exception"+e);
+                    log.debug("shuffl.ExistAtomStorage.info exception: "+e);
+                    ok(false, "shuffl.ExistAtomStorage.info exception"+e);
                     callback(e);
                 }
             });
@@ -226,85 +220,85 @@ TestLocalFileStorage = function()
                 ////equals(val, null, "val");
                 ////equals(val.toString(), "shuffl error: Request failed (error; HTTP status: 404 Not Found)", "val");
                 equals(val.msg, "Request failed", "val.msg");
-                log.debug("----- test shuffl.LocalFileStorage.info (non-existent resource) end -----");
+                log.debug("----- test shuffl.ExistAtomStorage.info (non-existent resource) end -----");
                 start();
             });
         stop(2000);
     });
 
-    test("shuffl.LocalFileStorage.createCollection", function ()
+    test("shuffl.ExistAtomStorage.createCollection", function ()
     {
-        logtest("shuffl.LocalFileStorage.createCollection");
+        logtest("shuffl.ExistAtomStorage.createCollection");
         var ss = createTestSession();
         try
         {
             ss.createCollection("a/b/", "c", shuffl.noop);
-            ok(false, "shuffl.LocalFileStorage.createCollection exception expected");
+            ok(false, "shuffl.ExistAtomStorage.createCollection exception expected");
         }
         catch (e)
         {
-            log.debug("shuffl.LocalFileStorage.createCollection exception: "+e);
-            ok(true, "shuffl.LocalFileStorage.createCollection exception expected");
+            log.debug("shuffl.ExistAtomStorage.createCollection exception: "+e);
+            ok(true, "shuffl.ExistAtomStorage.createCollection exception expected");
             ok(e.toString().match(/not implemented/), "Not implemented");
         }
     });
 
-    test("shuffl.LocalFileStorage.listCollection", function ()
+    test("shuffl.ExistAtomStorage.listCollection", function ()
     {
-        logtest("shuffl.LocalFileStorage.listCollection");
+        logtest("shuffl.ExistAtomStorage.listCollection");
         var ss = createTestSession();
         try
         {
             ss.listCollection("a/b/", shuffl.noop);
-            ok(false, "shuffl.LocalFileStorage.listCollection exception expected");
+            ok(false, "shuffl.ExistAtomStorage.listCollection exception expected");
         }
         catch (e)
         {
-            log.debug("shuffl.LocalFileStorage.listCollection exception: "+e);
-            ok(true, "shuffl.LocalFileStorage.listCollection exception expected");
+            log.debug("shuffl.ExistAtomStorage.listCollection exception: "+e);
+            ok(true, "shuffl.ExistAtomStorage.listCollection exception expected");
             ok(e.toString().match(/not implemented/), "Not implemented");
         }
     });
 
-    test("shuffl.LocalFileStorage.removeCollection", function ()
+    test("shuffl.ExistAtomStorage.removeCollection", function ()
     {
-        logtest("shuffl.LocalFileStorage.removeCollection");
+        logtest("shuffl.ExistAtomStorage.removeCollection");
         var ss = createTestSession();
         try
         {
             ss.removeCollection("a/b/", shuffl.noop);
-            ok(false, "shuffl.LocalFileStorage.removeCollection exception expected");
+            ok(false, "shuffl.ExistAtomStorage.removeCollection exception expected");
         }
         catch (e)
         {
-            log.debug("shuffl.LocalFileStorage.removeCollection exception: "+e);
-            ok(true, "shuffl.LocalFileStorage.removeCollection exception expected");
+            log.debug("shuffl.ExistAtomStorage.removeCollection exception: "+e);
+            ok(true, "shuffl.ExistAtomStorage.removeCollection exception expected");
             ok(e.toString().match(/not implemented/), "Not implemented");
         }
     });
 
-    test("shuffl.LocalFileStorage.create", function ()
+    test("shuffl.ExistAtomStorage.create", function ()
     {
-        logtest("shuffl.LocalFileStorage.create");
+        logtest("shuffl.ExistAtomStorage.create");
         var ss = createTestSession();
         try
         {
             ss.create("a/b/", "c", "data for new item", shuffl.noop);
-            ok(false, "shuffl.LocalFileStorage.create exception expected");
+            ok(false, "shuffl.ExistAtomStorage.create exception expected");
         }
         catch (e)
         {
-            log.debug("shuffl.LocalFileStorage.create exception: "+e);
-            ok(true, "shuffl.LocalFileStorage.create exception expected");
+            log.debug("shuffl.ExistAtomStorage.create exception: "+e);
+            ok(true, "shuffl.ExistAtomStorage.create exception expected");
             ok(e.toString().match(/not implemented/), "Not implemented");
         }
     });
 
-    test("shuffl.LocalFileStorage.get", function ()
+    test("shuffl.ExistAtomStorage.get", function ()
     {
-        logtest("shuffl.LocalFileStorage.get");
+        logtest("shuffl.ExistAtomStorage.get");
         expect(6);
-        log.debug("----- test shuffl.LocalFileStorage.get start -----");
+        log.debug("----- test shuffl.ExistAtomStorage.get start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
         m.eval(
@@ -312,20 +306,20 @@ TestLocalFileStorage = function()
                 try
                 {
                     ss.get("data/test-csv.csv", function (val) {
-                        ok(true, "shuffl.LocalFileStorage.get no exception");
+                        ok(true, "shuffl.ExistAtomStorage.get no exception");
                         callback(val);
                     });
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.LocalFileStorage.get exception: "+e);
-                    ok(false, "shuffl.LocalFileStorage.get exception: "+e);
+                    log.debug("shuffl.ExistAtomStorage.get exception: "+e);
+                    ok(false, "shuffl.ExistAtomStorage.get exception: "+e);
                     callback(e);
                 }
             });
         m.eval(
             function (val, callback) {
-                var b = TestLocalFileStorage_baseUri;
+                var b = TestExistAtomStorage_baseUri;
                 equals(val.uri,    b.resolve("data/test-csv.csv").toString(), "val.uri");
                 equals(val.relref, "data/test-csv.csv", "val.relref");
                 equals(typeof val.data, typeof test_csv, "typeof val.data");
@@ -335,42 +329,42 @@ TestLocalFileStorage = function()
             });
         m.exec({},
             function(val) {
-                log.debug("----- test shuffl.LocalFileStorage.get end -----");
+                log.debug("----- test shuffl.ExistAtomStorage.get end -----");
                 start();
             });
         stop(2000);
     });
 
-    test("shuffl.LocalFileStorage.put", function ()
+    test("shuffl.ExistAtomStorage.put", function ()
     {
-        logtest("shuffl.LocalFileStorage.put");
+        logtest("shuffl.ExistAtomStorage.put");
         var ss = createTestSession();
         try
         {
             ss.put("a/b/", "data for replaced item", shuffl.noop);
-            ok(false, "shuffl.LocalFileStorage.put exception expected");
+            ok(false, "shuffl.ExistAtomStorage.put exception expected");
         }
         catch (e)
         {
-            log.debug("shuffl.LocalFileStorage.put exception: "+e);
-            ok(true, "shuffl.LocalFileStorage.put exception expected");
+            log.debug("shuffl.ExistAtomStorage.put exception: "+e);
+            ok(true, "shuffl.ExistAtomStorage.put exception expected");
             ok(e.toString().match(/not implemented/), "Not implemented");
         }
     });
 
-    test("shuffl.LocalFileStorage.remove", function ()
+    test("shuffl.ExistAtomStorage.remove", function ()
     {
-        logtest("shuffl.LocalFileStorage.remove");
+        logtest("shuffl.ExistAtomStorage.remove");
         var ss = createTestSession();
         try
         {
             ss.remove("a/b/", shuffl.noop);
-            ok(false, "shuffl.LocalFileStorage.remove exception expected");
+            ok(false, "shuffl.ExistAtomStorage.remove exception expected");
         }
         catch (e)
         {
-            log.debug("shuffl.LocalFileStorage.remove exception: "+e);
-            ok(true, "shuffl.LocalFileStorage.remove exception expected");
+            log.debug("shuffl.ExistAtomStorage.remove exception: "+e);
+            ok(true, "shuffl.ExistAtomStorage.remove exception expected");
             ok(e.toString().match(/not implemented/), "Not implemented");
         }
     });

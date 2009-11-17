@@ -43,15 +43,32 @@ if (typeof shuffl.ajax == "undefined")
 /**
  * Returns function for handling ajax request failure
  */
-shuffl.ajax.requestFailed = function (callback) {
+shuffl.ajax.requestFailed = function (uri, callback) {
     return function (xhr, status, except) {
         log.debug("shuffl.ajax.requestFailed: "+status);
+        log.debug("shuffl.ajax.requestFailed: "+except);
+        log.debug("shuffl.ajax.requestFailed: "+uri);
         var err = new shuffl.Error(
             "Request failed", 
             status+"; HTTP status: "+xhr.status+" "+xhr.statusText);
         err.HTTPstatus     = xhr.status;
         err.HTTPstatusText = xhr.statusText; 
         err.response       = err.HTTPstatus+" "+err.HTTPstatusText;
+        if (except)
+        {
+            var m = except.toString();
+            if (m.match(/."Access to restricted URI denied.*code:.*1012/))
+            {
+                // Fix up spurious handling of non-existent file in FF
+                status = "error";   
+            }
+            else
+            {
+                err.msg = m;
+                status  = "exception";
+            };
+        };
+        err.status = status;
         callback(err, status);
     };
 };
@@ -94,12 +111,13 @@ shuffl.ajax.decodeResponse = function (uri, callback, trace)
  */
 shuffl.ajax.get = function (uri, type, callback)
 {
+    uri = jQuery.uri(uri).toString();
     jQuery.ajax({
             type:         "GET",
-            url:          uri.toString(),
+            url:          uri,
             dataType:     type,
             success:      shuffl.ajax.decodeResponse(uri, callback),
-            error:        shuffl.ajax.requestFailed(callback),
+            error:        shuffl.ajax.requestFailed(uri, callback),
             cache:        false
         });
 };
