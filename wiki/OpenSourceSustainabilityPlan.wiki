@@ -16,7 +16,7 @@ Developer community: initially, me and maybe some close colleagues; later, seman
 
 = Source code licence =
 
-The MIT licence has been chosen as it is simple and permissive.  I believe sustainability for this project is maximized by lowering the barriers to adoption or adaptation, even if that means some users may "free-ride".  Experience suggests that most will not.
+The MIT licence has been chosen as it is simple and permissive.  I believe sustainability for this project is maximized by lowering the barriers to adoption or adaptation, even if that means some users may "free-ride".  Experience suggests that most will not, or at least not in a way that is harmful to the project.
 
 = Documentation licence =
 
