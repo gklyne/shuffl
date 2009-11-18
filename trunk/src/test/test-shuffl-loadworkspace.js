@@ -23,6 +23,40 @@ TestLoadWorkspace = function() {
     
     module("TestLoadWorkspace");
 
+    test("TestLoadWorkspace(init)", function ()
+    {
+        logtest("TestLoadWorkspace(init)");
+        shuffl.resetStorageHandlers();
+        shuffl.addStorageHandler( 
+            { uri:      "file:///"
+            , name:     "LocalFile"
+            , factory:  shuffl.LocalFileStorage
+            });
+        shuffl.addStorageHandler( 
+            { uri:      "http://localhost:8080/exist/shuffl/"
+            , name:     "ExistFile"
+            , factory:  shuffl.LocalFileStorage
+            });
+        /*
+        shuffl.addStorageHandler(
+            { uri:      "http://localhost:8080/exist/atom/"
+            , name:     "ExistAtom"
+            , factory:  shuffl.ExistAtomStorage
+            });
+         */
+        ok(true, "TestLoadWorkspace running OK");
+    });
+
+
+      /*
+      shuffl.addStorageHandler( 
+          { uri:      "http://localhost:8080/exist/shuffl/"
+          , name:     "ExistAtom"
+          , factory:  shuffl.ExistAtomStorage
+          });
+      */
+
+
     test("shuffl.LoadWorkspace", function () {
         expect(55);
         logtest("shuffl.LoadWorkspace");

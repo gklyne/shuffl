@@ -44,6 +44,28 @@ TestSaveWorkspace = function() {
     module("TestSaveWorkspace");
     
     test("NOTE: this test must be run from the AtomPub server used to store shuffl workspace data", shuffl.noop);
+
+    test("TestSaveWorkspace(init)", function ()
+    {
+        logtest("TestSaveWorkspace(init)");
+        shuffl.resetStorageHandlers();
+        shuffl.addStorageHandler( 
+            { uri:      "file:///"
+            , name:     "LocalFile"
+            , factory:  shuffl.LocalFileStorage
+            });
+        shuffl.addStorageHandler( 
+            { uri:      "http://localhost:8080/exist/shuffl/"
+            , name:     "ExistFile"
+            , factory:  shuffl.LocalFileStorage
+            });
+        shuffl.addStorageHandler(
+            { uri:      "http://localhost:8080/exist/atom/"
+            , name:     "ExistAtom"
+            , factory:  shuffl.ExistAtomStorage
+            });
+        ok(true, "TestSaveWorkspace running OK");
+    });
     
     test("shuffl.loadWorkspace (empty)", function ()
     {
@@ -171,7 +193,8 @@ TestSaveWorkspace = function() {
         });
         m.eval(function(val,callback) {
             log.debug("Get new card data");
-            shuffl.readCard("", "data/test-shuffl-loadworkspace-card_1.json", callback)
+            var session = shuffl.makeStorageSession(".");
+            shuffl.readCard(session, "", "data/test-shuffl-loadworkspace-card_1.json", callback)
         });
         m.eval(function(val,callback) {
             log.debug("Check new card data");
@@ -194,7 +217,8 @@ TestSaveWorkspace = function() {
             equals(val, "id_1.json", "card relative URI");
             log.debug("Read back card");
             var carduri = this.atompub.serviceUri({base:feedpath, name:val});
-            shuffl.readCard(feeduri, carduri, callback);
+            var session = shuffl.makeStorageSession(feeduri);
+            shuffl.readCard(session, feeduri, carduri, callback);
         });
         m.eval(function(val,callback) {
             log.debug("Check card values ");
@@ -298,7 +322,8 @@ TestSaveWorkspace = function() {
         m.eval(function(val,callback) {
             log.debug("Read card data from local file");
             // Note use of base URI so that dataref matches existing value in layout
-            shuffl.readCard("data/", "test-shuffl-loadworkspace-card_3.json", callback);
+            var session = shuffl.makeStorageSession(".");
+            shuffl.readCard(session, "data/", "test-shuffl-loadworkspace-card_3.json", callback);
         });
         m.eval(function(val,callback) {
             //log.debug("readCard response: "+shuffl.objectString(val));
@@ -585,7 +610,8 @@ TestSaveWorkspace = function() {
         });
         m.eval(function(val,callback) {
             log.debug("Get new card data");
-            shuffl.readCard("", "data/test-shuffl-loadworkspace-card_1.json", callback)
+            var session = shuffl.makeStorageSession(".");
+            shuffl.readCard(session, "", "data/test-shuffl-loadworkspace-card_1.json", callback)
         });
         m.eval(function(val,callback) {
             log.debug("Check new card data");
