@@ -24,7 +24,7 @@
 
 var TestLocalFileStorage_baseUri = jQuery.uri();
 
-var test_csv =
+var TestLocalFileStorage_test_csv =
     "rowlabel,col1,col2,col3,col4\n"+
     "row1,a1,b1,c1,d1\n"+
     " row2 , a2 , b2 , c2 , d2 \n"+ 
@@ -35,6 +35,37 @@ var test_csv =
     " 'row7' , 'a7''7a' , 'b7''7b' , 'c7''7c' , 'd7''7d' \n"+
     " 'row8' , 'a8'', 8a' , 'b8'', 8b' , 'c8'', 8c' , 'd8'', 8d' \n"+
     "End.";
+
+var TestLocalFileStorage_test_json =
+    { 'shuffl:id':        'test-shuffl-loadworkspace'
+    , 'shuffl:class':     'shuffl:workspace'
+    , 'shuffl:version':   '0.1'
+    , 'shuffl:atomuri':   'http://localhost:8080/exist/atom/'
+    , 'shuffl:feeduri':   '/exist/shuffl/static/test/data/'
+    , 'shuffl:base-uri':  '#'
+    , 'shuffl:uses-prefixes':
+      [ { 'shuffl:prefix':  'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
+      , { 'shuffl:prefix':  'rdf',     'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
+      , { 'shuffl:prefix':  'rdfs',    'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
+      , { 'shuffl:prefix':  'owl',     'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
+      , { 'shuffl:prefix':  'xsd',     'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
+      ]
+    , 'shuffl:workspace':
+      { 'shuffl:stockbar':
+          [ { 'id': 'stockpile_1', 'class': 'stock-yellow',  'label': 'Ye', 'type': 'shuffl-freetext-yellow'  }
+          , { 'id': 'stockpile_2', 'class': 'stock-blue',    'label': 'Bl', 'type': 'shuffl-freetext-blue'    }
+          , { 'id': 'stockpile_3', 'class': 'stock-green',   'label': 'Gr', 'type': 'shuffl-freetext-green'   }
+          , { 'id': 'stockpile_4', 'class': 'stock-orange',  'label': 'Or', 'type': 'shuffl-freetext-orange'  }
+          , { 'id': 'stockpile_5', 'class': 'stock-pink',    'label': 'Pi', 'type': 'shuffl-freetext-pink'    }
+          , { 'id': 'stockpile_6', 'class': 'stock-purple',  'label': 'Pu', 'type': 'shuffl-freetext-purple'  }
+          ]
+      , 'shuffl:layout':
+          [ { 'id': 'card_1', 'class': 'stock_1', 'data': 'test-shuffl-loadworkspace-card_1.json', 'pos': {left:100, top:30} }
+          , { 'id': 'card_2', 'class': 'stock_2', 'data': 'test-shuffl-loadworkspace-card_2.json', 'pos': {left:150, top:60} }
+          , { 'id': 'card_3', 'class': 'stock_3', 'data': 'test-shuffl-loadworkspace-card_3.json', 'pos': {left:200, top:90} }
+          ]
+      }
+    };
 
 /**
  * Function to register tests
@@ -328,14 +359,77 @@ TestLocalFileStorage = function()
                 var b = TestLocalFileStorage_baseUri;
                 equals(val.uri,    b.resolve("data/test-csv.csv").toString(), "val.uri");
                 equals(val.relref, "data/test-csv.csv", "val.relref");
-                equals(typeof val.data, typeof test_csv, "typeof val.data");
-                equals(val.data,        test_csv,        "val.data");
-                equals(jQuery.toJSON(val.data), jQuery.toJSON(test_csv), "val.data");
+                equals(typeof val.data, typeof TestLocalFileStorage_test_csv, "typeof val.data");
+                equals(val.data,        TestLocalFileStorage_test_csv,        "val.data");
+                equals(jQuery.toJSON(val.data), jQuery.toJSON(TestLocalFileStorage_test_csv), "val.data");
                 callback(val);
             });
         m.exec({},
             function(val) {
                 log.debug("----- test shuffl.LocalFileStorage.get end -----");
+                start();
+            });
+        stop(2000);
+    });
+
+    test("shuffl.LocalFileStorage.getData(json)", function ()
+    {
+        logtest("shuffl.LocalFileStorage.getData(json)");
+        expect(9);
+        log.debug("----- test shuffl.LocalFileStorage.getData(json) start -----");
+        var m = new shuffl.AsyncComputation();
+        var ss = createTestSession();
+        m.eval(
+            function (val, callback) {
+                try
+                {
+                    ss.getData("data/test-storage-getData.json", "json", function (val) {
+                        ok(true, "shuffl.LocalFileStorage.getData(json) no exception");
+                        callback(val);
+                    });
+                }
+                catch (e)
+                {
+                    log.debug("shuffl.LocalFileStorage.getData(json) exception: "+e);
+                    ok(false, "shuffl.LocalFileStorage.getData(json) exception: "+e);
+                    callback(e);
+                }
+            });
+        m.eval(
+            function (val, callback) {
+                var b = TestLocalFileStorage_baseUri;
+                equals(val.uri,    b.resolve("data/test-storage-getData.json").toString(), "val.uri");
+                equals(val.relref, "data/test-storage-getData.json", "val.relref");
+                equals(typeof val.data, typeof TestLocalFileStorage_test_json, "typeof val.data");
+                same(val.data, TestLocalFileStorage_test_json, "val.data");
+                callback(val);
+            });
+        m.eval(
+            function (val, callback) {
+                try
+                {
+                    ss.getData("data/test-csv.csv", "json", function (val) {
+                        ok(true, "shuffl.LocalFileStorage.getData(json) no exception");
+                        callback(val);
+                    });
+                }
+                catch (e)
+                {
+                    log.debug("shuffl.LocalFileStorage.getData(json) exception: "+e);
+                    ok(false, "shuffl.LocalFileStorage.getData(json) exception: "+e);
+                    callback(e);
+                }
+            });
+        m.eval(
+            function (val, callback) {
+                ok(val instanceof shuffl.Error, "Error value returned");
+                equals(val.msg, "Request failed", "val.msg");
+                equals(val.status, "parsererror", "val.status");
+                callback(true);
+            });
+        m.exec({},
+            function(val) {
+                log.debug("----- test shuffl.LocalFileStorage.getData(json) end -----");
                 start();
             });
         stop(2000);

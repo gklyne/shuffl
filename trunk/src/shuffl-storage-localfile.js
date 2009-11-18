@@ -245,9 +245,34 @@ shuffl.LocalFileStorage.prototype.create = function (coluri, slug, data, callbac
 shuffl.LocalFileStorage.prototype.get = function (uri, callback)
 {
     ////log.debug("shuffl.LocalFileStorage.prototype.get "+uri);
+    this.getData(uri, "text", callback);
+};
+
+/**
+ * Read resource data of a given type.
+ * 
+ * @param uri       the URI of a resource to be read.
+ * @param type      type of result expected: "xml", "json", or "text"
+ * @param callback  is a function called when the outcome of the request is
+ *                  known.
+ * 
+ * The callback function is called as:
+ *    callback(response) {
+ *        // this = session object
+ *    };
+ * where 'response' is an Error value, or an object with the following fields:
+ *    uri       the fully qualified URI of the created resource as a 
+ *              jQuery.uri object.
+ *    relref    the URI expressed as relative to the session base URI.
+ *    data      the data read, either as an object value if the type of the
+ *              data resource could be decoded, otherwise as a string value. 
+ */
+shuffl.LocalFileStorage.prototype.getData = function (uri, type, callback)
+{
+    ////log.debug("shuffl.LocalFileStorage.prototype.get "+uri);
     info = this.resolve(uri);
     ////log.debug("shuffl.LocalFileStorage.prototype.info "+jQuery.toJSON(info));
-    shuffl.ajax.get(info.uri, "text", function (val) {
+    shuffl.ajax.get(info.uri, type, function (val) {
         if (!(val instanceof shuffl.Error))
         {
             val =

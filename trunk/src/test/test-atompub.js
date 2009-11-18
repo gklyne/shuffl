@@ -410,7 +410,7 @@ TestAtomPub = function() {
                         "Test item 1", 
                         "Item title returned");
                     equals(val.data, 
-                        '{"a": "A", "b": "B"}',
+                        '{"a":"A","b":"B"}',
                         "Item data returned");
                     equals(typeof val.data, "string",
                         "Item data type returned");
@@ -488,7 +488,7 @@ TestAtomPub = function() {
                         "Test item 1 updated", 
                         "Updated item title returned");
                     equals(val.data, 
-                        '{"a": "AA", "b": "BB"}',
+                        '{"a":"AA","b":"BB"}',
                         "Updated item data returned");
                     equals(typeof val.data, "string",
                         "Updated item data type returned");

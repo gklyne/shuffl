@@ -107,6 +107,7 @@ shuffl.showError = function (msg)
     {
         msg = msg.toString();
     };
+    log.error(msg);
     jQuery('#workspace_status').text(msg).addClass('shuffl-error');
 };
 
