@@ -25,6 +25,8 @@
 /**
  * Load data for a single card.
  * 
+ * @param session   is a storage access session to be used to read the
+ *                  card data
  * @param baseuri   URI of workspace layout or feed, used as base for 
  *                  resolving the card data URI.
  * @param uri       URI of card description.
@@ -33,18 +35,31 @@
  * The callback is invoked with an Error object, or an object containing
  * the card data.
  */
-shuffl.readCard = function (baseuri, dataref, callback) {
+shuffl.readCard = function (session, baseuri, dataref, callback) {
     log.debug("shuffl.readCard: "+baseuri+", "+dataref);
     var datauri = jQuery.uri(baseuri).resolve(dataref);
     log.debug("- datauri "+datauri);
-    shuffl.ajax.getJSON(datauri.toString(), function(data) {
-        ////log.debug("shuffl.readCard from: "+datauri);
-        ////log.debug("shuffl.readCard from: "+dataref);
-        ////log.debug("- data: "+jQuery.toJSON(data));
-        data['shuffl:dataref'] = dataref.toString();
-        data['shuffl:datauri'] = datauri.toString();
-        data['shuffl:dataRW']  = false;     // Assume not writeable for now
-        callback(data);
+    session.get(datauri.toString(), function (data)
+    {
+        if (data instanceof shuffl.Error)
+        {
+            shuffl.showError(data.toString());
+            callback(data);
+            return;
+        };
+        try {
+            ////var json = jQuery.secureEvalJSON(data.data);
+            ////var json = jQuery.evalJSON(data.data);
+            var json = eval('('+data.data+')');
+            json['shuffl:dataref'] = dataref.toString();
+            json['shuffl:datauri'] = datauri.toString();
+            json['shuffl:dataRW']  = false;     // Assume not writeable for now
+            callback(json);
+        } catch (e) {
+            shuffl.showError(e);
+            callback(e);
+            return;
+        };
     });
 };
 
@@ -68,19 +83,39 @@ shuffl.readCard = function (baseuri, dataref, callback) {
  */
 shuffl.loadWorkspace = function(uri, callback) {
     log.debug("shuffl.loadWorkspace: "+uri);
+    var datauri = jQuery.uri(uri).toString();
+    var session = shuffl.makeStorageSession(datauri);
+    if (session == null)
+    {
+        var e = new shuffl.Error("No storage handler for "+datauri);
+        shuffl.showError(e);
+        callback(e);
+        return;
+    }
     var m = new shuffl.AsyncComputation();
     m.eval(function(val,callback) {
             log.debug("Load layout from "+val);
-            shuffl.ajax.getJSON(val.toString(), callback);
+            session.get(val.toString(), callback);
         });
-    m.eval(function(json,callback) {
-            if (json instanceof shuffl.Error)
+    m.eval(function(data,callback) {
+            if (data instanceof shuffl.Error)
             {
-                shuffl.showError(json.toString());
-                callback(json);
+                shuffl.showError(data.toString());
+                callback(data);
                 return;
             }
-            // When layout JSON has been read...
+            // Convert JSON data to object
+            var json = null;
+            try {
+                ////json = jQuery.secureEvalJSON(data.data);
+                ////json = jQuery.evalJSON(data.data);
+                json = eval('('+data.data+')');
+            } catch (e) {
+                shuffl.showError(e);
+                callback(e);
+                return;
+            }
+            // When layout JSON has been read and parsed...
             log.debug("Loading workspace content");
             var i;
             var atomuri  = json['shuffl:atomuri'];
@@ -114,9 +149,9 @@ shuffl.loadWorkspace = function(uri, callback) {
             log.debug("Loading layout "+jQuery.toJSON(layout)+", "+layout.length,+", "+(typeof layout.length));
             if (typeof layout.length != "number")
             {
-                var e = new shuffl.Error("Invalid workspace description (shuffl:layout should be an array)")
-                shuffl.showError(e);
-                callback(e);
+                var e2 = new shuffl.Error("Invalid workspace description (shuffl:layout should be an array)");
+                shuffl.showError(e2);
+                callback(e2);
                 return;
             }
             function readLayoutCard(layout) {
@@ -124,7 +159,7 @@ shuffl.loadWorkspace = function(uri, callback) {
                 // Function creates closure with specific layout definition
                 return function(val, callback) {
                     ////log.debug("readCard "+feeduri+", "+layout['data']);
-                    shuffl.readCard(feeduri, layout['data'], function (data) {
+                    shuffl.readCard(session, feeduri, layout['data'], function (data) {
                         if (data instanceof shuffl.Error)
                         {
                             shuffl.showError(data.toString());
@@ -158,7 +193,7 @@ shuffl.loadWorkspace = function(uri, callback) {
             });
         });
     // Kick of the workspace load
-    m.exec(uri, callback);
+    m.exec(datauri, callback);
 };
 
 /**
@@ -166,9 +201,9 @@ shuffl.loadWorkspace = function(uri, callback) {
  * introduced by loadWorkspace from the workspace.
  * 
  * @param callback      function called when reset is complete.
- *                      (This function executes synchronously, but for 
- *                      consistency with other workspace functions it follows
- *                      the asynchonour callback pattern.)
+ *                      (This function currently executes synchronously, but 
+ *                      for consistency with other workspace functions it 
+ *                      follows the asynchonour callback pattern.)
  * 
  * The callback is invoked with an Error object, or an empty dictionary.
  */

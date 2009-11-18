@@ -372,7 +372,7 @@ shuffl.ExistAtomStorage.resolveDataUri = function (self, callback)
  *   Add to storage handler factories
  * /
 shuffl.addStorageHandler( 
-    { uri:      "zzzfile:///"
+    { uri:      "zzzfile:///" http://localhost:8080/exist/shuffl/
     , name:     "zzzLocalFile"
     , factory:  shuffl.ExistAtomStorage
     });
