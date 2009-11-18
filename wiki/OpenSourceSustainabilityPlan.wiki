@@ -47,13 +47,13 @@ Intended tools for communication are:
  * the Google code project wiki (http://code.google.com/p/shuffl/w/list)
  * a Google groups mailing list (http://groups.google.com/group/shuffl-discuss)
  * articles tagged 'jiscri' and 'shuffl' in a personal blog (http://signal-and-noise.blogspot.com/)
+ * DOAP record: http://shuffl.googlecode.com/svn/trunk/docs/shuffl.doap
+ * online demonstrator (runs directly from subversion repository): http://shuffl.googlecode.com/svn/trunk/static/demo/shuffl-demo.xhtml
 
 The mailing list is open for anyone to view, but posts from non-members will be held for moderation. (If spam proves to be a problem, membership may be required for posting messages.)  Membership is subject to moderation.  The aim is to be as open as possible while minimizing the impact of spam messages.
 
 Other tools to be considered in future:
  * Screencasts
-
-(TODO: Description of a Project (DOAP) record)
 
 == Version management ==
 
