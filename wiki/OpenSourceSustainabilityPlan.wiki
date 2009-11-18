@@ -73,10 +73,10 @@ The management processes and tool usage will be subject to continuous review and
 
 == Contributor licence agreement ==
 
-See:
- * http://www.oss-watch.ac.uk/resources/cla.xml
+The individual contributor licence agreement is at http://code.google.com/p/shuffl/wiki/Individual_Contributor_License_Agreement
 
-(TODO: I'm hoping for a form of agreement to be provided by OSS-watch, following a "distributed ownership model")
+See also:
+ * http://www.oss-watch.ac.uk/resources/cla.xml
 
 = Subversion repository organization =
 
@@ -86,15 +86,14 @@ Within a single Google code project, this organization is pretty much dictated i
 
 = Release management =
 
-See:
- * http://wiki.oss-watch.ac.uk/Release_Management
-
 (TODO: outline release management process)
+
+See also:
+ * http://wiki.oss-watch.ac.uk/Release_Management
 
 = Agile ecosystem =
 
-(TODO: find IBRG notes)
-
+Notes about the agile-based process used are at http://code.google.com/p/shuffl/wiki/AgileProcess
 
 = Sustainability options =
 
@@ -104,13 +103,13 @@ See:
 
 The clear message from the second link above is that the project will need some level of continuing input (if not income) to survive.
 
-Possible sources of future inputs include:
- * Further JISC-funded projects:  JISC are very clear that they won't fund continuing development of 'jiscri' projects such as this, but does not explicitly rule out further projects that build upon the facilities provided by such a project.  Indeed, the emphasis in the JISC call for building upon exiting work, JISC-funded or otherwise, suggests this would be viewed favourably as long as genuinely new functionality is being created.  Shuffl is intended to be a minimal, flexible platform for small-scale data curation and management, and we anticipate many opportunities to build it out in different ways (Google Wave integration and video annotation are just two possibilities I have thought about in the past week or so).
- * Future non-JISC funded projects: I have hopes that if we can make something that our research users actually like and use, ourselves or other developers have a basis for requesting further funds from research councils and other bodies to build new capabilities that further enhance the researchers' work.
- * Volunteer efforts: other developers choosing to donate development and/or documentation effort.
- * Support from a commercial organization (including a possible commercial spin-off).
+The initial Shuffl project has served mainly to demonstrate the strength (and some weaknesses) of the basic Shuffl idea, and to lay a technical foundation for ongoing development.  It has also succeeded in actively engaging one researcher with whom we have been working.  While Shuffl can be used as a toolkit for buiklding specialized applications, it remains a fair way from being a generic data gathering and management platform.
 
-The conduct of Shuffl is intended to be fully open from the outset.  All technical, managerial and operational decisions will be recorded here, alongside the open source code and documentation.  This should help to ensure that well-motivated newcomers can learn enough about the project to make useful contributions.
+For the near-term, additional Shuffl development will take place through the JISC-funded ADMIRAL project, which has some specific requirements for metadata capture and dataset annotation for which Shuffl should be well-suited.
+
+Effort spent on data visualization tools might be better spent on creating links to other tools (e.g. Wookie widgets) so that Shuffl users can directly access a range of existing visualization tools.
+
+The conduct of Shuffl has bene fully open from the outset.  All technical, managerial and operational decisions will be recorded here, alongside the open source code and documentation.  This should help to ensure that well-motivated newcomers can learn enough about the project to make useful contributions.
 
 == Infrastructure Costs ==
 
@@ -124,7 +123,7 @@ Provide an environment that allows a community to support themselves - the Googl
 
 Support costs for the product produced by the projects initial phase may be reduced by ensuring adequate documentation and support materials are created while the project is funded.
 
-Support costs for the project itself (the ongoing community of users and developers) may be reduced is a suitably modular software architecture is adopted; i.e. requested changes to the system can be implemented through add-in modules rather than changes to the core system.  jQuery's established plug-in framework might be something that can help here.  The storage back-end should be abstracted, so it can be replaced at will by something that plays well in an intended deployment environment.
+Support costs for the project itself (the ongoing community of users and developers) may be reduced is a suitably modular software architecture is adopted (see below)
 
 == Collaboration and consensus costs ==
 
@@ -138,21 +137,17 @@ If the project has some commercial appeal, then maybe a company would be prepare
 
 All the factors affecting support costs and governance costs apply, but there are some aspects of development costs that can be mitigated though the technical approach to the product:
  * Make as much use of existing open source frameworks and projects as possible, thereby benefiting from their sustainability
- * A framework that can be extended very easily to provide new user benefits is more likely to attract volunteer developer effort, maybe even from user/developers.
+ * A framework that can be extended very easily to provide new user benefits is more likely to attract volunteer developer effort, maybe even from user/developers; i.e. the pluggable card implementations and back-end storage interface mean that new functions can be added without requiring changes to the core framework.  The easily-extended nature of jQuery has also proven very useful here.
 
 The bottom line here would appear to be:  try to avoid making expensive and constraining commitments in the software's technical design. (Maybe easier said than done, but worth trying for.)
 
 == Summary thoughts on sustainability ==
 
-(TODO: replace this with something more positive, when I know what.  OSS-Watch, can you help here?)
-
-[http://www.oss-watch.ac.uk/resources/sustainableopensource.xml OSS-watch says] that many OS projects fail because they don't plan for success, but I'm finding it hard to understand what success might look like and what form it would take, so cannot see how to really plan for it.
+[http://www.oss-watch.ac.uk/resources/sustainableopensource.xml OSS-watch says] that many OS projects fail because they don't plan for success, but it can be hard to understand what success might look like and what form it would take, so cannot comprehensively plan for it.  On the other hand, going though the exercise of preparing this plan, the one thing that I can see doing from the outset is being more conscious of the need to make it as easy as possible for users and developers to join in, though small as well as large contributions, and that this is something that pervades all other aspects of the project, right down to technical design issues. As with so many matters to with planning, it is the process of thinking about a plan  that may be more valuable that the resulting plan.
 
 The only party of this analysis that feels at all satisfactory is the infrastructure sustainability.  In the face of all other uncertainties, Google's continuing infrastructure support feels rock-solid.
 
-I can see that the project may be sustainable if it succeeds in just a small way, with low-overhead governance, a self-supporting community and ad-hoc ongoing development.  I can also see how a project would be sustainable through attracting substantial support from further research grants or commercial interests if it is wildly successful.  But the transition from small-scale to large-scale success is hard to plot, and I fail to see how to plan for it other than to understand the needs and make a conscious attempt to be flexible and opportunistic.
-
-Going though the exercise of preparing this plan, the one thing that I can see doing from the outset is being more conscious of the need to make it as easy as possible for users and developers to join in, though small as well as large contributions, and that this is something that pervades all other aspects of the project, right down to technical design issues.
+I can see that the project may be sustainable if it succeeds in just a small way, with low-overhead governance, a self-supporting community and ad-hoc ongoing development.  I can also see how a project would be sustainable through attracting substantial support from further research grants or commercial interests if it is wildly successful.  But the transition from small-scale to large-scale success is hard to plot, so I conclude that part of the plan must be a readiness to be flexible about how the project may develop.
 
 = Collected links =
 
