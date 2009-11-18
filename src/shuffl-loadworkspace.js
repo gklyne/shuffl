@@ -50,6 +50,9 @@ shuffl.readCard = function (session, baseuri, dataref, callback) {
         try {
             ////var json = jQuery.secureEvalJSON(data.data);
             ////var json = jQuery.evalJSON(data.data);
+            log.debug("- data.data "+data.data);
+            log.debug("- data.uri "+data.uri);
+            log.debug("- data.relref "+data.relref);
             var json = eval('('+data.data+')');
             json['shuffl:dataref'] = dataref.toString();
             json['shuffl:datauri'] = datauri.toString();
@@ -83,7 +86,7 @@ shuffl.readCard = function (session, baseuri, dataref, callback) {
  */
 shuffl.loadWorkspace = function(uri, callback) {
     log.debug("shuffl.loadWorkspace: "+uri);
-    var datauri = jQuery.uri(uri).toString();
+    var datauri = jQuery.uri(uri);
     var session = shuffl.makeStorageSession(datauri);
     if (session == null)
     {

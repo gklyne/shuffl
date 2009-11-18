@@ -269,9 +269,17 @@ shuffl.ExistAtomStorage.prototype.create = function (coluri, slug, data, callbac
 // TODO: factor this to common storage module?
 shuffl.ExistAtomStorage.prototype.get = function (uri, callback)
 {
-    ////log.debug("shuffl.ExistAtomStorage.prototype.get "+uri);
+    log.debug("shuffl.ExistAtomStorage.get "+uri);
     info = this.resolve(uri);
-    ////log.debug("shuffl.ExistAtomStorage.prototype.info "+jQuery.toJSON(info));
+    log.debug("shuffl.ExistAtomStorage.info "+jQuery.toJSON(info));
+    if (info.uri == null)
+    {
+        var e = new shuffl.Error("shuffl.ExistAtomStorage.get can't handle uri "+uri);
+        log.error(e.toString());
+        log.debug("baseuri: "+this.getBaseUri());
+        log.debug("rooturi: "+this.getRootUri());
+        callback(e);
+    };
     shuffl.ajax.get(info.uri, "text", function (val) {
         if (!(val instanceof shuffl.Error))
         {
