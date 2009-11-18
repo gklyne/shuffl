@@ -1,0 +1,51 @@
+<Project 
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+    xmlns:foaf="http://xmlns.com/foaf/0.1/" 
+    xmlns:admin="http://webns.net/mvcb/"
+    xmlns="http://usefulinc.com/ns/doap#" 
+    >
+  <name>Shuffl: Supporting curation of small-scale research data for web publication</name>
+  <shortname>Shuffl</shortname>
+  <shortdesc>
+    Shuffl helps researchers, and others, to capture and organize data for 
+    re-use, without having to think up-front about its structure.
+  </shortdesc>
+  <description>
+    Shuffl helps researchers, and others, to capture and organize data for 
+    re-use, without having to think up-front about its structure. 
+    One problem that it aims to address is loss of original science 
+    research data because available publication systems are too hard to set 
+    up and use.
+  
+    Shuffl lets researchers interact with their data as they might with 
+    familiar tools like pen and paper, using an interface metaphor based 
+    on index cards. It facilitates capture of raw data, and subsequent 
+    crystalization of structure. Data can then be published to the Web, 
+    with each card an addressable Web resource.
+
+    Although initially aimed at research data curation, Shuffl aims eventually 
+    to support a variety of information handling tasks, such as project
+    management information, personal notes, brainstorming, etc.
+  </description>
+  <homepage rdf:resource="http://code.google.com/p/shuffl/" />
+  <wiki rdf:resource="http://code.google.com/p/shuffl/w/list" />
+  <download-page rdf:resource="http://code.google.com/p/shuffl/downloads/list" />
+  <bug-database rdf:resource="http://code.google.com/p/shuffl/issues/list" />
+  <category rdf:resource="http://category.example.com/" />
+  <programming-language>Javascript</programming-language>
+  <license rdf:resource="http://usefulinc.com/doap/licenses/mit" />
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Graham Klyne</foaf:name>
+      <foaf:homepage rdf:resource="http://www.ninebynine.org/"/>
+      <foaf:mbox_sha1sum>78ef31d85550123aef3899c3cf3974b20d898abb</foaf:mbox_sha1sum>
+    </foaf:Person>
+  </maintainer>
+  <repository>
+    <SVNRepository>
+      <browse rdf:resource='http://code.google.com/p/shuffl/source/browse/' />
+      <location rdf:resource='http://shuffl.googlecode.com/svn/trunk/' />
+    </SVNRepository>
+  </repository> 
+</Project>
