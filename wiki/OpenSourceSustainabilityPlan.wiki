@@ -28,8 +28,9 @@ The project welcomes contributions from anyone who has an interest in its goals,
 
 See:
  * http://wiki.oss-watch.ac.uk/GovernanceModel
+ * http://code.google.com/p/shuffl/wiki/Individual_Contributor_License_Agreement
 
-In the style of the examples at http://wiki.oss-watch.ac.uk/ExamplesOfOpenSourceGovernanceModels
+In the style of the examples at http://wiki.oss-watch.ac.uk/ExamplesOfOpenSourceGovernanceModels:
 
 || *Name* || Shuffl ||
 || *Description* || Shuffl is an experimental system for small-scale data curation and web-publication  ||
