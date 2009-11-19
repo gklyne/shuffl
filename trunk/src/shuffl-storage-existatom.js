@@ -54,6 +54,7 @@ shuffl.ExistAtomStorage = function (baseuri, rooturi, hname)
 {
     // Invoke common initializer
     shuffl.ExistAtomStorage.prototype.constructor.call(this, baseuri, rooturi, hname);
+    this.className = "shuffl.ExistAtomStorage";
     // Set up atompub service access object - remove trailing "edit/"
     this.atomuri = rooturi.replace(/edit\/$/,"")
     this.atompub = new shuffl.AtomPub(this.atomuri);
@@ -91,7 +92,7 @@ shuffl.ExistAtomStorage.prototype.name = "ExistAtomStorage";
  */
 shuffl.ExistAtomStorage.prototype.info = function (uri, callback)
 {
-    ////log.debug("shuffl.ExistAtomStorage.prototype.info "+uri);
+    ////log.debug(this.className+".info "+uri);
     if (!uri)
     {
         callback({ uri: null, relref: null });
@@ -142,7 +143,7 @@ shuffl.ExistAtomStorage.prototype.info = function (uri, callback)
  */
 shuffl.ExistAtomStorage.prototype.createCollection = function (coluri, colslug, callback)
 {
-    ////log.debug("shuffl.ExistAtomStorage.prototype.createCollection "+coluri+", "+colslug);
+    ////log.debug(this.className+".createCollection "+coluri+", "+colslug);
     var colpath = this.atompub.getAtomPath(coluri);
     var colname = (colslug+"/").replace(/\/\/$/, "/");
     this.atompub.createFeed(
@@ -177,7 +178,7 @@ shuffl.ExistAtomStorage.prototype.createCollection = function (coluri, colslug, 
  */
 shuffl.ExistAtomStorage.prototype.listCollection = function (coluri, callback)
 {
-    ////log.debug("shuffl.ExistAtomStorage.prototype.listCollection "+coluri);
+    ////log.debug(this.className+".listCollection "+coluri);
     throw new shuffl.Error("shuffl.ExistAtomStorage.prototype.listCollection not implemented");
 };
 
@@ -200,7 +201,7 @@ shuffl.ExistAtomStorage.prototype.listCollection = function (coluri, callback)
  */
 shuffl.ExistAtomStorage.prototype.removeCollection = function (coluri, callback)
 {
-    ////log.debug("shuffl.ExistAtomStorage.prototype.removeCollection "+coluri);
+    ////log.debug(this.className+".removeCollection "+coluri);
     var here    = this;
     var colpath = this.atompub.getAtomPath(coluri);
     this.atompub.deleteFeed({path:colpath}, 
@@ -235,7 +236,7 @@ shuffl.ExistAtomStorage.prototype.removeCollection = function (coluri, callback)
  */
 shuffl.ExistAtomStorage.prototype.create = function (coluri, slug, data, callback)
 {
-    ////log.debug("shuffl.ExistAtomStorage.prototype.create "+coluri+", "+slug);
+    ////log.debug(this.className+".create "+coluri+", "+slug);
     var colpath = this.atompub.getAtomPath(coluri);
     this.atompub.createItem(
         { path:     colpath
@@ -266,31 +267,10 @@ shuffl.ExistAtomStorage.prototype.create = function (coluri, slug, data, callbac
  *    data      the data read, either as an object value if the type of the
  *              data resource could be decoded, otherwise as a string value. 
  */
-// TODO: factor this to common storage module?
 shuffl.ExistAtomStorage.prototype.get = function (uri, callback)
 {
-    log.debug("shuffl.ExistAtomStorage.get "+uri);
-    info = this.resolve(uri);
-    log.debug("shuffl.ExistAtomStorage.info "+jQuery.toJSON(info));
-    if (info.uri == null)
-    {
-        var e = new shuffl.Error("shuffl.ExistAtomStorage.get can't handle uri "+uri);
-        log.error(e.toString());
-        log.debug("baseuri: "+this.getBaseUri());
-        log.debug("rooturi: "+this.getRootUri());
-        callback(e);
-    };
-    shuffl.ajax.get(info.uri, "text", function (val) {
-        if (!(val instanceof shuffl.Error))
-        {
-            val =
-                { uri:        info.uri
-                , relref:     info.relref
-                , data:       val
-                };
-        };
-        callback(val);
-    });
+    ////log.debug(this.className+".get "+uri);
+    this.getData(uri, "text", callback);
 };
 
 /**
@@ -315,7 +295,7 @@ shuffl.ExistAtomStorage.prototype.get = function (uri, callback)
  */
 shuffl.ExistAtomStorage.prototype.put = function (uri, data, callback)
 {
-    ////log.debug("shuffl.ExistAtomStorage.prototype.put "+uri);
+    log.debug(this.className+".put "+uri);
     info = this.resolve(uri);
     this.atompub.putItem(
         { uri:      info.uri
@@ -342,9 +322,9 @@ shuffl.ExistAtomStorage.prototype.put = function (uri, data, callback)
  */
 shuffl.ExistAtomStorage.prototype.remove = function (uri, callback)
 {
-    log.debug("shuffl.ExistAtomStorage.prototype.remove "+uri);
+    ////log.debug(this.className+".remove "+uri);
     info = this.resolve(uri);
-    log.debug("shuffl.ExistAtomStorage.prototype.remove "+info.uri);
+    log.debug(this.className+".remove "+info.uri);
     this.atompub.deleteItem({uri: info.uri},
         shuffl.StorageCommon.resolveNullOrError(callback)
     );
@@ -377,7 +357,7 @@ shuffl.ExistAtomStorage.resolveDataUri = function (self, callback)
 // ------------------------------------------------
 
 /**
- *   Add to storage handler factories
+ * Add to storage handler factories
  * /
 shuffl.addStorageHandler( 
     { uri:      "zzzfile:///" http://localhost:8080/exist/shuffl/

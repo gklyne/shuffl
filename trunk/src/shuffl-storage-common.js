@@ -165,6 +165,7 @@ shuffl.makeStorageSession = function (baseuri)
 shuffl.StorageCommon = function (baseuri, rooturi, hname)
 {
     log.debug("shuffl.StorageCommon "+rooturi+", "+baseuri+", "+hname);
+    this.className    = "shuffl.StorageCommon";
     this.baseUri      = baseuri;
     this.rootUri      = rooturi;
     this.handlerName  = hname;
@@ -374,6 +375,52 @@ shuffl.StorageCommon.prototype.create =
 {
     ////log.debug("shuffl.StorageCommon.prototype.create "+coluri+", "+slug);
     throw new shuffl.Error("shuffl.StorageCommon.prototype.create not implemented");
+};
+
+/**
+ * Read resource data of a given type.
+ * 
+ * @param uri       the URI of a resource to be read.
+ * @param type      type of result expected: "xml", "json", or "text"
+ * @param callback  is a function called when the outcome of the request is
+ *                  known.
+ * 
+ * The callback function is called as:
+ *    callback(response) {
+ *        // this = session object
+ *    };
+ * where 'response' is an Error value, or an object with the following fields:
+ *    uri       the fully qualified URI of the created resource as a 
+ *              jQuery.uri object.
+ *    relref    the URI expressed as relative to the session base URI.
+ *    data      the data read, either as an object value if the type of the
+ *              data resource could be decoded, otherwise as a string value. 
+ */
+shuffl.StorageCommon.prototype.getData = function (uri, type, callback)
+{
+    log.debug(this.className+".getData "+uri+", "+type);
+    info = this.resolve(uri);
+    ////log.debug(this.className+".getData "+jQuery.toJSON(info));
+    if (info.uri == null)
+    {
+        var e = new shuffl.Error(this.className+".get can't handle uri "+uri);
+        log.error(e.toString());
+        log.debug("baseuri: "+this.getBaseUri());
+        log.debug("rooturi: "+this.getRootUri());
+        callback(e);
+        return;
+    };
+    shuffl.ajax.get(info.uri, type, function (val) {
+        if (!(val instanceof shuffl.Error))
+        {
+            val =
+                { uri:        info.uri
+                , relref:     info.relref
+                , data:       val
+                };
+        };
+        callback(val);
+    });
 };
 
 /**
