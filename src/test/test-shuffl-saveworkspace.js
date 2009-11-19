@@ -213,7 +213,7 @@ TestSaveWorkspace = function() {
             shuffl.saveCard(this.atompub, feedpath, val['shuffl:id']+".json", card, callback);
         });
         m.eval(function(val,callback) {
-            log.debug("Check response");
+            log.debug("Check shuffl.saveCard response");
             equals(val, "id_1.json", "card relative URI");
             log.debug("Read back card");
             var carduri = this.atompub.serviceUri({base:feedpath, name:val});
@@ -621,7 +621,7 @@ TestSaveWorkspace = function() {
             shuffl.saveCard(this.atompub, nofeedpath, val['shuffl:id']+".json", card, callback);
         });
         m.eval(function(val,callback) {
-            log.debug("Check response");
+            log.debug("Check shuffl.saveCard response");
             ok(val instanceof shuffl.Error, "Error value returned");
             equals(val.toString(), 
                 "shuffl error: AtomPub request failed "+
@@ -654,7 +654,7 @@ TestSaveWorkspace = function() {
             shuffl.saveNewWorkspace(atomuri, badfeed, layoutname, callback);
         });
         m.eval(function(val,callback) {
-            log.debug("Check response "+shuffl.objectString(val));
+            log.debug("Check shuffl.saveNewWorkspace response ");
             ok(val instanceof shuffl.Error, "Error value returned");
             equals(val.toString(), 
                 "shuffl error: shuffl.saveNewWorkspace: "+

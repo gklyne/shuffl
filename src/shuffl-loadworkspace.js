@@ -38,31 +38,30 @@
 shuffl.readCard = function (session, baseuri, dataref, callback) {
     log.debug("shuffl.readCard: "+baseuri+", "+dataref);
     var datauri = jQuery.uri(baseuri).resolve(dataref);
-    log.debug("- datauri "+datauri);
-    session.get(datauri.toString(), function (data)
+    ////log.debug("- datauri "+datauri);
+    session.getData(datauri, "json", function (data)
     {
         if (data instanceof shuffl.Error)
         {
             shuffl.showError(data.toString());
-            callback(data);
-            return;
-        };
-        try {
+        }
+        else try 
+        {
             ////var json = jQuery.secureEvalJSON(data.data);
             ////var json = jQuery.evalJSON(data.data);
-            log.debug("- data.data "+data.data);
-            log.debug("- data.uri "+data.uri);
-            log.debug("- data.relref "+data.relref);
-            var json = eval('('+data.data+')');
-            json['shuffl:dataref'] = dataref.toString();
-            json['shuffl:datauri'] = datauri.toString();
-            json['shuffl:dataRW']  = false;     // Assume not writeable for now
-            callback(json);
+            ////log.debug("- data.data "+data.data);
+            ////log.debug("- data.uri "+data.uri);
+            ////log.debug("- data.relref "+data.relref);
+            ////var json = eval('('+data.data+')');
+            data = data.data;
+            data['shuffl:dataref'] = dataref.toString();
+            data['shuffl:datauri'] = datauri.toString();
+            data['shuffl:dataRW']  = false;     // Assume not writeable for now
         } catch (e) {
             shuffl.showError(e);
-            callback(e);
-            return;
+            data = e;
         };
+        callback(data);
     });
 };
 
@@ -149,7 +148,7 @@ shuffl.loadWorkspace = function(uri, callback) {
                 jQuery('#stockbar').append(shuffl.stockpile_space.clone()).append(stockpile);
             };
             // Load up card data
-            log.debug("Loading layout "+jQuery.toJSON(layout)+", "+layout.length,+", "+(typeof layout.length));
+            ////log.debug("Loading layout "+jQuery.toJSON(layout)+", "+layout.length,+", "+(typeof layout.length));
             if (typeof layout.length != "number")
             {
                 var e2 = new shuffl.Error("Invalid workspace description (shuffl:layout should be an array)");
