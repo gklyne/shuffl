@@ -59,7 +59,7 @@ shuffl.storage.handlers = [];
 shuffl.resetStorageHandlers = function ()
 {
     shuffl.storage.handlers = [];
-}
+};
 
 /**
  * Add a new storage handler to the registry of storage handlers
@@ -80,7 +80,11 @@ shuffl.addStorageHandler = function(options)
 {
     log.debug("shuffl.addStorageHandler");
     ////log.debug("- options "+shuffl.objectString(options));
-    shuffl.storage.handlers.push(options);
+    shuffl.storage.handlers.push(
+        { uri:      options.uri.toString()
+        , name:     options.name
+        , factory:  options.factory
+        });
 };
 
 /**
