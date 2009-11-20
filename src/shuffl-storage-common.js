@@ -110,7 +110,7 @@ shuffl.addStorageHandler = function(options)
  */
 shuffl.listStorageHandlers = function ()
 {
-    log.debug("shuffl.listStorageHandlers");
+    ////log.debug("shuffl.listStorageHandlers");
     var silist = [];
     for (var i = 0 ; i < shuffl.storage.handlers.length ; i++)
     {
@@ -141,7 +141,7 @@ shuffl.makeStorageSession = function (baseuri)
 {
     ////log.debug("shuffl.makeStorageSession "+baseuri);
     baseuri = jQuery.uri(baseuri).toString();
-    log.debug("shuffl.makeStorageSession "+baseuri);
+    ////log.debug("shuffl.makeStorageSession "+baseuri);
     for (var i = 0 ; i < shuffl.storage.handlers.length ; i++)
     {
         if (shuffl.starts(shuffl.storage.handlers[i].uri, baseuri.toString()))
@@ -171,7 +171,7 @@ shuffl.makeStorageSession = function (baseuri)
  */
 shuffl.StorageCommon = function (baseuri, rooturi, hname)
 {
-    log.debug("shuffl.StorageCommon "+rooturi+", "+baseuri+", "+hname);
+    ////log.debug("shuffl.StorageCommon "+rooturi+", "+baseuri+", "+hname);
     this.className    = "shuffl.StorageCommon";
     this.baseUri      = baseuri;
     this.rootUri      = rooturi;
@@ -405,7 +405,7 @@ shuffl.StorageCommon.prototype.create =
  */
 shuffl.StorageCommon.prototype.getData = function (uri, type, callback)
 {
-    log.debug(this.className+".getData "+uri+", "+type);
+    ////log.debug(this.className+".getData "+uri+", "+type);
     info = this.resolve(uri);
     ////log.debug(this.className+".getData "+jQuery.toJSON(info));
     if (info.uri == null)

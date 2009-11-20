@@ -38,7 +38,7 @@
  */
 shuffl.invalidWorkspaceName = function (wsuri, wsname, callback)
 {
-    log.debug("shuffl.invalidWorkspaceName: "+wsuri+", "+wsname);
+    ////log.debug("shuffl.invalidWorkspaceName: "+wsuri+", "+wsname);
     //                 [scheme.:] [//auth..........]  /(path......../)*
     if (!wsuri.match(/^([\w-+]+:)?(\/\/(\w|[-+.:])+)?\/((\w|[-+.])+\/)*$/))
     {
@@ -155,7 +155,7 @@ shuffl.saveCard = function(session, wscoluri, cardref, card, callback)
             shuffl.showError(data.toString());
             callback(data); 
         } else {
-            log.debug("shuffl.saveCard:createComplete "+shuffl.objectString(data));
+            ////log.debug("shuffl.saveCard:createComplete "+shuffl.objectString(data));
             callback(data.relref);
         };
     };
@@ -176,7 +176,7 @@ shuffl.saveRelativeCard = function(session, wscoluri, card, callback)
 {
     var cardid    = card.data('shuffl:id');
     var cardref   = card.data('shuffl:dataref');
-    //log.debug("shuffl.saveRelativeCard: "+cardid+", cardref: "+cardref);
+    ////log.debug("shuffl.saveRelativeCard: "+cardid+", cardref: "+cardref);
     if (shuffl.isRelativeUri(cardref)) {
         shuffl.saveCard(session, wscoluri, cardref, card, callback);
     } else {
@@ -202,7 +202,7 @@ shuffl.saveRelativeCard = function(session, wscoluri, card, callback)
  */
 shuffl.assembleWorkspaceDescription = function (session, wscoluri) 
 {
-    log.debug("Assemble workspace description "+wscoluri);
+    ////log.debug("Assemble workspace description "+wscoluri);
     // Assemble card layout info
     var layout   = [];
     jQuery("div.shuffl-card").each(
@@ -256,13 +256,13 @@ shuffl.assembleWorkspaceDescription = function (session, wscoluri)
  */
 shuffl.processWorkspaceCards = function(firstval, firstcall, proccard, thencall) 
 {
-        log.debug("shuffl.processWorkspaceCards");
+        ////log.debug("shuffl.processWorkspaceCards");
         var m = new shuffl.AsyncComputation();
         m.eval(firstcall);
         jQuery("div.shuffl-card").each(
             function (i) {
                 var card = jQuery(this);
-                //log.debug("- card "+i+", id "+card.id);
+                ////log.debug("- card "+i+", id "+card.id);
                 // TODO: catch errors and pass along chain?
                 m.eval(function (val, next) { proccard(card, next); });
             });
@@ -361,7 +361,7 @@ shuffl.saveNewWorkspace = function (coluri, wsname, callback)
     // store details and assemble final return value
     var createComplete = function(val) 
     {
-        log.debug("shuffl.saveNewWorkspace, done.");
+        ////log.debug("shuffl.saveNewWorkspace, done.");
         if (val instanceof shuffl.Error) 
         {
             shuffl.showError(val.toString());
@@ -369,7 +369,7 @@ shuffl.saveNewWorkspace = function (coluri, wsname, callback)
         } 
         else 
         {
-            log.debug("shuffl.saveNewWorkspace:createComplete "+shuffl.objectString(val));
+            ////log.debug("shuffl.saveNewWorkspace:createComplete "+shuffl.objectString(val));
             shuffl.showLocation(val.uri.toString());
             jQuery('#workspace').data('location', val.uri);
             jQuery('#workspace').data('wsname',   wsname);
@@ -387,8 +387,6 @@ shuffl.saveNewWorkspace = function (coluri, wsname, callback)
     // Save layout once all cards have been saved
     var saveWorkspaceDescription = function(val) 
     {
-        log.debug("Assemble workspace description with details from workspace");
-        // shuffl.assembleWorkspaceDescription = function (session, wscoluri) 
         wsdata = shuffl.assembleWorkspaceDescription(session, wscoluri);
         if (wsname == undefined || wsname == "") 
         {
@@ -400,7 +398,7 @@ shuffl.saveNewWorkspace = function (coluri, wsname, callback)
 
     // Initiate workspace save now
     saveWorkspaceCards(saveWorkspaceDescription);
-    log.debug("shuffl.saveNewWorkspace, returning.");
+    ////log.debug("shuffl.saveNewWorkspace, returning.");
 };
 
 // ----------------------------------------------------------------
@@ -476,15 +474,13 @@ shuffl.updateWorkspace = function (callback) {
     // Update layout once all cards have been saved
     var updateWorkspaceDescription = function(val) 
     {
-        log.debug("Assemble workspace description with details from workspace");
         var wsdata = shuffl.assembleWorkspaceDescription(session, wscoluri);
         session.put(wsuri, wsdata, updateComplete);
     };
 
     // Initiate workspace update
     updateWorkspaceCards(updateWorkspaceDescription);
-
-    log.debug("shuffl.updateWorkspace, returning.");
+    ////log.debug("shuffl.updateWorkspace, returning.");
 };
 
 // ----------------------------------------------------------------
@@ -502,7 +498,7 @@ shuffl.updateWorkspace = function (callback) {
 shuffl.deleteWorkspace = function (wsuri, callback) {
     log.debug("shuffl.deleteWorkspace: "+wsuri);
     var wscoluri = shuffl.uriPath(wsuri);
-    log.debug("shuffl.deleteWorkspace: "+wscoluri);
+    ////log.debug("shuffl.deleteWorkspace: "+wscoluri);
     var session  = shuffl.makeStorageSession(wscoluri);
     session.removeCollection(wscoluri, callback);
 };

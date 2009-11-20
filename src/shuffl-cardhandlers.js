@@ -96,7 +96,7 @@ shuffl.getCardFactory = function (cardtype)
     else
     {
         var cssclass = factory.cardcss;
-        log.debug("getCardFactory: card type: "+cardtype+", card CSS class: "+cssclass);
+        ////log.debug("getCardFactory: card type: "+cardtype+", card CSS class: "+cssclass);
         factory = mk.partial(factory.cardfactory, cardtype, cssclass);
     }
     ////log.debug("factory "+factory);
@@ -139,8 +139,7 @@ shuffl.card.defaultcard.blank = jQuery(
  */
 shuffl.card.defaultcard.newCard = function (cardtype, cardcss, cardid, carddata) 
 {
-    //log.debug("shuffl.shuffl.card.defaultcard.newCard: "+
-    //    cardid+", "+shuffl.objectString(carddata));
+    ////log.debug("shuffl.shuffl.card.defaultcard.newCard: "+cardid+", "+shuffl.objectString(carddata));
     var card = shuffl.card.defaultcard.blank.clone();
     card.model('shuffl:class',  cardtype);
     card.model('shuffl:id',     cardid);
@@ -264,7 +263,7 @@ shuffl.createStockpile = function(sid, sclass, slabel, stype)
  * Function attached to stockpile to liberate a new card from that pile
  */
 shuffl.createCardFromStock = function (stockpile) { 
-    log.debug("makeCard "+stockpile);
+    log.debug("createCardFromStock "+stockpile);
     var cardtype = stockpile.data("CardType");
     var cardid = shuffl.makeId(shuffl.idpref);
     // log.debug("cardclass '"+cardclass+"'");
@@ -384,7 +383,7 @@ shuffl.createDataFromCard = function (card)
  */
 shuffl.getTagList = function (card, selector)
 {
-    //log.debug("shuffl.getTagList "+selector);
+    ////log.debug("shuffl.getTagList "+selector);
     return shuffl.makeTagList(card.find(selector).text());
 };
 
@@ -396,7 +395,7 @@ shuffl.getTagList = function (card, selector)
  */
 shuffl.makeTagList = function (ttext)
 {
-    //log.debug("shuffl.makeTagList "+ttext);
+    ////log.debug("shuffl.makeTagList "+ttext);
     return jQuery.trim(ttext).split(/[\s]*,[\s]*/);
 };
 
@@ -549,7 +548,7 @@ shuffl.modelSetText = function (fieldobj, holder, thencall)
 shuffl.modelSetHtml = function (fieldobj, holder, thencall)
 {
     function setHtml(event, data) {
-        //log.debug("shuffl.modelSetHtml: "+jQuery.toJSON(data.newval));
+        ////log.debug("shuffl.modelSetHtml: "+jQuery.toJSON(data.newval));
         var newtext = jQuery.trim(data.newval);
         fieldobj.html(newtext || holder);
         if (thencall !== undefined) { thencall(event, data); };
@@ -729,7 +728,7 @@ shuffl.modelSetSeries = function (card, options)
 shuffl.editSetModel = function (card, name)
 {
     function setModel(val, _settings) {
-        //log.debug("shuffl.editSetModel: "+val);
+        ////log.debug("shuffl.editSetModel: "+val);
         card.model(name, val);
         card.data('shuffl:datamod', true);
     };
@@ -867,7 +866,7 @@ shuffl.doneEditText = function(value, settings)
  */
 shuffl.passEditText = function(value, settings)
 {
-    log.debug("shuffl.passEditText: "+value);
+    ////log.debug("shuffl.passEditText: "+value);
     return value;
 };
 
@@ -1044,8 +1043,7 @@ shuffl.resizeHandler = function (card, selector, redrawfn)
  */
 shuffl.placeCard = function (layout, card, pos, size, zindex) 
 {
-    ////log.debug("shuffl.placeCard pos: "+
-    ////    jQuery.toJSON(pos)+", size: "+jQuery.toJSON(size));
+    ////log.debug("shuffl.placeCard pos: "+jQuery.toJSON(pos)+", size: "+jQuery.toJSON(size));
     layout.append(card);
     var resizefn = shuffl.resizeHandler(
         card, card.data("resizeAlso"), card.data("redrawFunc"));
@@ -1081,7 +1079,7 @@ shuffl.placeCard = function (layout, card, pos, size, zindex)
  */
 shuffl.dropCard = function(frompile, tolayout, pos) 
 {
-    log.debug("shuffl.dropCard: "+shuffl.objectString(pos));
+    ////log.debug("shuffl.dropCard: "+shuffl.objectString(pos));
     // Create card using stockpile card factory
     var newcard = frompile.data('makeCard')(frompile);
     //ÊPlace card on layout
@@ -1137,8 +1135,8 @@ shuffl.toFront = function (elem)
 shuffl.positionRelative = function (pos, obj) 
 {
     var base = obj.position();
-    //log.debug("positionRelative: pos  "+pos.left+", "+pos.top);
-    //log.debug("positionRelative: base "+base.left+", "+base.top);
+    ////log.debug("positionRelative: pos  "+pos.left+", "+pos.top);
+    ////log.debug("positionRelative: base "+base.left+", "+base.top);
     return shuffl.positionRel(pos, base);
 };
 
@@ -1148,8 +1146,8 @@ shuffl.positionRelative = function (pos, obj)
 shuffl.positionAbsolute = function (off, obj) 
 {
     var base = obj.position();
-    //log.debug("positionAbsolute: off  "+off.left+", "+off.top);
-    //log.debug("positionAbsolute: base "+base.left+", "+base.top);
+    ////log.debug("positionAbsolute: off  "+off.left+", "+off.top);
+    ////log.debug("positionAbsolute: base "+base.left+", "+base.top);
     return shuffl.positionAbs(base, off);
 };
 

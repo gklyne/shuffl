@@ -169,7 +169,7 @@ TestCardDatagraph = function() {
   			var s = shuffl.createStockpile(
 		    "stock_id", "stock-green", "stock-label", "shuffl-datagraph-green");
     		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
-        //log.debug("- card "+shuffl.objectString(c));
+        ////log.debug("- card "+shuffl.objectString(c));
         var card_id = shuffl.lastId("card_");
         // Check model values
         equals(c.model("shuffl:title"), card_id, "shuffl:title");

@@ -303,5 +303,10 @@ shuffl.addStorageHandler(
     , name:     "LocalFile"
     , factory:  shuffl.LocalFileStorage
     });
+shuffl.addStorageHandler( 
+    { uri:      jQuery.uri(".")
+    , name:     "Origin"
+    , factory:  shuffl.LocalFileStorage
+    });
 
 // End.
