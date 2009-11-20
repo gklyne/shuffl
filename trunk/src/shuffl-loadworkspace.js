@@ -27,18 +27,19 @@
  * 
  * @param session   is a storage access session to be used to read the
  *                  card data
- * @param baseuri   URI of workspace layout or feed, used as base for 
- *                  resolving the card data URI.
+ * @param wscoluri  URI of workspace collection, used as base for resolving 
+ *                  the card data URI.
  * @param uri       URI of card description.
  * @param callback  function called when the load is complete.
  * 
  * The callback is invoked with an Error object, or an object containing
  * the card data.
  */
-shuffl.readCard = function (session, baseuri, dataref, callback) {
-    log.debug("shuffl.readCard: "+baseuri+", "+dataref);
-    var datauri = jQuery.uri(baseuri).resolve(dataref);
-    ////log.debug("- datauri "+datauri);
+shuffl.readCard = function (session, wscoluri, dataref, callback) {
+    log.debug("shuffl.readCard: "+wscoluri+", "+dataref);
+    wscoluri = jQuery.uri(wscoluri, session.getBaseUri());
+    var datauri = jQuery.uri(dataref, wscoluri);
+    log.debug("- datauri "+datauri);
     session.getData(datauri, "json", function (data)
     {
         if (data instanceof shuffl.Error)
