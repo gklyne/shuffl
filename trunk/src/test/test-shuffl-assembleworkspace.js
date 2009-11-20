@@ -49,8 +49,6 @@ var testwsdata =
     { 'shuffl:id':        'test-shuffl-saveworkspace-layout'
     , 'shuffl:class':     'shuffl:workspace'
     , 'shuffl:version':   '0.1'
-    , 'shuffl:atomuri':   'http://localhost:8080/exist/atom/'
-    , 'shuffl:feeduri':   'http://localhost:8080/exist/atom/edit/shuffltest1/'
     , 'shuffl:base-uri':  '#'
     , 'shuffl:uses-prefixes':
       [ { 'shuffl:prefix':  'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
@@ -96,8 +94,6 @@ TestAssembleWorkspaceDescription = function() {
             equals(ws['shuffl:id'],          "test-shuffl-saveworkspace-layout", "shuffl:id");
             equals(ws['shuffl:class'],       "shuffl:workspace",    "shuffl:class");
             equals(ws['shuffl:version'],     "0.1",                 "shuffl:version");
-            equals(ws['shuffl:atomuri'],     atomuri,               "shuffl:atomuri");
-            equals(ws['shuffl:feeduri'],     feeduri,               "shuffl:feeduri");
             equals(ws['shuffl:base-uri'],    "#",                   "shuffl:base-uri");
             same(ws['shuffl:uses-prefixes'], 
                 testwsdata['shuffl:uses-prefixes'],                 "shuffl:uses-prefixes");

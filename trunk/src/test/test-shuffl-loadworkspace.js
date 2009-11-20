@@ -47,19 +47,39 @@ TestLoadWorkspace = function() {
         ok(true, "TestLoadWorkspace running OK");
     });
 
-
-      /*
-      shuffl.addStorageHandler( 
-          { uri:      "http://localhost:8080/exist/shuffl/"
-          , name:     "ExistAtom"
-          , factory:  shuffl.ExistAtomStorage
-          });
-      */
-
-
     test("shuffl.LoadWorkspace", function () {
-        expect(55);
+        expect(6);
         logtest("shuffl.LoadWorkspace");
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
+            try
+            {
+                shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.json", callback);
+                ok(true, "No exception");
+            }
+            catch (e)
+            {
+                ok(false, "Exception thrown: "+e.toString());
+            }
+        });
+        m.eval(function(val,callback) {
+            ok(!(val instanceof shuffl.Error), "Error returned "+val.toString());
+            var u = jQuery.uri().resolve("data/test-shuffl-loadworkspace-layout.json");
+            equals(jQuery('#workspace').data('location'), u.toString(), "location");
+            var w = jQuery("#workspace_status"); 
+            equals(w.text(), u.toString(), '#workspace_status');
+            ok(!w.hasClass("shuffl-error"), "shuffl-error class");
+            //Done
+            callback(true);
+        });        
+        m.exec({}, start);
+        ok(true, "shuffl.LoadWorkspace initiated");
+        stop(2000);
+    });
+
+    test("shuffl.LoadWorkspace (check data)", function () {
+        expect(55);
+        logtest("shuffl.LoadWorkspace (check data)");
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             shuffl.loadWorkspace("data/test-shuffl-loadworkspace-layout.json", callback);
@@ -140,7 +160,7 @@ TestLoadWorkspace = function() {
             callback(true);
         });        
         m.exec({}, start);
-        ok(true, "shuffl.LoadWorkspace initiated");
+        ok(true, "shuffl.LoadWorkspace (check data) initiated");
         stop(2000);
     });
 

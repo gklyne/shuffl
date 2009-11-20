@@ -97,31 +97,20 @@ shuffl.loadWorkspace = function(uri, callback) {
     var m = new shuffl.AsyncComputation();
     m.eval(function(val,callback) {
             log.debug("Load layout from "+val);
-            session.get(val.toString(), callback);
+            session.getData(val.toString(), "json", callback);
         });
     m.eval(function(data,callback) {
             if (data instanceof shuffl.Error)
             {
+                log.debug("Error from session.getData");
                 shuffl.showError(data.toString());
                 callback(data);
                 return;
             }
-            // Convert JSON data to object
-            var json = null;
-            try {
-                ////json = jQuery.secureEvalJSON(data.data);
-                ////json = jQuery.evalJSON(data.data);
-                json = eval('('+data.data+')');
-            } catch (e) {
-                shuffl.showError(e);
-                callback(e);
-                return;
-            }
+            var json = data.data;
             // When layout JSON has been read and parsed...
             log.debug("Loading workspace content");
             var i;
-            var atomuri  = json['shuffl:atomuri'];
-            var feeduri  = json['shuffl:feeduri'];
             var stockbar = json['shuffl:workspace']['shuffl:stockbar'];
             var layout   = json['shuffl:workspace']['shuffl:layout'];
             ////log.debug("- layout: "+jQuery.toJSON(layout));
@@ -161,7 +150,7 @@ shuffl.loadWorkspace = function(uri, callback) {
                 // Function creates closure with specific layout definition
                 return function(val, callback) {
                     ////log.debug("readCard "+feeduri+", "+layout['data']);
-                    shuffl.readCard(session, feeduri, layout['data'], function (data) {
+                    shuffl.readCard(session, datauri, layout['data'], function (data) {
                         if (data instanceof shuffl.Error)
                         {
                             shuffl.showError(data.toString());

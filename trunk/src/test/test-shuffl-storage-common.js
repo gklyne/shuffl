@@ -41,7 +41,7 @@ TestStorageCommon_DummyStorage.prototype      = new shuffl.StorageCommon(null, n
 TestStorageCommon_DummyStorage.prototype.name = "TestStorageCommon_DummyStorage";    
 
 var TestStorageCommon_rooturi = jQuery.uri(".");
-var TestStorageCommon_baseuri = jQuery.uri();
+var TestStorageCommon_baseuri = jQuery.uri(".");
 
 var TestStorageCommon_test_csv =
     "rowlabel,col1,col2,col3,col4\n"+
@@ -59,8 +59,6 @@ var TestStorageCommon_test_json =
     { 'shuffl:id':        'test-shuffl-loadworkspace'
     , 'shuffl:class':     'shuffl:workspace'
     , 'shuffl:version':   '0.1'
-    , 'shuffl:atomuri':   'http://localhost:8080/exist/atom/'
-    , 'shuffl:feeduri':   '/exist/shuffl/static/test/data/'
     , 'shuffl:base-uri':  '#'
     , 'shuffl:uses-prefixes':
       [ { 'shuffl:prefix':  'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }

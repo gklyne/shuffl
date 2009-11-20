@@ -23,9 +23,11 @@
 // ----------------------------------------------------------------
 
 /**
- * Test for an invalid feed path or workspace name.
+ * Test for an invalid collection URI or workspace name. The collection URI
+ * must contain a non-relative path ending in '/'.  The workspace name and
+ * psth segments may consist of letters, digits, '.', '+' or '-' characters.
  * 
- * @param feedpath  is a string containing a proposed feed path
+ * @param wsuri     is a string containing a workspace or collection URI
  * @param wsname    is a string containing a proposed workspace name
  * @param callback  is a callback function that is invoked with an error value
  *                  if the feed path is not valid
@@ -34,13 +36,14 @@
  *                  invoke it again;  otherwise 'false', in which the calling 
  *                  function should continue.
  */
-shuffl.invalidWorkspaceName = function (feedpath, wsname, callback)
+shuffl.invalidWorkspaceName = function (wsuri, wsname, callback)
 {
-    log.debug("shuffl.invalidWorkspaceName: "+feedpath+", "+wsname);
-    if (!feedpath.match(/^\/((\w|[-+.])+\/)*$/))
+    log.debug("shuffl.invalidWorkspaceName: "+wsuri+", "+wsname);
+    //                 [scheme.:] [//auth..........]  /(path......../)*
+    if (!wsuri.match(/^([\w-+]+:)?(\/\/(\w|[-+.:])+)?\/((\w|[-+.])+\/)*$/))
     {
-        log.error("shuffl.saveNewWorkspace: invalid feed path: "+feedpath);
-        callback(new shuffl.Error("shuffl.saveNewWorkspace: invalid feed path: "+feedpath));
+        log.error("shuffl.saveNewWorkspace: invalid feed path: "+wsuri);
+        callback(new shuffl.Error("shuffl.saveNewWorkspace: invalid collection URI: "+wsuri));
         return true;
     };
     if (!wsname.match(/^(\w|[-+.])+$/))
@@ -59,24 +62,20 @@ shuffl.invalidWorkspaceName = function (feedpath, wsname, callback)
 /**
  * Delete card at indicated location
  * 
- * @param atompub   is the AtomPub session object to use
- * @param feedpath  is the feed path from which the card is to be deleted.
  * @param carduri   is the uri of the card to be deleted, 
  *                  possibly relative to the feed.
  * @param callback  called when the operation is complete
  * 
- * The callback is invoked with an Error value, or an empty dictionary
- * to indicate success.
+ * The callback is invoked with an Error value, or null if the named 
+ * card has been successfully deleted.
  */
-shuffl.deleteCard = function(atompub, feedpath, carduri, callback) {
+shuffl.deleteCard = function(carduri, callback) 
+{
     // Set up and issue the HTTP request to delete the card data
-    log.debug("shuffl.deleteCard, feedpath: "+feedpath+", carduri: "+carduri);
-    // Build the card external object
-    atompub.deleteItem(
-        { base: feedpath
-        , name: carduri.toString()
-        },
-        callback);
+    log.debug("shuffl.deleteCard, carduri: "+carduri);
+    // Delete card media resource
+    var session = shuffl.makeStorageSession(carduri);
+    session.remove(carduri, callback);
 };
 
 // ----------------------------------------------------------------
@@ -86,15 +85,26 @@ shuffl.deleteCard = function(atompub, feedpath, carduri, callback) {
 /**
  * Update card
  * 
- * @param atompub   is the AtomPub session object to use
- * @param feedpath  patjh of the ATomPub feed containing this card
+ * @param session   is the stirage session to be used to save the card
  * @param card      is the card jQuery object to be saved
  * @param callback  called when the operation is complete
  * 
- * The callback is invoked with an Error value, or the URI of the location
- * where the card data is saved, possibly expressed relative to the feed URI.
+ * The callback supplies an Error instance, or information about the updated
+ * card, thus:
+ *   carduri:   URI of the workspace description file
+ *   cardref:   reference for the workspace description relative to the
+ *              workspace collection URI.
+ *   cardid:    local identifier string for the workstation, unique within
+ *              the containing collection.
  */
-shuffl.updateCard = function(atompub, feedpath, card, callback) {
+shuffl.updateCard = function(session, card, callback) 
+{
+    var cardid    = card.data('shuffl:id');
+    var cardref   = card.data('shuffl:dataref');
+    log.debug("shuffl.updateCard: "+cardid+", cardref: "+cardref);
+    var cardext = shuffl.createDataFromCard(card);
+    ////log.debug("- cardext: "+shuffl.objectString(cardext));
+
     // Helper function extracts saved location from posted item response and 
     // returns it via callback
     var putComplete = function(data) {
@@ -102,24 +112,11 @@ shuffl.updateCard = function(atompub, feedpath, card, callback) {
             callback(data); 
         } else {
             //log.debug("shuffl.updateCard:putComplete "+shuffl.objectString(data));
-            callback(data.uri);
+            callback({carduri: data.uri, cardref: data.relref, cardid: cardid});
         };
     };
-    // Set up and issue the HTTP request to save the card data
-    var cardid    = card.data('shuffl:id');
-    var cardref   = card.data('shuffl:dataref');
-    log.debug("shuffl.updateCard: "+cardid+", feedpath: "+feedpath+", cardref: "+cardref);
-    // Build the card external object
-    var cardext = shuffl.createDataFromCard(card);
-    //log.debug("- cardext: "+shuffl.objectString(cardext));
-    atompub.putItem(
-        { base:       feedpath
-        , name:       cardref
-        , datatype:   'application/json'
-        , title:      cardref
-        , data:       cardext
-        },
-        putComplete);
+
+    session.put(cardref, cardext, putComplete);
 };
 
 // ----------------------------------------------------------------
@@ -129,20 +126,25 @@ shuffl.updateCard = function(atompub, feedpath, card, callback) {
 /**
  * Save card to indicated location
  * 
- * @param atompub   is the AtomPub session object to use
- * @param feedpath  is the feed path at which the card is to be saved.
- * @param cardref   is a suggested name for the dard data to be located within the feed.
+ * @param session   is a storage session object used for writing the
+ *                  workspace data.
+ * @param cardref   is a suggested name for the dard data to be located 
+ *                  within the workspace collection.
  * @param card      is the card jQuery object to be saved
  * @param callback  called when the operation is complete
  * 
  * The callback is invoked with an Error value, or the URI of the location
  * where the card data is saved, possibly expressed relative to the feed URI.
  */
-shuffl.saveCard = function(atompub, feedpath, cardref, card, callback) {
+shuffl.saveCard = function(session, wscol, cardref, card, callback) 
+{
     // Helper function extracts saved location from posted item response and 
     // returns it via callback
-    var createComplete = function(data) {
-        if (data instanceof shuffl.Error) { 
+    var createComplete = function (data) 
+    {
+        if (data instanceof shuffl.Error) 
+        {
+            shuffl.showError(data.toString());
             callback(data); 
         } else {
             log.debug("shuffl.saveCard:createComplete "+shuffl.objectString(data));
@@ -151,16 +153,10 @@ shuffl.saveCard = function(atompub, feedpath, cardref, card, callback) {
     };
     // Set up and issue the HTTP request to save the card data
     var cardid    = card.data('shuffl:id');
-    log.debug("shuffl.saveCard: "+cardid+", feedpath: "+feedpath+", cardref: "+cardref);
+    log.debug("shuffl.saveCard: "+cardid+", cardref: "+cardref);
     // Build the card external object
     var cardext  = shuffl.createDataFromCard(card);
-    atompub.createItem(
-        { path:       feedpath
-        , slug:       cardref
-        , datatype:   'application/json'
-        , data:       cardext
-        },
-        createComplete);
+    session.create(wscol, cardref, cardext, createComplete);
 };
 
 /**
@@ -168,12 +164,13 @@ shuffl.saveCard = function(atompub, feedpath, cardref, card, callback) {
  * (i.e. card is copied along with workspace), 
  * otherwise absolute card location is accessed by reference.
  */
-shuffl.saveRelativeCard = function(atompub, feedpath, card, callback) {
+shuffl.saveRelativeCard = function(session, card, callback) 
+{
     var cardid    = card.data('shuffl:id');
     var cardref   = card.data('shuffl:dataref');
     //log.debug("shuffl.saveRelativeCard: "+cardid+", cardref: "+cardref+", atompub: "+atompub+", feedpath: "+feedpath);
     if (shuffl.isRelativeUri(cardref)) {
-        shuffl.saveCard(atompub, feedpath, cardref, card, callback);
+        shuffl.saveCard(session, cardref, card, callback);
     } else {
         callback(null);
     }
@@ -188,14 +185,16 @@ shuffl.saveRelativeCard = function(atompub, feedpath, card, callback) {
  * persistent storage.  The description is returned as a JSON structure which
  * will be serialized as required when written.
  * 
- * @param atomuri   is the URI of the current AtomPub service
- * @param feeduri   is the URI of the feed to which the current workspace
- *                  is being written
+ * @param session   is a storage session object used for writing the workspace
+ *                  data.
+ * @param wscoluri  is the URI of the collection to which the current workspace
+ *                  cards are being written
  * @return          a Javascript object containing a description of the current
  *                  workspace, ready to be serialized and written out.
  */
-shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
-    log.debug("Assemble workspace description "+feeduri);
+shuffl.assembleWorkspaceDescription = function (session, wscoluri) 
+{
+    log.debug("Assemble workspace description "+wscoluri);
     // Assemble card layout info
     var layout   = [];
     jQuery("div.shuffl-card").each(
@@ -218,8 +217,6 @@ shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
         { 'shuffl:id':            wsload['shuffl:id']
         , 'shuffl:class':         'shuffl:workspace'
         , 'shuffl:version':       '0.1'
-        , 'shuffl:atomuri':       atomuri.toString()
-        , 'shuffl:feeduri':       feeduri.toString()
         , 'shuffl:base-uri':      '#'
         , 'shuffl:uses-prefixes': wsload['shuffl:uses-prefixes']
         , 'shuffl:workspace':
@@ -249,7 +246,8 @@ shuffl.assembleWorkspaceDescription = function (atomuri, feeduri) {
  *                  processing function called when all cards have been 
  *                  processed.
  */
-shuffl.processWorkspaceCards = function(firstval, firstcall, proccard, thencall) {
+shuffl.processWorkspaceCards = function(firstval, firstcall, proccard, thencall) 
+{
         log.debug("shuffl.processWorkspaceCards");
         var m = new shuffl.AsyncComputation();
         m.eval(firstcall);
@@ -260,7 +258,6 @@ shuffl.processWorkspaceCards = function(firstval, firstcall, proccard, thencall)
                 // TODO: catch errors and pass along chain?
                 m.eval(function (val, next) { proccard(card, next); });
             });
-        //log.debug("Invoke exec(...) for saving cards");
         m.exec(firstval, thencall);
     };
 
@@ -274,11 +271,12 @@ shuffl.processWorkspaceCards = function(firstval, firstcall, proccard, thencall)
  * @return          a function that is used as a callback with shuffl.saveCard
  *                  or shuffl.saveRelativeCard.
  */
-shuffl.saveNewCardDetails = function (card, next) {
+shuffl.storeNewCardDetails = function (card, next) 
+{
     var saveDetails = function(ret) {
         // Update card location with result from shuffl.saveCard
         // See: http://code.google.com/p/shuffl/wiki/CardReadWriteOptions
-        //log.debug("shuffl.saveNewCardDetails: "+ret);
+        //log.debug("shuffl.storeNewCardDetails: "+ret);
         card.data('shuffl:dataref', shuffl.uriName(ret));
         card.data('shuffl:datauri', ret);
         card.data('shuffl:dataRW',  true);
@@ -293,103 +291,103 @@ shuffl.saveNewCardDetails = function (card, next) {
 // ----------------------------------------------------------------
 
 /**
- * Save current data as new workspace.  Cards references by relative URIs are
- * saved as part of the new workspace.  Cards referenced using absilute URIs
+ * Save current data as new workspace.  Cards referenced by relative URIs are
+ * saved as part of the new workspace.  Cards referenced using absolute URIs
  * are not saved, and are referenced at their current locations.
  * 
- * @param atomuri     URI of an AtomPub service that will be used to save 
- *                    the workspace data
- * @param feedpath    URI-path of Atom feed that will receive the new workspace
- *                    and card descriptions
- * @param wsname      is the name of a resource withinthe feed where the
- *                    workspace layout is saved.
+ * @param coluri      URI of storage collection in which the new workspace will
+ *                    be created.
+ * @param wsname      is the name of a workspace collection to be created 
+ *                    within the indicated parent collection.
  * @param callback    function called when the save is complete.
  * 
  * The callback supplies an Error instance, or information about the newly
  * saved workspace, thus:
- *   title:     title of the Atom item referencing the workspace description
- *   uri:       URI of the workspace description
- *   path:      URI path used by the AtomPub service API for accessing the
- *              workspace data
- *   itemuri:   URI of the Atom item referencing the workspace description
- *   itempath:  AtomPub service path for the referencing item
- *   itemid:    AtomPub item identifier for the referencing item
- *   feeduri:   URI of the atom feed where the workspace is saved
- *   feedpath:  AtomPub path, used in conjunction with the service, to access
- *              the atom feed containing the workspace.
- *   atomuri:   URI of the AtomPub service used
- * The atom-, feed- and item- values are intended to be opaque, and are 
- * intended to be stored with objects to assist in subsequent retrieval 
- * and editing using atompub.  The workspace URI should be resolved relative 
- * to the item URI. 
+ *   wscoluri:  URI of the workspace collection
+ *   wsuri:     URI of the workspace description file
+ *   wsref:     reference for the workspace description relative to the
+ *              workspace collection URI.
+ *   wsid:      local identifier string for the workstation, unique within
+ *              the containing collection.
  */
-shuffl.saveNewWorkspace = function (atomuri, feedpath, wsname, callback) {
-    log.debug("shuffl.saveNewWorkspace: "+atomuri+", "+feedpath+", "+wsname);
-    if (shuffl.invalidWorkspaceName(feedpath, wsname, callback)) return;
-    var atompub = new shuffl.AtomPub(atomuri);
-    var feeduri = atompub.serviceUri({path: feedpath});
-    var wsdata  = undefined;
+shuffl.saveNewWorkspace = function (coluri, wsname, callback) 
+{
+    log.debug("shuffl.saveNewWorkspace: "+coluri+", "+wsname);
+    if (shuffl.invalidWorkspaceName(coluri, wsname, callback)) return;
+    var session  = shuffl.makeStorageSession(coluri);
+    var wscoluri = undefined;     // URI of workspace collection
+    var wsdata   = undefined;     // Accumulates layout details
 
-    // Helper function extracts location from posted item response and 
-    // displays it in the workspace.  Also assembles return values.
-    var createComplete = function(val) {
-        if (val instanceof shuffl.Error) { 
+    // Create workspace descriotion callback: 
+    // store details and assemble final return value
+    var createComplete = function(val) 
+    {
+        log.debug("shuffl.saveNewWorkspace, done.");
+        if (val instanceof shuffl.Error) 
+        {
+            shuffl.showError(val.toString());
             callback(val); 
-        } else {
-            //log.debug("shuffl.saveNewWorkspace:createComplete "+shuffl.objectString(val));
-            shuffl.showLocation(val.datauri.toString());
-            jQuery('#workspace').data('location', val.datauri);
+        } 
+        else 
+        {
+            log.debug("shuffl.saveNewWorkspace:createComplete "+shuffl.objectString(val));
+            shuffl.showLocation(val.uri.toString());
+            jQuery('#workspace').data('location', val.uri);
             jQuery('#workspace').data('wsname',   wsname);
             jQuery('#workspace').data('wsdata',   wsdata);
             var ret = 
-                { title:    val.title
-                , uri:      val.dataref
-                , path:     val.datapath
-                , itemuri:  val.uri
-                , itempath: val.path
-                , itemid:   val.id
-                , feeduri:  feeduri
-                , feedpath: feedpath
-                , atomuri:  atomuri
-                } 
+                { wscoluri: wscoluri
+                , wsuri:    val.uri
+                , wsref:    jQuery.uri.relative(val.uri, wscoluri)
+                , wsid:     wsname
+                };
             callback(ret);
         };
     };
 
+    // Create workspace collection andsave URI of created collection
+    var localCreateCollection = function (val, next)
+    {
+        session.createCollection(coluri, wsname, function (info) 
+        {
+            if (!(info instanceof shuffl.Error)) 
+            { 
+                wscoluri = info.uri;
+            };
+            next(val);
+        });
+    }
+
     // Helper function to save card then invoke the next step
-    var localSaveCard = function(card, next) {
+    var localSaveCard = function(card, next) 
+    {
         //log.debug("shuffl.saveNewWorkspace:saveCard: "+card.id);
-        shuffl.saveRelativeCard(
-            atompub, feedpath, card, shuffl.saveNewCardDetails(card, next));
+        shuffl.saveRelativeCard(session, card, 
+            shuffl.storeNewCardDetails(card, next));
     };
 
     // Save all cards in the workspace
-    var saveWorkspaceCards = function(thencall) {
+    var saveWorkspaceCards = function(thencall) 
+    {
         shuffl.processWorkspaceCards(
-            {path: feedpath, title: "Shuffl feed"}, 
-            function (val,next) { atompub.createFeed(val, next); },
+            null,
+            localCreateCollection,
             localSaveCard, 
             thencall);
     };
 
     // Save layout once all cards have been saved
-    var saveWorkspaceDescription = function(val) {
+    var saveWorkspaceDescription = function(val) 
+    {
         log.debug("Assemble workspace description with details from workspace");
-        wsdata = shuffl.assembleWorkspaceDescription(atomuri, feeduri);
-        if (wsname == undefined || wsname == "") {
+        // shuffl.assembleWorkspaceDescription = function (session, wscoluri) 
+        wsdata = shuffl.assembleWorkspaceDescription(session, wscoluri);
+        if (wsname == undefined || wsname == "") 
+        {
             //ÊDefault name from workspace Id + ".json"
-            wsname = wsdata['shuffl:id']+".json";
+            wsname = wsdata['shuffl:id'];
         }
-        // NOTE: need slug and/or title here when saving AtomPub media resource
-        atompub.createItem(
-            { path:       feedpath
-            , slug:       wsname
-            , title:      wsdata['shuffl:id']
-            , datatype:   'application/json'
-            , data:       wsdata
-            },
-            createComplete);
-        log.debug("shuffl.saveNewWorkspace, done.");
+        session.create(wscoluri, wsname+".json", wsdata, createComplete);
     };
 
     // Initiate workspace save now
@@ -406,32 +404,21 @@ shuffl.saveNewWorkspace = function (atomuri, feedpath, wsname, callback) {
  * 
  * @param callback    function called when the update is complete.
  * 
- * The callback supplies an Error instance, or information about the newly
- * saved workspace, thus:
- *   title:     title of the Atom item referencing the workspace description
- *   uri:       URI of the workspace description
- *   path:      URI path used by the AtomPub service API for accessing the
- *              workspace data
- *   itemuri:   URI of the Atom item referencing the workspace description
- *   itempath:  AtomPub service path for the referencing item
- *   itemid:    AtomPub item identifier for the referencing item
- *   feeduri:   URI of the atom feed where the workspace is saved
- *   feedpath:  AtomPub path, used in conjunction with the service, to access
- *              the atom feed containing the workspace.
- *   atomuri:   URI of the AtomPub service used
- * The atom-, feed- and item- values are intended to be opaque, and are 
- * intended to be stored with objects to assist in subsequent retrieval 
- * and editing using atompub.  The workspace URI should be resolved relative 
- * to the item URI. 
+ * The callback supplies an Error instance, or information about the 
+ * updated workspace, thus:
+ *   wscoluri:  URI of the workspace collection
+ *   wsuri:     URI of the workspace description file
+ *   wsref:     reference for the workspace description relative to the
+ *              workspace collection URI.
+ *   wsid:      local identifier string for the workstation, unique within
+ *              the containing collection.
  */
 shuffl.updateWorkspace = function (callback) {
     var wsdata   = jQuery('#workspace').data('wsdata');
     var wsuri    = jQuery('#workspace').data('location');
-    var atomuri  = wsdata['shuffl:atomuri'];
-    var feeduri  = wsdata['shuffl:feeduri'];
-    var atompub  = new shuffl.AtomPub(atomuri);
-    var feedpath = atompub.getAtomPath(feeduri);
-    log.debug("shuffl.updateWorkspace: "+atomuri+", "+feeduri+", "+feedpath);
+    var wscoluri = wsdata['shuffl:wscoluri'];
+    log.debug("shuffl.updateWorkspace: "+wscoluri+", "+wsuri);
+    var session  = shuffl.makeStorageSession(coluri);
 
     // Helper function extracts return values following update
     var updateComplete = function(val) {
@@ -440,31 +427,37 @@ shuffl.updateWorkspace = function (callback) {
         } else {
             //log.debug("shuffl.saveCard:updateComplete "+shuffl.objectString(val));
             var ret = 
-                { uri:      val.uri
-                , path:     val.path
-                , feeduri:  feeduri
-                , feedpath: feedpath
-                , atomuri:  atomuri
+                { wscoluri: wscoluri
+                , wsuri:    val.uri
+                , wsref:    val.dataref
+                , wsid:     val.dataref.replace(/\.[^.]*$/, "")
                 };
             callback(ret);
         };
     };
 
     // Helper function to update card then invoke the next step
-    var localUpdateCard = function(card, next) {
+    var localUpdateCard = function(card, next)
+    {
         //log.debug("shuffl.updateWorkspace:localUpdateCard: "+card.id);
-        if (card.data('shuffl:datauri') == null) {
-            shuffl.saveRelativeCard(atompub, feedpath, card, 
-                shuffl.saveNewCardDetails(card, next));
-        } else if (card.data('shuffl:datamod')) {
-            shuffl.updateCard(atompub, feedpath, card, next);
-        } else {
+        if (card.data('shuffl:datauri') == null) 
+        {
+            shuffl.saveRelativeCard(session, card, 
+                shuffl.storeNewCardDetails(card, next));
+        } 
+        else if (card.data('shuffl:datamod')) 
+        {
+            shuffl.updateCard(session, card, next);
+        } 
+        else 
+        {
             next({});   // Nod modified: skip this card, invoke callback
         };
     };
 
     // Update all cards in workspace
-    var updateWorkspaceCards = function(thencall) {
+    var updateWorkspaceCards = function(thencall) 
+    {
         shuffl.processWorkspaceCards(
             null,
             function (val, next) { next(val); },
@@ -473,17 +466,11 @@ shuffl.updateWorkspace = function (callback) {
     };
 
     // Update layout once all cards have been saved
-    var updateWorkspaceDescription = function(val) {
+    var updateWorkspaceDescription = function(val) 
+    {
         log.debug("Assemble workspace description with details from workspace");
-        var ws = shuffl.assembleWorkspaceDescription(atomuri, feeduri);
-        atompub.putItem(
-            { uri:        wsuri
-            , title:      ws['shuffl:id']
-            , datatype:   'application/json'
-            , data:       ws
-            },
-            updateComplete);
-        log.debug("shuffl.updateWorkspaceDescription, initiated.");
+        var wsdata = shuffl.assembleWorkspaceDescription(session, wscoluri);
+        session.put(wsuri, wsdata, updateComplete);
     };
 
     // Initiate workspace update
@@ -499,18 +486,17 @@ shuffl.updateWorkspace = function (callback) {
 /**
  * Delete workspace.
  * 
- * @param atomuri     URI of AtomPub service.
- * @param feedpath    Feed path of workspace to delete
- * @param wsname      Name of workspace to delete
+ * @param wsuri       is a a workspace description URI
  * @param callback    function called when the update is complete.
  * 
- * The callback supplies an empty object, or an Error instance
+ * The callback supplies a null value, or an Error instance
  */
-shuffl.deleteWorkspace = function (atomuri, feedpath, wsname, callback) {
-    log.debug("shuffl.deleteWorkspace: "+atomuri+", "+feedpath);
-    ////if (shuffl.invalidWorkspaceName(feedpath, wsname, callback)) return;
-    this.atompub  = new shuffl.AtomPub(atomuri);
-    this.atompub.deleteFeed({path:feedpath}, callback);
+shuffl.deleteWorkspace = function (wsuri, callback) {
+    log.debug("shuffl.deleteWorkspace: "+wsuri);
+    var wscoluri = shuffl.uriPath(wsuri);
+    log.debug("shuffl.deleteWorkspace: "+wscoluri);
+    var session  = shuffl.makeStorageSession(wscoluri);
+    session.removeCollection(wscoluri, callback);
 };
 
 // End.

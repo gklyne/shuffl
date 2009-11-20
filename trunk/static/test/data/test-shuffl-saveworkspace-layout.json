@@ -1,8 +1,6 @@
 { 'shuffl:id':        'test-shuffl-saveworkspace-layout'
 , 'shuffl:class':     'shuffl:workspace'
 , 'shuffl:version':   '0.1'
-, 'shuffl:atomuri':   'http://localhost:8080/exist/atom/'
-, 'shuffl:feeduri':   'http://localhost:8080/exist/atom/edit/shuffltest1/'
 , 'shuffl:base-uri':  '#'
 , 'shuffl:uses-prefixes':
   [ { 'shuffl:prefix':  'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }

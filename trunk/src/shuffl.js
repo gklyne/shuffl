@@ -82,9 +82,8 @@ shuffl.saveWorkspaceDefaults = function ()
     var wsdata = ws.data('wsdata');
     if (wsdata)
     {
-        log.debug("- atomuri "+wsdata['shuffl:atomuri']+", feeduri "+wsdata['shuffl:feeduri']+", wsname "+ws.data('wsname'));
-        ws.data('default_atomuri', wsdata['shuffl:atomuri']);
-        ws.data('default_feeduri', wsdata['shuffl:feeduri']);
+        log.debug("- wsuri "+wsdata['shuffl:wsuri']+", wsname "+ws.data('wsname'));
+        ws.data('default_wsuri',   wsdata['shuffl:wsuri']);
         ws.data('default_wsname',  ws.data('wsname'));
     }
     else
@@ -102,23 +101,16 @@ shuffl.menuOpenWorkspace = function ()
 {
     // Use current location (atomuri/feeduri) as default base
     log.debug("shuffl.menuLoadWorkspace");
-    var wsdata   = jQuery('#workspace').data('wsdata');
-    var wsname   = jQuery('#workspace').data('default_wsname');
-    var atomuri  = jQuery('#workspace').data('default_atomuri');
-    var feeduri  = jQuery('#workspace').data('default_feeduri');
+    var wsuri  = jQuery('#workspace').data('default_wsuri');
+    var wsname = jQuery('#workspace').data('default_wsname');
+    var wsdata = jQuery('#workspace').data('wsdata');
     if (wsdata)
     {
-        atomuri  = wsdata['shuffl:atomuri'];
-        feeduri  = wsdata['shuffl:feeduri'];
-        wsname   = jQuery('#workspace').data('wsname');
+        wsuri  = wsdata['shuffl:wsuri'];
+        wsname = jQuery('#workspace').data('wsname');
     };
-    log.debug("- atomuri "+atomuri+", feeduri "+feeduri);
-    var atompub  = new shuffl.AtomPub(atomuri);
-    var feedpath = atompub.getAtomPath(feeduri);
-    atompub = null;
-    log.debug("- atomuri "+atomuri+", feeduri "+feeduri+", wsname "+wsname);
-    jQuery('#open_atomuri').val(atomuri);
-    jQuery('#open_feedpath').val(feedpath);
+    log.debug("- wsuri "+wsuri+", wsname "+wsname);
+    jQuery('#open_wsuri').val(wsuri);
     jQuery('#open_wsname').val(wsname);
     // Open dialog to obtain location of workspace data
     jQuery("#dialog_open").dialog(
@@ -128,20 +120,15 @@ shuffl.menuOpenWorkspace = function ()
           width: 800,
           buttons: {
               Ok: function() {
-                  atomuri  = jQuery('#open_atomuri').val();
-                  feedpath = jQuery('#open_feedpath').val();
-                  wsname   = jQuery('#open_wsname').val();
-                  log.debug("- OK: atomuri "+atomuri+", feedpath "+feedpath+", wsname "+wsname);
-                  atompub  = new shuffl.AtomPub(atomuri);
-                  feeduri  = atompub.serviceUri({base: feedpath, name:wsname});
-                  atompub  = null;
+                  wsuri  = jQuery('#open_wsuri').val();
+                  wsname = jQuery('#open_wsname').val();
+                  log.debug("- OK: wsuri "+wsuri+", wsname "+wsname);
                   jQuery(this).dialog('destroy');
-                  log.debug("- OK: feeduri "+feeduri);
                   // Save cards, capture locations (or bail if error),
                   // assemble workspace description and save, and
                   // display location saved:
                   shuffl.resetWorkspace(function(val) {
-                      shuffl.loadWorkspace(feeduri, shuffl.resetWorkspaceOnError);                    
+                      shuffl.loadWorkspace(wsuri, shuffl.resetWorkspaceOnError);                    
                   });
               },
               Cancel: function() {
@@ -168,16 +155,11 @@ shuffl.menuSaveNewWorkspace = function ()
 {
     // Use current location (atomuri/feeduri) as default base
     log.debug("shuffl.menuSaveNewWorkspace");
-    var wsdata   = jQuery('#workspace').data('wsdata');
-    var wsname   = jQuery('#workspace').data('wsname');
-    var atomuri  = wsdata['shuffl:atomuri'];
-    var feeduri  = wsdata['shuffl:feeduri'];
-    log.debug("- atomuri "+atomuri+", feeduri "+feeduri);
-    var atompub = new shuffl.AtomPub(atomuri);
-    jQuery('#save_atomuri').val(atomuri);
-    jQuery('#save_feedpath').val(atompub.getAtomPath(feeduri));
+    var wsuri  = jQuery('#workspace').data('wsuri');
+    var wsname = jQuery('#workspace').data('wsname');
+    var wsdata = jQuery('#workspace').data('wsdata');
+    jQuery('#save_wsuri').val(wsuri);
     jQuery('#save_wsname').val(wsname);
-    atompub = null;
     jQuery("#dialog_save").dialog(
         { bgiframe: true,
           modal: true,
@@ -185,17 +167,17 @@ shuffl.menuSaveNewWorkspace = function ()
           width: 800,
           buttons: {
               Ok: function() {
-                  atomuri  = jQuery('#save_atomuri').val();
-                  feedpath = jQuery('#save_feedpath').val();
-                  wsname   = jQuery('#save_wsname').val();
+                  wsuri  = jQuery('#save_wsuri').val();
+                  wsname = jQuery('#save_wsname').val();
                   jQuery(this).dialog('destroy');
-                  log.debug("- OK: atomuri "+atomuri+", feedpath "+feedpath+", feedpath "+wsname);
+                  log.debug("- OK: wsuri "+wsuri+", wsname "+wsname);
                   // Save cards, capture locations (or bail if error),
                   // assemble workspace description and save, and
                   // display location saved:
-                  if (shuffl.invalidWorkspaceName(feedpath, wsname, shuffl.showMessageOnError)) return;
-                  shuffl.deleteWorkspace(atomuri, feedpath, wsname, function(val,next) {
-                      shuffl.saveNewWorkspace(atomuri, feedpath, wsname, 
+                  if (shuffl.invalidWorkspaceName(wsuri, wsname, shuffl.showMessageOnError)) return;
+                  var coluri = jQuery.uri("..", wsuri);
+                  shuffl.deleteWorkspace(wsuri, function(val,next) {
+                      shuffl.saveNewWorkspace(coluri, wsname, 
                           shuffl.showMessageOnError);
                   });
               },
@@ -226,10 +208,8 @@ shuffl.OpenDialogHTML =
     "  <form>\n"+
     "    <fieldset>\n"+
     "      <legend>Location of workspace data</legend>\n"+
-    "      <label for='open_atomuri'>AtomPub service URI:</label>\n"+
-    "      <input type='text' name='atomuri' id='open_atomuri' class='text ui-widget-content ui-corner-all' size='80'/>\n"+
-    "      <label for='open_feedpath'>Atom feed path:</label>\n"+
-    "      <input type='text' name='feedpath' id='open_feedpath' class='text ui-widget-content ui-corner-all' size='80'/>\n"+
+    "      <label for='open_atomuri'>Workspace URI:</label>\n"+
+    "      <input type='text' name='wsuri' id='open_wsuri' class='text ui-widget-content ui-corner-all' size='80'/>\n"+
     "      <label for='open_wsname'>Workspace name:</label>\n"+
     "      <input type='text' name='wsname' id='open_wsname' class='text ui-widget-content ui-corner-all' size='80'/>\n"+
     "    </fieldset>\n"+
@@ -242,10 +222,8 @@ shuffl.SaveNewDialogHTML =
     "  <form>\n"+
     "    <fieldset>\n"+
     "      <legend>Location for saved workspace</legend>\n"+
-    "      <label for='save_atomuri'>AtomPub service URI:</label>\n"+
-    "      <input type='text' name='atomuri' id='save_atomuri' class='text ui-widget-content ui-corner-all' size='80'/>\n"+
-    "      <label for='save_feedpath'>Atom feed path:</label>\n"+
-    "      <input type='text' name='feedpath' id='save_feedpath' class='text ui-widget-content ui-corner-all' size='80'/>\n"+
+    "      <label for='save_atomuri'>Workspace URI:</label>\n"+
+    "      <input type='text' name='wsuri' id='save_wsuri' class='text ui-widget-content ui-corner-all' size='80'/>\n"+
     "      <label for='save_wsname'>Workspace name:</label>\n"+
     "      <input type='text' name='wsname' id='save_wsname' class='text ui-widget-content ui-corner-all' size='80'/>\n"+
     "    </fieldset>\n"+

@@ -234,6 +234,7 @@ shuffl.ExistAtomStorage.prototype.removeCollection = function (coluri, callback)
  *              jQuery.uri object.
  *    relref    the URI expressed as relative to the session base URI.
  */
+ // TODO: add type parameter
 shuffl.ExistAtomStorage.prototype.create = function (coluri, slug, data, callback)
 {
     ////log.debug(this.className+".create "+coluri+", "+slug);
@@ -293,6 +294,7 @@ shuffl.ExistAtomStorage.prototype.get = function (uri, callback)
  *              jQuery.uri object.
  *    relref    the URI expressed as relative to the session base URI.
  */
+ // TODO: add type parameter
 shuffl.ExistAtomStorage.prototype.put = function (uri, data, callback)
 {
     log.debug(this.className+".put "+uri);

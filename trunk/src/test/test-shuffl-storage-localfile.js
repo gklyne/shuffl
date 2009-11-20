@@ -40,8 +40,6 @@ var TestLocalFileStorage_test_json =
     { 'shuffl:id':        'test-shuffl-loadworkspace'
     , 'shuffl:class':     'shuffl:workspace'
     , 'shuffl:version':   '0.1'
-    , 'shuffl:atomuri':   'http://localhost:8080/exist/atom/'
-    , 'shuffl:feeduri':   '/exist/shuffl/static/test/data/'
     , 'shuffl:base-uri':  '#'
     , 'shuffl:uses-prefixes':
       [ { 'shuffl:prefix':  'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }

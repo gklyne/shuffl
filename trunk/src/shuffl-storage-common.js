@@ -24,6 +24,9 @@
  * limitations under the License.
  */
 
+// TODO: Refactor so that storage implemetations can just use base class for unimplemented methods
+// TODO: implement variant of create, put with type parameter
+
 // ------------------------------------------------
 // Global data
 // ------------------------------------------------
@@ -471,6 +474,7 @@ shuffl.StorageCommon.prototype.get = function (uri, callback)
  *              jQuery.uri object.
  *    relref    the URI expressed as relative to the session base URI.
  */
+ // TODO: add function with type parameter?
 shuffl.StorageCommon.prototype.put = function (uri, data, callback)
 {
     ////log.debug("shuffl.StorageCommon.prototype.put "+uri);
@@ -488,7 +492,7 @@ shuffl.StorageCommon.prototype.put = function (uri, data, callback)
  *    callback(response) {
  *        // this = session object
  *    };
- * where 'response' is an Error value, or null if the named collection has
+ * where 'response' is an Error value, or null if the named item has
  * been successfully deleted.
  */
 shuffl.StorageCommon.prototype.remove = function (uri, callback)
