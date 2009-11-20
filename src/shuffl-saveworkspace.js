@@ -85,7 +85,9 @@ shuffl.deleteCard = function(carduri, callback)
 /**
  * Update card
  * 
- * @param session   is the stirage session to be used to save the card
+ * @param session   is the storage session to be used to save the card
+ * @param wscoluri  is the URI of the workspace collection with which the card
+ *                  is saved.  This may be relative to the session base URI.
  * @param card      is the card jQuery object to be saved
  * @param callback  called when the operation is complete
  * 
@@ -97,11 +99,12 @@ shuffl.deleteCard = function(carduri, callback)
  *   cardid:    local identifier string for the workstation, unique within
  *              the containing collection.
  */
-shuffl.updateCard = function(session, card, callback) 
+shuffl.updateCard = function(session, wscoluri, card, callback) 
 {
+    wscoluri = jQuery.uri(wscoluri, session.getBaseUri());
     var cardid    = card.data('shuffl:id');
     var cardref   = card.data('shuffl:dataref');
-    log.debug("shuffl.updateCard: "+cardid+", cardref: "+cardref);
+    log.debug("shuffl.updateCard: "+cardid+", wscoluri: "+wscoluri+", cardref: "+cardref);
     var cardext = shuffl.createDataFromCard(card);
     ////log.debug("- cardext: "+shuffl.objectString(cardext));
 
@@ -116,7 +119,8 @@ shuffl.updateCard = function(session, card, callback)
         };
     };
 
-    session.put(cardref, cardext, putComplete);
+    var carduri = jQuery.uri(cardref, wscoluri);
+    session.put(carduri, cardext, putComplete);
 };
 
 // ----------------------------------------------------------------
@@ -128,18 +132,22 @@ shuffl.updateCard = function(session, card, callback)
  * 
  * @param session   is a storage session object used for writing the
  *                  workspace data.
+ * @param wscoluri  is the URI of the workspace collection with which the card
+ *                  is saved.  This may be relative to the session base URI.
  * @param cardref   is a suggested name for the dard data to be located 
  *                  within the workspace collection.
  * @param card      is the card jQuery object to be saved
  * @param callback  called when the operation is complete
  * 
  * The callback is invoked with an Error value, or the URI of the location
- * where the card data is saved, possibly expressed relative to the feed URI.
+ * where the card data is saved, possibly expressed relative to the workspace 
+ * collection URI.
  */
-shuffl.saveCard = function(session, wscol, cardref, card, callback) 
+shuffl.saveCard = function(session, wscoluri, cardref, card, callback) 
 {
     // Helper function extracts saved location from posted item response and 
     // returns it via callback
+    wscoluri = jQuery.uri(wscoluri, session.getBaseUri());
     var createComplete = function (data) 
     {
         if (data instanceof shuffl.Error) 
@@ -148,7 +156,7 @@ shuffl.saveCard = function(session, wscol, cardref, card, callback)
             callback(data); 
         } else {
             log.debug("shuffl.saveCard:createComplete "+shuffl.objectString(data));
-            callback(data.dataref);
+            callback(data.relref);
         };
     };
     // Set up and issue the HTTP request to save the card data
@@ -156,7 +164,7 @@ shuffl.saveCard = function(session, wscol, cardref, card, callback)
     log.debug("shuffl.saveCard: "+cardid+", cardref: "+cardref);
     // Build the card external object
     var cardext  = shuffl.createDataFromCard(card);
-    session.create(wscol, cardref, cardext, createComplete);
+    session.create(wscoluri, cardref, cardext, createComplete);
 };
 
 /**
@@ -164,13 +172,13 @@ shuffl.saveCard = function(session, wscol, cardref, card, callback)
  * (i.e. card is copied along with workspace), 
  * otherwise absolute card location is accessed by reference.
  */
-shuffl.saveRelativeCard = function(session, card, callback) 
+shuffl.saveRelativeCard = function(session, wscoluri, card, callback) 
 {
     var cardid    = card.data('shuffl:id');
     var cardref   = card.data('shuffl:dataref');
-    //log.debug("shuffl.saveRelativeCard: "+cardid+", cardref: "+cardref+", atompub: "+atompub+", feedpath: "+feedpath);
+    //log.debug("shuffl.saveRelativeCard: "+cardid+", cardref: "+cardref);
     if (shuffl.isRelativeUri(cardref)) {
-        shuffl.saveCard(session, cardref, card, callback);
+        shuffl.saveCard(session, wscoluri, cardref, card, callback);
     } else {
         callback(null);
     }
@@ -318,6 +326,37 @@ shuffl.saveNewWorkspace = function (coluri, wsname, callback)
     var wscoluri = undefined;     // URI of workspace collection
     var wsdata   = undefined;     // Accumulates layout details
 
+    // Create workspace collection and save URI of created collection
+    var localCreateCollection = function (val, next)
+    {
+        session.createCollection(coluri, wsname, function (info) 
+        {
+            if (!(info instanceof shuffl.Error)) 
+            { 
+                wscoluri = info.uri;
+            };
+            next(val);
+        });
+    }
+
+    // Helper function to save card then invoke the next step
+    var localSaveCard = function(card, next) 
+    {
+        //log.debug("shuffl.saveNewWorkspace:saveCard: "+card.id);
+        shuffl.saveRelativeCard(session, wscoluri, card, 
+            shuffl.storeNewCardDetails(card, next));
+    };
+
+    // Save all cards in the workspace
+    var saveWorkspaceCards = function(thencall) 
+    {
+        shuffl.processWorkspaceCards(
+            null,
+            localCreateCollection,
+            localSaveCard, 
+            thencall);
+    };
+
     // Create workspace descriotion callback: 
     // store details and assemble final return value
     var createComplete = function(val) 
@@ -343,37 +382,6 @@ shuffl.saveNewWorkspace = function (coluri, wsname, callback)
                 };
             callback(ret);
         };
-    };
-
-    // Create workspace collection andsave URI of created collection
-    var localCreateCollection = function (val, next)
-    {
-        session.createCollection(coluri, wsname, function (info) 
-        {
-            if (!(info instanceof shuffl.Error)) 
-            { 
-                wscoluri = info.uri;
-            };
-            next(val);
-        });
-    }
-
-    // Helper function to save card then invoke the next step
-    var localSaveCard = function(card, next) 
-    {
-        //log.debug("shuffl.saveNewWorkspace:saveCard: "+card.id);
-        shuffl.saveRelativeCard(session, card, 
-            shuffl.storeNewCardDetails(card, next));
-    };
-
-    // Save all cards in the workspace
-    var saveWorkspaceCards = function(thencall) 
-    {
-        shuffl.processWorkspaceCards(
-            null,
-            localCreateCollection,
-            localSaveCard, 
-            thencall);
     };
 
     // Save layout once all cards have been saved
@@ -416,9 +424,9 @@ shuffl.saveNewWorkspace = function (coluri, wsname, callback)
 shuffl.updateWorkspace = function (callback) {
     var wsdata   = jQuery('#workspace').data('wsdata');
     var wsuri    = jQuery('#workspace').data('location');
-    var wscoluri = wsdata['shuffl:wscoluri'];
+    var wscoluri = jQuery.uri(".", wsuri);
     log.debug("shuffl.updateWorkspace: "+wscoluri+", "+wsuri);
-    var session  = shuffl.makeStorageSession(coluri);
+    var session  = shuffl.makeStorageSession(wscoluri);
 
     // Helper function extracts return values following update
     var updateComplete = function(val) {
@@ -429,8 +437,8 @@ shuffl.updateWorkspace = function (callback) {
             var ret = 
                 { wscoluri: wscoluri
                 , wsuri:    val.uri
-                , wsref:    val.dataref
-                , wsid:     val.dataref.replace(/\.[^.]*$/, "")
+                , wsref:    val.relref
+                , wsid:     val.relref.replace(/\.[^.]*$/, "")
                 };
             callback(ret);
         };
@@ -447,7 +455,7 @@ shuffl.updateWorkspace = function (callback) {
         } 
         else if (card.data('shuffl:datamod')) 
         {
-            shuffl.updateCard(session, card, next);
+            shuffl.updateCard(session, wscoluri, card, next);
         } 
         else 
         {

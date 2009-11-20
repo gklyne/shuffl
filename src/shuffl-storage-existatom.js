@@ -56,7 +56,7 @@ shuffl.ExistAtomStorage = function (baseuri, rooturi, hname)
     shuffl.ExistAtomStorage.prototype.constructor.call(this, baseuri, rooturi, hname);
     this.className = "shuffl.ExistAtomStorage";
     // Set up atompub service access object - remove trailing "edit/"
-    this.atomuri = rooturi.replace(/edit\/$/,"")
+    this.atomuri = rooturi.replace(/edit\/$/,"");
     this.atompub = new shuffl.AtomPub(this.atomuri);
 };
 
@@ -237,8 +237,9 @@ shuffl.ExistAtomStorage.prototype.removeCollection = function (coluri, callback)
  // TODO: add type parameter
 shuffl.ExistAtomStorage.prototype.create = function (coluri, slug, data, callback)
 {
-    ////log.debug(this.className+".create "+coluri+", "+slug);
+    log.debug(this.className+".create "+coluri+", "+slug);
     var colpath = this.atompub.getAtomPath(coluri);
+    log.debug(this.className+".create "+colpath);
     this.atompub.createItem(
         { path:     colpath
         , slug:     slug

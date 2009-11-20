@@ -32,7 +32,8 @@ TestSaveWorkspace = function() {
     var layoutloc  = "data/test-shuffl-saveworkspace-layout.json";
     var layouturi  = jQuery.uri(layoutref, layoutcol);
     var initialuri = jQuery.uri(layoutloc);
-    var card3uri   = jQuery.uri("test-shuffl-loadworkspace-card_3.json", layoutcol);
+    var card3ref   = "test-shuffl-loadworkspace-card_3.json";
+    var card3uri   = jQuery.uri(card3ref, layoutcol);
 
     var shuffl_prefixes =
         [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
@@ -191,8 +192,12 @@ TestSaveWorkspace = function() {
         expect(26);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
-            log.debug("Load empty workspace from AtomPub");
-            this.atompub  = new shuffl.AtomPub(atomuri);
+            log.debug("Reset workspace...");
+            shuffl.resetWorkspace(callback);
+        });
+        m.eval(function(val,callback) {
+            log.debug("Workspace is reset");
+            log.debug("Reload empty workspace from AtomPub...");
             shuffl.loadWorkspace(layouturi, callback);
         });
         m.eval(function(val,callback) {
@@ -213,19 +218,25 @@ TestSaveWorkspace = function() {
             same  (val['shuffl:data']['shuffl:tags'],  [ 'card_1_tag', 'yellowtag' ],   'shuffl:data-tags');
             equals(val['shuffl:data']['shuffl:text'],  "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow", 'shuffl:data-text (1)');
             log.debug("Save card data");
-            var card = shuffl.createCardFromData(val['shuffl:id'], val['shuffl:class'], val);
-            shuffl.saveCard(this.atompub, feedpath, val['shuffl:id']+".json", card, callback);
+            var card    = shuffl.createCardFromData(val['shuffl:id'], val['shuffl:class'], val);
+            var session = shuffl.makeStorageSession(layoutcol);
+            shuffl.saveCard(session, "", val['shuffl:id']+".json", card, callback);
         });
         m.eval(function(val,callback) {
-            log.debug("Check shuffl.saveCard response");
+            log.debug("Check shuffl.saveCard response "+shuffl.objectString(val));
+            if (val instanceof shuffl.Error) 
+            {
+                log.error("shuffl.saveCard returns error "+val.toString());
+                callback(val); 
+                return;
+            };
             equals(val, "id_1.json", "card relative URI");
-            log.debug("Read back card");
-            var carduri = this.atompub.serviceUri({base:feedpath, name:val});
-            var session = shuffl.makeStorageSession(feeduri);
-            shuffl.readCard(session, feeduri, carduri, callback);
+            log.debug("Read back card "+val);
+            var session = shuffl.makeStorageSession(layoutcol);
+            shuffl.readCard(session, "", val, callback);
         });
         m.eval(function(val,callback) {
-            log.debug("Check card values ");
+            log.debug("Check card values "+shuffl.objectString(val));
             equals(val['shuffl:id'], 'id_1', "shuffl:id");
             equals(val['shuffl:class'], 'shuffl-freetext-yellow', "shuffl:class");
             equals(val['shuffl:version'], '0.1', "shuffl:version");
@@ -251,19 +262,18 @@ TestSaveWorkspace = function() {
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Read back card again");
-            this.atompub = new shuffl.AtomPub(atomuri);
-            var carduri = this.atompub.serviceUri({base:feedpath, name:"id_1.json"});
-            shuffl.readCard(feeduri, carduri, callback);
+            var session = shuffl.makeStorageSession(layoutcol);
+            shuffl.readCard(session, "", "id_1.json", callback);
         });
         m.eval(function(val,callback) {
             log.debug("Check card is read OK");
             equals(val['shuffl:id'], 'id_1', "shuffl:id");
             log.debug("Delete card");
-            shuffl.deleteCard(this.atompub, feedpath, "id_1.json", callback);
+            shuffl.deleteCard(jQuery.uri("id_1.json", layoutcol), callback);
         });
         m.eval(function(val,callback) {
             log.debug("deleteCard returns: "+val);
-            same(val, {}, "deleteCard return");
+            same(val, null, "deleteCard return");
             callback(val);
         });
         m.exec({}, start);
@@ -275,7 +285,7 @@ TestSaveWorkspace = function() {
     test("Recreate empty workspace", function()
     {
         logtest("Recreate empty workspace");
-        expect(4);
+        expect(7);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace");
@@ -283,18 +293,21 @@ TestSaveWorkspace = function() {
         });
         m.eval(function(val,callback) {
             log.debug("Delete old workspace");
-            shuffl.deleteWorkspace(atomuri, feedpath, layoutname, callback);
+            shuffl.deleteWorkspace(layouturi, callback);
         });
         m.eval(function(val,callback) {
-            same(val, {}, "shuffl.deleteWorkspace return");
+            same(val, null, "shuffl.deleteWorkspace return");
             log.debug("Save empty workspace");
-            shuffl.saveNewWorkspace(atomuri, feedpath, layoutname, callback);
+            shuffl.saveNewWorkspace(coluri, layoutname, callback);
         });        
         m.eval(function(val,callback) {
-            //log.debug("Check result from save: "+shuffl.objectString(val));
-            log.debug("Check result from save: "+val.uri);
-            this.wsuri = jQuery.uri(val.uri, val.itemuri).toString();
-            equals(val.uri, "test-shuffl-saveworkspace-layout.json", "val.uri");
+            ////log.debug("Check result from save: "+shuffl.objectString(val));
+            log.debug("Check result from save: "+val.wsuri);
+            equals(val.wscoluri, layoutcol,  "val.wscoluri");
+            equals(val.wsuri,    layouturi,  "val.wsuri");
+            equals(val.wsref,    layoutref,  "val.wsref");
+            equals(val.wsid,     layoutname, "val.wsid");
+            this.wsuri = val.wsuri;
             log.debug("Reset workspace...");
             shuffl.resetWorkspace(callback);
         });
@@ -317,7 +330,7 @@ TestSaveWorkspace = function() {
     test("shuffl.saveNewWorkspace (with card)", function ()
     {
         logtest("shuffl.saveNewWorkspace (with card)");
-        expect(78);
+        expect(72);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace");
@@ -368,26 +381,21 @@ TestSaveWorkspace = function() {
             range(p3.top,   89,  91,  "position-top");
             equals(c3.css("zIndex"), "11", "card zIndex");
             log.debug("Delete old workspace");
-            shuffl.deleteWorkspace(atomuri, feedpath, layoutname, callback);
+            shuffl.deleteWorkspace(layouturi, callback);
         });
         m.eval(function(val,callback) {
-            same(val, {}, "shuffl.deleteWorkspace return");
+            same(val, null, "shuffl.deleteWorkspace return");
             log.debug("Save new workspace with card");
-            shuffl.saveNewWorkspace(atomuri, feedpath, layoutname, callback);
+            shuffl.saveNewWorkspace(coluri, layoutname, callback);
         });        
         m.eval(function(val,callback) {
             //log.debug("Check result from save: "+shuffl.objectString(val));
             log.debug("Check result from save: "+val.uri);
-            this.wsuri = jQuery.uri(val.uri, val.itemuri).toString();
-            var uuid = val.itemid;
-            equals(val.title,    "test-shuffl-saveworkspace-layout", "val.title");
-            equals(val.uri,      "test-shuffl-saveworkspace-layout.json", "val.uri");
-            equals(val.path,     "/shuffltest1/"+val.uri, "val.path");
-            equals(val.itemuri,  atomuri+"edit/shuffltest1/?id="+uuid, "val.itemuri");
-            equals(val.itempath, feedpath+"?id="+uuid, "val.itempath");
-            equals(val.feeduri,  feeduri,  "val.feeduri");
-            equals(val.feedpath, feedpath, "val.feedpath");
-            equals(val.atomuri,  atomuri,  "val.atomuri");
+            equals(val.wscoluri, layoutcol,  "val.wscoluri");
+            equals(val.wsuri,    layouturi,  "val.wsuri");
+            equals(val.wsref,    layoutref,  "val.wsref");
+            equals(val.wsid,     layoutname, "val.wsid");
+            this.wsuri = val.wsuri;
             log.debug("Reset workspace...");
             shuffl.resetWorkspace(callback);
         });
@@ -403,7 +411,7 @@ TestSaveWorkspace = function() {
             var u = jQuery.uri(this.wsuri);
             equals(jQuery('#workspace_status').text(), u.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
-            equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
+            equals(jQuery('#workspace').data('wsname'), layoutref, "wsname");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -427,7 +435,7 @@ TestSaveWorkspace = function() {
             equals(c3.data('shuffl:dataref'), 
                 "test-shuffl-loadworkspace-card_3.json",                "card 3 shuffl:dataref");          
             equals(c3.data('shuffl:datauri'), 
-                feeduri+"test-shuffl-loadworkspace-card_3.json",        "card 3 shuffl:datauri");          
+                layoutcol+"test-shuffl-loadworkspace-card_3.json",      "card 3 shuffl:datauri");          
             equals(c3.data('shuffl:datamod'), false,                    "card 3 shuffl:datamod");          
             equals(c3.data('shuffl:dataRW'),  false,                    "card 3 shuffl:dataRW");          
             var p3 = c3.position();
@@ -446,11 +454,10 @@ TestSaveWorkspace = function() {
     test("shuffl.updateCard", function ()
     {
         logtest("shuffl.updateCard");
-        expect(50);
+        expect(51);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load workspace");
-            this.atompub = new shuffl.AtomPub(atomuri);
             // Read workspace from AtomPub service
             shuffl.loadWorkspace(layouturi, callback);
         });
@@ -463,12 +470,16 @@ TestSaveWorkspace = function() {
             equals(c3.find("ctitle").text(), "Card 3 title", "Card 3 title");
             // Update card in workspace
             c3.model("shuffl:title", "Card 3 updated");
+            equals(c3.model('shuffl:dataref'), "test-shuffl-loadworkspace-card_3.json", "card 3 shuffl:dataref");          
             equals(c3.find("ctitle").text(), "Card 3 updated", "ctitle(c3) updated in DOM");
-            shuffl.updateCard(this.atompub, feedpath, c3, callback);
+            var session = shuffl.makeStorageSession(layoutcol);
+            shuffl.updateCard(session, "", c3, callback);
         });
         m.eval(function(val, callback) {
-            log.debug("Card saved: "+val);
-            equals(val, card3uri, "updateCard URI returned");
+            log.debug("Card saved: "+shuffl.objectString(val));
+            equals(val.carduri, card3uri, "updateCard URI returned");
+            equals(val.cardref, card3ref, "updateCard ref returned");
+            equals(val.cardid,  "id_3",   "updateCard id returned");
             log.debug("Reset workspace...");
             shuffl.resetWorkspace(callback);
         });
@@ -481,7 +492,7 @@ TestSaveWorkspace = function() {
             log.debug("Check reloaded workspace ");
             equals(jQuery('#workspace_status').text(), layouturi.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), layouturi.toString(), "location");
-            equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
+            equals(jQuery('#workspace').data('wsname'), layoutref, "wsname");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -516,7 +527,7 @@ TestSaveWorkspace = function() {
     test("shuffl.saveWorkspace (updated moved card)", function ()
     {
         logtest("shuffl.saveWorkspace (updated moved card)");
-        expect(54);
+        expect(51);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load workspace");
@@ -540,14 +551,12 @@ TestSaveWorkspace = function() {
             shuffl.updateWorkspace(callback);
         });
         m.eval(function(val, callback) {
-            log.debug("Check result from update: "+val.uri);
+            log.debug("Check result from update: "+shuffl.objectString(val));
             this.wsuri = jQuery.uri(val.uri, val.itemuri).toString();
-            var uuid = val.itemid;
-            equals(val.uri,      feeduri+"test-shuffl-saveworkspace-layout.json", "val.uri");
-            equals(val.path,     feedpath+"test-shuffl-saveworkspace-layout.json", "val.path");
-            equals(val.feeduri,  feeduri,  "val.feeduri");
-            equals(val.feedpath, feedpath, "val.feedpath");
-            equals(val.atomuri,  atomuri,  "val.atomuri");
+            equals(val.wscoluri, layoutcol,  "val.wscoluri");
+            equals(val.wsuri,    layouturi,  "val.wsuri");
+            equals(val.wsref,    layoutref,  "val.wsref");
+            equals(val.wsid,     layoutname, "val.wsid");
             log.debug("Reset workspace...");
             shuffl.resetWorkspace(callback);
         });
@@ -560,7 +569,7 @@ TestSaveWorkspace = function() {
             log.debug("Check reloaded workspace ");
             equals(jQuery('#workspace_status').text(), layouturi.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), layouturi.toString(), "location");
-            equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
+            equals(jQuery('#workspace').data('wsname'), layoutref, "wsname");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -602,8 +611,7 @@ TestSaveWorkspace = function() {
         expect(5);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
-            log.debug("Load empty workspace from AtomPub");
-            this.atompub  = new shuffl.AtomPub(atomuri);
+            log.debug("Load empty workspace");
             shuffl.loadWorkspace(layouturi, callback);
         });
         m.eval(function(val,callback) {
@@ -616,18 +624,18 @@ TestSaveWorkspace = function() {
             equals(val['shuffl:id'], 'id_1', "shuffl:id");
             log.debug("Attempt to aave card data");
             var card = shuffl.createCardFromData(val['shuffl:id'], val['shuffl:class'], val);
-            shuffl.saveCard(this.atompub, nofeedpath, val['shuffl:id']+".json", card, callback);
+            var session = shuffl.makeStorageSession(layoutcol);
+            shuffl.saveCard(session, nocoluri, val['shuffl:id']+".json", card, callback);
         });
         m.eval(function(val,callback) {
             log.debug("Check shuffl.saveCard response");
             ok(val instanceof shuffl.Error, "Error value returned");
+            var httpmsg = "404 %2Fshuffltest%5Fnofeed%2F+Not+Found";
+            ////var httpmsg = "400 Collection+%2Fshuffltest%5Fnofeed%2F+does+not+exist%2E";
             equals(val.toString(), 
-                "shuffl error: AtomPub request failed "+
-                "(error; HTTP status: 400 Collection+%2Fshuffltest%5Fnofeed%2F+does+not+exist%2E)", 
+                "shuffl error: AtomPub request failed (error; HTTP status: "+httpmsg+")",
                 "Error message returned");
-            equals(val.response,
-                "400 Collection+%2Fshuffltest%5Fnofeed%2F+does+not+exist%2E", 
-                "AtomPub HTTP response details");
+            equals(val.response, httpmsg, "AtomPub HTTP response details");
             callback(true);
         });
     m.exec({}, start);
@@ -646,17 +654,16 @@ TestSaveWorkspace = function() {
         });
         m.eval(function(val,callback) {
             log.debug("Check workspace loaded");
-            this.atompub  = new shuffl.AtomPub(atomuri);
             equals(jQuery('#workspace').data('location'), initialuri.toString(), "location");
             log.debug("Try to save workspace");
-            shuffl.saveNewWorkspace(atomuri, badfeed, layoutname, callback);
+            shuffl.saveNewWorkspace(baduri, layoutname, callback);
         });
         m.eval(function(val,callback) {
             log.debug("Check shuffl.saveNewWorkspace response ");
             ok(val instanceof shuffl.Error, "Error value returned");
             equals(val.toString(), 
                 "shuffl error: shuffl.saveNewWorkspace: "+
-                "invalid feed path: /shuffltest?bad#feed",
+                "invalid collection URI: "+baduri,
                 "Error message returned");
             equals(val.response, undefined,
                 "AtomPub HTTP response details");
