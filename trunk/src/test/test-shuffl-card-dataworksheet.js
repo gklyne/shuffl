@@ -259,7 +259,7 @@ TestCardDataWorksheet = function() {
   			var s = shuffl.createStockpile(
   			    "stock_id", "stock-green", "stock-label", "shuffl-dataworksheet-green");
     		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
-        log.debug("- card "+shuffl.objectString(c));
+        ////log.debug("- card "+shuffl.objectString(c));
     		var card_id = shuffl.lastId("card_");
         equals(c.attr('id'), card_id, "card id attribute");
         ok(c.hasClass('shuffl-card'),   "shuffl card class");

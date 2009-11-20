@@ -539,11 +539,10 @@ shuffl.AtomPub.prototype.createFeed = function (feedinfo, callback) {
                    '  <title>%(title)s</title>'+'\n'+
                    '</feed>'+'\n';
     function decodeResponse(data, status) {
-        log.debug("shuffl.AtomPub.createFeed.decodeResponse: "+
-            feedinfo.path+", "+status);
+        ////log.debug("shuffl.AtomPub.createFeed.decodeResponse: "+feedinfo.path+", "+status);
         callback(feedinfo);
     }
-    log.debug("shuffl.AtomPub.createFeed: "+uri);
+    ////log.debug("shuffl.AtomPub.createFeed: "+uri);
     jQuery.ajax({
             type:         "POST",
             url:          uri.toString(),
@@ -568,7 +567,7 @@ shuffl.AtomPub.prototype.deleteFeed = function (feedinfo, callback) {
         callback({});
     }
     var uri = this.serviceUri(feedinfo, "edit", true);
-    log.debug("shuffl.AtomPub.deleteFeed: "+uri);
+    ////log.debug("shuffl.AtomPub.deleteFeed: "+uri);
     jQuery.ajax({
             type:         "DELETE",
             url:          uri.toString(),
@@ -605,7 +604,7 @@ shuffl.AtomPub.prototype.deleteFeed = function (feedinfo, callback) {
 shuffl.AtomPub.prototype.listFeed = function (feedinfo, callback) {
     // listFeed main body starts here
     var uri = this.serviceUri(feedinfo, "content", true);
-    log.debug("shuffl.AtomPub.listFeed: "+uri);
+    ////log.debug("shuffl.AtomPub.listFeed: "+uri);
     jQuery.ajax({
             type:         "GET",
             url:          uri.toString(),
@@ -634,7 +633,7 @@ shuffl.AtomPub.prototype.createItem = function (iteminfo, callback) {
     }
     var uri      = this.serviceUri(iteminfo, "edit", true);
     var datainfo = shuffl.AtomPub.assembleData(iteminfo);
-    log.debug("shuffl.AtomPub.createItem: "+uri);
+    ////log.debug("shuffl.AtomPub.createItem: "+uri);
     //log.debug("shuffl.AtomPub.createItem: "+shuffl.objectString(iteminfo));
     //log.debug("shuffl.AtomPub.createItem: "+shuffl.objectString(datainfo));
     jQuery.ajax({
@@ -676,7 +675,7 @@ shuffl.AtomPub.prototype.getItem = function (iteminfo, callback) {
             datatype = "json";
         };
     };
-    log.debug("shuffl.AtomPub.getItem: "+uri+", datatype "+datatype);
+    ////log.debug("shuffl.AtomPub.getItem: "+uri+", datatype "+datatype);
     jQuery.ajax({
             type:         "GET",
             url:          uri.toString(),
@@ -718,7 +717,7 @@ shuffl.AtomPub.prototype.putItem = function (iteminfo, callback) {
     // Atom response expected as XML, but no response for media resource
     var datatype = undefined;
     if (datainfo.contentType == "application/atom+xml") { datatype = "xml"; };
-    log.debug("shuffl.AtomPub.putItem: "+uri+", "+datainfo.contentType);
+    ////log.debug("shuffl.AtomPub.putItem: "+uri+", "+datainfo.contentType);
     jQuery.ajax({
             type:         "PUT",
             url:          uri.toString(),
@@ -743,7 +742,7 @@ shuffl.AtomPub.prototype.deleteItem = function (iteminfo, callback) {
     function decodeResponse(data, status) {
         callback({});
     }
-    //log.debug("shuffl.AtomPub.deleteItem: "+shuffl.objectString(iteminfo));
+    ////log.debug("shuffl.AtomPub.deleteItem: "+shuffl.objectString(iteminfo));
     var uri = this.serviceUri(iteminfo, "edit");
     log.debug("shuffl.AtomPub.deletetItem: "+uri);
     jQuery.ajax({

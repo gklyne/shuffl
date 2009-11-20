@@ -45,9 +45,7 @@ if (typeof shuffl.ajax == "undefined")
  */
 shuffl.ajax.requestFailed = function (uri, callback) {
     return function (xhr, status, except) {
-        log.debug("shuffl.ajax.requestFailed: "+status);
-        log.debug("shuffl.ajax.requestFailed: "+except);
-        log.debug("shuffl.ajax.requestFailed: "+uri);
+        log.debug("shuffl.ajax.requestFailed: "+status+", "+except+", "+uri);
         var err = new shuffl.Error(
             "Request failed", 
             status+"; HTTP status: "+xhr.status+" "+xhr.statusText);

@@ -237,9 +237,9 @@ shuffl.ExistAtomStorage.prototype.removeCollection = function (coluri, callback)
  // TODO: add type parameter
 shuffl.ExistAtomStorage.prototype.create = function (coluri, slug, data, callback)
 {
-    log.debug(this.className+".create "+coluri+", "+slug);
+    ////log.debug(this.className+".create "+coluri+", "+slug);
     var colpath = this.atompub.getAtomPath(coluri);
-    log.debug(this.className+".create "+colpath);
+    ////log.debug(this.className+".create "+colpath);
     this.atompub.createItem(
         { path:     colpath
         , slug:     slug
@@ -298,7 +298,7 @@ shuffl.ExistAtomStorage.prototype.get = function (uri, callback)
  // TODO: add type parameter
 shuffl.ExistAtomStorage.prototype.put = function (uri, data, callback)
 {
-    log.debug(this.className+".put "+uri);
+    ////log.debug(this.className+".put "+uri);
     info = this.resolve(uri);
     this.atompub.putItem(
         { uri:      info.uri
@@ -327,7 +327,7 @@ shuffl.ExistAtomStorage.prototype.remove = function (uri, callback)
 {
     ////log.debug(this.className+".remove "+uri);
     info = this.resolve(uri);
-    log.debug(this.className+".remove "+info.uri);
+    ////log.debug(this.className+".remove "+info.uri);
     this.atompub.deleteItem({uri: info.uri},
         shuffl.StorageCommon.resolveNullOrError(callback)
     );
