@@ -82,9 +82,8 @@ shuffl.saveWorkspaceDefaults = function ()
     var wsdata = ws.data('wsdata');
     if (wsdata)
     {
-        log.debug("- wsuri "+wsdata['shuffl:wsuri']+", wsname "+ws.data('wsname'));
+        log.debug("- wsuri "+wsdata['shuffl:wsuri']);
         ws.data('default_wsuri',   wsdata['shuffl:wsuri']);
-        ws.data('default_wsname',  ws.data('wsname'));
     }
     else
     {
@@ -102,16 +101,13 @@ shuffl.menuOpenWorkspace = function ()
     // Use current location (atomuri/feeduri) as default base
     log.debug("shuffl.menuLoadWorkspace");
     var wsuri  = jQuery('#workspace').data('default_wsuri');
-    var wsname = jQuery('#workspace').data('default_wsname');
     var wsdata = jQuery('#workspace').data('wsdata');
     if (wsdata)
     {
-        wsuri  = wsdata['shuffl:wsuri'];
-        wsname = jQuery('#workspace').data('wsname');
+        wsuri  = jQuery('#workspace').data('location');
     };
-    log.debug("- wsuri "+wsuri+", wsname "+wsname);
+    log.debug("- wsuri "+wsuri);
     jQuery('#open_wsuri').val(wsuri);
-    jQuery('#open_wsname').val(wsname);
     // Open dialog to obtain location of workspace data
     jQuery("#dialog_open").dialog(
         { bgiframe: true,
@@ -121,8 +117,7 @@ shuffl.menuOpenWorkspace = function ()
           buttons: {
               Ok: function() {
                   wsuri  = jQuery('#open_wsuri').val();
-                  wsname = jQuery('#open_wsname').val();
-                  log.debug("- OK: wsuri "+wsuri+", wsname "+wsname);
+                  log.debug("- OK: wsuri "+wsuri);
                   jQuery(this).dialog('destroy');
                   // Save cards, capture locations (or bail if error),
                   // assemble workspace description and save, and
@@ -155,11 +150,9 @@ shuffl.menuSaveNewWorkspace = function ()
 {
     // Use current location (atomuri/feeduri) as default base
     log.debug("shuffl.menuSaveNewWorkspace");
-    var wsuri  = jQuery('#workspace').data('wsuri');
-    var wsname = jQuery('#workspace').data('wsname');
+    var wsuri  = jQuery('#workspace').data('location');
     var wsdata = jQuery('#workspace').data('wsdata');
     jQuery('#save_wsuri').val(wsuri);
-    jQuery('#save_wsname').val(wsname);
     jQuery("#dialog_save").dialog(
         { bgiframe: true,
           modal: true,
@@ -168,14 +161,16 @@ shuffl.menuSaveNewWorkspace = function ()
           buttons: {
               Ok: function() {
                   wsuri  = jQuery('#save_wsuri').val();
-                  wsname = jQuery('#save_wsname').val();
                   jQuery(this).dialog('destroy');
-                  log.debug("- OK: wsuri "+wsuri+", wsname "+wsname);
+                  log.debug("- OK: wsuri "+wsuri);
                   // Save cards, capture locations (or bail if error),
                   // assemble workspace description and save, and
                   // display location saved:
-                  if (shuffl.invalidWorkspaceName(wsuri, wsname, shuffl.showMessageOnError)) return;
-                  var coluri = jQuery.uri("..", wsuri);
+                  var coluri   = jQuery.uri("../", wsuri);
+                  var wscoluri = jQuery.uri("./", wsuri);
+                  var wsname   = jQuery.uri.relative(wscoluri, coluri).toString().slice(0,-1);
+                  log.debug("- OK: wsuri "+wsuri+", coluri "+coluri+", wsname "+wsname);
+                  if (shuffl.invalidWorkspaceName(coluri, wsname, shuffl.showMessageOnError)) return;
                   shuffl.deleteWorkspace(wsuri, function(val,next) {
                       shuffl.saveNewWorkspace(coluri, wsname, 
                           shuffl.showMessageOnError);
@@ -210,8 +205,6 @@ shuffl.OpenDialogHTML =
     "      <legend>Location of workspace data</legend>\n"+
     "      <label for='open_atomuri'>Workspace URI:</label>\n"+
     "      <input type='text' name='wsuri' id='open_wsuri' class='text ui-widget-content ui-corner-all' size='80'/>\n"+
-    "      <label for='open_wsname'>Workspace name:</label>\n"+
-    "      <input type='text' name='wsname' id='open_wsname' class='text ui-widget-content ui-corner-all' size='80'/>\n"+
     "    </fieldset>\n"+
     "  </form>\n"+
     "</div>\n";
@@ -224,8 +217,6 @@ shuffl.SaveNewDialogHTML =
     "      <legend>Location for saved workspace</legend>\n"+
     "      <label for='save_atomuri'>Workspace URI:</label>\n"+
     "      <input type='text' name='wsuri' id='save_wsuri' class='text ui-widget-content ui-corner-all' size='80'/>\n"+
-    "      <label for='save_wsname'>Workspace name:</label>\n"+
-    "      <input type='text' name='wsname' id='save_wsname' class='text ui-widget-content ui-corner-all' size='80'/>\n"+
     "    </fieldset>\n"+
     "  </form>\n"+
     "</div>\n";
@@ -277,8 +268,7 @@ jQuery(document).ready(function()
     log.debug("shuffl TODO: connect content save logic");
 
     // Initialize menu defaults
-    jQuery("#workspace").data('default_atomuri', "");
-    jQuery("#workspace").data('default_feeduri', "");
+    jQuery("#workspace").data('default_wsuri', "");
 
     // Create a pop-up workspace menu
     log.debug("shuffl: connect connect workspace menu");
