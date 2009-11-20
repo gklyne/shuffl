@@ -22,16 +22,17 @@ TestSaveWorkspace = function() {
 
     // These definitions should match usage in the layout file, and
     // the location of the AtomPub server
-    var atomuri    = "http://localhost:8080/exist/atom/";
-    var feeduri    = "http://localhost:8080/exist/atom/edit/shuffltest1/";
-    var feedpath   = "/shuffltest1/";
-    var nofeedpath = "/shuffltest_nofeed/";
-    var badfeed    = "/shuffltest?bad#feed";
-    var layoutname = "test-shuffl-saveworkspace-layout.json";
-    var layoutref  = "data/test-shuffl-saveworkspace-layout.json";
-    var layouturi  = jQuery.uri(layoutname, feeduri);
-    var initialuri = jQuery.uri(layoutref);
-    var card3uri   = jQuery.uri("test-shuffl-loadworkspace-card_3.json", feeduri);
+    var coluri   = "http://localhost:8080/exist/atom/edit/shuffltest1/";
+    var nocoluri = "http://localhost:8080/exist/atom/edit//shuffltest_nofeed/";
+    var baduri   = "http://localhost:8080/exist/atom/edit//shuffltest?bad#feed";
+
+    var layoutname = "test-shuffl-saveworkspace-layout";
+    var layoutcol  = coluri+layoutname+"/";
+    var layoutref  = layoutname+".json";
+    var layoutloc  = "data/test-shuffl-saveworkspace-layout.json";
+    var layouturi  = jQuery.uri(layoutref, layoutcol);
+    var initialuri = jQuery.uri(layoutloc);
+    var card3uri   = jQuery.uri("test-shuffl-loadworkspace-card_3.json", layoutcol);
 
     var shuffl_prefixes =
         [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
@@ -43,7 +44,10 @@ TestSaveWorkspace = function() {
     
     module("TestSaveWorkspace");
     
-    test("NOTE: this test must be run from the AtomPub server used to store shuffl workspace data", shuffl.noop);
+    test("NOTE: this test must be run from the AtomPub server used to store shuffl workspace data", function ()
+    {
+        logtest("TestSaveWorkspace NOTE");
+    });
 
     test("TestSaveWorkspace(init)", function ()
     {
@@ -70,19 +74,17 @@ TestSaveWorkspace = function() {
     test("shuffl.loadWorkspace (empty)", function ()
     {
         logtest("shuffl.loadWorkspace empty workspace");
-        expect(38);
+        expect(36);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
-            shuffl.loadWorkspace(layoutref, callback);
+            shuffl.loadWorkspace(layoutloc, callback);
         });
         m.eval(function(val,callback) {
             // Check empty workspace
-            var u = jQuery.uri().resolve(layoutref);
+            var u = jQuery.uri().resolve(layoutloc);
             equals(jQuery('#workspace_status').text(), u.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
-            equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
-            equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
-            equals(jQuery('#workspace').data('wsdata')['shuffl:feeduri'],  feeduri, "feeduri");
+            equals(jQuery('#workspace').data('wsname'), layoutref, "wsname");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -108,57 +110,59 @@ TestSaveWorkspace = function() {
     test("shuffl.saveNewWorkspace (empty)", function ()
     {
         logtest("shuffl.saveNewWorkspace (empty)");
-        expect(52);
+        expect(7);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace");
-            shuffl.loadWorkspace(layoutref, callback);
+            shuffl.loadWorkspace(layoutloc, callback);
         });
         m.eval(function(val,callback) {
             log.debug("Check workspace loaded");
-            this.atompub  = new shuffl.AtomPub(atomuri);
             equals(jQuery('#workspace').data('location'), initialuri.toString(), "location");
-            equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
-            equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
-            equals(jQuery('#workspace').data('wsdata')['shuffl:feeduri'],  feeduri, "feeduri");
-            equals(this.atompub.getAtomPath(feeduri), "/shuffltest1/", "feedpath");
+            equals(jQuery('#workspace').data('wsname'), layoutref, "wsname");
             log.debug("Delete old workspace");
-            shuffl.deleteWorkspace(atomuri, feedpath, layoutname, callback);
+            shuffl.deleteWorkspace(layouturi, callback);
         });
         m.eval(function(val,callback) {
-            same(val, {}, "shuffl.deleteWorkspace return");
-            log.debug("Save empty workspace");
-            shuffl.saveNewWorkspace(atomuri, feedpath, layoutname, callback);
+            log.debug("Save empty workspace: "+layoutcol+", "+layoutname);
+            shuffl.saveNewWorkspace(coluri, layoutname, callback);
         });
         m.eval(function(val,callback) {
             //log.debug("Check result from save: "+shuffl.objectString(val));
-            log.debug("Check result from save: "+val.uri);
-            this.wsuri = jQuery.uri(val.uri, val.itemuri).toString();
-            var uuid = val.itemid;
-            equals(val.title,    "test-shuffl-saveworkspace-layout", "val.title");
-            equals(val.uri,      "test-shuffl-saveworkspace-layout.json", "val.uri");
-            equals(val.path,     "/shuffltest1/"+val.uri, "val.path");
-            equals(val.itemuri,  atomuri+"edit/shuffltest1/?id="+uuid, "val.itemuri");
-            equals(val.itempath, feedpath+"?id="+uuid, "val.itempath");
-            equals(val.feeduri,  feeduri,  "val.feeduri");
-            equals(val.feedpath, feedpath, "val.feedpath");
-            equals(val.atomuri,  atomuri,  "val.atomuri");
+            log.debug("Check result from save: "+jQuery.toJSON(val));
+            equals(val.wscoluri, layoutcol,  "val.wscoluri");
+            equals(val.wsuri,    layouturi.toString(),  "val.wsuri");
+            equals(val.wsref,    layoutref,  "val.wsref");
+            equals(val.wsid,     layoutname, "val.wsid");
+            log.debug("Reset workspace...");
+            // Done
+            callback(true);
+        });        
+        m.exec({}, start);
+        ok(true, "shuffl.SaveNewWorkspace (empty) initiated");
+        stop(2000);
+    });
+
+    test("shuffl.saveNewWorkspace (empty:check)", function ()
+    {
+        logtest("shuffl.saveNewWorkspace (empty:check)");
+        expect(36);
+        var m = new shuffl.AsyncComputation();
+        m.eval(function(val,callback) {
             log.debug("Reset workspace...");
             shuffl.resetWorkspace(callback);
         });
         m.eval(function(val,callback) {
             log.debug("Workspace is reset");
             log.debug("Reload empty workspace from AtomPub...");
-            shuffl.loadWorkspace(this.wsuri, callback);
+            shuffl.loadWorkspace(layouturi, callback);
         });
         m.eval(function(val,callback) {
-            log.debug("Check reloaded workspace "+this.wsuri);
-            var u = jQuery.uri(this.wsuri);
+            log.debug("Check reloaded workspace "+layouturi);
+            var u = jQuery.uri(layouturi);
             equals(jQuery('#workspace_status').text(), u.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
-            equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
-            equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
-            equals(jQuery('#workspace').data('wsdata')['shuffl:feeduri'],  feeduri, "feeduri");
+            equals(jQuery('#workspace').data('wsname'), layoutref, "wsname");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -177,7 +181,7 @@ TestSaveWorkspace = function() {
             callback(true);
         });        
         m.exec({}, start);
-        ok(true, "shuffl.SaveNewWorkspace (empty) initiated");
+        ok(true, "shuffl.SaveNewWorkspace (empty:check) initiated");
         stop(2000);
     });
 
@@ -275,7 +279,7 @@ TestSaveWorkspace = function() {
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace");
-            shuffl.loadWorkspace(layoutref, callback);
+            shuffl.loadWorkspace(layoutloc, callback);
         });
         m.eval(function(val,callback) {
             log.debug("Delete old workspace");
@@ -317,7 +321,7 @@ TestSaveWorkspace = function() {
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace");
-            shuffl.loadWorkspace(layoutref, callback);
+            shuffl.loadWorkspace(layoutloc, callback);
         });
         m.eval(function(val,callback) {
             log.debug("Read card data from local file");
@@ -400,8 +404,6 @@ TestSaveWorkspace = function() {
             equals(jQuery('#workspace_status').text(), u.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
             equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
-            equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
-            equals(jQuery('#workspace').data('wsdata')['shuffl:feeduri'],  feeduri, "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -480,8 +482,6 @@ TestSaveWorkspace = function() {
             equals(jQuery('#workspace_status').text(), layouturi.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), layouturi.toString(), "location");
             equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
-            equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
-            equals(jQuery('#workspace').data('wsdata')['shuffl:feeduri'],  feeduri, "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -561,8 +561,6 @@ TestSaveWorkspace = function() {
             equals(jQuery('#workspace_status').text(), layouturi.toString(), '#workspace_status');
             equals(jQuery('#workspace').data('location'), layouturi.toString(), "location");
             equals(jQuery('#workspace').data('wsname'), layoutname, "wsname");
-            equals(jQuery('#workspace').data('wsdata')['shuffl:atomuri'],  atomuri, "atomuri");
-            equals(jQuery('#workspace').data('wsdata')['shuffl:feeduri'],  feeduri, "feeduri");
             equals(jQuery('#workspace').data('wsdata')['shuffl:base-uri'], "#", "shuffl:base-uri");
             // More tests as needed
             var stockcolour=["yellow","blue","green","orange","pink","purple"];
@@ -644,7 +642,7 @@ TestSaveWorkspace = function() {
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Load empty workspace");
-            shuffl.loadWorkspace(layoutref, callback);
+            shuffl.loadWorkspace(layoutloc, callback);
         });
         m.eval(function(val,callback) {
             log.debug("Check workspace loaded");
