@@ -27,7 +27,7 @@
  * must contain a non-relative path ending in '/'.  The workspace name and
  * psth segments may consist of letters, digits, '.', '+' or '-' characters.
  * 
- * @param wsuri     is a string containing a workspace or collection URI
+ * @param wscol     is a string containing a workspace collection URI
  * @param wsname    is a string containing a proposed workspace name
  * @param callback  is a callback function that is invoked with an error value
  *                  if the feed path is not valid
@@ -36,14 +36,15 @@
  *                  invoke it again;  otherwise 'false', in which the calling 
  *                  function should continue.
  */
-shuffl.invalidWorkspaceName = function (wsuri, wsname, callback)
+shuffl.invalidWorkspaceName = function (wscol, wsname, callback)
 {
+    wscol = wscol.toString();
     ////log.debug("shuffl.invalidWorkspaceName: "+wsuri+", "+wsname);
     //                 [scheme.:] [//auth..........]  /(path......../)*
-    if (!wsuri.match(/^([\w-+]+:)?(\/\/(\w|[-+.:])+)?\/((\w|[-+.])+\/)*$/))
+    if (!wscol.match(/^([\w-+]+:)?(\/\/(\w|[-+.:])+)?\/((\w|[-+.])+\/)*$/))
     {
-        log.error("shuffl.saveNewWorkspace: invalid feed path: "+wsuri);
-        callback(new shuffl.Error("shuffl.saveNewWorkspace: invalid collection URI: "+wsuri));
+        log.error("shuffl.saveNewWorkspace: invalid feed path: "+wscol);
+        callback(new shuffl.Error("shuffl.saveNewWorkspace: invalid collection URI: "+wscol));
         return true;
     };
     if (!wsname.match(/^(\w|[-+.])+$/))
@@ -75,6 +76,7 @@ shuffl.deleteCard = function(carduri, callback)
     log.debug("shuffl.deleteCard, carduri: "+carduri);
     // Delete card media resource
     var session = shuffl.makeStorageSession(carduri);
+    if (shuffl.noStorageHandler(session, carduri, callback)) return;
     session.remove(carduri, callback);
 };
 
@@ -176,7 +178,7 @@ shuffl.saveRelativeCard = function(session, wscoluri, card, callback)
 {
     var cardid    = card.data('shuffl:id');
     var cardref   = card.data('shuffl:dataref');
-    ////log.debug("shuffl.saveRelativeCard: "+cardid+", cardref: "+cardref);
+    ////log.debug("shuffl.saveRelativeCard: "+cardid+", wscoluri: "+wscoluri+", cardref: "+cardref);
     if (shuffl.isRelativeUri(cardref)) {
         shuffl.saveCard(session, wscoluri, cardref, card, callback);
     } else {
@@ -323,6 +325,7 @@ shuffl.saveNewWorkspace = function (coluri, wsname, callback)
     log.debug("shuffl.saveNewWorkspace: "+coluri+", "+wsname);
     if (shuffl.invalidWorkspaceName(coluri, wsname, callback)) return;
     var session  = shuffl.makeStorageSession(coluri);
+    if (shuffl.noStorageHandler(session, coluri, callback)) return;
     var wscoluri = undefined;     // URI of workspace collection
     var wsdata   = undefined;     // Accumulates layout details
 
@@ -425,6 +428,7 @@ shuffl.updateWorkspace = function (callback) {
     var wscoluri = jQuery.uri(".", wsuri);
     log.debug("shuffl.updateWorkspace: "+wscoluri+", "+wsuri);
     var session  = shuffl.makeStorageSession(wscoluri);
+    if (shuffl.noStorageHandler(session, wscoluri, callback)) return;
 
     // Helper function extracts return values following update
     var updateComplete = function(val) {
@@ -448,7 +452,7 @@ shuffl.updateWorkspace = function (callback) {
         //log.debug("shuffl.updateWorkspace:localUpdateCard: "+card.id);
         if (card.data('shuffl:datauri') == null) 
         {
-            shuffl.saveRelativeCard(session, card, 
+            shuffl.saveRelativeCard(session, wscoluri, card, 
                 shuffl.storeNewCardDetails(card, next));
         } 
         else if (card.data('shuffl:datamod')) 
@@ -497,9 +501,10 @@ shuffl.updateWorkspace = function (callback) {
  */
 shuffl.deleteWorkspace = function (wsuri, callback) {
     log.debug("shuffl.deleteWorkspace: "+wsuri);
-    var wscoluri = shuffl.uriPath(wsuri);
+    var wscoluri = jQuery.uri(".", wsuri);
     ////log.debug("shuffl.deleteWorkspace: "+wscoluri);
     var session  = shuffl.makeStorageSession(wscoluri);
+    if (shuffl.noStorageHandler(session, wscoluri, callback)) return;
     session.removeCollection(wscoluri, callback);
 };
 

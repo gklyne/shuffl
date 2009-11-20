@@ -144,7 +144,7 @@ shuffl.makeStorageSession = function (baseuri)
     ////log.debug("shuffl.makeStorageSession "+baseuri);
     for (var i = 0 ; i < shuffl.storage.handlers.length ; i++)
     {
-        if (shuffl.starts(shuffl.storage.handlers[i].uri, baseuri.toString()))
+        if (shuffl.starts(shuffl.storage.handlers[i].uri, baseuri))
         {
             return new shuffl.storage.handlers[i].factory(
                 baseuri,

@@ -18,6 +18,28 @@
  * limitations under the License.
  */
 
+
+// ----------------------------------------------------------------
+// General workp[sace I/O helper functions
+// ----------------------------------------------------------------
+
+/**
+ * Test a returned session value:  if it is null, report a storage handler
+ * error, invoke the callback with that error, and return 'true', 
+ * otherwise return 'false'
+ */
+shuffl.noStorageHandler = function (session, uri, callback)
+{
+    if (session == null)
+    {
+        var e = new shuffl.Error("No storage handler for "+uri);
+        shuffl.showError(e);
+        callback(e);
+        return true;
+    }
+    return false;
+};
+
 // ----------------------------------------------------------------
 // Load up workspace
 // ----------------------------------------------------------------
@@ -88,13 +110,7 @@ shuffl.loadWorkspace = function(uri, callback) {
     log.debug("shuffl.loadWorkspace: "+uri);
     var datauri = jQuery.uri(uri);
     var session = shuffl.makeStorageSession(datauri);
-    if (session == null)
-    {
-        var e = new shuffl.Error("No storage handler for "+datauri);
-        shuffl.showError(e);
-        callback(e);
-        return;
-    }
+    if (shuffl.noStorageHandler(session, datauri, callback)) return;
     var m = new shuffl.AsyncComputation();
     m.eval(function(val,callback) {
             log.debug("Load layout from "+val);
