@@ -50,6 +50,9 @@ OPEN UP THE CITATION INFORMATION:
  * augment, don't compete with existing systems:  unlock their content, don't try to displace it.
  * add tooling to support linkage to other real-world entities (e.g. Shuffl?)
 
+= Twitter-card =
+
+Design a card to act as a mini feed aggregator; also possibly fire of messages from linked cards?
 
 = Other =
 
