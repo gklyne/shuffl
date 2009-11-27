@@ -1,0 +1,105 @@
+Shuffl screencast
+
+
+>>> Talking head <<<
+
+Shuffl is being developed as an application to help researchers capture, annotate and share their data, without having to think in advance about how it needs to be structured for publication.
+
+It implements a card metaphor, with different card types able to show or collect different kinds of information.
+
+This demonstration will show two particular Shuffl card types, a data table and a graph display, used to visualize data imported from a spreadsheet, but these are just examples of possible card types.  Shuffl implements a plug-in framework that allows arbitrary card type functionality to be implemented in a separate Javascript  module, and selected at run time by the HTML file used to activate Shuffl.
+
+
+>>> Load initial Shuffl application <<<
+
+Shuffl is implemented entirely in Javascript (using jQuery), and is activated by loading a web page that references the Shuffl scripts.
+
+The Shuffl workspace display has the following elements:
+
+a. The "Shuffl" logo, which can be clicked to open a workspace menu for loading and saving data.
+
+b. The stock bar, immediately to the right of the Shuffl logo, containing a number of coloured and labelled boxes.  These correspond to the different types and styles of Shuffl "cards" that can be created in the workspace. 
+
+c. The main work area, immediately below the stock bar and occupying most of the Shuffl display.
+
+d. The status bar at the bottom of the Shuffl workspace.  Normally this displays the URI of the current workspace, but it is also used to display messages (in red) when an error or failure occurs (such as attempting to load a non-existent workspace).
+
+
+Let us import a simple data table:
+
+New cards are created in the workspace by dragging from the stock bar:
+
+>>> Drag table card to workspace <<<
+
+Text fields, like the card title, can be edited in-place:
+
+>>> Double click on title and enter "Sample data" <<<
+
+Data can be loaded from files on the same web server or file system that Shuffl was loaded from (and currently no others because of the browser same-origin restriction).  I'll use a relative URI...
+
+>>> Enter file "data/test-graph1.csv" <<<
+
+See the card is populated with data.  The card can be resized to make the data easier to see.
+
+Now create another card to plot graphs of the data:
+
+>>> Drag same-colour plot card to workspace <<<
+
+The card colours are not significant here, except to the user.  I'm choosing a plot card of the same colour as the data card to help show they are (or will be) related.
+
+I can plot data from the forst card by dragging and dropping it on the graph card
+
+>>> Drag table to graph card <<<
+
+The first column of data is used for the X-axis, and the remaining columns are Y-axis values, each plotted in a different colour.  The column headers are used to label the plots.
+
+Like the data table, a graph card can be resized.
+
+>>> Resize the graph fort a better view <<<
+
+I'm now going to show Shuffl working with some real data from Chris Holland, who is investigating the mechanical properties of silk produced under different conditions by various species of spider and silkworm.
+
+>>> Create a new data table card, new colour <<<
+
+>>> Ender "Silk data" into the title <<
+
+>>> Enter "data/rsw1_1a.csv" into the URI <<<
+
+>>> Enlarge the card to show more of the data <<<
+
+You can see this data is not so neatly organized as the first example.  See what happens if we try to graph it.
+
+>>> Create graph card <<<
+
+>>> Drop silk data card onto graph card <<<
+
+See that columns headings and putative graphs have been selected based on the first row of the table, but that there is no data here to plot.
+
+>>> Scroll down through the data <<<
+
+In this case, the actual data to be visualized starts further down the table...
+
+>>> Click header row, and select from pop-up menu <<< 
+
+Notice that the data is now recognized and plotted (based initially on the presence of values in the selected header row).  But one of these columns does not contain data, only notes, so shouldn't appear on the graph card.
+
+>>> scroll up to headers, select notes > no data <<<
+
+There, that's better.
+
+The next issue is that much of this data is intended to be plotted on logarithmic scales.  We can fix this...
+
+>>> select x:log and y1:log <<<
+
+... well almost, because the shear force is not intended to be plotted logarithmically.  We can direct this data to be plotted against a second y-axis scale.
+
+>>> click column header, select y2 axis <<<
+
+Now we have both logarithmic and linear Y scales potted against a common logarothmic x-scale.
+
+In summary, this demonstration has shown
+- the Shuffl card metaphor and user interface in action
+- the use of particular cards to provide data capture and display capabilities for a particular researcher's requirements
+
+>>> fade <<<
+

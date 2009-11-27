@@ -62,7 +62,6 @@ shuffl.card.datagraph.datamap =
 
 /*
  * Temporary default data for testing...
- * TODO: reset this when done testing
  */
 shuffl.card.datagraph.table =
     [ [ "", "series1", "series2", "series3", "series4" ] ];
@@ -88,6 +87,9 @@ shuffl.card.datagraph.table =
     };
 })(shuffl.card.datagraph.table);
 
+// Reset table data
+shuffl.card.datagraph.table = [ [] ];
+
 /**
  * jQuery base element for building new cards (used by shuffl.makeCard)
  */
@@ -106,8 +108,8 @@ shuffl.card.datagraph.blank = jQuery(
     "    <span style='display: inline-block; width: 14%;'>x1: <cx1axis/></span>\n"+
     "    <span style='display: inline-block; width: 14%;'>y1: <cy1axis/></span>\n"+
     "    <span style='display: inline-block; width: 14%;'>y2: <cy2axis/></span>\n"+
-    "    <span style='display: inline-block; width: 25%;'>min Y: <cdataminy style='display: inline-block;'>-100.0</cdataminy></span>\n"+
-    "    <span style='display: inline-block; width: 25%;'>max Y: <cdatamaxy style='display: inline-block;'> 100.0</cdatamaxy></span>\n"+
+    "    <span style='display: inline-block; width: 25%;'>min Y: <cdataminy style='display: inline-block;'>-1.0</cdataminy></span>\n"+
+    "    <span style='display: inline-block; width: 25%;'>max Y: <cdatamaxy style='display: inline-block;'> 1.0</cdatamaxy></span>\n"+
     "  </crow>\n"+
     "  <cfoot>\n"+
     "    <cident>card_ZZZ_ident</cident>:<cclass>card_ZZZ class</cclass>\n"+
