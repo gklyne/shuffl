@@ -8,12 +8,14 @@ This is far from being a final, but rather shows where I am on the path to where
 
 = Instructions =
 
- # Browse to http://shuffl.googlecode.com/svn/trunk/static/apps/shuffl-sample-4.xhtml (tested using safari or firefox.  Internet Exploder probably doesn't work.)
- # Drag a card "/\/.." (that's a graph!) onto the workspace.  A dummy graph display is shown
- # You will probably need to make the card larger to see this - drag the lower-right-hand corner or lower- and right-edges to resize.
- # Drag a card labeled "123.." (numbers) onto the workspace
- # Drag another card labelled 123.. onto the workspace
- # In one of the "123.." cards, double-click in the top-left text field (where it says "double-click to edit"), and enter "test-csv-graph.csv" into the text field and click OK.  A table of new data values is displayed (x, sin x, cos x ...).
- # Drag and drop the card with data values over the graph card.  New graphs are displayed.
- # Drag and drop the other data table card over the graph card.  Different (boring, straight-line) graphs are displayed.
- # Repeat until bored. 
+ # Browse to http://shuffl.googlecode.com/svn/trunk/static/demo/shuffl-demo.xhtml (tested using safari or firefox.  Internet Exploder probably doesn't work.)
+ # The initial page shows a Shuffl card with instructions for running the Shuffl demonstration shown in the screencast.
+ # Drag a card "Plot" onto the workspace.  An empty graph display is shown.
+ # You may wish to make the card larger - drag the lower-right-hand corner or lower- and right-edges to resize.
+ # Drag a card labeled "Table" onto the workspace
+ # Drag another card labelled "Table" onto the workspace
+ # In one of the "Table" cards, double-click in the top-left text field (where it says "double-click to edit"), and enter "data/test-graph1.csv" into the text field and click OK.  A table of data values is displayed (x, sin x, cos x ...).
+ # In the other "Table" card, enter "data/test-graph2.csv".  A different table of values is displayed.
+ # Drag and drop one card with data values over the graph card.  Graphs are displayed.
+ # Drag and drop the other data table card over the graph card.  Different graphs are displayed.
+ # Repeat until bored.
