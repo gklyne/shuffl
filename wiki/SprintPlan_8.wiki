@@ -42,8 +42,8 @@ Project outline plan: [ProjectPlanOutline_200906_200911].
 || 2.4  || Other meetings and dissemination       || -.-  || 1.2 || -- || -- ||
 || 3.   || *Technical development*                  || *4.0* || *3.4* ||
 || 3.1  || Code maintenance / bug fixes             || 0.5  || 0.2 || (ongoing)   || -- ||
-|| 3.2  || Pluggable back-end storage framework     || 2.5  || 3.2 || 27-Nov-2009 || 20-Nov-2009 ||
-|| 3.3  || Load/Save user interface improvement     || 1.0  || -.- || 27-Nov-2009 || -- ||
+|| 3.2  || Pluggable back-end storage framework     || 2.5  || 2.2 || 27-Nov-2009 || 19-Nov-2009 ||
+|| 3.3  || Load/Save user interface improvement     || 1.0  || 1,0 || 27-Nov-2009 || 20-Nov-2009 ||
 || 3.4  || Load/Save workspace browsing             || 3.0  || -.- || 27-Nov-2009 || -- ||
 
 
