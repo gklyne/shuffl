@@ -40,11 +40,11 @@ These demonstration prototypes run directly from the Google Code subversion repo
  * http://shuffl.googlecode.com/svn/trunk/static/demo/shuffl-demo.xhtml (with initially empty workspace)
  * http://shuffl.googlecode.com/svn/trunk/static/demo/shuffl-demo-notes.xhtml (with notes about how to execute demonstration)
 
-Screencast (just over 6 mins;  to paraphrase Blaise Pascal and others [1], _I made this demonstration longer than asked because I lack the time to make it shorter_):
+Screencast (just over 6 mins;  to paraphrase Blaise Pascal and others^1^, _I made this demonstration longer than asked because I lack the time to make it shorter_):
  * http://shuffl.googlecode.com/svn/trunk/docs/Shuffl-screencast.mov
  * http://shuffl.googlecode.com/svn/trunk/docs/Shuffl-screencast.wmv
 
-[1] http://answers.google.com/answers/threadview?id=177502
+^1^ http://answers.google.com/answers/threadview?id=177502
 
 == Link to end user documentation ==
 
@@ -82,8 +82,8 @@ The demonstrator runs straight out of the Google Code subversion repository, and
 
 == Project Team Names, Emails and Organisations ==
 
- * Graham Klyne <graham.klyne@zoo.ox.ac.uk>, (Project Manager and Developer), Zoology Department, University of Oxford
- * David Shotton <david shotton@zoo.ox.ac.uk>, (Principle Investigator), Zoology Department, University of Oxford
+ * Graham Klyne <graham.klyne@zoo.ox.ac.uk>, Project Manager and Developer, Zoology Department, University of Oxford
+ * David Shotton <david shotton@zoo.ox.ac.uk>, Principal Investigator, Zoology Department, University of Oxford
 
 == Project Website ==
 
@@ -92,14 +92,61 @@ The demonstrator runs straight out of the Google Code subversion repository, and
     * http://groups.google.com/group/shuffl-discuss - discussion group
     * http://shuffl.googlecode.com/svn/trunk/docs/shuffl.doap - DOAP record
 
-
 == PIMS entry ==
 
-<!-- Please provide a link to your projects entry in PIMS, for example: https://pims.jisc.ac.uk/projects/view/1333 (ignore authentication pop-up) -->
+ * https://pims.jisc.ac.uk/projects/view/1333
+
+The details displayed here are not all correct, but I don't know how to change them.
+
+There's also a DOAP record (see above).
 
 == Table of Content for Project Posts ==
 
-<!-- A final thematic table of contents should be provided here of all the project posts written along with links to each post. Please make this table of contents generic to any readership that might find your project on the Web. -->
+ * Administration
+    * Project proposal:
+       * http://shuffl.googlecode.com/files/20090421-shuffl-proposal-no-budget-figures.pdf
+    * Project plan and progress (see also the linked sprint plans):
+       * http://code.google.com/p/shuffl/wiki/ProjectPlanOutline_200906_200911
+       * http://code.google.com/p/shuffl/wiki/AgileProcess - agile process notes
+       * http://code.google.com/p/shuffl/wiki/20091130_JISCRI_ProjectFinalProgressReport - final progress report: this document
+       * http://code.google.com/p/shuffl/wiki/SWOT_analysis - SWOT analysis
+    * Project open-source governance:
+       * http://code.google.com/p/shuffl/wiki/OpenSourceSustainabilityPlan - open-source software sustainability plan
+       * http://code.google.com/p/shuffl/wiki/Individual_Contributor_License_Agreement
+    * Unfinished business:
+       * http://code.google.com/p/shuffl/wiki/TaskNotes
+       * http://code.google.com/p/shuffl/wiki/TechnicalDebt
+       * http://code.google.com/p/shuffl/wiki/ProblemsAndUnknowns
+    * Futures:
+       * http://code.google.com/p/shuffl/wiki/FutureApplicationNotes - Notes and ideas for future applications using Shuffl
+       * http://imageweb.zoo.ox.ac.uk/wiki/index.php/ADMIRAL - ADMIRAL project, for which Shuffl is intended to provide some key elements
+ * User requirements:
+    * http://code.google.com/p/shuffl/wiki/RequirementsAndGoals - initial requirements and goals outline
+    * http://code.google.com/p/shuffl/wiki/20091020_Chris_Holland - initial requirements session with Chris Holland
+    * Use-cases:
+       * http://code.google.com/p/shuffl/wiki/20091007_UseCase_TaskManagement
+       * http://code.google.com/p/shuffl/wiki/20091002_FlyKit_Widgets
+       * http://code.google.com/p/shuffl/wiki/20090902_UseCase_DataVisualization
+       * http://code.google.com/p/shuffl/wiki/20090911_UseCase_WebSiteStatisticsVisualization
+       * http://code.google.com/p/shuffl/wiki/20090904_UseCase_Simal
+       * http://code.google.com/p/shuffl/wiki/UserStories
+ * Technical design notes:
+    * http://code.google.com/p/shuffl/wiki/TechnicalNotes - early overall design notes
+    * http://code.google.com/p/shuffl/wiki/BackendSystemsSurvey - back-end systems survey, with rationale for choosing !AtomPub as the initial back-end  storage protocol.  In hindsight, I think I'd have gone for WebDAV.
+    * http://code.google.com/p/shuffl/wiki/InterfaceNotes - user interface design notes (not yet fully implemented)
+    * http://code.google.com/p/shuffl/wiki/Card_Views_Data_Testing - notes for refactoring card implementation to use a simplified MVC pattern, leadingto the jQuery 'model' plugin.
+    * http://code.google.com/p/shuffl/wiki/jQueryNotes
+    * http://code.google.com/p/shuffl/wiki/CardReadWriteOptions - notes for keeping track of whether cards need to be written, and also what URIs to use for reading and writing.  These notes predate reworking of the storage interface, but still have some relevance.
+    * http://code.google.com/p/shuffl/wiki/DataPublicationVocabulary - notes from a !VoCamp session in Bristol with Andy Seaborne - this may form the basis of a vocabulary for representing table/graph data in RDF.
+    * http://code.google.com/p/shuffl/wiki/RelatedWork - catalogue of related wotrk and projects, accummulated through the duration of the project.
+ * User documentation
+    * http://code.google.com/p/shuffl/wiki/Shuffl_Demonstration - how to run the demonstrator
+    * http://shuffl.googlecode.com/svn/trunk/docs/Shuffl-screenshot-annotated.png - annotated screenshot
+ * Project announcements and discussion:
+    * http://shuffl-announce.blogspot.com/ - project blog
+    * http://groups.google.com/group/shuffl-discuss - discussion forum
+
+(TODO: add links to key BLOG posts)
 
 == Tags ==
 
