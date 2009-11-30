@@ -141,7 +141,7 @@ There's also a DOAP record (see above).
     * http://code.google.com/p/shuffl/wiki/RelatedWork - catalogue of related wotrk and projects, accummulated through the duration of the project.
  * User documentation
     * http://code.google.com/p/shuffl/wiki/Shuffl_Demonstration - how to run the demonstrator
-    * http://shuffl.googlecode.com/svn/trunk/docs/Shuffl-screenshot-annotated.png - annotated screenshot
+    * [http://shuffl.googlecode.com/svn/trunk/docs/Shuffl-screenshot-annotated.png shuffl.googlecode.com/svn/trunk/docs/Shuffl-screenshot-annotated.png] - annotated screenshot
  * Project announcements and discussion:
     * http://shuffl-announce.blogspot.com/ - project blog
     * http://groups.google.com/group/shuffl-discuss - discussion forum
