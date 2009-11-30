@@ -37,8 +37,8 @@ Project outline plan: [ProjectPlanOutline_200906_200911].
 || 1.5. || Sprint 7 review (retrospective)          || 0.2  || 0.2 || 13-Nov-2009 || 16-Nov-2009 ||
 || 2.   || *Community engagement and dissemination* || *0.5* || *1.4* ||
 || 2.1  || Other use cases                          || --   || -.- || (ongoing)   || -- ||
-|| 2.2  || Install/demo system for Chris Holland    || 0.5  || 0.2 || 27-Nov-2009 || -- ||
-|| 2.3  || Demonstrator documentation               || 0.5  || -.- || 27-Nov-2009 || -- ||
+|| 2.2  || Install/demo system for Chris Holland    || 0.5  || -.- || 27-Nov-2009 || -- ||
+|| 2.3  || Demonstrator documentation               || 0.5  || 0.2 || 27-Nov-2009 || -- ||
 || 2.4  || Other meetings and dissemination       || -.-  || 1.2 || -- || -- ||
 || 3.   || *Technical development*                  || *4.0* || *3.4* ||
 || 3.1  || Code maintenance / bug fixes             || 0.5  || 0.2 || (ongoing)   || -- ||
@@ -72,7 +72,7 @@ Estimated effort: 1.0 days
  * (0.5) Implement simplified load/save user interface with dialogs, using the pluggable storage interface and presenting a single workspace URI rather than 3 fields,
  * (0.5) Work through and replace all direct references to AtomPub module, except those in the eXist pluggable storage module.
 
-Actual effort: ?? days (for ?? planned activity)
+Actual effort: 1.0 days (for 1.0 planned activity)
 
 == 3.4: User interface for workspace browsing ==
 
@@ -84,22 +84,27 @@ Estimated effort: 3.0 days
  * (1.0) implement browsing capability in eXist storage plug-in module
  * (1.0) add browse facility to load/save dialogs
 
-Actual effort: ?? days (for ?? planned activity)
+Actual effort: 0 days (for 0 planned activity)
 
 
 = Sprint review notes =
 
-(TBD)
+Finished cleaning up the underlying storage framework, but the user interface still needs some work.
+
+Otherwise, focused on wrapping up the JISCRI development phase - online demo, screencast, etc.
+
+A fair amount of time was taken up by other projects, including travel to the CRM workshop in Berlin.
+
 
 == End-of-sprint review ==
 
-(As this is the last sprint - focus on outputs for demonstration and other projects.)
+The demonstrator running from Google Code SVN has been enhanced to represent the current state of development, and the underlying framework has been significantly improved and stabilized.  While the delivered functionality is less than had been intended, the project is in fairly good shape for ongoing development as part of the Shuffl project, and the basic ideas have been somewhat vindicated.
+
+I did not make time to install the system on one of Chris Holland's machines, but still hope to do this soon.
 
 == Velocity ==
 
-Tasks completed/effort spent: ??/?? = ??
-
-(Completed work excludes task 1.4, which is "non-productive" overhead)
+Tasks completed/effort spent: 4.3/6.5 = 0.66
 
 
 = Activity summary =
