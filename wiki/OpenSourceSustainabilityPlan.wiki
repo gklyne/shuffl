@@ -1,7 +1,5 @@
 #summary Plan for open source and sustainability aspects of project
 
-(TODO: discuss this with OSS-watch, especially the section [#Summary_thoughts_on_sustainability Summary thoughts on sustainability])
-
 = Introduction =
 
 This page documents a plan for creating an open source project that is sustainable as such beyond the initial funding period.  It draws upon advice from OSS-Watch, particularly the page at http://wiki.oss-watch.ac.uk/StartYourProject.
