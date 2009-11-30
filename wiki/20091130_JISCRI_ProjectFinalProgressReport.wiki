@@ -1,0 +1,54 @@
+#summary JISCRI project final progress report
+#labels shuffl,jiscri
+
+= Introduction =
+
+This page is where the final JISCRI project progress report is assembled, following the template at http://code.google.com/p/jiscri/wiki/ProjectDocumentation.
+
+= Final project progress report =
+
+== Title of Primary Project Output ==
+
+Shuffl: web-bases system for small scale data visualization and annotation
+
+== Screenshots or diagram of prototype ==
+
+http://shuffl.googlecode.com/svn/trunk/docs/Shuffl-screenshot-annotated.png
+
+== Description of Prototype ==
+
+The prototype demonstrates the Shuffl framework, which allows new "cards" to be created by dragging and dropping from "stockpiles" at the top of the workspace, and changed in the workspace by double-clicking on text to be edited. Specific card types implemented so far include:
+ * a simple text annotation card, for recording free-text notes
+ * a data table card, which uses AJAX calls to read CSV data from a web location or file system (subject to the same origin restriction), display this as a table in the card, and provides for selection of data to be visualized.
+ * a graph plotting card, an example of one way that data may be visualized.  Data for graphing is indicated by dragging a data table card and dropping it onto the graph card.
+
+When loaded from an eXist !AtomPub server, the demonstrator also shows how workspaces can be saved and loaded by selecting options from the workspace menu (which is activated by clicking on the "Shuffl" logo at the top of the workspace.
+
+This demonstrator software has focused on the the underlying Shuffl framework and the data visualization framework.  Desired features that are not yet implemented include:
+ * file system browser for loading and saving workspaces
+ * card collections and card relationships structured as collections (e.g. as hierarchies)
+ * support for Google Data and WebDAV back-ends
+ * image gallery and image annotation
+(Many of these features will be tackled as part of the forthcoming ADMIRAL project.)
+
+Work has also been done, but not shown in the demonstrator, to prove that independently-developed widgets that access information from other web resources and services can be embedded in Shuffl cards (Wookie widgets and FlyWeb gene finder).
+
+== Link to working prototype ==
+
+These demonstration prototypes run directly from the Google Code subversion repository:
+ * http://shuffl.googlecode.com/svn/trunk/static/demo/shuffl-demo.xhtml (with initially empty workspace)
+ * http://shuffl.googlecode.com/svn/trunk/static/demo/shuffl-demo-notes.xhtml (with notes about how to execute demonstration)
+
+Screencast:
+ * ...
+
+: <!-- This http link should point directly to a working prototype in which the end user can interact, if a working prototype is not available then please provide a screencast or series of screenshots demonstrating end user functionality, this screencast should not exceed 5 minutes. Please note: working prototypes are preferred even if just 'rough and ready', please do not send powerpoints or other non web-based documents, they will not be accepted. This prototype must be maintained for one year after the date of the official project sign-off. -->
+ * Link to end user documentation: <!-- Please provide an http link for a page that explains the use of the prototype to the end user, e.g. an "about" page that explains the project and why it is producing the prototype. For example, what end user problem does it solve, what question does the prototype answer, what itch for the community does it scratch? -->
+ * Link to code repository or API: <!-- This http link should be to the primary page listing all code libraries for the prototype. This page must be maintained for one year after the official date of the project sign-off. -->
+ * Link to technical documentation: <!-- Please provide an http link for a page listing all technical documentation which explains the code listed in the code repository above. -->
+ * Date prototype was launched: <!-- Please provide a date for when the last version of the prototype was made available to end users -->
+ * Project Team Names, Emails and Organisations: <!-- For example: "David F. Flanders, d.flanders@jisc.ac.uk - Joint Information Systems Committee; etc." -->
+ * Project Website: <!-- HTTP link to any additional wiki, blog or site that has applicable documentation -->
+ * PIMS entry: <!-- Please provide a link to your projects entry in PIMS, for example: https://pims.jisc.ac.uk/projects/view/1333 (ignore authentication pop-up) -->
+ * Table of Content for Project Posts <!-- A final thematic table of contents should be provided here of all the project posts written along with links to each post. Please make this table of contents generic to any readership that might find your project on the Web. -->
+ * Required Tags for this Final Progress Post = progressPosts, rapidInnovation, JISCRI, JISC, finalProgressPost, output, prototype, product, demonstrator, <your own unique project tag>, etc.
