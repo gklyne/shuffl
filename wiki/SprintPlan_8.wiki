@@ -102,3 +102,71 @@ Tasks completed/effort spent: ??/?? = ??
 
 
 = Activity summary =
+
+Date:	 Monday, 16 November, 2009
+ Shuffl:
+ * (0.2) sprint 7 review
+ * (0.2) sprint 8 plan 
+ * (0.5) local file storage module (task 3.2, subtask done)
+ Misc:
+ * (0.1) email catch-up
+
+Date:	 Tuesday, 17 November, 2009
+ Shuffl:
+ * (0.2) code fixes and clean-up (task 3.1)
+ * (0.8) eXist atompub storage module (task 3.2, subtask completed)
+
+Date:	 Wednesday, 18 November, 2009
+ Shuffl:
+ * (0.2) Review and update sustainability plan; create and publish initial DOAP description file (task 1.3)
+ * (0.2) Shuffl exit: start creating demonstration app (task 2.3)
+ * (0.4) Shuffl loadworkspace using new storage framework (task 3.2, subtask done)
+ Claros:
+ * (0.2) CLAROS meeting with ISIS rep to discuss possible commercial opportunities
+
+Date:	 Thursday, 19 November, 2009
+ Shuffl:
+ * (0.5) working on save workspace using new storage API
+ Misc:
+ * (0.5) A tidal wave of relevant emails
+
+Date:	 Friday, 20 November, 2009
+ Shuffl:
+ * (1.0) Completed save workspace using new storage API
+
+Date:	 Monday, 23 November, 2009
+ CLAROS:
+ * (1.0) CIDOC CRM meeting
+
+Date:	 Tuesday, 24 November, 2009
+ CLAROS:
+ * (0.7) CIDOC CRM meeting
+ Shuffl:
+ * (0.3) Meet with Chris Bizer, discuss linked data etc.
+
+Date:	 Wednesday, 25 November, 2009
+ CLAROS:
+ * (0.7) travel
+ Misc:
+ * (0.3) various catch-up
+
+Date:	 Thursday, 26 November, 2009
+ Shuffl:
+ * (0.4) Screencast
+ ADMIRAL:
+ * (0.3) Meeting with Sally Rumsey / Ben O'Steen
+ * (0.3) Travel to meeting
+
+Date:	 Friday, 27 November, 2009
+ ADMIRAL:
+ * (1.0) JISC Programme meeting
+ Shuffl:
+ * (0.5) Complete Shuffl screencast
+
+Notes for wrapping up Shuffl
+ * Finalize screencast as QT and WMV
+ * Publish screencast, demo app
+ * Final progress report
+ * Expenses - Berlin, screencast s/w, ...
+ * Final retrospective
+ * Final project budget to David F
