@@ -11,7 +11,7 @@ This page is where the final JISCRI project progress report is assembled, follow
 
 == Title of Primary Project Output ==
 
-Shuffl: web-bases system for small scale data visualization and annotation
+Shuffl: A web-based system for supporting curation of small-scale research data for web publication
 
 == Screenshots or diagram of prototype ==
 
