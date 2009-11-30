@@ -33,6 +33,13 @@
       , { 'id': 'stockpile_35', 'class': 'stock-purple',  'label': 'Notes',   'type': 'shuffl-freetext-purple'  }
       ]
   , 'shuffl:layout':
-      [ ]
+      [ { "id":"card_101"
+        , "class":"shuffl-freetext-yellow"
+        , "data":"card_101.json"
+        , "pos": {"top":0, "left":400}
+        , "size": {"width":600,"height":400}
+        , "zindex":11
+        }
+      ]
   }
 }
