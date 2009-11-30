@@ -24,29 +24,29 @@ To see an example of Shuffl in action, try the following steps starting with the
 
 2. Double-click on the text "card_102" (or similar) and enter some descriptive text like "Sample graph data" into the input box that is displayed.  Then click on the "OK" button, or some other part of the display, or just press the ENTER key.  The card display is updated.
 
-3. Double-click on the text "(Double-click to edit)", and enter "data/test-graph1.csv" into the input box, and click "OK".  The card display is updated.  You may drag the bottom-right corner of the card to resize it so the data can be seen more easily.
+3. Double-click on the text "(Double-click to edit)", and enter "data/test-graph1.csv" into the input box, and click "OK".  The card display is updated.  You may drag the bottom-right corner of the card to re-size it so the data can be seen more easily.
 
 4. Drag the blue box labelled "Plot" onto a blank area of the main work area.  A new card is displayed.
 
-5. Using the darker rectangle in the top right corner, drag the "table" card and drop it onto the "plot" card, noticing the border of the plot card changes when the mouse pointer is over it.  The plot card displays graphs of the data in the graph card.  The graph display card can be resized in similar fashion to the 
+5. Using the darker rectangle in the top right corner, drag the "table" card and drop it onto the "plot" card, noticing the border of the plot card changes when the mouse pointer is over it.  The plot card displays graphs of the data in the graph card.  The graph display card can be re-sized in similar fashion to the 
 
-6. Now drag and drop a green "table" box from the stock bar to the work area to create a new card.  Similarly, drag a green "plot" card to the wrk area.
+6. Now drag and drop a green "table" box from the stock bar to the work area to create a new card.  Similarly, drag a green "plot" card to the work area.
 
 7. Enter the file name "data/rsw1_1a.csv" into the input box of the green table card.  Note that the data displayed is not as simply organized with just headers and data values, unlike the previous example: this is part of a real spreadsheet used for capturing research data.
 
 8. Drag the green table data card onto the green plot card.  Some labels are displayed, but no data is plotted.
 
-9. Returniung to the greemn data table card, scroll down through the displayed data until a row containing "Shear Rate 1/s, Shear Stress Pa, etc" can be seen.  Click on this row and select "label row" from the pop-up menu that is displayed.  Notivce the graph display is updated, and parts of the displayed table data are greyed.
+9. Returning to the green data table card, scroll down through the displayed data until a row containing "Shear Rate 1/s, Shear Stress Pa, etc" can be seen.  Click on this row and select "label row" from the pop-up menu that is displayed.  Notice the graph display is updated, and parts of the displayed table data are greyed.
 
 10. Scroll back to the start of table data until the table column headings can be seen.  Click on the column heading "Notes", and select "no data" from the pop-up menu.  Notice the label is removed from the graph display, but that there are no other visible changes.
 
-11. Some of the data used here are designed to be shown on a logathithmic scale, not the default linear scale currently displayed.  Go to the green graph display and click on the notation "lin" that appears beside "x1".  Note it changes to "log", and the graph display is updated.  Similarly click on the "lin" notation beside "y1".  Again, the display updates so all data are graphed on log/log scales.
+11. Some of the data used here are designed to be shown on a logarithmic scale, not the default linear scale currently displayed.  Go to the green graph display and click on the notation "lin" that appears beside "x1".  Note it changes to "log", and the graph display is updated.  Similarly click on the "lin" notation beside "y1".  Again, the display updates so all data are graphed on log/log scales.
 
 12. But the red "Normal force" graph is intended to be displayed on a linear scale (log/lin).  In the data table card, click on the column heading labelled "Normal Force N1 Pa", and select "y2 axis" from the menu displayed.  Again the graph display is updated, and a second set of axis labels are displayed to the right of the graph area.
 
 
 
-This concludes the basic demonstration of features.  If the demonstration is run from an eXist AtomPub server, the Shuffl menu can be used to save a copy of the resulting workspace; e.g.select "Save as new workspace..." from the menu, enter the URI  "http://localhost:8080/exist/atom/edit/demo/demo.json" into the dialog box displayed, and click on OK.  Due to the browser "same origin" restruction, the URI host (authority) used must match the location from which the Shuffl application was loaded.
+This concludes the basic demonstration of features.  If the demonstration is run from an eXist AtomPub server, the Shuffl menu can be used to save a copy of the resulting workspace; e.g.select "Save as new workspace..." from the menu, enter the URI  "http://localhost:8080/exist/atom/edit/demo/demo.json" into the dialog box displayed, and click on OK.  Due to the browser "same origin" restriction, the URI host (authority) used must match the location from which the Shuffl application was loaded.
 
 
 
