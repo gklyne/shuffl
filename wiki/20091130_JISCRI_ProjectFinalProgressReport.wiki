@@ -1,6 +1,8 @@
 #summary JISCRI project final progress report
 #labels shuffl,jiscri
 
+<wiki:toc max_depth="2" />
+
 = Introduction =
 
 This page is where the final JISCRI project progress report is assembled, following the template at http://code.google.com/p/jiscri/wiki/ProjectDocumentation.
