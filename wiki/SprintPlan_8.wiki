@@ -60,10 +60,10 @@ Estimated effort: 2.5 days
 
  * (0.5) implement generic read-only interface plugin for local files (*Done* 16-Nov-2009/0.5)
  * (1.0) implement generic interface plugin for eXist !AtomPub (*Done* 17-Nov-2009/0.8)
- * (0.5) update load workspace module to use the revised framework
- * (0.5) update save workspace module to use the revised framework
+ * (0.5) update load workspace module to use the revised framework (*Done* 19-Nov-2009/0.5)
+ * (0.5) update save workspace module to use the revised framework (*Done* 19-Nov-2009/0.5)
 
-Actual effort: ?? days (for ?? planned activity)
+Actual effort: 2.2 days (for 2.5 planned activity)
 
 == 3.3: Load/save workspace user interface improvement ==
 
