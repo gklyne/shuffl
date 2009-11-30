@@ -160,7 +160,7 @@ There's also a DOAP record (see above).
     * http://shuffl-announce.blogspot.com/ - project blog
     * http://groups.google.com/group/shuffl-discuss - discussion forum
 
-(TODO: add links to key BLOG posts)
+Selected blog posts have been indexed above, but not routine progress announcements as they mainly duplicate the sprint plans and progress reports already noted.
 
 == Tags ==
 
