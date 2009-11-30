@@ -34,7 +34,7 @@ This demonstrator software has focused on the the underlying Shuffl framework an
  * saving data as RDF (currently, Shuffl uses JSON, as that was quicker and easier to get working).
 (Many of these features will be tackled as part of the forthcoming ADMIRAL project.)
 
-Work has also been done, but not shown in the demonstrator, to prove that independently-developed widgets that access information from other web resources and services can be embedded in Shuffl cards (Wookie widgets and FlyWeb gene finder).
+Work has also been done, but not shown in the demonstrator, to prove that independently-developed widgets that access information from other web resources and services can be embedded in Shuffl cards (Wookie widgets and !FlyWeb gene finder).
 
 == Link to working prototype ==
 
