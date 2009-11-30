@@ -100,7 +100,7 @@ The details displayed here are not all correct, but I don't know how to change t
 
 There's also a DOAP record (see above).
 
-== Table of Content for Project Posts ==
+== Table of contents for project posts ==
 
  * User documentation
     * http://code.google.com/p/shuffl/wiki/Shuffl_Demonstration - how to run the demonstrator
