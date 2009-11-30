@@ -164,6 +164,6 @@ There's also a DOAP record (see above).
 
 Selected blog posts have been indexed above, but not routine progress announcements as they mainly duplicate the sprint plans and progress reports already noted.
 
-== Tags ==
+= Tags =
 
 progressPosts, rapidInnovation, JISCRI, JISC, finalProgressPost, output, prototype, product, demonstrator, shuffl
