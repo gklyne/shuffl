@@ -30,11 +30,11 @@ Project outline plan: [ProjectPlanOutline_200906_200911].
 
 || *Activity number* || *Description* || *Effort est* || *Effort actual* || *Target date* || *Completion date* ||
 || 1.   || *Project administration*                 || *1.7* || *-.-* ||
-|| 1.1. || Sprint 7 plan                            || 0.2  || 0.2 || 16-Nov-2009 || 16-Nov-2009 ||
-|| 1.2. || Sprint 7 review (retrospective) and final project report notes || 0.3  || -.- || 27-Nov-2009 || -- ||
+|| 1.1. || Sprint 8 plan                            || 0.2  || 0.2 || 16-Nov-2009 || 16-Nov-2009 ||
+|| 1.2. || Sprint 8 review (retrospective) and final project report notes || 0.3  || -.- || 27-Nov-2009 || -- ||
 || 1.3. || Sustainability plan review/stabilize     || 0.25 || -.- || 27-Nov-2009 || -- ||
 || 1.4. || Miscellaneous admin, email, etc          || 0.75 || -.- || -- || -- ||
-|| 1.5. || Sprint 6 review (retrospective)          || 0.2  || 0.2 || 13-Nov-2009 || 16-Nov-2009 ||
+|| 1.5. || Sprint 7 review (retrospective)          || 0.2  || 0.2 || 13-Nov-2009 || 16-Nov-2009 ||
 || 2.   || *Community engagement and dissemination* || *0.5* || *0.3* ||
 || 2.1  || Other use cases                          || --   || -.- || (ongoing)   || -- ||
 || 2.2  || Install/demo system for Chris Holland    || 0.5  || -.- || 27-Nov-2009 || -- ||
