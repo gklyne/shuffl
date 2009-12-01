@@ -68,7 +68,7 @@ See: http://code.google.com/p/jiscri/wiki/ProjectDocumentation
 || || _or_ || FAIL, progressPosts, rapidInnovation, JISCRI, JISC, Shuffl ||
 || || _or_ || progressPosts, rapidInnovation, JISCRI, JISC, Shuffl ||
 || Sprint plans || New and revised plans generated periodically, responding to user requirements and actual prior progress.  Also, meta-issues about project conduct and reporting. || progressPosts, rapidInnovation, JISCRI, JISC, Shuffl, Planning ||
-|| Final Progress Post || (See copy of template below) || progressPosts, rapidInnovation, JISCRI, JISC, finalProgressPost, output, prototype, product, demonstrator, shuffl || ?? ||
+|| Final Progress Post || (See copy of template below) || progressPosts, rapidInnovation, JISCRI, JISC, finalProgressPost, output, prototype, product, demonstrator, shuffl || 30Nov2009 ||
 
 Project announcements blog: http://shuffl-announce.blogspot.com/
 
