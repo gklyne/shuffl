@@ -152,9 +152,10 @@ There's also a DOAP record (see above).
        * http://code.google.com/p/shuffl/wiki/AgileProcess - agile process notes
        * http://code.google.com/p/shuffl/wiki/20091130_JISCRI_ProjectFinalProgressReport - final progress report: this document
        * http://code.google.com/p/shuffl/wiki/SWOT_analysis - SWOT analysis
-    * Project open-source governance:
+    * Project open-source governance and sustainability:
        * http://code.google.com/p/shuffl/wiki/OpenSourceSustainabilityPlan - open-source software sustainability plan
        * http://code.google.com/p/shuffl/wiki/Individual_Contributor_License_Agreement
+       * http://shuffl-announce.blogspot.com/2009/12/sustaining-shuffl-view-ahead.html - final reflections on continuing Shuffl development
     * Reflections
        * http://shuffl-announce.blogspot.com/2009/07/agile-modelling-and-development.html - reflections on agile development
        * http://shuffl-announce.blogspot.com/2009/09/relearning-agile-lessons.html
