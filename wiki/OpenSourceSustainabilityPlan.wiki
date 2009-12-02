@@ -18,7 +18,7 @@ The MIT licence has been chosen as it is simple and permissive.  I believe susta
 
 = Documentation licence =
 
-Documentation is released under the Creative Commons Attribution licence (http://creativecommons.org/licenses/by/2.0/uk/) - this is chosen as being similar in spirit to the MIT licence for code.
+Documentation is released under the Creative Commons Attribution licence (http://creativecommons.org/licenses/by/2.0/uk/) - this is chosen as being similar in spirit to the MIT licence for code.  The Google Code project page also specifies the Crerative Commons 3.0 BY licence, which conveys the same intent (http://creativecommons.org/licenses/by/3.0/).
 
 = Collaborative decision making =
 
