@@ -44,9 +44,9 @@ var testcardimagegallery_carddata =
  * Function to register tests
  */
 
-TestCardImageNotes = function() {
+TestCardImageGallery = function() {
 
-    module("TestCardImageNotes");
+    module("TestCardImageGallery");
 
     test("shuffl.addCardFactories",
         function () {
@@ -216,9 +216,6 @@ TestCardImageNotes = function() {
             same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');
             equals(e['shuffl:data']['shuffl:title'], "Card N title",   'shuffl:data-title');
             same(e['shuffl:data']['shuffl:tags'],  [ 'card_N_tag', 'footag' ],   'shuffl:data-tags');
-            equals(e['shuffl:data']['shuffl:text'],  
-                "Card N free-form text here<br/>line 2<br/>line3<br/>yellow",
-                'shuffl:data-text');
         });
 
     test("shuffl.card.imagegallery model setting",
@@ -234,7 +231,6 @@ TestCardImageNotes = function() {
             equals(c.find("cbody").html(),  "Card N free-form text here<br>line 2<br>line3<br>yellow", "card body field");
             c.model("shuffl:title", "Card N updated");
             c.model("shuffl:tags", "card_N_tag,bartag");
-            c.model("shuffl:text", "Card N updated text<br/>more");
             equals(c.find("ctitle").text(), "Card N updated", "updated title field");
             equals(c.find("ctags").text(),  "card_N_tag,bartag", "updated tags field");
             equals(c.find("cbody").html(),  "Card N updated text<br>more", "updated body field");
