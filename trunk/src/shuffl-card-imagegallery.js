@@ -27,23 +27,23 @@
  */
 if (typeof shuffl == "undefined") 
 {
-    alert("shuffl-card-imagenotes.js: shuffl-base.js must be loaded first");
+    alert("shuffl-card-imagegallery.js: shuffl-base.js must be loaded first");
 }
 if (typeof shuffl.card == "undefined") 
 {
-    alert("shuffl-card-imagenotes.js: shuffl-cardhandlers.js must be loaded before this");
+    alert("shuffl-card-imagegallery.js: shuffl-cardhandlers.js must be loaded before this");
 }
 
 /**
  * Create namespace for this card type
  */
-shuffl.card.imagenotes = {};
+shuffl.card.imagegallery = {};
 
 /**
  * Template for initializing a card model, and 
  * creating new card object for serialization.
  */
-shuffl.card.imagenotes.datamap =
+shuffl.card.imagegallery.datamap =
     { 'shuffl:title':   { def: '@id' }
     , 'shuffl:tags':    { def: '@tags', type: 'array' }
     //// @@more
@@ -52,7 +52,7 @@ shuffl.card.imagenotes.datamap =
 /**
  * jQuery base element for building new cards (used by shuffl.makeCard)
  */
-shuffl.card.imagenotes.blank = jQuery(
+shuffl.card.imagegallery.blank = jQuery(
     "<div class='shuffl-card-setsize' style='z-index:10;'>\n"+
     "  <chead>\n"+
     "    <chandle><c></c></chandle>" +
@@ -80,14 +80,14 @@ shuffl.card.imagenotes.blank = jQuery(
  *                      'shuffl:title', 'shuffl:tags' and 'shuffl:text'.
  * @return              a jQuery object representing the new card.
  */
-shuffl.card.imagenotes.newCard = function (cardtype, cardcss, cardid, carddata) {
-    //log.debug("shuffl.card.imagenotes.newCard: "+
+shuffl.card.imagegallery.newCard = function (cardtype, cardcss, cardid, carddata) {
+    //log.debug("shuffl.card.imagegallery.newCard: "+
     //    cardtype+", "+cardcss+", "+cardid+", "+carddata);
     // Initialize the card object
-    var card = shuffl.card.imagenotes.blank.clone();
+    var card = shuffl.card.imagegallery.blank.clone();
     card.data('shuffl:class',  cardtype);
     card.data('shuffl:id',     cardid);
-    card.data("shuffl:tojson", shuffl.card.imagenotes.serialize);
+    card.data("shuffl:tojson", shuffl.card.imagegallery.serialize);
     card.attr('id', cardid);
     card.addClass(cardcss);
     card.find("cident").text(cardid);           // Set card id text
@@ -99,7 +99,7 @@ shuffl.card.imagenotes.newCard = function (cardtype, cardcss, cardid, carddata) 
     ////shuffl.bindLineEditable(card, "shuffl:tags",  "ctags");
     ////var cbody = card.find("cbody");
     // Initialize the model
-    shuffl.initModel(card, carddata, shuffl.card.imagenotes.datamap,
+    shuffl.initModel(card, carddata, shuffl.card.imagegallery.datamap,
         {id: cardid, tags: [cardtype]} 
         );
     return card;
@@ -111,18 +111,18 @@ shuffl.card.imagenotes.newCard = function (cardtype, cardcss, cardid, carddata) 
  * @param card      a jQuery object corresponding to the card
  * @return an object containing the card data
  */
-shuffl.card.imagenotes.serialize = function (card) {
-    return shuffl.serializeModel(card, shuffl.card.imagenotes.datamap);
+shuffl.card.imagegallery.serialize = function (card) {
+    return shuffl.serializeModel(card, shuffl.card.imagegallery.datamap);
 };
 
 /**
  *   Add new card type factories
  */
-shuffl.addCardFactory("shuffl-imagenotes-yellow", "stock-yellow", shuffl.card.imagenotes.newCard);
-shuffl.addCardFactory("shuffl-imagenotes-blue",   "stock-blue",   shuffl.card.imagenotes.newCard);
-shuffl.addCardFactory("shuffl-imagenotes-green",  "stock-green",  shuffl.card.imagenotes.newCard);
-shuffl.addCardFactory("shuffl-imagenotes-orange", "stock-orange", shuffl.card.imagenotes.newCard);
-shuffl.addCardFactory("shuffl-imagenotes-pink",   "stock-pink",   shuffl.card.imagenotes.newCard);
-shuffl.addCardFactory("shuffl-imagenotes-purple", "stock-purple", shuffl.card.imagenotes.newCard);
+shuffl.addCardFactory("shuffl-imagegallery-yellow", "stock-yellow", shuffl.card.imagegallery.newCard);
+shuffl.addCardFactory("shuffl-imagegallery-blue",   "stock-blue",   shuffl.card.imagegallery.newCard);
+shuffl.addCardFactory("shuffl-imagegallery-green",  "stock-green",  shuffl.card.imagegallery.newCard);
+shuffl.addCardFactory("shuffl-imagegallery-orange", "stock-orange", shuffl.card.imagegallery.newCard);
+shuffl.addCardFactory("shuffl-imagegallery-pink",   "stock-pink",   shuffl.card.imagegallery.newCard);
+shuffl.addCardFactory("shuffl-imagegallery-purple", "stock-purple", shuffl.card.imagegallery.newCard);
 
 // End.
