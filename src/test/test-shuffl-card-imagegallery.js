@@ -233,7 +233,6 @@ TestCardImageGallery = function() {
             c.model("shuffl:tags", "card_N_tag,bartag");
             equals(c.find("ctitle").text(), "Card N updated", "updated title field");
             equals(c.find("ctags").text(),  "card_N_tag,bartag", "updated tags field");
-            equals(c.find("cbody").html(),  "Card N updated text<br>more", "updated body field");
         });
 
 };
