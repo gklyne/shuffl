@@ -92,8 +92,6 @@ TestCardImageNotes = function() {
             ok(c.hasClass('stock-yellow'),  "yellow colour class");
             ok(c.hasClass('shuffl-card-setsize'), "shuffl card setsize class");
             equals(c.attr('class'), 'shuffl-card-setsize stock-yellow ui-resizable', "CSS class");
-    		equals(c.find("cident").text(), "card-1", "card id field");
-    		equals(c.find("cclass").text(), "shuffl-imagenotes-yellow", "card class field");
     		equals(c.find("ctitle").text(), "card-title", "card title field");
     		equals(c.find("ctags").text(),  "card-tag", "card tags field");
     		//// @@more
@@ -167,8 +165,6 @@ TestCardImageNotes = function() {
             ok(c.hasClass('stock-green'),   "stock-green");
             ok(c.hasClass('ui-resizable'),  "ui-resizable");
             equals(c.attr('class'), 'shuffl-card-setsize stock-green ui-resizable shuffl-card', "CSS class");
-            equals(c.find("cident").text(), card_id, "card id field");
-            equals(c.find("cclass").text(), "shuffl-imagenotes-green", "card type");
             equals(c.find("ctitle").text(), card_id, "card title field");
             equals(c.find("ctags").text(),  "shuffl-imagenotes-green", "card tags field");
             // Check saved card data
@@ -194,8 +190,6 @@ TestCardImageNotes = function() {
             ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
             ok(c.hasClass('stock-orange'),  "stock-orange class");
             equals(c.attr('class'), 'shuffl-card-setsize stock-orange ui-resizable shuffl-card', "CSS class");
-            equals(c.find("cident").text(), "cardfromdata_id", "card id field");
-            equals(c.find("cclass").text(), "shuffl-imagenotes-orange", "card class field");
             equals(c.find("ctitle").text(), "Card N title", "card title field");
             equals(c.find("ctags").text(),  "card_N_tag,footag", "card tags field");
             same(c.data('shuffl:external'), d, "card data");
