@@ -175,15 +175,19 @@ TestCardDatagraph = function() {
         equals(c.model("shuffl:title"), card_id, "shuffl:title");
         equals(c.model("shuffl:tags"),  "shuffl-datagraph-green", "shuffl:tags");
         equals(c.model("shuffl:source_id"), undefined,            "shuffl:source_id");
-        //TODO: reinstate these tests when dummy data is removed from new cards
-        range(c.model("shuffl:dataminy"), -3.0, -2.0, "shuffl:dataminy");
-        range(c.model("shuffl:datamaxy"),  3.0,  4.0, "shuffl:datamaxy");
-        //equals(c.model("shuffl:dataminy"), undefined, "shuffl:dataminy");
-        //equals(c.model("shuffl:datamaxy"), undefined, "shuffl:datamaxy");
-        //same(c.model("shuffl:table"),  undefined, "shuffl:table");
-        //same(c.model("shuffl:labels"), undefined, "shuffl:labels");
-        //same(c.model("shuffl:axes"),   undefined, "shuffl:axes");
-        //same(c.model("shuffl:series"), undefined, "shuffl:series");
+        // Different tests when card is preloaded with dummy test data
+        if (/*card_contains_dummy_data*/false)
+        {
+            range(c.model("shuffl:dataminy"), -3.0, -2.0, "shuffl:dataminy");
+            range(c.model("shuffl:datamaxy"),  3.0,  4.0, "shuffl:datamaxy");
+        } else {
+            equals(c.model("shuffl:dataminy"), undefined, "shuffl:dataminy");
+            equals(c.model("shuffl:datamaxy"), undefined, "shuffl:datamaxy");
+            same(c.model("shuffl:table"),  null, "shuffl:table");
+            same(c.model("shuffl:labels"), [], "shuffl:labels");
+            same(c.model("shuffl:axes"),   [], "shuffl:axes");
+            same(c.model("shuffl:series"), [], "shuffl:series");
+        };
         // Check rendered card
         equals(c.attr('id'), card_id, "card id attribute");
         ok(c.hasClass('shuffl-card'),   "shuffl card class");
@@ -195,11 +199,15 @@ TestCardDatagraph = function() {
         equals(c.find("cclass").text(), "shuffl-datagraph-green", "card type");
         equals(c.find("ctitle").text(), card_id, "card title field");
         equals(c.find("ctags").text(),  "shuffl-datagraph-green", "card tags field");
-        //TODO: reinstate these tests when dummy data is removed from new cards
-        range(c.find("cdataminy").text(), -3.0, -2.0, "minimum Y field");
-        range(c.find("cdatamaxy").text(),  3.0,  4.0, "maximum Y field");
-        //equals(c.find("cdataminy").text(), shuffl.PlaceHolder, "minimum Y field");
-        //equals(c.find("cdatamaxy").text(), shuffl.PlaceHolder, "maximum Y field");
+        // Different tests when card is preloaded with dummy test data
+        if (/*card_contains_dummy_data*/false)
+        {
+            range(c.find("cdataminy").text(), -3.0, -2.0, "minimum Y field");
+            range(c.find("cdatamaxy").text(),  3.0,  4.0, "maximum Y field");
+        } else {
+            equals(c.find("cdataminy").text(), "-1.0", "minimum Y field");
+            equals(c.find("cdatamaxy").text(), " 1.0", "maximum Y field");
+        };
         equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "div", "card body contains <div>");
         // Check saved card data
         var d = testcarddatagraph_carddata;
