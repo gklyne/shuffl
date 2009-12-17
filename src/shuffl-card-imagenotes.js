@@ -46,6 +46,8 @@ shuffl.card.imagenotes = {};
 shuffl.card.imagenotes.datamap =
     { 'shuffl:title':   { def: '@id' }
     , 'shuffl:tags':    { def: '@tags', type: 'array' }
+    , 'shuffl:uri':     { def: '' }
+    , 'shuffl:text':    { def: '' }
     //// @@more
     };
 
@@ -59,7 +61,14 @@ shuffl.card.imagenotes.blank = jQuery(
     "    <ctitle>card title</ctitle>\n"+
     "  </chead>\n"+
     "  <crow>\n"+
-    "    <cbody>...</cbody>\n"+
+    "    <curi>card_ZZZ uri</curi>\n"+
+    "  </crow>\n"+
+    "  <crow>\n"+
+    "    <cbody class='shuffl-nodrag'>\n"+
+    "      <cimage>\n"+
+    "        (img src='...' alt='...'/)\n"+
+    "      </cimage>\n"+
+    "    </cbody>\n"+
     "  </crow>\n"+
     "  <cfoot>\n"+
     "    <ctagslabel>Tags: </ctagslabel><ctags>card_ZZZ tags</ctags>\n"+
@@ -81,8 +90,8 @@ shuffl.card.imagenotes.blank = jQuery(
  * @return              a jQuery object representing the new card.
  */
 shuffl.card.imagenotes.newCard = function (cardtype, cardcss, cardid, carddata) {
-    //log.debug("shuffl.card.imagenotes.newCard: "+
-    //    cardtype+", "+cardcss+", "+cardid+", "+carddata);
+    log.debug("shuffl.card.imagenotes.newCard: "+
+        cardtype+", "+cardcss+", "+cardid+", "+carddata);
     // Initialize the card object
     var card = shuffl.card.imagenotes.blank.clone();
     card.data('shuffl:class',  cardtype);
@@ -90,14 +99,22 @@ shuffl.card.imagenotes.newCard = function (cardtype, cardcss, cardid, carddata) 
     card.data("shuffl:tojson", shuffl.card.imagenotes.serialize);
     card.attr('id', cardid);
     card.addClass(cardcss);
-    card.find("cident").text(cardid);           // Set card id text
-    card.find("cclass").text(cardtype);         // Set card class/type text
     card.data("resizeAlso", "cbody");
     card.resizable();
     // Set up model listener and user input handlers
-    ////shuffl.bindLineEditable(card, "shuffl:title", "ctitle");
-    ////shuffl.bindLineEditable(card, "shuffl:tags",  "ctags");
+    shuffl.bindLineEditable(card, "shuffl:title", "ctitle");
+    shuffl.bindLineEditable(card, "shuffl:tags",  "ctags");
+    shuffl.bindLineEditable(card, "shuffl:uri",   "curi");
+    card.modelBind("shuffl:uri", function(event, data) {
+    	var imgelem = shuffl.interpolate(
+    		"<img src='%(uri)s' alt='%(uri)s'/>", 
+    		{uri: data.newval});
+    	card.find("cimage").html(imgelem);
+        });
     ////var cbody = card.find("cbody");
+    var cnotes = card.find("cnotes");
+    card.modelBind("shuffl:text", shuffl.modelSetHtml(cnotes, true));
+    shuffl.blockEditable(card, cnotes, shuffl.editSetModel(card, "shuffl:text"));
     // Initialize the model
     shuffl.initModel(card, carddata, shuffl.card.imagenotes.datamap,
         {id: cardid, tags: [cardtype]} 

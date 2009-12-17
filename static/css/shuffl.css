@@ -199,6 +199,10 @@ cbody.shuffl-nodrag {
     overflow: auto;
 }
 
+cnotes.shuffl-nodrag {
+    overflow: auto;
+}
+
 .shuffl-blockedit {
     display: block;
 	  position: absolute;
