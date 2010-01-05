@@ -10,7 +10,7 @@ This page contains notes about and links to vocabulary terms for publishing data
 
 == Time-series data ==
 
-(Notes from 20090910 VoCamp, working with Andy Seaborne)
+(Notes from 20090910 !VoCamp, working with Andy Seaborne)
 
 http://www.thefigtrees.net/lee/blog/2008/03/modeling_statistics_in_rdf_a_s.html
 http://sw.joanneum.at/scovo/schema.html (RDFa)
