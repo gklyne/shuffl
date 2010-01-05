@@ -1,4 +1,4 @@
-#summary Notes for TODO tasks to be tackled
+#summary TODO: notes for tasks to be tackled
 #labels notes,admin,tasks
 
 See also:
