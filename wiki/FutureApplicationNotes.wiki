@@ -5,9 +5,10 @@
 These are notes for possible future developments, not forming part of the current active project
 
 See also:
+ * [FutureApplicationNotes] (this page)
  * [TaskNotes]
  * [ProblemsAndUnknowns]
- * [FutureApplicationNotes] (this page)
+ * [TechnicalNotes]
 
 = Google Wave integration =
 
