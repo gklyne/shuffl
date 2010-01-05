@@ -5,6 +5,7 @@ See also:
  * [TaskNotes] (this page)
  * [ProblemsAndUnknowns]
  * [FutureApplicationNotes]
+ * [TechnicalNotes]
 
 = Project admin =
 
