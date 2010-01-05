@@ -7,9 +7,10 @@
 Record here notes of any known problems and uncertainties that are not currently resolved.
 
 See also:
- * [TaskNotes]
  * [ProblemsAndUnknowns] (this page)
+ * [TaskNotes]
  * [FutureApplicationNotes]
+ * [TechnicalNotes]
 
 = jQuery and XML namespaces =
 
