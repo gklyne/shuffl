@@ -4,6 +4,11 @@
 
 These are notes for possible future developments, not forming part of the current active project
 
+See also:
+ * [TaskNotes]
+ * [ProblemsAndUnknowns]
+ * [FutureApplicationNotes] (this page)
+
 = Google Wave integration =
 
 Embed a Shuffl workspace in a Wave.
