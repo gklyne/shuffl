@@ -20,6 +20,13 @@ Provide UI for stop/start/location control of video
 
 Event passing framework to synchronize multiple instances
 
+= Audio recordings and annotations =
+
+Possible experimentation with audio-to-text conversion.
+
+and/or:
+
+Embed audio in card and create time-stamped annotations, similar to video annotation.
 
 = Open citation network =
 
@@ -53,6 +60,10 @@ OPEN UP THE CITATION INFORMATION:
 = Twitter-card =
 
 Design a card to act as a mini feed aggregator; also possibly fire of messages from linked cards?
+
+= Ontology/vocabulary creation =
+
+Building upon experiments using spreadsheets to provide a frame-oriented vocabulary description, use cards for frames, with fields for properties, etc., and generate OWL description from these.
 
 = Other =
 
