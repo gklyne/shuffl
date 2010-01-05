@@ -101,7 +101,7 @@ See:
 
 The clear message from the second link above is that the project will need some level of continuing input (if not income) to survive.
 
-The initial Shuffl project has served mainly to demonstrate the strength (and some weaknesses) of the basic Shuffl idea, and to lay a technical foundation for ongoing development.  It has also succeeded in actively engaging one researcher with whom we have been working.  While Shuffl can be used as a toolkit for buiklding specialized applications, it remains a fair way from being a generic data gathering and management platform.
+The initial Shuffl project has served mainly to demonstrate the strength (and some weaknesses) of the basic Shuffl idea, and to lay a technical foundation for ongoing development.  It has also succeeded in actively engaging one researcher with whom we have been working.  While Shuffl can be used as a toolkit for building specialized applications, it remains a fair way from being a generic data gathering and management platform.
 
 For the near-term, additional Shuffl development will take place through the JISC-funded ADMIRAL project, which has some specific requirements for metadata capture and dataset annotation for which Shuffl should be well-suited.
 
