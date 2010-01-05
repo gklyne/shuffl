@@ -2,8 +2,9 @@
 #labels notes,admin,tasks
 
 See also:
- * [FutureApplicationNotes]
+ * [TaskNotes] (this page)
  * [ProblemsAndUnknowns]
+ * [FutureApplicationNotes]
 
 = Project admin =
 
