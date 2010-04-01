@@ -1,5 +1,6 @@
 #summary Plan for open source and sustainability aspects of project
 
+<wiki:toc max_depth="1" />
 
 = Introduction =
 
