@@ -57,7 +57,7 @@ shuffl.storage.handlers = [];
 
 /**
  * Reset storage handler registry.  This function is provided primarily for
- * testing, so that the test environment registry starts in a known state,.
+ * testing, so that the test environment registry starts in a known state.
  */
 shuffl.resetStorageHandlers = function ()
 {
