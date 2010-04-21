@@ -1,9 +1,9 @@
 /**
  * @fileoverview
- *  Test suite for AtomPub-based storage module.
+ *  Test suite for WebDAV-based storage module.
  *  
  * @author Graham Klyne
- * @version $Id$
+ * @version $Id: test-shuffl-storage-webdav.js 676 2009-11-17 17:49:22Z gk-google@ninebynine.org $
  * 
  * Coypyright (C) 2009, University of Oxford
  *
@@ -22,11 +22,10 @@
  * Test data values
  */
 
-var TestExistAtomStorage_atomUri = "http://localhost:8080/exist/atom/";
-var TestExistAtomStorage_rootUri = TestExistAtomStorage_atomUri+"edit/";
-var TestExistAtomStorage_baseUri = TestExistAtomStorage_rootUri+"shuffltest/";
+var TestWebDAVStorage_rootUri  = "http://localhost/webdav/";
+var TestWebDAVStorage_baseUri = TestWebDAVStorage_rootUri+"shuffltest/";
 
-var TestExistAtomStorage_test_csv =
+var TestWebDAVStorage_test_csv =
     "rowlabel,col1,col2,col3,col4\n"+
     "row1,a1,b1,c1,d1\n"+
     " row2 , a2 , b2 , c2 , d2 \n"+ 
@@ -38,7 +37,7 @@ var TestExistAtomStorage_test_csv =
     " 'row8' , 'a8'', 8a' , 'b8'', 8b' , 'c8'', 8c' , 'd8'', 8d' \n"+
     "End.";
 
-var TestExistAtomStorage_test_csv_put =
+var TestWebDAVStorage_test_csv_put =
     " , col1,col2,col3,col4\n"+
     "row1, a1 , b1 , c1 , d1\n"+
     "row2, a2 , b2 , c2 , d2\n"+ 
@@ -47,21 +46,21 @@ var TestExistAtomStorage_test_csv_put =
 /**
  * Function to register tests
  */
-TestExistAtomStorage = function()
+TestWebDAVStorage = function()
 {
 
-    module("TestExistAtomStorage");
+    module("TestWebDAVStorage");
 
-    test("TestExistAtomStorage", function ()
+    test("TestWebDAVStorage", function ()
     {
-        logtest("TestExistAtomStorage");
+        logtest("TestWebDAVStorage");
         shuffl.resetStorageHandlers();
         shuffl.addStorageHandler(
-            { uri:      "http://localhost:8080/exist/atom/"
-            , name:     "ExistAtom"
-            , factory:  shuffl.ExistAtomStorage
+            { uri:      TestWebDAVStorage_rootUri
+            , name:     "WebDAV"
+            , factory:  shuffl.WebDAVStorage
             });
-        ok(true, "TestExistAtomStorage running OK");
+        ok(true, "TestWebDAVStorage running OK");
     });
 
     test("Storage handler factory", function ()
@@ -72,12 +71,12 @@ TestExistAtomStorage = function()
         shuffl.addStorageHandler(
             { uri:      "http://localhost:8081/dummy1/"
             , name:     "Dummy1"
-            , factory:  shuffl.ExistAtomStorage
+            , factory:  shuffl.WebDAVStorage
             });
         shuffl.addStorageHandler(
             { uri:      "http://localhost:8081/dummy2/"
             , name:     "Dummy2"
-            , factory:  shuffl.ExistAtomStorage
+            , factory:  shuffl.WebDAVStorage
             });
         // Instantiate session for first handler
         var s1 = shuffl.makeStorageSession("http://localhost:8081/dummy1/foo/bar");
@@ -90,23 +89,23 @@ TestExistAtomStorage = function()
         equals(s2.getRootUri(), "http://localhost:8081/dummy2/", "s2.getRootUri()");
         equals(s2.getBaseUri(), "http://localhost:8081/dummy2/foo/bar", "s2.getBaseUri()");
         // Instantiate session for built-in handler
-        var s3 = shuffl.makeStorageSession(TestExistAtomStorage_atomUri+"foo/bar");
-        equals(s3.getHandlerName(), "ExistAtom", "s3.handlerName()");
-        equals(s3.getRootUri(), TestExistAtomStorage_atomUri+"", "s3.getRootUri()");
-        equals(s3.getBaseUri(), TestExistAtomStorage_atomUri+"foo/bar", "s3.getBaseUri()");
+        var s3 = shuffl.makeStorageSession(TestWebDAVStorage_rootUri+"foo/bar");
+        equals(s3.getHandlerName(), "WebDAV", "s3.handlerName()");
+        equals(s3.getRootUri(), TestWebDAVStorage_rootUri+"", "s3.getRootUri()");
+        equals(s3.getBaseUri(), TestWebDAVStorage_rootUri+"foo/bar", "s3.getBaseUri()");
     });
 
-    test("shuffl.ExistAtomStorage.resolve", function ()
+    test("shuffl.WebDAVStorage.resolve", function ()
     {
-        logtest("shuffl.ExistAtomStorage.resolve");
+        logtest("shuffl.WebDAVStorage.resolve");
         expect(25);
-        this.rooturi = TestExistAtomStorage_rootUri.toString();
+        this.rooturi = TestWebDAVStorage_rootUri.toString();
         shuffl.addStorageHandler(
             { uri:      this.rooturi
             , name:     "Test"
-            , factory:  shuffl.ExistAtomStorage
+            , factory:  shuffl.WebDAVStorage
             });
-        var b  = jQuery.uri(TestExistAtomStorage_baseUri);
+        var b  = jQuery.uri(TestWebDAVStorage_baseUri);
         var ss = shuffl.makeStorageSession(b.toString());
         equals(ss.resolve("http://localhost:8080/notest/a/b").uri, null, "Unresolved URI");
         equals(ss.resolve(b+"/a/b").uri, b+"/a/b", "Match absolute URI");
@@ -143,70 +142,55 @@ TestExistAtomStorage = function()
     function createTestSession()
     {
         // Instatiate dummy handler
-        this.rooturi = TestExistAtomStorage_rootUri.toString();
+        this.rooturi = TestWebDAVStorage_rootUri.toString();
         shuffl.addStorageHandler(
             { uri:      this.rooturi
             , name:     "Test"
-            , factory:  shuffl.ExistAtomStorage
+            , factory:  shuffl.WebDAVStorage
             });
         // Instantiate session for first handler
-        return shuffl.makeStorageSession(TestExistAtomStorage_baseUri);
+        return shuffl.makeStorageSession(TestWebDAVStorage_baseUri);
     }
 
-    function initializeTestCollections(atomuri, callback)
+    function initializeTestCollections(rooturi, callback)
     {
         var m = new shuffl.AsyncComputation();
         m.eval(
             function (val, callback) {
-                this.atompub = new shuffl.AtomPub(val);
-                this.atompub.deleteFeed({path:"/shuffltest/data/"}, callback);
+            	// Delete collection /shuffltest/data
+            	ok(false, "delete collection not implemented");
             });
         m.eval(
             function (val, callback) {
-                ////same(val, {}, "deleteFeed returned result")
-                this.atompub.deleteFeed({path:"/shuffltest/"}, callback);
+            	// Delete collection /shuffltest/
+            	ok(false, "delete collection not implemented");
             });
         m.eval(
             function (val, callback) {
-                ////same(val, {}, "deleteFeed returned result")
-                this.atompub.createFeed(
-                    { base:"/", name:"shuffltest/"
-                    , title:"Test feed: /shuffltest/"}, 
-                    callback);
+            	// Create collection /shuffltest/
+            	ok(false, "create collection not implemented");
             });
         m.eval(
             function (val, callback) {
-                equals(val.path, "/shuffltest/", "createFeed feed path returned");
-                this.atompub.createFeed(
-                    { base:"/shuffltest/", name:"data/"
-                    , title:"Test feed: /shuffltest/data/"}, 
-                    callback);
+            	// Create collection /shuffltest/data/
+            	ok(false, "create collection not implemented");
             });
         m.eval(
             function (val, callback) {
-                equals(val.path, "/shuffltest/data/", "createFeed feed path returned");
-                this.atompub.createItem(
-                    { path:     "/shuffltest/data/"
-                    , slug:     "test-csv.csv"
-                    , title:    "Test item: /shuffltest/data/test-csv.csv"
-                    , datatype: "text/csv"
-                    , data:     TestExistAtomStorage_test_csv
-                    },
-                    callback);
+                // Create resource /shuffltest/data/test-csv.csv
+                ok(false, "create resource not implemented");
             });
-        m.exec(atomuri,
+        m.exec(rooturi,
             function (val) {
-                equals(val.datapath, "/shuffltest/data/test-csv.csv", 
-                    "createItem data URI path returned");
                 callback(val);
             });
     };
 
-    test("shuffl.ExistAtomStorage.info", function ()
+    test("shuffl.WebDAVStorage.info", function ()
     {
-        logtest("shuffl.ExistAtomStorage.info");
+        logtest("shuffl.WebDAVStorage.info");
         expect(23);
-        log.debug("----- test shuffl.ExistAtomStorage.info start -----");
+        log.debug("----- test shuffl.WebDAVStorage.info start -----");
         var m  = new shuffl.AsyncComputation();
         var ss = createTestSession();
         m.eval(
@@ -221,7 +205,7 @@ TestExistAtomStorage = function()
                     "createItem data reference returned");
                 equals(val.datatype, "application/octet-stream", // TODO: "text/csv", 
                     "createItem data content-type returned");
-                equals(val.datauri, "http://localhost:8080/exist/atom/edit/shuffltest/data/test-csv.csv", 
+                equals(val.datauri, TestWebDAVStorage_baseUri+"test-csv.csv", 
                     "createItem data URI returned");
                 callback({});
             });
@@ -230,18 +214,18 @@ TestExistAtomStorage = function()
                 try
                 {
                     ss.info("data/", callback);
-                    ok(true, "shuffl.ExistAtomStorage.info no exception");
+                    ok(true, "shuffl.WebDAVStorage.info no exception");
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.ExistAtomStorage.info exception: "+e);
-                    ok(false, "shuffl.ExistAtomStorage.info exception"+e);
+                    log.debug("shuffl.WebDAVStorage.info exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.info exception"+e);
                     callback(e);
                 };
             });
         m.eval(
             function (val, callback) {
-                equals(val.uri, TestExistAtomStorage_baseUri+"data/", "val.uri");
+                equals(val.uri, TestWebDAVStorage_baseUri+"data/", "val.uri");
                 equals(val.relref,    "data/", "val.relref");
                 equals(val.type,      "collection", "val.type");
                 equals(val.canList,   false, "val.canList");
@@ -255,19 +239,19 @@ TestExistAtomStorage = function()
                 try
                 {
                     ss.info("data/test-csv.csv", callback);
-                    ok(true, "shuffl.ExistAtomStorage.info no exception");
+                    ok(true, "shuffl.WebDAVStorage.info no exception");
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.ExistAtomStorage.info exception: "+e);
-                    ok(false, "shuffl.ExistAtomStorage.info exception"+e);
+                    log.debug("shuffl.WebDAVStorage.info exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.info exception"+e);
                     callback(e);
                 };
             });
         m.eval(
             function (val, callback) {
-                var b = TestExistAtomStorage_baseUri;
-                equals(val.uri, TestExistAtomStorage_baseUri+"data/test-csv.csv", "val.uri");
+                var b = TestWebDAVStorage_baseUri;
+                equals(val.uri, TestWebDAVStorage_baseUri+"data/test-csv.csv", "val.uri");
                 equals(val.relref,    "data/test-csv.csv", "val.relref");
                 equals(val.type,      "item", "val.type");
                 equals(val.canList,   false, "val.canList");
@@ -276,19 +260,19 @@ TestExistAtomStorage = function()
                 equals(val.canDelete, true,  "val.canDelete");
                 callback(val);
             });
-        m.exec(TestExistAtomStorage_atomUri,
+        m.exec(TestWebDAVStorage_rootUri,
             function(val) {
-                log.debug("----- test shuffl.ExistAtomStorage.info end -----");
+                log.debug("----- test shuffl.WebDAVStorage.info end -----");
                 start();
             });
         stop(2000);
     });
 
-    test("shuffl.ExistAtomStorage.info (non-existent resource)", function ()
+    test("shuffl.WebDAVStorage.info (non-existent resource)", function ()
     {
-        logtest("shuffl.ExistAtomStorage.info");
+        logtest("shuffl.WebDAVStorage.info");
         expect(5);
-        log.debug("----- test shuffl.ExistAtomStorage.info (non-existent resource) start -----");
+        log.debug("----- test shuffl.WebDAVStorage.info (non-existent resource) start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
         m.eval(
@@ -300,31 +284,31 @@ TestExistAtomStorage = function()
                 try
                 {
                     ss.info("data/test-csv.nodata", function (val) {
-                        ok(true, "shuffl.ExistAtomStorage.info no exception");
+                        ok(true, "shuffl.WebDAVStorage.info no exception");
                         callback(val);
                     });
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.ExistAtomStorage.info exception: "+e);
-                    ok(false, "shuffl.ExistAtomStorage.info exception"+e);
+                    log.debug("shuffl.WebDAVStorage.info exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.info exception"+e);
                     callback(e);
                 }
             });
-        m.exec(TestExistAtomStorage_atomUri,
+        m.exec(TestWebDAVStorage_rootUri,
             function(val) {
                 equals(val.msg, "Request failed", "val.msg");
-                log.debug("----- test shuffl.ExistAtomStorage.info (non-existent resource) end -----");
+                log.debug("----- test shuffl.WebDAVStorage.info (non-existent resource) end -----");
                 start();
             });
         stop(2000);
     });
 
-    test("shuffl.ExistAtomStorage.createCollection", function ()
+    test("shuffl.WebDAVStorage.createCollection", function ()
     {
-        logtest("shuffl.ExistAtomStorage.createCollection");
+        logtest("shuffl.WebDAVStorage.createCollection");
         expect(13);
-        log.debug("----- test shuffl.ExistAtomStorage.createCollection start -----");
+        log.debug("----- test shuffl.WebDAVStorage.createCollection start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
         m.eval(
@@ -335,22 +319,22 @@ TestExistAtomStorage = function()
             function (val, callback) {
                 try
                 {
-                    ss.createCollection(TestExistAtomStorage_baseUri, "test", function (val) {
-                        ok(true, "shuffl.ExistAtomStorage.createCollection no exception");
+                    ss.createCollection(TestWebDAVStorage_baseUri, "test", function (val) {
+                        ok(true, "shuffl.WebDAVStorage.createCollection no exception");
                         callback(val);
                     });
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.ExistAtomStorage.createCollection exception: "+e);
-                    ok(false, "shuffl.ExistAtomStorage.createCollection exception"+e);
+                    log.debug("shuffl.WebDAVStorage.createCollection exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.createCollection exception"+e);
                     callback(e);
                 }
             });
         m.eval(
             function (val, callback) {
                 // Check return values
-                equals(val.uri, TestExistAtomStorage_baseUri+"test/", "val.uri");
+                equals(val.uri, TestWebDAVStorage_baseUri+"test/", "val.uri");
                 equals(val.relref, "test/", "val.relref");
                 // Get info
                 ss.info(val.uri, callback);
@@ -358,7 +342,7 @@ TestExistAtomStorage = function()
         m.eval(
             function (val, callback) {
                 // Check info return values
-                equals(val.uri, TestExistAtomStorage_baseUri+"test/", "val.uri");
+                equals(val.uri, TestWebDAVStorage_baseUri+"test/", "val.uri");
                 equals(val.relref,    "test/", "val.relref");
                 equals(val.type,      "collection", "val.type");
                 equals(val.canList,   false, "val.canList");
@@ -367,38 +351,37 @@ TestExistAtomStorage = function()
                 equals(val.canDelete, true,  "val.canDelete");
                 callback(val);
             });
-        m.exec(TestExistAtomStorage_atomUri,
+        m.exec(TestWebDAVStorage_rootUri,
             function(val) {
-                log.debug("----- test shuffl.ExistAtomStorage.createCollection end -----");
+                log.debug("----- test shuffl.WebDAVStorage.createCollection end -----");
                 start();
             });
         stop(2000);
     });
 
-    test("shuffl.ExistAtomStorage.listCollection", function ()
+    test("shuffl.WebDAVStorage.listCollection", function ()
     {
-        logtest("shuffl.ExistAtomStorage.listCollection");
+        logtest("shuffl.WebDAVStorage.listCollection");
         expect(2);
-        log.debug("----- test shuffl.ExistAtomStorage.listCollection start -----");
+        log.debug("----- test shuffl.WebDAVStorage.listCollection start -----");
         var ss = createTestSession();
+        // TODO - implement this test case
         try
         {
             ss.listCollection("a/b/", shuffl.noop);
-            ok(false, "shuffl.ExistAtomStorage.listCollection exception expected");
         }
         catch (e)
         {
-            log.debug("shuffl.ExistAtomStorage.listCollection exception: "+e);
-            ok(true, "shuffl.ExistAtomStorage.listCollection exception expected");
-            ok(e.toString().match(/not implemented/), "Not implemented");
+            log.debug("shuffl.WebDAVStorage.listCollection exception: "+e);
+            ok(false, "shuffl.WebDAVStorage.listCollection exception"+e);
         }
     });
 
-    test("shuffl.ExistAtomStorage.removeCollection", function ()
+    test("shuffl.WebDAVStorage.removeCollection", function ()
     {
-        logtest("shuffl.ExistAtomStorage.removeCollection");
+        logtest("shuffl.WebDAVStorage.removeCollection");
         expect(9);
-        log.debug("----- test shuffl.ExistAtomStorage.removeCollection start -----");
+        log.debug("----- test shuffl.WebDAVStorage.removeCollection start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
         m.eval(
@@ -409,22 +392,22 @@ TestExistAtomStorage = function()
             function (val, callback) {
                 try
                 {
-                    ss.createCollection(TestExistAtomStorage_baseUri, "test", function (val) {
-                        ok(true, "shuffl.ExistAtomStorage.createCollection no exception");
+                    ss.createCollection(TestWebDAVStorage_baseUri, "test", function (val) {
+                        ok(true, "shuffl.WebDAVStorage.createCollection no exception");
                         callback(val);
                     });
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.ExistAtomStorage.createCollection exception: "+e);
-                    ok(false, "shuffl.ExistAtomStorage.createCollection exception"+e);
+                    log.debug("shuffl.WebDAVStorage.createCollection exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.createCollection exception"+e);
                     callback(e);
                 }
             });
         m.eval(
             function (val, callback) {
                 // Check return values
-                equals(val.uri, TestExistAtomStorage_baseUri+"test/", "val.uri");
+                equals(val.uri, TestWebDAVStorage_baseUri+"test/", "val.uri");
                 equals(val.relref, "test/", "val.relref");
                 callback(val);
             });
@@ -432,15 +415,15 @@ TestExistAtomStorage = function()
             function (val, callback) {
                 try
                 {
-                    ss.removeCollection(TestExistAtomStorage_baseUri+"test/", function (val) {
-                        ok(true, "shuffl.ExistAtomStorage.removeCollection no exception");
+                    ss.removeCollection(TestWebDAVStorage_baseUri+"test/", function (val) {
+                        ok(true, "shuffl.WebDAVStorage.removeCollection no exception");
                         callback(val);
                     });
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.ExistAtomStorage.removeCollection exception: "+e);
-                    ok(false, "shuffl.ExistAtomStorage.removeCollection exception"+e);
+                    log.debug("shuffl.WebDAVStorage.removeCollection exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.removeCollection exception"+e);
                     callback(e);
                 }
             });
@@ -449,7 +432,7 @@ TestExistAtomStorage = function()
                 // Check return values
                 equals(val, null, "val");
                 // Get info
-                ss.info(TestExistAtomStorage_baseUri+"test/", callback);
+                ss.info(TestWebDAVStorage_baseUri+"test/", callback);
             });
         m.eval(
             function (val, callback) {
@@ -457,22 +440,22 @@ TestExistAtomStorage = function()
                 equals(val.uri,       null, "val.uri");
                 callback(val);
             });
-        m.exec(TestExistAtomStorage_atomUri,
+        m.exec(TestWebDAVStorage_rootUri,
             function(val) {
-                log.debug("----- test shuffl.ExistAtomStorage.removeCollection end -----");
+                log.debug("----- test shuffl.WebDAVStorage.removeCollection end -----");
                 start();
             });
         stop(2000);
     });
 
-    test("shuffl.ExistAtomStorage.create", function ()
+    test("shuffl.WebDAVStorage.create", function ()
     {
-        logtest("shuffl.ExistAtomStorage.create");
+        logtest("shuffl.WebDAVStorage.create");
         expect(18);
-        log.debug("----- test shuffl.ExistAtomStorage.create start -----");
+        log.debug("----- test shuffl.WebDAVStorage.create start -----");
         var m  = new shuffl.AsyncComputation();
         var ss = createTestSession();
-        var coluri = TestExistAtomStorage_baseUri+"data/";
+        var coluri = TestWebDAVStorage_baseUri+"data/";
         m.eval(
             function (val, callback) {
                 initializeTestCollections(val, callback)
@@ -482,17 +465,17 @@ TestExistAtomStorage = function()
                 try
                 {
                     ss.create(coluri, "test-csv.csv", 
-                        TestExistAtomStorage_test_csv, 
+                        TestWebDAVStorage_test_csv, 
                         function (val)
                         {
-                            ok(true, "shuffl.ExistAtomStorage.create no exception");
+                            ok(true, "shuffl.WebDAVStorage.create no exception");
                             callback(val);
                         });
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.ExistAtomStorage.create exception: "+e);
-                    ok(false, "shuffl.ExistAtomStorage.create exception"+e);
+                    log.debug("shuffl.WebDAVStorage.create exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.create exception"+e);
                     callback(e);
                 }
             });
@@ -500,7 +483,7 @@ TestExistAtomStorage = function()
             function (val, callback) {
                 // Check return values
                 ok(val instanceof shuffl.Error, "Error returned for existing resource");
-                equals(val.msg, "AtomPub request failed", "val.msg");
+                equals(val.msg, "Storage request failed", "val.msg");
                 equals(val.HTTPstatus, 400, "val.HTTPstatus");
                 equals(val.HTTPstatusText, 
                     "Resource+test%2Dcsv%2Ecsv+already+exists+in+collection+%2Fshuffltest%2Fdata", 
@@ -509,17 +492,17 @@ TestExistAtomStorage = function()
                 try
                 {
                     ss.create(coluri, "test1-csv.csv", 
-                        TestExistAtomStorage_test_csv, 
+                        TestWebDAVStorage_test_csv, 
                         function (val)
                         {
-                            ok(true, "shuffl.ExistAtomStorage.create no exception");
+                            ok(true, "shuffl.WebDAVStorage.create no exception");
                             callback(val);
                         });
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.ExistAtomStorage.create exception: "+e);
-                    ok(false, "shuffl.ExistAtomStorage.create exception"+e);
+                    log.debug("shuffl.WebDAVStorage.create exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.create exception"+e);
                     callback(e);
                 }
             });
@@ -543,19 +526,19 @@ TestExistAtomStorage = function()
                 equals(val.canDelete, true,   "val.canDelete");
                 callback(val);
             });
-        m.exec(TestExistAtomStorage_atomUri,
+        m.exec(TestWebDAVStorage_rootUri,
             function(val) {
-                log.debug("----- test shuffl.ExistAtomStorage.create end -----");
+                log.debug("----- test shuffl.WebDAVStorage.create end -----");
                 start();
             });
         stop(2000);
     });
 
-    test("shuffl.ExistAtomStorage.get", function ()
+    test("shuffl.WebDAVStorage.get", function ()
     {
-        logtest("shuffl.ExistAtomStorage.get");
+        logtest("shuffl.WebDAVStorage.get");
         expect(9);
-        log.debug("----- test shuffl.ExistAtomStorage.get start -----");
+        log.debug("----- test shuffl.WebDAVStorage.get start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
         m.eval(
@@ -567,39 +550,39 @@ TestExistAtomStorage = function()
                 try
                 {
                     ss.get("data/test-csv.csv", function (val) {
-                        ok(true, "shuffl.ExistAtomStorage.get no exception");
+                        ok(true, "shuffl.WebDAVStorage.get no exception");
                         callback(val);
                     });
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.ExistAtomStorage.get exception: "+e);
-                    ok(false, "shuffl.ExistAtomStorage.get exception: "+e);
+                    log.debug("shuffl.WebDAVStorage.get exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.get exception: "+e);
                     callback(e);
                 }
             });
         m.eval(
             function (val, callback) {
-                equals(val.uri, TestExistAtomStorage_baseUri+"data/test-csv.csv", "val.uri");
+                equals(val.uri, TestWebDAVStorage_baseUri+"data/test-csv.csv", "val.uri");
                 equals(val.relref, "data/test-csv.csv", "val.relref");
-                equals(typeof val.data, typeof TestExistAtomStorage_test_csv, "typeof val.data");
-                equals(val.data,        TestExistAtomStorage_test_csv,        "val.data");
-                equals(jQuery.toJSON(val.data), jQuery.toJSON(TestExistAtomStorage_test_csv), "val.data");
+                equals(typeof val.data, typeof TestWebDAVStorage_test_csv, "typeof val.data");
+                equals(val.data,        TestWebDAVStorage_test_csv,        "val.data");
+                equals(jQuery.toJSON(val.data), jQuery.toJSON(TestWebDAVStorage_test_csv), "val.data");
                 callback(val);
             });
-        m.exec(TestExistAtomStorage_atomUri,
+        m.exec(TestWebDAVStorage_rootUri,
             function(val) {
-                log.debug("----- test shuffl.ExistAtomStorage.get end -----");
+                log.debug("----- test shuffl.WebDAVStorage.get end -----");
                 start();
             });
         stop(2000);
     });
 
-    test("shuffl.ExistAtomStorage.put", function ()
+    test("shuffl.WebDAVStorage.put", function ()
     {
-        logtest("shuffl.ExistAtomStorage.put");
+        logtest("shuffl.WebDAVStorage.put");
         expect(11);
-        log.debug("----- test shuffl.ExistAtomStorage.put start -----");
+        log.debug("----- test shuffl.WebDAVStorage.put start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
         m.eval(
@@ -612,24 +595,24 @@ TestExistAtomStorage = function()
                 try
                 {
                     ss.put("data/test-csv.csv", 
-                        TestExistAtomStorage_test_csv_put, 
+                        TestWebDAVStorage_test_csv_put, 
                         function (val) 
                         {
-                            ok(true, "shuffl.ExistAtomStorage.get no exception");
+                            ok(true, "shuffl.WebDAVStorage.get no exception");
                             callback(val);
                         });
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.ExistAtomStorage.get exception: "+e);
-                    ok(false, "shuffl.ExistAtomStorage.get exception: "+e);
+                    log.debug("shuffl.WebDAVStorage.get exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.get exception: "+e);
                     callback(e);
                 }
             });
         m.eval(
             function (val, callback) {
                 // Check return value from put
-                equals(val.uri, TestExistAtomStorage_baseUri+"data/test-csv.csv", "val.uri");
+                equals(val.uri, TestWebDAVStorage_baseUri+"data/test-csv.csv", "val.uri");
                 equals(val.relref, "data/test-csv.csv", "val.relref");
                 // Read back data just written
                 try
@@ -638,34 +621,33 @@ TestExistAtomStorage = function()
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.ExistAtomStorage.get exception: "+e);
-                    ok(false, "shuffl.ExistAtomStorage.get exception: "+e);
+                    log.debug("shuffl.WebDAVStorage.get exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.get exception: "+e);
                     callback(e);
                 }
             });
         m.eval(
             function (val, callback) {
-                equals(val.uri, TestExistAtomStorage_baseUri+"data/test-csv.csv", "val.uri");
+                equals(val.uri, TestWebDAVStorage_baseUri+"data/test-csv.csv", "val.uri");
                 equals(val.relref, "data/test-csv.csv", "val.relref");
-                equals(typeof val.data, typeof TestExistAtomStorage_test_csv_put, "typeof val.data");
-                equals(val.data,        TestExistAtomStorage_test_csv_put,        "val.data");
-                equals(jQuery.toJSON(val.data), jQuery.toJSON(TestExistAtomStorage_test_csv_put), "val.data");
+                equals(typeof val.data, typeof TestWebDAVStorage_test_csv_put, "typeof val.data");
+                equals(val.data,        TestWebDAVStorage_test_csv_put,        "val.data");
+                equals(jQuery.toJSON(val.data), jQuery.toJSON(TestWebDAVStorage_test_csv_put), "val.data");
                 callback(val);
             });
-        m.exec(TestExistAtomStorage_atomUri,
+        m.exec(TestWebDAVStorage_rootUri,
             function(val) {
-                log.debug("----- test shuffl.ExistAtomStorage.put end -----");
+                log.debug("----- test shuffl.WebDAVStorage.put end -----");
                 start();
             });
         stop(2000);
     });
 
-    notest("shuffl.ExistAtomStorage.remove", function ()
+    test("shuffl.WebDAVStorage.remove", function ()
     {
-        logtest("shuffl.ExistAtomStorage.remove");
-        ok(false, "eXist AtomPub doesn't support deleting media resource");
+        logtest("shuffl.WebDAVStorage.remove");
         expect(13);
-        log.debug("----- test shuffl.ExistAtomStorage.remove start -----");
+        log.debug("----- test shuffl.WebDAVStorage.remove start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
         m.eval(
@@ -680,17 +662,17 @@ TestExistAtomStorage = function()
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.ExistAtomStorage.get exception: "+e);
-                    ok(false, "shuffl.ExistAtomStorage.get exception: "+e);
+                    log.debug("shuffl.WebDAVStorage.get exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.get exception: "+e);
                     callback(e);
                 }
             });
         m.eval(
             function (val, callback) {
-                equals(val.uri, TestExistAtomStorage_baseUri+"data/test-csv.csv", "get: val.uri");
+                equals(val.uri, TestWebDAVStorage_baseUri+"data/test-csv.csv", "get: val.uri");
                 equals(val.relref, "data/test-csv.csv", "get: val.relref");
-                equals(typeof val.data, typeof TestExistAtomStorage_test_csv, "get: typeof val.data");
-                equals(val.data,        TestExistAtomStorage_test_csv,        "get: val.data");
+                equals(typeof val.data, typeof TestWebDAVStorage_test_csv, "get: typeof val.data");
+                equals(val.data,        TestWebDAVStorage_test_csv,        "get: val.data");
                 callback(val);
             });
         m.eval(
@@ -698,14 +680,14 @@ TestExistAtomStorage = function()
                 try
                 {
                     ss.remove("data/test-csv.csv", function (val) {
-                        ok(true, "shuffl.ExistAtomStorage.remove no exception");
+                        ok(true, "shuffl.WebDAVStorage.remove no exception");
                         callback(val);
                     });
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.ExistAtomStorage.remove exception: "+e);
-                    ok(false, "shuffl.ExistAtomStorage.remove exception"+e);
+                    log.debug("shuffl.WebDAVStorage.remove exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.remove exception"+e);
                     callback(e);
                 }
             });
@@ -727,14 +709,14 @@ TestExistAtomStorage = function()
                 try
                 {
                     ss.get("data/test-csv.csv", function (val) {
-                        ok(true, "shuffl.ExistAtomStorage.get no exception");
+                        ok(true, "shuffl.WebDAVStorage.get no exception");
                         callback(val);
                     });
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.ExistAtomStorage.get exception: "+e);
-                    ok(false, "shuffl.ExistAtomStorage.get exception: "+e);
+                    log.debug("shuffl.WebDAVStorage.get exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.get exception: "+e);
                     callback(e);
                 }
             });
@@ -743,9 +725,9 @@ TestExistAtomStorage = function()
                 equals(val.uri, null, "val.uri");
                 callback(val);
             });
-        m.exec(TestExistAtomStorage_atomUri,
+        m.exec(TestWebDAVStorage_rootUri,
             function(val) {
-                log.debug("----- test shuffl.ExistAtomStorage.remove end -----");
+                log.debug("----- test shuffl.WebDAVStorage.remove end -----");
                 start();
             });
         stop(2000);
