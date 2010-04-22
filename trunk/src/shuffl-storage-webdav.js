@@ -141,7 +141,13 @@ shuffl.WebDAVStorage.prototype.info = function (uri, callback)
 shuffl.WebDAVStorage.prototype.createCollection = function (coluri, colslug, callback)
 {
     ////log.debug(this.className+".createCollection "+coluri+", "+colslug);
-    throw "shuffl.WebDAVStorage.prototype.createCollection not implemented";
+    jQuery.ajax({
+            type:         "MKCOL",
+            url:          jQuery.uri(coluri).resolve(colslug).toString(),
+            success:      shuffl.StorageCommon.resolveUriOnSuccess(this, coluri, callback),
+            error:        shuffl.ajax.requestFailed(coluri, callback),
+            cache:        false
+        });
 };
 
 /**
@@ -191,7 +197,23 @@ shuffl.WebDAVStorage.prototype.listCollection = function (coluri, callback)
 shuffl.WebDAVStorage.prototype.removeCollection = function (coluri, callback)
 {
     ////log.debug(this.className+".removeCollection "+coluri);
-    throw "shuffl.WebDAVStorage.prototype.removeCollection not implemented";
+    jQuery.ajax({
+            type:         "DELETE",
+            url:          coluri.toString(),
+            //data:         jQuery.toJSON(cardext), 
+            //contentType:  "application/json",
+            //dataType:     "xml",    // Atom feed info expected as XML
+            //beforeSend:   function (xhr, opts) { xhr.setRequestHeader("SLUG", "cardloc"); },
+            //dataFilter:   examineRawData,
+            success:      shuffl.ajax.decodeResponse(coluri, function (x) { callback(null) }, false),
+            error:        shuffl.ajax.requestFailed(coluri, callback),
+            //complete:     responseComplete,
+            //username:     "...",
+            //password:     "...",
+            //timeout:      20000,     // Milliseconds
+            //async:        true,
+            cache:        false
+        });
 };
 
 /**

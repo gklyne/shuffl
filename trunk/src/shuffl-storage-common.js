@@ -541,5 +541,18 @@ shuffl.StorageCommon.resolveNullOrError = function (callback)
     return resolveReturnedUri;
 };
 
+/**
+ * Helper function to return a function for handling a success response from
+ * jQuery.ajax, returning a structure containing the fully qualified and 
+ * relative URI reference (per shuffl.StorageCommon.resolve).
+ */
+shuffl.StorageCommon.resolveUriOnSuccess = function (self, uri, callback)
+{
+    function resolveUri (data, statusText, XHR)
+    {
+        callback(self.resolve(uri));
+    }
+    return resolveUri
+}
 
 // End.
