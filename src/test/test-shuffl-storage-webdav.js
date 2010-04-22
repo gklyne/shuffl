@@ -22,7 +22,9 @@
  * Test data values
  */
 
-var TestWebDAVStorage_rootUri  = "http://localhost/webdav/";
+// Using localhost here falls foul of cross-site scripting restrictions!
+//var TestWebDAVStorage_rootUri  = "http://localhost/webdav/";
+var TestWebDAVStorage_rootUri  = "http://zoo-samos.zoo.ox.ac.uk/webdav/";
 var TestWebDAVStorage_baseUri = TestWebDAVStorage_rootUri+"shuffltest/";
 
 var TestWebDAVStorage_test_csv =
@@ -152,33 +154,33 @@ TestWebDAVStorage = function()
         return shuffl.makeStorageSession(TestWebDAVStorage_baseUri);
     }
 
-    function initializeTestCollections(rooturi, callback)
+    function initializeTestCollections(ss, rooturi, callback)
     {
         var m = new shuffl.AsyncComputation();
         m.eval(
             function (val, callback) {
-            	// Delete collection /shuffltest/data
-            	ok(false, "delete collection not implemented");
+            	// Delete collection /shuffltest/data/
+                ss.removeCollection(TestWebDAVStorage_rootUri+"shuffltest/data/", callback);
             });
         m.eval(
             function (val, callback) {
             	// Delete collection /shuffltest/
-            	ok(false, "delete collection not implemented");
+                ss.removeCollection(TestWebDAVStorage_rootUri+"shuffltest/", callback);
             });
         m.eval(
             function (val, callback) {
             	// Create collection /shuffltest/
-            	ok(false, "create collection not implemented");
+                ss.createCollection(TestWebDAVStorage_rootUri, "shuffltest", callback);
             });
         m.eval(
             function (val, callback) {
             	// Create collection /shuffltest/data/
-            	ok(false, "create collection not implemented");
+                ss.createCollection(TestWebDAVStorage_rootUri+"shuffltest", "data", callback);
             });
         m.eval(
             function (val, callback) {
                 // Create resource /shuffltest/data/test-csv.csv
-                ok(false, "create resource not implemented");
+                ss.create(TestWebDAVStorage_rootUri+"shuffltest/data", "test-csv.csv", TestWebDAVStorage_test_csv, callback);
             });
         m.exec(rooturi,
             function (val) {
@@ -195,7 +197,7 @@ TestWebDAVStorage = function()
         var ss = createTestSession();
         m.eval(
             function (val, callback) {
-                initializeTestCollections(val, callback)
+                initializeTestCollections(ss, val, callback)
             });
         m.eval(
             function (val, callback) {
@@ -277,7 +279,7 @@ TestWebDAVStorage = function()
         var ss = createTestSession();
         m.eval(
             function (val, callback) {
-                initializeTestCollections(val, callback)
+                initializeTestCollections(ss, val, callback)
             });
         m.eval(
             function (val, callback) {
@@ -313,7 +315,7 @@ TestWebDAVStorage = function()
         var ss = createTestSession();
         m.eval(
             function (val, callback) {
-                initializeTestCollections(val, callback)
+                initializeTestCollections(ss, val, callback)
             });
         m.eval(
             function (val, callback) {
@@ -386,7 +388,7 @@ TestWebDAVStorage = function()
         var ss = createTestSession();
         m.eval(
             function (val, callback) {
-                initializeTestCollections(val, callback)
+                initializeTestCollections(ss, val, callback)
             });
         m.eval(
             function (val, callback) {
@@ -458,7 +460,7 @@ TestWebDAVStorage = function()
         var coluri = TestWebDAVStorage_baseUri+"data/";
         m.eval(
             function (val, callback) {
-                initializeTestCollections(val, callback)
+                initializeTestCollections(ss, val, callback)
             });
         m.eval(
             function (val, callback) {
@@ -543,7 +545,7 @@ TestWebDAVStorage = function()
         var ss = createTestSession();
         m.eval(
             function (val, callback) {
-                initializeTestCollections(val, callback)
+                initializeTestCollections(ss, val, callback)
             });
         m.eval(
             function (val, callback) {
@@ -587,7 +589,7 @@ TestWebDAVStorage = function()
         var ss = createTestSession();
         m.eval(
             function (val, callback) {
-                initializeTestCollections(val, callback)
+                initializeTestCollections(ss, val, callback)
             });
 
         m.eval(
@@ -652,7 +654,7 @@ TestWebDAVStorage = function()
         var ss = createTestSession();
         m.eval(
             function (val, callback) {
-                initializeTestCollections(val, callback)
+                initializeTestCollections(ss, val, callback)
             });
         m.eval(
             function (val, callback) {
