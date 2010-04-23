@@ -112,6 +112,24 @@ TestShufflBase = function()
         equals(shuffl.ends("",    "abcdef"), true,  "shuffl.ends(6)");
         equals(shuffl.ends("",    ""),       true,  "shuffl.ends(7)");
     });
+
+    test("shuffl.normalizeUri", function ()
+    {
+        logtest("shuffl.normalizeUri");
+        expect (6);
+        equals(shuffl.normalizeUri("http://auth/path1/path2", null, true), 
+               "http://auth/path1/path2/", "shuffl.normalizeUri (1)");
+        equals(shuffl.normalizeUri("http://auth/path1/path2", null, false), 
+               "http://auth/path1/path2",  "shuffl.normalizeUri (2)");
+        equals(shuffl.normalizeUri("http://auth/path1/path2", "path3", true), 
+               "http://auth/path1/path3/", "shuffl.normalizeUri (3)");
+        equals(shuffl.normalizeUri("http://auth/path1/path2", "path3", false), 
+               "http://auth/path1/path3",  "shuffl.normalizeUri (4)");
+        equals(shuffl.normalizeUri("http://auth/path1/path2?q", "", true), 
+               "http://auth/path1/path2/", "shuffl.normalizeUri (5)");
+        equals(shuffl.normalizeUri("http://auth/path1/path2#f", "", true), 
+               "http://auth/path1/path2/", "shuffl.normalizeUri (6)");
+    });
     
 };
 
