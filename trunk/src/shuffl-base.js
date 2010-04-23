@@ -347,4 +347,24 @@ shuffl.uriBase = function (uri)
     return jQuery.uri(shuffl.uriPath(uri), jQuery.uri(uri)).toString();
 };
 
+/**
+ * Return a normalized URI - with a trailing '/' for collection URIs if 
+ * not already present.  Any query and fregment values are discarded.
+ * 
+ * @param baseuri   URI to be normalized as a collection URI.
+ * @param uriref    uri reference relative to the supplied base.
+ * @param col       true if the returned value is to be a collection URI 
+ *                  with a trailing '/'
+ * @return          a jQuery.uri object with the required normalized URI.
+ */
+shuffl.normalizeUri = function (baseuri, uriref, col) {
+    ////log.debug("shuffl.StorageCommon.collectionUri: "+uri);
+    var uri  = jQuery.uri(baseuri, "error:///error").resolve(uriref);
+    var path = uri.path.replace(/\/$/,"");
+    return jQuery.uri(
+           shuffl.uriComponent("",   uri.scheme,    ":")+
+           shuffl.uriComponent("//", uri.authority, "" )+
+           path+(col ? '/' : ''));
+};
+
 // End.
