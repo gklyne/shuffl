@@ -23,8 +23,10 @@
  */
 
 // Using localhost here falls foul of cross-site scripting restrictions!
-//var TestWebDAVStorage_rootUri  = "http://localhost/webdav/";
-var TestWebDAVStorage_rootUri  = "http://zoo-samos.zoo.ox.ac.uk/webdav/";
+// But on MacOS, the origin is localhost!
+var TestWebDAVStorage_rootUri  = "http://localhost/webdav/";
+//var TestWebDAVStorage_rootUri  = "http://zoo-samos.zoo.ox.ac.uk/webdav/";
+//var TestWebDAVStorage_rootUri  = "http://tinos.zoo.ox.ac.uk/webdav/";
 var TestWebDAVStorage_baseUri = TestWebDAVStorage_rootUri+"shuffltest/";
 
 var TestWebDAVStorage_test_csv =
@@ -184,6 +186,7 @@ TestWebDAVStorage = function()
             });
         m.exec(rooturi,
             function (val) {
+                log.debug("initializeTestCollection "+shuffl.objectString(val));
                 callback(val);
             });
     };
@@ -191,7 +194,7 @@ TestWebDAVStorage = function()
     test("shuffl.WebDAVStorage.info", function ()
     {
         logtest("shuffl.WebDAVStorage.info");
-        expect(23);
+        expect(18);
         log.debug("----- test shuffl.WebDAVStorage.info start -----");
         var m  = new shuffl.AsyncComputation();
         var ss = createTestSession();
@@ -201,14 +204,8 @@ TestWebDAVStorage = function()
             });
         m.eval(
             function (val, callback) {
-                equals(val.data, undefined,
-                    "createItem data returned");
-                equals(val.dataref, "test-csv.csv", 
-                    "createItem data reference returned");
-                equals(val.datatype, "application/octet-stream", // TODO: "text/csv", 
-                    "createItem data content-type returned");
-                equals(val.datauri, TestWebDAVStorage_baseUri+"test-csv.csv", 
-                    "createItem data URI returned");
+                equals(val.uri, TestWebDAVStorage_baseUri+"data/test-csv.csv", "val.uri");
+                equals(val.relref, "data/test-csv.csv", "val.relref");
                 callback({});
             });
         m.eval(
@@ -230,7 +227,7 @@ TestWebDAVStorage = function()
                 equals(val.uri, TestWebDAVStorage_baseUri+"data/", "val.uri");
                 equals(val.relref,    "data/", "val.relref");
                 equals(val.type,      "collection", "val.type");
-                equals(val.canList,   false, "val.canList");
+                equals(val.canList,   true,  "val.canList");
                 equals(val.canRead,   true,  "val.canRead");
                 equals(val.canWrite,  true,  "val.canWrite");
                 equals(val.canDelete, true,  "val.canDelete");
@@ -256,7 +253,7 @@ TestWebDAVStorage = function()
                 equals(val.uri, TestWebDAVStorage_baseUri+"data/test-csv.csv", "val.uri");
                 equals(val.relref,    "data/test-csv.csv", "val.relref");
                 equals(val.type,      "item", "val.type");
-                equals(val.canList,   false, "val.canList");
+                equals(val.canList,   true,  "val.canList");
                 equals(val.canRead,   true,  "val.canRead");
                 equals(val.canWrite,  true,  "val.canWrite");
                 equals(val.canDelete, true,  "val.canDelete");

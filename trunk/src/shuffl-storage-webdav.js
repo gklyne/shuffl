@@ -89,14 +89,14 @@ shuffl.WebDAVStorage.prototype.name = "WebDAVStorage";
  */
 shuffl.WebDAVStorage.prototype.info = function (uri, callback)
 {
-    ////log.debug(this.className+".info "+uri);
+    log.debug(this.className+".info "+uri);
     if (!uri)
     {
         callback({ uri: null, relref: null });
         return;
     }
     info = this.resolve(uri);
-    ////log.debug("shuffl.WebDAVStorage.prototype.info "+jQuery.toJSON(info));
+    log.debug("shuffl.WebDAVStorage.prototype.info "+jQuery.toJSON(info));
     shuffl.ajax.get(info.uri, "text", function (val) {
         if (val instanceof shuffl.Error)
         {
@@ -141,11 +141,12 @@ shuffl.WebDAVStorage.prototype.info = function (uri, callback)
 shuffl.WebDAVStorage.prototype.createCollection = function (coluri, colslug, callback)
 {
     ////log.debug(this.className+".createCollection "+coluri+", "+colslug);
+    var newuri = shuffl.normalizeUri(coluri,"",true).resolve(colslug).toString();
     jQuery.ajax({
             type:         "MKCOL",
-            url:          jQuery.uri(coluri).resolve(colslug).toString(),
-            success:      shuffl.StorageCommon.resolveUriOnSuccess(this, coluri, callback),
-            error:        shuffl.ajax.requestFailed(coluri, callback),
+            url:          newuri,
+            success:      shuffl.StorageCommon.resolveUriOnSuccess(this, newuri, callback),
+            error:        shuffl.ajax.requestFailed(newuri, callback),
             cache:        false
         });
 };
@@ -245,7 +246,15 @@ shuffl.WebDAVStorage.prototype.removeCollection = function (coluri, callback)
 shuffl.WebDAVStorage.prototype.create = function (coluri, slug, data, callback)
 {
     ////log.debug(this.className+".create "+coluri+", "+slug);
-    throw "shuffl.WebDAVStorage.prototype.create not implemented";
+    var newuri = shuffl.normalizeUri(coluri,"",true).resolve(slug).toString();
+    jQuery.ajax({
+            type:         "PUT",
+            url:          newuri,
+            data:         data,
+            success:      shuffl.StorageCommon.resolveUriOnSuccess(this, newuri, callback),
+            error:        shuffl.ajax.requestFailed(newuri, callback),
+            cache:        false
+        });
 };
 
 /**
