@@ -24,8 +24,8 @@
 
 // Using localhost here falls foul of cross-site scripting restrictions!
 // But on MacOS, the origin is localhost!
-var TestWebDAVStorage_rootUri  = "http://localhost/webdav/";
-//var TestWebDAVStorage_rootUri  = "http://zoo-samos.zoo.ox.ac.uk/webdav/";
+//var TestWebDAVStorage_rootUri  = "http://localhost/webdav/";
+var TestWebDAVStorage_rootUri  = "http://zoo-samos.zoo.ox.ac.uk/webdav/";
 //var TestWebDAVStorage_rootUri  = "http://tinos.zoo.ox.ac.uk/webdav/";
 var TestWebDAVStorage_baseUri = TestWebDAVStorage_rootUri+"shuffltest/";
 
@@ -270,7 +270,7 @@ TestWebDAVStorage = function()
     test("shuffl.WebDAVStorage.info (non-existent resource)", function ()
     {
         logtest("shuffl.WebDAVStorage.info");
-        expect(5);
+        expect(3);
         log.debug("----- test shuffl.WebDAVStorage.info (non-existent resource) start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
@@ -297,6 +297,8 @@ TestWebDAVStorage = function()
         m.exec(TestWebDAVStorage_rootUri,
             function(val) {
                 equals(val.msg, "Request failed", "val.msg");
+                equals(val.HTTPstatus, 404, "HTTP status number");
+                log.debug("val", shuffl.objectString(val));
                 log.debug("----- test shuffl.WebDAVStorage.info (non-existent resource) end -----");
                 start();
             });
