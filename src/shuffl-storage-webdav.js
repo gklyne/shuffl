@@ -141,9 +141,9 @@ shuffl.WebDAVStorage.prototype.info = function (uri, callback)
 shuffl.WebDAVStorage.prototype.createCollection = function (coluri, colslug, callback)
 {
     ////log.debug(this.className+".createCollection "+coluri+", "+colslug);
-    var newuri = shuffl.normalizeUri(coluri,"",true).resolve(colslug).toString();
-    ////var newuri = shuffl.normalizeUri(coluri,"",true);
-    ////newuri=shuffl.normalizeUri(newuri,colslug,true).toString();
+    ////var newuri = shuffl.normalizeUri(coluri,"",true).resolve(colslug).toString();
+    var newuri = shuffl.normalizeUri(coluri,"",true);
+    newuri=shuffl.normalizeUri(newuri,colslug,true).toString();
     jQuery.ajax({
             type:         "MKCOL",
             url:          newuri,
