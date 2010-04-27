@@ -24,8 +24,8 @@
 
 // Using localhost here falls foul of cross-site scripting restrictions!
 // But on MacOS, the origin is localhost!
-var TestWebDAVStorage_rootUri  = "http://localhost/webdav/";
-//var TestWebDAVStorage_rootUri  = "http://zoo-samos.zoo.ox.ac.uk/webdav/";
+//var TestWebDAVStorage_rootUri  = "http://localhost/webdav/";
+var TestWebDAVStorage_rootUri  = "http://zoo-samos.zoo.ox.ac.uk/webdav/";
 //var TestWebDAVStorage_rootUri  = "http://tinos.zoo.ox.ac.uk/webdav/";
 var TestWebDAVStorage_baseUri = TestWebDAVStorage_rootUri+"shuffltest/";
 
@@ -363,19 +363,67 @@ TestWebDAVStorage = function()
     test("shuffl.WebDAVStorage.listCollection", function ()
     {
         logtest("shuffl.WebDAVStorage.listCollection");
-        expect(2);
+        expect(12);
         log.debug("----- test shuffl.WebDAVStorage.listCollection start -----");
+        var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
-        // TODO - implement this test case
-        try
-        {
-            ss.listCollection("a/b/", shuffl.noop);
-        }
-        catch (e)
-        {
-            log.debug("shuffl.WebDAVStorage.listCollection exception: "+e);
-            ok(false, "shuffl.WebDAVStorage.listCollection exception"+e);
-        }
+        m.eval(
+            function (val, callback) {
+                initializeTestCollections(ss, val, callback)
+            });
+        m.eval(
+            function (val, callback) {
+                try
+                {
+                    ss.listCollection("", callback);
+                }
+                catch (e)
+                {
+                    log.debug("shuffl.WebDAVStorage.listCollection exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.listCollection exception"+e);
+                    callback(e);
+                }
+            });
+        m.eval(
+        	function (val, callback) {
+        		log.debug("listCollection callback: val: "+shuffl.objectString(val));
+        		equals(val.uri, TestWebDAVStorage_baseUri, "val.uri");
+        		equals(val.relref, "", "val.relref");
+        		equals(val.members.length, 1, "val.members.length");
+        		equals(val.members[0].uri, TestWebDAVStorage_baseUri+"data/", "val.members[0].uri");
+        		equals(val.members[0].relref, "data/", "val.members[0].relref");
+        		equals(val.members[0].type, "collection", "val.members[0].type");
+        		callback(val);
+        	});    
+        m.eval(
+            function (val, callback) {
+                try
+                {
+                    ss.listCollection("data/", callback);
+                }
+                catch (e)
+                {
+                    log.debug("shuffl.WebDAVStorage.listCollection exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.listCollection exception"+e);
+                    callback(e);
+                }
+            });
+        m.eval(
+        	function (val, callback) {
+        		equals(val.uri, TestWebDAVStorage_baseUri+"data/", "val.uri");
+        		equals(val.relref, "data/", "val.relref");
+        		equals(val.members.length, 1, "val.members.length");
+        		equals(val.members[0].uri, TestWebDAVStorage_baseUri+"data/test-csv.csv", "val.members[0].uri");
+        		equals(val.members[0].relref, "data/test-csv.csv", "val.members[0].relref");
+        		equals(val.members[0].type, "item", "val.members[0].type");
+        		callback(val);
+        	});
+        m.exec(TestWebDAVStorage_rootUri,
+            function(val) {
+                log.debug("----- test shuffl.WebDAVStorage.listCollection end -----");
+                start();
+            });
+        stop(2000);
     });
 
     test("shuffl.WebDAVStorage.removeCollection", function ()

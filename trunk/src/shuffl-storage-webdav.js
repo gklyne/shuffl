@@ -96,7 +96,7 @@ shuffl.WebDAVStorage.prototype.info = function (uri, callback)
         return;
     }
     info = this.resolve(uri);
-    log.debug("shuffl.WebDAVStorage.prototype.info "+jQuery.toJSON(info));
+    ////log.debug("shuffl.WebDAVStorage.prototype.info "+jQuery.toJSON(info));
     shuffl.ajax.get(info.uri, "text", function (val) {
         if (val instanceof shuffl.Error)
         {
@@ -176,8 +176,88 @@ shuffl.WebDAVStorage.prototype.createCollection = function (coluri, colslug, cal
  */
 shuffl.WebDAVStorage.prototype.listCollection = function (coluri, callback)
 {
-    ////log.debug(this.className+".listCollection "+coluri);
-    throw new shuffl.Error("shuffl.WebDAVStorage.prototype.listCollection not implemented");
+    log.debug(this.className+".listCollection "+coluri);
+    if (coluri===undefined)
+    {
+        callback({ uri: null, relref: null });
+        return;
+    };
+    var session = this;
+    var colinfo = this.resolve(coluri);
+    log.debug("shuffl.WebDAVStorage.prototype.listCollection "+jQuery.toJSON(colinfo));
+    var m = new shuffl.AsyncComputation();
+    var propResourceType = 
+        "<?xml version=\"1.0\"?>\r\n"+
+        "<d:propfind xmlns:d='DAV:'><d:prop><d:resourcetype/></d:prop></d:propfind>\r\n";
+    function addDepthHeader(XHR)
+    {
+        XHR.setRequestHeader("Depth", "1");
+        XHR.setRequestHeader("Content-Type", "text/xml");
+        return true;
+    };
+	m.eval( function (val, callback) {
+	    function successResponse(data, statustext, xhr)
+	    {
+	    	if (xhr==undefined) {
+	    		xhr={status:207, statusText: "Multi-Status"}; // TODO: remove when using jQuery 1.4
+	    	}
+	    	log.debug("XML data "+shuffl.elemString(data));
+	       callback({uri: colinfo.uri, relref:colinfo.relref, status: xhr.status, statusText:xhr.statusText, data:jQuery(data)});
+	    }
+	    jQuery.ajax({
+	            type:         "PROPFIND",
+	            url:          colinfo.uri,
+	            data:         propResourceType,
+	            dataType:     "xml",
+	            beforeSend:   addDepthHeader,
+	            success:      successResponse,
+	            error:        shuffl.ajax.requestFailed(colinfo.uri, callback),
+	            cache:        false
+	        });		
+	    });  
+	m.eval( function (val, callback) {
+        log.debug("AJAX value returned "+shuffl.objectString(val));
+        if (val instanceof shuffl.Error)
+        {
+            callback(val);
+        }
+        else
+        {
+            // Success: val is a structure containing a jQuery object
+            if (val.status != 207)
+            {
+            	var e = new shuffl.Error("shuffl.WebDAVStorage.listCollection: unexpected PROPFIND status "+ val.status);
+            	callback(e);
+            	return
+            }            
+            var r =
+                { uri:        val.uri
+                , relref:     val.relref
+                , status:     val.status
+                , statusText: val.statusText
+                , members: []
+                } ;
+            //TODO: revise this to be more namespace-aware
+            val.data.find("D\\:response").each(function (index) {
+            	log.debug("Index "+index);
+            	if (index != 0)
+            	{
+            		var i = session.resolve(jQuery(this).find("D\\:href").text());
+            		// this = DOM element
+                    //if (jQuery.contains(this, "D\\:collection")) TODO: should work in jQuery 1.4
+                    if (jQuery(this).find("D\\:collection").length!=0)
+                    {
+                    	i.type = "collection"
+                    } else {
+                    	i.type = "item"
+                    };
+                    r.members.push(i);
+            	}
+            });
+            callback(r);
+        };
+	    });  
+    m.exec(coluri, callback);
 };
 
 /**
