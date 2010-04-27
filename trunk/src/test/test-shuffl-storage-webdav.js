@@ -429,7 +429,7 @@ TestWebDAVStorage = function()
     test("shuffl.WebDAVStorage.removeCollection", function ()
     {
         logtest("shuffl.WebDAVStorage.removeCollection");
-        expect(9);
+        expect(6);
         log.debug("----- test shuffl.WebDAVStorage.removeCollection start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
@@ -500,7 +500,7 @@ TestWebDAVStorage = function()
     test("shuffl.WebDAVStorage.create", function ()
     {
         logtest("shuffl.WebDAVStorage.create");
-        expect(18);
+        expect(15);
         log.debug("----- test shuffl.WebDAVStorage.create start -----");
         var m  = new shuffl.AsyncComputation();
         var ss = createTestSession();
@@ -532,10 +532,10 @@ TestWebDAVStorage = function()
             function (val, callback) {
                 // Check return values
                 ok(val instanceof shuffl.Error, "Error returned for existing resource");
-                equals(val.msg, "Storage request failed", "val.msg");
+                equals(val.msg, "Create failed: resource already exists", "val.msg");
                 equals(val.HTTPstatus, 400, "val.HTTPstatus");
                 equals(val.HTTPstatusText, 
-                    "Resource+test%2Dcsv%2Ecsv+already+exists+in+collection+%2Fshuffltest%2Fdata", 
+                    "Resource already exists", 
                     "val.HTTPstatusText");
                 // Try again to create resource
                 try
@@ -569,7 +569,7 @@ TestWebDAVStorage = function()
                 equals(val.uri, coluri+"test1-csv.csv", "val.uri");
                 equals(val.relref,    "data/test1-csv.csv", "val.relref");
                 equals(val.type,      "item", "val.type");
-                equals(val.canList,   false,  "val.canList");
+                equals(val.canList,   true,   "val.canList");
                 equals(val.canRead,   true,   "val.canRead");
                 equals(val.canWrite,  true,   "val.canWrite");
                 equals(val.canDelete, true,   "val.canDelete");
@@ -586,7 +586,7 @@ TestWebDAVStorage = function()
     test("shuffl.WebDAVStorage.get", function ()
     {
         logtest("shuffl.WebDAVStorage.get");
-        expect(9);
+        expect(6);
         log.debug("----- test shuffl.WebDAVStorage.get start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
@@ -630,7 +630,7 @@ TestWebDAVStorage = function()
     test("shuffl.WebDAVStorage.put", function ()
     {
         logtest("shuffl.WebDAVStorage.put");
-        expect(11);
+        expect(8);
         log.debug("----- test shuffl.WebDAVStorage.put start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();
@@ -638,23 +638,23 @@ TestWebDAVStorage = function()
             function (val, callback) {
                 initializeTestCollections(ss, val, callback)
             });
-
         m.eval(
             function (val, callback) {
                 try
                 {
+                	log.debug("calling put");
                     ss.put("data/test-csv.csv", 
                         TestWebDAVStorage_test_csv_put, 
                         function (val) 
                         {
-                            ok(true, "shuffl.WebDAVStorage.get no exception");
+                            ok(true, "shuffl.WebDAVStorage.put no exception");
                             callback(val);
                         });
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.WebDAVStorage.get exception: "+e);
-                    ok(false, "shuffl.WebDAVStorage.get exception: "+e);
+                    log.debug("shuffl.WebDAVStorage.put exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.put exception: "+e);
                     callback(e);
                 }
             });
@@ -670,8 +670,8 @@ TestWebDAVStorage = function()
                 }
                 catch (e)
                 {
-                    log.debug("shuffl.WebDAVStorage.get exception: "+e);
-                    ok(false, "shuffl.WebDAVStorage.get exception: "+e);
+                    log.debug("shuffl.WebDAVStorage.put exception: "+e);
+                    ok(false, "shuffl.WebDAVStorage.put exception: "+e);
                     callback(e);
                 }
             });
@@ -695,7 +695,7 @@ TestWebDAVStorage = function()
     test("shuffl.WebDAVStorage.remove", function ()
     {
         logtest("shuffl.WebDAVStorage.remove");
-        expect(13);
+        expect(9);
         log.debug("----- test shuffl.WebDAVStorage.remove start -----");
         var m = new shuffl.AsyncComputation();
         var ss = createTestSession();

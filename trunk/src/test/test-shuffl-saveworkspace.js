@@ -64,10 +64,22 @@ TestSaveWorkspace = function() {
             , name:     "ExistFile"
             , factory:  shuffl.LocalFileStorage
             });
+        /*
+        shuffl.addStorageHandler(
+            { uri:      "http://zoo-samos.zoo.ox.ac.uk/webdav/shuffl/"
+            , name:     "ExistFile"
+            , factory:  shuffl.LocalFileStorage
+            });
+        */
         shuffl.addStorageHandler(
             { uri:      "http://localhost:8080/exist/atom/"
             , name:     "ExistAtom"
             , factory:  shuffl.ExistAtomStorage
+            });
+        shuffl.addStorageHandler(
+            { uri:      "http://zoo-samos.zoo.ox.ac.uk/webdav/"
+            , name:     "ExistFile"
+            , factory:  shuffl.WebDAVStorage
             });
         ok(true, "TestSaveWorkspace running OK");
     });

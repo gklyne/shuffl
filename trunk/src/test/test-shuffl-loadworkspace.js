@@ -37,6 +37,11 @@ TestLoadWorkspace = function() {
             , name:     "ExistFile"
             , factory:  shuffl.LocalFileStorage
             });
+        shuffl.addStorageHandler(
+            { uri:      "http://zoo-samos.zoo.ox.ac.uk/webdav/shuffl/"
+            , name:     "ExistFile"
+            , factory:  shuffl.LocalFileStorage
+            });
         /*
         shuffl.addStorageHandler(
             { uri:      "http://localhost:8080/exist/atom/"
