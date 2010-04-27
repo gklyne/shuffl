@@ -109,8 +109,13 @@ TestAssembleWorkspaceDescription = function() {
                 var p = lo[i]['pos'];
                 equals(Math.floor(p.left), testlo[i]['pos'].left,   "position-left");
                 equals(Math.floor(p.top),  testlo[i]['pos'].top,    "position-top");
-                var testsize = testlo[i]['size'] || {width:119, height:21};
-                same(lo[i]['size'],    testsize,                    "shuffl:layout["+i+"].size");
+                var testsize = ( testlo[i]['size']
+                               ? [ testlo[i]['size'], testlo[i]['size'] ]
+                               : [ {width:110, height:20}, {width:140, height:25} ]
+                               )
+                //same(lo[i]['size'],    testsize,                    "shuffl:layout["+i+"].size");
+                range(lo[i]['size'].width,  testsize[0].width,  testsize[1].width,  "shuffl:layout["+i+"].size.width");
+                range(lo[i]['size'].height, testsize[0].height, testsize[1].height, "shuffl:layout["+i+"].size.height");
                 var testzindex = testlo[i]['zindex'] || 11;
                 same(lo[i]['zindex'],  testzindex,                  "shuffl:layout["+i+"].zindex");
             };

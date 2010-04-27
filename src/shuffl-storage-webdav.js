@@ -214,7 +214,8 @@ shuffl.WebDAVStorage.prototype.listCollection = function (coluri, callback)
 	            error:        shuffl.ajax.requestFailed(colinfo.uri, callback),
 	            cache:        false
 	        });		
-	    });  
+	    })
+	    ;  
 	m.eval( function (val, callback) {
         log.debug("AJAX value returned "+shuffl.objectString(val));
         if (val instanceof shuffl.Error)
@@ -303,7 +304,7 @@ shuffl.WebDAVStorage.prototype.removeCollection = function (coluri, callback)
  * Create a data resource in a collection.
  * 
  * @param coluri    is the URI reference of an existing collection within 
- *                  which the new resourcve is created.  The base URI of
+ *                  which the new resource is created.  The base URI of
  *                  a session can be used as a 'root' collection for this.
  * @param slug      is a suggested URI for the new resource.  If a new
  *                  resource is successfully created, the actual URI used is
@@ -328,15 +329,46 @@ shuffl.WebDAVStorage.prototype.removeCollection = function (coluri, callback)
 shuffl.WebDAVStorage.prototype.create = function (coluri, slug, data, callback)
 {
     ////log.debug(this.className+".create "+coluri+", "+slug);
+    var self = this;
+    //TODO: resolve against session base URI?
     var newuri = shuffl.normalizeUri(coluri,"",true).resolve(slug).toString();
-    jQuery.ajax({
-            type:         "PUT",
-            url:          newuri,
-            data:         data,
-            success:      shuffl.StorageCommon.resolveUriOnSuccess(this, newuri, callback),
-            error:        shuffl.ajax.requestFailed(newuri, callback),
-            cache:        false
+    var m = new shuffl.AsyncComputation();
+    m.eval( function (val, callback) {
+        jQuery.ajax({
+                type:         "HEAD",
+                url:          newuri,
+                success:      shuffl.ajax.decodeResponse(newuri, callback),
+                error:        shuffl.ajax.requestFailed(newuri, callback),
+                cache:        false
+            });     
         });
+    m.eval( function (val, callback) {
+    	if (val instanceof shuffl.Error)
+    	{
+    		if (val.HTTPstatus == 404)
+    		{
+    			// Resource does not exist: OK to create
+			    jQuery.ajax({
+			            type:         "PUT",
+			            url:          newuri,
+			            data:         data,
+			            success:      shuffl.StorageCommon.resolveUriOnSuccess(self, newuri, callback),
+			            error:        shuffl.ajax.requestFailed(newuri, callback),
+			            cache:        false
+			        });
+    			return;
+    		}
+    	} else {
+    		// Resource already exists: error
+	        var val = new shuffl.Error(
+	            "Create failed: resource already exists", newuri);
+	        val.HTTPstatus     = 400;
+	        val.HTTPstatusText = "Resource already exists";
+	        val.status         = "exists";
+	    }
+	    callback(val);
+        });
+    m.exec(newuri, callback);
 };
 
 /**
@@ -384,10 +416,41 @@ shuffl.WebDAVStorage.prototype.get = function (uri, callback)
  *    relref    the URI expressed as relative to the session base URI.
  */
  // TODO: add type parameter
+ // TODO: consider renaming as "update", say
+ 
 shuffl.WebDAVStorage.prototype.put = function (uri, data, callback)
 {
-    ////log.debug(this.className+".put "+uri);
-    throw "shuffl.WebDAVStorage.prototype.put not implemented";
+    log.debug(this.className+".put "+uri);
+    var self = this;
+    uri = shuffl.normalizeUri(this.resolve(uri).uri,"",false).toString();
+    var m = new shuffl.AsyncComputation();
+    m.eval( function (val, callback) {
+    	log.debug("Issue HEAD "+uri);
+        jQuery.ajax({
+                type:         "HEAD",
+                url:          uri,
+                success:      shuffl.ajax.decodeResponse(uri, callback),
+                error:        shuffl.ajax.requestFailed(uri, callback),
+                cache:        false
+            });     
+        });
+    m.eval( function (val, callback) {
+    	log.debug("HEAD returned "+shuffl.objectString(val));
+        if (val instanceof shuffl.Error)
+        {
+        	callback(val);
+        	return;
+        }
+        jQuery.ajax({
+                type:         "PUT",
+                url:          uri,
+                data:         data,
+                success:      shuffl.StorageCommon.resolveUriOnSuccess(self, uri, callback),
+                error:        shuffl.ajax.requestFailed(uri, callback),
+                cache:        false
+            });
+        });
+    m.exec(uri, callback);
 };
 
 /**
@@ -409,12 +472,57 @@ shuffl.WebDAVStorage.prototype.remove = function (uri, callback)
     ////log.debug(this.className+".remove "+uri);
     info = this.resolve(uri);
     ////log.debug(this.className+".remove "+info.uri);
-    throw "shuffl.WebDAVStorage.prototype.remove not implemented";
+    jQuery.ajax({
+            type:         "DELETE",
+            url:          info.uri.toString(),
+            success:      shuffl.ajax.decodeResponse(uri, function (x) { callback(null) }, false),
+            error:        shuffl.ajax.requestFailed(uri, callback),
+            cache:        false
+        });
 };
 
 // ------------------------------------------------
 // Initialize on load
 // ------------------------------------------------
+
+
+/**
+ * Delete a resource.
+ * 
+ * @param uri       the URI of a resource to be deleted.
+ * @param callback  is a function called when the outcome of the request is
+ *                  known.
+ * 
+ * The callback function is called as:
+ *    callback(response) {
+ *        // this = session object
+ *    };
+ * where 'response' is an Error value, or null if the named collection has
+ * been successfully deleted.
+ * /
+shuffl.WebDAVStorage.prototype.remove = function (uri, callback)
+{
+    ////log.debug(this.className+".remove "+uri);
+    info = this.resolve(uri);
+    ////log.debug(this.className+".remove "+info.uri);
+    throw "shuffl.WebDAVStorage.prototype.remove not implemented";
+
+    var m = new shuffl.AsyncComputation();
+    m.eval( function (val, callback) {
+        jQuery.ajax({
+                type:         "PROPFIND",
+                url:          colinfo.uri,
+                data:         propResourceType,
+                dataType:     "xml",
+                beforeSend:   addDepthHeader,
+                success:      successResponse,
+                error:        shuffl.ajax.requestFailed(colinfo.uri, callback),
+                cache:        false
+            });     
+        });
+    m.exec(coluri, callback);
+};
+*/
 
 /**
  * Add to storage handler factories

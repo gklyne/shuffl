@@ -50,6 +50,7 @@
     <script type="text/javascript" src="../../src/shuffl-ajax.js"></script>
     <script type="text/javascript" src="../../src/shuffl-storage-common.js"></script>
     <script type="text/javascript" src="../../src/shuffl-storage-localfile.js"></script>
+    <script type="text/javascript" src="../../src/shuffl-storage-webdav.js"></script>
     <script type="text/javascript" src="../../src/shuffl-cardhandlers.js"></script>
     <script type="text/javascript" src="../../src/shuffl-card-freetext.js"></script>
     <script type="text/javascript" src="../../src/shuffl-card-selectfile.js"></script>
@@ -69,6 +70,7 @@
     <script type="text/javascript" src="../../src/test/test-shuffl-ajax.js"></script>
     <script type="text/javascript" src="../../src/test/test-shuffl-storage-common.js"></script>
     <script type="text/javascript" src="../../src/test/test-shuffl-storage-localfile.js"></script>
+    <script type="text/javascript" src="../../src/test/test-shuffl-storage-webdav.js"></script>
     <script type="text/javascript" src="../../src/test/test-shuffl-cardhandlers.js"></script>
     <script type="text/javascript" src="../../src/test/test-shuffl-card-freetext.js"></script>
     <script type="text/javascript" src="../../src/test/test-shuffl-card-selectfile.js"></script>
@@ -77,6 +79,8 @@
     <script type="text/javascript" src="../../src/test/test-shuffl-card-datagraph.js"></script>
     <script type="text/javascript" src="../../src/test/test-shuffl-card-datagraph-drop.js"></script>
     <script type="text/javascript" src="../../src/test/test-shuffl-assembleworkspace.js"></script>
+    <script type="text/javascript" src="../../src/test/test-shuffl-loadworkspace.js"></script>
+    <script type="text/javascript" src="../../src/test/test-shuffl-saveworkspace.js"></script>
 
     <!-- Execute the stand-alone tests -->
 	  <script>
@@ -89,6 +93,7 @@
         TestShufflAjax();
         TestStorageCommon();
         TestLocalFileStorage();
+        TestWebDAVStorage();
         TestCardHandlers();
         TestCardFreetext();
         TestCardSelectfile();
@@ -97,6 +102,8 @@
         TestCardDatagraph();
         TestCardDatagraphDrop();
         TestAssembleWorkspaceDescription();
+        TestLoadWorkspace();
+        TestSaveWorkspace();
 	  });
 	  </script>  
 
