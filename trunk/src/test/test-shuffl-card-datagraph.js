@@ -434,17 +434,17 @@ TestCardDatagraph = function() {
     {
         logtest("shuffl.card.datagraph.log10transform");
         var t = shuffl.card.datagraph.log10transform;
-        range(t.transform(10.0),          1.0,     1.0,   "Log10(10)");
-        range(t.transform(1.0),           0.0,     0.0,   "Log10(1)");
-        range(t.transform(0.1),          -1.001,  -0.999, "Log10(0.1)");
-        range(t.transform(100.0),         2.0,     2.0,   "Log10(100)");
-        range(t.transform(0.0007164),    -3.145,  -3.144, "Log10(0.0007164)");
-        range(t.transform(0.0),           0.0,     0.0,   "Log10(0.0)");
-        range(t.transform(-1.0),          0.0,     0.0,   "Log10(-1.0)");
-        range(t.inverseTransform(1.0),    9.999,  10.001, "aLog10(1)");
-        range(t.inverseTransform(0.0),    1.0,     1.0,   "aLog10(0.0)");
-        range(t.inverseTransform(-1.0),   0.099,   0.1,   "aLog10(-1.0)");
-        range(t.inverseTransform(2.0),  100.0,   100.001, "aLog10(100)");
+        range(t.transform(10.0),          0.99999, 1.00001, "Log10(10)");
+        range(t.transform(1.0),           0.0,     0.0,     "Log10(1)");
+        range(t.transform(0.1),          -1.001,  -0.999,   "Log10(0.1)");
+        range(t.transform(100.0),         1.99999, 2.00001, "Log10(100)");
+        range(t.transform(0.0007164),    -3.145,  -3.144,   "Log10(0.0007164)");
+        range(t.transform(0.0),           0.0,     0.0,     "Log10(0.0)");
+        range(t.transform(-1.0),          0.0,     0.0,     "Log10(-1.0)");
+        range(t.inverseTransform(1.0),    9.999,  10.001,   "aLog10(1)");
+        range(t.inverseTransform(0.0),    1.0,     1.0,     "aLog10(0.0)");
+        range(t.inverseTransform(-1.0),   0.099,   0.1,     "aLog10(-1.0)");
+        range(t.inverseTransform(2.0),  100.0,   100.001,   "aLog10(100)");
     });
 
     test("shuffl.card.datagraph.log10tickgenerator", function ()
