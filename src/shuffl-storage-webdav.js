@@ -348,10 +348,13 @@ shuffl.WebDAVStorage.prototype.create = function (coluri, slug, data, callback)
     		if (val.HTTPstatus == 404)
     		{
     			// Resource does not exist: OK to create
+		        if (typeof data != "string") { data = jQuery.toJSON(data); };
+    			//TODO: sort out content-type
 			    jQuery.ajax({
 			            type:         "PUT",
 			            url:          newuri,
 			            data:         data,
+                        contentType:  "application/octet-stream",
 			            success:      shuffl.StorageCommon.resolveUriOnSuccess(self, newuri, callback),
 			            error:        shuffl.ajax.requestFailed(newuri, callback),
 			            cache:        false
@@ -441,10 +444,13 @@ shuffl.WebDAVStorage.prototype.put = function (uri, data, callback)
         	callback(val);
         	return;
         }
+        if (typeof data != "string") { data = jQuery.toJSON(data); };
+        //TODO: sort out proper content-type
         jQuery.ajax({
                 type:         "PUT",
                 url:          uri,
                 data:         data,
+                contentType:  "application/octet-stream",
                 success:      shuffl.StorageCommon.resolveUriOnSuccess(self, uri, callback),
                 error:        shuffl.ajax.requestFailed(uri, callback),
                 cache:        false
