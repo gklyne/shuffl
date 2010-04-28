@@ -23,10 +23,23 @@
  */
 
 // Using localhost here falls foul of cross-site scripting restrictions!
-// But on MacOS, the origin is localhost!
-//var TestWebDAVStorage_rootUri  = "http://localhost/webdav/";
-var TestWebDAVStorage_rootUri  = "http://zoo-samos.zoo.ox.ac.uk/webdav/";
-//var TestWebDAVStorage_rootUri  = "http://tinos.zoo.ox.ac.uk/webdav/";
+// But on MacOS, the origin localhost must be used!
+// Figure root URI based on page URI
+var TestWebDAVStorage_pageUri = jQuery.uri().toString();
+var TestWebDAVStorage_rootUri = null;
+var TestWebDAVStorage_rootUri_list =
+    [ "http://localhost/webdav/"
+    , "http://zoo-samos.zoo.ox.ac.uk/webdav/"
+    ];
+for (i in TestWebDAVStorage_rootUri_list)
+{
+    var r =  TestWebDAVStorage_rootUri_list[i];
+    if (shuffl.starts(r, TestWebDAVStorage_pageUri))
+    {
+        TestWebDAVStorage_rootUri = r;
+    }
+}
+
 var TestWebDAVStorage_baseUri = TestWebDAVStorage_rootUri+"shuffltest/";
 
 var TestWebDAVStorage_test_csv =

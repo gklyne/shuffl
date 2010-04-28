@@ -23,13 +23,38 @@ TestSaveWorkspace = function() {
     // These definitions should match usage in the layout file, and
     // the location of the AtomPub server
 //    var coluri   = "http://localhost:8080/exist/atom/edit/shuffltest1/";
-////TODO: figure out data location from page location
-////    var coluri = jQuery.uri().resolve("../../../shuffltest/";
+
+    ////TODO: figure out data location from page location
+    ////    var coluri = jQuery.uri().resolve("../../../shuffltest/";
+
     ////var baseuri = "http://localhost:8080/exist/"
-    var baseuri = "http://zoo-samos.zoo.ox.ac.uk/webdav/"
-    //
+    ////var baseuri = "http://zoo-samos.zoo.ox.ac.uk/webdav/"
+
+    // Figure base URI based on page URI
+    var pageuri = jQuery.uri().toString();
+    var baseuri = null;
+    var baseuri_list =
+        [ "http://localhost/webdav/"
+        , "http://zoo-samos.zoo.ox.ac.uk/webdav/"
+        , "http://localhost:8080/exist/"
+        ];
+    for (i in baseuri_list)
+    {
+        var b = baseuri_list[i];
+        if (shuffl.starts(b, pageuri))
+        {
+            baseuri = b;
+        }
+    }
+    // Figure out collection URI with special handling for eXist (AtomPub):
     var coluri     = baseuri+"shuffltest/";
     var nocoluri   = baseuri+"shuffltest_nofeed/";
+    if (shuffl.ends("exist/", baseuri))
+    {
+        coluri   = baseuri + "atom/edit/shuffltest/";
+        nocoluri = baseuri + "atom/edit/shuffltest_nofeed/";
+    }
+    // Set up rekmaining URIs
     var baduri     = baseuri+"shuffltest?bad#feed";
     var layoutname = "test-shuffl-saveworkspace-layout";
     var layoutcol  = coluri+layoutname+"/";
@@ -50,7 +75,7 @@ TestSaveWorkspace = function() {
     
     module("TestSaveWorkspace");
     
-    test("NOTE: this test must be run from the AtomPub server used to store shuffl workspace data", function ()
+    test("NOTE: this test must be run from the web server used to store shuffl workspace data", function ()
     {
         logtest("TestSaveWorkspace NOTE");
     });
@@ -69,13 +94,11 @@ TestSaveWorkspace = function() {
             , name:     "ExistFile"
             , factory:  shuffl.LocalFileStorage
             });
-        /*
         shuffl.addStorageHandler(
             { uri:      "http://zoo-samos.zoo.ox.ac.uk/webdav/shuffl/"
             , name:     "ExistFile"
             , factory:  shuffl.LocalFileStorage
             });
-        */
         shuffl.addStorageHandler(
             { uri:      "http://localhost:8080/exist/atom/"
             , name:     "ExistAtom"
@@ -83,9 +106,15 @@ TestSaveWorkspace = function() {
             });
         shuffl.addStorageHandler(
             { uri:      "http://zoo-samos.zoo.ox.ac.uk/webdav/"
-            , name:     "ExistFile"
+            , name:     "WebDAVsamos"
             , factory:  shuffl.WebDAVStorage
             });
+        shuffl.addStorageHandler(
+            { uri:      "http://localhost/webdav/"
+            , name:     "WebDAVlocalhost"
+            , factory:  shuffl.WebDAVStorage
+            });
+        log.debug("Storage handlers: "+jQuery.toJSON(shuffl.listStorageHandlers()));
         ok(true, "TestSaveWorkspace running OK");
     });
     
