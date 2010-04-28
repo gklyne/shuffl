@@ -30,6 +30,7 @@ var TestWebDAVStorage_rootUri = null;
 var TestWebDAVStorage_rootUri_list =
     [ "http://localhost/webdav/"
     , "http://zoo-samos.zoo.ox.ac.uk/webdav/"
+    , "http://tinos.zoo.ox.ac.uk/webdav/"
     ];
 for (i in TestWebDAVStorage_rootUri_list)
 {
