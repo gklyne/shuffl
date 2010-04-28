@@ -20,16 +20,6 @@
 
 TestSaveWorkspace = function() {
 
-    // These definitions should match usage in the layout file, and
-    // the location of the AtomPub server
-//    var coluri   = "http://localhost:8080/exist/atom/edit/shuffltest1/";
-
-    ////TODO: figure out data location from page location
-    ////    var coluri = jQuery.uri().resolve("../../../shuffltest/";
-
-    ////var baseuri = "http://localhost:8080/exist/"
-    ////var baseuri = "http://zoo-samos.zoo.ox.ac.uk/webdav/"
-
     // Figure base URI based on page URI
     var pageuri = jQuery.uri().toString();
     var baseuri = null;
