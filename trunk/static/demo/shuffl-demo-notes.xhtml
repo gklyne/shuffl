@@ -51,6 +51,7 @@
     <script type="text/javascript" src="../../src/shuffl-storage-common.js"></script>
     <script type="text/javascript" src="../../src/shuffl-storage-localfile.js"></script>
     <script type="text/javascript" src="../../src/shuffl-storage-existatom.js"></script>
+    <script type="text/javascript" src="../../src/shuffl-storage-webdav.js"></script>
     <script type="text/javascript" src="../../src/shuffl-cardhandlers.js"></script>
     <script type="text/javascript" src="../../src/shuffl-loadworkspace.js"></script>
     <script type="text/javascript" src="../../src/shuffl-saveworkspace.js"></script>
@@ -74,6 +75,11 @@
 					    , name:     "eXistAtomPub"
 					    , factory:  shuffl.ExistAtomStorage
 					    });
+                    shuffl.addStorageHandler( 
+                        { uri:      "http://zakynthos.zoo.ox.ac.uk/data/"
+                        , name:     "WebDAV"
+                        , factory:  shuffl.WebDAVStorage
+                        });
           shuffl.loadWorkspace("data/shuffl-demo-notes.json", shuffl.saveWorkspaceDefaults);
       });
 	  </script>
