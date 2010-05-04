@@ -45,7 +45,9 @@ if (typeof shuffl.ajax == "undefined")
  */
 shuffl.ajax.requestFailed = function (uri, callback) {
     return function (xhr, status, except) {
-        log.debug("shuffl.ajax.requestFailed: "+status+", "+except+", "+uri);
+        log.debug("shuffl.ajax.requestFailed: "+uri);
+        ////log.debug("shuffl.ajax.requestFailed: "+status+", "+except+", "+uri);
+        ////log.debug("- HTTP status: "+xhr.status+", "+xhr.statusText);
         var err = new shuffl.Error(
             "Request failed", 
             status+"; HTTP status: "+xhr.status+" "+xhr.statusText);
@@ -55,10 +57,21 @@ shuffl.ajax.requestFailed = function (uri, callback) {
         if (except)
         {
             var m = except.toString();
+            ////log.debug("except.toString: "+m);
             if (m.match(/."Access to restricted URI denied.*code:.*1012/))
             {
                 // Fix up spurious handling of non-existent file in FF
                 status = "error";   
+                err.HTTPstatus     = 404;
+                err.HTTPstatusText = "Not Found"; 
+                err.response       = err.HTTPstatus+" "+err.HTTPstatusText;
+                err.val            = "error; HTTP status: 404 Not Found"
+            }
+            else if (m.match(/^Invalid JSON/))
+            {
+                // Fix up spurious handling of JSON parse error
+                err.msg = "Invalid JSON";
+                status = "parsererror";
             }
             else
             {
@@ -126,7 +139,7 @@ shuffl.ajax.get = function (uri, type, callback)
  * @param uri       URI of resource to retrieve
  * @param callback  function called when operation completes, with either
  *                  the data returned for a successful request, or an error
- *                  object if trhe request fails.  The second argument supplied
+ *                  object if the request fails.  The second argument supplied
  *                  is a textual status indication.
  */
 shuffl.ajax.getJSON = function (uri, callback)
