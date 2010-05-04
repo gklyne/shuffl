@@ -410,7 +410,7 @@ shuffl.StorageCommon.prototype.getData = function (uri, type, callback)
     ////log.debug(this.className+".getData "+jQuery.toJSON(info));
     if (info.uri == null)
     {
-        var e = new shuffl.Error(this.className+".get can't handle uri "+uri);
+        var e = new shuffl.Error(this.className+".getData can't handle uri "+uri);
         log.error(e.toString());
         log.debug("baseuri: "+this.getBaseUri());
         log.debug("rooturi: "+this.getRootUri());
