@@ -22,9 +22,26 @@
  * Test data values
  */
 
-var TestExistAtomStorage_atomUri = "http://localhost:8080/exist/atom/";
-var TestExistAtomStorage_rootUri = TestExistAtomStorage_atomUri+"edit/";
-var TestExistAtomStorage_baseUri = TestExistAtomStorage_rootUri+"shuffltest/";
+// Figure AtomPub root URI based on page URI
+var TestExistAtomStorage_pageUri = jQuery.uri().toString();
+var TestExistAtomStorage_atomUri = null;
+var TestExistAtomStorage_rootUri = null;
+var TestExistAtomStorage_baseUri = null;
+var TestExistAtomStorage_atomUri_list =
+    [ "http://localhost:8080/exist/"
+    , "http://zoo-samos.zoo.ox.ac.uk/exist/"
+    , "http://tinos.zoo.ox.ac.uk/exist/"
+    ];
+for (i in TestExistAtomStorage_atomUri_list)
+{
+    var a =  TestExistAtomStorage_atomUri_list[i];
+    if (shuffl.starts(a, TestExistAtomStorage_pageUri))
+    {
+        TestExistAtomStorage_atomUri = a+"atom/";
+        TestExistAtomStorage_rootUri = a+"atom/edit/";
+        TestExistAtomStorage_baseUri = a+"atom/edit/shuffltest";
+    }
+}
 
 var TestExistAtomStorage_test_csv =
     "rowlabel,col1,col2,col3,col4\n"+
@@ -52,12 +69,23 @@ TestExistAtomStorage = function()
 
     module("TestExistAtomStorage");
 
+    test("NOTE: TestExistAtomStorage must be loaded from eXist AtomPub server", function ()
+    {
+        logtest("TestExistAtomStorage origin check");
+        if (!TestExistAtomStorage_rootUri)
+        {
+            ok(false, "TestExistAtomStorage must be loaded from eXist AtomPub server");
+            return;
+        }
+        ok(true, "TestExistAtomStorage running OK");
+    });
+
     test("TestExistAtomStorage", function ()
     {
         logtest("TestExistAtomStorage");
         shuffl.resetStorageHandlers();
         shuffl.addStorageHandler(
-            { uri:      "http://localhost:8080/exist/atom/"
+            { uri:      TestExistAtomStorage_atomUri
             , name:     "ExistAtom"
             , factory:  shuffl.ExistAtomStorage
             });

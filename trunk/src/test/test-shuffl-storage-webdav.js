@@ -22,8 +22,6 @@
  * Test data values
  */
 
-// Using localhost here falls foul of cross-site scripting restrictions!
-// But on MacOS, the origin localhost must be used!
 // Figure root URI based on page URI
 var TestWebDAVStorage_pageUri = jQuery.uri().toString();
 var TestWebDAVStorage_rootUri = null;
@@ -68,6 +66,17 @@ TestWebDAVStorage = function()
 {
 
     module("TestWebDAVStorage");
+
+    test("NOTE: TestWebDAVStorage must be loaded from WebDAV server", function ()
+    {
+        logtest("TestWebDAVStorage origin check");
+        if (!TestWebDAVStorage_rootUri)
+        {
+            ok(false, "TestWebDAVStorage must be loaded from WebDAV server");
+            return;
+        }
+        ok(true, "TestWebDAVStorage running OK");
+    });
 
     test("TestWebDAVStorage", function ()
     {

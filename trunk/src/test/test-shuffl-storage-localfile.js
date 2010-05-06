@@ -421,7 +421,7 @@ TestLocalFileStorage = function()
         m.eval(
             function (val, callback) {
                 ok(val instanceof shuffl.Error, "Error value returned");
-                equals(val.msg, "Request failed", "val.msg");
+                equals(val.msg, "Invalid JSON", "val.msg");
                 equals(val.status, "parsererror", "val.status");
                 callback(true);
             });

@@ -195,7 +195,7 @@ shuffl.objectString = function (obj)
  */
 shuffl.starts = function (pre, str)
 {
-    return (str.slice(0,pre.length) == pre);
+    return (str != null) && (str.slice(0,pre.length) == pre);
 };
 
 /**
@@ -203,7 +203,7 @@ shuffl.starts = function (pre, str)
  */
 shuffl.ends = function (suf, str)
 {
-    return (suf.length == 0 || str.slice(-suf.length) == suf);
+    return (str != null) && (suf.length == 0 || str.slice(-suf.length) == suf);
 };
 
 /**

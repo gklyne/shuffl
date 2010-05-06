@@ -19,6 +19,8 @@
  */
 
 TestSaveWorkspace = function() {
+    
+    module("TestSaveWorkspace");
 
     // Figure base URI based on page URI
     var pageuri = jQuery.uri().toString();
@@ -36,6 +38,18 @@ TestSaveWorkspace = function() {
             baseuri = b;
         }
     }
+
+    // Check we have a suitable base URI
+    test("NOTE: this test must be run from the web server used to store shuffl workspace data", function ()
+    {
+        logtest("TestSaveWorkspace source check");
+        if (!baseuri)
+        {
+            ok(baseuri, "TestSaveWorkspace must be served from exist/atom or WebDAV location");
+            throw "TestSaveWorkspace must be served from exist/atom or WebDAV location";
+        }
+    });
+
     // Figure out collection URI with special handling for eXist (AtomPub):
     var coluri     = baseuri+"shuffltest/";
     var nocoluri   = baseuri+"shuffltest_nofeed/";
@@ -62,13 +76,6 @@ TestSaveWorkspace = function() {
         , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
         , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
         ];
-    
-    module("TestSaveWorkspace");
-    
-    test("NOTE: this test must be run from the web server used to store shuffl workspace data", function ()
-    {
-        logtest("TestSaveWorkspace NOTE");
-    });
 
     test("TestSaveWorkspace(init)", function ()
     {
