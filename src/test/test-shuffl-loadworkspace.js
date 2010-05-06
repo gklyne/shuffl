@@ -47,13 +47,6 @@ TestLoadWorkspace = function() {
             , name:     "ExistFile"
             , factory:  shuffl.LocalFileStorage
             });
-        /*
-        shuffl.addStorageHandler(
-            { uri:      "http://localhost:8080/exist/atom/"
-            , name:     "ExistAtom"
-            , factory:  shuffl.ExistAtomStorage
-            });
-         */
         ok(true, "TestLoadWorkspace running OK");
     });
 
@@ -73,7 +66,7 @@ TestLoadWorkspace = function() {
             }
         });
         m.eval(function(val,callback) {
-            ok(!(val instanceof shuffl.Error), "Error returned "+val.toString());
+            ok(!(val instanceof shuffl.Error), "Error returned: "+val.toString());
             var u = jQuery.uri().resolve("data/test-shuffl-loadworkspace-layout.json");
             equals(jQuery('#workspace').data('location'), u.toString(), "location");
             var w = jQuery("#workspace_status"); 
