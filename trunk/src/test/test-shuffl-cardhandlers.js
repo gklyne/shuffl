@@ -100,10 +100,10 @@ TestCardHandlers = function() {
     {
         logtest("shuffl.getCardFactory");
         expect(2);
-		var c1 = shuffl.getCardFactory("test-type");
-		equals(typeof c1, "function", "retrieved factory");
-		var c2 = shuffl.getCardFactory("default-type");
-		equals(typeof c2, "function", "default factory");
+        var c1 = shuffl.getCardFactory("test-type");
+        equals(typeof c1, "function", "retrieved factory");
+        var c2 = shuffl.getCardFactory("default-type");
+        equals(typeof c2, "function", "default factory");
     });
 
     test("shuffl.shuffl.card.defaultcard.newCard", function () 
@@ -111,15 +111,15 @@ TestCardHandlers = function() {
         logtest("shuffl.card.defaultcard.newCard");
         expect(4);
         var css = 'stock-default';
-		var c   = shuffl.card.defaultcard.newCard("card-type", css, "card-id",
-			{ 'shuffl:tags': 	["card-tag"]
-			, 'shuffl:title':	"card-title"
-			});
-		equals(c.attr('id'), "card-id", "card id attribute");
+        var c   = shuffl.card.defaultcard.newCard("card-type", css, "card-id",
+          	{ 'shuffl:tags': 	["card-tag"]
+          	, 'shuffl:title':	"card-title"
+          	});
+        equals(c.attr('id'), "card-id", "card id attribute");
         //ok(c.hasClass('shuffl-card'),   "shuffl card class");
         ok(c.hasClass('shuffl-card-autosize'),   "shuffl card autosize class");
         ok(c.hasClass('stock-default'), "default class");
-		equals(c.find("ctitle").text(), "card-title", "card title field");
+        equals(c.find("ctitle").text(), "card-title", "card title field");
     });
 
     test("shuffl.createStockpile", function () 
@@ -143,9 +143,9 @@ TestCardHandlers = function() {
         logtest("shuffl.createCardFromStock");
         expect(18);
         // Note: type 'test-type' matches factory added earlier
-		var s = shuffl.createStockpile(
+    		var s = shuffl.createStockpile(
 		    "stock_id", "stock-class", "stock-label", "test-type");
-		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
+    		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
         ////log.debug("- card "+shuffl.objectString(c));
         var card_id = shuffl.lastId("card_");
         equals(c.attr('id'), card_id, "card id attribute");
@@ -279,7 +279,7 @@ TestCardHandlers = function() {
 
     test("shuffl.card.defaultcard model setting", function () 
     {
-        log.debug("shuffl.card.defaultcard model setting");
+        logtest("shuffl.card.defaultcard model setting");
         expect(2);
         // Create card (copy of code already tested)
         var d = testcardhandlers_carddata;
@@ -408,9 +408,11 @@ TestCardHandlers = function() {
     test("shuffl.modelSetSeries (empty table)", function ()
     {
         logtest("shuffl.modelSetSeries (empty table)");
-        expect(2);
+        expect(3);
         var c = jQuery("<div/>");    // Mock card
-        c.modelBind('shuffl:table', shuffl.modelSetSeries(c));
+        var f = shuffl.modelSetSeries(c);
+        equals(typeof f, "function", "typeof shuffl.modelSetSeries(c)");
+        c.modelBind('shuffl:table', f);
         c.model('shuffl:table', [[]]);
         same(c.data('shuffl:labels'), [], "shuffl:labels");
         same(c.data('shuffl:series'), [], "shuffl:series");

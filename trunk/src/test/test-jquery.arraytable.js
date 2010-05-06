@@ -63,6 +63,7 @@ TestJqueryArrayTable = function()
 
     test("Create new table element from array (no headers)", function ()
     {
+        logtest("TestJqueryArrayTable: Create new table element from array (no headers)");
         expect(9);
         var elm = jQuery.table(test_table_data_nohead);
         equals(elm.outerhtml(), test_table_html_nohead);
@@ -77,6 +78,7 @@ TestJqueryArrayTable = function()
 
     test("Create new table element from array (with headers)", function ()
     {
+        logtest("TestJqueryArrayTable: Create new table element from array (with headers)");
         expect(14);
         var elm = jQuery.table(test_table_data.slice(0,1), test_table_data.slice(1));
         //var elm = jQuery.table(test_table_data);
@@ -92,6 +94,7 @@ TestJqueryArrayTable = function()
 
     test("Insert table from array (no headers)", function ()
     {
+        logtest("TestJqueryArrayTable: Insert table from array (no headers)");
         expect(9);
         var elm = jQuery("<div/>");
         elm.table(test_table_data_nohead);
@@ -106,6 +109,7 @@ TestJqueryArrayTable = function()
 
     test("Insert table from array (with headers)", function ()
     {
+        logtest("TestJqueryArrayTable: Insert table from array (with headers)");
         expect(14);
         var elm = jQuery("<div/>");
         elm.table(test_table_data, 1);
@@ -120,6 +124,7 @@ TestJqueryArrayTable = function()
 
     test("Extract array from table", function ()
     {
+        logtest("TestJqueryArrayTable: Extract array from table");
         expect(5);
         var elm = jQuery("<div/>");
         elm.html(test_table_html);

@@ -13,6 +13,7 @@ TestAsyncComputation = function() {
 
     test("asynchronous computation sequencing", 
         function () {
+            logtest("TestAsyncComputation: asynchronous computation sequencing");
             expect(6);
             var m = new shuffl.AsyncComputation();
             m.bind("step1");
@@ -35,6 +36,7 @@ TestAsyncComputation = function() {
 
     test("asynchronous computation sequencing (chained)", 
         function () {
+            logtest("TestAsyncComputation: asynchronous computation sequencing (chained)");
             expect(6);
             new shuffl.AsyncComputation()
                 .bind("step1")

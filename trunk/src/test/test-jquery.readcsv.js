@@ -40,6 +40,7 @@ TestJqueryReadCSV = function() {
 
     test("parse simple CSV from string", function ()
     {
+        logtest("TestJqueryReadCSV: parse simple CSV from string");
         expect(4);
         var csv = (
             "rowlabel,col1,col2,col3,col4"+"\n"+
@@ -54,6 +55,7 @@ TestJqueryReadCSV = function() {
 
     test("parse CSV quoted values from string", function ()
     {
+        logtest("TestJqueryReadCSV: parse CSV quoted values from string");
         expect(4);
         var csv = (
             " ' row4 ' , ' a4 ' , ' b4 ' , ' c4 ' , ' d4 ' "+"\n"+
@@ -61,13 +63,14 @@ TestJqueryReadCSV = function() {
             "End.");
         var tbl = jQuery.csv(",")(csv);
         equals(tbl.length, 3, "just three rows");
-        same(tbl[0],[" row4 ", " a4 ", " b4 ", " c4 ", " d4 "],             "row 4");
-        same(tbl[1],[" row5 ", " a5 ", " b5 ", " c5 ", " d5 "],             "row 5");
-        same(tbl[2],["End."],                                             "end row");
+        same(tbl[0],[" row4 ", " a4 ", " b4 ", " c4 ", " d4 "],  "row 4");
+        same(tbl[1],[" row5 ", " a5 ", " b5 ", " c5 ", " d5 "],  "row 5");
+        same(tbl[2],["End."],                                    "end row");
     });
 
     test("parse more complicated CSV from string", function ()
     {
+        logtest("TestJqueryReadCSV: parse more complicated CSV from string");
         expect(11);
         var tbl = jQuery.csv(",")(test_shuffl_csv);
         equals(tbl.length, 10, "ten rows");
@@ -75,8 +78,8 @@ TestJqueryReadCSV = function() {
         same(tbl[1],["row1", "a1", "b1", "c1", "d1"],                     "row 1");
         same(tbl[2],["row2", "a2", "b2", "c2", "d2"],                     "row 2");
         same(tbl[3],["row3", "a3 3a", "b3 3b", "c3 3c", "d3 3d"],         "row 3");
-        same(tbl[4],[" row4 ", " a4 ", " b4 ", " c4 ", " d4 "],             "row 4");
-        same(tbl[5],[" row5 ", " a5 ", " b5 ", " c5 ", " d5 "],             "row 5");
+        same(tbl[4],[" row4 ", " a4 ", " b4 ", " c4 ", " d4 "],           "row 4");
+        same(tbl[5],[" row5 ", " a5 ", " b5 ", " c5 ", " d5 "],           "row 5");
         same(tbl[6],["row6", "a6,6a", "b6,6b", "c6,6c", "d6,6d"],         "row 6");
         same(tbl[7],["row7", "a7'7a", "b7'7b", "c7'7c", "d7'7d"],         "row 7");
         same(tbl[8],["row8", "a8', 8a", "b8', 8b", "c8', 8c", "d8', 8d"], "row 8");
@@ -85,6 +88,7 @@ TestJqueryReadCSV = function() {
 
     test("parse graph data CSV from string", function ()
     {
+        logtest("TestJqueryReadCSV: parse graph data CSV from string");
         expect(8);
         var tbl = jQuery.csv(",")(test_shuffl_csv_c135);
         equals(tbl.length, 7, "7 rows");
@@ -99,6 +103,7 @@ TestJqueryReadCSV = function() {
 
     test("read file as string", function ()
     {
+        logtest("TestJqueryReadCSV: read file as string");
         expect(2);
         function checkdata(data, status) {
             //log.debug("jQuery.get data: "+jQuery.toJSON(data));
@@ -112,6 +117,7 @@ TestJqueryReadCSV = function() {
 
     test("read file as CSV", function ()
     {
+        logtest("TestJqueryReadCSV: read file as CSV");
         expect(11);
         function checkdata(tbl, status) {
             equals(status, "success", "jQuery.get status");
@@ -133,6 +139,7 @@ TestJqueryReadCSV = function() {
 
     test("read graph data file as CSV", function ()
     {
+        logtest("TestJqueryReadCSV: read graph data file as CSV");
         expect(10);
         function checkdata(tbl, status) {
             equals(status, "success", "jQuery.get status");

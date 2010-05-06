@@ -116,8 +116,8 @@ TestCardDatagraph = function() {
         logtest("shuffl.getCardFactories");
         var c0 = shuffl.getCardFactory("default-type");
         equals(typeof c0, "function", "default factory");
-    		var c1 = shuffl.getCardFactory("shuffl-datagraph-yellow");
-    		equals(typeof c1, "function", "retrieved factory yellow");
+		var c1 = shuffl.getCardFactory("shuffl-datagraph-yellow");
+		equals(typeof c1, "function", "retrieved factory yellow");
         var c2 = shuffl.getCardFactory("shuffl-datagraph-blue");
         equals(typeof c2, "function", "retrieved factory blue");
         var c3 = shuffl.getCardFactory("shuffl-datagraph-green");

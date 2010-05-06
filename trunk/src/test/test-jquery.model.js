@@ -13,6 +13,7 @@ TestJqueryModel = function() {
 
     test("set and get data values", function ()
     {
+        logtest("TestJqueryModel: set and get data values");
         var j = jQuery("<element><sub1 /><sub2 /></element>");
         j.data("v1",1);
         j.data("v2","2");
@@ -22,7 +23,7 @@ TestJqueryModel = function() {
 
     test("set and get model values", function () 
     {
-        log.debug("set and get model values");
+        logtest("TestJqueryModel: set and get model values");
         var j = jQuery("<element><sub1 /><sub2 /></element>");
         j.model("v1",1);
         j.model("v2","2");
@@ -34,9 +35,12 @@ TestJqueryModel = function() {
 
     test("event subscription", function ()
     {
+        logtest("TestJqueryModel: event subscription");
         var j = jQuery("<element><sub1 /><sub2 /></element>");
         var save = [];
         function saver(event, data) {
+            ////log.debug("saver event: "+shuffl.objectString(event));
+            ////log.debug("saver data:  "+shuffl.objectString(data));
             save.push(data);
         };
         j.model("v1",1);
@@ -44,16 +48,26 @@ TestJqueryModel = function() {
         equals(j.model("v1"), 1, "v1");
         equals(j.model("v2"), 2, "v2");
         j.modelBind("v1", saver);
+        j.modelBind("v3", saver);
         j.model("v1",11);
         j.model("v2",22);
+        j.model("v3",[[]]);
         equals(j.model("v1"), 11, "v1");
         equals(j.model("v2"), 22, "v2");
-        equals(save.length, 1, "save.length");
+        same(j.model("v3"), [[]], "v3");
+        equals(save.length, 2, "save.length");
         same(save[0], { "name": "v1", "oldval": 1, "newval": 11 }, "save[0]");
+        same(save[1], { "name": "v3", "oldval": undefined, "newval": [[]] }, "save[1]");
+        j.modelBind('shuffl:table', saver);
+        j.model('shuffl:table', [[]]);
+        equals(save.length, 3, "save.length (3)");
+        same(j.model('shuffl:table'), [[]], 'shuffl:table');
+        same(save[2], { "name": "shuffl:table", "oldval": undefined, "newval": [[]] }, "save[2]");
     });
 
     test("event unsubscription", function ()
     {
+        logtest("TestJqueryModel: event unsubscription");
         var j = jQuery("<element><sub1 /><sub2 /></element>");
         var save = [];
         function saver(event, data) {
@@ -83,6 +97,7 @@ TestJqueryModel = function() {
 
     test("multiple elements selected", function ()
     {
+        logtest("TestJqueryModel: multiple elements selected");
         var j = jQuery("<element><sub/><sub/></element>").find("sub");
         var save = [];
         function saver(event, data) {
@@ -106,10 +121,42 @@ TestJqueryModel = function() {
         j.model("v2",222);
         equals(j.model("v1"), 111, "v1");
         equals(j.model("v2"), 222, "v2");
-        equals(save.length, 4, "save.length");
+        equals(save.length, 4, "save.length (4)");
         same(save[1], { "name": "v1", "oldval": 1, "newval": 11 }, "save[1]");
         same(save[2], { "name": "v2", "oldval": 22, "newval": 222 }, "save[2]");
         same(save[3], { "name": "v2", "oldval": 22, "newval": 222 }, "save[3]");
+    });
+
+    test("event subscription on empty div", function ()
+    {
+        logtest("TestJqueryModel: event subscription");
+        var j = jQuery("<div/>");
+        var save = [];
+        function saver(event, data) {
+            ////log.debug("saver event: "+shuffl.objectString(event));
+            ////log.debug("saver data:  "+shuffl.objectString(data));
+            save.push(data);
+        };
+        j.model("v1",1);
+        j.model("v2",2);
+        equals(j.model("v1"), 1, "v1");
+        equals(j.model("v2"), 2, "v2");
+        j.modelBind("v1", saver);
+        j.modelBind("v3", saver);
+        j.model("v1",11);
+        j.model("v2",22);
+        j.model("v3",[[]]);
+        equals(j.model("v1"), 11, "v1");
+        equals(j.model("v2"), 22, "v2");
+        same(j.model("v3"), [[]], "v3");
+        equals(save.length, 2, "save.length");
+        same(save[0], { "name": "v1", "oldval": 1, "newval": 11 }, "save[0]");
+        same(save[1], { "name": "v3", "oldval": undefined, "newval": [[]] }, "save[1]");
+        j.modelBind('shuffl:table', saver);
+        j.model('shuffl:table', [[]]);
+        equals(save.length, 3, "save.length (3)");
+        same(j.model('shuffl:table'), [[]], 'shuffl:table');
+        same(save[2], { "name": "shuffl:table", "oldval": undefined, "newval": [[]] }, "save[2]");
     });
 
 };

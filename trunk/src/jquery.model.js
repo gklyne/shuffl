@@ -19,6 +19,12 @@
  */
 
 /**
+ * Logic copied from jQuery.data.  uuid is used to generate a unique value for
+ * each object with which model events are associated.
+ */
+var uuid = 0;
+
+/**
  * The 'model' method gets or sets a model value and, when setting a value, 
  * triggers any listeners.  Note that this method follows the style of jQuery's
  * .data method, and access the same values.
@@ -33,7 +39,7 @@
  */
 jQuery.fn.model = function (name, value)
 {
-    //log.debug("jQuery.model "+name+", "+value);
+    ////log.debug("jQuery.model "+name+", "+value);
     //var config = {'foo': 'bar'};
     //if (settings) jQuery.extend(config, settings);
     var retval = undefined;
@@ -44,7 +50,9 @@ jQuery.fn.model = function (name, value)
         if (retval === undefined) {retval = oldval;};
         if (value !== undefined)
         {
+            ////log.debug("jQuery.model newvalue "+shuffl.objectString(j));
             j.data(name, value);
+            ////log.debug("model trigger event "+j.modelEvent(name));
             j.trigger(
                 j.modelEvent(name), 
                 {name:name, oldval:oldval, newval:value});
@@ -69,6 +77,7 @@ jQuery.fn.modelBind = function (name, fn)
     this.each(function()
     {
         var j = jQuery(this);
+        ////log.debug("modelBind event "+j.modelEvent(name));
         j.bind(j.modelEvent(name), fn);
     });
 };
@@ -89,10 +98,19 @@ jQuery.fn.modelUnbind = function (name, fn)
 /**
  * Helper method returns model event name for the first element in the
  * current jQuery onject and supplied model value name.
+ * 
+ * The original design accessed the jQuery data cache id via this.data(""),
+ * but that no longer works withj jQuery 1.4.2.  So we have to roll our own.
  */
 jQuery.fn.modelEvent = function (name)
 {
-    return "model_"+this.data("")+"_"+name;
+    var id = this.data("model_event_id");
+    if (!id)
+    {
+        id = ++uuid;
+        this.data("model_event_id", id);
+    }
+    return "model_"+id+"_"+name;
 };
 
 /**

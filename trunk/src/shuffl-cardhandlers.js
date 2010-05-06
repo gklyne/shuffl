@@ -636,6 +636,8 @@ shuffl.modelSetTable = function (fieldobj, nh, thencall)
  */
 shuffl.modelSetSeries = function (card, options) 
 {
+    ////log.debug("shuffl.modelSetSeries card:"+shuffl.objectString(card));
+    ////log.debug("shuffl.modelSetSeries options:"+shuffl.objectString(options));
     // Sort out options
     var useopts = 
         { labelrow:   0
@@ -650,6 +652,7 @@ shuffl.modelSetSeries = function (card, options)
     // Function returned
     function setseriesvalues(_event, data)
     {
+        ////log.debug("setseriesvalues");
         ////log.debug("- data "+jQuery.toJSON(data));
         ////log.debug("- opts "+jQuery.toJSON(useopts));
         // Sort out table value and options
@@ -700,8 +703,8 @@ shuffl.modelSetSeries = function (card, options)
             card.data(useopts.setlabels,  labels);
             card.data(useopts.setaxes,    axes);
             card.model(useopts.setseries, series);
-            card.data('shuffl:datamod',   true);
         };
+        card.data('shuffl:datamod',   true);
     };
     return setseriesvalues;
 };

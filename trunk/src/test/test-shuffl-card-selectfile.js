@@ -39,40 +39,40 @@ TestCardSelectfile = function() {
 
     test("shuffl.addCardFactories",
         function () {
-            log.debug("test shuffl.addCardFactories");
+            logtest("TestCardSelectfile: shuffl.addCardFactories");
             // Card factories are created when shuffl-card-selectfile module is loaded
-    		equals(shuffl.CardFactoryMap['shuffl-selectfile'].cardcss, "stock-default", "shuffl-selectfile");
+            equals(shuffl.CardFactoryMap['shuffl-selectfile'].cardcss, "stock-default", "shuffl-selectfile");
         });
     
     test("shuffl.getCardFactories",
         function () {
-            log.debug("test shuffl.getCardFactories");
+            logtest("TestCardSelectfile: shuffl.getCardFactories");
             var c0 = shuffl.getCardFactory("default-type");
             equals(typeof c0, "function", "default factory");
-    		var c1 = shuffl.getCardFactory("shuffl-selectfile");
-    		equals(typeof c1, "function", "retrieved selectfile factory");
+            var c1 = shuffl.getCardFactory("shuffl-selectfile");
+            equals(typeof c1, "function", "retrieved selectfile factory");
         });
 
     test("shuffl.card.selectfile.newCard",
         function () {
-            log.debug("test shuffl.card.selectfile.newCard");
+            logtest("TestCardSelectfile: shuffl.card.selectfile.newCard");
             var css = 'stock-default';
-    		var c   = shuffl.card.selectfile.newCard("shuffl-selectfile", css, "card-1",
-    			{ 'shuffl:tags': 	["card-tag"]
-    			, 'shuffl:title':	"card-title"
+            var c   = shuffl.card.selectfile.newCard("shuffl-selectfile", css, "card-1",
+                { 'shuffl:tags': 	["card-tag"]
+                , 'shuffl:title':	"card-title"
                 , 'shuffl:file':    "path/file"
                 , 'shuffl:baseuri': "http://example.com/base/"
-    			});
-    		equals(c.attr('id'), "card-1", "card id attribute");
+                });
+            equals(c.attr('id'), "card-1", "card id attribute");
             //ok(c.hasClass('shuffl-card'),   "shuffl card class");
             ok(c.hasClass('shuffl-card-autosize'),   "shuffl-card-autosize class");
             ok(c.hasClass('stock-default'),   "stock-default class");
             equals(c.attr('class'), 'shuffl-card-autosize stock-default', "CSS class");
             ok(c.hasClass('stock-default'), "default colour class");
-    		equals(c.find("cident").text(), "card-1", "card id field");
-    		equals(c.find("cclass").text(), "shuffl-selectfile", "card class field");
-    		equals(c.find("ctitle").text(), "card-title", "card title field");
-    		equals(c.find("ctags").text(),  "card-tag", "card tags field");
+        		equals(c.find("cident").text(), "card-1", "card id field");
+        		equals(c.find("cclass").text(), "shuffl-selectfile", "card class field");
+        		equals(c.find("ctitle").text(), "card-title", "card title field");
+        		equals(c.find("ctags").text(),  "card-tag", "card tags field");
             equals(c.find("cbaseuri").text(),  "http://example.com/base/", "card cbaseuri field");
             equals(c.find("cfile").text(),  "path/file", "card cfile field");
             equals(c.find("curi").text(),  "http://example.com/base/path/file", "card curi field");
@@ -80,27 +80,27 @@ TestCardSelectfile = function() {
 
     test("shuffl.createStockpiles",
         function () {
-            log.debug("test shuffl.createStockpiles");
+            logtest("TestCardSelectfile: shuffl.createStockpiles");
             equals(jQuery('#stockbar').children().length, 1, "old stockbar content");
-    		var s1 = shuffl.createStockpile(
-    			"stock_1", "stock-default", "File", "shuffl-selectfile");
-    		equals(jQuery('#stockbar').children().length, 3, "new stockbar content");
-    		//1
-    		equals(s1.attr('id'), "stock_1", "stock 1 id");
-    	    ok(s1.hasClass("stock-default"), "stock 1 class");
-    	    equals(s1.text(), "File", "stock 1 label");
-    	    equals(typeof s1.data('makeCard'), "function", "stock 1 function");
-    	    equals(s1.data('CardType'), "shuffl-selectfile", "stock 1 type");
+            var s1 = shuffl.createStockpile(
+                "stock_1", "stock-default", "File", "shuffl-selectfile");
+            equals(jQuery('#stockbar').children().length, 3, "new stockbar content");
+            //1
+            equals(s1.attr('id'), "stock_1", "stock 1 id");
+            ok(s1.hasClass("stock-default"), "stock 1 class");
+            equals(s1.text(), "File", "stock 1 label");
+            equals(typeof s1.data('makeCard'), "function", "stock 1 function");
+            equals(s1.data('CardType'), "shuffl-selectfile", "stock 1 type");
     });
 
     test("shuffl.createCardFromStock",
         function () {
-            log.debug("test shuffl.createCardFromStock");
-			var s = shuffl.createStockpile(
-			    "stock_id", "stock-default", "File", "shuffl-selectfile");
-    		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
+            logtest("TestCardSelectfile: shuffl.createCardFromStock");
+            var s = shuffl.createStockpile(
+    			      "stock_id", "stock-default", "File", "shuffl-selectfile");
+            var c = shuffl.createCardFromStock(jQuery("#stock_id"));
             ////log.debug("- card "+shuffl.objectString(c));
-    		var card_id = shuffl.lastId("card_");
+            var card_id = shuffl.lastId("card_");
             equals(c.attr('id'), card_id,       "card id attribute");
             ok(c.hasClass('shuffl-card'),   "shuffl card class");
             ok(c.hasClass('shuffl-card-autosize'),   "shuffl-card-autosize class");
@@ -127,7 +127,7 @@ TestCardSelectfile = function() {
 
     test("shuffl.createCardFromData",
         function () {
-            log.debug("test shuffl.createCardFromData");
+            logtest("TestCardSelectfile: shuffl.createCardFromData");
             var d = testcardselectfile_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
             // Check card details
@@ -146,7 +146,7 @@ TestCardSelectfile = function() {
 
     test("shuffl.createDataFromCard",
         function () {
-            log.debug("test shuffl.createDataFromCard");
+            logtest("TestCardSelectfile: shuffl.createDataFromCard");
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
@@ -165,7 +165,7 @@ TestCardSelectfile = function() {
 
     test("shuffl.card.selectfile model setting",
         function () {
-            log.debug("shuffl.card.selectfile model setting");
+            logtest("TestCardSelectfile: shuffl.card.selectfile model setting");
             expect(21);
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
