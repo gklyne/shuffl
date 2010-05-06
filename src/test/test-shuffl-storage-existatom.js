@@ -39,7 +39,7 @@ for (i in TestExistAtomStorage_atomUri_list)
     {
         TestExistAtomStorage_atomUri = a+"atom/";
         TestExistAtomStorage_rootUri = a+"atom/edit/";
-        TestExistAtomStorage_baseUri = a+"atom/edit/shuffltest";
+        TestExistAtomStorage_baseUri = a+"atom/edit/shuffltest/";
     }
 }
 
