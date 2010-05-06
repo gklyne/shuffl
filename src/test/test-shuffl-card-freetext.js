@@ -50,9 +50,9 @@ TestCardFreetext = function() {
 
     test("shuffl.addCardFactories",
         function () {
-            log.debug("test shuffl.addCardFactories");
+            logtest("TestCardFreetext: shuffl.addCardFactories");
             // Card factories are created when shuffl-card-freetext module is loaded
-    		equals(shuffl.CardFactoryMap['shuffl-freetext-yellow'].cardcss, "stock-yellow", "shuffl-freetext-yellow");
+            equals(shuffl.CardFactoryMap['shuffl-freetext-yellow'].cardcss, "stock-yellow", "shuffl-freetext-yellow");
             equals(shuffl.CardFactoryMap['shuffl-freetext-blue'  ].cardcss, "stock-blue",   "shuffl-freetext-blue");
             equals(shuffl.CardFactoryMap['shuffl-freetext-green' ].cardcss, "stock-green",  "shuffl-freetext-green");
             equals(shuffl.CardFactoryMap['shuffl-freetext-orange'].cardcss, "stock-orange", "shuffl-freetext-orange");
@@ -62,11 +62,11 @@ TestCardFreetext = function() {
     
     test("shuffl.getCardFactories",
         function () {
-            log.debug("test shuffl.getCardFactories");
+            logtest("TestCardFreetext: test shuffl.getCardFactories");
             var c0 = shuffl.getCardFactory("default-type");
             equals(typeof c0, "function", "default factory");
-    		var c1 = shuffl.getCardFactory("shuffl-freetext-yellow");
-    		equals(typeof c1, "function", "retrieved factory yellow");
+            var c1 = shuffl.getCardFactory("shuffl-freetext-yellow");
+            equals(typeof c1, "function", "retrieved factory yellow");
             var c2 = shuffl.getCardFactory("shuffl-freetext-blue");
             equals(typeof c2, "function", "retrieved factory blue");
             var c3 = shuffl.getCardFactory("shuffl-freetext-green");
@@ -81,31 +81,31 @@ TestCardFreetext = function() {
 
     test("shuffl.card.freetext.newCard",
         function () {
-            log.debug("test shuffl.card.freetext.newCard");
+            logtest("TestCardFreetext: shuffl.card.freetext.newCard");
             var css = 'stock-yellow';
-    		var c   = shuffl.card.freetext.newCard("shuffl-freetext-yellow", css, "card-1",
-    			{ 'shuffl:tags': 	["card-tag"]
-    			, 'shuffl:title':	"card-title"
-    			, 'shuffl:text':    "card body data"
-    			});
-    		equals(c.attr('id'), "card-1", "card id attribute");
+            var c   = shuffl.card.freetext.newCard("shuffl-freetext-yellow", css, "card-1",
+            	{ 'shuffl:tags': 	["card-tag"]
+            	, 'shuffl:title':	"card-title"
+            	, 'shuffl:text':    "card body data"
+            	});
+            equals(c.attr('id'), "card-1", "card id attribute");
             //ok(c.hasClass('shuffl-card'),   "shuffl card class");
             ok(c.hasClass('stock-yellow'),  "yellow colour class");
             ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
             equals(c.attr('class'), 'shuffl-card-setsize stock-yellow ui-resizable', "CSS class");
-    		equals(c.find("cident").text(), "card-1", "card id field");
-    		equals(c.find("cclass").text(), "shuffl-freetext-yellow", "card class field");
-    		equals(c.find("ctitle").text(), "card-title", "card title field");
-    		equals(c.find("ctags").text(),  "card-tag", "card tags field");
+            equals(c.find("cident").text(), "card-1", "card id field");
+            equals(c.find("cclass").text(), "shuffl-freetext-yellow", "card class field");
+            equals(c.find("ctitle").text(), "card-title", "card title field");
+            equals(c.find("ctags").text(),  "card-tag", "card tags field");
             equals(c.find("cbody").text(),  "card body data", "card body field");
         });
 
     test("shuffl.createStockpiles",
         function () {
-            log.debug("test shuffl.createStockpiles");
+            logtest("TestCardFreetext: shuffl.createStockpiles");
             equals(jQuery('#stockbar').children().length, 1, "old stockbar content");
-    		var s1 = shuffl.createStockpile(
-    			"stock_1", "stock-yellow", "Y", "shuffl-freetext-yellow");
+            var s1 = shuffl.createStockpile(
+            	"stock_1", "stock-yellow", "Y", "shuffl-freetext-yellow");
             var s2 = shuffl.createStockpile(
                 "stock_2", "stock-blue", "B", "shuffl-freetext-blue");
             var s3 = shuffl.createStockpile(
@@ -116,14 +116,14 @@ TestCardFreetext = function() {
                 "stock_5", "stock-pink", "P", "shuffl-freetext-pink");
             var s6 = shuffl.createStockpile(
                 "stock_6", "stock-purple", "P", "shuffl-freetext-purple");
-    		equals(jQuery('#stockbar').children().length, 13, "new stockbar content");
-    		//1
-    		equals(s1.attr('id'), "stock_1", "stock 1 id");
-    	    ok(s1.hasClass("stock-yellow"), "stock 1 class");
-    	    equals(s1.text(), "Y", "stock 1 label");
-    	    equals(typeof s1.data('makeCard'), "function", "stock 1 function");
-    	    equals(s1.data('CardType'), "shuffl-freetext-yellow", "stock 1 type");
-    	    //2
+            equals(jQuery('#stockbar').children().length, 13, "new stockbar content");
+            //1
+            equals(s1.attr('id'), "stock_1", "stock 1 id");
+            ok(s1.hasClass("stock-yellow"), "stock 1 class");
+            equals(s1.text(), "Y", "stock 1 label");
+            equals(typeof s1.data('makeCard'), "function", "stock 1 function");
+            equals(s1.data('CardType'), "shuffl-freetext-yellow", "stock 1 type");
+            //2
             equals(s2.attr('id'), "stock_2", "stock 2 id");
             ok(s2.hasClass("stock-blue"), "stock 2 class");
             equals(s2.text(), "B", "stock 2 label");
@@ -157,12 +157,12 @@ TestCardFreetext = function() {
 
     test("shuffl.createCardFromStock",
         function () {
-            log.debug("test shuffl.createCardFromStock");
-			var s = shuffl.createStockpile(
-			    "stock_id", "stock-green", "stock-label", "shuffl-freetext-green");
-    		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
+            logtest("TestCardFreetext: shuffl.createCardFromStock");
+            var s = shuffl.createStockpile(
+                "stock_id", "stock-green", "stock-label", "shuffl-freetext-green");
+            var c = shuffl.createCardFromStock(jQuery("#stock_id"));
             ////log.debug("- card "+shuffl.objectString(c));
-    		var card_id = shuffl.lastId("card_");
+            var card_id = shuffl.lastId("card_");
             equals(c.attr('id'), card_id, "card id attribute");
             ok(c.hasClass('shuffl-card'),   "shuffl card class");
             ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
@@ -187,7 +187,7 @@ TestCardFreetext = function() {
 
     test("shuffl.createCardFromData",
         function () {
-            log.debug("test shuffl.createCardFromData");
+            logtest("TestCardFreetext: shuffl.createCardFromData");
             var d = testcardfreetext_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-freetext-orange", d);
             // Check card details
@@ -205,7 +205,7 @@ TestCardFreetext = function() {
 
     test("shuffl.createDataFromCard",
         function () {
-            log.debug("test shuffl.createDataFromCard");
+            logtest("TestCardFreetext: shuffl.createDataFromCard");
             // Create card (copy of code already tested)
             var d = testcardfreetext_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-freetext-pink", d);
@@ -225,7 +225,7 @@ TestCardFreetext = function() {
 
     test("shuffl.card.freetext model setting",
         function () {
-            log.debug("shuffl.card.freetext model setting");
+            logtest("TestCardFreetext: shuffl.card.freetext model setting");
             expect(6);
             // Create card (copy of code already tested)
             var d = testcardfreetext_carddata;

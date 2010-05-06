@@ -325,7 +325,7 @@ TestCardDatagraphDrop = function()
     test("Propagate axes changes", function ()
     {
         expect(10);
-        logtest("Datagraph subscription to datatable changes");
+        logtest("Propagate axes changes");
         // Instantiate empty datagraph card
         var c   = shuffl.card.datagraph.newCard(
             "shuffl-datagraph-yellow", 'stock-yellow', "card-1",

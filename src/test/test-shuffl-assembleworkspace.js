@@ -83,7 +83,7 @@ TestAssembleWorkspaceDescription = function() {
 
     test("shuffl.assembleWorkspaceDescription",
         function () {
-            log.debug("test shuffl.assembleWorkspaceDescription");
+            logtest("shuffl.assembleWorkspaceDescription");
             shuffl.resetWorkspace(shuffl.noop);
             jQuery('#workspace').data('wsdata', testwsdata);
             shuffl.placeCardFromData(testlayoutdata,      testcardhandlers_carddata);

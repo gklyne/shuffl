@@ -166,10 +166,10 @@ TestCardDataWorksheet = function() {
         var c   = shuffl.card.dataworksheet.newCard("shuffl-dataworksheet-yellow", css, "card-1",
         	{ 'shuffl:tags': 	["card-tag"]
         	, 'shuffl:title':	"card-title"
-          , 'shuffl:uri':     "http://example.org/test-uri.csv"
+            , 'shuffl:uri':     "http://example.org/test-uri.csv"
         	, 'shuffl:table':   Test_dataworksheet_DataTable
-          , 'shuffl:labels':  Test_dataworksheet_DataLabels
-          , 'shuffl:series':  Test_dataworksheet_DataSeries
+            , 'shuffl:labels':  Test_dataworksheet_DataLabels
+            , 'shuffl:series':  Test_dataworksheet_DataSeries
         	});
         equals(c.attr('id'), "card-1",  "card id attribute");
         ok(c.hasClass('stock-yellow'),  "yellow colour class");
@@ -202,8 +202,8 @@ TestCardDataWorksheet = function() {
     {
         logtest("shuffl.createStockpiles");
         equals(jQuery('#stockbar').children().length, 1, "old stockbar content");
-    		var s1 = shuffl.createStockpile(
-    			"stock_1", "stock-yellow", "Y", "shuffl-dataworksheet-yellow");
+		var s1 = shuffl.createStockpile(
+			"stock_1", "stock-yellow", "Y", "shuffl-dataworksheet-yellow");
         var s2 = shuffl.createStockpile(
             "stock_2", "stock-blue", "B", "shuffl-dataworksheet-blue");
         var s3 = shuffl.createStockpile(
@@ -214,9 +214,9 @@ TestCardDataWorksheet = function() {
             "stock_5", "stock-pink", "P", "shuffl-dataworksheet-pink");
         var s6 = shuffl.createStockpile(
             "stock_6", "stock-purple", "P", "shuffl-dataworksheet-purple");
-    		equals(jQuery('#stockbar').children().length, 13, "new stockbar content");
-    		//1
-    		equals(s1.attr('id'), "stock_1", "stock 1 id");
+		equals(jQuery('#stockbar').children().length, 13, "new stockbar content");
+		//1
+		equals(s1.attr('id'), "stock_1", "stock 1 id");
   	    ok(s1.hasClass("stock-yellow"), "stock 1 class");
   	    equals(s1.text(), "Y", "stock 1 label");
   	    equals(typeof s1.data('makeCard'), "function", "stock 1 function");
@@ -256,11 +256,11 @@ TestCardDataWorksheet = function() {
     test("shuffl.createCardFromStock", function () 
     {
         logtest("shuffl.createCardFromStock");
-  			var s = shuffl.createStockpile(
-  			    "stock_id", "stock-green", "stock-label", "shuffl-dataworksheet-green");
-    		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
+		var s = shuffl.createStockpile(
+		    "stock_id", "stock-green", "stock-label", "shuffl-dataworksheet-green");
+		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
         ////log.debug("- card "+shuffl.objectString(c));
-    		var card_id = shuffl.lastId("card_");
+		var card_id = shuffl.lastId("card_");
         equals(c.attr('id'), card_id, "card id attribute");
         ok(c.hasClass('shuffl-card'),   "shuffl card class");
         ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
