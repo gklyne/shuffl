@@ -253,7 +253,7 @@ jQuery(document).ready(function()
         accept: "div.shuffl-stockpile",
         drop: 
             function(event, ui) {
-                /**
+                /*
                  * ui.draggable - current draggable element, a jQuery object.
                  * ui.helper - current draggable helper, a jQuery object
                  * ui.position - current position of the draggable helper { top: , left: }
