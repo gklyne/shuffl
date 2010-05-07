@@ -1,44 +1,44 @@
-{ 'shuffl:id':        'sample-4'
-, 'shuffl:class':     'shuffl:workspace'
-, 'shuffl:version':   '0.1'
-, 'shuffl:atomuri':   'http://localhost:8080/exist/atom/'
-, 'shuffl:feeduri':   'http://localhost:8080/shuffl/'
-, 'shuffl:base-uri':  '#'
-, 'shuffl:uses-prefixes':
-  [ { 'shuffl:prefix':  'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
-  , { 'shuffl:prefix':  'rdf',     'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
-  , { 'shuffl:prefix':  'rdfs',    'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
-  , { 'shuffl:prefix':  'owl',     'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
-  , { 'shuffl:prefix':  'xsd',     'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
+{ "shuffl:id":        "sample-4"
+, "shuffl:class":     "shuffl:workspace"
+, "shuffl:version":   "0.1"
+, "shuffl:atomuri":   "http://localhost:8080/exist/atom/"
+, "shuffl:feeduri":   "http://localhost:8080/shuffl/"
+, "shuffl:base-uri":  "#"
+, "shuffl:uses-prefixes":
+  [ { "shuffl:prefix":  "shuffl",  "shuffl:uri": "http://purl.org/NET/Shuffl/vocab#" }
+  , { "shuffl:prefix":  "rdf",     "shuffl:uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#" }
+  , { "shuffl:prefix":  "rdfs",    "shuffl:uri": "http://www.w3.org/2000/01/rdf-schema#" }
+  , { "shuffl:prefix":  "owl",     "shuffl:uri": "http://www.w3.org/2002/07/owl#" }
+  , { "shuffl:prefix":  "xsd",     "shuffl:uri": "http://www.w3.org/2001/XMLSchema#" }
   ]
-, 'shuffl:workspace':
-  { 'shuffl:stockbar':
-      [ { 'id': 'stockpile_10', 'class': 'stock-yellow',  'label': 'Text',  'type': 'shuffl-freetext-yellow'  }
-      , { 'id': 'stockpile_11', 'class': 'stock-blue',    'label': 'Text',  'type': 'shuffl-freetext-blue'    }
-      , { 'id': 'stockpile_12', 'class': 'stock-green',   'label': 'Text',  'type': 'shuffl-freetext-green'   }
-      , { 'id': 'stockpile_13', 'class': 'stock-orange',  'label': 'Text',  'type': 'shuffl-freetext-orange'  }
-      , { 'id': 'stockpile_14', 'class': 'stock-pink',    'label': 'Text',  'type': 'shuffl-freetext-pink'    }
-      , { 'id': 'stockpile_15', 'class': 'stock-purple',  'label': 'Text',  'type': 'shuffl-freetext-purple'  }
-      , { 'id': 'stockpile_21', 'class': 'stock-yellow',  'label': 'Image', 'type': 'shuffl-imagenotes-yellow' }
-      , { 'id': 'stockpile_22', 'class': 'stock-blue',    'label': 'Image', 'type': 'shuffl-imagenotes-blue'   }
-      , { 'id': 'stockpile_23', 'class': 'stock-green',   'label': 'Image', 'type': 'shuffl-imagenotes-green'  }
-      , { 'id': 'stockpile_24', 'class': 'stock-orange',  'label': 'Image', 'type': 'shuffl-imagenotes-orange' }
-      , { 'id': 'stockpile_25', 'class': 'stock-pink',    'label': 'Image', 'type': 'shuffl-imagenotes-pink'   }
-      , { 'id': 'stockpile_26', 'class': 'stock-purple',  'label': 'Image', 'type': 'shuffl-imagenotes-purple' }
-      , { 'id': 'stockpile_31', 'class': 'stock-yellow',  'label': 'Data',  'type': 'shuffl-dataworksheet-yellow' }
-      , { 'id': 'stockpile_32', 'class': 'stock-blue',    'label': 'Data',  'type': 'shuffl-dataworksheet-blue'   }
-      , { 'id': 'stockpile_33', 'class': 'stock-green',   'label': 'Data',  'type': 'shuffl-dataworksheet-green'  }
-      , { 'id': 'stockpile_34', 'class': 'stock-orange',  'label': 'Data',  'type': 'shuffl-dataworksheet-orange' }
-      , { 'id': 'stockpile_35', 'class': 'stock-pink',    'label': 'Data',  'type': 'shuffl-dataworksheet-pink'   }
-      , { 'id': 'stockpile_36', 'class': 'stock-purple',  'label': 'Data',  'type': 'shuffl-dataworksheet-purple' }
-      , { 'id': 'stockpile_40', 'class': 'stock-yellow',  'label': 'Plot',  'type': 'shuffl-datagraph-yellow'  }
-      , { 'id': 'stockpile_41', 'class': 'stock-blue',    'label': 'Plot',  'type': 'shuffl-datagraph-blue'    }
-      , { 'id': 'stockpile_42', 'class': 'stock-green',   'label': 'Plot',  'type': 'shuffl-datagraph-green'   }
-      , { 'id': 'stockpile_43', 'class': 'stock-orange',  'label': 'Plot',  'type': 'shuffl-datagraph-orange'  }
-      , { 'id': 'stockpile_44', 'class': 'stock-pink',    'label': 'Plot',  'type': 'shuffl-datagraph-pink'    }
-      , { 'id': 'stockpile_45', 'class': 'stock-purple',  'label': 'Plot',  'type': 'shuffl-datagraph-purple'  }
+, "shuffl:workspace":
+  { "shuffl:stockbar":
+      [ { "id": "stockpile_10", "class": "stock-yellow",  "label": "Text",  "type": "shuffl-freetext-yellow"  }
+      , { "id": "stockpile_11", "class": "stock-blue",    "label": "Text",  "type": "shuffl-freetext-blue"    }
+      , { "id": "stockpile_12", "class": "stock-green",   "label": "Text",  "type": "shuffl-freetext-green"   }
+      , { "id": "stockpile_13", "class": "stock-orange",  "label": "Text",  "type": "shuffl-freetext-orange"  }
+      , { "id": "stockpile_14", "class": "stock-pink",    "label": "Text",  "type": "shuffl-freetext-pink"    }
+      , { "id": "stockpile_15", "class": "stock-purple",  "label": "Text",  "type": "shuffl-freetext-purple"  }
+      , { "id": "stockpile_21", "class": "stock-yellow",  "label": "Image", "type": "shuffl-imagenotes-yellow" }
+      , { "id": "stockpile_22", "class": "stock-blue",    "label": "Image", "type": "shuffl-imagenotes-blue"   }
+      , { "id": "stockpile_23", "class": "stock-green",   "label": "Image", "type": "shuffl-imagenotes-green"  }
+      , { "id": "stockpile_24", "class": "stock-orange",  "label": "Image", "type": "shuffl-imagenotes-orange" }
+      , { "id": "stockpile_25", "class": "stock-pink",    "label": "Image", "type": "shuffl-imagenotes-pink"   }
+      , { "id": "stockpile_26", "class": "stock-purple",  "label": "Image", "type": "shuffl-imagenotes-purple" }
+      , { "id": "stockpile_31", "class": "stock-yellow",  "label": "Data",  "type": "shuffl-dataworksheet-yellow" }
+      , { "id": "stockpile_32", "class": "stock-blue",    "label": "Data",  "type": "shuffl-dataworksheet-blue"   }
+      , { "id": "stockpile_33", "class": "stock-green",   "label": "Data",  "type": "shuffl-dataworksheet-green"  }
+      , { "id": "stockpile_34", "class": "stock-orange",  "label": "Data",  "type": "shuffl-dataworksheet-orange" }
+      , { "id": "stockpile_35", "class": "stock-pink",    "label": "Data",  "type": "shuffl-dataworksheet-pink"   }
+      , { "id": "stockpile_36", "class": "stock-purple",  "label": "Data",  "type": "shuffl-dataworksheet-purple" }
+      , { "id": "stockpile_40", "class": "stock-yellow",  "label": "Plot",  "type": "shuffl-datagraph-yellow"  }
+      , { "id": "stockpile_41", "class": "stock-blue",    "label": "Plot",  "type": "shuffl-datagraph-blue"    }
+      , { "id": "stockpile_42", "class": "stock-green",   "label": "Plot",  "type": "shuffl-datagraph-green"   }
+      , { "id": "stockpile_43", "class": "stock-orange",  "label": "Plot",  "type": "shuffl-datagraph-orange"  }
+      , { "id": "stockpile_44", "class": "stock-pink",    "label": "Plot",  "type": "shuffl-datagraph-pink"    }
+      , { "id": "stockpile_45", "class": "stock-purple",  "label": "Plot",  "type": "shuffl-datagraph-purple"  }
       ]
-  , 'shuffl:layout':
+  , "shuffl:layout":
       [ ]
   }
 }

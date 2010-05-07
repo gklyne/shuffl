@@ -47,8 +47,7 @@ shuffl.card.selectfile = {};
 shuffl.card.selectfile.data =
     { 'shuffl:title':     undefined
     , 'shuffl:tags':      [ undefined ]
-    , 'shuffl:file':      undefined
-    , 'shuffl:baseuri':   undefined
+    , 'shuffl:fileuri':   undefined
     };
 
 /**
@@ -58,17 +57,23 @@ shuffl.card.selectfile.blank = jQuery(
     "<div class='shuffl-card-autosize' style='z-index:10;'>\n"+
     "  <chead>\n"+
     "    <chandle><c></c></chandle>" +
-    "    <ctitle>card title</ctitle>\n"+
+    "    <ctitle>(card title)</ctitle>\n"+
     "  </chead>\n"+
-    "  <div class='card.selectfile.data'>\n"+
-    "    <crow>Base URI:  <cbaseuri>(base URI)</cbaseuri></crow>\n" +
-    "    <crow>File:      <cfile>(file)</cfile></crow>\n" +
-    "    <crow>URI:       <curi>(uri)</curi></crow>\n" +
-    "  </div>\n"+
-    "  <cfoot>\n"+
-    "    <cident>card_ZZZ_ident</cident>:<cclass>card_ZZZ class</cclass>\n"+
-    "    (<ctags>card_ZZZ tags</ctags>)\n"+
-    "  </cfoot>"+
+    "  <crow>\n"+
+    "    Collection: " +
+    "    <ccoll>(collection URI)</ccoll>\n" +
+    "  </crow>\n"+
+    "  <crow>\n"+
+    "    <clist class='shuffl-nodrag'>\n"+
+    "      (File list here)\n"+
+    "      (File list 2)\n"+
+    "      (File list 3)\n"+
+    "      (File list 4)\n"+
+    "    </clist>\n"+
+    "  </crow>\n"+
+    "  <crow>" +
+    "    File: " +
+    "    <cfile>(file)</cfile></crow>\n" +
     "</div>");
 
 /**
@@ -87,12 +92,13 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     log.debug("shuffl.card.selectfile.newCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
     var card = shuffl.card.selectfile.blank.clone();
     var updateCuri = function() {
-        var b = card.model("shuffl:baseuri");
-        var f = card.model("shuffl:file");
-        //log.debug("- update curi: cbaseuri "+b);
-        //log.debug("- update curi: cfile "+f);
-        var u = jQuery.uri(f, b);
-        card.find("curi").text(u.toString());
+        var f = card.model("shuffl:fileuri");   // Full URI
+        var b = shuffl.uriPath(f);              // Collection URI
+        var n = shuffl.uriName(f);              // File name
+        card.find("ccoll").text(b.toString());
+        card.find("clist").text("(Fetching...)");
+        card.find("cfile").text(n.toString());
+        // TODO: Get list of files; populate when available
     };
     // Initialize the card object
     card.data('shuffl:class',  cardtype);
@@ -100,18 +106,15 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     card.data("shuffl:tojson", shuffl.card.selectfile.serialize);
     card.attr('id', cardid);
     card.addClass(cardcss);
-    card.find("cident").text(cardid);               // Set card id text
-    card.find("cclass").text(cardtype);             // Set card class/type text
     // Set up model listener and user input handlers
     shuffl.bindLineEditable(card, "shuffl:title",   "ctitle");
-    shuffl.bindLineEditable(card, "shuffl:tags",    "ctags");
-    shuffl.bindLineEditable(card, "shuffl:baseuri", "cbaseuri", updateCuri);
-    shuffl.bindLineEditable(card, "shuffl:file",    "cfile",    updateCuri);
+    shuffl.bindLineEditable(card, "shuffl:baseuri", "ccoll", updateCuri);
+    shuffl.bindLineEditable(card, "shuffl:file",    "cfile", updateCuri);
     // Initialize the model
-    shuffl.initModelVar(card, 'shuffl:title',   carddata, cardid);
-    shuffl.initModelVar(card, 'shuffl:tags',    carddata, [cardtype], 'array');
-    shuffl.initModelVar(card, 'shuffl:baseuri', carddata, shuffl.uriBase(".."));
-    shuffl.initModelVar(card, 'shuffl:file',    carddata, "");
+    shuffl.initModelVar(card, 'shuffl:title',    carddata, cardid);
+    shuffl.initModelVar(card, 'shuffl:tags',     carddata, [cardtype], 'array');
+    shuffl.initModelVar(card, 'shuffl:fileuri',  carddata, shuffl.uriBase("."));
+    updateCuri();
     // TODO: plug-in backend framework to provide appropriate base URI
     return card;
 };
@@ -126,9 +129,7 @@ shuffl.card.selectfile.serialize = function (card) {
     var carddata = shuffl.card.selectfile.data;
     carddata['shuffl:title']    = card.model("shuffl:title");
     carddata['shuffl:tags']     = shuffl.makeTagList(card.model("shuffl:tags"));
-    carddata['shuffl:file']     = card.model("shuffl:file");
-    carddata['shuffl:basepath'] = card.model("shuffl:basepath");
-    carddata['shuffl:baseuri']  = card.model("shuffl:baseuri");
+    carddata['shuffl:fileuri']  = card.model("shuffl:fileuri");
     return carddata;
 };
 

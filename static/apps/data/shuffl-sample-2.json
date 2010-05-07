@@ -1,34 +1,34 @@
-{ 'shuffl:id':        'sample-2'
-, 'shuffl:class':     'shuffl:workspace'
-, 'shuffl:version':   '0.1'
-, 'shuffl:atomuri':   'http://localhost:8080/exist/atom/'
-, 'shuffl:feeduri':   'data/'
-, 'shuffl:base-uri':  '#'
-, 'shuffl:uses-prefixes':
-  [ { 'shuffl:prefix':  'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
-  , { 'shuffl:prefix':  'rdf',     'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
-  , { 'shuffl:prefix':  'rdfs',    'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
-  , { 'shuffl:prefix':  'owl',     'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
-  , { 'shuffl:prefix':  'xsd',     'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
+{ "shuffl:id":        "sample-2"
+, "shuffl:class":     "shuffl:workspace"
+, "shuffl:version":   "0.1"
+, "shuffl:atomuri":   "http://localhost:8080/exist/atom/"
+, "shuffl:feeduri":   "data/"
+, "shuffl:base-uri":  "#"
+, "shuffl:uses-prefixes":
+  [ { "shuffl:prefix":  "shuffl",  "shuffl:uri": "http://purl.org/NET/Shuffl/vocab#" }
+  , { "shuffl:prefix":  "rdf",     "shuffl:uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#" }
+  , { "shuffl:prefix":  "rdfs",    "shuffl:uri": "http://www.w3.org/2000/01/rdf-schema#" }
+  , { "shuffl:prefix":  "owl",     "shuffl:uri": "http://www.w3.org/2002/07/owl#" }
+  , { "shuffl:prefix":  "xsd",     "shuffl:uri": "http://www.w3.org/2001/XMLSchema#" }
   ]
-, 'shuffl:workspace':
-  { 'shuffl:stockbar':
-      [ { 'id': 'stockpile_0', 'class': 'stock-default', 'label': 'file',  'type': 'shuffl-selectfile' }
-      , { 'id': 'stockpile_1', 'class': 'stock-yellow',  'label': 'Abc..', 'type': 'shuffl-freetext-yellow'  }
-      , { 'id': 'stockpile_2', 'class': 'stock-blue',    'label': 'Abc..', 'type': 'shuffl-freetext-blue'    }
-      , { 'id': 'stockpile_3', 'class': 'stock-green',   'label': 'Abc..', 'type': 'shuffl-freetext-green'   }
-      , { 'id': 'stockpile_4', 'class': 'stock-orange',  'label': 'Abc..', 'type': 'shuffl-freetext-orange'  }
-      , { 'id': 'stockpile_5', 'class': 'stock-pink',    'label': 'Abc..', 'type': 'shuffl-freetext-pink'    }
-      , { 'id': 'stockpile_6', 'class': 'stock-purple',  'label': 'Abc..', 'type': 'shuffl-freetext-purple'  }
-      , { 'id': 'stockpile_7', 'class': 'stock-default', 'label': 'default', 'type': 'shuffl-freetext-default' }
+, "shuffl:workspace":
+  { "shuffl:stockbar":
+      [ { "id": "stockpile_0", "class": "stock-default", "label": "file",  "type": "shuffl-selectfile" }
+      , { "id": "stockpile_1", "class": "stock-yellow",  "label": "Abc..", "type": "shuffl-freetext-yellow"  }
+      , { "id": "stockpile_2", "class": "stock-blue",    "label": "Abc..", "type": "shuffl-freetext-blue"    }
+      , { "id": "stockpile_3", "class": "stock-green",   "label": "Abc..", "type": "shuffl-freetext-green"   }
+      , { "id": "stockpile_4", "class": "stock-orange",  "label": "Abc..", "type": "shuffl-freetext-orange"  }
+      , { "id": "stockpile_5", "class": "stock-pink",    "label": "Abc..", "type": "shuffl-freetext-pink"    }
+      , { "id": "stockpile_6", "class": "stock-purple",  "label": "Abc..", "type": "shuffl-freetext-purple"  }
+      , { "id": "stockpile_7", "class": "stock-default", "label": "default", "type": "shuffl-freetext-default" }
       ]
-  , 'shuffl:layout':
-      [ { 'id': 'card_1', 'class': 'stock_1', 'data': 'shuffl_sample_2_card_1.json', 'pos': {left:100, top:30},  'size':{height:0, width:0} }
-      , { 'id': 'card_2', 'class': 'stock_2', 'data': 'shuffl_sample_2_card_2.json', 'pos': {left:150, top:60},  'size':{height:0, width:0} }
-      , { 'id': 'card_3', 'class': 'stock_3', 'data': 'shuffl_sample_2_card_3.json', 'pos': {left:200, top:90},  'size':{height:0, width:0} }
-      , { 'id': 'card_4', 'class': 'stock_4', 'data': 'shuffl_sample_2_card_4.json', 'pos': {left:250, top:120}, 'size':{height:0, width:0} }
-      , { 'id': 'card_5', 'class': 'stock_5', 'data': 'shuffl_sample_2_card_5.json', 'pos': {left:300, top:150}, 'size':{height:0, width:0} }
-      , { 'id': 'card_6', 'class': 'stock_6', 'data': 'shuffl_sample_2_card_6.json', 'pos': {left:350, top:180}, 'size':{height:0, width:0} }
+  , "shuffl:layout":
+      [ { "id": "card_1", "class": "stock_1", "data": "shuffl_sample_2_card_1.json", "pos": {"left":100, "top":30},  "size":{"height":0, "width":0} }
+      , { "id": "card_2", "class": "stock_2", "data": "shuffl_sample_2_card_2.json", "pos": {"left":150, "top":60},  "size":{"height":0, "width":0} }
+      , { "id": "card_3", "class": "stock_3", "data": "shuffl_sample_2_card_3.json", "pos": {"left":200, "top":90},  "size":{"height":0, "width":0} }
+      , { "id": "card_4", "class": "stock_4", "data": "shuffl_sample_2_card_4.json", "pos": {"left":250, "top":120}, "size":{"height":0, "width":0} }
+      , { "id": "card_5", "class": "stock_5", "data": "shuffl_sample_2_card_5.json", "pos": {"left":300, "top":150}, "size":{"height":0, "width":0} }
+      , { "id": "card_6", "class": "stock_6", "data": "shuffl_sample_2_card_6.json", "pos": {"left":350, "top":180}, "size":{"height":0, "width":0} }
       ]
   }
 }
