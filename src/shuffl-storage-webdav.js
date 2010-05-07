@@ -328,11 +328,12 @@ shuffl.WebDAVStorage.prototype.removeCollection = function (coluri, callback)
  // TODO: add type parameter
 shuffl.WebDAVStorage.prototype.create = function (coluri, slug, data, callback)
 {
-    ////log.debug(this.className+".create "+coluri+", "+slug);
+    log.debug(this.className+".create "+coluri+", "+slug);
     var self = this;
     //TODO: resolve against session base URI?
     var newuri = shuffl.normalizeUri(coluri,"",true).resolve(slug).toString();
     var m = new shuffl.AsyncComputation();
+    ////log.debug("HEAD "+newuri);
     m.eval( function (val, callback) {
         jQuery.ajax({
                 type:         "HEAD",
@@ -343,34 +344,36 @@ shuffl.WebDAVStorage.prototype.create = function (coluri, slug, data, callback)
             });     
         });
     m.eval( function (val, callback) {
-    	if (val instanceof shuffl.Error)
-    	{
-    		if (val.HTTPstatus == 404)
-    		{
-    			// Resource does not exist: OK to create
-		        if (typeof data != "string") { data = jQuery.toJSON(data); };
-    			//TODO: sort out content-type
-			    jQuery.ajax({
-			            type:         "PUT",
-			            url:          newuri,
-			            data:         data,
-                        contentType:  "application/octet-stream",
-			            success:      shuffl.StorageCommon.resolveUriOnSuccess(self, newuri, callback),
-			            error:        shuffl.ajax.requestFailed(newuri, callback),
-			            cache:        false
-			        });
-    			return;
-    		}
-    	} else {
-    		// Resource already exists: error
-	        var val = new shuffl.Error(
-	            "Create failed: resource already exists", newuri);
-	        val.HTTPstatus     = 400;
-	        val.HTTPstatusText = "Resource already exists";
-	        val.status         = "exists";
-	    }
-	    callback(val);
-        });
+        ////log.debug("HEAD response: "+shuffl.objectString(val));
+      	if (val instanceof shuffl.Error)
+      	{
+      		if (val.HTTPstatus == 404)
+      		{
+      			// Resource does not exist: OK to create
+  		        if (typeof data != "string") { data = jQuery.toJSON(data); };
+      			//TODO: sort out content-type
+            log.debug("PUT "+newuri);
+  			    jQuery.ajax({
+  			            type:         "PUT",
+  			            url:          newuri,
+  			            data:         data,
+                    contentType:  "application/octet-stream",
+  			            success:      shuffl.StorageCommon.resolveUriOnSuccess(self, newuri, callback),
+  			            error:        shuffl.ajax.requestFailed(newuri, callback),
+  			            cache:        false
+  			        });
+      			return;
+      		}
+      	} else {
+      		// Resource already exists: error
+  	        var val = new shuffl.Error(
+  	            "Create failed: resource already exists", newuri);
+  	        val.HTTPstatus     = 400;
+  	        val.HTTPstatusText = "Resource already exists";
+  	        val.status         = "exists";
+  	    }
+  	    callback(val);
+    });
     m.exec(newuri, callback);
 };
 
@@ -438,7 +441,7 @@ shuffl.WebDAVStorage.prototype.put = function (uri, data, callback)
             });     
         });
     m.eval( function (val, callback) {
-    	log.debug("HEAD returned "+shuffl.objectString(val));
+        ////log.debug("HEAD returned "+shuffl.objectString(val));
         if (val instanceof shuffl.Error)
         {
         	callback(val);
