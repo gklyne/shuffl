@@ -134,7 +134,7 @@ TestWebDAVStorage = function()
             });
         var b  = jQuery.uri(TestWebDAVStorage_baseUri);
         var ss = shuffl.makeStorageSession(b.toString());
-        equals(ss.resolve("http://localhost:8080/notest/a/b").uri, null, "Unresolved URI");
+        equals(ss.resolve("http://localhost:8080/test/a/b").uri, null, "Unresolved URI");
         equals(ss.resolve(b+"/a/b").uri, b+"/a/b", "Match absolute URI");
         equals(ss.resolve("a/b").uri, b.toString()+"a/b", "Match relative URI reference");
         equals(ss.resolve("?q").uri, b+"?q", "Match query URI reference");
@@ -206,6 +206,13 @@ TestWebDAVStorage = function()
             function (val, callback) {
                 // Create resource /shuffltest/data/test-csv.csv
                 ss.create(TestWebDAVStorage_rootUri+"shuffltest/data", "test-csv.csv", TestWebDAVStorage_test_csv, callback);
+            });
+        m.eval(
+            function (val, callback) {
+                // Delay to allow creation to complete (???)
+                log.debug("Start delay...");
+                setTimeout(function() { log.debug("End delay..."); callback(val) }, 100);
+                ////jQuery.timer(200, function() { log.debug("End delay..."); callback(val) });
             });
         m.exec(rooturi,
             function (val) {
@@ -325,7 +332,7 @@ TestWebDAVStorage = function()
                 log.debug("----- test shuffl.WebDAVStorage.info (non-existent resource) end -----");
                 start();
             });
-        stop(2000);
+        stop(3000);
     });
 
     test("shuffl.WebDAVStorage.createCollection", function ()
@@ -446,7 +453,7 @@ TestWebDAVStorage = function()
                 log.debug("----- test shuffl.WebDAVStorage.listCollection end -----");
                 start();
             });
-        stop(2000);
+        stop(3000);
     });
 
     test("shuffl.WebDAVStorage.removeCollection", function ()
@@ -517,7 +524,7 @@ TestWebDAVStorage = function()
                 log.debug("----- test shuffl.WebDAVStorage.removeCollection end -----");
                 start();
             });
-        stop(2000);
+        stop(3000);
     });
 
     test("shuffl.WebDAVStorage.create", function ()
@@ -530,10 +537,12 @@ TestWebDAVStorage = function()
         var coluri = TestWebDAVStorage_baseUri+"data/";
         m.eval(
             function (val, callback) {
+                // Creates shuffltest/data/test-csv.csv ...
                 initializeTestCollections(ss, val, callback)
             });
         m.eval(
             function (val, callback) {
+                log.debug("***** create: "+coluri+", test-csv.csv");
                 try
                 {
                     ss.create(coluri, "test-csv.csv", 
@@ -553,8 +562,9 @@ TestWebDAVStorage = function()
             });
         m.eval(
             function (val, callback) {
+                log.debug("create result: "+shuffl.objectString(val));
                 // Check return values
-                ok(val instanceof shuffl.Error, "Error returned for existing resource");
+                ok(val instanceof shuffl.Error, "Error expected for existing resource "+shuffl.objectString(val));
                 equals(val.msg, "Create failed: resource already exists", "val.msg");
                 equals(val.HTTPstatus, 400, "val.HTTPstatus");
                 equals(val.HTTPstatusText, 
@@ -603,7 +613,7 @@ TestWebDAVStorage = function()
                 log.debug("----- test shuffl.WebDAVStorage.create end -----");
                 start();
             });
-        stop(2000);
+        stop(3000);
     });
 
     test("shuffl.WebDAVStorage.get", function ()
@@ -647,7 +657,7 @@ TestWebDAVStorage = function()
                 log.debug("----- test shuffl.WebDAVStorage.get end -----");
                 start();
             });
-        stop(2000);
+        stop(3000);
     });
 
     test("shuffl.WebDAVStorage.put", function ()
@@ -712,7 +722,7 @@ TestWebDAVStorage = function()
                 log.debug("----- test shuffl.WebDAVStorage.put end -----");
                 start();
             });
-        stop(2000);
+        stop(3000);
     });
 
     test("shuffl.WebDAVStorage.remove", function ()
@@ -802,7 +812,7 @@ TestWebDAVStorage = function()
                 log.debug("----- test shuffl.WebDAVStorage.remove end -----");
                 start();
             });
-        stop(2000);
+        stop(3000);
     });
 
 };

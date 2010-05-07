@@ -148,7 +148,7 @@ TestSaveWorkspace = function() {
         });        
         m.exec({}, start);
         ok(true, "shuffl.LoadWorkspace (empty) initiated");
-        stop(2000);
+        stop(3000);
     });
 
     test("shuffl.saveNewWorkspace (empty)", function ()
@@ -184,7 +184,7 @@ TestSaveWorkspace = function() {
         });        
         m.exec({}, start);
         ok(true, "shuffl.SaveNewWorkspace (empty) initiated");
-        stop(2000);
+        stop(3000);
     });
 
     test("shuffl.saveNewWorkspace (empty:check)", function ()
@@ -226,7 +226,7 @@ TestSaveWorkspace = function() {
         });        
         m.exec({}, start);
         ok(true, "shuffl.SaveNewWorkspace (empty:check) initiated");
-        stop(2000);
+        stop(3000);
     });
 
     test("shuffl.saveCard", function ()
@@ -294,7 +294,7 @@ TestSaveWorkspace = function() {
         });
         m.exec({}, start);
         ok(true, "shuffl.saveCard initiated");
-        stop(2000);
+        stop(3000);
     });
 
     // eXist won't delete a media resource
@@ -321,7 +321,7 @@ TestSaveWorkspace = function() {
         });
         m.exec({}, start);
         ok(true, "shuffl.deleteCard initiated");
-        stop(2000);
+        stop(3000);
     });
 
     // This "test" is run to remove the card saved previously.
@@ -366,7 +366,7 @@ TestSaveWorkspace = function() {
         });
         m.exec({}, start);
         ok(true, "Reload empty workspace initiated");
-        stop(2000);
+        stop(3000);
     });
 
     // Add card to workspace, save workspace, read back, check content
@@ -490,7 +490,7 @@ TestSaveWorkspace = function() {
         });
         m.exec({}, start);
         ok(true, "shuffl.SaveNewWorkspace (with card) initiated");
-        stop(2000);
+        stop(3000);
     });
 
     // Update card in atom feed, re-read workspace, check content
@@ -563,7 +563,7 @@ TestSaveWorkspace = function() {
         });        
         m.exec({}, start);
         ok(true, "shuffl.updateCard");
-        stop(2000);
+        stop(3000);
     });
 
     // Update and move card in workspace, save workspace, read back, check content
@@ -640,7 +640,7 @@ TestSaveWorkspace = function() {
         });        
         m.exec({}, start);
         ok(true, "shuffl.SaveNewWorkspace (updated moved card) initiated");
-        stop(2000);
+        stop(3000);
     });
     
     // TODO: create workspace with mix of absolute and relative card references
@@ -677,7 +677,7 @@ TestSaveWorkspace = function() {
         });
     m.exec({}, start);
         ok(true, "shuffl.saveCard (non-existent feed) initiated");
-        stop(2000);
+        stop(3000);
     });
 
     test("shuffl.saveNewWorkspace (forced error)", function ()
@@ -708,7 +708,7 @@ TestSaveWorkspace = function() {
         });
         m.exec({}, start);
         ok(true, "shuffl.SaveNewWorkspace (forced error) initiated");
-        stop(2000);
+        stop(3000);
     });
     
 };

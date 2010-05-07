@@ -61,7 +61,7 @@ shuffl.readCard = function (session, wscoluri, dataref, callback) {
     log.debug("shuffl.readCard: "+wscoluri+", "+dataref);
     wscoluri = jQuery.uri(wscoluri, session.getBaseUri());
     var datauri = jQuery.uri(dataref, wscoluri);
-    log.debug("- datauri "+datauri);
+    ////log.debug("- datauri "+datauri);
     session.getData(datauri, "json", function (data)
     {
         if (data instanceof shuffl.Error)

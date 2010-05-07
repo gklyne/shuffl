@@ -141,7 +141,6 @@ shuffl.makeStorageSession = function (baseuri)
 {
     log.debug("shuffl.makeStorageSession "+baseuri);
     baseuri = jQuery.uri(baseuri).toString();
-    log.debug("shuffl.makeStorageSession "+baseuri);
     for (var i = 0 ; i < shuffl.storage.handlers.length ; i++)
     {
         if (shuffl.starts(shuffl.storage.handlers[i].uri, baseuri))
@@ -235,7 +234,7 @@ shuffl.StorageCommon.prototype.getBaseUri = function ()
  */
 shuffl.StorageCommon.prototype.resolve = function (uri, baseuri)
 {
-    log.debug("shuffl.StorageCommon.prototype.resolve "+uri+", "+baseuri);
+    ////log.debug("shuffl.StorageCommon.prototype.resolve "+uri+", "+baseuri);
     if (!baseuri) baseuri = "";
     var info = {uri:null};
     var baseuri = jQuery.uri(baseuri, this.baseUri);
@@ -550,7 +549,7 @@ shuffl.StorageCommon.resolveUriOnSuccess = function (self, uri, callback)
 {
     function resolveUri (data, statusText, XHR)
     {
-        log.debug("shuffl.StorageCommon.resolveUriOnSuccess "+uri);
+        ////log.debug("shuffl.StorageCommon.resolveUriOnSuccess "+uri);
         callback(self.resolve(uri));
     }
     return resolveUri
