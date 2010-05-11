@@ -1110,23 +1110,26 @@ shuffl.setCardSize = function (card, size) {
 /**
  * Move indicated element to front in its draggable group
  * 
- * Code adapted from jQuery
+ * Code adapted from jQuery 
+ * (jquery.ui.draggable.js: $.ui.plugin.add("draggable", "stack", ...) )
  */
 shuffl.toFront = function (elem) 
 {
     if (elem.data("draggable")) 
     {
-        var opts = elem.data("draggable").options;
-        var group = jQuery.makeArray(jQuery(opts.stack.group)).sort(function(a,b) 
+        var opts  = elem.data("draggable").options;
+        var group = jQuery.makeArray(jQuery(opts.stack)).sort(function(a,b) 
             {
-                return shuffl.parseInt(jQuery(a).css("zIndex"), 10, opts.stack.min) - 
-                       shuffl.parseInt(jQuery(b).css("zIndex"), 10, opts.stack.min);
+                return shuffl.parseInt(jQuery(a).css("zIndex"), 10, 0) - 
+                       shuffl.parseInt(jQuery(b).css("zIndex"), 10, 0);
             });
+        if (!group.length) { return; }   
+        var min = shuffl.parseInt(group[0].style.zIndex, 10, 0);
         jQuery(group).each(function(i) 
             {
-                this.style.zIndex = opts.stack.min + i;
+                this.style.zIndex = min + i;
             });
-        elem[0].style.zIndex = opts.stack.min + group.length;
+        elem[0].style.zIndex = min + group.length;
     };
 };
 
