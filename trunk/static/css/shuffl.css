@@ -199,6 +199,14 @@ cbody.shuffl-nodrag {
     overflow: auto;
 }
 
+clist {
+    display: block;
+}
+
+clist.shuffl-nodrag {
+    overflow: auto;
+}
+
 cnotes.shuffl-nodrag {
     overflow: auto;
 }
