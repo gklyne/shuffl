@@ -59,21 +59,27 @@ shuffl.card.selectfile.blank = jQuery(
     "    <chandle><c></c></chandle>" +
     "    <ctitle>(card title)</ctitle>\n"+
     "  </chead>\n"+
-    "  <crow>\n"+
-    "    Collection: " +
-    "    <ccoll>(collection URI)</ccoll>\n" +
-    "  </crow>\n"+
-    "  <crow>\n"+
-    "    <clist class='shuffl-nodrag'>\n"+
-    "      (File list here)<br/>\n"+
-    "      (File list 2)<br/>\n"+
-    "      (File list 3)<br/>\n"+
-    "      (File list 4)<br/>End.\n"+
-    "    </clist>\n"+
-    "  </crow>\n"+
-    "  <crow>" +
-    "    File: " +
-    "    <cfile>(file)</cfile></crow>\n" +
+    "  <ctable>\n"+
+    "    <crow>\n"+
+    "      <ccell><clabel>Collection</clabel></ccell>\n" +
+    "      <ccell><ccoll>(collection URI)</ccoll></ccell>\n" +
+    "    </crow>\n"+
+    "    <crow>\n"+
+    "      <ccell/>\n" +
+    "      <ccell>\n" +
+    "        <clist class='shuffl-nodrag'>\n"+
+    "          <cdir>dir1/</cdir>\n"+
+    "          <cdir>dir2/</cdir>\n"+
+    "          <cname>file1.csv</cname>\n"+
+    "          <cname>file2.csv</cname>\n"+
+    "        </clist>" +
+    "      </ccell>\n"+
+    "    </crow>\n"+
+    "    <crow>" +
+    "      <ccell><clabel>Filename</clabel></ccell>\n" +
+    "      <ccell><cfile>(file)</cfile></ccell>" +
+    "    </crow>\n" +
+    "  </ctable>\n"+
     "</div>");
 
 /**

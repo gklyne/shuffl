@@ -199,12 +199,47 @@ cbody.shuffl-nodrag {
     overflow: auto;
 }
 
-clist {
+ctable {
+    display: table;
+    margin: 0.2em;
+}
+
+ctable > crow {
+    display: table-row;
+}
+
+ccell {
+    display: table-cell;
+}
+
+clabel, ccoll, clist, cfile {
     display: block;
 }
 
-clist.shuffl-nodrag {
+clabel {
+    padding-right: 0.5em;
+}
+
+ccoll, cfile {
+    height: 1.2em;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+clist {
     overflow: auto;
+    border: 1px solid rgb(80%, 80%, 80%);
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding: 0.2em;
+}
+
+cdir, cname {
+    display: block;
+}
+
+cdir {
+    color: blue;
 }
 
 cnotes.shuffl-nodrag {
