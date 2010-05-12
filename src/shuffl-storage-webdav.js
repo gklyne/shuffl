@@ -201,8 +201,8 @@ shuffl.WebDAVStorage.prototype.listCollection = function (coluri, callback)
 	    	if (xhr==undefined) {
 	    		xhr={status:207, statusText: "Multi-Status"}; // TODO: remove when using jQuery 1.4
 	    	}
-	    	log.debug("XML data "+shuffl.elemString(data));
-	       callback({uri: colinfo.uri, relref:colinfo.relref, status: xhr.status, statusText:xhr.statusText, data:jQuery(data)});
+	    	////log.debug("XML data "+shuffl.elemString(data));
+	        callback({uri: colinfo.uri, relref:colinfo.relref, status: xhr.status, statusText:xhr.statusText, data:jQuery(data)});
 	    }
 	    jQuery.ajax({
 	            type:         "PROPFIND",
@@ -214,8 +214,7 @@ shuffl.WebDAVStorage.prototype.listCollection = function (coluri, callback)
 	            error:        shuffl.ajax.requestFailed(colinfo.uri, callback),
 	            cache:        false
 	        });		
-	    })
-	    ;  
+	});
 	m.eval( function (val, callback) {
         log.debug("AJAX value returned "+shuffl.objectString(val));
         if (val instanceof shuffl.Error)
@@ -230,17 +229,17 @@ shuffl.WebDAVStorage.prototype.listCollection = function (coluri, callback)
             	var e = new shuffl.Error("shuffl.WebDAVStorage.listCollection: unexpected PROPFIND status "+ val.status);
             	callback(e);
             	return
-            }            
-            var r =
-                { uri:        val.uri
-                , relref:     val.relref
-                , status:     val.status
-                , statusText: val.statusText
-                , members: []
+            }
+            var rr =
+                { "uri":        val.uri
+                , "relref":     val.relref
+                , "status":     val.status
+                , "statusText": val.statusText
+                , "members": []
                 } ;
             //TODO: revise this to be more namespace-aware
             val.data.find("D\\:response").each(function (index) {
-            	log.debug("Index "+index);
+            	////log.debug("Index "+index);
             	if (index != 0)
             	{
             		var i = session.resolve(jQuery(this).find("D\\:href").text());
@@ -252,12 +251,14 @@ shuffl.WebDAVStorage.prototype.listCollection = function (coluri, callback)
                     } else {
                     	i.type = "item"
                     };
-                    r.members.push(i);
+                    rr.members.push(i);
+                    ////log.debug("- list "+index+", entry "+shuffl.objectString(i));
             	}
             });
-            callback(r);
+	        ////log.debug("- return "+shuffl.objectString(rr));
+            callback(rr);
         };
-	    });  
+	});
     m.exec(coluri, callback);
 };
 

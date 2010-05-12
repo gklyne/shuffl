@@ -92,8 +92,9 @@ shuffl.readCard = function (session, wscoluri, dataref, callback) {
  * Load card data into the workspace.
  * 
  * Note that loading data is done using pure web GET requests, without 
- * reference to AtomPub protocol elements.  The URIs used may be different 
- * from the AtomPub editing URIs, which are stored as part of the data.
+ * reference to storage protocol specifics.  The URIs used may be different 
+ * from the storage updsate URIs (cf. AtomPub edit URIs), which are stored as 
+ * part of the data.
  * 
  * The data loaded is added to any data which may already be present.
  * 

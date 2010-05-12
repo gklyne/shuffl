@@ -97,14 +97,49 @@ shuffl.card.selectfile.blank = jQuery(
 shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) {
     log.debug("shuffl.card.selectfile.newCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
     var card = shuffl.card.selectfile.blank.clone();
-    var updateCuri = function() {
-        var f = card.model("shuffl:fileuri");           // Full URI
-        var b = card.model("shuffl:baseuri") || "" ;    // Collection URI
+    var displayFileList = function (event, data)
+    {
+        // this  = jQuery object containing changed model variable
+        // data  = {name:modelvarname, oldval:oldval, newval:value}
+        // where 'value' is a list of items:
+        //   { uri: ..., relref: ..., type: ("item" or "collection") }
+        ////log.debug("displayFileList "+shuffl.objectString(data));
+        var filelist = card.find("clist");
+        filelist.empty();
+        // TODO: sort members by type and name
+        for (i in data.newval)
+        {
+        	var tag  = (data.newval[i].type == "collection" ? "cdir" : "cname");
+        	var elem = jQuery("<"+tag+">"+data.newval[i].relref+"</"+tag+">");
+        	filelist.append(elem);
+        }
+    }
+    var updateFileList = function (val)
+    {
+    	// Callback to update file list in model
+    	// 'val' is either a Shuffl.error, or an object like:
+    	//   { uri:    (collection URI)
+    	//   , relref  (relative URI reference)
+    	//   , members (list of values of the form:
+    	//             { uri: ..., relref: ..., type: ("item" or "collection") }
+    	////log.debug("updateFileList "+shuffl.objectString(val));
+        if (val instanceof shuffl.Error)
+        {
+        	log.error("listCollection error: "+val);
+        	card.model('shuffl:filelist', []);
+        } 
+        else 
+        {
+            card.model('shuffl:filelist', val.members);
+        }
+    }
+    var updateCollectionUri = function() {
+    	// Collection URI updated: refresh file list
+        var b = card.model("shuffl:colluri") || "" ;    // Collection URI
         var n = card.model("shuffl:file") || "";        // Filename
-        //card.find("ccoll").text(b.toString());
-        //card.find("clist").text("(Fetching...)");
-        //card.find("cfile").text(n.toString());
-        // TODO: Get list of files; populate when available
+        var ss = shuffl.makeStorageSession(b);
+        card.find("clist").text("Updating...");
+        ss.listCollection(b, updateFileList);
     };
     // Initialize the card object
     card.data('shuffl:class',  cardtype);
@@ -116,19 +151,28 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     card.resizable();
     // Set up model listener and user input handlers
     shuffl.bindLineEditable(card, "shuffl:title",   "ctitle");
-    shuffl.bindLineEditable(card, "shuffl:baseuri", "ccoll", updateCuri);
-    shuffl.bindLineEditable(card, "shuffl:file",    "cfile", updateCuri);
+    shuffl.bindLineEditable(card, "shuffl:colluri", "ccoll", updateCollectionUri);
+    shuffl.bindLineEditable(card, "shuffl:file",    "cfile");
+    card.modelBind("shuffl:filelist", displayFileList);
     // Initialize the model
     shuffl.initModelVar(card, 'shuffl:title',    carddata, cardid);
     shuffl.initModelVar(card, 'shuffl:tags',     carddata, [cardtype], 'array');
     shuffl.initModelVar(card, 'shuffl:fileuri',  carddata, shuffl.uriBase("."));
+    // During initialization , split file URI into collaction and filename
+    // Card operations use these separate values, which are recombined when the card
+    // is serialized.
     var f = card.model("shuffl:fileuri");   // Full URI
     var b = shuffl.uriPath(f);              // Collection URI
     var n = shuffl.uriName(f);              // File name
-    card.model("shuffl:baseuri", b);
-    card.model("shuffl:file", n);
-    //updateCuri();
-    // TODO: plug-in backend framework to provide appropriate base URI
+    // Allow card to finish initializing (250ms), then set file name and collection URI 
+    // which triggers population of file list
+    setTimeout(
+        function () 
+        {
+		    card.model("shuffl:file", n);
+            card.model("shuffl:colluri", b);
+        },
+        250);
     return card;
 };
 

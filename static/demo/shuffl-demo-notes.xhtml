@@ -76,6 +76,11 @@
 					    , factory:  shuffl.ExistAtomStorage
 					    });
                     shuffl.addStorageHandler( 
+                        { uri:      "http://localhost/webdav/"
+                        , name:     "WebDAV"
+                        , factory:  shuffl.WebDAVStorage
+                        });
+                    shuffl.addStorageHandler( 
                         { uri:      "http://zakynthos.zoo.ox.ac.uk/data/"
                         , name:     "WebDAV"
                         , factory:  shuffl.WebDAVStorage
@@ -86,7 +91,7 @@
     
     <div id="workspace" class="shuffl-workspace">
 
-      <!-- padding top space down stockbar -->
+      <!-- padding to space down stockbar -->
       <div class="shuffl-header"></div>
 
       <!-- Stock bar goes here -->

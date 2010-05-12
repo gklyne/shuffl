@@ -349,7 +349,7 @@ shuffl.placeCardFromData = function (layout, data)
     ////log.debug("shuffl.placeCardFromData, cardid: "+cardid+", cardclass: "+cardclass);
     var newcard = shuffl.createCardFromData(cardid, cardclass, data);
     shuffl.loadId(cardid);
-    //ÊPlace card on layout
+    //ï¿½Place card on layout
     var cardsize = layout['size'] || shuffl.defaultSize;
     shuffl.placeCard(jQuery('#layout'), newcard, 
         layout['pos'], cardsize, layout['zindex']);
@@ -991,7 +991,7 @@ shuffl.redrawAfter = function (card, redrawfn, delay)
  * sub-elements in sync with any changes the main card element.
  * 
  * Contains logic to delay the redraw for 0.25 second, so that redraws
- * don't happen whilke the card is actively being resized.
+ * don't happen while the card is actively being resized.
  * 
  * @param card      card element jQuery object whose resize events are to 
  *                  be tracked.
@@ -1010,10 +1010,12 @@ shuffl.resizeHandler = function (card, selector, redrawfn)
     if (elem.length == 1) {
         var dw = card.width() - elem.width();
         var dh = card.height() - elem.height();
+        log.debug("shuffl.resizeHandler "+card.width()+", dw: "+dw);
         var handleResize = function (/*event, ui*/) 
         {
             // Track changes in width and height
             var c = jQuery(this);
+	        log.debug("handleResize "+c.width()+", dw: "+dw);
             elem.width(c.width()-dw);
             elem.height(c.height()-dh);
             ////log.debug("shuffl.resizeHandler:handleResize elem "+elem.width()+", "+elem.height());
@@ -1087,7 +1089,7 @@ shuffl.dropCard = function(frompile, tolayout, pos)
     ////log.debug("shuffl.dropCard: "+shuffl.objectString(pos));
     // Create card using stockpile card factory
     var newcard = frompile.data('makeCard')(frompile);
-    //ÊPlace card on layout
+    //ï¿½Place card on layout
     pos = shuffl.positionRelative(pos, tolayout);
     pos = shuffl.positionRel(pos, { left:5, top:1 });   // TODO calculate this properly
     shuffl.placeCard(tolayout, newcard, pos, shuffl.defaultSize, 0);

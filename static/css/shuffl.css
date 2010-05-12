@@ -120,9 +120,9 @@ ul.shuffl-rowselect li.shuffl-coloption {
     position:absolute;
 }
 
-/* Define initial size for resizable cards */
+/* Define initial size for resizable cards, otherwise fits to text */
 .shuffl-card-setsize {
-    width:20em;   
+    width:20em;
     /*height:10em;*/
 }
 
@@ -200,6 +200,7 @@ cbody.shuffl-nodrag {
 }
 
 ctable {
+    width: 100%;
     display: table;
     margin: 0.2em;
 }

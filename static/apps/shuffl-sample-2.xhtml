@@ -86,7 +86,18 @@
 
     <!--  Load a pre-existing workspace from RDF -->
 	  <script type="text/javascript">
-      jQuery(document).ready(function(){
+      jQuery(document).ready(function()
+      {
+          shuffl.addStorageHandler( 
+              { uri:      "http://localhost:8080/exist/atom/edit/"
+              , name:     "eXistAtomPub"
+              , factory:  shuffl.ExistAtomStorage
+              });
+          shuffl.addStorageHandler( 
+              { uri:      "http://localhost/webdav/"
+              , name:     "WebDAV"
+              , factory:  shuffl.WebDAVStorage
+              });
           shuffl.loadWorkspace("data/shuffl-sample-2.json", shuffl.noop);
       });
 	  </script>
