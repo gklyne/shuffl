@@ -173,6 +173,10 @@ shuffl.nodeString = function(node)
  */
 shuffl.objectString = function (obj) 
 {
+	if (typeof(obj) != "object")
+	{
+		return ""+obj;
+	};
     var str = "";
     var pre = "";
     for ( var k in obj ) {
@@ -180,7 +184,7 @@ shuffl.objectString = function (obj)
             str += pre + k + ': "' + obj[k] + '"';
             pre = ', ';
         } else if (obj[k] instanceof Array) {
-            str = pre + k + ': [' + obj[k].join() + ']';
+            str += pre + k + ': [' + mk.map(shuffl.objectString, obj[k]).join() + ']';
         } else if ( typeof obj[k] != "function" ) {
             //log.debug("  - "+k+": "+obj[k]);
             str += pre + k + ': ' + obj[k];

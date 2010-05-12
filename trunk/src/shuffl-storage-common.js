@@ -82,7 +82,7 @@ shuffl.resetStorageHandlers = function ()
 shuffl.addStorageHandler = function(options)
 {
     log.debug("shuffl.addStorageHandler");
-    ////log.debug("- options "+shuffl.objectString(options));
+    log.debug("- options "+shuffl.objectString(options));
     shuffl.storage.handlers.push(
         { uri:      options.uri.toString()
         , name:     options.name
@@ -143,8 +143,10 @@ shuffl.makeStorageSession = function (baseuri)
     baseuri = jQuery.uri(baseuri).toString();
     for (var i = 0 ; i < shuffl.storage.handlers.length ; i++)
     {
+    	log.debug("- try: "+shuffl.storage.handlers[i].uri);
         if (shuffl.starts(shuffl.storage.handlers[i].uri, baseuri))
         {
+        	log.debug("- matched");
             return new shuffl.storage.handlers[i].factory(
                 baseuri,
                 shuffl.storage.handlers[i].uri,
