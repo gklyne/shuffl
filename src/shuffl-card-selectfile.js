@@ -149,6 +149,13 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
         var f = card.model("shuffl:fileuri") || "" ;    // File URI
         var b = card.model("shuffl:collpath") || "" ;   // Collection URI path
         var n = card.model("shuffl:filename") || "";    // Filename
+        b = jQuery.uri(b, jQuery.uri(f));
+        f = jQuery.uri(n, b);
+        b = shuffl.uriPath(f);
+        n = shuffl.uriName(f);
+        log.debug( "updateCollectionUri b "+b+", n "+n);
+        card.data("shuffl:collpath", b);
+        card.data("shuffl:filename", n);
         var ss = shuffl.makeStorageSession(shuffl.uriBase(f));
         card.find("clist").text("Updating...");
         ss.listCollection(b, updateFileList);
