@@ -120,24 +120,24 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
         // TODO: sort members by type and name
         for (i in data.newval)
         {
-        	var tag  = (data.newval[i].type == "collection" ? "cdir" : "cname");
-        	var elem = jQuery("<"+tag+">"+data.newval[i].relref+"</"+tag+">");
-        	filelist.append(elem);
+            var tag  = (data.newval[i].type == "collection" ? "cdir" : "cname");
+            var elem = jQuery("<"+tag+">"+data.newval[i].relref+"</"+tag+">");
+            filelist.append(elem);
         }
     }
     var updateFileList = function (val)
     {
-    	// Callback to update file list in model
-    	// 'val' is either a Shuffl.error, or an object like:
-    	//   { uri:    (collection URI)
-    	//   , relref  (relative URI reference)
-    	//   , members (list of values of the form:
-    	//             { uri: ..., relref: ..., type: ("item" or "collection") }
-    	////log.debug("updateFileList "+shuffl.objectString(val));
+        // Callback to update file list in model
+        // 'val' is either a Shuffl.error, or an object like:
+        //   { uri:    (collection URI)
+        //   , relref  (relative URI reference)
+        //   , members (list of values of the form:
+        //             { uri: ..., relref: ..., type: ("item" or "collection") }
+        ////log.debug("updateFileList "+shuffl.objectString(val));
         if (val instanceof shuffl.Error)
         {
-        	log.error("listCollection error: "+val);
-        	card.model('shuffl:filelist', []);
+            log.error("listCollection error: "+val);
+            card.model('shuffl:filelist', []);
         } 
         else 
         {
@@ -172,17 +172,20 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     shuffl.initModelVar(card, 'shuffl:title',    carddata, cardid);
     shuffl.initModelVar(card, 'shuffl:tags',     carddata, [cardtype], 'array');
     shuffl.initModelVar(card, 'shuffl:fileuri',  carddata, shuffl.uriBase("."));
+    card.data("shuffl:filename", "");
+    card.data("shuffl:collpath", "");
     // During initialization , split file URI into collaction and filename
     // Card operations use these separate values, which are recombined when the card
     // is serialized.
-    var f = card.model("shuffl:fileuri");   // Full URI
-    var b = shuffl.uriPath(f);              // Collection URI
-    var n = shuffl.uriName(f);              // File name
+    //
     // Allow card to finish initializing (250ms), then set file name and collection URI 
     // which triggers population of file list
     setTimeout(
         function () 
         {
+            var f = card.model("shuffl:fileuri");   // Full URI
+            var b = shuffl.uriPath(f);              // Collection URI
+            var n = shuffl.uriName(f);              // File name
             card.model("shuffl:filename", n);
             card.model("shuffl:collpath", b);
         },
@@ -200,7 +203,9 @@ shuffl.card.selectfile.serialize = function (card) {
     var carddata = shuffl.card.selectfile.data;
     carddata['shuffl:title']    = card.model("shuffl:title");
     carddata['shuffl:tags']     = shuffl.makeTagList(card.model("shuffl:tags"));
-    carddata['shuffl:fileuri']  = card.model("shuffl:fileuri");
+    var b = jQuery.uri(card.model("shuffl:fileuri"));
+    var f = jQuery.uri(card.model("shuffl:collpath"), b).toString();
+    carddata['shuffl:fileuri']  = f;
     return carddata;
 };
 
