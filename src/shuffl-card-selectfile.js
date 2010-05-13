@@ -62,25 +62,36 @@ shuffl.card.selectfile.blank = jQuery(
     "  <ctable>\n"+
     "    <crow>\n"+
     "      <ccell><clabel>Collection</clabel></ccell>\n" +
-    "      <ccell><ccoll>(collection URI)</ccoll></ccell>\n" +
+    "      <ccell><ccoll>(collection path)</ccoll></ccell>\n" +
     "    </crow>\n"+
     "    <crow>\n"+
     "      <ccell/>\n" +
     "      <ccell>\n" +
     "        <clist class='shuffl-nodrag'>\n"+
-    "          <cdir>dir1/</cdir>\n"+
-    "          <cdir>dir2/</cdir>\n"+
-    "          <cname>file1.csv</cname>\n"+
-    "          <cname>file2.csv</cname>\n"+
+    "          <cdir>(dir)/</cdir>\n"+
+    "          <cname>(filename)</cname>\n"+
     "        </clist>" +
     "      </ccell>\n"+
     "    </crow>\n"+
     "    <crow>" +
     "      <ccell><clabel>Filename</clabel></ccell>\n" +
-    "      <ccell><cfile>(file)</cfile></ccell>" +
+    "      <ccell><cfile>(filename)</cfile></ccell>" +
     "    </crow>\n" +
     "  </ctable>\n"+
     "</div>");
+
+/**
+ * Template for initializing a card model, and 
+ * creating new card object for serialization.
+ */
+shuffl.card.selectfile.datamap =
+    { 'shuffl:title':         { def: '@id' }
+    , 'shuffl:tags':          { def: '@tags', type: 'array' }
+    , 'shuffl:fileuri':       { def: "" }
+    , 'shuffl:collpath':      { def: "" }
+    , 'shuffl:filelist':      { def: [], type: 'array' }
+    , 'shuffl:filename':      { def: "" }
+    };
 
 /**
  * Creates and return a new card instance.
@@ -96,7 +107,7 @@ shuffl.card.selectfile.blank = jQuery(
  */
 shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) {
     log.debug("shuffl.card.selectfile.newCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
-    var card = shuffl.card.selectfile.blank.clone();
+
     var displayFileList = function (event, data)
     {
         // this  = jQuery object containing changed model variable
@@ -134,14 +145,17 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
         }
     }
     var updateCollectionUri = function() {
-    	// Collection URI updated: refresh file list
-        var b = card.model("shuffl:colluri") || "" ;    // Collection URI
-        var n = card.model("shuffl:file") || "";        // Filename
-        var ss = shuffl.makeStorageSession(b);
+        // Collection URI updated: refresh file list
+        var f = card.model("shuffl:fileuri") || "" ;    // File URI
+        var b = card.model("shuffl:collpath") || "" ;    // Collection URI path
+        var n = card.model("shuffl:filename") || "";        // Filename
+        var ss = shuffl.makeStorageSession(f);
         card.find("clist").text("Updating...");
         ss.listCollection(b, updateFileList);
     };
+
     // Initialize the card object
+    var card = shuffl.card.selectfile.blank.clone();
     card.data('shuffl:class',  cardtype);
     card.data('shuffl:id',     cardid);
     card.data("shuffl:tojson", shuffl.card.selectfile.serialize);
@@ -151,8 +165,8 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     card.resizable();
     // Set up model listener and user input handlers
     shuffl.bindLineEditable(card, "shuffl:title",   "ctitle");
-    shuffl.bindLineEditable(card, "shuffl:colluri", "ccoll", updateCollectionUri);
-    shuffl.bindLineEditable(card, "shuffl:file",    "cfile");
+    shuffl.bindLineEditable(card, "shuffl:collpath", "ccoll", updateCollectionUri);
+    shuffl.bindLineEditable(card, "shuffl:filename",    "cfile");
     card.modelBind("shuffl:filelist", displayFileList);
     // Initialize the model
     shuffl.initModelVar(card, 'shuffl:title',    carddata, cardid);
@@ -169,8 +183,8 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     setTimeout(
         function () 
         {
-		    card.model("shuffl:file", n);
-            card.model("shuffl:colluri", b);
+    	      card.model("shuffl:filename", n);
+            card.model("shuffl:collpath", b);
         },
         250);
     return card;
