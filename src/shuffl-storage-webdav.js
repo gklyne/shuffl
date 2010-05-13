@@ -245,7 +245,7 @@ shuffl.WebDAVStorage.prototype.listCollection = function (coluri, callback)
             		var i = session.resolve(jQuery(this).find("D\\:href").text());
             		// this = DOM element
                     //if (jQuery.contains(this, "D\\:collection")) TODO: should work in jQuery 1.4
-                    if (jQuery(this).find("D\\:collection").length!=0)
+                    if (jQuery(this).find("D\\:collection").length != 0)
                     {
                     	i.type = "collection"
                     } else {
