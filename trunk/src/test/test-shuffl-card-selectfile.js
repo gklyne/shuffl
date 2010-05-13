@@ -41,8 +41,8 @@ TestCardSelectfile = function() {
     var pageuri = jQuery.uri().toString();
     var baseuri = null;
     var baseuri_list =
-        [ "http://localhost/webdav/"
-        , "http://zoo-samos.zoo.ox.ac.uk/webdav/"
+        [ "http://localhost/webdav/shuffl/static/test/"
+        , "http://zoo-samos.zoo.ox.ac.uk/webdav/shuffl/static/test/"
         ];
     for (i in baseuri_list)
     {
@@ -52,6 +52,7 @@ TestCardSelectfile = function() {
             baseuri = b;
         }
     }
+    var basepath = shuffl.uriPath(baseuri);
 
     // Check we have a suitable base URI
     test("NOTE: this test must be run from the web server used to store shuffl workspace data", function ()
@@ -74,12 +75,12 @@ TestCardSelectfile = function() {
             , factory:  shuffl.LocalFileStorage
             });
         shuffl.addStorageHandler(
-            { uri:      "http://zoo-samos.zoo.ox.ac.uk/webdav/"
+            { uri:      "http://zoo-samos.zoo.ox.ac.uk/webdav/shuffl/static/test/"
             , name:     "WebDAVsamos"
             , factory:  shuffl.WebDAVStorage
             });
         shuffl.addStorageHandler(
-            { uri:      "http://localhost/webdav/"
+            { uri:      "http://localhost/webdav/shuffl/static/test/"
             , name:     "WebDAVlocalhost"
             , factory:  shuffl.WebDAVStorage
             });
@@ -110,7 +111,7 @@ TestCardSelectfile = function() {
             var c   = shuffl.card.selectfile.newCard("shuffl-selectfile", css, "card-1",
                 { 'shuffl:tags': 	["card-tag"]
                 , 'shuffl:title':	"card-title"
-                , 'shuffl:fileuri': baseuri+"data/test-csv.csv"
+                , 'shuffl:fileuri': baseuri+"testdir/test-csv.csv"
                 });
             equals(c.attr('id'), "card-1", "card id attribute");
             //ok(c.hasClass('shuffl-card'),   "shuffl card class");
@@ -118,10 +119,22 @@ TestCardSelectfile = function() {
             ok(c.hasClass('stock-default'),   "stock-default class");
             equals(c.attr('class'), 'shuffl-card-setsize stock-default ui-resizable', "CSS class");
             ok(c.hasClass('stock-default'), "default colour class");
-        		equals(c.find("ctitle").text(), "card-title", "card title field");
-            equals(c.find("ccoll").text(), "(collection path)?", "collection path field");
-            equals(c.find("clist").text(), "(dir)/ (file)?", "collection content listing field");
-            equals(c.find("cfile").text(), "(filename)?", "file name field");
+            equals(c.find("ctitle").text(), "card-title", "card title field");
+            // Created with dummy values
+            equals(c.find("ccoll").text(), "(collection path)", "collection path field");
+            equals(c.find("clist > cdir").text(), "(dir)/", "collection content listing field (dir)");
+            equals(c.find("clist > cname").text(), "(filename)", "collection content listing field (name)");
+            equals(c.find("cfile").text(), "(filename)", "file name field");
+            // Later, after card has been placed, values are updated to reflect supplied data
+            setTimeout( function()
+                {
+		            equals(c.find("ccoll").text(), basepath+"testdir/", "collection path field");
+		            equals(c.find("clist").text(), "directory/test-csv.csv", "collection content listing field");
+		            equals(c.find("cfile").text(), "test-csv.csv", "file name field");
+		            start();
+                },
+                500);
+	        stop(2000);	            
     });
 
     test("shuffl.createStockpiles",

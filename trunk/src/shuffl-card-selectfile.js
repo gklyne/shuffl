@@ -147,9 +147,9 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     var updateCollectionUri = function() {
         // Collection URI updated: refresh file list
         var f = card.model("shuffl:fileuri") || "" ;    // File URI
-        var b = card.model("shuffl:collpath") || "" ;    // Collection URI path
-        var n = card.model("shuffl:filename") || "";        // Filename
-        var ss = shuffl.makeStorageSession(f);
+        var b = card.model("shuffl:collpath") || "" ;   // Collection URI path
+        var n = card.model("shuffl:filename") || "";    // Filename
+        var ss = shuffl.makeStorageSession(shuffl.uriBase(f));
         card.find("clist").text("Updating...");
         ss.listCollection(b, updateFileList);
     };
@@ -164,9 +164,9 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     card.data("resizeAlso", "clist");
     card.resizable();
     // Set up model listener and user input handlers
-    shuffl.bindLineEditable(card, "shuffl:title",   "ctitle");
+    shuffl.bindLineEditable(card, "shuffl:title",    "ctitle");
     shuffl.bindLineEditable(card, "shuffl:collpath", "ccoll", updateCollectionUri);
-    shuffl.bindLineEditable(card, "shuffl:filename",    "cfile");
+    shuffl.bindLineEditable(card, "shuffl:filename", "cfile");
     card.modelBind("shuffl:filelist", displayFileList);
     // Initialize the model
     shuffl.initModelVar(card, 'shuffl:title',    carddata, cardid);
@@ -183,7 +183,7 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     setTimeout(
         function () 
         {
-    	      card.model("shuffl:filename", n);
+            card.model("shuffl:filename", n);
             card.model("shuffl:collpath", b);
         },
         250);
