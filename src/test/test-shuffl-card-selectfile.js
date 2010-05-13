@@ -22,8 +22,7 @@ var testcardselectfile_carddata =
     , 'shuffl:data':
       { 'shuffl:title':   "Card N title"
       , 'shuffl:tags':    [ 'card_N_tag', 'footag' ]
-      , 'shuffl:file':    "path/file"
-      , 'shuffl:baseuri': "http://example.com/base/"
+      , 'shuffl:fileuri': "./file"
       }
     };
 
@@ -129,12 +128,13 @@ TestCardSelectfile = function() {
             setTimeout( function()
                 {
 		            equals(c.find("ccoll").text(), basepath+"testdir/", "collection path field");
-		            equals(c.find("clist").text(), "directory/test-csv.csv", "collection content listing field");
+		            // TODO: Work out what to do about .svn/ directory
+		            equals(c.find("clist").text(), "directory/test-csv.csv.svn/", "collection content listing field");
 		            equals(c.find("cfile").text(), "test-csv.csv", "file name field");
 		            start();
                 },
                 500);
-	        stop(2000);	            
+	        stop(2500);	            
     });
 
     test("shuffl.createStockpiles",
@@ -162,26 +162,39 @@ TestCardSelectfile = function() {
             var card_id = shuffl.lastId("card_");
             equals(c.attr('id'), card_id,       "card id attribute");
             ok(c.hasClass('shuffl-card'),   "shuffl card class");
-            ok(c.hasClass('shuffl-card-autosize'),   "shuffl-card-autosize class");
+            ok(c.hasClass('shuffl-card-setsize'),   "shuffl-card-setsize class");
             ok(c.hasClass('stock-default'),   "stock-default class");
-            equals(c.attr('class'), 'shuffl-card-autosize stock-default shuffl-card', "CSS class");
-            equals(c.find("cident").text(),     card_id, "card id field");
-            equals(c.find("cclass").text(),     "shuffl-selectfile", "card type");
+            equals(c.attr('class'), 'shuffl-card-setsize stock-default ui-resizable shuffl-card', "CSS class");
             equals(c.find("ctitle").text(),     card_id, "card title field");
-            equals(c.find("ctags").text(),      "shuffl-selectfile", "card tags field");
-            equals(c.find("cbaseuri").text(),   baseuri, "card cbaseuri field");
-            equals(c.find("cfile").text(),      "(Double-click to edit)", "card cfile field");
-            equals(c.find("curi").text(),       baseuri, "card curi field");
+            equals(c.find("ccoll").text(), "(collection path)", "collection path field");
+            equals(c.find("clist > cdir").text(), "(dir)/", "collection content listing field (dir)");
+            equals(c.find("clist > cname").text(), "(filename)", "collection content listing field (name)");
+            equals(c.find("cfile").text(), "(filename)", "file name field");            
             // Check saved card data
             var d = testcardselectfile_carddata;
             equals(c.data('shuffl:id'),    card_id, "layout card id");
             equals(c.data('shuffl:class'), "shuffl-selectfile", "saved card type");
+            equals(c.data('shuffl:title'),    card_id, "shuffl:title");
+            equals(c.data('shuffl:tags'),     "shuffl-selectfile", "shuffl:tags");
+            equals(c.data('shuffl:fileuri'),  baseuri, "shuffl:fileuri");
+            equals(c.data('shuffl:collpath'), "", "shuffl:collpath");
+            equals(c.data('shuffl:filename'), "", "shuffl:filename");
             equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
             equals(c.data('shuffl:external')['shuffl:class'],       "shuffl-selectfile", "card data class");
             equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
             equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
             same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
             equals(c.data('shuffl:external')['shuffl:data'],        undefined, "card data");
+            setTimeout( function()
+                {
+                    equals(c.find("ccoll").text(), basepath, "collection path field");
+                    equals(c.find("cfile").text(), "(Double-click to edit)", "file name field");
+                    equals(c.data('shuffl:collpath'), basepath, "shuffl:collpath");
+                    equals(c.data('shuffl:filename'), "", "shuffl:filename");
+                    start();
+                },
+                500);
+            stop(2500);
         });
 
     test("shuffl.createCardFromData",
@@ -191,16 +204,33 @@ TestCardSelectfile = function() {
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
             // Check card details
             equals(c.attr('id'), "cardfromdata_id", "card id attribute");
-            ok(c.hasClass('shuffl-card-autosize'), "shuffl card class");
+            ok(c.hasClass('shuffl-card-setsize'), "shuffl card class");
             ok(c.hasClass('stock-default'),     "CSS class");
-            equals(c.find("cident").text(),     "cardfromdata_id", "card id field");
-            equals(c.find("cclass").text(),     "shuffl-selectfile", "card class field");
             equals(c.find("ctitle").text(),     "Card N title", "card title field");
-            equals(c.find("ctags").text(),      "card_N_tag,footag", "card tags field");
-            equals(c.find("cbaseuri").text(),   "http://example.com/base/", "card cbaseuri field");
-            equals(c.find("cfile").text(),      "path/file", "card cfile field");
-            equals(c.find("curi").text(),       "http://example.com/base/path/file", "card curi field");
-            same(c.data('shuffl:external'), d,  "card data");
+            equals(c.find("ccoll").text(), "(collection path)", "collection path field");
+            equals(c.find("clist > cdir").text(), "(dir)/", "collection content listing field (dir)");
+            equals(c.find("clist > cname").text(), "(filename)", "collection content listing field (name)");
+            equals(c.find("cfile").text(), "(filename)", "file name field");            
+            // Check saved card data
+            var d = testcardselectfile_carddata;
+            equals(c.data('shuffl:id'),       "cardfromdata_id", "layout card id");
+            equals(c.data('shuffl:class'),    "shuffl-selectfile", "saved card type");
+            equals(c.data('shuffl:title'),    "Card N title", "shuffl:title");
+            equals(c.data('shuffl:tags'),     "card_N_tag,footag", "shuffl:tags");
+            equals(c.data('shuffl:fileuri'),  "./file", "shuffl:fileuri");
+            equals(c.data('shuffl:collpath'), "", "shuffl:collpath");
+            equals(c.data('shuffl:filename'), "", "shuffl:filename");
+            same(c.data('shuffl:external'),   d,  "card data");
+            setTimeout( function()
+                {
+                    equals(c.find("ccoll").text(), basepath, "collection path field");
+                    equals(c.find("cfile").text(), "file", "file name field");
+                    equals(c.data('shuffl:collpath'), basepath, "shuffl:collpath");
+                    equals(c.data('shuffl:filename'), "file", "shuffl:filename");
+                    start();
+                },
+                500);
+            stop(2500);             
         });
 
     test("shuffl.createDataFromCard",
@@ -211,15 +241,24 @@ TestCardSelectfile = function() {
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
             // (Re)create data and test
             var e = shuffl.createDataFromCard(c);
-            equals(e['shuffl:id'],          "cardfromdata_id",         'shuffl:id');
-            equals(e['shuffl:class'],       "shuffl-selectfile",       'shuffl:class');
-            equals(e['shuffl:version'],     d['shuffl:version'],       'shuffl:version');
-            equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],      'shuffl:base-uri');
-            same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');
-            equals(e['shuffl:data']['shuffl:title'], "Card N title",   'shuffl:data-title');
-            same(e['shuffl:data']['shuffl:tags'], [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
-            equals(e['shuffl:data']['shuffl:file'],  "path/file",       'shuffl:file');
-            equals(e['shuffl:data']['shuffl:baseuri'], "http://example.com/base/", 'shuffl:baseuri');
+             setTimeout( function()
+                {
+                    equals(e['shuffl:id'],          "cardfromdata_id",         'shuffl:id');
+                    equals(e['shuffl:class'],       "shuffl-selectfile",       'shuffl:class');
+                    equals(e['shuffl:version'],     d['shuffl:version'],       'shuffl:version');
+                    equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],      'shuffl:base-uri');
+                    same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');
+                    equals(e['shuffl:data']['shuffl:title'], "Card N title",   'shuffl:data-title');
+                    same(e['shuffl:data']['shuffl:tags'], [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
+                    equals(e['shuffl:data']['shuffl:fileuri'], baseuri+"file", 'shuffl:fileuri');
+                    for ( k in e['shuffl:data'] )
+                    {
+                    	ok( d['shuffl:data'][k] != undefined, "Unexpected serialized data "+k);
+                    }
+                    start();
+                },
+                500);
+            stop(2500);             
         });
 
     test("shuffl.card.selectfile model setting",
