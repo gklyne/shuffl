@@ -117,7 +117,16 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
         ////log.debug("displayFileList "+shuffl.objectString(data));
         var filelist = card.find("clist");
         filelist.empty();
-        // TODO: sort members by type and name
+        // Sort members by type and name
+        data.newval.sort(function (a,b)
+            {
+                if (a.type == b.type)
+                {
+                    return a.relref < b.relref ? -1 
+                         : a.relref > b.relref ? +1 : 0;
+                }
+                return a.type == "collection" ? -1 : +1;
+            });
         for (i in data.newval)
         {
             var tag  = (data.newval[i].type == "collection" ? "cdir" : "cname");
