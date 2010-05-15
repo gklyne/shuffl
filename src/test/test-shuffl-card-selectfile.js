@@ -129,7 +129,7 @@ TestCardSelectfile = function() {
                 {
                     equals(c.find("ccoll").text(), basepath+"testdir/", "collection path field");
                     // TODO: Work out what to do about .svn/ directory
-                    equals(c.find("clist").text(), "directory/test-csv.csv.svn/", "collection content listing field");
+                    equals(c.find("clist").text(), ".svn/directory/test-csv.csv", "collection content listing field");
                     equals(c.find("cfile").text(), "test-csv.csv", "file name field");
                     start();
                 },
