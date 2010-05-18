@@ -159,7 +159,7 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
         var n  = card.model("shuffl:filename") || "" ;   // File name
         f = jQuery.uri(n, jQuery.uri(p, jQuery.uri(f)));
         var b  = shuffl.uriBase(f);
-        ////log.debug( "updateFileUri: f "+f+", b "+b+", p "+p+", n "+n);
+        log.debug( "updateFileUri: f "+f+", b "+b+", p "+p+", n "+n);
         card.model("shuffl:fileuri", f);
         // Generate new file list if base URI has changed
         if (card.model("shuffl:collbase") != b)
@@ -170,14 +170,17 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
             ss.listCollection(b, updateFileList);
         };
     };
+    var resolvePath = function (p) {
+        var f = card.model("shuffl:fileuri");
+        log.debug("resolvePath: p "+p+", f "+f);
+        return shuffl.uriPath(jQuery.uri(p, f));
+    };
     var updatedCollectionUri = function() {
         // Collection URI updated
         var p = card.model("shuffl:collpath") || "" ;   // Collection URI path
         var n = shuffl.uriName(p);
         ////log.debug("updatedCollectionUri: p "+p+", n "+n);
-        var f  = card.model("shuffl:fileuri");
-        p = shuffl.uriPath(jQuery.uri(p, f));
-        ////log.debug("updatedCollectionUri: f "+f+", p "+p+", n "+n);
+        p = resolvePath(p);
         if (n != "")
         {
             card.model("shuffl:filename", n);
@@ -192,11 +195,11 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     var updatedFilename = function() {
         // File name updated
         var n = card.model("shuffl:filename") || "" ;   // File name
-        ////log.debug("updatedFilename: n "+n);
+        log.debug("updatedFilename: n "+n);
         if (n.match(/\//))
         {
             card.model("shuffl:filename", shuffl.uriName(n));
-            card.model("shuffl:collpath", shuffl.uriPath(n));
+            card.model("shuffl:collpath", resolvePath(n));
         }
         else
         {
