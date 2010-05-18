@@ -143,10 +143,8 @@ shuffl.makeStorageSession = function (baseuri)
     baseuri = jQuery.uri(baseuri).toString();
     for (var i = 0 ; i < shuffl.storage.handlers.length ; i++)
     {
-    	log.debug("- try: "+shuffl.storage.handlers[i].uri);
         if (shuffl.starts(shuffl.storage.handlers[i].uri, baseuri))
         {
-        	log.debug("- matched");
             return new shuffl.storage.handlers[i].factory(
                 baseuri,
                 shuffl.storage.handlers[i].uri,

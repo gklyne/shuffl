@@ -136,7 +136,7 @@ TestCardSelectfile = function() {
                 500);
             stop(2500);                
     });
-
+    
     test("shuffl.createStockpiles",
         function () {
             logtest("TestCardSelectfile: shuffl.createStockpiles");
@@ -277,7 +277,7 @@ TestCardSelectfile = function() {
         function () {
 		    var nextcallback;
             logtest("TestCardSelectfile: shuffl.card.selectfile model setting");
-            expect(21);
+            expect(28);
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
@@ -307,12 +307,11 @@ TestCardSelectfile = function() {
                 checkFileList(c, "path:testdir", baseuri+"testdir/", files, types);
                 equals(c.data('shuffl:filename'), "file", "shuffl:filename");
                 // Update collection path with new filename
-                nextcallback = callback;
-                c.modelBind("shuffl:filelist", nextcallback);
                 c.model("shuffl:collpath", "newfile");
+                // No refresh of file list this time..
+                callback(val);
             })
             m.eval(function(val,callback) {
-                c.modelUnbind("shuffl:filelist", nextcallback);
                 var files = [".svn/", "directory/", "test-csv.csv"];
                 var types = ["collection", "collection", "item"];
                 equals(c.data('shuffl:collpath'), basepath+"testdir/", "shuffl:collpath");
