@@ -348,6 +348,81 @@ TestCardSelectfile = function() {
             stop(2500);
     });
 
+    test("shuffl.card.selectfile model 'shuffl:filename' setting",
+        function () {
+        var nextcallback;
+            logtest("TestCardSelectfile: shuffl.card.selectfile model setting");
+            expect(46);
+            // Create card (copy of code already tested)
+            var d = testcardselectfile_carddata;
+            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
+            var m = new shuffl.AsyncComputation();
+            m.eval(function(val,callback) {
+                // Continue testing after card is fully initialized
+                setTimeout(callback, 500);
+            });
+            m.eval(function(val,callback) {
+                // Check updatable values
+                equals(c.find("ctitle").text(), "Card N title", "card title field");
+                equals(c.data('shuffl:collpath'), basepath, "shuffl:collpath");
+                equals(c.data('shuffl:filename'), "file",   "shuffl:filename");
+                // Simulate user input: set model to update title
+                c.model("shuffl:title", "Card N updated");
+                equals(c.find("ctitle").text(), "Card N updated", "updated title field");
+                // Update collection path with new directory
+                nextcallback = callback;
+                c.modelBind("shuffl:filelist", nextcallback);
+                c.model("shuffl:filename", "testdir/");
+            });
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                var files = [".svn/", "directory/", "test-csv.csv"];
+                var types = ["collection", "collection", "item"];
+                equals(c.data('shuffl:collpath'), basepath+"testdir/", "shuffl:collpath");
+                checkFileList(c, "path:testdir", baseuri+"testdir/", files, types);
+                equals(c.data('shuffl:filename'), "", "shuffl:filename");
+                // Update collection path with new filename
+                c.model("shuffl:filename", "newfile");
+                // No refresh of file list this time..
+                callback(val);
+            })
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                var files = [".svn/", "directory/", "test-csv.csv"];
+                var types = ["collection", "collection", "item"];
+                equals(c.data('shuffl:collpath'), basepath+"testdir/", "shuffl:collpath");
+                checkFileList(c, "path:testdir", baseuri+"testdir/", files, types);
+                equals(c.data('shuffl:filename'), "newfile", "shuffl:filename");
+                // Update collection path with new directory and filename
+                nextcallback = callback;
+                c.modelBind("shuffl:filelist", nextcallback);
+                c.model("shuffl:filename", "directory/file3.c");
+            }); 
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                var files = [".svn/", "file1.a", "file1.b", "file2.a"];
+                var types = ["collection", "item", "item", "item"];
+                equals(c.data('shuffl:collpath'), basepath+"testdir/directory/", "shuffl:collpath");
+                checkFileList(c, "path:testdir", baseuri+"testdir/directory/", files, types);
+                equals(c.data('shuffl:filename'), "file3.c", "shuffl:filename");
+                // Update collection path with non-existent directory
+                nextcallback = callback;
+                c.modelBind("shuffl:filelist", nextcallback);
+                c.model("shuffl:filename", "../nosuchdirectory/file");
+            }); 
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                var files = [];
+                var types = [];
+                equals(c.data('shuffl:collpath'), basepath+"testdir/nosuchdirectory/", "shuffl:collpath");
+                checkFileList(c, "path:testdir", baseuri+"testdir/nosuchdirectory/", files, types);
+                equals(c.data('shuffl:filename'), "file", "shuffl:filename");
+                callback(val);
+            }); 
+            m.exec({}, start);
+            stop(2500);
+    });
+
 /*
             // Simulate user input: set model to update title, tags and body text
             // Update title and tags
