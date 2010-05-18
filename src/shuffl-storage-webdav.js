@@ -184,7 +184,7 @@ shuffl.WebDAVStorage.prototype.listCollection = function (coluri, callback)
     };
     var session = this;
     var colinfo = this.resolve(coluri);
-    log.debug("shuffl.WebDAVStorage.prototype.listCollection "+jQuery.toJSON(colinfo));
+    ////log.debug("shuffl.WebDAVStorage.prototype.listCollection "+jQuery.toJSON(colinfo));
     var m = new shuffl.AsyncComputation();
     var propResourceType = 
         "<?xml version=\"1.0\"?>\r\n"+
@@ -195,28 +195,28 @@ shuffl.WebDAVStorage.prototype.listCollection = function (coluri, callback)
         XHR.setRequestHeader("Content-Type", "text/xml");
         return true;
     };
-	m.eval( function (val, callback) {
-	    function successResponse(data, statustext, xhr)
-	    {
-	    	if (xhr==undefined) {
-	    		xhr={status:207, statusText: "Multi-Status"}; // TODO: remove when using jQuery 1.4
-	    	}
-	    	////log.debug("XML data "+shuffl.elemString(data));
-	        callback({uri: colinfo.uri, relref:colinfo.relref, status: xhr.status, statusText:xhr.statusText, data:jQuery(data)});
-	    }
-	    jQuery.ajax({
-	            type:         "PROPFIND",
-	            url:          colinfo.uri,
-	            data:         propResourceType,
-	            dataType:     "xml",
-	            beforeSend:   addDepthHeader,
-	            success:      successResponse,
-	            error:        shuffl.ajax.requestFailed(colinfo.uri, callback),
-	            cache:        false
-	        });		
-	});
-	m.eval( function (val, callback) {
-        log.debug("AJAX value returned "+shuffl.objectString(val));
+    m.eval( function (val, callback) {
+        function successResponse(data, statustext, xhr)
+        {
+            if (xhr==undefined) {
+                xhr={status:207, statusText: "Multi-Status"}; // TODO: remove when using jQuery 1.4
+            }
+            ////log.debug("XML data "+shuffl.elemString(data));
+            callback({uri: colinfo.uri, relref:colinfo.relref, status: xhr.status, statusText:xhr.statusText, data:jQuery(data)});
+        }
+        jQuery.ajax({
+                type:         "PROPFIND",
+                url:          colinfo.uri,
+                data:         propResourceType,
+                dataType:     "xml",
+                beforeSend:   addDepthHeader,
+                success:      successResponse,
+                error:        shuffl.ajax.requestFailed(colinfo.uri, callback),
+                cache:        false
+            });        
+    });
+    m.eval( function (val, callback) {
+        ////log.debug("WebDAVStorage.prototype.listCollection: PROPFIND returned "+shuffl.objectString(val));
         if (val instanceof shuffl.Error)
         {
             callback(val);
@@ -226,9 +226,9 @@ shuffl.WebDAVStorage.prototype.listCollection = function (coluri, callback)
             // Success: val is a structure containing a jQuery object
             if (val.status != 207)
             {
-            	var e = new shuffl.Error("shuffl.WebDAVStorage.listCollection: unexpected PROPFIND status "+ val.status);
-            	callback(e);
-            	return
+                var e = new shuffl.Error("shuffl.WebDAVStorage.listCollection: unexpected PROPFIND status "+ val.status);
+                callback(e);
+                return
             }
             var rr =
                 { "uri":        val.uri
@@ -239,26 +239,26 @@ shuffl.WebDAVStorage.prototype.listCollection = function (coluri, callback)
                 } ;
             //TODO: revise this to be more namespace-aware
             val.data.find("D\\:response").each(function (index) {
-            	////log.debug("Index "+index);
-            	if (index != 0)
-            	{
-            		var i = session.resolve(jQuery(this).find("D\\:href").text());
-            		// this = DOM element
+                ////log.debug("Index "+index);
+                if (index != 0)
+                {
+                    var i = session.resolve(jQuery(this).find("D\\:href").text());
+                    // this = DOM element
                     //if (jQuery.contains(this, "D\\:collection")) TODO: should work in jQuery 1.4
                     if (jQuery(this).find("D\\:collection").length != 0)
                     {
-                    	i.type = "collection"
+                        i.type = "collection"
                     } else {
-                    	i.type = "item"
+                        i.type = "item"
                     };
                     rr.members.push(i);
                     ////log.debug("- list "+index+", entry "+shuffl.objectString(i));
-            	}
+                }
             });
-	        ////log.debug("- return "+shuffl.objectString(rr));
+            ////log.debug("- return "+shuffl.objectString(rr));
             callback(rr);
         };
-	});
+    });
     m.exec(coluri, callback);
 };
 
@@ -283,22 +283,22 @@ shuffl.WebDAVStorage.prototype.removeCollection = function (coluri, callback)
 {
     ////log.debug(this.className+".removeCollection "+coluri);
     jQuery.ajax({
-            type:         "DELETE",
-            url:          coluri.toString(),
-            //data:         jQuery.toJSON(cardext), 
-            //contentType:  "application/json",
-            //dataType:     "xml",    // Atom feed info expected as XML
-            //beforeSend:   function (xhr, opts) { xhr.setRequestHeader("SLUG", "cardloc"); },
-            //dataFilter:   examineRawData,
-            success:      shuffl.ajax.decodeResponse(coluri, function (x) { callback(null) }, false),
-            error:        shuffl.ajax.requestFailed(coluri, callback),
-            //complete:     responseComplete,
-            //username:     "...",
-            //password:     "...",
-            //timeout:      20000,     // Milliseconds
-            //async:        true,
-            cache:        false
-        });
+          type:         "DELETE",
+          url:          coluri.toString(),
+          //data:         jQuery.toJSON(cardext), 
+          //contentType:  "application/json",
+          //dataType:     "xml",    // Atom feed info expected as XML
+          //beforeSend:   function (xhr, opts) { xhr.setRequestHeader("SLUG", "cardloc"); },
+          //dataFilter:   examineRawData,
+          success:      shuffl.ajax.decodeResponse(coluri, function (x) { callback(null) }, false),
+          error:        shuffl.ajax.requestFailed(coluri, callback),
+          //complete:     responseComplete,
+          //username:     "...",
+          //password:     "...",
+          //timeout:      20000,     // Milliseconds
+          //async:        true,
+          cache:        false
+      });
 };
 
 /**
@@ -335,7 +335,8 @@ shuffl.WebDAVStorage.prototype.create = function (coluri, slug, data, callback)
     var newuri = shuffl.normalizeUri(coluri,"",true).resolve(slug).toString();
     var m = new shuffl.AsyncComputation();
     ////log.debug("HEAD "+newuri);
-    m.eval( function (val, callback) {
+    m.eval( function (val, callback)
+        {
         jQuery.ajax({
                 type:         "HEAD",
                 url:          newuri,
@@ -346,34 +347,34 @@ shuffl.WebDAVStorage.prototype.create = function (coluri, slug, data, callback)
         });
     m.eval( function (val, callback) {
         ////log.debug("HEAD response: "+shuffl.objectString(val));
-      	if (val instanceof shuffl.Error)
-      	{
-      		if (val.HTTPstatus == 404)
-      		{
-      			// Resource does not exist: OK to create
-  		        if (typeof data != "string") { data = jQuery.toJSON(data); };
-      			//TODO: sort out content-type
-            log.debug("PUT "+newuri);
-  			    jQuery.ajax({
-  			            type:         "PUT",
-  			            url:          newuri,
-  			            data:         data,
-                    contentType:  "application/octet-stream",
-  			            success:      shuffl.StorageCommon.resolveUriOnSuccess(self, newuri, callback),
-  			            error:        shuffl.ajax.requestFailed(newuri, callback),
-  			            cache:        false
-  			        });
-      			return;
-      		}
-      	} else {
-      		// Resource already exists: error
-  	        var val = new shuffl.Error(
-  	            "Create failed: resource already exists", newuri);
-  	        val.HTTPstatus     = 400;
-  	        val.HTTPstatusText = "Resource already exists";
-  	        val.status         = "exists";
-  	    }
-  	    callback(val);
+        if (val instanceof shuffl.Error)
+        {
+            if (val.HTTPstatus == 404)
+            {
+                // Resource does not exist: OK to create
+                if (typeof data != "string") { data = jQuery.toJSON(data); };
+                //TODO: sort out content-type
+                log.debug("PUT "+newuri);
+                jQuery.ajax({
+                        type:         "PUT",
+                        url:          newuri,
+                        data:         data,
+                        contentType:  "application/octet-stream",
+                        success:      shuffl.StorageCommon.resolveUriOnSuccess(self, newuri, callback),
+                        error:        shuffl.ajax.requestFailed(newuri, callback),
+                        cache:        false
+                    });
+                return;
+            }
+        } else {
+            // Resource already exists: error
+            var val = new shuffl.Error(
+                "Create failed: resource already exists", newuri);
+            val.HTTPstatus     = 400;
+            val.HTTPstatusText = "Resource already exists";
+            val.status         = "exists";
+        }
+        callback(val);
     });
     m.exec(newuri, callback);
 };
@@ -432,7 +433,7 @@ shuffl.WebDAVStorage.prototype.put = function (uri, data, callback)
     uri = shuffl.normalizeUri(this.resolve(uri).uri,"",false).toString();
     var m = new shuffl.AsyncComputation();
     m.eval( function (val, callback) {
-    	log.debug("Issue HEAD "+uri);
+        log.debug("Issue HEAD "+uri);
         jQuery.ajax({
                 type:         "HEAD",
                 url:          uri,
@@ -445,8 +446,8 @@ shuffl.WebDAVStorage.prototype.put = function (uri, data, callback)
         ////log.debug("HEAD returned "+shuffl.objectString(val));
         if (val instanceof shuffl.Error)
         {
-        	callback(val);
-        	return;
+            callback(val);
+            return;
         }
         if (typeof data != "string") { data = jQuery.toJSON(data); };
         //TODO: sort out proper content-type
