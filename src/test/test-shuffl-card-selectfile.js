@@ -277,7 +277,7 @@ TestCardSelectfile = function() {
         function () {
 		    var nextcallback;
             logtest("TestCardSelectfile: shuffl.card.selectfile model setting");
-            expect(28);
+            expect(46);
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
@@ -318,10 +318,30 @@ TestCardSelectfile = function() {
                 equals(c.data('shuffl:collpath'), basepath+"testdir/", "shuffl:collpath");
                 checkFileList(c, "path:testdir", baseuri+"testdir/", files, types);
                 equals(c.data('shuffl:filename'), "newfile", "shuffl:filename");
-                // Update collection path with new filename
-                //nextcallback = callback;
-                //c.modelBind("shuffl:filelist", nextcallback);
-                //c.model("shuffl:collpath", "newfile");
+                // Update collection path with new directory and filename
+                nextcallback = callback;
+                c.modelBind("shuffl:filelist", nextcallback);
+                c.model("shuffl:collpath", "directory/file3.c");
+            }); 
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                var files = [".svn/", "file1.a", "file1.b", "file2.a"];
+                var types = ["collection", "item", "item", "item"];
+                equals(c.data('shuffl:collpath'), basepath+"testdir/directory/", "shuffl:collpath");
+                checkFileList(c, "path:testdir", baseuri+"testdir/directory/", files, types);
+                equals(c.data('shuffl:filename'), "file3.c", "shuffl:filename");
+                // Update collection path with non-existent directory
+                nextcallback = callback;
+                c.modelBind("shuffl:filelist", nextcallback);
+                c.model("shuffl:collpath", "../nosuchdirectory/");
+            }); 
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                var files = [];
+                var types = [];
+                equals(c.data('shuffl:collpath'), basepath+"testdir/nosuchdirectory/", "shuffl:collpath");
+                checkFileList(c, "path:testdir", baseuri+"testdir/nosuchdirectory/", files, types);
+                equals(c.data('shuffl:filename'), "file3.c", "shuffl:filename");
                 callback(val);
             }); 
             m.exec({}, start);
