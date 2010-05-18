@@ -312,6 +312,7 @@ TestCardSelectfile = function() {
                 callback(val);
             })
             m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
                 var files = [".svn/", "directory/", "test-csv.csv"];
                 var types = ["collection", "collection", "item"];
                 equals(c.data('shuffl:collpath'), basepath+"testdir/", "shuffl:collpath");
