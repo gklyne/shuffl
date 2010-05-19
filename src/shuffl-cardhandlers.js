@@ -1015,7 +1015,7 @@ shuffl.resizeHandler = function (card, selector, redrawfn)
         {
             // Track changes in width and height
             var c = jQuery(this);
-	        log.debug("handleResize "+c.width()+", dw: "+dw);
+            ////log.debug("handleResize "+c.width()+", dw: "+dw);
             elem.width(c.width()-dw);
             elem.height(c.height()-dh);
             ////log.debug("shuffl.resizeHandler:handleResize elem "+elem.width()+", "+elem.height());

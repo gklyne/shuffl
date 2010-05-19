@@ -108,6 +108,44 @@ shuffl.card.selectfile.datamap =
 shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) {
     log.debug("shuffl.card.selectfile.newCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
 
+    var filelistelemSelected = function (val)
+    {
+        // This function is provided as a means of testing the file list click 
+        // handler, and is invoked by setting model "shuffl:filelistelem" to
+        // the index (0-based) of a list element whose click is to be simulated.
+        var i = card.model("shuffl:filelistelem");
+        var e = card.find("clist > *")[i];
+        filelistClicked({target:e});
+    };
+
+    var filelistClicked = function (event)
+    {
+        // Note: on the surface, it would be possible to shortcut most of this 
+        // logic by simply using jQyery(event.target).text(), but I have 
+        // observed that it is possible to generate button clicks that do not
+        // correspond to child elements of the <clist> element - probably the
+        // scroll bar.  Hence, scan through the known child elements and look
+        // for a match with .index().
+        //
+        // this = <clist> element
+        ////log.debug("filelistClicked "+shuffl.elemString(this));
+        ////log.debug("- event.target "+shuffl.elemString(event.target));
+        ////jQuery(event.target).css("border", "2px dotted blue");
+        var n = null;
+        card.find("clist > *").each(function (rownum)
+        {
+            // this = dom element in list
+            ////log.debug("filelistelem "+rownum+", "+shuffl.elemString(this));
+            if (jQuery(this).index(event.target) >= 0) 
+            {
+                n = jQuery(this).text();
+                ////log.debug("- match rownum "+rownum+", text "+n);
+            };
+        });
+        if (n) card.model("shuffl:filename", n);
+        return true;
+    };
+
     var displayFileList = function (event, data)
     {
         // this  = jQuery object containing changed model variable
@@ -221,6 +259,9 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     shuffl.bindLineEditable(card, "shuffl:collpath", "ccoll", updatedCollectionUri);
     shuffl.bindLineEditable(card, "shuffl:filename", "cfile", updatedFilename);
     card.modelBind("shuffl:filelist", displayFileList);
+    // Hook up file-list click handler
+    card.find("clist").click(filelistClicked);
+    card.modelBind("shuffl:filelistelem", filelistelemSelected);  // For testing
     // Initialize the model
     shuffl.initModelVar(card, 'shuffl:title',    carddata, cardid);
     shuffl.initModelVar(card, 'shuffl:tags',     carddata, [cardtype], 'array');
