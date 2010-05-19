@@ -172,6 +172,7 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
             filelist.append(elem);
         }
     };
+
     var updateFileList = function (val)
     {
         // Callback to update file list in model
@@ -191,13 +192,15 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
             card.model('shuffl:filelist', val.members);
         }
     };
+
     var updateFileUri = function() {
         var f  = card.model("shuffl:fileuri")  || "" ;   // File URI
         var p  = card.model("shuffl:collpath") || "" ;   // Collection URI path
         var n  = card.model("shuffl:filename") || "" ;   // File name
+        ////log.debug( "updateFileUri: f "+f+", p "+p+", n "+n);
         f = jQuery.uri(n, jQuery.uri(p, jQuery.uri(f)));
         var b  = shuffl.uriBase(f);
-        log.debug( "updateFileUri: f "+f+", b "+b+", p "+p+", n "+n);
+        ////log.debug( "updateFileUri: f "+f+", b "+b+", p "+p+", n "+n);
         card.model("shuffl:fileuri", f);
         // Generate new file list if base URI has changed
         if (card.model("shuffl:collbase") != b)
@@ -208,11 +211,13 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
             ss.listCollection(b, updateFileList);
         };
     };
+
     var resolvePath = function (p) {
         var f = card.model("shuffl:fileuri");
-        log.debug("resolvePath: p "+p+", f "+f);
+        ////log.debug("resolvePath: p "+p+", f "+f);
         return shuffl.uriPath(jQuery.uri(p, f));
     };
+
     var updatedCollectionUri = function(_event, data) {
         if (data.newval == data.oldval) return;
         ////log.debug("updatedCollectionUri: oldval "+data.oldval+", newval "+data.newval);
@@ -220,32 +225,23 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
         var p = card.model("shuffl:collpath") || "" ;   // Collection URI path
         var n = shuffl.uriName(p);
         ////log.debug("updatedCollectionUri: p "+p+", n "+n);
-        p = resolvePath(p);
+        p = resolvePath(p);   // Do this before setting filename
+        card.model("shuffl:collpath", p);
         if (n != "")
         {
             card.model("shuffl:filename", n);
-            card.model("shuffl:collpath", p);
-        }
-        else
-        {
-            card.model("shuffl:collpath", p);
-            updateFileUri();           
-        }
+        };
+        updateFileUri();           
     };
+
     var updatedFilename = function(_event, data) {
         if (data.newval == data.oldval) return;
         // File name updated
         var n = card.model("shuffl:filename") || "" ;   // File name
-        log.debug("updatedFilename: n "+n);
-        if (n.match(/\//))
-        {
-            card.model("shuffl:filename", shuffl.uriName(n));
-            card.model("shuffl:collpath", resolvePath(n));
-        }
-        else
-        {
-            updateFileUri();            
-        }
+        ////log.debug("updatedFilename: n "+n);
+        card.model("shuffl:filename", shuffl.uriName(n));
+        card.model("shuffl:collpath", resolvePath(n));
+        updateFileUri();            
     };
 
     // Initialize the card object
@@ -268,7 +264,8 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     // Initialize the model
     shuffl.initModelVar(card, 'shuffl:title',    carddata, cardid);
     shuffl.initModelVar(card, 'shuffl:tags',     carddata, [cardtype], 'array');
-    shuffl.initModelVar(card, 'shuffl:fileuri',  carddata, shuffl.uriBase("."));
+    shuffl.initModelVar(card, 'shuffl:fileuri',  carddata, "./");
+    card.data("shuffl:fileuri", jQuery.uri(card.data("shuffl:fileuri")));
     card.data("shuffl:filename", "");
     card.data("shuffl:collpath", "");
     card.data("shuffl:collbase", "(initializing...)");

@@ -217,7 +217,7 @@ TestCardSelectfile = function() {
             equals(c.data('shuffl:class'),    "shuffl-selectfile", "saved card type");
             equals(c.data('shuffl:title'),    "Card N title", "shuffl:title");
             equals(c.data('shuffl:tags'),     "card_N_tag,footag", "shuffl:tags");
-            equals(c.data('shuffl:fileuri'),  "./file", "shuffl:fileuri");
+            equals(c.data('shuffl:fileuri'),  baseuri+"file", "shuffl:fileuri");
             equals(c.data('shuffl:collpath'), "", "shuffl:collpath");
             equals(c.data('shuffl:filename'), "", "shuffl:filename");
             same(c.data('shuffl:external'),   d,  "card data");
