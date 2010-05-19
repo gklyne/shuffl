@@ -518,6 +518,13 @@ shuffl.serializeModel = function (card, datamap)
  * 
  * Example:
  *    card.modelBind("shuffl:title", modelSetText(card.find("ctitle"),true));
+ * 
+ * The callback is invoked thus:
+ *   thencall(event, data) {
+ *      // this  = jQuery object containing changed model variable
+ *      // event = jQuery event object
+ *      // data  = {name:modelvarname, oldval:oldval, newval:value}
+ *   };
  */
 shuffl.modelSetText = function (fieldobj, holder, thencall)
 {

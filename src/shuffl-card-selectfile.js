@@ -213,7 +213,9 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
         log.debug("resolvePath: p "+p+", f "+f);
         return shuffl.uriPath(jQuery.uri(p, f));
     };
-    var updatedCollectionUri = function() {
+    var updatedCollectionUri = function(_event, data) {
+        if (data.newval == data.oldval) return;
+        ////log.debug("updatedCollectionUri: oldval "+data.oldval+", newval "+data.newval);
         // Collection URI updated
         var p = card.model("shuffl:collpath") || "" ;   // Collection URI path
         var n = shuffl.uriName(p);
@@ -226,11 +228,12 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
         }
         else
         {
-            card.data("shuffl:collpath", p);
-            updateFileUri();            
+            card.model("shuffl:collpath", p);
+            updateFileUri();           
         }
     };
-    var updatedFilename = function() {
+    var updatedFilename = function(_event, data) {
+        if (data.newval == data.oldval) return;
         // File name updated
         var n = card.model("shuffl:filename") || "" ;   // File name
         log.debug("updatedFilename: n "+n);
