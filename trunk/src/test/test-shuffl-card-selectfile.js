@@ -277,7 +277,7 @@ TestCardSelectfile = function() {
         function () {
 		    var nextcallback;
             logtest("TestCardSelectfile: shuffl.card.selectfile model setting");
-            expect(46);
+            expect(60);
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
@@ -330,10 +330,24 @@ TestCardSelectfile = function() {
                 equals(c.data('shuffl:collpath'), basepath+"testdir/directory/", "shuffl:collpath");
                 checkFileList(c, "path:testdir", baseuri+"testdir/directory/", files, types);
                 equals(c.data('shuffl:filename'), "file3.c", "shuffl:filename");
+                equals(c.find("ccoll").text(), basepath+"testdir/directory/", "<ccoll>");
+                // Update collection path with new directory and filename
+                nextcallback = callback;
+                c.modelBind("shuffl:filelist", nextcallback);
+                c.model("shuffl:collpath", basepath+"testdir/directory/../");
+            }); 
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                var files = [".svn/", "directory/", "test-csv.csv"];
+                var types = ["collection", "collection", "item"];
+                equals(c.data('shuffl:collpath'), basepath+"testdir/", "shuffl:collpath");
+                checkFileList(c, "path:testdir", baseuri+"testdir/", files, types);
+                equals(c.data('shuffl:filename'), "file3.c", "shuffl:filename");
+                equals(c.find("ccoll").text(), basepath+"testdir/", "<ccoll>");
                 // Update collection path with non-existent directory
                 nextcallback = callback;
                 c.modelBind("shuffl:filelist", nextcallback);
-                c.model("shuffl:collpath", "../nosuchdirectory/");
+                c.model("shuffl:collpath", "../testdir/nosuchdirectory/");
             }); 
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
