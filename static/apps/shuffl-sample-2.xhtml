@@ -22,10 +22,6 @@
       jQuery.noConflict();
     </script>
 
-
-
-
-
     <!-- Import MochiKit modules: require MochiKit library functions to be fully qualified -->
     <script type="text/javascript">MochiKit = {__export__: false};</script>
     <script type="text/javascript" src="../../MochiKit/Base.js"></script>
@@ -94,8 +90,13 @@
               , factory:  shuffl.ExistAtomStorage
               });
           shuffl.addStorageHandler( 
-              { uri:      "http://localhost/webdav/"
-              , name:     "WebDAV"
+              { uri:      "http://localhost/webdav/shuffl/"
+              , name:     "WebDAV-shuffl"
+              , factory:  shuffl.WebDAVStorage
+              });
+          shuffl.addStorageHandler( 
+              { uri:      "http://localhost/webdav/shuffltest/"
+              , name:     "WebDAV-shuffltest"
               , factory:  shuffl.WebDAVStorage
               });
           shuffl.loadWorkspace("data/shuffl-sample-2.json", shuffl.noop);
