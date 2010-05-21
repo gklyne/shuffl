@@ -75,16 +75,21 @@
 					    , name:     "eXistAtomPub"
 					    , factory:  shuffl.ExistAtomStorage
 					    });
-                    shuffl.addStorageHandler( 
-                        { uri:      "http://localhost/webdav/"
-                        , name:     "WebDAV"
-                        , factory:  shuffl.WebDAVStorage
-                        });
-                    shuffl.addStorageHandler( 
-                        { uri:      "http://zakynthos.zoo.ox.ac.uk/data/"
-                        , name:     "WebDAV"
-                        , factory:  shuffl.WebDAVStorage
-                        });
+          shuffl.addStorageHandler( 
+              { uri:      "http://localhost/webdav/"
+              , name:     "WebDAV"
+              , factory:  shuffl.WebDAVStorage
+              });
+          shuffl.addStorageHandler( 
+              { uri:      "http://zakynthos.zoo.ox.ac.uk/data/"
+              , name:     "WebDAV"
+              , factory:  shuffl.WebDAVStorage
+              });
+          shuffl.addStorageHandler( 
+              { uri:      "http://shuffl.googlecode.com/svn/trunk/"
+              , name:     "GoofleCode"
+              , factory:  shuffl.LocalFileStorage
+              });
           shuffl.loadWorkspace("data/shuffl-demo-notes.json", shuffl.saveWorkspaceDefaults);
       });
 	  </script>

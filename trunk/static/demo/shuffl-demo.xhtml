@@ -74,6 +74,11 @@
 					    , name:     "eXistAtomPub"
 					    , factory:  shuffl.ExistAtomStorage
 					    });
+          shuffl.addStorageHandler( 
+              { uri:      "http://shuffl.googlecode.com/svn/trunk/"
+              , name:     "GoofleCode"
+              , factory:  shuffl.LocalFileStorage
+              });
           shuffl.loadWorkspace("data/shuffl-demo.json", shuffl.saveWorkspaceDefaults);
       });
 	  </script>
