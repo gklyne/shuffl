@@ -79,6 +79,11 @@ TestCardSelectfile = function() {
             , name:     "LocalFile"
             , factory:  shuffl.LocalFileStorage
             });
+        shuffl.addStorageHandler( 
+            { uri:      "http://localhost/test/"
+            , name:     "LocalFile"
+            , factory:  shuffl.LocalFileStorage
+            });
         shuffl.addStorageHandler(
             { uri:      "http://zoo-samos.zoo.ox.ac.uk/webdav/shuffl/static/test/"
             , name:     "WebDAVsamos"
@@ -509,7 +514,7 @@ TestCardSelectfile = function() {
         function () {
         var nextcallback;
             logtest("TestCardSelectfile: shuffl.card.selectfile non-webdav path setting");
-            expect(11);
+            expect(15);
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
@@ -553,6 +558,25 @@ TestCardSelectfile = function() {
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
                 equals(c.data('shuffl:collpath'), webdav_root+"data/", "shuffl:collpath (../../)");
+                equals(c.data('shuffl:filename'), "file", "shuffl:filename");
+                same(c.data('shuffl:filelist'), savelist, "shuffl:filelist unchanged");
+                try
+                {
+                    c.model("shuffl:collpath", "http://localhost/test/");
+                    ok(true, "No exception setting shuffl:collpath = http://localhost/test/");
+                }
+                catch (e)
+                {
+                    log.error("Exception setting shuffl:collpath = http://localhost/test/: "+e);
+                    ok(false, "Exception setting shuffl:collpath = http://localhost/test/: "+e);
+                }
+                // Update collection path with new directory
+                nextcallback = callback;
+                setTimeout(callback, 500);
+            })
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                equals(c.data('shuffl:collpath'), webdav_root+"data/", "shuffl:collpath (http://localhost/test/)");
                 equals(c.data('shuffl:filename'), "file", "shuffl:filename");
                 same(c.data('shuffl:filelist'), savelist, "shuffl:filelist unchanged");
                 callback(val);
