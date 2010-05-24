@@ -197,7 +197,7 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
         var f  = card.model("shuffl:fileuri")  || "" ;   // File URI
         var p  = card.model("shuffl:collpath") || "" ;   // Collection URI path
         var n  = card.model("shuffl:filename") || "" ;   // File name
-        ////log.debug( "updateFileUri: f "+f+", p "+p+", n "+n);
+        ///log.debug( "updateFileUri: f "+f+", p "+p+", n "+n);
         f = jQuery.uri(n, jQuery.uri(p, f));
         var b  = shuffl.uriBase(f);
         ////log.debug( "updateFileUri: f "+f+", b "+b+", p "+p+", n "+n);
@@ -218,12 +218,25 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
         return shuffl.uriPath(jQuery.uri(p, f));
     };
 
-    var updatedCollectionUri = function(_event, data) {
+    var updatedCollectionPath = function(_event, data) {
         if (data.newval == data.oldval) return;
-        ////log.debug("updatedCollectionUri: oldval "+data.oldval+", newval "+data.newval);
+        ////log.debug("updatedCollectionPath: oldval "+data.oldval+", newval "+data.newval);
+        // Check new collection URI is OK
+        var b  = jQuery.uri(data.newval, card.model("shuffl:fileuri"));
+        var ss = shuffl.makeStorageSession(b);
+        if (!ss)
+        {
+            // Cannot list indicated directory: revert to previous and bail out
+            ////log.debug("- bail out "+(ss ? shuffl.objectString(ss.info) : null));
+            card.model("shuffl:collpath", card.model("shuffl:listpath"));
+            return;
+        };
         // Collection URI updated
+        var p = shuffl.uriPath(b);
+        ////log.debug("- new path "+p);
+        card.model("shuffl:listpath", p); // Save usable base path
+        card.model("shuffl:collpath", p);
         var n = shuffl.uriName(data.newval);
-        card.model("shuffl:collpath", resolvePath(data.newval));
         if (n != "")
         {
             card.model("shuffl:filename", n);
@@ -251,7 +264,7 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     card.resizable();
     // Set up model listener and user input handlers
     shuffl.bindLineEditable(card, "shuffl:title",    "ctitle");
-    shuffl.bindLineEditable(card, "shuffl:collpath", "ccoll", updatedCollectionUri);
+    shuffl.bindLineEditable(card, "shuffl:collpath", "ccoll", updatedCollectionPath);
     shuffl.bindLineEditable(card, "shuffl:filename", "cfile", updatedFilename);
     card.modelBind("shuffl:filelist", displayFileList);
     // Hook up file-list click handler

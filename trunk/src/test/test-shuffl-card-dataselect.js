@@ -79,7 +79,7 @@ TestCardDatagraph = function() {
         function () {
             log.debug("test shuffl.addCardFactories");
             // Card factories are created when shuffl-card-datagraph module is loaded
-    		equals(shuffl.CardFactoryMap['shuffl-datagraph-yellow'].cardcss, "stock-yellow", "shuffl-datagraph-yellow");
+            equals(shuffl.CardFactoryMap['shuffl-datagraph-yellow'].cardcss, "stock-yellow", "shuffl-datagraph-yellow");
             equals(shuffl.CardFactoryMap['shuffl-datagraph-blue'  ].cardcss, "stock-blue",   "shuffl-datagraph-blue");
             equals(shuffl.CardFactoryMap['shuffl-datagraph-green' ].cardcss, "stock-green",  "shuffl-datagraph-green");
             equals(shuffl.CardFactoryMap['shuffl-datagraph-orange'].cardcss, "stock-orange", "shuffl-datagraph-orange");
@@ -92,8 +92,8 @@ TestCardDatagraph = function() {
             log.debug("test shuffl.getCardFactories");
             var c0 = shuffl.getCardFactory("default-type");
             equals(typeof c0, "function", "default factory");
-    		var c1 = shuffl.getCardFactory("shuffl-datagraph-yellow");
-    		equals(typeof c1, "function", "retrieved factory yellow");
+            var c1 = shuffl.getCardFactory("shuffl-datagraph-yellow");
+            equals(typeof c1, "function", "retrieved factory yellow");
             var c2 = shuffl.getCardFactory("shuffl-datagraph-blue");
             equals(typeof c2, "function", "retrieved factory blue");
             var c3 = shuffl.getCardFactory("shuffl-datagraph-green");
@@ -111,8 +111,8 @@ TestCardDatagraph = function() {
             log.debug("test shuffl.card.datagraph.newCard");
             var css = 'stock-yellow';
             var c   = shuffl.card.datagraph.newCard("shuffl-datagraph-yellow", css, "card-1",
-            	{ 'shuffl:tags': 	["card-tag"]
-            	, 'shuffl:title':	"card-title"
+                { 'shuffl:tags':     ["card-tag"]
+                , 'shuffl:title':    "card-title"
                 , 'shuffl:uri':     "http://example.org/test-uri.csv"
                 , 'shuffl:table':    testcarddatagraph_table      
                 , 'shuffl:labelrow': 0
@@ -122,7 +122,7 @@ TestCardDatagraph = function() {
                 , 'shuffl:series':   testcarddatagraph_series
                 , 'shuffl:dataminy': -1.0
                 , 'shuffl:datamaxy': 1.0
-         	});
+                });
             equals(c.attr('id'), "card-1",  "card id attribute");
             ok(c.hasClass('stock-yellow'),  "yellow colour class");
             ok(c.hasClass('shuffl-card-setsize'), "shuffl card setsize class");
@@ -139,11 +139,11 @@ TestCardDatagraph = function() {
     test("shuffl.createCardFromStock",
         function () {
             log.debug("test shuffl.createCardFromStock");
-			var s = shuffl.createStockpile(
-			    "stock_id", "stock-green", "stock-label", "shuffl-datagraph-green");
-    		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
+            var s = shuffl.createStockpile(
+                "stock_id", "stock-green", "stock-label", "shuffl-datagraph-green");
+            var c = shuffl.createCardFromStock(jQuery("#stock_id"));
             ////log.debug("- card "+shuffl.objectString(c));
-    		var card_id = shuffl.lastId("card_");
+            var card_id = shuffl.lastId("card_");
             equals(c.attr('id'), card_id, "card id attribute");
             ok(c.hasClass('shuffl-card'),   "shuffl card class");
             ok(c.hasClass('shuffl-card-setsize'),   "shuffl card setsize class");
