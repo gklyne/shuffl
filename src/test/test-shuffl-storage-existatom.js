@@ -230,6 +230,19 @@ TestExistAtomStorage = function()
             });
     };
 
+    test("shuffl.ExistAtomStorage.handlerInfo", function ()
+    {
+        logtest("shuffl.ExistAtomStorage.handlerInfo");
+        expect(4);
+        var ss = createTestSession();
+        var hi = ss.handlerInfo();
+        equals(hi.canList,   false, "hi.canList");
+        equals(hi.canRead,   true,  "hi.canRead");
+        equals(hi.canWrite,  true,  "hi.canWrite");
+        equals(hi.canDelete, true,  "hi.canDelete");
+        log.debug("----- test shuffl.ExistAtomStorage.handlerInfo end -----");
+    });
+
     test("shuffl.ExistAtomStorage.info", function ()
     {
         logtest("shuffl.ExistAtomStorage.info");

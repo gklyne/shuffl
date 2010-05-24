@@ -157,6 +157,19 @@ TestLocalFileStorage = function()
         return shuffl.makeStorageSession(TestLocalFileStorage_baseUri);
     }
 
+    test("shuffl.LocalFileStorage.handlerInfo", function ()
+    {
+        logtest("shuffl.LocalFileStorage.handlerInfo");
+        expect(4);
+        var ss = createTestSession();
+        var hi = ss.handlerInfo();
+        equals(hi.canList,   false, "hi.canList");
+        equals(hi.canRead,   true,  "hi.canRead");
+        equals(hi.canWrite,  false, "hi.canWrite");
+        equals(hi.canDelete, false, "hi.canDelete");
+        log.debug("----- test shuffl.LocalFileStorage.handlerInfo end -----");
+    });
+
     test("shuffl.LocalFileStorage.info", function ()
     {
         logtest("shuffl.LocalFileStorage.info");

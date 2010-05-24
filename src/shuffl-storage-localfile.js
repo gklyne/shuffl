@@ -57,13 +57,17 @@ shuffl.LocalFileStorage = function (baseuri, rooturi, hname)
     this.className = "shuffl.LocalFileStorage";
 };
 
-shuffl.LocalFileStorage.canList    = false;
-shuffl.LocalFileStorage.canRead    = true;
-shuffl.LocalFileStorage.canWrite   = false;
-shuffl.LocalFileStorage.canDelete  = false;
+// Inherit from StorageCommon, and set default session handler name
+shuffl.LocalFileStorage.prototype         = new shuffl.StorageCommon(null, null, null);
+shuffl.LocalFileStorage.prototype.name    = "LocalFileStorage";    
 
-shuffl.LocalFileStorage.prototype      = new shuffl.StorageCommon(null, null, null);
-shuffl.LocalFileStorage.prototype.name = "LocalFileStorage";    
+// Storage handler capability information
+shuffl.LocalFileStorage.prototype.capInfo =
+    { canList:    false
+    , canRead:    true
+    , canWrite:   false
+    , canDelete:  false
+    } ;
 
 /**
  * Return information about the resource associated with the supplied URI.
@@ -95,7 +99,8 @@ shuffl.LocalFileStorage.prototype.info = function (uri, callback)
         callback({ uri: null, relref: null });
         return;
     }
-    info = this.resolve(uri);
+    var capinfo = jQuery.extend({}, this.capInfo);
+    var info    = this.resolve(uri);
     ////log.debug("shuffl.LocalFileStorage.prototype.info "+jQuery.toJSON(info));
     shuffl.ajax.get(info.uri, "text", function (val) {
         if (val instanceof shuffl.Error)
@@ -104,15 +109,11 @@ shuffl.LocalFileStorage.prototype.info = function (uri, callback)
         }
         else
         {
-            callback(
+            callback(jQuery.extend(capinfo,
                 { uri:        info.uri
                 , relref:     info.relref
                 , type:       shuffl.ends("/", info.uri) ? "collection" : "item"
-                , canList:    shuffl.LocalFileStorage.canList
-                , canRead:    shuffl.LocalFileStorage.canRead
-                , canWrite:   shuffl.LocalFileStorage.canWrite
-                , canDelete:  shuffl.LocalFileStorage.canDelete
-                });
+                }));
         };
     });
 };
