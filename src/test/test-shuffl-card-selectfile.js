@@ -39,9 +39,14 @@ TestCardSelectfile = function() {
     // Figure base URI based on page URI
     var pageuri = jQuery.uri().toString();
     var baseuri = null;
+    var webdav_root = null;
     var baseuri_list =
         [ "http://localhost/webdav/shuffl/static/test/"
         , "http://zoo-samos.zoo.ox.ac.uk/webdav/shuffl/static/test/"
+        ];
+    var webdav_root_list =
+        [ "/webdav/shuffl/static/test/"
+        , "/webdav/shuffl/static/test/"
         ];
     for (i in baseuri_list)
     {
@@ -49,6 +54,7 @@ TestCardSelectfile = function() {
         if (shuffl.starts(b, pageuri))
         {
             baseuri = b;
+            webdav_root = webdav_root_list[i];
         }
     }
     var basepath = shuffl.uriPath(baseuri);
@@ -276,7 +282,7 @@ TestCardSelectfile = function() {
     test("shuffl.card.selectfile model 'shuffl:collpath' setting",
         function () {
 		    var nextcallback;
-            logtest("TestCardSelectfile: shuffl.card.selectfile model setting");
+            logtest("TestCardSelectfile: shuffl.card.selectfile model 'shuffl:collpath' setting");
             expect(60);
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
@@ -365,7 +371,7 @@ TestCardSelectfile = function() {
     test("shuffl.card.selectfile model 'shuffl:filename' setting",
         function () {
         var nextcallback;
-            logtest("TestCardSelectfile: shuffl.card.selectfile model setting");
+            logtest("TestCardSelectfile: shuffl.card.selectfile model 'shuffl:filename' setting");
             expect(46);
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
@@ -440,7 +446,7 @@ TestCardSelectfile = function() {
     test("shuffl.card.selectfile model 'shuffl:filelist' selection",
         function () {
         var nextcallback;
-            logtest("TestCardSelectfile: shuffl.card.selectfile model setting");
+            logtest("TestCardSelectfile: shuffl.card.selectfile model 'shuffl:filelist' selection");
             expect(43);
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
@@ -495,6 +501,62 @@ TestCardSelectfile = function() {
                 equals(c.data('shuffl:filename'), "", "shuffl:filename");
                 callback(val);
             });
+            m.exec({}, start);
+            stop(2500);
+    });
+
+    test("shuffl.card.selectfile model non-webdav path setting",
+        function () {
+        var nextcallback;
+            logtest("TestCardSelectfile: shuffl.card.selectfile non-webdav path setting");
+            expect(11);
+            // Create card (copy of code already tested)
+            var d = testcardselectfile_carddata;
+            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
+            var m = new shuffl.AsyncComputation();
+            var savelist = null;
+            m.eval(function(val,callback) {
+                // Continue testing after card is fully initialized
+                setTimeout(callback, 500);
+            });
+            m.eval(function(val,callback) {
+                // Check updatable values
+                equals(c.find("ctitle").text(),     "Card N title", "card title field");
+                equals(c.data('shuffl:collpath'), basepath, "shuffl:collpath");
+                equals(c.data('shuffl:filename'), "file",   "shuffl:filename");
+                // Update collection path with new directory
+                nextcallback = callback;
+                c.modelBind("shuffl:filelist", nextcallback);
+                c.model("shuffl:collpath", webdav_root+"data/");
+            });
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                equals(c.data('shuffl:collpath'), webdav_root+"data/", "shuffl:collpath");
+                equals(c.data('shuffl:filename'), "file", "shuffl:filename");
+                // Update collection path with out-of-webdav path
+                savelist = c.data('shuffl:filelist');
+                c.model("shuffl:collpath", webdav_root+"data/../../");
+                // Update collection path with new directory
+                nextcallback = callback;
+                setTimeout(callback, 500);
+            })
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                equals(c.data('shuffl:collpath'), webdav_root+"data/", "shuffl:collpath (.../data/../..)");
+                equals(c.data('shuffl:filename'), "file", "shuffl:filename");
+                same(c.data('shuffl:filelist'), savelist, "shuffl:filelist unchanged");
+                c.model("shuffl:collpath", "../../");
+                // Update collection path with new directory
+                nextcallback = callback;
+                setTimeout(callback, 500);
+            })
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                equals(c.data('shuffl:collpath'), webdav_root+"data/", "shuffl:collpath (../../)");
+                equals(c.data('shuffl:filename'), "file", "shuffl:filename");
+                same(c.data('shuffl:filelist'), savelist, "shuffl:filelist unchanged");
+                callback(val);
+            }); 
             m.exec({}, start);
             stop(2500);
     });
