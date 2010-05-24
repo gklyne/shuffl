@@ -173,9 +173,10 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
         }
     };
 
-    var updateFileList = function (val)
+    var updateFileList = function (ss, val)
     {
         // Callback to update file list in model
+        // ss is nthe sessionh objectb used to generate the file listing
         // 'val' is either a Shuffl.error, or an object like:
         //   { uri:    (collection URI)
         //   , relref  (relative URI reference)
@@ -189,7 +190,14 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
         } 
         else 
         {
-            card.model('shuffl:filelist', val.members);
+            var up = ss.resolve(jQuery.uri("../", ss.getBaseUri()));
+            var fs = val.members;
+            if (up.uri)
+            {
+                up.type = "collection";
+                fs.unshift(up);
+            }
+            card.model('shuffl:filelist', fs);
         }
     };
 
@@ -208,7 +216,7 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
             card.model("shuffl:collbase", b);
             card.find("clist").text("Updating...");
             var ss = shuffl.makeStorageSession(b);
-            ss.listCollection(b, updateFileList);
+            ss.listCollection(b, function (val) { updateFileList(ss, val); });
         };
     };
 
