@@ -224,7 +224,7 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
         // Check new collection URI is OK
         var b  = jQuery.uri(data.newval, card.model("shuffl:fileuri"));
         var ss = shuffl.makeStorageSession(b);
-        if (!ss)
+        if (!ss || !ss.handlerInfo().canList)
         {
             // Cannot list indicated directory: revert to previous and bail out
             ////log.debug("- bail out "+(ss ? shuffl.objectString(ss.info) : null));
