@@ -221,6 +221,19 @@ TestWebDAVStorage = function()
             });
     };
 
+    test("shuffl.WebDAVStorage.handlerInfo", function ()
+    {
+        logtest("shuffl.WebDAVStorage.handlerInfo");
+        expect(4);
+        var ss = createTestSession();
+        var hi = ss.handlerInfo();
+        equals(hi.canList,   true,  "hi.canList");
+        equals(hi.canRead,   true,  "hi.canRead");
+        equals(hi.canWrite,  true,  "hi.canWrite");
+        equals(hi.canDelete, true,  "hi.canDelete");
+        log.debug("----- test shuffl.WebDAVStorage.handlerInfo end -----");
+    });
+
     test("shuffl.WebDAVStorage.info", function ()
     {
         logtest("shuffl.WebDAVStorage.info");

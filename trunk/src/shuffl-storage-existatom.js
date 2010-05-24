@@ -60,13 +60,17 @@ shuffl.ExistAtomStorage = function (baseuri, rooturi, hname)
     this.atompub = new shuffl.AtomPub(this.atomuri);
 };
 
-shuffl.ExistAtomStorage.canList    = false;
-shuffl.ExistAtomStorage.canRead    = true;
-shuffl.ExistAtomStorage.canWrite   = true;
-shuffl.ExistAtomStorage.canDelete  = true;
-
+// Inherit from StorageCommon, and set default session handler name
 shuffl.ExistAtomStorage.prototype      = new shuffl.StorageCommon(null, null, null);
 shuffl.ExistAtomStorage.prototype.name = "ExistAtomStorage";    
+
+// Storage handler capability information
+shuffl.ExistAtomStorage.prototype.capInfo =
+    { canList:    false
+    , canRead:    true
+    , canWrite:   true
+    , canDelete:  true
+    } ;
 
 /**
  * Return information about the resource associated with the supplied URI.
@@ -98,7 +102,8 @@ shuffl.ExistAtomStorage.prototype.info = function (uri, callback)
         callback({ uri: null, relref: null });
         return;
     }
-    info = this.resolve(uri);
+    var capinfo = jQuery.extend({}, this.capInfo);
+    var info    = this.resolve(uri);
     ////log.debug("shuffl.ExistAtomStorage.prototype.info "+jQuery.toJSON(info));
     shuffl.ajax.get(info.uri, "text", function (val) {
         if (val instanceof shuffl.Error)
@@ -107,15 +112,11 @@ shuffl.ExistAtomStorage.prototype.info = function (uri, callback)
         }
         else
         {
-            callback(
+            callback(jQuery.extend(capinfo,
                 { uri:        info.uri
                 , relref:     info.relref
                 , type:       shuffl.ends("/", info.uri) ? "collection" : "item"
-                , canList:    shuffl.ExistAtomStorage.canList
-                , canRead:    shuffl.ExistAtomStorage.canRead
-                , canWrite:   shuffl.ExistAtomStorage.canWrite
-                , canDelete:  shuffl.ExistAtomStorage.canDelete
-                });
+                }));
         };
     });
 };

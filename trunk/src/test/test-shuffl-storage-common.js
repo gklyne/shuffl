@@ -32,13 +32,15 @@ TestStorageCommon_DummyStorage = function (baseuri, rooturi, hname)
     TestStorageCommon_DummyStorage.prototype.constructor.call(this, baseuri, rooturi, hname);
 };
 
-TestStorageCommon_DummyStorage.canList    = false;
-TestStorageCommon_DummyStorage.canRead    = true;
-TestStorageCommon_DummyStorage.canWrite   = false;
-TestStorageCommon_DummyStorage.canDelete  = false;
-
 TestStorageCommon_DummyStorage.prototype      = new shuffl.StorageCommon(null, null, null);
 TestStorageCommon_DummyStorage.prototype.name = "TestStorageCommon_DummyStorage";    
+
+TestStorageCommon_DummyStorage.prototype.capInfo =
+    { canList:    false
+    , canRead:    true
+    , canWrite:   false
+    , canDelete:  false
+    } ;
 
 var TestStorageCommon_rooturi = jQuery.uri(".");
 var TestStorageCommon_baseuri = jQuery.uri(".");
@@ -211,6 +213,19 @@ TestStorageCommon = function()
         equals(s5.resolve("file://test/p/q/a/b").relref, "",       "s5.resolve(p/q/a/b).relref");
         equals(s5.resolve("file://test/p/q/a/c").relref, "c",      "s5.resolve(p/q/a/c).relref");
         equals(s5.resolve("file://test/p/q/x/y").relref, "../x/y", "s5.resolve(p/q/x/y).relref");
+    });
+
+    test("shuffl.StorageCommon.handlerInfo", function ()
+    {
+        logtest("shuffl.StorageCommon.handlerInfo");
+        expect(4);
+        var ss = createTestSession();
+        var hi = ss.handlerInfo();
+        equals(hi.canList,   false, "hi.canList");
+        equals(hi.canRead,   true,  "hi.canRead");
+        equals(hi.canWrite,  false, "hi.canWrite");
+        equals(hi.canDelete, false, "hi.canDelete");
+        log.debug("----- test shuffl.StorageCommon.handlerInfo end -----");
     });
 
     test("shuffl.StorageCommon.info", function ()

@@ -115,14 +115,11 @@ shuffl.listStorageHandlers = function ()
     for (var i = 0 ; i < shuffl.storage.handlers.length ; i++)
     {
         var sh = shuffl.storage.handlers[i];
-        var si = 
+        var si = jQuery.extend({},
+            sh.factory.prototype.capInfo,
             { uri:        sh.uri
             , name:       sh.name
-            , canList:    sh.factory.canList
-            , canRead:    sh.factory.canRead
-            , canWrite:   sh.factory.canWrite
-            , canDelete:  sh.factory.canDelete
-            };
+            });
         silist.push(si);
     };
     return silist;
@@ -178,10 +175,12 @@ shuffl.StorageCommon = function (baseuri, rooturi, hname)
     this.handlerName  = hname;
 };
 
-shuffl.StorageCommon.canList    = false;
-shuffl.StorageCommon.canRead    = false;
-shuffl.StorageCommon.canWrite   = false;
-shuffl.StorageCommon.canDelete  = false;
+shuffl.StorageCommon.capInfo =
+    { canList:    false
+    , canRead:    false
+    , canWrite:   false
+    , canDelete:  false
+    } ;
 
 /**
  * Retrieve a name for the current storage handler
@@ -246,6 +245,21 @@ shuffl.StorageCommon.prototype.resolve = function (uri, baseuri)
         info.relref = jQuery.uri.relative(u, baseuri);
     };
     return info;
+};
+
+/**
+ * Return information about the capabilities of the storage handler.
+ * 
+ * @return is an Error value, or an object with the following fields:
+ *    canList   'true' if storage collections can be listed
+ *    canRead   'true' if storage resources can be read
+ *    canWrite  'true' if storage resource can be modified
+ *    canDelete 'true' if storage resource can be deleted
+ */
+shuffl.StorageCommon.prototype.handlerInfo = function ()
+{
+    ////log.debug("shuffl.StorageCommon.prototype.handlerInfo "+uri);
+    return this.capInfo;
 };
 
 /**

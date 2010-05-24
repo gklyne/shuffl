@@ -62,8 +62,17 @@ shuffl.WebDAVStorage.canRead    = true;
 shuffl.WebDAVStorage.canWrite   = true;
 shuffl.WebDAVStorage.canDelete  = true;
 
+// Inherit from StorageCommon, and set default session handler name
 shuffl.WebDAVStorage.prototype      = new shuffl.StorageCommon(null, null, null);
 shuffl.WebDAVStorage.prototype.name = "WebDAVStorage";    
+
+// Storage handler capability information
+shuffl.WebDAVStorage.prototype.capInfo =
+    { canList:    true
+    , canRead:    true
+    , canWrite:   true
+    , canDelete:  true
+    } ;
 
 /**
  * Return information about the resource associated with the supplied URI.
@@ -95,7 +104,8 @@ shuffl.WebDAVStorage.prototype.info = function (uri, callback)
         callback({ uri: null, relref: null });
         return;
     }
-    info = this.resolve(uri);
+    var capinfo = jQuery.extend({}, this.capInfo);
+    var info    = this.resolve(uri);
     ////log.debug("shuffl.WebDAVStorage.prototype.info "+jQuery.toJSON(info));
     shuffl.ajax.get(info.uri, "text", function (val) {
         if (val instanceof shuffl.Error)
@@ -104,15 +114,11 @@ shuffl.WebDAVStorage.prototype.info = function (uri, callback)
         }
         else
         {
-            callback(
+            callback(jQuery.extend(capinfo,
                 { uri:        info.uri
                 , relref:     info.relref
                 , type:       shuffl.ends("/", info.uri) ? "collection" : "item"
-                , canList:    shuffl.WebDAVStorage.canList
-                , canRead:    shuffl.WebDAVStorage.canRead
-                , canWrite:   shuffl.WebDAVStorage.canWrite
-                , canDelete:  shuffl.WebDAVStorage.canDelete
-                });
+                }));
         };
     });
 };
