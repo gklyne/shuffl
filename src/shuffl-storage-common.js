@@ -207,7 +207,7 @@ shuffl.StorageCommon.prototype.getRootUri = function ()
 /**
  * Retrieve a base URI for the current session
  * 
- * @return          an base URI associated with the current session.
+ * @return          a base URI associated with the current session.
  */
 shuffl.StorageCommon.prototype.getBaseUri = function ()
 {

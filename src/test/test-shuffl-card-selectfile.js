@@ -140,7 +140,7 @@ TestCardSelectfile = function() {
                 {
                     equals(c.find("ccoll").text(), basepath+"testdir/", "collection path field");
                     // TODO: Work out what to do about .svn/ directory
-                    equals(c.find("clist").text(), ".svn/directory/test-csv.csv", "collection content listing field");
+                    equals(c.find("clist").text(), "../.svn/directory/test-csv.csv", "collection content listing field");
                     equals(c.find("cfile").text(), "test-csv.csv", "file name field");
                     start();
                 },
@@ -274,13 +274,14 @@ TestCardSelectfile = function() {
 
     var checkFileList = function (card, tag, baseuri, files, types)
         {
-        	var filelist = card.data('shuffl:filelist');
+            var filelist = card.data('shuffl:filelist');
             equals(filelist.length, files.length, "shuffl:filelist.length ("+tag+")");
             for ( var i = 0 ; (i < files.length) && (i < filelist.length) ; i++ )
             {
-                equals(filelist[i].uri,    baseuri+files[i], "shuffl:filelist["+i+"].uri");
-                equals(filelist[i].relref, files[i],         "shuffl:filelist["+i+"].relref");
-                equals(filelist[i].type,   types[i],         "shuffl:filelist["+i+"].type");
+                var fileuri = jQuery.uri(files[i], baseuri).toString();
+                equals(filelist[i].uri,    fileuri,  "shuffl:filelist["+i+"].uri");
+                equals(filelist[i].relref, files[i], "shuffl:filelist["+i+"].relref");
+                equals(filelist[i].type,   types[i], "shuffl:filelist["+i+"].type");
             }
         };
 
@@ -288,7 +289,7 @@ TestCardSelectfile = function() {
         function () {
 		    var nextcallback;
             logtest("TestCardSelectfile: shuffl.card.selectfile model 'shuffl:collpath' setting");
-            expect(60);
+            expect(72);
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
@@ -299,7 +300,7 @@ TestCardSelectfile = function() {
             });
             m.eval(function(val,callback) {
                 // Check updatable values
-                equals(c.find("ctitle").text(),     "Card N title", "card title field");
+                equals(c.find("ctitle").text(), "Card N title", "card title field");
                 equals(c.data('shuffl:collpath'), basepath, "shuffl:collpath");
                 equals(c.data('shuffl:filename'), "file",   "shuffl:filename");
                 // Simulate user input: set model to update title
@@ -312,8 +313,8 @@ TestCardSelectfile = function() {
             });
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
-                var files = [".svn/", "directory/", "test-csv.csv"];
-                var types = ["collection", "collection", "item"];
+                var files = ["../", ".svn/", "directory/", "test-csv.csv"];
+                var types = ["collection", "collection", "collection", "item"];
                 equals(c.data('shuffl:collpath'), basepath+"testdir/", "shuffl:collpath");
                 checkFileList(c, "path:testdir", baseuri+"testdir/", files, types);
                 equals(c.data('shuffl:filename'), "file", "shuffl:filename");
@@ -324,8 +325,8 @@ TestCardSelectfile = function() {
             })
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
-                var files = [".svn/", "directory/", "test-csv.csv"];
-                var types = ["collection", "collection", "item"];
+                var files = ["../", ".svn/", "directory/", "test-csv.csv"];
+                var types = ["collection", "collection", "collection", "item"];
                 equals(c.data('shuffl:collpath'), basepath+"testdir/", "shuffl:collpath");
                 checkFileList(c, "path:testdir", baseuri+"testdir/", files, types);
                 equals(c.data('shuffl:filename'), "newfile", "shuffl:filename");
@@ -336,8 +337,8 @@ TestCardSelectfile = function() {
             }); 
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
-                var files = [".svn/", "file1.a", "file1.b", "file2.a"];
-                var types = ["collection", "item", "item", "item"];
+                var files = ["../", ".svn/", "file1.a", "file1.b", "file2.a"];
+                var types = ["collection", "collection", "item", "item", "item"];
                 equals(c.data('shuffl:collpath'), basepath+"testdir/directory/", "shuffl:collpath");
                 checkFileList(c, "path:testdir", baseuri+"testdir/directory/", files, types);
                 equals(c.data('shuffl:filename'), "file3.c", "shuffl:filename");
@@ -349,8 +350,8 @@ TestCardSelectfile = function() {
             }); 
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
-                var files = [".svn/", "directory/", "test-csv.csv"];
-                var types = ["collection", "collection", "item"];
+                var files = ["../", ".svn/", "directory/", "test-csv.csv"];
+                var types = ["collection", "collection", "collection", "item"];
                 equals(c.data('shuffl:collpath'), basepath+"testdir/", "shuffl:collpath");
                 checkFileList(c, "path:testdir", baseuri+"testdir/", files, types);
                 equals(c.data('shuffl:filename'), "file3.c", "shuffl:filename");
@@ -375,9 +376,9 @@ TestCardSelectfile = function() {
 
     test("shuffl.card.selectfile model 'shuffl:filename' setting",
         function () {
-        var nextcallback;
+            var nextcallback;
             logtest("TestCardSelectfile: shuffl.card.selectfile model 'shuffl:filename' setting");
-            expect(46);
+            expect(55);
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
@@ -401,8 +402,8 @@ TestCardSelectfile = function() {
             });
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
-                var files = [".svn/", "directory/", "test-csv.csv"];
-                var types = ["collection", "collection", "item"];
+                var files = ["../", ".svn/", "directory/", "test-csv.csv"];
+                var types = ["collection", "collection", "collection", "item"];
                 equals(c.data('shuffl:collpath'), basepath+"testdir/", "shuffl:collpath");
                 checkFileList(c, "path:testdir", baseuri+"testdir/", files, types);
                 equals(c.data('shuffl:filename'), "", "shuffl:filename");
@@ -413,8 +414,8 @@ TestCardSelectfile = function() {
             })
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
-                var files = [".svn/", "directory/", "test-csv.csv"];
-                var types = ["collection", "collection", "item"];
+                var files = ["../", ".svn/", "directory/", "test-csv.csv"];
+                var types = ["collection", "collection", "collection", "item"];
                 equals(c.data('shuffl:collpath'), basepath+"testdir/", "shuffl:collpath");
                 checkFileList(c, "path:testdir", baseuri+"testdir/", files, types);
                 equals(c.data('shuffl:filename'), "newfile", "shuffl:filename");
@@ -425,8 +426,8 @@ TestCardSelectfile = function() {
             }); 
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
-                var files = [".svn/", "file1.a", "file1.b", "file2.a"];
-                var types = ["collection", "item", "item", "item"];
+                var files = ["../", ".svn/", "file1.a", "file1.b", "file2.a"];
+                var types = ["collection", "collection", "item", "item", "item"];
                 equals(c.data('shuffl:collpath'), basepath+"testdir/directory/", "shuffl:collpath");
                 checkFileList(c, "path:testdir", baseuri+"testdir/directory/", files, types);
                 equals(c.data('shuffl:filename'), "file3.c", "shuffl:filename");
@@ -452,7 +453,7 @@ TestCardSelectfile = function() {
         function () {
         var nextcallback;
             logtest("TestCardSelectfile: shuffl.card.selectfile model 'shuffl:filelist' selection");
-            expect(43);
+            expect(52);
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
@@ -476,31 +477,31 @@ TestCardSelectfile = function() {
             });
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
-                var files = [".svn/", "directory/", "test-csv.csv"];
-                var types = ["collection", "collection", "item"];
+                var files = ["../", ".svn/", "directory/", "test-csv.csv"];
+                var types = ["collection", "collection", "collection", "item"];
                 equals(c.data('shuffl:collpath'), basepath+"testdir/", "shuffl:collpath");
                 checkFileList(c, "path:testdir", baseuri+"testdir/", files, types);
                 equals(c.data('shuffl:filename'), "", "shuffl:filename");
                 // simulate click on file
-                c.model("shuffl:filelistelem", 2);
+                c.model("shuffl:filelistelem", 3);
                 callback(val);
             });
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
-                var files = [".svn/", "directory/", "test-csv.csv"];
-                var types = ["collection", "collection", "item"];
+                var files = ["../", ".svn/", "directory/", "test-csv.csv"];
+                var types = ["collection", "collection", "collection", "item"];
                 equals(c.data('shuffl:collpath'), basepath+"testdir/", "shuffl:collpath");
                 checkFileList(c, "path:testdir", baseuri+"testdir/", files, types);
                 equals(c.data('shuffl:filename'), "test-csv.csv", "shuffl:filename");
                 // simulate click on dir
                 nextcallback = callback;
                 c.modelBind("shuffl:filelist", nextcallback);
-                c.model("shuffl:filelistelem", 1);
+                c.model("shuffl:filelistelem", 2);
             });
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
-                var files = [".svn/", "file1.a", "file1.b", "file2.a"];
-                var types = ["collection", "item", "item", "item"];
+                var files = ["../", ".svn/", "file1.a", "file1.b", "file2.a"];
+                var types = ["collection", "collection", "item", "item", "item"];
                 equals(c.data('shuffl:collpath'), basepath+"testdir/directory/", "shuffl:collpath");
                 checkFileList(c, "path:testdir", baseuri+"testdir/directory/", files, types);
                 equals(c.data('shuffl:filename'), "", "shuffl:filename");
@@ -514,7 +515,7 @@ TestCardSelectfile = function() {
         function () {
         var nextcallback;
             logtest("TestCardSelectfile: shuffl.card.selectfile non-webdav path setting");
-            expect(15);
+            expect(27);
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
@@ -538,10 +539,9 @@ TestCardSelectfile = function() {
                 c.modelUnbind("shuffl:filelist", nextcallback);
                 equals(c.data('shuffl:collpath'), webdav_root+"data/", "shuffl:collpath");
                 equals(c.data('shuffl:filename'), "file", "shuffl:filename");
-                // Update collection path with out-of-webdav path
                 savelist = c.data('shuffl:filelist');
+                // Update collection path with out-of-webdav path
                 c.model("shuffl:collpath", webdav_root+"data/../../");
-                // Update collection path with new directory
                 nextcallback = callback;
                 setTimeout(callback, 500);
             })
@@ -550,16 +550,17 @@ TestCardSelectfile = function() {
                 equals(c.data('shuffl:collpath'), webdav_root+"data/", "shuffl:collpath (.../data/../..)");
                 equals(c.data('shuffl:filename'), "file", "shuffl:filename");
                 same(c.data('shuffl:filelist'), savelist, "shuffl:filelist unchanged");
-                c.model("shuffl:collpath", "../../");
                 // Update collection path with new directory
+                c.model("shuffl:collpath", "../../");
                 nextcallback = callback;
                 setTimeout(callback, 500);
             })
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
-                equals(c.data('shuffl:collpath'), webdav_root+"data/", "shuffl:collpath (../../)");
+                equals(c.data('shuffl:collpath'), webdav_root+"data/", "shuffl:collpath (http://localhost/test/)");
                 equals(c.data('shuffl:filename'), "file", "shuffl:filename");
                 same(c.data('shuffl:filelist'), savelist, "shuffl:filelist unchanged");
+                // Try valid session but without canList capability
                 try
                 {
                     c.model("shuffl:collpath", "http://localhost/test/");
@@ -570,19 +571,53 @@ TestCardSelectfile = function() {
                     log.error("Exception setting shuffl:collpath = http://localhost/test/: "+e);
                     ok(false, "Exception setting shuffl:collpath = http://localhost/test/: "+e);
                 }
-                // Update collection path with new directory
                 nextcallback = callback;
                 setTimeout(callback, 500);
-            })
+            });
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
                 equals(c.data('shuffl:collpath'), webdav_root+"data/", "shuffl:collpath (http://localhost/test/)");
                 equals(c.data('shuffl:filename'), "file", "shuffl:filename");
                 same(c.data('shuffl:filelist'), savelist, "shuffl:filelist unchanged");
+                // Update collection path with new directory without listable parent
+                try
+                {
+                    c.model("shuffl:collpath", webdav_root);
+                    ok(true, "No exception setting shuffl:collpath = "+webdav_root);
+                }
+                catch (e)
+                {
+                    log.error("Exception setting shuffl:collpath = "+webdav_root+": "+e);
+                    ok(false, "Exception setting shuffl:collpath = "+webdav_root+": "+e);
+                }
+                nextcallback = callback;
+                setTimeout(callback, 500);
+            })
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                equals(c.data('shuffl:collpath'), webdav_root, "shuffl:collpath (webdav_root)");
+                equals(c.data('shuffl:filename'), "file", "shuffl:filename");
+                // Check listing does not include "../" entry
+                try
+                {
+                    var files = [".svn/", "data/", "images/"];
+                    var types = ["collection", "collection", "collection"];
+                    var filelist = c.data('shuffl:filelist').slice(0, 3);
+                    for ( var i = 0 ; i < 3 ; i++ )
+                    {
+                        equals(filelist[i].uri,    baseuri+files[i], "shuffl:filelist["+i+"].uri");
+                        equals(filelist[i].relref, files[i],         "shuffl:filelist["+i+"].relref");
+                        equals(filelist[i].type,   types[i],         "shuffl:filelist["+i+"].type");
+                    }
+                }
+                catch(e)
+                {
+                    ok(false, "Exception: "+e);
+                };
                 callback(val);
             }); 
             m.exec({}, start);
-            stop(2500);
+            stop(5000);
     });
 
 };
