@@ -63,17 +63,18 @@
     <script type="text/javascript" src="../../src/shuffl-card-datatable.js"></script>
     <script type="text/javascript" src="../../src/shuffl-card-dataworksheet.js"></script>
     <script type="text/javascript" src="../../src/shuffl-card-datagraph.js"></script>
+
+    <!--  Sample application common code -->
+    <script type="text/javascript" src="shuffl-sample-common.js"></script>
     
   </head>
   
   <body>
 
     <!--  Load a pre-existing workspace from RDF -->
-	  <script type="text/javascript">
-      jQuery(document).ready(function(){
-          shuffl.loadWorkspace("data/shuffl-sample-5.json", shuffl.saveWorkspaceDefaults);
-      });
-	  </script>
+    <script type="text/javascript">
+        shuffl.sampleLoadWorkspace("data/shuffl-sample-5.json");
+    </script>
     
     <div id="workspace" class="shuffl-workspace">
 
