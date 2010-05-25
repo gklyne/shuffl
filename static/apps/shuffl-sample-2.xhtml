@@ -27,15 +27,6 @@
     <script type="text/javascript" src="../../MochiKit/Base.js"></script>
     <script type="text/javascript" src="../../MochiKit/Iter.js"></script>
     <script type="text/javascript" src="../../MochiKit/Logging.js"></script>
-     
-    <!-- Import jQuery and related scripts -->
-    <link type="text/css" href="../../jQuery/css/smoothness/jquery-ui-1.8.custom.css" rel="stylesheet" />  
-    <script type="text/javascript" src="../../jQuery/js/jquery-1.4.2.js"></script>
-    <script type="text/javascript" src="../../jQuery/js/jquery-ui-1.8.custom.js"></script>
-    <script>
-    // Use jQuery via jQuery(...)
-      jQuery.noConflict();
-    </script>
 
     <!-- rddfQuery plug-ins -->
     <script type="text/javascript" src="../../jQuery/jquery.uri.js"></script>
@@ -75,6 +66,9 @@
     <!--  Shuffl card type plugins -->
     <script type="text/javascript" src="../../src/shuffl-card-freetext.js"></script>
     <script type="text/javascript" src="../../src/shuffl-card-selectfile.js"></script>
+
+    <!--  Sample application common code -->
+    <script type="text/javascript" src="shuffl-sample-common.js"></script>
     
   </head>
   
@@ -82,25 +76,7 @@
 
     <!--  Load a pre-existing workspace from RDF -->
 	  <script type="text/javascript">
-      jQuery(document).ready(function()
-      {
-          shuffl.addStorageHandler( 
-              { uri:      "http://localhost:8080/exist/atom/edit/"
-              , name:     "eXistAtomPub"
-              , factory:  shuffl.ExistAtomStorage
-              });
-          shuffl.addStorageHandler( 
-              { uri:      "http://localhost/webdav/shuffl/"
-              , name:     "WebDAV-shuffl"
-              , factory:  shuffl.WebDAVStorage
-              });
-          shuffl.addStorageHandler( 
-              { uri:      "http://localhost/webdav/shuffltest/"
-              , name:     "WebDAV-shuffltest"
-              , factory:  shuffl.WebDAVStorage
-              });
-          shuffl.loadWorkspace("data/shuffl-sample-2.json", shuffl.noop);
-      });
+				shuffl.sampleLoadWorkspace("data/shuffl-sample-2.json");
 	  </script>
     
     <div id="workspace" class="shuffl-workspace">
