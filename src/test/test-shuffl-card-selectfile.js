@@ -21,7 +21,6 @@ var testcardselectfile_carddata =
       ]
     , 'shuffl:data':
       { 'shuffl:title':   "Card N title"
-      , 'shuffl:tags':    [ 'card_N_tag', 'footag' ]
       , 'shuffl:fileuri': "./file"
       }
     };
@@ -119,8 +118,7 @@ TestCardSelectfile = function() {
             logtest("TestCardSelectfile: shuffl.card.selectfile.newCard");
             var css = 'stock-default';
             var c   = shuffl.card.selectfile.newCard("shuffl-selectfile", css, "card-1",
-                { 'shuffl:tags':     ["card-tag"]
-                , 'shuffl:title':    "card-title"
+                { 'shuffl:title':    "card-title"
                 , 'shuffl:fileuri': baseuri+"testdir/test-csv.csv"
                 });
             equals(c.attr('id'), "card-1", "card id attribute");
@@ -186,7 +184,6 @@ TestCardSelectfile = function() {
             equals(c.data('shuffl:id'),    card_id, "layout card id");
             equals(c.data('shuffl:class'), "shuffl-selectfile", "saved card type");
             equals(c.data('shuffl:title'),    card_id, "shuffl:title");
-            equals(c.data('shuffl:tags'),     "shuffl-selectfile", "shuffl:tags");
             equals(c.data('shuffl:fileuri'),  baseuri, "shuffl:fileuri");
             equals(c.data('shuffl:collpath'), "", "shuffl:collpath");
             equals(c.data('shuffl:filename'), "", "shuffl:filename");
@@ -227,7 +224,6 @@ TestCardSelectfile = function() {
             equals(c.data('shuffl:id'),       "cardfromdata_id", "layout card id");
             equals(c.data('shuffl:class'),    "shuffl-selectfile", "saved card type");
             equals(c.data('shuffl:title'),    "Card N title", "shuffl:title");
-            equals(c.data('shuffl:tags'),     "card_N_tag,footag", "shuffl:tags");
             equals(c.data('shuffl:fileuri'),  baseuri+"file", "shuffl:fileuri");
             equals(c.data('shuffl:collpath'), "", "shuffl:collpath");
             equals(c.data('shuffl:filename'), "", "shuffl:filename");
@@ -260,7 +256,6 @@ TestCardSelectfile = function() {
                     equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],      'shuffl:base-uri');
                     same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');
                     equals(e['shuffl:data']['shuffl:title'], "Card N title",   'shuffl:data-title');
-                    same(e['shuffl:data']['shuffl:tags'], [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
                     equals(e['shuffl:data']['shuffl:fileuri'], baseuri+"file", 'shuffl:fileuri');
                     for ( k in e['shuffl:data'] )
                     {
