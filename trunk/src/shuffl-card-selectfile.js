@@ -76,6 +76,9 @@ shuffl.card.selectfile.blank = jQuery(
     "      <ccell><clabel>Filename</clabel></ccell>\n" +
     "      <ccell><cfile>(filename)</cfile></ccell>" +
     "    </crow>\n" +
+    "    <crow>" +
+    "      <cclose><button>Close</button></cclose>\n" +
+    "    </crow>\n" +
     "  </ctable>\n"+
     "</div>");
 
@@ -105,6 +108,14 @@ shuffl.card.selectfile.datamap =
  */
 shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) {
     log.debug("shuffl.card.selectfile.newCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
+
+    var closeClicked = function (event)
+    {
+        log.debug("closeClicked "+card.data("shuffl:fileuri"));
+        card.model("shuffl:closeUri", card.data("shuffl:fileuri"));  // Trigger final value
+        card.remove();
+        //TODO: need to unbind model events to prevent memory leaks?
+    };
 
     var filelistelemSelected = function (val)
     {
@@ -276,6 +287,8 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     // Hook up file-list click handler
     card.find("clist").click(filelistClicked);
     card.modelBind("shuffl:filelistelem", filelistelemSelected);  // For testing
+    card.find("cclose").click(closeClicked);
+    card.modelBind("shuffl:close", closeClicked);                 // For testing
     // Initialize the model
     shuffl.initModelVar(card, 'shuffl:title',    carddata, cardid);
     shuffl.initModelVar(card, 'shuffl:fileuri',  carddata, "./");
