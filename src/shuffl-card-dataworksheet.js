@@ -59,6 +59,7 @@ shuffl.card.dataworksheet.blank = jQuery(
     "  </chead>\n"+
     "  <crow>\n"+
     "    <curi>card_ZZZ uri</curi>\n"+
+    "    <cbrowse><button>Browse...</button></cbrowse>\n"+
     "  </crow>\n"+
     "  <crow>\n"+
     "    <cbody class='shuffl-nodrag'>\n"+
@@ -153,6 +154,13 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
     card.modelBind("shuffl:data_firstrow", updatefn);
     card.modelBind("shuffl:data_lastrow",  updatefn);
     card.modelBind("shuffl:coluse",        updatefn);
+    // Hook up the browse button
+    function browseClicked(event)
+    {
+        shuffl.card.dataworksheet.browseClicked(card, event);
+    };
+    card.find("cbrowse").click(browseClicked);
+    card.modelBind("shuffl:browse", browseClicked); // For testing
     // Hook up the row-selection pop-up menu
     shuffl.card.dataworksheet.contextMenu(card, cbody);
     // Initialize the model
@@ -185,6 +193,31 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
 shuffl.card.dataworksheet.serialize = function (card) 
 {
     return shuffl.serializeModel(card, shuffl.card.dataworksheet.datamap);
+};
+
+/**
+ * Helper function invokes a selectfile card for data file browsing
+ * 
+ * @param card      a jQuery object corresponding to the current card
+ */
+shuffl.card.dataworksheet.browseClicked = function (card, event)
+{
+    // Create selectfile card
+    log.debug("shuffl.card.dataworksheet.browseClicked");
+    var selectfile = shuffl.card.selectfile.newCard("shuffl-selectfile", "stock-default", "card-1",
+        { 'shuffl:title':    "card-title"
+        , 'shuffl:fileuri': baseuri+"testdir/test-csv.csv"
+        });
+    shuffl.placeCard(
+        jQuery('#layout'), 
+        selectfile, 
+        {"left":10, "top":10},
+        {width:"20em", height:"10em"}
+        ////shuffl.positionAbsolute({"left":10, "top":10}, card)
+        );
+    // shuffl.placeCard = function (layout, card, pos, size, zindex) 
+    // Listen to shuffl:fileuri - update local URI
+    // Listen for shuffl:closeuri - unhook handlers
 };
 
 /**

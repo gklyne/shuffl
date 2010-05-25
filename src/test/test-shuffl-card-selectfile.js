@@ -123,9 +123,10 @@ TestCardSelectfile = function() {
                 });
             equals(c.attr('id'), "card-1", "card id attribute");
             //ok(c.hasClass('shuffl-card'),   "shuffl card class");
-            ok(c.hasClass('shuffl-card-setsize'),   "shuffl-card-setsize class");
-            ok(c.hasClass('stock-default'),   "stock-default class");
-            equals(c.attr('class'), 'shuffl-card-setsize stock-default ui-resizable', "CSS class");
+            ok(c.hasClass('shuffl-card-setsize'), "shuffl-card-setsize class");
+            ok(c.hasClass('stock-default'),       "stock-default class");
+            ok(c.hasClass('shuffl-selectfile'),   "shuffl-selectfile class");
+            equals(c.attr('class'), 'shuffl-card-setsize shuffl-selectfile stock-default ui-resizable', "CSS class");
             ok(c.hasClass('stock-default'), "default colour class");
             equals(c.find("ctitle").text(), "card-title", "card title field");
             // Created with dummy values
@@ -171,9 +172,10 @@ TestCardSelectfile = function() {
             var card_id = shuffl.lastId("card_");
             equals(c.attr('id'), card_id,       "card id attribute");
             ok(c.hasClass('shuffl-card'),   "shuffl card class");
-            ok(c.hasClass('shuffl-card-setsize'),   "shuffl-card-setsize class");
-            ok(c.hasClass('stock-default'),   "stock-default class");
-            equals(c.attr('class'), 'shuffl-card-setsize stock-default ui-resizable shuffl-card', "CSS class");
+            ok(c.hasClass('shuffl-card-setsize'), "shuffl-card-setsize class");
+            ok(c.hasClass('stock-default'),       "stock-default class");
+            ok(c.hasClass('shuffl-selectfile'),   "shuffl-selectfile class");
+            equals(c.attr('class'), 'shuffl-card-setsize shuffl-selectfile stock-default ui-resizable shuffl-card', "CSS class");
             equals(c.find("ctitle").text(),     card_id, "card title field");
             equals(c.find("ccoll").text(), "(collection path)", "collection path field");
             equals(c.find("clist > cdir").text(), "(dir)/", "collection content listing field (dir)");
