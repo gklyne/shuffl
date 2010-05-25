@@ -615,6 +615,49 @@ TestCardSelectfile = function() {
             stop(5000);
     });
 
+    test("shuffl.clickCloseButton",
+        function () {
+            logtest("TestCardSelectfile: shuffl.clickCloseButton");
+            expect(8);
+            // Create card (copy of code already tested)
+            var d = testcardselectfile_carddata;
+            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
+            var m = new shuffl.AsyncComputation();
+            var savelist = null;
+            m.eval(function(val,callback) {
+                // Continue testing after card is fully initialized
+                setTimeout(callback, 500);
+            });
+            m.eval(function(val,callback) {
+                // Check updatable values
+                equals(c.find("ctitle").text(),     "Card N title", "card title field");
+                equals(c.data('shuffl:collpath'), basepath, "shuffl:collpath");
+                equals(c.data('shuffl:filename'), "file",   "shuffl:filename");
+                // Update collection path with new directory
+                nextcallback = callback;
+                c.modelBind("shuffl:filelist", nextcallback);
+                c.model("shuffl:collpath", webdav_root+"data/closevalue");
+            });
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                equals(c.data('shuffl:collpath'), webdav_root+"data/", "shuffl:collpath (data)");
+                equals(c.data('shuffl:filename'), "closevalue", "shuffl:filename");
+                // Simulate click on close button
+                nextcallback = function (event, val) { callback(val); };
+                c.modelBind("shuffl:closeUri", nextcallback);
+                c.model("shuffl:close", "-");
+            });
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:closeUri", nextcallback);
+                equals(val.name, "shuffl:closeUri", "shuffl:closeUri (name)");
+                equals(val.oldval, undefined, "shuffl:closeUri (oldval)");
+                equals(val.newval.toString(), baseuri+"data/closevalue", "shuffl:closeUri (oldval)");
+                callback(val);
+            });
+            m.exec({}, start);
+            stop(2500);             
+        });
+
 };
 
 // End
