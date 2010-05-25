@@ -349,7 +349,7 @@ shuffl.placeCardFromData = function (layout, data)
     ////log.debug("shuffl.placeCardFromData, cardid: "+cardid+", cardclass: "+cardclass);
     var newcard = shuffl.createCardFromData(cardid, cardclass, data);
     shuffl.loadId(cardid);
-    //�Place card on layout
+    // Place card on layout
     var cardsize = layout['size'] || shuffl.defaultSize;
     shuffl.placeCard(jQuery('#layout'), newcard, 
         layout['pos'], cardsize, layout['zindex']);

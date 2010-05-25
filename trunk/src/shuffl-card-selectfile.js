@@ -53,7 +53,7 @@ shuffl.card.selectfile.data =
  * jQuery base element for building new cards (used by shuffl.makeCard)
  */
 shuffl.card.selectfile.blank = jQuery(
-    "<div class='shuffl-card-setsize' style='z-index:10;'>\n"+
+    "<div class='shuffl-card-setsize shuffl-selectfile' style='z-index:10;'>\n"+
     "  <chead>\n"+
     "    <chandle><c></c></chandle>" +
     "    <ctitle>(card title)</ctitle>\n"+
