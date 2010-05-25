@@ -46,7 +46,6 @@ shuffl.card.selectfile = {};
  */
 shuffl.card.selectfile.data =
     { 'shuffl:title':     undefined
-    , 'shuffl:tags':      [ undefined ]
     , 'shuffl:fileuri':   undefined
     };
 
@@ -86,7 +85,6 @@ shuffl.card.selectfile.blank = jQuery(
  */
 shuffl.card.selectfile.datamap =
     { 'shuffl:title':         { def: '@id' }
-    , 'shuffl:tags':          { def: '@tags', type: 'array' }
     , 'shuffl:fileuri':       { def: "" }
     , 'shuffl:collpath':      { def: "" }
     , 'shuffl:filelist':      { def: [], type: 'array' }
@@ -102,7 +100,7 @@ shuffl.card.selectfile.datamap =
  *                      combined with a base URI to form a URI for the card.
  * @param carddata      an object or string containing additional data used in constructing
  *                      the body of the card.  This is either a string or an object structure
- *                      with fields 'shuffl:title', 'shuffl:tags' and 'shuffl:text'.
+ *                      with fields 'shuffl:title', 'shuffl:fileuri'.
  * @return a jQuery object representing the new card.
  */
 shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) {
@@ -280,7 +278,6 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     card.modelBind("shuffl:filelistelem", filelistelemSelected);  // For testing
     // Initialize the model
     shuffl.initModelVar(card, 'shuffl:title',    carddata, cardid);
-    shuffl.initModelVar(card, 'shuffl:tags',     carddata, [cardtype], 'array');
     shuffl.initModelVar(card, 'shuffl:fileuri',  carddata, "./");
     card.data("shuffl:fileuri", jQuery.uri(card.data("shuffl:fileuri")));
     card.data("shuffl:filename", "");
@@ -310,7 +307,6 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
 shuffl.card.selectfile.serialize = function (card) {
     var carddata = shuffl.card.selectfile.data;
     carddata['shuffl:title']    = card.model("shuffl:title");
-    carddata['shuffl:tags']     = shuffl.makeTagList(card.model("shuffl:tags"));
     var b = jQuery.uri(card.model("shuffl:fileuri"));
     var f = jQuery.uri(card.model("shuffl:collpath"), b).toString();
     carddata['shuffl:fileuri']  = f;
