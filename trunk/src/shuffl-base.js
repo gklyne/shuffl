@@ -328,15 +328,23 @@ shuffl.uriWithoutFragment = function (uri)
 };
 
 /**
- * Get URI component name (path following last '/')
+ * Resolve URI against current default
  * 
  * Resolve w.r.t. shuffl.uriBase("") is to work around what I beleive to be 
- * a bug in jQuery.uri - it uses filename part from the base path if none
+ * a bug in jQuery.uri, which uses filename part from the base path if none
  * is present in the relative path.
+ */
+shuffl.uriResolveDefault = function (uri) 
+{
+    return jQuery.uri(uri, shuffl.uriBase(""));
+};
+
+/**
+ * Get URI component name (path following last '/')
  */
 shuffl.uriName = function (uri) 
 {
-    return jQuery.uri(uri, shuffl.uriBase("")).path.replace(/.*\//, "");
+    return shuffl.uriResolveDefault(uri).path.replace(/.*\//, "");
 };
 
 /**

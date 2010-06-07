@@ -501,7 +501,8 @@ TestCardSelectfile = function() {
                 var types = ["collection", "collection", "item", "item", "item"];
                 equals(c.data('shuffl:collpath'), basepath+"testdir/directory/", "shuffl:collpath");
                 checkFileList(c, "path:testdir", baseuri+"testdir/directory/", files, types);
-                equals(c.data('shuffl:filename'), "", "shuffl:filename");
+                // Preserve filename when selecting directory:
+                equals(c.data('shuffl:filename'), "test-csv.csv", "shuffl:filename");
                 callback(val);
             });
             m.exec({}, start);

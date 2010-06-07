@@ -176,10 +176,17 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
     // trigger a read when initializing a card.
     card.modelBind("shuffl:uri", function (event, data) {
         log.debug("Read "+data.newval+" into data table");
-        jQuery.getCSV(data.newval, function (data, status) {
-            ////log.debug("- data "+jQuery.toJSON(data));
-            card.model("shuffl:table", data);
-        });
+        if (shuffl.ends("/",data.newval))
+        {
+            card.model("shuffl:table", [[]]);
+        }
+        else
+        {
+            jQuery.getCSV(data.newval, function (data, status) {
+                ////log.debug("- status "+status+", data "+jQuery.toJSON(data));
+                if (status == "success") card.model("shuffl:table", data);
+            });
+        };
     });
     return card;
 };
@@ -203,21 +210,45 @@ shuffl.card.dataworksheet.serialize = function (card)
 shuffl.card.dataworksheet.browseClicked = function (card, event)
 {
     // Create selectfile card
-    log.debug("shuffl.card.dataworksheet.browseClicked");
+    ////log.debug("shuffl.card.dataworksheet.browseClicked");
     var selectfile = shuffl.card.selectfile.newCard("shuffl-selectfile", "stock-default", "card-1",
-        { 'shuffl:title':    "card-title"
-        , 'shuffl:fileuri': baseuri+"testdir/test-csv.csv"
+        { 'shuffl:title':   "Select worksheet file"
+        , 'shuffl:fileuri': card.model("shuffl:uri")
         });
+    // shuffl.placeCard(layout, card, pos, size, zindex) 
     shuffl.placeCard(
         jQuery('#layout'), 
         selectfile, 
-        {"left":10, "top":10},
-        {width:"20em", height:"10em"}
-        ////shuffl.positionAbsolute({"left":10, "top":10}, card)
+        shuffl.positionAbsolute({"left":10, "top":10}, card),
+        ////{"left":10, "top":10},
+        {width:"30em", height:"15em"}
         );
-    // shuffl.placeCard = function (layout, card, pos, size, zindex) 
     // Listen to shuffl:fileuri - update local URI
+    //   fn(event, data) {
+    //      // this  = jQuery object containing changed model variable
+    //      // event = jQuery event object
+    //      // data  = {name:modelvarname, oldval:oldval, newval:value}
+    //   };
+    selectfile.modelBind("shuffl:fileuri", function (event, val)
+        {
+            try 
+            {
+                log.debug("Selectfile card fileuri updated "+val.newval);
+                card.model("shuffl:uri", val.newval.toString());
+            } 
+            catch(e) 
+            {
+                debugger;
+                log.error("selectfile new fileuri error "+e)              
+            };
+        });
     // Listen for shuffl:closeuri - unhook handlers
+    selectfile.modelBind("shuffl:closeUri", function (event, val)
+        {
+            log.debug("Selectfile card fileuri closing "+val.newval);
+            selectfile.modelUnbind("shuffl:uri");
+            selectfile.modelUnbind("shuffl:closeUri");
+        });
 };
 
 /**

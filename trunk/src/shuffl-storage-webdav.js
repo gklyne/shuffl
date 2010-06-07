@@ -374,6 +374,7 @@ shuffl.WebDAVStorage.prototype.create = function (coluri, slug, data, callback)
             }
         } else {
             // Resource already exists: error
+            //TODO: this is probably a bug - take 'var' off val
             var val = new shuffl.Error(
                 "Create failed: resource already exists", newuri);
             val.HTTPstatus     = 400;
