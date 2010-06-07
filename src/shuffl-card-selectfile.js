@@ -151,7 +151,8 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
                 ////log.debug("- match rownum "+rownum+", text "+n);
             };
         });
-        if (n) card.model("shuffl:filename", n);
+        var v = shuffl.ends("/",n) ? "shuffl:collpath" : "shuffl:filename";
+        if (n) card.model(v, n);
         return true;
     };
 
@@ -291,8 +292,8 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     card.modelBind("shuffl:close", closeClicked);                 // For testing
     // Initialize the model
     shuffl.initModelVar(card, 'shuffl:title',    carddata, cardid);
-    shuffl.initModelVar(card, 'shuffl:fileuri',  carddata, "./");
-    card.data("shuffl:fileuri", jQuery.uri(card.data("shuffl:fileuri")));
+    shuffl.initModelVar(card, 'shuffl:fileuri',  carddata, "");
+    card.data("shuffl:fileuri", shuffl.uriResolveDefault(card.data("shuffl:fileuri")));
     card.data("shuffl:filename", "");
     card.data("shuffl:collpath", "");
     card.data("shuffl:collbase", "(initializing...)");

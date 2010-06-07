@@ -90,10 +90,27 @@ jQuery.extend({
     getCSV:
         function(uri, callback)
         {
-            function parseCSV(data, status) {
-                if (status == "success") {
-                    data = jQuery.csv()(data); 
-                } else {
+            function parseCSV(data, status) 
+            {
+                if (status == "success")
+                {
+                    data = jQuery.csv()(data);
+                    // Sanity check data - list of lists - drop binary content
+                    for (var i = 0 ; data && (i < data.length) ; i++)
+                    {
+                        for (var j = 0 ; j < data[i].length ; j++)
+                        {
+                            if (!data[i][j].match(/^[\u0020-\u00fd\u0100-\uffff]*$/))
+                            {
+                                data = null;
+                                status = "invalidCSV";
+                                break;
+                            }
+                        }
+                    }
+                }
+                else 
+                {
                     data = null; 
                 };
                 callback(data, status);

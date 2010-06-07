@@ -158,6 +158,19 @@ TestJqueryReadCSV = function() {
         stop(2000);
     });
 
+    test("read invalid CSV from file", function ()
+    {
+        logtest("TestJqueryReadBadCSV: read invalid CSV from file");
+        expect(2);
+        function checkdata(tbl, status) {
+            equals(status, "invalidCSV", "jQuery.getCSV status");
+            equals(tbl, null, "null response");
+            start();
+        };
+        jQuery.getCSV("data/test-bad-csv.txt", checkdata);
+        stop(2000);
+    });
+
 };
 
 // End

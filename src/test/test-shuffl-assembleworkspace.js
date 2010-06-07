@@ -107,8 +107,8 @@ TestAssembleWorkspaceDescription = function() {
                 equals(lo[i]['class'], "test-type",                 "shuffl:layout["+i+"].class");
                 equals(lo[i]['data'],  "card_id.json",              "shuffl:layout["+i+"].data");
                 var p = lo[i]['pos'];
-                equals(Math.floor(p.left), testlo[i]['pos'].left,   "position-left");
-                equals(Math.floor(p.top),  testlo[i]['pos'].top,    "position-top");
+                equals(Math.floor(p.left+0.5), testlo[i]['pos'].left,   "position-left");
+                equals(Math.floor(p.top+0.5),  testlo[i]['pos'].top,    "position-top");
                 var testsize = ( testlo[i]['size']
                                ? [ testlo[i]['size'], testlo[i]['size'] ]
                                : [ {width:110, height:20}, {width:140, height:25} ]

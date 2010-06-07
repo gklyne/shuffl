@@ -215,8 +215,8 @@ TestCardHandlers = function() {
         equals(c.data('shuffl:dataRW'),  true,      "card shuffl:dataRW");          
         same(c.data('shuffl:external'), d, "card data");
         var p = c.position();
-        equals(Math.floor(p.left), 100, "position-left");
-        equals(Math.floor(p.top),  30,  "position-top");
+        equals(Math.floor(p.left+0.5), 100, "position-left");
+        equals(Math.floor(p.top+0.5),  30,  "position-top");
         range(Math.floor(c.width()), 114, 140, "width"); // Allow some variation between systems
         ////equals(Math.floor(c.width()), 119, "width");
         equals(Math.floor(c.height()), 21,  "height");
@@ -270,8 +270,8 @@ TestCardHandlers = function() {
         equals(c.data('shuffl:dataRW'),  true,      "card shuffl:dataRW");          
         same(c.data('shuffl:external'), d, "card data");
         var p = c.position();
-        equals(Math.floor(p.left), 100, "position-left");
-        equals(Math.floor(p.top),  30,  "position-top");
+        equals(Math.floor(p.left+0.5), 100, "position-left");
+        equals(Math.floor(p.top+0.5),  30,  "position-top");
         equals(Math.floor(c.width()), 333, "width");
         equals(Math.floor(c.height()), 222,  "height");
         equals(c.css("zIndex"), "14", "card zIndex");
@@ -360,9 +360,9 @@ TestCardHandlers = function() {
         equals(c.data('shuffl:class'), "test-type", "layout card class");
         same(c.data('shuffl:external'), d, "card data");
         var p = c.position();
-        equals(Math.floor(p.left), 22, "position-left");
-        equals(Math.floor(p.top),  12,  "position-top");
-        equals(Math.floor(c.width()), 303, "width");
+        equals(Math.floor(p.left+0.5), 22, "position-left");
+        equals(Math.floor(p.top+0.5),  12,  "position-top");
+        equals(Math.floor(c.width()),  303, "width");
         equals(Math.floor(c.height()), 202,  "height");
         equals(c.css("zIndex"), "11", "card zIndex");
     });
@@ -396,8 +396,10 @@ TestCardHandlers = function() {
         var p = c.position();
         // Ad-hoc tweak
         // TODO: find out how to get proper positioning. Use pixels?
-        equals(Math.floor(p.left)+5, 23, "position-left");
-        equals(Math.floor(p.top)+1,  13,  "position-top");
+        ////range(Math.floor(p.left+0.5), 18, 23, "position-left");
+        ////range(Math.floor(p.top+0.5),  12, 13, "position-top");
+        equals(Math.floor(p.left+0.5)+5, 23, "position-left");
+        equals(Math.floor(p.top+0.5)+1,  13,  "position-top");
         //equals(Math.floor(p.left), 23, "position-left");
         //equals(Math.floor(p.top),  13,  "position-top");
         //equals(p.left, 23, "position-left");
