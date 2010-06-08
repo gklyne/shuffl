@@ -34,7 +34,7 @@ shuffl.resize = function()
 {
     log.debug("Resize workspace");
     // Adjust height of layout area
-    var layout  = jQuery("#layout"); 
+    var layout  = jQuery("#layout");
     var sheight = jQuery("#stockbar").outerHeight();
     var fheight = jQuery("#footer").outerHeight();
     var vmargin = parseInt(layout.css('margin-bottom'), 10);
