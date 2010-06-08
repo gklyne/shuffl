@@ -511,7 +511,7 @@ TestCardSelectfile = function() {
 
     test("shuffl.card.selectfile model non-webdav path setting",
         function () {
-        var nextcallback;
+            var nextcallback;
             logtest("TestCardSelectfile: shuffl.card.selectfile non-webdav path setting");
             expect(27);
             // Create card (copy of code already tested)
@@ -590,7 +590,7 @@ TestCardSelectfile = function() {
                 }
                 nextcallback = callback;
                 setTimeout(callback, 500);
-            })
+            });
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:filelist", nextcallback);
                 equals(c.data('shuffl:collpath'), webdav_root, "shuffl:collpath (webdav_root)");
@@ -618,15 +618,14 @@ TestCardSelectfile = function() {
             stop(5000);
     });
 
-    test("shuffl.clickCloseButton",
+    test("shuffl.card.selectfile.closeClicked",
         function () {
-            logtest("TestCardSelectfile: shuffl.clickCloseButton");
+            logtest("TestCardSelectfile: shuffl.card.selectfile.closeClicked");
             expect(8);
             // Create card (copy of code already tested)
             var d = testcardselectfile_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
             var m = new shuffl.AsyncComputation();
-            var savelist = null;
             m.eval(function(val,callback) {
                 // Continue testing after card is fully initialized
                 setTimeout(callback, 500);
@@ -659,6 +658,134 @@ TestCardSelectfile = function() {
             });
             m.exec({}, start);
             stop(2500);             
+        });
+
+    test("shuffl.card.selectfile callbacks",
+        function () {
+            logtest("TestCardSelectfile: shuffl.card.selectfile callbacks");
+            expect(45);
+            // Create card (copy of code already tested)
+            var d = testcardselectfile_carddata;
+            var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-selectfile", d);
+            var m = new shuffl.AsyncComputation();
+            // Set up listener on filename changes
+            var furi = null;
+            var fcount = 0;
+            c.modelBind("shuffl:fileuri",
+                function (event, val)
+                {
+                    log.debug("Selectfile shuffl:fileuri changed "+val.newval);
+                    furi = val;
+                    fcount++;
+                });
+            // Set up listener for final URI on closing
+            var curi = null;
+            c.modelBind("shuffl:closeUri",
+                function (event, val)
+                {
+                    log.debug("Selectfile shuffl:closeUri changed "+val.newval);
+                    curi = val;
+                });
+            // Continue testing after card is fully initialized
+            m.eval(function(val,callback) {
+                setTimeout(callback, 500);
+            });
+            m.eval(function(val,callback) {
+                equals(c.find("ctitle").text(),              "Card N title", "card title field");
+                equals(c.data('shuffl:collpath'),            basepath,       "shuffl:collpath");
+                equals(c.data('shuffl:filename'),            "file",         "shuffl:filename");
+                equals(c.data('shuffl:fileuri').toString(),  baseuri+"file", "shuffl:fileuri");
+                equals(c.data('shuffl:closeUri'),            undefined,      "shuffl:closeUri");
+                callback(val);
+            });
+            // Set directory
+            m.eval(function(val,callback) {
+                nextcallback = callback;
+                c.modelBind("shuffl:filelist", nextcallback);
+                c.model("shuffl:collpath", basepath+"testdir/");
+            });
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                equals(c.data('shuffl:collpath'),           basepath+"testdir/",     "shuffl:collpath (1)");
+                equals(c.data('shuffl:filename'),           "file",                  "shuffl:filename (1)");
+                equals(c.data('shuffl:fileuri').toString(), baseuri+"testdir/file",  "shuffl:fileuri  (1)");
+                equals(c.data('shuffl:closeUri'),           undefined,               "shuffl:closeUri (1)");
+                equals(fcount,                 3,                      "fcount      (1)");
+                equals(furi.name,              'shuffl:fileuri',       "furi.name   (1)");
+                equals(furi.oldval.toString(), baseuri+"file",         "furi.oldval (1)");
+                equals(furi.newval.toString(), baseuri+"testdir/file", "furi.newval (1)");
+                equals(curi,                   null,                   "curi        (1)");
+                callback(val);
+            });
+            // Set filename
+            m.eval(function(val,callback) {
+                c.model("shuffl:filename", "newfile");
+                callback(val);    // No refresh of file list this time..
+            });
+            m.eval(function(val,callback) {
+                equals(c.data('shuffl:collpath'), basepath+"testdir/", "shuffl:collpath (2)");
+                equals(c.data('shuffl:filename'), "newfile",           "shuffl:filename (2)");
+                equals(fcount,                 4,                         "fcount      (2)");
+                equals(furi.name,              'shuffl:fileuri',          "furi.name   (2)");
+                equals(furi.oldval.toString(), baseuri+"testdir/file",    "furi.oldval (2)");
+                equals(furi.newval.toString(), baseuri+"testdir/newfile", "furi.newval (2)");
+                equals(curi,                   null,                      "curi        (2)");
+                callback(val);
+            });
+            // Simulate click on directory (2=directory/)
+            m.eval(function(val,callback) {
+                nextcallback = callback;
+                c.modelBind("shuffl:filelist", nextcallback);
+                c.model("shuffl:filelistelem", 2);
+            });
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                equals(c.data('shuffl:collpath'), basepath+"testdir/directory/", "shuffl:collpath (3)");
+                equals(c.data('shuffl:filename'), "newfile",                     "shuffl:filename (3)");
+                equals(fcount,                 6,                                   "fcount      (3)");
+                equals(furi.name,              'shuffl:fileuri',                    "furi.name   (3)");
+                equals(furi.newval.toString(), baseuri+"testdir/directory/newfile", "furi.newval (3)");
+                equals(curi,                   null,                                "curi        (3)");
+                callback(val);
+            });
+            // Simulate click on filename (3=file1.a)
+            m.eval(function(val,callback) {
+                c.model("shuffl:filelistelem", 4);
+                callback(val);    // No refresh of file list this time..
+            });
+            m.eval(function(val,callback) {
+                equals(c.data('shuffl:collpath'), basepath+"testdir/directory/", "shuffl:collpath (4)");
+                equals(c.data('shuffl:filename'), "file2.a",                     "shuffl:filename (4)");
+                equals(fcount,                 7,                                    "fcount      (4)");
+                equals(furi.name,              'shuffl:fileuri',                     "furi.name   (4)");
+                equals(furi.oldval.toString(), baseuri+"testdir/directory/newfile",  "furi.oldval (4)");
+                equals(furi.newval.toString(), baseuri+"testdir/directory/file2.a",  "furi.newval (4)");
+                equals(curi,                   null,                                 "curi        (4)");
+                callback(val);
+            });
+            // Simulate click on close button
+            m.eval(function(val,callback) {
+                nextcallback = function (event, val) { callback(val); };
+                c.modelBind("shuffl:closeUri", nextcallback);
+                c.model("shuffl:close", "-");
+            });
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:closeUri", nextcallback);
+                equals(c.data('shuffl:collpath'), basepath+"testdir/directory/",       "shuffl:collpath (close)");
+                equals(c.data('shuffl:filename'), "file2.a",                           "shuffl:filename (close)");
+                equals(c.data('shuffl:fileuri'),  baseuri+"testdir/directory/file2.a", "shuffl:fileuri  (close)");
+                equals(c.data('shuffl:closeUri'), baseuri+"testdir/directory/file2.a", "shuffl:closeUri (close)");
+                equals(fcount,                 7,                                   "fcount      (close)");
+                equals(furi.name,              'shuffl:fileuri',                    "furi.name   (close)");
+                equals(furi.oldval.toString(), baseuri+"testdir/directory/newfile", "furi.oldval (close)");
+                equals(furi.newval.toString(), baseuri+"testdir/directory/file2.a", "furi.newval (close)");
+                equals(curi.name,              'shuffl:closeUri',                   "curi.name   (close)");
+                equals(curi.oldval,            undefined,                           "curi.oldval (close)");
+                equals(curi.newval.toString(), baseuri+"testdir/directory/file2.a", "curi.newval (close)");
+                callback(val);
+            });
+            m.exec({}, start);
+            stop(2000);             
         });
 
 };

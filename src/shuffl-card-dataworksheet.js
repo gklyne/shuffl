@@ -203,9 +203,11 @@ shuffl.card.dataworksheet.serialize = function (card)
 };
 
 /**
- * Helper function invokes a selectfile card for data file browsing
+ * Helper function invokes a selectfile card for data file browsing,
+ * called in response to a click on the "browse" button
  * 
  * @param card      a jQuery object corresponding to the current card
+ * @param event     the button-click event causing this function to be invoked
  */
 shuffl.card.dataworksheet.browseClicked = function (card, event)
 {
@@ -229,7 +231,8 @@ shuffl.card.dataworksheet.browseClicked = function (card, event)
     //      // event = jQuery event object
     //      // data  = {name:modelvarname, oldval:oldval, newval:value}
     //   };
-    selectfile.modelBind("shuffl:fileuri", function (event, val)
+    selectfile.modelBind("shuffl:fileuri", 
+        function (event, val)
         {
             try 
             {
@@ -238,15 +241,15 @@ shuffl.card.dataworksheet.browseClicked = function (card, event)
             } 
             catch(e) 
             {
-                debugger;
-                log.error("selectfile new fileuri error "+e)              
+                log.error("selectfile new fileuri error "+e);
             };
         });
     // Listen for shuffl:closeuri - unhook handlers
-    selectfile.modelBind("shuffl:closeUri", function (event, val)
+    selectfile.modelBind("shuffl:closeUri", 
+        function (event, val)
         {
             log.debug("Selectfile card fileuri closing "+val.newval);
-            selectfile.modelUnbind("shuffl:uri");
+            selectfile.modelUnbind("shuffl:fileuri");
             selectfile.modelUnbind("shuffl:closeUri");
         });
 };

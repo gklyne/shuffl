@@ -61,33 +61,8 @@ shuffl.card.datagraph.datamap =
     };
 
 /*
- * Temporary default data for testing...
+ * Default data...
  */
-shuffl.card.datagraph.table =
-    [ [ "", "series1", "series2", "series3", "series4" ] ];
-
-(function (table)
-{
-    function limit(val,min,max)
-    {
-        if (val<min) { return null; };
-        if (val>max) { return null; };
-        return val;
-    }
-    for (var x = 0.0 ; x <= 10.0 ; x = x+0.1) 
-    {
-        var x4 = Math.abs((x-5.0)*4);
-        table.push(
-          [ x
-          , Math.sin(x)
-          , Math.cos(x)
-          , limit(Math.tan(x)*0.2, -4.0, +4.0)
-          , (x4>0.0 ? Math.sin(x4)/x4 : 1.0)
-          ]);
-    };
-})(shuffl.card.datagraph.table);
-
-// Reset table data
 shuffl.card.datagraph.table = [ [] ];
 
 /**
@@ -207,7 +182,6 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
             };
         });
     };
-    // TODO: remove this temporary code to define table data if none provided
     if (!card.model('shuffl:series'))
     {
         card.model("shuffl:table", shuffl.card.datagraph.table);
