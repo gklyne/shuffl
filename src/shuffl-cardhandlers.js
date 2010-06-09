@@ -388,9 +388,9 @@ function (cardid, cardclass, carddata, jqelem, zindex, pos, siz)
     if (resizefn) { newcard.bind('resize', resizefn) };
     // Sort out placement
     newcard.css('position', 'absolute');
-    if (zindex)   { newcard.css("zIndex", zindex) };
-    if (pos)      { newcard.css(pos) };   // {left:x, top:y}
-    if (siz)      { newcard.css(siz) };   // {width:w, height:h}
+    if (zindex) { newcard.css("zIndex", zindex) };
+    if (pos)    { newcard.css(pos) };   // {left:x, top:y}
+    if (siz)    { shuffl.setCardSize(newcard, siz) };
     return newcard;
 };
 
