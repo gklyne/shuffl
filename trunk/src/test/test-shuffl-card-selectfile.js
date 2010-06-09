@@ -654,9 +654,9 @@ TestCardSelectfile = function() {
             });
             m.eval(function(val,callback) {
                 c.modelUnbind("shuffl:closeUri", nextcallback);
-                equals(val.name, "shuffl:closeUri", "shuffl:closeUri (name)");
-                equals(val.oldval, undefined, "shuffl:closeUri (oldval)");
-                equals(val.newval.toString(), baseuri+"data/closevalue", "shuffl:closeUri (oldval)");
+                equals(val.name,              "shuffl:closeUri",         "shuffl:closeUri (name)");
+                equals(val.oldval,            undefined,                 "shuffl:closeUri (oldval)");
+                equals(val.newval.toString(), baseuri+"data/closevalue", "shuffl:closeUri (newval)");
                 callback(val);
             });
             m.exec({}, start);
@@ -797,7 +797,7 @@ TestCardSelectfile = function() {
     test("shuffl.createAndPlaceCard",
         function () {
             logtest("TestCardSelectfile: shuffl.createAndPlaceCard");
-            expect(46);
+            expect(51);
             var c = shuffl.createAndPlaceCard("test_id", "shuffl-selectfile", 
                 { 'shuffl:title':   "Test title"
                 , 'shuffl:fileuri': baseuri+"testdir/testcsv"
@@ -900,8 +900,16 @@ TestCardSelectfile = function() {
             });
             // Simulate click on cancel button
             m.eval(function(val,callback) {
+                nextcallback = function (event, val) { callback(val); };
+                c.modelBind("shuffl:closeUri", nextcallback);
                 c.model("shuffl:cancel", "-");
-                setTimeout(callback, 500);
+            });
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:closeUri", nextcallback);
+                equals(val.name,   "shuffl:closeUri", "shuffl:closeUri (name)");
+                equals(val.oldval, undefined,         "shuffl:closeUri (oldval)");
+                equals(val.newval, null,              "shuffl:closeUri (newval)");
+                setTimeout(callback, 100);
             });
             m.eval(function(val,callback) {
                 ok(c.is(":hidden"),  "card hidden  (close)");
@@ -909,7 +917,9 @@ TestCardSelectfile = function() {
                 equals(furi.name,              'shuffl:fileuri',                    "furi.name   (close)");
                 equals(furi.oldval.toString(), baseuri+"testdir/directory/testcsv", "furi.oldval (close)");
                 equals(furi.newval.toString(), baseuri+"testdir/directory/file2.a", "furi.newval (close)");
-                equals(curi,                   null,                                "curi        (close)");
+                equals(curi.name,              'shuffl:closeUri',                   "curi.name   (close)");
+                equals(curi.oldval,            undefined,                           "curi.oldval (close)");
+                equals(curi.newval,            null,                                "curi.newval (close)");
                 callback(val);
             });
             m.exec({}, start);

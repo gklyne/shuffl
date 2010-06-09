@@ -91,14 +91,54 @@ shuffl.saveWorkspaceDefaults = function ()
     }
 };
 
-// TODO: refactor dialog logic and form
+/**
+ * Helper function for file open dialog
+ */
+shuffl.openFileDialog = function(title, uri, closelabel, callback)
+{
+    log.debug("shuffl.openFileDialog "+title+", "+uri);
+
+    // Callback on hiding modal box: remove file selector and clean up
+    var closeBox = function(obj)
+    {
+        obj.w.hide();
+        select.modelUnbind("shuffl:closeUri");
+        select = null;
+        obj.w.children().remove();
+        obj.o.remove();
+    };
+
+    // Configure modal box, and display
+    jQuery("#modal_box")
+      .jqm({modal: false, onHide: closeBox, trigger: false})
+      .jqmShow();
+
+    // Create file brose-and-select card in modal box
+    var select = shuffl.createAndPlaceCard(
+        "workspace_open", "shuffl-selectfile", 
+        { 'shuffl:title':   title
+        , 'shuffl:fileuri': uri
+        , 'shuffl:close':   closelabel
+        , 'shuffl:cancel':  "Cancel"
+        },
+        jQuery("#modal_box"), 3000, {left:"4em", top:"4em"}, {width:400, height:320}
+        );
+
+    // On clicking close button, load new workspace from specified URI,
+    // and hide modal box
+    select.modelBind("shuffl:closeUri", function(_event, val)
+        {
+            if (val.newval) { callback(val.newval.toString()) };
+            jQuery("#modal_box").jqmHide();           
+        });
+};
 
 /**
  * Menu command "Open workspace..."
  */
 shuffl.menuOpenWorkspace = function ()
 {
-    // Use current location (atomuri/feeduri) as default base
+    // Use current location as default base
     log.debug("shuffl.menuLoadWorkspace");
     var wsuri  = jQuery('#workspace').data('default_wsuri');
     var wsdata = jQuery('#workspace').data('wsdata');
@@ -106,31 +146,13 @@ shuffl.menuOpenWorkspace = function ()
     {
         wsuri  = jQuery('#workspace').data('location');
     };
-    log.debug("- wsuri "+wsuri);
-    jQuery('#open_wsuri').val(wsuri);
-    // Open dialog to obtain location of workspace data
-    jQuery("#dialog_open").dialog(
-        { bgiframe: true,
-          modal: true,
-          dialogClass: 'dialog-open',
-          width: 800,
-          buttons: {
-              Ok: function() {
-                  wsuri  = jQuery('#open_wsuri').val();
-                  log.debug("- OK: wsuri "+wsuri);
-                  jQuery(this).dialog('destroy');
-                  // Save cards, capture locations (or bail if error),
-                  // assemble workspace description and save, and
-                  // display location saved:
-                  shuffl.resetWorkspace(function(val) {
-                      shuffl.loadWorkspace(wsuri, shuffl.resetWorkspaceOnError);                    
-                  });
-              },
-              Cancel: function() {
-                  log.debug("- Cancel");
-                  jQuery(this).dialog('destroy');
-              }
-          }
+    shuffl.openFileDialog("Open workspace", wsuri, "Open",
+        function (newuri)
+        {
+            shuffl.resetWorkspace(function()
+            {
+                shuffl.loadWorkspace(newuri, shuffl.resetWorkspaceOnError);                    
+            });
         });
 };
 
@@ -152,35 +174,19 @@ shuffl.menuSaveNewWorkspace = function ()
     log.debug("shuffl.menuSaveNewWorkspace");
     var wsuri  = jQuery('#workspace').data('location');
     var wsdata = jQuery('#workspace').data('wsdata');
-    jQuery('#save_wsuri').val(wsuri);
-    jQuery("#dialog_save").dialog(
-        { bgiframe: true,
-          modal: true,
-          dialogClass: 'dialog-save',
-          width: 800,
-          buttons: {
-              Ok: function() {
-                  wsuri  = jQuery('#save_wsuri').val();
-                  jQuery(this).dialog('destroy');
-                  log.debug("- OK: wsuri "+wsuri);
-                  // Save cards, capture locations (or bail if error),
-                  // assemble workspace description and save, and
-                  // display location saved:
-                  var coluri   = jQuery.uri("../", wsuri);
-                  var wscoluri = jQuery.uri("./", wsuri);
-                  var wsname   = jQuery.uri.relative(wscoluri, coluri).toString().slice(0,-1);
-                  log.debug("- OK: wsuri "+wsuri+", coluri "+coluri+", wsname "+wsname);
-                  if (shuffl.invalidWorkspaceName(coluri, wsname, shuffl.showMessageOnError)) return;
-                  shuffl.deleteWorkspace(wsuri, function(val,next) {
-                      shuffl.saveNewWorkspace(coluri, wsname, 
-                          shuffl.showMessageOnError);
-                  });
-              },
-              Cancel: function() {
-                  log.debug("- Cancel");
-                  jQuery(this).dialog('destroy');
-              }
-          }
+    shuffl.openFileDialog("Save new workspace", wsuri, "Save",
+        function (newuri)
+        {
+            var coluri   = jQuery.uri("../", newuri);
+            var wscoluri = jQuery.uri("./", newuri);
+            var wsname   = jQuery.uri.relative(wscoluri, coluri).toString().slice(0,-1);
+            log.debug("- Save new: newuri "+newuri+", coluri "+coluri+", wsname "+wsname);
+            if (shuffl.invalidWorkspaceName(coluri, wsname, shuffl.showMessageOnError)) return;
+            shuffl.deleteWorkspace(newuri, function(val,next)
+            {
+                shuffl.saveNewWorkspace(coluri, wsname, 
+                    shuffl.showMessageOnError);
+            });
         });
 };
 
@@ -195,6 +201,10 @@ shuffl.MainMenuHTML =
     "    <li id='save'><img src='folder.png' />Save workspace</li>\n"+
     "    <li id='savenew'><img src='folder.png' />Save as new workspace...</li>\n"+
     "  </ul>\n"+
+    "</div>\n";
+
+shuffl.ModalBoxHTML =
+    "<div id='modal_box' style='display:none; position:absolute; left:0; top:0;' >\n"+
     "</div>\n";
 
 shuffl.OpenDialogHTML =
@@ -231,6 +241,7 @@ jQuery(document).ready(function()
 
     // Add menus and dialogs to the workspace
     jQuery("body").append(shuffl.MainMenuHTML);
+    jQuery("body").append(shuffl.ModalBoxHTML);
     jQuery("body").append(shuffl.OpenDialogHTML);
     jQuery("body").append(shuffl.SaveNewDialogHTML);
 

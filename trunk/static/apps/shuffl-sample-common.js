@@ -32,8 +32,8 @@ shuffl.sampleLoadWorkspace = function (wsname)
             , factory:  shuffl.WebDAVStorage
             });
         shuffl.addStorageHandler( 
-            { uri:      "http://localhost/webdav/shuffltest/"
-            , name:     "WebDAV-shuffltest"
+            { uri:      "http://localhost/webdav/shufflsave/"
+            , name:     "WebDAV-shufflsave"
             , factory:  shuffl.WebDAVStorage
             });
         shuffl.loadWorkspace(wsname, shuffl.saveWorkspaceDefaults);
