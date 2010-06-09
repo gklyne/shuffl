@@ -119,7 +119,7 @@ TestCardSelectfile = function() {
             var css = 'stock-default';
             var c   = shuffl.card.selectfile.newCard("shuffl-selectfile", css, "card-1",
                 { 'shuffl:title':    "card-title"
-                , 'shuffl:fileuri': baseuri+"testdir/test-csv.csv"
+                , 'shuffl:fileuri':  baseuri+"testdir/test-csv.csv"
                 });
             equals(c.attr('id'), "card-1", "card id attribute");
             //ok(c.hasClass('shuffl-card'),   "shuffl card class");
@@ -134,6 +134,9 @@ TestCardSelectfile = function() {
             equals(c.find("clist > cdir").text(), "(dir)/", "collection content listing field (dir)");
             equals(c.find("clist > cname").text(), "(filename)", "collection content listing field (name)");
             equals(c.find("cfile").text(), "(filename)", "file name field");
+            equals(c.find("cclose > button").text(),  "Close",  "Close button text");            
+            equals(c.find("ccancel > button").text(), "Cancel", "Cancel button text");            
+            ok(c.find("ccancel > button").is(":hidden"), "Cancel button hidden");            
             // Later, after card has been placed, values are updated to reflect supplied data
             setTimeout( function()
                 {
@@ -782,6 +785,131 @@ TestCardSelectfile = function() {
                 equals(curi.name,              'shuffl:closeUri',                   "curi.name   (close)");
                 equals(curi.oldval,            undefined,                           "curi.oldval (close)");
                 equals(curi.newval.toString(), baseuri+"testdir/directory/file2.a", "curi.newval (close)");
+                callback(val);
+            });
+            m.exec({}, start);
+            stop(2000);             
+        });
+
+    // Test independent creation and placement of card,
+    // alternative label for close button, 
+    // and display and activation of cancel button
+    test("shuffl.createAndPlaceCard",
+        function () {
+            logtest("TestCardSelectfile: shuffl.createAndPlaceCard");
+            expect(46);
+            var c = shuffl.createAndPlaceCard("test_id", "shuffl-selectfile", 
+                { 'shuffl:title':   "Test title"
+                , 'shuffl:fileuri': baseuri+"testdir/testcsv"
+                , 'shuffl:close':   "Test-close"
+                , 'shuffl:cancel':  "Test-cancel"
+                },
+                jQuery("#layout"), 1000, {left:40, top:30}
+                );
+
+            // Set up listener on filename changes
+            var furi = null;
+            var fcount = 0;
+            c.modelBind("shuffl:fileuri",
+                function (event, val)
+                {
+                    log.debug("Selectfile shuffl:fileuri changed "+val.newval);
+                    furi = val;
+                    fcount++;
+                });
+
+            // Set up listener for final URI on closing
+            var curi = null;
+            c.modelBind("shuffl:closeUri",
+                function (event, val)
+                {
+                    log.debug("Selectfile shuffl:closeUri changed "+val.newval);
+                    curi = val;
+                });
+
+            // Check card details
+            ok(c.hasClass('shuffl-card-setsize'), "shuffl card class");
+            ok(c.hasClass('stock-default'),       "CSS class");
+            equals(c.attr('id'),                      "test_id",           "card id attribute");
+            equals(c.find("ctitle").text(),           "Test title",        "card title field");
+            equals(c.find("ccoll").text(),            "(collection path)", "collection path field");
+            equals(c.find("clist > cdir").text(),     "(dir)/",            "collection content listing field (dir)");
+            equals(c.find("clist > cname").text(),    "(filename)",        "collection content listing field (name)");
+            equals(c.find("cfile").text(),            "(filename)",        "file name field");            
+            equals(c.find("cclose > button").text(),  "Test-close",        "Close button text");            
+            equals(c.find("ccancel > button").text(), "Test-cancel",       "Cancel button text");            
+            ok(c.find("ccancel > button").is(":visible"), "Cancel button visible");            
+            var p = c.position();
+            equals(Math.floor(p.left+0.5), 40, "card position-left");
+            equals(Math.floor(p.top+0.5),  30, "card position-top");
+            range(Math.floor(c.width()),  260, 270, "card width");
+            range(Math.floor(c.height()), 130, 132, "card height");
+            equals(c.css("zIndex"), "1000", "card zIndex");
+            // Continue testing after card is fully initialized
+            var m = new shuffl.AsyncComputation();
+            m.eval(function(val,callback) {
+                setTimeout(callback, 500);
+            });
+            m.eval(function(val,callback) {
+                equals(c.find("ctitle").text(), "Test title",            "card title field");
+                equals(c.find("ccoll").text(),  basepath+"testdir/",     "collection path field");
+                equals(c.find("clist").text(),  "../.svn/directory/test-csv.csv", "collection content listing field");
+                equals(c.find("cfile").text(),  "testcsv",               "file name field");
+                equals(c.find("cclose > button").text(),  "Test-close",  "Close button text");            
+                equals(c.find("ccancel > button").text(), "Test-cancel", "Cancel button text");            
+                ok(c.find("ccancel > button").is(":visible"), "Cancel button visible");            
+                callback(val);
+            });
+            m.eval(function(val,callback) {
+                equals(c.data('shuffl:collpath'),            basepath+"testdir/",       "shuffl:collpath");
+                equals(c.data('shuffl:filename'),            "testcsv",                 "shuffl:filename");
+                equals(c.data('shuffl:fileuri').toString(),  baseuri+"testdir/testcsv", "shuffl:fileuri");
+                equals(c.data('shuffl:closeUri'),            undefined,                 "shuffl:closeUri");
+                callback(val);
+            });
+            // Simulate click on directory (2=directory/)
+            m.eval(function(val,callback) {
+                nextcallback = callback;
+                c.modelBind("shuffl:filelist", nextcallback);
+                c.model("shuffl:filelistelem", 2);
+            });
+            m.eval(function(val,callback) {
+                c.modelUnbind("shuffl:filelist", nextcallback);
+                equals(c.data('shuffl:collpath'), basepath+"testdir/directory/", "shuffl:collpath (3)");
+                equals(c.data('shuffl:filename'), "testcsv",                     "shuffl:filename (3)");
+                equals(fcount,                 4,                                   "fcount      (3)");
+                equals(furi.name,              'shuffl:fileuri',                    "furi.name   (3)");
+                equals(furi.newval.toString(), baseuri+"testdir/directory/testcsv", "furi.newval (3)");
+                equals(curi,                   null,                                "curi        (3)");
+                callback(val);
+            });
+            // Simulate click on filename (3=file1.a)
+            m.eval(function(val,callback) {
+                c.model("shuffl:filelistelem", 4);
+                callback(val);    // No refresh of file list this time..
+            });
+            m.eval(function(val,callback) {
+                equals(c.data('shuffl:collpath'), basepath+"testdir/directory/", "shuffl:collpath (4)");
+                equals(c.data('shuffl:filename'), "file2.a",                     "shuffl:filename (4)");
+                equals(fcount,                 5,                                    "fcount      (4)");
+                equals(furi.name,              'shuffl:fileuri',                     "furi.name   (4)");
+                equals(furi.oldval.toString(), baseuri+"testdir/directory/testcsv",  "furi.oldval (4)");
+                equals(furi.newval.toString(), baseuri+"testdir/directory/file2.a",  "furi.newval (4)");
+                equals(curi,                   null,                                 "curi        (4)");
+                callback(val);
+            });
+            // Simulate click on cancel button
+            m.eval(function(val,callback) {
+                c.model("shuffl:cancel", "-");
+                setTimeout(callback, 500);
+            });
+            m.eval(function(val,callback) {
+                ok(c.is(":hidden"),  "card hidden  (close)");
+                equals(fcount,                 5,                                   "fcount      (close)");
+                equals(furi.name,              'shuffl:fileuri',                    "furi.name   (close)");
+                equals(furi.oldval.toString(), baseuri+"testdir/directory/testcsv", "furi.oldval (close)");
+                equals(furi.newval.toString(), baseuri+"testdir/directory/file2.a", "furi.newval (close)");
+                equals(curi,                   null,                                "curi        (close)");
                 callback(val);
             });
             m.exec({}, start);
