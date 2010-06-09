@@ -218,7 +218,6 @@ TestCardHandlers = function() {
         equals(Math.floor(p.left+0.5), 100, "position-left");
         equals(Math.floor(p.top+0.5),  30,  "position-top");
         range(Math.floor(c.width()), 114, 140, "width"); // Allow some variation between systems
-        ////equals(Math.floor(c.width()), 119, "width");
         equals(Math.floor(c.height()), 21,  "height");
         equals(c.css("zIndex"), "11", "card zIndex");
     });

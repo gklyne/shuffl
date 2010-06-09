@@ -302,6 +302,7 @@ shuffl.createCardFromStock = function (stockpile) {
  * 
  * @param cardid    the new card identifier
  * @param cardclass a card class (factory type, not CSS class) for the new card
+ * @param
  * @param origdata  structure indicating attributes of the card, as well as
  *                  card-type-dependent data values.
  * @return          a jQuery object representing the new card.
@@ -353,6 +354,227 @@ shuffl.placeCardFromData = function (layout, data)
     var cardsize = layout['size'] || shuffl.defaultSize;
     shuffl.placeCard(jQuery('#layout'), newcard, 
         layout['pos'], cardsize, layout['zindex']);
+};
+
+/**
+ * Create a new card and place it in the element referenced by a supplied
+ * jQuery object.  This function is provided for allowing cards to be used
+ * separately than as normal Shuffl cards, e.g. as modal dialogs.
+ * 
+ * NOTE: for this to work properly, the element to which the card is 
+ * added must be visible when this function is invoked.
+ * 
+ * @param cardid    the new card identifier
+ * @param cardclass a card class (factory type, not CSS class) for the new card
+ * @param carddata  is an object containing card-specific data to be added to
+ *                  the card
+ * @param jqelem    is a jQuery object corresponding to the DOM element to 
+ *                  which the new card is added.
+ * @param zindex    if specified, is a zIndex value applied to the card
+ * @param pos       if specified, is the position for the new card
+ * @param siz       if specified, is the size for the new card
+ */
+shuffl.createAndPlaceCard = 
+function (cardid, cardclass, carddata, jqelem, zindex, pos, siz)
+{
+    //TODO: refactor this (see createCardFromData, etc)
+    // Create card using card factory
+    var newcard   = shuffl.getCardFactory(cardclass)(cardid, carddata);
+    jqelem.append(newcard);
+    newcard.addClass('shuffl-card');
+    var resizefn = shuffl.resizeHandler(
+        newcard, newcard.data("resizeAlso"), newcard.data("redrawFunc"));
+    newcard.data("resizeFunc", resizefn);
+    if (resizefn) { newcard.bind('resize', resizefn) };
+    // Sort out placement
+    newcard.css('position', 'absolute');
+    if (zindex)   { newcard.css("zIndex", zindex) };
+    if (pos)      { newcard.css(pos) };   // {left:x, top:y}
+    if (siz)      { newcard.css(siz) };   // {width:w, height:h}
+    return newcard;
+};
+
+// ----------------------------------------------------------------
+// Card workspace placement support functions
+// ----------------------------------------------------------------
+
+shuffl.defaultSize = {width:0, height:0};
+
+shuffl.defaultSetSize = {width:"20em", height:"10em"};
+
+/**
+ * Invoke the supplied function to redraw the current card after a specified
+ * delay.  Any previous pending redraws are cancelld.
+ * 
+ * @param card      is the card to be redrawn (a jQuery object).  If null,
+ *                  any outstanding redraw is cancelled, but no new redraw is 
+ *                  scheduled.
+ * @param redrawfn  is a function called to redraw the card.  The card object
+ *                  is supplied as the first parameter and the value of 'this'.
+ * @param delay     a number of milliseconds to delay before doing the redraw.
+ */
+shuffl.redrawAfter = function (card, redrawfn, delay)
+{
+    var t = card.data("redrawTimer");
+    if (t) 
+    { 
+        clearTimeout(t);        // Cancel pending redraw
+        t = null;
+    };
+    if (redrawfn)
+    {
+        t = setTimeout(function () { redrawfn.call(card, card); }, delay);
+    };
+    card.data("redrawTimer", t);
+};
+
+/**
+ * Returns a function that catches a resize event to resize specified 
+ * sub-elements in sync with any changes the main card element.
+ * 
+ * Contains logic to delay the redraw for 0.25 second, so that redraws
+ * don't happen while the card is actively being resized.
+ * 
+ * @param card      card element jQuery object whose resize events are to 
+ *                  be tracked.
+ * @param selector  jQuery selector string for the sub-element to be resized 
+ *                  with changes to the card element.
+ * @param redrawfn  a function called to redraw card elements when the card 
+ *                  is resized.  When called, the current card is supplied
+ *                  as 'this' and also as the single call argument.
+ * @return          a function that serves as a resize handler for the
+ *                  selected sub-element.
+ */
+shuffl.resizeHandler = function (card, selector, redrawfn) 
+{
+    //log.debug("shuffl.resizeHandler "+selector);
+    var elem = card.find(selector);
+    if (elem.length == 1) {
+        var dw = card.width() - elem.width();
+        var dh = card.height() - elem.height();
+        log.debug("shuffl.resizeHandler "+card.width()+", dw: "+dw);
+        var handleResize = function (/*event, ui*/) 
+        {
+            // Track changes in width and height
+            var c = jQuery(this);
+            ////log.debug("handleResize "+c.width()+", dw: "+dw);
+            elem.width(c.width()-dw);
+            elem.height(c.height()-dh);
+            ////log.debug("shuffl.resizeHandler:handleResize elem "+elem.width()+", "+elem.height());
+            shuffl.redrawAfter(card, redrawfn, 250.0);
+        };
+        return handleResize;
+    };
+    return undefined;
+};
+
+/**
+ * Place card on the shuffl layout area, and set up common event handlers
+ * and properties.
+ * 
+ * All cards are draggable, and clicking on them brings them to the front
+ * of the display stack.
+ * 
+ * If card data value "resizeAlso" is specified, it is a jQuery selector for
+ * an element within the card that is resized in sync with the main card.
+ * 
+ * If card data value "redrawFunc" is specified, it is called when parts of
+ * the card may need redrawing to accommodate a changed card size (this value
+ * is used only when "resizeAlso" is defined).
+ * 
+ * @param layout    the layout area where the card will be placed
+ * @param card      the card to be placed
+ * @param pos       the position at which the card is to be placed
+ * @param size      the size for the created card (zero dimensions leave the
+ *                  default values (e.g. from CSS) in effect).
+ * @param zindex    the z-index for the created card; zero or undefined brings
+ *                  the new card to the top of the display stack.
+ */
+shuffl.placeCard = function (layout, card, pos, size, zindex) 
+{
+    ////log.debug("shuffl.placeCard pos: "+jQuery.toJSON(pos)+", size: "+jQuery.toJSON(size));
+    layout.append(card);
+    var resizefn = shuffl.resizeHandler(
+        card, card.data("resizeAlso"), card.data("redrawFunc"));
+    card.data("resizeFunc", resizefn);
+    if (resizefn) { card.bind('resize', resizefn); };
+    card.css(pos).css('position', 'absolute');
+    shuffl.setCardSize(card, size);
+    // Make card draggable and to front of display
+    card.draggable(shuffl.cardDraggable);
+    if (zindex) 
+    {
+        card.css('zIndex', zindex)
+    } 
+    else 
+    {
+        shuffl.toFront(card);
+    };
+    // Click brings card back to top
+    card.click( function () { shuffl.toFront(jQuery(this)); });
+    // TODO: Consider making card-sized drag
+    ////log.debug("shuffl.placeCard End.");
+};
+
+/**
+ * Create a new card where a stock pile has been dropped
+ * 
+ * @param frompile  the stock pile jQuery object from which a new card will
+ *                  be derived
+ * @param tolayout  the layout area jQuery obejct in which the new card will
+ *                  be displayed.
+ * @param pos       the position within the layout area where the new card 
+ *                  will be displayed
+ */
+shuffl.dropCard = function(frompile, tolayout, pos) 
+{
+    ////log.debug("shuffl.dropCard: "+shuffl.objectString(pos));
+    // Create card using stockpile card factory
+    var newcard = frompile.data('makeCard')(frompile);
+    //�Place card on layout
+    pos = shuffl.positionRelative(pos, tolayout);
+    pos = shuffl.positionRel(pos, { left:5, top:1 });   // TODO calculate this properly
+    shuffl.placeCard(tolayout, newcard, pos, shuffl.defaultSize, 0);
+    if (newcard.hasClass("shuffl-card-setsize")) {
+        shuffl.setCardSize(newcard, shuffl.defaultSetSize);
+    };
+};
+
+/**
+ * Resize card, invoking the card resize handler as needed to adjust internal
+ * component sizes and redraw card contents.
+ */
+shuffl.setCardSize = function (card, size) {
+    if (size.height) { card.height(size.height); };
+    if (size.width)  { card.width(size.width); };
+    var resizefn = card.data("resizeFunc");
+    if (resizefn) { resizefn.call(card /*, null, null*/); };        
+};
+
+/**
+ * Move indicated element to front in its draggable group
+ * 
+ * Code adapted from jQuery 
+ * (jquery.ui.draggable.js: $.ui.plugin.add("draggable", "stack", ...) )
+ */
+shuffl.toFront = function (elem) 
+{
+    if (elem.data("draggable")) 
+    {
+        var opts  = elem.data("draggable").options;
+        var group = jQuery.makeArray(jQuery(opts.stack)).sort(function(a,b) 
+            {
+                return shuffl.parseInt(jQuery(a).css("zIndex"), 10, 0) - 
+                       shuffl.parseInt(jQuery(b).css("zIndex"), 10, 0);
+            });
+        if (!group.length) { return; }   
+        var min = shuffl.parseInt(group[0].style.zIndex, 10, 0);
+        jQuery(group).each(function(i) 
+            {
+                this.style.zIndex = min + i;
+            });
+        elem[0].style.zIndex = min + group.length;
+    };
 };
 
 // ----------------------------------------------------------------
@@ -957,189 +1179,6 @@ shuffl.floatEditable = function (card, field, callback)
         , width: 40
         , callback: parseEditFloat  // (new inerHTML, settings)
         });
-};
-
-// ----------------------------------------------------------------
-// Card workspace placement support functions
-// ----------------------------------------------------------------
-
-shuffl.defaultSize = {width:0, height:0};
-
-shuffl.defaultSetSize = {width:"20em", height:"10em"};
-
-/**
- * Invoke the supplied function to redraw the current card after a specified
- * delay.  Any previous pending redraws are cancelld.
- * 
- * @param card      is the card to be redrawn (a jQuery object).  If null,
- *                  any outstanding redraw is cancelled, but no new redraw is 
- *                  scheduled.
- * @param redrawfn  is a function called to redraw the card.  The card object
- *                  is supplied as the first parameter and the value of 'this'.
- * @param delay     a number of milliseconds to delay before doing the redraw.
- */
-shuffl.redrawAfter = function (card, redrawfn, delay)
-{
-    var t = card.data("redrawTimer");
-    if (t) 
-    { 
-        clearTimeout(t);        // Cancel pending redraw
-        t = null;
-    };
-    if (redrawfn)
-    {
-        t = setTimeout(function () { redrawfn.call(card, card); }, delay);
-    };
-    card.data("redrawTimer", t);
-};
-
-/**
- * Returns a function that catches a resize event to resize specified 
- * sub-elements in sync with any changes the main card element.
- * 
- * Contains logic to delay the redraw for 0.25 second, so that redraws
- * don't happen while the card is actively being resized.
- * 
- * @param card      card element jQuery object whose resize events are to 
- *                  be tracked.
- * @param selector  jQuery selector string for the sub-element to be resized 
- *                  with changes to the card element.
- * @param redrawfn  a function called to redraw card elements when the card 
- *                  is resized.  When called, the current card is supplied
- *                  as 'this' and also as the single call argument.
- * @return          a function that serves as a resize handler for the
- *                  selected sub-element.
- */
-shuffl.resizeHandler = function (card, selector, redrawfn) 
-{
-    //log.debug("shuffl.resizeHandler "+selector);
-    var elem = card.find(selector);
-    if (elem.length == 1) {
-        var dw = card.width() - elem.width();
-        var dh = card.height() - elem.height();
-        log.debug("shuffl.resizeHandler "+card.width()+", dw: "+dw);
-        var handleResize = function (/*event, ui*/) 
-        {
-            // Track changes in width and height
-            var c = jQuery(this);
-            ////log.debug("handleResize "+c.width()+", dw: "+dw);
-            elem.width(c.width()-dw);
-            elem.height(c.height()-dh);
-            ////log.debug("shuffl.resizeHandler:handleResize elem "+elem.width()+", "+elem.height());
-            shuffl.redrawAfter(card, redrawfn, 250.0);
-        };
-        return handleResize;
-    };
-    return undefined;
-};
-
-/**
- * Place card on the shuffl layout area, and set up common event handlers
- * and properties.
- * 
- * All cards are draggable, and clicking on them brings them to the front
- * of the display stack.
- * 
- * If card data value "resizeAlso" is specified, it is a jQuery selector for
- * an element within the card that is resized in sync with the main card.
- * 
- * If card data value "redrawFunc" is specified, it is called when parts of
- * the card may need redrawing to accommodate a changed card size (this value
- * is used only when "resizeAlso" is defined).
- * 
- * @param layout    the layout area where the card will be placed
- * @param card      the card to be placed
- * @param pos       the position at which the card is to be placed
- * @param size      the size for the created card (zero dimensions leave the
- *                  default values (e.g. from CSS) in effect).
- * @param zindex    the z-index for the created card; zero or undefined brings
- *                  the new card to the top of the display stack.
- */
-shuffl.placeCard = function (layout, card, pos, size, zindex) 
-{
-    ////log.debug("shuffl.placeCard pos: "+jQuery.toJSON(pos)+", size: "+jQuery.toJSON(size));
-    layout.append(card);
-    var resizefn = shuffl.resizeHandler(
-        card, card.data("resizeAlso"), card.data("redrawFunc"));
-    card.data("resizeFunc", resizefn);
-    if (resizefn) { card.bind('resize', resizefn); };
-    card.css(pos).css('position', 'absolute');
-    shuffl.setCardSize(card, size);
-    // Make card draggable and to front of display
-    card.draggable(shuffl.cardDraggable);
-    if (zindex) 
-    {
-        card.css('zIndex', zindex)
-    } 
-    else 
-    {
-        shuffl.toFront(card);
-    };
-    // Click brings card back to top
-    card.click( function () { shuffl.toFront(jQuery(this)); });
-    // TODO: Consider making card-sized drag
-    ////log.debug("shuffl.placeCard End.");
-};
-
-/**
- * Create a new card where a stock pile has been dropped
- * 
- * @param frompile  the stock pile jQuery object from which a new card will
- *                  be derived
- * @param tolayout  the layout area jQuery obejct in which the new card will
- *                  be displayed.
- * @param pos       the position within the layout area where the new card 
- *                  will be displayed
- */
-shuffl.dropCard = function(frompile, tolayout, pos) 
-{
-    ////log.debug("shuffl.dropCard: "+shuffl.objectString(pos));
-    // Create card using stockpile card factory
-    var newcard = frompile.data('makeCard')(frompile);
-    //�Place card on layout
-    pos = shuffl.positionRelative(pos, tolayout);
-    pos = shuffl.positionRel(pos, { left:5, top:1 });   // TODO calculate this properly
-    shuffl.placeCard(tolayout, newcard, pos, shuffl.defaultSize, 0);
-    if (newcard.hasClass("shuffl-card-setsize")) {
-        shuffl.setCardSize(newcard, shuffl.defaultSetSize);
-    };
-};
-
-/**
- * Resize card, invoking the card resize handler as needed to adjust internal
- * component sizes and redraw card contents.
- */
-shuffl.setCardSize = function (card, size) {
-    if (size.height) { card.height(size.height); };
-    if (size.width)  { card.width(size.width); };
-    var resizefn = card.data("resizeFunc");
-    if (resizefn) { resizefn.call(card /*, null, null*/); };        
-};
-
-/**
- * Move indicated element to front in its draggable group
- * 
- * Code adapted from jQuery 
- * (jquery.ui.draggable.js: $.ui.plugin.add("draggable", "stack", ...) )
- */
-shuffl.toFront = function (elem) 
-{
-    if (elem.data("draggable")) 
-    {
-        var opts  = elem.data("draggable").options;
-        var group = jQuery.makeArray(jQuery(opts.stack)).sort(function(a,b) 
-            {
-                return shuffl.parseInt(jQuery(a).css("zIndex"), 10, 0) - 
-                       shuffl.parseInt(jQuery(b).css("zIndex"), 10, 0);
-            });
-        if (!group.length) { return; }   
-        var min = shuffl.parseInt(group[0].style.zIndex, 10, 0);
-        jQuery(group).each(function(i) 
-            {
-                this.style.zIndex = min + i;
-            });
-        elem[0].style.zIndex = min + group.length;
-    };
 };
 
 // ----------------------------------------------------------------

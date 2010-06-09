@@ -78,6 +78,7 @@ shuffl.card.selectfile.blank = jQuery(
     "    </crow>\n" +
     "    <crow>" +
     "      <cclose><button>Close</button></cclose>\n" +
+    "      <ccancel style='display:none;'><button>Cancel</button></ccancel>\n" +
     "    </crow>\n" +
     "  </ctable>\n"+
     "</div>");
@@ -104,17 +105,27 @@ shuffl.card.selectfile.datamap =
  * @param carddata      an object or string containing additional data used in constructing
  *                      the body of the card.  This is either a string or an object structure
  *                      with fields 'shuffl:title', 'shuffl:fileuri'.
+ *                      Additional optional fields are 'shuffl':close', to
+ *                      specify an alternative label for the Close button, and
+ *                      'shuffl:cancel' which, if specified, causes a cancel 
+ *                      button to be displayed and proivides a label for it.
  * @return a jQuery object representing the new card.
  */
 shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) {
     log.debug("shuffl.card.selectfile.newCard: "+cardtype+", "+cardcss+", "+cardid+", "+carddata);
 
+    var cancelClicked = function (event)
+    {
+        log.debug("cancelClicked "+card.data("shuffl:fileuri"));
+        card.remove();
+        //TODO: need to unbind model events to prevent memory leaks?
+    };
+
     var closeClicked = function (event)
     {
         log.debug("closeClicked "+card.data("shuffl:fileuri"));
         card.model("shuffl:closeUri", card.data("shuffl:fileuri"));  // Trigger final value
-        card.remove();
-        //TODO: need to unbind model events to prevent memory leaks?
+        cancelClicked(event);
     };
 
     var filelistelemSelected = function (val)
@@ -288,8 +299,20 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
     // Hook up file-list click handler
     card.find("clist").click(filelistClicked);
     card.modelBind("shuffl:filelistelem", filelistelemSelected);  // For testing
+    // Set up up button labels and handlers
+    if (carddata['shuffl:close'])
+    {
+        card.find("cclose > button").text(carddata['shuffl:close']);
+    }
     card.find("cclose").click(closeClicked);
     card.modelBind("shuffl:close", closeClicked);                 // For testing
+    if (carddata['shuffl:cancel'])
+    {
+        card.find("ccancel > button").text(carddata['shuffl:cancel']);
+        card.find("ccancel").css("display", "inline");
+        card.find("ccancel").click(cancelClicked);
+        card.modelBind("shuffl:cancel", cancelClicked);               // For testing
+    }
     // Initialize the model
     shuffl.initModelVar(card, 'shuffl:title',    carddata, cardid);
     shuffl.initModelVar(card, 'shuffl:fileuri',  carddata, "");
