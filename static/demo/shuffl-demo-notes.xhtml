@@ -37,6 +37,10 @@
     <!-- pop-up menu script -->
     <script type="text/javascript" src="../../jQuery/jquery.contextmenu.js"></script>
 
+    <!-- modal box script -->
+    <link type="text/css" href="../../jQuery/jqmodal.css" rel="stylesheet" />
+    <script type="text/javascript" src="../../jQuery/jqmodal.js"></script>
+
     <!-- "Flot" graph plotting script -->
     <script type="text/javascript" src="../../jQuery/jquery.flot.js"></script>
     
@@ -58,6 +62,7 @@
     <script type="text/javascript" src="../../src/shuffl.js"></script>
 
     <!--  Shuffl card type plugins -->
+    <script type="text/javascript" src="../../src/shuffl-card-selectfile.js"></script>
     <script type="text/javascript" src="../../src/shuffl-card-freetext.js"></script>
     <script type="text/javascript" src="../../src/shuffl-card-dataworksheet.js"></script>
     <script type="text/javascript" src="../../src/shuffl-card-datagraph.js"></script>
@@ -87,7 +92,7 @@
               });
           shuffl.addStorageHandler( 
               { uri:      "http://shuffl.googlecode.com/svn/trunk/"
-              , name:     "GoofleCode"
+              , name:     "GoogleCode"
               , factory:  shuffl.LocalFileStorage
               });
           shuffl.loadWorkspace("data/shuffl-demo-notes.json", shuffl.saveWorkspaceDefaults);

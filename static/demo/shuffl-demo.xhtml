@@ -37,6 +37,10 @@
     <!-- pop-up menu script -->
     <script type="text/javascript" src="../../jQuery/jquery.contextmenu.js"></script>
 
+    <!-- modal box script -->
+    <link type="text/css" href="../../jQuery/jqmodal.css" rel="stylesheet" />
+    <script type="text/javascript" src="../../jQuery/jqmodal.js"></script>
+
     <!-- "Flot" graph plotting script -->
     <script type="text/javascript" src="../../jQuery/jquery.flot.js"></script>
     
@@ -57,6 +61,7 @@
     <script type="text/javascript" src="../../src/shuffl.js"></script>
 
     <!--  Shuffl card type plugins -->
+    <script type="text/javascript" src="../../src/shuffl-card-selectfile.js"></script>
     <script type="text/javascript" src="../../src/shuffl-card-freetext.js"></script>
     <script type="text/javascript" src="../../src/shuffl-card-dataworksheet.js"></script>
     <script type="text/javascript" src="../../src/shuffl-card-datagraph.js"></script>
@@ -69,14 +74,24 @@
 	  <script type="text/javascript">
       jQuery(document).ready(function()
       {
-					shuffl.addStorageHandler( 
-					    { uri:      "http://localhost:8080/exist/atom/edit/"
-					    , name:     "eXistAtomPub"
-					    , factory:  shuffl.ExistAtomStorage
-					    });
+          shuffl.addStorageHandler( 
+              { uri:      "http://localhost:8080/exist/atom/edit/"
+              , name:     "eXistAtomPub"
+              , factory:  shuffl.ExistAtomStorage
+              });
+          shuffl.addStorageHandler( 
+              { uri:      "http://localhost/webdav/"
+              , name:     "WebDAV"
+              , factory:  shuffl.WebDAVStorage
+              });
+          shuffl.addStorageHandler( 
+              { uri:      "http://zakynthos.zoo.ox.ac.uk/data/"
+              , name:     "WebDAV"
+              , factory:  shuffl.WebDAVStorage
+              });
           shuffl.addStorageHandler( 
               { uri:      "http://shuffl.googlecode.com/svn/trunk/"
-              , name:     "GoofleCode"
+              , name:     "GoogleCode"
               , factory:  shuffl.LocalFileStorage
               });
           shuffl.loadWorkspace("data/shuffl-demo.json", shuffl.saveWorkspaceDefaults);
