@@ -251,7 +251,7 @@ TestSaveWorkspace = function() {
         m.eval(function(val,callback) {
             log.debug("Check new card data");
             equals(val['shuffl:id'], 'id_1', "shuffl:id");
-            equals(val['shuffl:class'], 'shuffl-freetext-yellow', "shuffl:class");
+            equals(val['shuffl:type'], 'shuffl-freetext-yellow', "shuffl:type");
             equals(val['shuffl:version'], '0.1', "shuffl:version");
             equals(val['shuffl:base-uri'], '#', "shuffl:base-uri");
             for (var i = 0 ; i<shuffl_prefixes.length ; i++) {
@@ -261,7 +261,7 @@ TestSaveWorkspace = function() {
             same  (val['shuffl:data']['shuffl:tags'],  [ 'card_1_tag', 'yellowtag' ],   'shuffl:data-tags');
             equals(val['shuffl:data']['shuffl:text'],  "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow", 'shuffl:data-text (1)');
             log.debug("Save card data");
-            var card    = shuffl.createCardFromData(val['shuffl:id'], val['shuffl:class'], val);
+            var card    = shuffl.createCardFromData(val['shuffl:id'], val['shuffl:type'], val);
             var session = shuffl.makeStorageSession(layoutcol);
             shuffl.saveCard(session, "", val['shuffl:id']+".json", card, callback);
         });
@@ -281,7 +281,7 @@ TestSaveWorkspace = function() {
         m.eval(function(val,callback) {
             log.debug("Check card values "+shuffl.objectString(val));
             equals(val['shuffl:id'], 'id_1', "shuffl:id");
-            equals(val['shuffl:class'], 'shuffl-freetext-yellow', "shuffl:class");
+            equals(val['shuffl:type'], 'shuffl-freetext-yellow', "shuffl:type");
             equals(val['shuffl:version'], '0.1', "shuffl:version");
             equals(val['shuffl:base-uri'], '#', "shuffl:base-uri");
             for (var i = 0 ; i<shuffl_prefixes.length ; i++) {
@@ -388,7 +388,7 @@ TestSaveWorkspace = function() {
         m.eval(function(val,callback) {
             //log.debug("readCard response: "+shuffl.objectString(val));
             equals(val['shuffl:id'],    "id_3",                     "new card shuffl:id");
-            equals(val['shuffl:class'], "shuffl-freetext-green",    "new card shuffl:class");
+            equals(val['shuffl:type'],  "shuffl-freetext-green",    "new card shuffl:type");
             equals(val['shuffl:dataref'], 
                 "test-shuffl-loadworkspace-card_3.json",            "new card shuffl:dataref");          
             equals(val['shuffl:datauri'], 
@@ -410,7 +410,7 @@ TestSaveWorkspace = function() {
             ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
             equals(c3.find("ctitle").text(), "Card 3 title", "Card 3 title");
             equals(c3.data('shuffl:id'),    "id_3",                     "card 3 data id");
-            equals(c3.data('shuffl:class'), "shuffl-freetext-green",    "card 3 data class/type");
+            equals(c3.data('shuffl:type' ), "shuffl-freetext-green",    "card 3 data class/type");
             equals(c3.data('shuffl:dataref'), 
                 "test-shuffl-loadworkspace-card_3.json",                "card 3 shuffl:dataref");          
             equals(c3.data('shuffl:datauri'), 
@@ -474,7 +474,7 @@ TestSaveWorkspace = function() {
             ok(c3.hasClass('shuffl-card'), "card 3 shuffl card class");
             equals(c3.find("ctitle").text(), "Card 3 title", "Card 3 title");
             equals(c3.data('shuffl:id'),    "id_3",                     "card 3 data id");
-            equals(c3.data('shuffl:class'), "shuffl-freetext-green",    "card 3 data class/type");
+            equals(c3.data('shuffl:type' ), "shuffl-freetext-green",    "card 3 data class/type");
             equals(c3.data('shuffl:dataref'), 
                 "test-shuffl-loadworkspace-card_3.json",                "card 3 shuffl:dataref");          
             equals(c3.data('shuffl:datauri'), 
@@ -666,7 +666,7 @@ TestSaveWorkspace = function() {
             log.debug("Check new card data");
             equals(val['shuffl:id'], 'id_1', "shuffl:id");
             log.debug("Attempt to aave card data");
-            var card = shuffl.createCardFromData(val['shuffl:id'], val['shuffl:class'], val);
+            var card = shuffl.createCardFromData(val['shuffl:id'], val['shuffl:type'], val);
             var session = shuffl.makeStorageSession(layoutcol);
             shuffl.saveCard(session, nocoluri, val['shuffl:id']+".json", card, callback);
         });

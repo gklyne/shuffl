@@ -292,7 +292,7 @@ shuffl.card.selectfile.newCard = function (cardtype, cardcss, cardid, carddata) 
 
     // Initialize the card object
     var card = shuffl.card.selectfile.blank.clone();
-    card.data('shuffl:class',  cardtype);
+    card.data('shuffl:type' ,  cardtype);
     card.data('shuffl:id',     cardid);
     card.data("shuffl:tojson", shuffl.card.selectfile.serialize);
     card.attr('id', cardid);

@@ -125,7 +125,7 @@ shuffl.card.datatable.newCard = function (cardtype, cardcss, cardid, carddata) {
     //    cardtype+", "+cardcss+", "+cardid+", "+carddata);
     // Initialize the card object
     var card = shuffl.card.datatable.blank.clone();
-    card.data('shuffl:class',  cardtype);
+    card.data('shuffl:type' ,  cardtype);
     card.data('shuffl:id',     cardid);
     card.data("shuffl:tojson", shuffl.card.datatable.serialize);
     card.attr('id', cardid);

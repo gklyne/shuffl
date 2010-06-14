@@ -9,7 +9,7 @@
  */
 var testcardhandlers_carddata = 
     { 'shuffl:id':        'card_id'
-    , 'shuffl:class':     'test-type'
+    , 'shuffl:type':      'test-type'
     , 'shuffl:version':   '0.1'
     , 'shuffl:dataref':   "card_id.json"
     , 'shuffl:datauri':   "http://example.com/path/card_id.json"
@@ -161,9 +161,9 @@ TestCardHandlers = function() {
         equals(c.data('shuffl:dataRW'),  true,            "card shuffl:dataRW");          
         equals(c.data('shuffl:datamod'), true,            "card shuffl:datamod");          
         equals(c.data('shuffl:id'),    card_id, "layout card id");
-        equals(c.data('shuffl:class'), "test-type", "layout card class");
+        equals(c.data('shuffl:type' ), "test-type", "layout card class");
         equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
-        equals(c.data('shuffl:external')['shuffl:class'],       d['shuffl:class'], "card data class");
+        equals(c.data('shuffl:external')['shuffl:type'],        d['shuffl:type'], "card data class");
         equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
         equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
         same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
@@ -185,7 +185,7 @@ TestCardHandlers = function() {
         equals(c.find("ctitle").text(), "Card 1 title", "card title field");
         // Check card data
         equals(c.data('shuffl:id'),      "cardfromdata_id", "layout card id");
-        equals(c.data('shuffl:class'),   "test-type",       "layout card class");
+        equals(c.data('shuffl:type' ),   "test-type",       "layout card class");
         equals(c.data('shuffl:dataref'), "card_id.json",    "card shuffl:dataref");          
         equals(c.data('shuffl:datauri'), "http://example.com/path/card_id.json", "card shuffl:datauri");          
         equals(c.data('shuffl:datamod'), false,     "card shuffl:datamod");          
@@ -208,7 +208,7 @@ TestCardHandlers = function() {
         equals(c.find("ctitle").text(), "Card 1 title", "card title field");
         // Check layout details
         equals(c.data('shuffl:id'),      "card_id",   "layout card id");
-        equals(c.data('shuffl:class'),   "test-type", "layout card class");
+        equals(c.data('shuffl:type' ),   "test-type", "layout card class");
         equals(c.data('shuffl:dataref'), "card_id.json", "card shuffl:dataref");          
         equals(c.data('shuffl:datauri'), "http://example.com/path/card_id.json", "card shuffl:datauri");          
         equals(c.data('shuffl:datamod'), false,     "card shuffl:datamod");          
@@ -236,7 +236,7 @@ TestCardHandlers = function() {
         equals(d['shuffl:id'], 'card_id', 'd:card-id (3)'); // Test original still not trashed
         equals(d['shuffl:data']['shuffl:title'], 'Card 1 title', 'd:card-title');
         equals(e['shuffl:id'],          "cardfromdata_id",         'shuffl:id');
-        equals(e['shuffl:class'],       d['shuffl:class'],         'shuffl:class');
+        equals(e['shuffl:type'],        d['shuffl:type'],          'shuffl:type' );
         equals(e['shuffl:version'],     d['shuffl:version'],       'shuffl:version');
         equals(e['shuffl:dataref'],     d['shuffl:dataref'],       'shuffl:dataref');
         equals(e['shuffl:datauri'],     d['shuffl:datauri'],       'shuffl:datauri');
@@ -262,7 +262,7 @@ TestCardHandlers = function() {
         equals(c.find("ctitle").text(), "Card 1 title", "card title field");
         // Check layout details
         equals(c.data('shuffl:id'),      "card_id",   "layout card id");
-        equals(c.data('shuffl:class'),   "test-type", "layout card class");
+        equals(c.data('shuffl:type' ),   "test-type", "layout card class");
         equals(c.data('shuffl:dataref'), "card_id.json", "card shuffl:dataref");          
         equals(c.data('shuffl:datauri'), "http://example.com/path/card_id.json", "card shuffl:datauri");          
         equals(c.data('shuffl:datamod'), false,     "card shuffl:datamod");          
@@ -356,7 +356,7 @@ TestCardHandlers = function() {
         equals(c.find("ctitle").text(), "Card 1 title", "card title field");
         // Check layout details
         equals(c.data('shuffl:id'),    "placecard_id", "layout card id");
-        equals(c.data('shuffl:class'), "test-type", "layout card class");
+        equals(c.data('shuffl:type' ), "test-type", "layout card class");
         same(c.data('shuffl:external'), d, "card data");
         var p = c.position();
         equals(Math.floor(p.left+0.5), 22, "position-left");
@@ -385,9 +385,9 @@ TestCardHandlers = function() {
         // Check saved card data
         var d = testcardhandlers_carddata;
         equals(c.data('shuffl:id'),    card_id, "layout card id");
-        equals(c.data('shuffl:class'), "test-type", "layout card class");
+        equals(c.data('shuffl:type' ), "test-type", "layout card class");
         equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
-        equals(c.data('shuffl:external')['shuffl:class'],       d['shuffl:class'], "card data class");
+        equals(c.data('shuffl:external')['shuffl:type'],        d['shuffl:type'], "card data class");
         equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
         equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
         same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");

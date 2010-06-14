@@ -1,5 +1,5 @@
 { 'shuffl:id':        'id_5'
-, 'shuffl:class':     'shuffl-freetext-pink'
+, 'shuffl:type':      'shuffl-freetext-pink'
 , 'shuffl:version':   '0.1'
 , 'shuffl:location':  'http://localhost:8080/.../card_1'
 , 'shuffl:base-uri':  '#'

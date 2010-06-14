@@ -9,7 +9,7 @@
  */
 var testcardhandlers_carddata = 
     { 'shuffl:id':        'card_id'
-    , 'shuffl:class':     'test-type'
+    , 'shuffl:type':      'test-type'
     , 'shuffl:version':   '0.1'
     , 'shuffl:dataref':   "card_id.json"
     , 'shuffl:datauri':   "http://example.com/path/card_id.json"
@@ -47,7 +47,7 @@ var testlayoutdatasized =
 
 var testwsdata =
     { 'shuffl:id':        'test-shuffl-saveworkspace-layout'
-    , 'shuffl:class':     'shuffl:workspace'
+    , 'shuffl:class':     'shuffl:Workspace'
     , 'shuffl:version':   '0.1'
     , 'shuffl:base-uri':  '#'
     , 'shuffl:uses-prefixes':
@@ -92,7 +92,7 @@ TestAssembleWorkspaceDescription = function() {
             var feeduri = atomuri+"feeduri/";
             var ws = shuffl.assembleWorkspaceDescription(atomuri, feeduri);
             equals(ws['shuffl:id'],          "test-shuffl-saveworkspace-layout", "shuffl:id");
-            equals(ws['shuffl:class'],       "shuffl:workspace",    "shuffl:class");
+            equals(ws['shuffl:class'],       "shuffl:Workspace",    "shuffl:class");
             equals(ws['shuffl:version'],     "0.1",                 "shuffl:version");
             equals(ws['shuffl:base-uri'],    "#",                   "shuffl:base-uri");
             same(ws['shuffl:uses-prefixes'], 

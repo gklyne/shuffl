@@ -38,7 +38,7 @@ var TestLocalFileStorage_test_csv =
 
 var TestLocalFileStorage_test_json =
     { 'shuffl:id':        'test-shuffl-loadworkspace'
-    , 'shuffl:class':     'shuffl:workspace'
+    , 'shuffl:class':     'shuffl:Workspace'
     , 'shuffl:version':   '0.1'
     , 'shuffl:base-uri':  '#'
     , 'shuffl:uses-prefixes':

@@ -55,7 +55,7 @@ if (typeof shuffl.idpref == "undefined")
 
 shuffl.ExternalCardData =
     { 'shuffl:id':        undefined
-    , 'shuffl:class':     undefined
+    , 'shuffl:type':      undefined
     , 'shuffl:version':   '0.1'
     , 'shuffl:base-uri':  '#'
     , 'shuffl:uses-prefixes':
@@ -127,7 +127,7 @@ shuffl.card.defaultcard.blank = jQuery(
 /**
  * Default card factory: title only
  * 
- * @param cardtype      type identifier for the new card element
+ * @param cardtype      card factory type identifier for the new element
  * @param cardcss       CSS class name(s) added to the new card element
  * @param cardid        local card identifier - a local name for the card, 
  *                      which may be combined with a base URI to form a URI
@@ -141,7 +141,7 @@ shuffl.card.defaultcard.newCard = function (cardtype, cardcss, cardid, carddata)
 {
     ////log.debug("shuffl.shuffl.card.defaultcard.newCard: "+cardid+", "+shuffl.objectString(carddata));
     var card = shuffl.card.defaultcard.blank.clone();
-    card.model('shuffl:class',  cardtype);
+    card.model('shuffl:type' ,  cardtype);
     card.model('shuffl:id',     cardid);
     card.model("shuffl:tojson", shuffl.card.defaultcard.serialize);
     card.attr('id', cardid);
@@ -267,7 +267,7 @@ shuffl.createStockpile = function(sid, sclass, slabel, stype)
 shuffl.createCardFromStock = function (stockpile) { 
     log.debug("createCardFromStock "+stockpile);
     var cardtype = stockpile.data("CardType");
-    var cardid = shuffl.makeId(shuffl.idpref);
+    var cardid   = shuffl.makeId(shuffl.idpref);
     // log.debug("cardclass '"+cardclass+"'");
     var newcard = shuffl.getCardFactory(cardtype)(cardid, {});
     newcard.addClass('shuffl-card');
@@ -282,7 +282,7 @@ shuffl.createCardFromStock = function (stockpile) {
     var extdata = {};
     jQuery.extend(true, extdata, shuffl.ExternalCardData);  // Deep copy..
     extdata['shuffl:id']    = cardid;
-    extdata['shuffl:class'] = cardtype;
+    extdata['shuffl:type' ] = cardtype;
     newcard.data('shuffl:external', extdata);
     return newcard;
 };
@@ -301,21 +301,20 @@ shuffl.createCardFromStock = function (stockpile) {
  * reference, data URI and data writeable values.
  * 
  * @param cardid    the new card identifier
- * @param cardclass a card class (factory type, not CSS class) for the new card
- * @param
+ * @param cardtype  a card factory type for the new card
  * @param origdata  structure indicating attributes of the card, as well as
  *                  card-type-dependent data values.
  * @return          a jQuery object representing the new card.
  */
-shuffl.createCardFromData = function (cardid, cardclass, origdata) 
+shuffl.createCardFromData = function (cardid, cardtype, origdata) 
 { 
     ////log.debug("shuffl.createCardFromData, card data: "+shuffl.objectString(origdata));
-    ////log.debug("shuffl.createCardFromData, cardid: "+cardid+", cardclass: "+cardclass);
+    ////log.debug("shuffl.createCardFromData, cardid: "+cardid+", cardtype: "+cardtype);
     var copydata = {};  // Make deep copy..
     jQuery.extend(true, copydata, origdata);
     var carddata = copydata['shuffl:data'];  // Card-type specific data
     // Create card using card factory
-    var newcard   = shuffl.getCardFactory(cardclass)(cardid, carddata);
+    var newcard   = shuffl.getCardFactory(cardtype)(cardid, carddata);
     newcard.addClass('shuffl-card');
     // Initialize card workspace parameters
     // See: http://code.google.com/p/shuffl/wiki/CardReadWriteOptions
@@ -344,11 +343,11 @@ shuffl.placeCardFromData = function (layout, data)
 { 
     ////log.debug("shuffl.placeCardFromData, layout:    "+shuffl.objectString(layout));
     ////log.debug("shuffl.placeCardFromData, card data: "+shuffl.objectString(data));
-    var cardid    = shuffl.get(data, 'shuffl:id',    layout['id']);
-    var cardclass = shuffl.get(data, 'shuffl:class', layout['class']);
+    var cardid   = shuffl.get(data, 'shuffl:id',    layout['id']);
+    var cardtype = shuffl.get(data, 'shuffl:type' , layout['class']);
     // Create card using card factory
-    ////log.debug("shuffl.placeCardFromData, cardid: "+cardid+", cardclass: "+cardclass);
-    var newcard = shuffl.createCardFromData(cardid, cardclass, data);
+    ////log.debug("shuffl.placeCardFromData, cardid: "+cardid+", cardtype: "+cardtype);
+    var newcard = shuffl.createCardFromData(cardid, cardtype, data);
     shuffl.loadId(cardid);
     // Place card on layout
     var cardsize = layout['size'] || shuffl.defaultSize;
@@ -365,7 +364,7 @@ shuffl.placeCardFromData = function (layout, data)
  * added must be visible when this function is invoked.
  * 
  * @param cardid    the new card identifier
- * @param cardclass a card class (factory type, not CSS class) for the new card
+ * @param cardtype  a card factory type for the new card
  * @param carddata  is an object containing card-specific data to be added to
  *                  the card
  * @param jqelem    is a jQuery object corresponding to the DOM element to 
@@ -375,11 +374,11 @@ shuffl.placeCardFromData = function (layout, data)
  * @param siz       if specified, is the size for the new card
  */
 shuffl.createAndPlaceCard = 
-function (cardid, cardclass, carddata, jqelem, zindex, pos, siz)
+function (cardid, cardtype, carddata, jqelem, zindex, pos, siz)
 {
     //TODO: refactor this (see createCardFromData, etc)
     // Create card using card factory
-    var newcard   = shuffl.getCardFactory(cardclass)(cardid, carddata);
+    var newcard = shuffl.getCardFactory(cardtype)(cardid, carddata);
     jqelem.append(newcard);
     newcard.addClass('shuffl-card');
     var resizefn = shuffl.resizeHandler(
@@ -591,11 +590,11 @@ shuffl.createDataFromCard = function (card)
 { 
     var extdata = card.data('shuffl:external');
     extdata['shuffl:id']    = card.data('shuffl:id');
-    extdata['shuffl:class'] = card.data('shuffl:class');
+    extdata['shuffl:type' ] = card.data('shuffl:type' );
     extdata['shuffl:data']  = card.data('shuffl:tojson')(card);
     ////log.debug("shuffl.createDataFromCard, extdata: "+shuffl.objectString(extdata));
     ////log.debug("shuffl.createDataFromCard, data: "+shuffl.objectString(extdata['shuffl:data']));
-    ////log.debug("shuffl.createDataFromCard, id: "+extdata['shuffl:id']+", class: "+extdata['shuffl:class']);
+    ////log.debug("shuffl.createDataFromCard, id: "+extdata['shuffl:id']+", class: "+extdata['shuffl:type' ]);
     return extdata;
 };
 

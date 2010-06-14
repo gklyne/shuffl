@@ -1,5 +1,5 @@
 { 'shuffl:id':        'shuffl-intro'
-, 'shuffl:class':     'shuffl:workspace'
+, 'shuffl:class':     'shuffl:Workspace'
 , 'shuffl:version':   '0.1'
 , 'shuffl:atomuri':   'http://localhost:8080/exist/atom/'
 , 'shuffl:feeduri':   './'

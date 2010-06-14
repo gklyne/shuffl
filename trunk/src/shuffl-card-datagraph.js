@@ -112,7 +112,7 @@ shuffl.card.datagraph.newCard = function (cardtype, cardcss, cardid, carddata)
     ////log.debug("- data: "+jQuery.toJSON(carddata));
     // Initialize the card object
     var card = shuffl.card.datagraph.blank.clone();
-    card.data('shuffl:class',  cardtype);
+    card.data('shuffl:type' ,  cardtype);
     card.data('shuffl:id',     cardid);
     card.data("shuffl:tojson", shuffl.card.datagraph.serialize);
     card.attr('id', cardid);

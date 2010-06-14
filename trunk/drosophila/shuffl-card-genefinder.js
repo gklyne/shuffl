@@ -86,7 +86,7 @@ shuffl.card.genefinder.newCard = function (cardtype, cardcss, cardid, carddata) 
     ////    cardtype+", "+cardcss+", "+cardid+", "+carddata);
     // Initialize the card object
     var card = shuffl.card.genefinder.blank.clone();
-    card.data('shuffl:class',  cardtype);
+    card.data('shuffl:type',   cardtype);
     card.data('shuffl:id',     cardid);
     card.data("shuffl:tojson", shuffl.card.genefinder.serialize);
     card.attr('id', cardid);

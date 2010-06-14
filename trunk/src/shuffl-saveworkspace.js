@@ -213,7 +213,7 @@ shuffl.assembleWorkspaceDescription = function (session, wscoluri)
             var size = {width:card.width(), height:card.height()} ;
             var cardlayout =
                 { 'id':     card.data('shuffl:id')
-                , 'class':  card.data('shuffl:class')
+                , 'class':  card.data('shuffl:type' )
                 , 'data':   card.data('shuffl:dataref')
                 , 'pos':    card.position()
                 , 'size':   size
@@ -225,7 +225,7 @@ shuffl.assembleWorkspaceDescription = function (session, wscoluri)
     var wsload = jQuery('#workspace').data('wsdata');
     var ws = 
         { 'shuffl:id':            wsload['shuffl:id']
-        , 'shuffl:class':         'shuffl:workspace'
+        , 'shuffl:class':         'shuffl:Workspace'
         , 'shuffl:version':       '0.1'
         , 'shuffl:base-uri':      '#'
         , 'shuffl:uses-prefixes': wsload['shuffl:uses-prefixes']

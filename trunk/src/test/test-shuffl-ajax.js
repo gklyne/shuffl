@@ -24,7 +24,7 @@
 
 var TestShufflAjax_JSONdata =
     { 'shuffl:id':        'getJSON'
-    , 'shuffl:class':     'shuffl-freetext-yellow'
+    , 'shuffl:type':      'shuffl-freetext-yellow'
     , 'shuffl:version':   '0.1'
     , 'shuffl:base-uri':  '#'
     , 'shuffl:uses-prefixes':
