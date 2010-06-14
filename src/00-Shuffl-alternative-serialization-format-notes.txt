@@ -1,0 +1,96 @@
+00-Shuffl-alternative-serialization-format-notes.txt
+
+= Shuffl alternative serialization =
+
+= RDF formats =
+
+== Layout ===
+
+=== JSON example ===
+
+=== RDF/XML example ===
+
+== Card ==
+
+=== JSON example ===
+
+=== RDF/XML example ===
+
+= Software interfaces affected =
+
+Current interface functions, and where used.
+
+Assume that a new interface will accept/return a Javascript object as now.
+
+== Module shuffl.loadworkspace ==
+
+session.getData
+* shuffl.readCard
+* shuffl.loadworkspace
+
+== Module shuffl.saveworkspace ==
+
+shuffl.updateWorkspace
+* shuffl.updateCard
+  * updateWorkspaceDescription
+
+session.create 
+* shuffl.saveCard
+* shuffl.saveNewWorkspace
+  * saveWorkspaceDescription
+
+session.put
+* shuffl.updatecard
+* shuffl.updateworkspace
+  * updateWorkspaceDescription
+
+= Format selection =
+
+Possible techniques for deciding what format to use when saving/loading Shuffl data.
+
+== Desiderata ==
+
+* Prefer no change to UI
+* Able to mix JSON and RDF card data when loading a workspace
+* Interchangeable, round-trippable format
+* work with local file access and HTTP access
+
+== Options ==
+
+=== Filename extension ===
+
+For:
+* meets all desiderata
+
+Against:
+* goes against general presumption against the desirability of inferring data 
+semantics from URI format.  (But such inference would apply locally to the 
+Shuffl applications, not generally across the Web.)
+* could fail if uncommon extensions are used
+
+=== Explicit parameter ===
+
+For:
+* avoids inferring data semantics from URI form
+* can satisfy 2 out of 4 desiderata
+
+Against:
+* requires UI change
+* doesn't (easily) support format mixing
+* requires internal API changes
+
+=== Sniffing ===
+
+For:
+* meets all desiderata
+
+Against:
+* cannot be used when saving a workspace -> incomplete solution
+
+== Conclusion for format selection ==
+
+In the first instance, base decision on file extension, as this satisfies all 
+immediate requirements and is generally the easiest to implement.
+
+Later, if specific problems are noted, revisit and consider alternatives.
+
