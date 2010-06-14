@@ -42,7 +42,7 @@ var testcarddatagraph_series = [ [], [], [], [] ];
                                 
 var testcarddatagraph_carddata = 
     { 'shuffl:id':        'card_N'
-    , 'shuffl:class':     'shuffl-datagraph-ZZZZZZ'
+    , 'shuffl:type':      'shuffl-datagraph-ZZZZZZ'
     , 'shuffl:version':   '0.1'
     , 'shuffl:base-uri':  '#'
     , 'shuffl:uses-prefixes':
@@ -160,9 +160,9 @@ TestCardDatagraph = function() {
             // Check saved card data
             var d = testcarddatagraph_carddata;
             equals(c.data('shuffl:id'),    card_id, "layout card id");
-            equals(c.data('shuffl:class'), "shuffl-datagraph-green", "saved card type");
+            equals(c.data('shuffl:type' ), "shuffl-datagraph-green", "saved card type");
             equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
-            equals(c.data('shuffl:external')['shuffl:class'],       "shuffl-datagraph-green", "card data class");
+            equals(c.data('shuffl:external')['shuffl:type'],        "shuffl-datagraph-green", "card data class");
             equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
             equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
             same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
@@ -207,7 +207,7 @@ TestCardDatagraph = function() {
             // (Re)create data and test
             var e = shuffl.createDataFromCard(c);
             equals(e['shuffl:id'],          "cardfromdata_id",         'shuffl:id');
-            equals(e['shuffl:class'],       "shuffl-datagraph-pink",    'shuffl:class');
+            equals(e['shuffl:type'],        "shuffl-datagraph-pink",    'shuffl:type' );
             equals(e['shuffl:version'],     d['shuffl:version'],       'shuffl:version');
             equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],      'shuffl:base-uri');
             same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');

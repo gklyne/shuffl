@@ -121,7 +121,7 @@ shuffl.card.dataworksheet.newCard = function (cardtype, cardcss, cardid, carddat
         cardtype+", "+cardcss+", "+cardid+", "+carddata);
     // Initialize the card object
     var card = shuffl.card.dataworksheet.blank.clone();
-    card.data('shuffl:class',  cardtype);
+    card.data('shuffl:type' ,  cardtype);
     card.data('shuffl:id',     cardid);
     card.data("shuffl:tojson", shuffl.card.dataworksheet.serialize);
     card.attr('id', cardid);

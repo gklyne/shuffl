@@ -1,5 +1,5 @@
 { "shuffl:id":        "id_3"
-, "shuffl:class":     "shuffl-freetext-green"
+, "shuffl:type":      "shuffl-freetext-green"
 , "shuffl:version":   "0.1"
 , "shuffl:base-uri":  "#"
 , "shuffl:uses-prefixes":

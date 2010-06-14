@@ -23,7 +23,7 @@
  */
 testcardgeneinput_carddata =
     { 'shuffl:id':        'card_N'
-    , 'shuffl:class':     'shuffl-freetext-ZZZZZZ'
+    , 'shuffl:type':      'shuffl-freetext-ZZZZZZ'
     , 'shuffl:version':   '0.1'
     , 'shuffl:base-uri':  '#'
     , 'shuffl:uses-prefixes':
@@ -133,7 +133,7 @@ TestGeneInput = function()
             // (Re)create data and test
             var e = shuffl.createDataFromCard(c);
             equals(e['shuffl:id'],          "cardfromdata_id",         'shuffl:id');
-            equals(e['shuffl:class'],       "shuffl-geneinput-yellow", 'shuffl:class');
+            equals(e['shuffl:type'],        "shuffl-geneinput-yellow", 'shuffl:type');
             equals(e['shuffl:version'],     d['shuffl:version'],       'shuffl:version');
             equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],      'shuffl:base-uri');
             same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');

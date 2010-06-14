@@ -73,7 +73,7 @@ shuffl.card_wookie_blank = jQuery(
 shuffl.makeWookieCard = function (cardtype, cardcss, cardid, carddata) 
 { 
     var card = shuffl.card_wookie_blank.clone(); 
-    card.data('shuffl:class',  cardtype); 
+    card.data('shuffl:type' ,  cardtype); 
     card.data('shuffl:id',     cardid); 
     card.data("shuffl:tojson", shuffl.jsonWookieCard); 
     card.attr('id', cardid); 

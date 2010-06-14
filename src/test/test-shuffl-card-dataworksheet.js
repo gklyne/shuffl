@@ -99,7 +99,7 @@ var Default_dataworksheet_DataAxes = [];
  */
 var testcarddataworksheet_carddata = 
     { 'shuffl:id':        'card_N'
-    , 'shuffl:class':     'shuffl-dataworksheet-ZZZZZZ'
+    , 'shuffl:type':      'shuffl-dataworksheet-ZZZZZZ'
     , 'shuffl:version':   '0.1'
     , 'shuffl:base-uri':  '#'
     , 'shuffl:uses-prefixes':
@@ -185,7 +185,7 @@ TestCardDataWorksheet = function() {
         //log.debug("- table :"+jQuery.toJSON(c.find("cbody").table()));
         // Check saved card data
         equals(c.data('shuffl:id'),             "card-1", "layout card id");
-        equals(c.data('shuffl:class'),          "shuffl-dataworksheet-yellow", "saved card type");
+        equals(c.data('shuffl:type' ),          "shuffl-dataworksheet-yellow", "saved card type");
         equals(c.data('shuffl:title'),          "card-title", "shuffl:title");
         equals(c.data('shuffl:tags'),           "card-tag", "shuffl:tags");
         equals(c.data('shuffl:uri'),            "http://example.org/test-uri.csv", "shuffl:uri");
@@ -274,7 +274,7 @@ TestCardDataWorksheet = function() {
         // Check saved card data
         var d = testcarddataworksheet_carddata;
         equals(c.data('shuffl:id'),             card_id, "layout card id");
-        equals(c.data('shuffl:class'),          "shuffl-dataworksheet-green", "saved card type");
+        equals(c.data('shuffl:type' ),          "shuffl-dataworksheet-green", "saved card type");
         equals(c.data('shuffl:title'),          card_id, "shuffl:title");
         equals(c.data('shuffl:tags'),           "shuffl-dataworksheet-green", "shuffl:tags");
         equals(c.data('shuffl:uri'),            "", "shuffl:uri");
@@ -286,7 +286,7 @@ TestCardDataWorksheet = function() {
         same(c.data('shuffl:series'), Default_dataworksheet_DataSeries, "shuffl:series");
         same(c.data('shuffl:axes'),   Default_dataworksheet_DataAxes,   "shuffl:axes");
         equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
-        equals(c.data('shuffl:external')['shuffl:class'],       "shuffl-dataworksheet-green", "card data class");
+        equals(c.data('shuffl:external')['shuffl:type'],        "shuffl-dataworksheet-green", "card data class");
         equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
         equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
         same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
@@ -313,7 +313,7 @@ TestCardDataWorksheet = function() {
         same(c.find("cbody").table().slice(1), Larger_dataworksheet_DataTable, "card data table");
         // Check saved card data
         equals(c.data('shuffl:id'),             "cardfromdata_id", "layout card id");
-        equals(c.data('shuffl:class'),          "shuffl-dataworksheet-orange", "saved card type");
+        equals(c.data('shuffl:type' ),          "shuffl-dataworksheet-orange", "saved card type");
         equals(c.data('shuffl:title'),          "Card N title", "shuffl:title");
         equals(c.data('shuffl:tags'),           "card_N_tag,footag", "shuffl:tags");
         equals(c.data('shuffl:uri'),            "test-table.csv", "shuffl:uri");
@@ -325,7 +325,7 @@ TestCardDataWorksheet = function() {
         same(c.data('shuffl:series'), Larger_dataworksheet_DataSeries, "shuffl:series");
         same(c.data('shuffl:axes'),   Larger_dataworksheet_DataAxes,   "shuffl:axes");
         equals(c.data('shuffl:external')['shuffl:id'],          d['shuffl:id'], "card data id");
-        equals(c.data('shuffl:external')['shuffl:class'],       d['shuffl:class'], "card data class");
+        equals(c.data('shuffl:external')['shuffl:type'],        d['shuffl:type'], "card data class");
         equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
         equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
         same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
@@ -342,7 +342,7 @@ TestCardDataWorksheet = function() {
         // (Re)create data and test
         var e = shuffl.createDataFromCard(c);
         equals(e['shuffl:id'],          "cardfromdata_id",          'shuffl:id');
-        equals(e['shuffl:class'],       "shuffl-dataworksheet-pink", 'shuffl:class');
+        equals(e['shuffl:type'],        "shuffl-dataworksheet-pink", 'shuffl:type' );
         equals(e['shuffl:version'],     d['shuffl:version'],        'shuffl:version');
         equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],       'shuffl:base-uri');
         same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'],  'shuffl:uses-prefixes');
@@ -382,7 +382,7 @@ TestCardDataWorksheet = function() {
         c.model("shuffl:uri",   "http://example.org/update/uri.csv");
         c.model("shuffl:table", NewDataTable);
         equals(c.data('shuffl:id'),             "cardfromdata_id", "layout card id");
-        equals(c.data('shuffl:class'),          "shuffl-dataworksheet-pink", "saved card type");
+        equals(c.data('shuffl:type' ),          "shuffl-dataworksheet-pink", "saved card type");
         equals(c.data('shuffl:title'),          "Card N updated", "shuffl:title");
         equals(c.data('shuffl:tags'),           "card_N_tag,bartag", "shuffl:tags");
         equals(c.data('shuffl:uri'),            "http://example.org/update/uri.csv", "shuffl:uri");
@@ -436,7 +436,7 @@ TestCardDataWorksheet = function() {
             function () {
                 // Executed when shuffl:table is updated...
                 equals(c.data('shuffl:id'),             "cardfromdata_id", "layout card id");
-                equals(c.data('shuffl:class'),          "shuffl-dataworksheet-pink", "saved card type");
+                equals(c.data('shuffl:type' ),          "shuffl-dataworksheet-pink", "saved card type");
                 equals(c.data('shuffl:title'),          "Card N title", "shuffl:title");
                 equals(c.data('shuffl:tags'),           "card_N_tag,footag", "shuffl:tags");
                 equals(c.data('shuffl:uri'),            "data/test-csv-table-new.csv", "shuffl:uri");

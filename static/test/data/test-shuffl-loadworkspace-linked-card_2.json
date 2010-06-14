@@ -1,5 +1,5 @@
 { "shuffl:id":        "id_2"
-, "shuffl:class":     "shuffl-datagraph-blue"
+, "shuffl:type":     "shuffl-datagraph-blue"
 , "shuffl:version":   "0.1"
 , "shuffl:base-uri":  "#"
 , "shuffl:uses-prefixes":

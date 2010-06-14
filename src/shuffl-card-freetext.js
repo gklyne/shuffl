@@ -86,7 +86,7 @@ shuffl.card.freetext.newCard = function (cardtype, cardcss, cardid, carddata) {
     //    cardtype+", "+cardcss+", "+cardid+", "+carddata);
     // Initialize the card object
     var card = shuffl.card.freetext.blank.clone();
-    card.data('shuffl:class',  cardtype);
+    card.data('shuffl:type' ,  cardtype);
     card.data('shuffl:id',     cardid);
     card.data("shuffl:tojson", shuffl.card.freetext.serialize);
     card.attr('id', cardid);

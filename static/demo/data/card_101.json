@@ -9,7 +9,7 @@
     }
   ]
 , "shuffl:id":"card_101"
-, "shuffl:class":"shuffl-freetext-yellow"
+, "shuffl:type":"shuffl-freetext-yellow"
 , "shuffl:dataref":"card_101.json"
 , "shuffl:datauri":"http://localhost:8080/exist/atom/edit/shuffl-demo/card_101.json"
 , "shuffl:dataRW":false

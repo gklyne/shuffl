@@ -23,7 +23,7 @@
  */
 var testcardimagenotes_carddata = 
     { 'shuffl:id':        'card_N'
-    , 'shuffl:class':     'shuffl-imagenotes-ZZZZZZ'
+    , 'shuffl:type':      'shuffl-imagenotes-ZZZZZZ'
     , 'shuffl:version':   '0.1'
     , 'shuffl:base-uri':  '#'
     , 'shuffl:uses-prefixes':
@@ -170,9 +170,9 @@ TestCardImageNotes = function() {
             // Check saved card data
             var d = testcardimagenotes_carddata;
             equals(c.data('shuffl:id'),    card_id, "layout card id");
-            equals(c.data('shuffl:class'), "shuffl-imagenotes-green", "saved card type");
+            equals(c.data('shuffl:type' ), "shuffl-imagenotes-green", "saved card type");
             equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
-            equals(c.data('shuffl:external')['shuffl:class'],       "shuffl-imagenotes-green", "card data class");
+            equals(c.data('shuffl:external')['shuffl:type'],        "shuffl-imagenotes-green", "card data class");
             equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
             equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
             same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
@@ -204,7 +204,7 @@ TestCardImageNotes = function() {
             // (Re)create data and test
             var e = shuffl.createDataFromCard(c);
             equals(e['shuffl:id'],          "cardfromdata_id",         'shuffl:id');
-            equals(e['shuffl:class'],       "shuffl-imagenotes-pink",    'shuffl:class');
+            equals(e['shuffl:type'],        "shuffl-imagenotes-pink",    'shuffl:type' );
             equals(e['shuffl:version'],     d['shuffl:version'],       'shuffl:version');
             equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],      'shuffl:base-uri');
             same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');

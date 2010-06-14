@@ -104,7 +104,7 @@ TestLoadWorkspace = function() {
             equals(c1.find("ctitle").text(), "Card 1 title",            "card 1 title field");
             equals(c1.find("ctags").text(),  "card_1_tag,yellowtag",    "card 1 tags field");
             equals(c1.data('shuffl:id'),    "id_1",                     "card 1 data id");
-            equals(c1.data('shuffl:class'), "shuffl-freetext-yellow",   "card 1 data class/type");
+            equals(c1.data('shuffl:type' ), "shuffl-freetext-yellow",   "card 1 data class/type");
             equals(c1.data('shuffl:dataref'), 
                 "test-shuffl-loadworkspace-card_1.json",                "card 1 shuffl:dataref");          
             equals(c1.data('shuffl:datauri'), 
@@ -126,7 +126,7 @@ TestLoadWorkspace = function() {
             equals(c2.find("ctitle").text(), "Card 2 title",            "card 2 title field");
             equals(c2.find("ctags").text(),  "card_2_tag,bluetag",      "card 2 tags field");
             equals(c2.data('shuffl:id'),    "id_2",                     "card 2 data id");
-            equals(c2.data('shuffl:class'), "shuffl-freetext-blue",     "card 2 data class/type");
+            equals(c2.data('shuffl:type' ), "shuffl-freetext-blue",     "card 2 data class/type");
             equals(c2.data('shuffl:dataref'), 
                 "test-shuffl-loadworkspace-card_2.json",                "card 2 shuffl:dataref");          
             equals(c2.data('shuffl:datauri'), 
@@ -148,7 +148,7 @@ TestLoadWorkspace = function() {
             equals(c3.find("ctitle").text(), "Card 3 title",            "card 3 title field");
             equals(c3.find("ctags").text(),  "card_3_tag,greentag",     "card 3 tags field");
             equals(c3.data('shuffl:id'),    "id_3",                     "card 3 data id");
-            equals(c3.data('shuffl:class'), "shuffl-freetext-green",    "card 3 data class/type");
+            equals(c3.data('shuffl:type' ), "shuffl-freetext-green",    "card 3 data class/type");
             equals(c3.data('shuffl:dataref'), 
                 "test-shuffl-loadworkspace-card_3.json",                "card 3 shuffl:dataref");          
             equals(c3.data('shuffl:datauri'), 
