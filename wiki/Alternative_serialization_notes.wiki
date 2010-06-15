@@ -8,6 +8,33 @@ Implementation notes for RDF and other serialization formats.
 
 The intent is to introduce RDF serialization alongside the existing JSON serialization, via a plugin framework similar to those implemented for card types and storage access.
 
+= Proposed new APIs =
+
+{{{
+shuffl.readCardData(session, carduri, format, callback)
+ -> callback(carddata or shuffl.Error value)
+
+shuffl.readWorkspaceData(session, wsuri, format, callback)
+ -> callback(wsdata or shuffl.Error value)
+
+shuffl.createCardData(session, carduri, format, carddata, callback)
+ -> callback(uri or shuffl.Error value)
+
+shuffl.updateCardData(session, carduri, format, carddata, callback)
+ -> callback(uri or shuffl.Error value)
+
+shuffl.createWorkspaceData(session, wsuri, format, wsdata, callback)
+ -> callback(uri or shuffl.Error value)
+
+shuffl.updateWorkspaceData(session, wsuri, format, wsdata, callback)
+ -> callback(uri or shuffl.Error value)
+}}}
+
+where:
+
+{{{format}}} is {{{"rdf"}}} or {{{"json"}}}; otherwise {{{null}}}, in which case the format
+is deduced from the URI.
+
 = RDF formats =
 
 == Workspace ===
