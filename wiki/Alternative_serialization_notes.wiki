@@ -66,7 +66,7 @@ is deduced from the URI.
       [ { "id": "card_1", "type": "shuffl-freetext-yellow", "data": "test-shuffl-card_1.json"
         , "pos": {"left":100, "top":30} 
         }
-      , { "id": "card_2", "type": "shuffl-freetext-blue",     "data": "test-shuffl-card_2.json"
+      , { "id": "card_2", "type": "shuffl-freetext-blue",   "data": "test-shuffl-card_2.json"
         , "pos": {"top":0, "left":400}
         , "size": {"width":600,"height":400}
         , "zindex":11
