@@ -215,10 +215,6 @@ session.getData
 
 == Module shuffl.saveworkspace ==
 
-shuffl.updateWorkspace
- * shuffl.updateCard
-   * updateWorkspaceDescription
-
 session.create 
  * shuffl.saveCard
  * shuffl.saveNewWorkspace
