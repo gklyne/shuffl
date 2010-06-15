@@ -87,10 +87,10 @@ is deduced from the URI.
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
     xml:base="#"
 >
-  <shuffl:Workspace rdf:about="#test-shuffl-loadworkspace">
+  <shuffl:Workspace rdf:about="#test-shuffl-workspace">
     <shuffl:base-uri>#</shuffl:base-uri>
     <shuffl:version>0.1</shuffl:version>
-    <shuffl:id>test-shuffl-loadworkspace</shuffl:id>
+    <shuffl:id>test-shuffl-workspace</shuffl:id>
     <shuffl:stockbar rdf:parseType="Collection">
       <rdf:Description>
         <shuffl:id>stockpile_1</shuffl:id>
