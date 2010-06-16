@@ -1,0 +1,32 @@
+<rdf:RDF
+    xmlns:shuffl="http://purl.org/NET/Shuffl/vocab#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xml:base="#"
+>
+  <shuffl:Card rdf:about="#id_2">
+    <shuffl:base-uri>#</shuffl:base-uri>
+    <shuffl:version>0.1</shuffl:version>
+    <shuffl:id>id_2</shuffl:id>
+    <shuffl:type>shuffl-freetext-blue</shuffl:type>
+    <shuffl:data>
+      <rdf:Description>
+        <shuffl:title>Card 2 title</shuffl:title>
+        <shuffl:tags>
+          <rdf:List>
+            <rdf:first>card_2_tag</rdf:first>
+            <rdf:rest>
+              <rdf:List>
+                <rdf:first>bluetag</rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil" />
+              </rdf:List>
+            </rdf:rest>
+          </rdf:List>
+        </shuffl:tags>
+        <shuffl:text rdf:parseType="Literal">Card 2 free-form text here<br/>line 2<br/>line3<br/>blue"</shuffl:text>
+      </rdf:Description>
+    </shuffl:data>
+  </shuffl:Card>
+</rdf:RDF>
