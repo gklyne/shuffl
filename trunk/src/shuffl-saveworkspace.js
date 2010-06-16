@@ -25,7 +25,7 @@
 /**
  * Test for an invalid collection URI or workspace name. The collection URI
  * must contain a non-relative path ending in '/'.  The workspace name and
- * psth segments may consist of letters, digits, '.', '+' or '-' characters.
+ * path segments may consist of letters, digits, '.', '+' or '-' characters.
  * 
  * @param wscol     is a string containing a workspace collection URI
  * @param wsname    is a string containing a proposed workspace name

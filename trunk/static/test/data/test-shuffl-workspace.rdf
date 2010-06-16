@@ -1,0 +1,83 @@
+<rdf:RDF
+    xmlns:shuffl="http://purl.org/NET/Shuffl/vocab#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xml:base="#"
+>
+  <shuffl:Workspace rdf:about="#test-shuffl-workspace">
+    <shuffl:base-uri>#</shuffl:base-uri>
+    <shuffl:version>0.1</shuffl:version>
+    <shuffl:id>test-shuffl-workspace</shuffl:id>
+    <shuffl:stockbar rdf:parseType="Collection">
+      <rdf:Description>
+        <shuffl:id>stockpile_1</shuffl:id>
+        <shuffl:css>stock-yellow</shuffl:css>
+        <shuffl:label>Ye</shuffl:label>
+        <shuffl:type>shuffl-freetext-yellow</shuffl:type>
+      </rdf:Description>
+      <rdf:Description>
+        <shuffl:id>stockpile_2</shuffl:id>
+        <shuffl:css>stock-blue</shuffl:css>
+        <shuffl:label>Bl</shuffl:label>
+        <shuffl:type>shuffl-freetext-blue</shuffl:type>
+      </rdf:Description>
+      <rdf:Description>
+        <shuffl:id>stockpile_3</shuffl:id>
+        <shuffl:css>stock-green</shuffl:css>
+        <shuffl:label>Gr</shuffl:label>
+        <shuffl:type>shuffl-freetext-green</shuffl:type>
+      </rdf:Description>
+      <rdf:Description>
+        <shuffl:id>stockpile_4</shuffl:id>
+        <shuffl:css>stock-orange</shuffl:css>
+        <shuffl:label>Or</shuffl:label>
+        <shuffl:type>shuffl-freetext-orange</shuffl:type>
+      </rdf:Description>
+      <rdf:Description>
+        <shuffl:id>stockpile_5</shuffl:id>
+        <shuffl:css>stock-pink</shuffl:css>
+        <shuffl:label>Pi</shuffl:label>
+        <shuffl:type>shuffl-freetext-pink</shuffl:type>
+      </rdf:Description>
+      <rdf:Description>
+        <shuffl:id>stockpile_6</shuffl:id>
+        <shuffl:css>stock-purple</shuffl:css>
+        <shuffl:label>Pu</shuffl:label>
+        <shuffl:type>shuffl-freetext-purple</shuffl:type>
+      </rdf:Description>
+    </shuffl:stockbar>
+    <shuffl:layout rdf:parseType="Collection">
+      <rdf:Description>
+        <shuffl:id>card_1</shuffl:id>
+        <shuffl:type>shuffl-freetext-yellow</shuffl:type>
+        <shuffl:data rdf:resource="test-shuffl-card_1.rdf" />
+        <shuffl:pos>
+          <rdf:Description>
+            <shuffl:left>100</shuffl:left>
+            <shuffl:top>30</shuffl:top>
+          </rdf:Description>
+        </shuffl:pos>
+      </rdf:Description>
+      <rdf:Description>
+        <shuffl:id>card_2</shuffl:id>
+        <shuffl:type>shuffl-freetext-blue</shuffl:type>
+        <shuffl:data rdf:resource="test-shuffl-card_2.rdf" />
+        <shuffl:pos>
+          <rdf:Description>
+            <shuffl:left>400</shuffl:left>
+            <shuffl:top>0</shuffl:top>
+          </rdf:Description>
+        </shuffl:pos>
+        <shuffl:size>
+          <rdf:Description>
+            <shuffl:width>600</shuffl:width>
+            <shuffl:height>400</shuffl:height>
+          </rdf:Description>
+        </shuffl:size>
+        <shuffl:zindex>11</shuffl:zindex>
+      </rdf:Description>
+    </shuffl:layout>
+  </shuffl:Workspace>
+</rdf:RDF>
