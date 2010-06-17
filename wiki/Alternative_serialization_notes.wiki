@@ -10,6 +10,8 @@ The intent is to introduce RDF serialization alongside the existing JSON seriali
 
 = Proposed new APIs =
 
+== Application APIs ==
+
 {{{
 shuffl.readCardData(session, carduri, format, callback)
  -> callback(carddata or shuffl.Error value)
@@ -34,6 +36,25 @@ where:
 
 {{{format}}} is {{{"rdf"}}} or {{{"json"}}}; otherwise {{{null}}}, in which case the format
 is deduced from the URI.
+
+== Factory/Handler APIs ==
+
+{{{
+shuffl.addSerializationHandler(uripattern, handler);
+}}}
+where:
+
+{{{
+str = handler.toWorkspaceString(obj);
+
+str = handler.toCardString(obj);
+
+obj = handler.toWorkspaceObject(str);
+
+obj = handler.toCardObject(str);
+
+str = handler.serializedMimeType();
+}}}
 
 = RDF formats =
 
