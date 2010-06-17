@@ -37,10 +37,10 @@ where:
 {{{format}}} is {{{"rdf"}}} or {{{"json"}}}; otherwise {{{null}}}, in which case the format
 is deduced from the URI.
 
-== Factory/Handler APIs ==
+== Factory/Handler SPIs ==
 
 {{{
-shuffl.addSerializationHandler(uripattern, handler);
+shuffl.addSerializationHandler(handlername, uripattern, handler);
 }}}
 where:
 
