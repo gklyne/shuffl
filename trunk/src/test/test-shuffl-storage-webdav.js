@@ -168,14 +168,12 @@ TestWebDAVStorage = function()
 
     function createTestSession()
     {
-        // Instatiate dummy handler
         this.rooturi = TestWebDAVStorage_rootUri.toString();
         shuffl.addStorageHandler(
             { uri:      this.rooturi
             , name:     "Test"
             , factory:  shuffl.WebDAVStorage
             });
-        // Instantiate session for first handler
         return shuffl.makeStorageSession(TestWebDAVStorage_baseUri);
     }
 
@@ -184,22 +182,22 @@ TestWebDAVStorage = function()
         var m = new shuffl.AsyncComputation();
         m.eval(
             function (val, callback) {
-            	// Delete collection /shuffltest/data/
+                // Delete collection /shuffltest/data/
                 ss.removeCollection(TestWebDAVStorage_rootUri+"shuffltest/data/", callback);
             });
         m.eval(
             function (val, callback) {
-            	// Delete collection /shuffltest/
+                // Delete collection /shuffltest/
                 ss.removeCollection(TestWebDAVStorage_rootUri+"shuffltest/", callback);
             });
         m.eval(
             function (val, callback) {
-            	// Create collection /shuffltest/
+                // Create collection /shuffltest/
                 ss.createCollection(TestWebDAVStorage_rootUri, "shuffltest", callback);
             });
         m.eval(
             function (val, callback) {
-            	// Create collection /shuffltest/data/
+                // Create collection /shuffltest/data/
                 ss.createCollection(TestWebDAVStorage_rootUri+"shuffltest", "data", callback);
             });
         m.eval(
