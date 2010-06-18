@@ -3,7 +3,7 @@
  *  Test suite for WebDAV-based storage module.
  *  
  * @author Graham Klyne
- * @version $Id: test-shuffl-storage-webdav.js 676 2009-11-17 17:49:22Z gk-google@ninebynine.org $
+ * @version $Id$
  * 
  * Coypyright (C) 2009, University of Oxford
  *

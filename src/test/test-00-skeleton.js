@@ -5,7 +5,7 @@
  * @author Graham Klyne
  * @version $Id$
  * 
- * Coypyright (C) 2009, University of Oxford
+ * Coypyright (C) 2010, University of Oxford
  *
  * Licensed under the MIT License.  You may obtain a copy of the license at:
  *
