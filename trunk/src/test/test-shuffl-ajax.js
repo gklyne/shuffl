@@ -3,7 +3,7 @@
  *  Test suite for shuffl-ajax
  *  
  * @author Graham Klyne
- * @version $Id: test-shuffl-ajax.js 568 2009-10-27 13:08:33Z gk-google@ninebynine.org $
+ * @version $Id$
  * 
  * Coypyright (C) 2009, University of Oxford
  *

@@ -3,7 +3,7 @@
  *  Test suite for 00-skeleton
  *  
  * @author Graham Klyne
- * @version $Id: test-00-skeleton.js 639 2009-11-11 18:05:13Z gk-google@ninebynine.org $
+ * @version $Id$
  * 
  * Coypyright (C) 2009, University of Oxford
  *
