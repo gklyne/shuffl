@@ -185,12 +185,10 @@ shuffl.createWorkspaceData = function (session, uri, data, format, callback)
 shuffl.updateJsonData = function (session, uri, data, callback)
 {
     log.debug("shuffl.updateJsonData "+uri);
-    ////log.debug("- callback "+typeof callback);
     var m = new shuffl.AsyncComputation();
     m.eval(function(val,callback)
     {
         log.debug("Write data to "+val);
-        ////log.debug("- callback "+typeof callback);
         session.put(val, data, callback);
     });
     m.eval(function(val,callback)
@@ -228,7 +226,6 @@ shuffl.updateJsonData = function (session, uri, data, callback)
 shuffl.updateWorkspaceData = function (session, uri, data, format, callback)
 {
     log.debug("shuffl.updateWorkspaceData "+uri);
-    log.debug("- callback "+typeof callback);
     shuffl.updateJsonData(session, uri, data, callback);
 };
 

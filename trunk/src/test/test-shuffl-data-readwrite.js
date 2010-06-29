@@ -271,7 +271,7 @@ TestDataReadWrite = function()
     test("testUpdateWorkspaceJSON", function ()
     {
         logtest("testUpdateWorkspaceJSON");
-        expect(2);
+        expect(4);
         log.debug("----- testUpdateWorkspaceJSON start -----");
         var m = new shuffl.AsyncComputation();
         var s = createTestSession();
@@ -292,13 +292,6 @@ TestDataReadWrite = function()
             });
         m.eval(
             function (val, callback) {
-                // Delay to allow update to complete (???)
-                log.debug("Start delay...");
-                setTimeout(function() { log.debug("End delay..."); callback(val) }, 100);
-                ////jQuery.timer(200, function() { log.debug("End delay..."); callback(val) });
-            });
-        m.eval(
-            function (val, callback) {
                 shuffl.readWorkspaceData(s, val.uri, null, callback);
             });
         m.eval(
@@ -308,7 +301,6 @@ TestDataReadWrite = function()
             });
         m.eval(
             function (val, callback) {
-                log.debug("----- updating "+u);
                 shuffl.updateWorkspaceData(s, u, TestDataReadWrite_workspace_data1, null, callback);
             });
         m.eval(
@@ -328,7 +320,7 @@ TestDataReadWrite = function()
             });
         m.eval(
             function (val, callback) {
-                same(val, TestDataReadWrite_workspace_data, "Workspace data read back (updated");
+                same(val, TestDataReadWrite_workspace_data1, "Workspace data read back (updated");
                 callback(val);
             });
         m.exec(TestDataReadWrite_baseUri+"data/test-shuffl-workspace.json",
