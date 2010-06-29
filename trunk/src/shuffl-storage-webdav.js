@@ -383,6 +383,12 @@ shuffl.WebDAVStorage.prototype.create = function (coluri, slug, data, callback)
         }
         callback(val);
     });
+    m.eval(
+        function (val, callback) {
+            // Delay to allow update to complete (???)
+            log.debug("- start create delay...");
+            setTimeout(function() { log.debug("- end create delay..."); callback(val) }, 50);
+        });
     m.exec(newuri, callback);
 };
 
@@ -457,6 +463,7 @@ shuffl.WebDAVStorage.prototype.put = function (uri, data, callback)
             return;
         }
         if (typeof data != "string") { data = jQuery.toJSON(data); };
+        log.debug("Issue PUT "+uri);
         //TODO: sort out proper content-type
         jQuery.ajax({
                 type:         "PUT",
@@ -467,6 +474,12 @@ shuffl.WebDAVStorage.prototype.put = function (uri, data, callback)
                 error:        shuffl.ajax.requestFailed(uri, callback),
                 cache:        false
             });
+        });
+    m.eval(
+        function (val, callback) {
+            // Delay to allow update to complete (???)
+            log.debug("- start put delay...");
+            setTimeout(function() { log.debug("- end put delay..."); callback(val) }, 50);
         });
     m.exec(uri, callback);
 };

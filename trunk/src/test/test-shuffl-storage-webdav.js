@@ -205,6 +205,7 @@ TestWebDAVStorage = function()
                 // Create resource /shuffltest/data/test-csv.csv
                 ss.create(TestWebDAVStorage_rootUri+"shuffltest/data", "test-csv.csv", TestWebDAVStorage_test_csv, callback);
             });
+            /*
         m.eval(
             function (val, callback) {
                 // Delay to allow creation to complete (???)
@@ -212,6 +213,7 @@ TestWebDAVStorage = function()
                 setTimeout(function() { log.debug("End delay..."); callback(val) }, 100);
                 ////jQuery.timer(200, function() { log.debug("End delay..."); callback(val) });
             });
+            */
         m.exec(rooturi,
             function (val) {
                 log.debug("initializeTestCollection "+shuffl.objectString(val));

@@ -100,7 +100,7 @@ shuffl.readCardData = function (session, wsuri, format, callback)
 /**
  * Local helper function to write new data using JSON serialization.
  * 
- * @param session   Shuffl storage session for reading data
+ * @param session   Shuffl storage session for creating data
  * @param uri       suggested URI for data (may be relative to current page);
  *                  the actual URI used may be different, and is returned via
  *                  the callback function.
@@ -139,7 +139,7 @@ shuffl.createJsonData = function (session, uri, data, callback)
 /**
  * Create new workspace data.
  * 
- * @param session   Shuffl storage session for reading data
+ * @param session   Shuffl storage session for creating data
  * @param uri       suggested URI for data (may be relative to current page);
  *                  the actual URI used may be different, and is returned via
  *                  the callback function.
@@ -162,6 +162,74 @@ shuffl.createWorkspaceData = function (session, uri, data, format, callback)
 {
     log.debug("shuffl.createWorkspaceData "+uri);
     shuffl.createJsonData(session, uri, data, callback);
+};
+
+/**
+ * Local helper function to update existing data using JSON serialization.
+ * 
+ * @param session   Shuffl storage session for updating data
+ * @param uri       URI for data (may be relative to current page);
+ *                  this URI is also returned via the callback function.
+ * @param data      data to serialize and write
+ * @param callback  a callback function that is invoked on completion
+ * 
+ * The callback function is called as:
+ *    callback(response) {
+ *        // this = undefined
+ *    };
+ * where 'response' is an Error value, or an object with the following fields:
+ *    uri       the fully qualified URI of the updated resource as a 
+ *              jQuery.uri object.
+ *    relref    the URI expressed as relative to the session base URI.
+ */
+shuffl.updateJsonData = function (session, uri, data, callback)
+{
+    log.debug("shuffl.updateJsonData "+uri);
+    ////log.debug("- callback "+typeof callback);
+    var m = new shuffl.AsyncComputation();
+    m.eval(function(val,callback)
+    {
+        log.debug("Write data to "+val);
+        ////log.debug("- callback "+typeof callback);
+        session.put(val, data, callback);
+    });
+    m.eval(function(val,callback)
+    {
+        if (val instanceof shuffl.Error)
+        {
+            log.error("shuffl.updateJsonData: error from session.put: "+val.toString());
+        }
+        callback(val);
+    });
+    m.exec(jQuery.uri(uri).toString(), callback);
+};
+
+/**
+ * Update workspace data.
+ * 
+ * @param session   Shuffl storage session for writing data
+ * @param uri       URI for data (may be relative to current page);
+ *                  this URI is also returned via the callback function.
+ * @param data      data to serialize and write
+ * @param format    Name of data serialization format to use.
+ *                  If null or undefined, the format is detertmined based on
+ *                  examination of the supplied URI. 
+ * @param callback  a callback function that is invoked on completion
+ * 
+ * The callback function is called as:
+ *    callback(response) {
+ *        // this = undefined
+ *    };
+ * where 'response' is an Error value, or an object with the following fields:
+ *    uri       the fully qualified URI of the updated resource as a 
+ *              jQuery.uri object.
+ *    relref    the URI expressed as relative to the session base URI.
+ */
+shuffl.updateWorkspaceData = function (session, uri, data, format, callback)
+{
+    log.debug("shuffl.updateWorkspaceData "+uri);
+    log.debug("- callback "+typeof callback);
+    shuffl.updateJsonData(session, uri, data, callback);
 };
 
 // End.
