@@ -1,0 +1,178 @@
+#summary Shuffl, RDF/XML, JSON and JRON notes and test cases
+
+<wiki:toc max_depth="2" />
+
+= Shuffl, RDF/XML, JSON and JRON =
+
+These are notes for test cases to implement the JRON format for Shuffl workspace and card data [1].
+
+The intent is that the main logic will be a generic plugin or library to work with RDFQuery [2].
+
+= Simple statements with literal object =
+
+== RDF/XML ==
+
+{{{
+<rdf:RDF
+    xmlns:shuffl="http://purl.org/NET/Shuffl/vocab#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+>
+  <shuffl:Card rdf:about="http://example.com/card#id_1">
+    <shuffl:id>id_1</shuffl:id>
+  </shuffl:Card>
+</rdf:RDF>
+}}}
+
+== Shuffl JSON ==
+
+{{{
+{ "shuffl:id": "id_1"
+, "shuffl:uses-prefixes":
+  [ { "shuffl:prefix":  "shuffl", "shuffl:uri": "http://purl.org/NET/Shuffl/vocab#" }
+  , { "shuffl:prefix":  "rdf",    "shuffl:uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#" }
+  ]
+}
+}}}
+
+== JRON ==
+
+{{{
+{ "__iri":     "http://example.com/card#id_1"
+, "__prefixes":
+  { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+  , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  }
+, "rdf:type":  { "__iri": "shuffl:Card" }
+, "shuffl:id": "id_1"
+}
+}}}
+
+== Notes ==
+
+The Shuffl format does not explicitly encode the URI of the resource being described:
+it is deduced implictly from the shuffl:id value.
+
+= Simple statements with non-literal object =
+
+== RDF/XML ==
+
+{{{
+<rdf:RDF
+    xmlns:shuffl="http://purl.org/NET/Shuffl/vocab#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+>
+  <shuffl:Card rdf:about="http://example.com/card#id_1">
+    <shuffl:base-uri rdf:resource="http://example.com/card#" />
+  </shuffl:Card>
+</rdf:RDF>
+}}}
+
+== Shuffl JSON ==
+
+{{{
+{ "shuffl:base-uri":    "http://example.com/card#id_1"
+, "shuffl:uses-prefixes":
+  [ { "shuffl:prefix":  "shuffl", "shuffl:uri": "http://purl.org/NET/Shuffl/vocab#" }
+  ]
+}
+}}}
+
+== JRON ==
+
+{{{
+{ "__iri":     "http://example.com/card#id_1"
+, "__prefixes":
+  { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+  , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  }
+, "rdf:type":        { "__iri": "shuffl:Card" }
+, "shuffl:base-uri": { "__iri": "http://example.com/card#" }
+}
+}}}
+
+= Full Shuffl card (TBD) =
+
+== RDF/XML ==
+
+{{{
+<rdf:RDF
+    xmlns:shuffl="http://purl.org/NET/Shuffl/vocab#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xml:base="#"
+>
+  <shuffl:Card rdf:about="#id_1">
+    <shuffl:base-uri>#</shuffl:base-uri>
+    <shuffl:version>0.1</shuffl:version>
+    <shuffl:id>id_1</shuffl:id>
+    <shuffl:type>shuffl-freetext-yellow</shuffl:type>
+    <shuffl:data>
+      <rdf:Description>
+        <shuffl:title>Card 1 title</shuffl:title>
+        <shuffl:tags>
+          <rdf:List>
+            <rdf:first>card_1_tag</rdf:first>
+            <rdf:rest>
+              <rdf:List>
+                <rdf:first>yellowtag</rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil" />
+              </rdf:List>
+            </rdf:rest>
+          </rdf:List>
+        </shuffl:tags>
+        <shuffl:text rdf:parseType="Literal">Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow"</shuffl:text>
+      </rdf:Description>
+    </shuffl:data>
+  </shuffl:Card>
+</rdf:RDF>
+}}}
+
+== Shuffl JSON ==
+
+{{{
+{ "shuffl:id":        "id_1"
+, "shuffl:type":      "shuffl-freetext-yellow"
+, "shuffl:version":   "0.1"
+, "shuffl:base-uri":  "#"
+, "shuffl:uses-prefixes":
+  [ { "shuffl:prefix":  "shuffl", "shuffl:uri": "http://purl.org/NET/Shuffl/vocab#" }
+  , { "shuffl:prefix":  "rdf",    "shuffl:uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#" }
+  , { "shuffl:prefix":  "rdfs",   "shuffl:uri": "http://www.w3.org/2000/01/rdf-schema#" }
+  , { "shuffl:prefix":  "owl",    "shuffl:uri": "http://www.w3.org/2002/07/owl#" }
+  , { "shuffl:prefix":  "xsd",    "shuffl:uri": "http://www.w3.org/2001/XMLSchema#" }
+  ]
+, "shuffl:data":
+  { "shuffl:title":   "Card 1 title"
+  , "shuffl:tags":    [ "card_1_tag", "yellowtag" ]
+  , "shuffl:text":    "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow"
+  }
+}
+}}}
+
+== JRON ==
+
+{{{
+...
+}}}
+
+= Full Shuffl workspace description (TBD) =
+
+== RDF/XML ==
+
+{{{
+...
+}}}
+
+== Shuffl JSON ==
+
+{{{
+...
+}}}
+
+== JRON ==
+
+{{{
+...
+}}}
