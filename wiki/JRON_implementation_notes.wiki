@@ -4,9 +4,17 @@
 
 = Shuffl, RDF/XML, JSON and JRON =
 
-These are notes for test cases to implement the JRON format for Shuffl workspace and card data [1].
+These are notes for test cases to implement the [http://decentralyze.com/2010/06/04/from-json-to-rdf-in-six-easy-steps-with-jron/ JRON] format for Shuffl workspace and card data.
 
-The intent is that the main logic will be a generic plugin or library to work with RDFQuery [2].
+The intent is that the main transformation logic will be a generic plugin or library to work with [http://code.google.com/p/rdfquery/ RDFQuery]; e.g.
+
+{{{
+JRONobject = RDFtoJRON(RDFQuery_databank);
+}}}
+and
+{{{
+RDFQuery_databank = JRONtoRDF(JRONObject);
+}}}
 
 = Simple statements with literal object =
 
