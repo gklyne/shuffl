@@ -325,7 +325,105 @@ TestDataReadWrite = function()
             });
         m.exec(TestDataReadWrite_baseUri+"data/test-shuffl-workspace.json",
             function(val) {
-                log.debug("----- testCreateWorkspaceJSON end -----");
+                log.debug("----- testUpdateWorkspaceJSON end -----");
+                start();
+            });
+        stop(2000);
+    });
+    
+    // Create JSON card
+    test("testCreateCardJSON", function ()
+    {
+        logtest("testCreateCardJSON");
+        expect(2);
+        log.debug("----- testCreateCardJSON start -----");
+        var m = new shuffl.AsyncComputation();
+        var s = createTestSession();
+        m.eval(
+            function (val, callback) {
+                initializeTestCollections(s, val, function (v) { callback(val); });
+            });
+        m.eval(
+            function (val, callback) {
+                shuffl.createCardData(s, val, TestDataReadWrite_card_data, null, callback);
+            });
+        m.eval(
+            function (val, callback) {
+                equals(val.uri, TestDataReadWrite_baseUri+"data/test-shuffl-card_1.json", "Card data uri");
+                callback(val);
+            });
+        m.eval(
+            function (val, callback) {
+                shuffl.readWorkspaceData(s, val.uri, null, callback);
+            });
+        m.exec(TestDataReadWrite_baseUri+"data/test-shuffl-card_1.json",
+            function(val) {
+                same(val, TestDataReadWrite_card_data, "Card data read back");
+                log.debug("----- testCreateCardJSON end -----");
+                start();
+            });
+        stop(2000);
+    });
+
+    // Update JSON card
+    test("testUpdateCardJSON", function ()
+    {
+        logtest("testUpdateCardJSON");
+        expect(4);
+        log.debug("----- testUpdateCardJSON start -----");
+        var m = new shuffl.AsyncComputation();
+        var s = createTestSession();
+        var u = null;
+        m.eval(
+            function (val, callback) {
+                initializeTestCollections(s, val, function (v) { callback(val); });
+            });
+        m.eval(
+            function (val, callback) {
+                shuffl.createCardData(s, val, TestDataReadWrite_card_data, null, callback);
+            });
+        m.eval(
+            function (val, callback) {
+                equals(val.uri, TestDataReadWrite_baseUri+"data/test-shuffl-card_1.json", "Card data uri (created)");
+                u = val.uri;
+                callback(val);
+            });
+        m.eval(
+            function (val, callback) {
+                shuffl.readCardData(s, val.uri, null, callback);
+            });
+        m.eval(
+            function (val, callback) {
+                same(val, TestDataReadWrite_card_data, "Card data read back (created)");
+                callback(val);
+            });
+        m.eval(
+            function (val, callback) {
+                shuffl.updateCardData(s, u, TestDataReadWrite_card_data1, null, callback);
+            });
+        m.eval(
+            function (val, callback) {
+                if (val instanceof shuffl.Error)
+                {
+                    log.error("Update error: "+val.toString());
+                    ok(false, val.toString());
+                    throw val;
+                };
+                equals(val.uri, u, "Card data uri (updated)");
+                callback(val);
+            });
+        m.eval(
+            function (val, callback) {
+                shuffl.readCardData(s, val.uri, null, callback);
+            });
+        m.eval(
+            function (val, callback) {
+                same(val, TestDataReadWrite_card_data1, "Card data read back (updated");
+                callback(val);
+            });
+        m.exec(TestDataReadWrite_baseUri+"data/test-shuffl-card_1.json",
+            function(val) {
+                log.debug("----- testUpdateCardJSON end -----");
                 start();
             });
         stop(2000);
@@ -334,10 +432,6 @@ TestDataReadWrite = function()
 //// The plan here is to implement each test case, then to implement the 
 //// necessary functionality ib shuffl-datra-readwrite to pas the test.
 //// Currently, most of the required functions just don't exist.
-    
-    // Create JSON card
-
-    // Update JSON card
 
     // Read RDF/XML workspace
     
