@@ -16,6 +16,8 @@ and
 RDFQuery_databank = JRONtoRDF(JRONObject);
 }}}
 
+
+
 = Simple statements with literal object =
 
 == RDF/XML ==
@@ -60,6 +62,8 @@ RDFQuery_databank = JRONtoRDF(JRONObject);
 The Shuffl format does not explicitly encode the URI of the resource being described:
 it is deduced implictly from the shuffl:id value.
 
+
+
 = Simple statements with non-literal object =
 
 == RDF/XML ==
@@ -97,6 +101,8 @@ it is deduced implictly from the shuffl:id value.
 , "shuffl:base-uri": { "__iri": "http://example.com/card#" }
 }
 }}}
+
+
 
 = Statements with xml:base =
 
@@ -136,6 +142,8 @@ it is deduced implictly from the shuffl:id value.
 , "shuffl:base-uri": { "__iri": "http://example.com/card#" }
 }
 }}}
+
+
 
 = Nested statements =
 
@@ -184,6 +192,74 @@ it is deduced implictly from the shuffl:id value.
   }
 }
 }}}
+
+
+
+= Non-string literal values =
+
+== RDF/XML ==
+
+{{{
+<rdf:RDF
+    xmlns:shuffl="http://purl.org/NET/Shuffl/vocab#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xml:base="http://example.com/workspace"
+>
+  <shuffl:Workspace rdf:about="#id_1">
+    <shuffl:layout rdf:parseType="Collection">
+      <rdf:Description>
+        <shuffl:id>card_1</shuffl:id>
+      </rdf:Description>
+      <rdf:Description>
+        <shuffl:id>card_2</shuffl:id>
+      </rdf:Description>
+    </shuffl:layout>
+  </shuffl:Workspace>
+</rdf:RDF>
+}}}
+
+== Shuffl JSON ==
+
+{{{
+{ "shuffl:workspace":
+  , "shuffl:layout":
+      [ { "pos": 
+          {"left":100, "top":30} 
+        }
+      , { "zindex":11
+        }
+      ]
+, "shuffl:uses-prefixes":
+  [ { "shuffl:prefix":  "shuffl", "shuffl:uri": "http://purl.org/NET/Shuffl/vocab#" }
+  , { "shuffl:prefix":  "rdf",    "shuffl:uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#" }
+  ]
+}
+}}}
+
+== JRON ==
+
+{{{
+{ "__iri":     "http://example.com/workspace#id_1"
+, "__prefixes":
+  { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+  , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  }
+, "rdf:type":  { "__iri": "shuffl:Workspace" }
+............
+, "shuffl:workspace":
+  , "shuffl:layout":
+      [ { "pos": 
+          {"left":100, "top":30} 
+        }
+      , { "zindex":11
+        }
+      ]
+  }
+}
+..............
+}}}
+
+
 
 = List of literal values =
 
@@ -242,6 +318,8 @@ it is deduced implictly from the shuffl:id value.
   }
 }
 }}}
+
+
 
 = List of non-literal values =
 
@@ -307,6 +385,8 @@ it is deduced implictly from the shuffl:id value.
 }
 }}}
 
+
+
 = Full Shuffl card (TBD) =
 
 == RDF/XML ==
@@ -318,7 +398,7 @@ it is deduced implictly from the shuffl:id value.
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-    xml:base="#"
+    xml:base="http://example.com/card"
 >
   <shuffl:Card rdf:about="#id_1">
     <shuffl:base-uri>#</shuffl:base-uri>
@@ -371,8 +451,28 @@ it is deduced implictly from the shuffl:id value.
 == JRON ==
 
 {{{
-...
+{ "__iri":     "http://example.com/card#id_1"
+, "__prefixes":
+  { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+  , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  , "rdfs:",   "http://www.w3.org/2000/01/rdf-schema#"
+  , "owl:",    "http://www.w3.org/2002/07/owl#"
+  , "xsd:",    "http://www.w3.org/2001/XMLSchema#"
+  }
+, "rdf:type":  { "__iri": "shuffl:Card" }
+, "shuffl:id":        "id_1"
+, "shuffl:type":      "shuffl-freetext-yellow"
+, "shuffl:version":   "0.1"
+, "shuffl:base-uri":  "#"
+, "shuffl:data":
+  { "shuffl:title":   "Card 1 title"
+  , "shuffl:tags":    [ "card_1_tag", "yellowtag" ]
+  , "shuffl:text":    "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow"
+  }
+}
 }}}
+
+
 
 = Full Shuffl workspace description (TBD) =
 
@@ -385,7 +485,7 @@ it is deduced implictly from the shuffl:id value.
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-    xml:base="#"
+    xml:base="http://example.com/workspace"
 >
   <shuffl:Workspace rdf:about="#test-shuffl-workspace">
     <shuffl:base-uri>#</shuffl:base-uri>
@@ -504,5 +604,40 @@ it is deduced implictly from the shuffl:id value.
 == JRON ==
 
 {{{
-...
+{ "__iri":     "http://example.com/workspace#id_1"
+, "__prefixes":
+  { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+  , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  , "rdfs:",   "http://www.w3.org/2000/01/rdf-schema#"
+  , "owl:",    "http://www.w3.org/2002/07/owl#"
+  , "xsd:",    "http://www.w3.org/2001/XMLSchema#"
+  }
+, "rdf:type":  { "__iri": "shuffl:Workspace" }
+, "shuffl:id":        "test-shuffl-workspace"
+, "shuffl:class":     "shuffl:Workspace"
+, "shuffl:version":   "0.1"
+, "shuffl:base-uri":  "#"
+, "shuffl:workspace":
+  { "shuffl:stockbar":
+      [ { "id": "stockpile_1", "class": "stock-yellow",  "label": "Ye", "type": "shuffl-freetext-yellow"  }
+      , { "id": "stockpile_2", "class": "stock-blue",    "label": "Bl", "type": "shuffl-freetext-blue"    }
+      , { "id": "stockpile_3", "class": "stock-green",   "label": "Gr", "type": "shuffl-freetext-green"   }
+      , { "id": "stockpile_4", "class": "stock-orange",  "label": "Or", "type": "shuffl-freetext-orange"  }
+      , { "id": "stockpile_5", "class": "stock-pink",    "label": "Pi", "type": "shuffl-freetext-pink"    }
+      , { "id": "stockpile_6", "class": "stock-purple",  "label": "Pu", "type": "shuffl-freetext-purple"  }
+      ]
+.........
+  , "shuffl:layout":
+      [ { "id": "card_1", "type": "shuffl-freetext-yellow", "data": "test-shuffl-card_1.json"
+        , "pos": {"left":100, "top":30} 
+        }
+      , { "id": "card_2", "type": "shuffl-freetext-blue",   "data": "test-shuffl-card_2.json"
+        , "pos": {"top":0, "left":400}
+        , "size": {"width":600,"height":400}
+        , "zindex":11
+        }
+      ]
+  }
+........
+}
 }}}
