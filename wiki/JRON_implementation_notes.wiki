@@ -552,8 +552,8 @@ it is deduced implictly from the shuffl:id value.
         <shuffl:data rdf:resource="test-shuffl-card_1.rdf" />
         <shuffl:pos>
           <rdf:Description>
-            <shuffl:left>100</shuffl:left>
-            <shuffl:top>30</shuffl:top>
+            <shuffl:left rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">100</shuffl:left>
+            <shuffl:top rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">30</shuffl:top>
           </rdf:Description>
         </shuffl:pos>
       </rdf:Description>
@@ -563,17 +563,17 @@ it is deduced implictly from the shuffl:id value.
         <shuffl:data rdf:resource="test-shuffl-card_2.rdf" />
         <shuffl:pos>
           <rdf:Description>
-            <shuffl:left>400</shuffl:left>
-            <shuffl:top>0</shuffl:top>
+            <shuffl:left rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">400</shuffl:left>
+            <shuffl:top rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</shuffl:top>
           </rdf:Description>
         </shuffl:pos>
         <shuffl:size>
           <rdf:Description>
-            <shuffl:width>600</shuffl:width>
-            <shuffl:height>400</shuffl:height>
+            <shuffl:width rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">600</shuffl:width>
+            <shuffl:height rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">400</shuffl:height>
           </rdf:Description>
         </shuffl:size>
-        <shuffl:zindex>11</shuffl:zindex>
+        <shuffl:zindex rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">11</shuffl:zindex>
       </rdf:Description>
     </shuffl:layout>
   </shuffl:Workspace>
