@@ -604,28 +604,28 @@ it is deduced implictly from the shuffl:id value.
       , { "id": "stockpile_6", "class": "stock-purple",  "label": "Pu", "type": "shuffl-freetext-purple"  }
       ]
   , "shuffl:layout":
-      [ { "id": "card_1"
-        , "type": "shuffl-freetext-yellow"
-        , "data": "test-shuffl-card_1.json"
-        , "pos": 
-          { "left": 100
-          , "top": 30
-          } 
+    [ { "id": "card_1"
+      , "type": "shuffl-freetext-yellow"
+      , "data": "test-shuffl-card_1.json"
+      , "pos": 
+        { "left": 100
+        , "top": 30
+        } 
+      }
+    , { "id": "card_2"
+      , "type": "shuffl-freetext-blue"
+      ,   "data": "test-shuffl-card_2.json"
+      , "pos":
+        { "top": 0
+        , "left": 400
         }
-      , { "id": "card_2"
-        , "type": "shuffl-freetext-blue"
-        ,   "data": "test-shuffl-card_2.json"
-        , "pos":
-          { "top": 0
-          , "left": 400
-          }
-        , "size":
-          { "width": 600
-          , "height": 400
-          }
-        , "zindex": 11
+      , "size":
+        { "width": 600
+        , "height": 400
         }
-      ]
+      , "zindex": 11
+      }
+    ]
   }
 }
 }}}
@@ -648,57 +648,57 @@ it is deduced implictly from the shuffl:id value.
 , "shuffl:base-uri":  "#"
 , "shuffl:workspace":
   { "shuffl:stockbar":
-      [ { "id": "stockpile_1", "class": "stock-yellow",  "label": "Ye", "type": "shuffl-freetext-yellow"  }
-      , { "id": "stockpile_2", "class": "stock-blue",    "label": "Bl", "type": "shuffl-freetext-blue"    }
-      , { "id": "stockpile_3", "class": "stock-green",   "label": "Gr", "type": "shuffl-freetext-green"   }
-      , { "id": "stockpile_4", "class": "stock-orange",  "label": "Or", "type": "shuffl-freetext-orange"  }
-      , { "id": "stockpile_5", "class": "stock-pink",    "label": "Pi", "type": "shuffl-freetext-pink"    }
-      , { "id": "stockpile_6", "class": "stock-purple",  "label": "Pu", "type": "shuffl-freetext-purple"  }
-      ]
+    [ { "id": "stockpile_1", "class": "stock-yellow",  "label": "Ye", "type": "shuffl-freetext-yellow"  }
+    , { "id": "stockpile_2", "class": "stock-blue",    "label": "Bl", "type": "shuffl-freetext-blue"    }
+    , { "id": "stockpile_3", "class": "stock-green",   "label": "Gr", "type": "shuffl-freetext-green"   }
+    , { "id": "stockpile_4", "class": "stock-orange",  "label": "Or", "type": "shuffl-freetext-orange"  }
+    , { "id": "stockpile_5", "class": "stock-pink",    "label": "Pi", "type": "shuffl-freetext-pink"    }
+    , { "id": "stockpile_6", "class": "stock-purple",  "label": "Pu", "type": "shuffl-freetext-purple"  }
+    ]
   , "shuffl:layout":
-      [ { "id": "card_1"
-        , "type": "shuffl-freetext-yellow"
-        , "data": "test-shuffl-card_1.json"
-        , "pos": 
-          { "left": 
-            { "__repr": "100"
-            , "__type": "http://www.w3.org/2001/XMLSchema#integer"
-            }
-          , "top":
-            { "__repr": "30"
-            , "__type": "http://www.w3.org/2001/XMLSchema#integer"
-            }
-          } 
-        }
-      , { "id": "card_2"
-        , "type": "shuffl-freetext-blue"
-        ,   "data": "test-shuffl-card_2.json"
-        , "pos":
-          { "top":
-            { "__repr": "0"
-            , "__type": "http://www.w3.org/2001/XMLSchema#integer"
-            }
-          , "left":
-            { "__repr": "400"
-            , "__type": "http://www.w3.org/2001/XMLSchema#integer"
-            }
+    [ { "id": "card_1"
+      , "type": "shuffl-freetext-yellow"
+      , "data": "test-shuffl-card_1.json"
+      , "pos": 
+        { "left": 
+          { "__repr": "100"
+          , "__type": "http://www.w3.org/2001/XMLSchema#integer"
           }
-        , "size":
-          { "width":
-            { "__repr": "600"
-            , "__type": "http://www.w3.org/2001/XMLSchema#integer"
-            }
-          , "height":
-            { "__repr": "400"
-            , "__type": "http://www.w3.org/2001/XMLSchema#integer"
-            }
+        , "top":
+          { "__repr": "30"
+          , "__type": "http://www.w3.org/2001/XMLSchema#integer"
           }
-        , "zindex":
-          { "__repr": "11"
+        } 
+      }
+    , { "id": "card_2"
+      , "type": "shuffl-freetext-blue"
+      ,   "data": "test-shuffl-card_2.json"
+      , "pos":
+        { "top":
+          { "__repr": "0"
+          , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+          }
+        , "left":
+          { "__repr": "400"
           , "__type": "http://www.w3.org/2001/XMLSchema#integer"
           }
         }
-      ]
+      , "size":
+        { "width":
+          { "__repr": "600"
+          , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+          }
+        , "height":
+          { "__repr": "400"
+          , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+          }
+        }
+      , "zindex":
+        { "__repr": "11"
+        , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+        }
+      }
+    ]
   }
 }
 }}}
