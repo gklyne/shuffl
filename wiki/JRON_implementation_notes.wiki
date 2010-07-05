@@ -283,11 +283,11 @@ it is deduced implictly from the shuffl:id value.
 {{{
 { "shuffl:workspace":
   { "shuffl:layout":
-      [ { "id": "card_1"
-        }
-      , { "id": "card_2"
-        }
-      ]
+    [ { "id": "card_1"
+      }
+    , { "id": "card_2"
+      }
+    ]
   }
 , "shuffl:uses-prefixes":
   [ { "shuffl:prefix":  "shuffl", "shuffl:uri": "http://purl.org/NET/Shuffl/vocab#" }
@@ -307,11 +307,11 @@ it is deduced implictly from the shuffl:id value.
 , "rdf:type":  { "__iri": "shuffl:Workspace" }
 , "shuffl:workspace":
   { "shuffl:layout":
-      [ { "id": "card_1"
-        }
-      , { "id": "card_2"
-        }
-      ]
+    [ { "id": "card_1"
+      }
+    , { "id": "card_2"
+      }
+    ]
   }
 , "shuffl:data": 
   { "shuffl:tags":    [ "card_1_tag", "yellowtag" ]
@@ -354,14 +354,14 @@ it is deduced implictly from the shuffl:id value.
 {{{
 { "shuffl:workspace":
   , "shuffl:layout":
-      [ { "pos": 
-          { "left": 100
-          , "top": 30
-          } 
-        }
-      , { "zindex": 11
-        }
-      ]
+    [ { "pos": 
+        { "left": 100
+        , "top": 30
+        } 
+      }
+    , { "zindex": 11
+      }
+    ]
 , "shuffl:uses-prefixes":
   [ { "shuffl:prefix":  "shuffl", "shuffl:uri": "http://purl.org/NET/Shuffl/vocab#" }
   , { "shuffl:prefix":  "rdf",    "shuffl:uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#" }
@@ -380,23 +380,23 @@ it is deduced implictly from the shuffl:id value.
 , "rdf:type":  { "__iri": "shuffl:Workspace" }
 , "shuffl:workspace":
   , "shuffl:layout":
-      [ { "pos": 
-          { "left": 
-            { "__repr": "100"
-            , "__type": "http://www.w3.org/2001/XMLSchema#integer"
-            }
-          , "top":
-            { "__repr": "30"
-            , "__type": "http://www.w3.org/2001/XMLSchema#integer"
-            }
-          } 
-        }
-      , { "zindex":
-          { "__repr": "11"
+    [ { "pos": 
+        { "left": 
+          { "__repr": "100"
           , "__type": "http://www.w3.org/2001/XMLSchema#integer"
           }
+        , "top":
+          { "__repr": "30"
+          , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+          }
+        } 
+      }
+    , { "zindex":
+        { "__repr": "11"
+        , "__type": "http://www.w3.org/2001/XMLSchema#integer"
         }
-      ]
+      }
+    ]
   }
 }
 }}}
