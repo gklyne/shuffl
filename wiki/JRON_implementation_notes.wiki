@@ -98,6 +98,45 @@ it is deduced implictly from the shuffl:id value.
 }
 }}}
 
+= Statements with xml:base =
+
+== RDF/XML ==
+
+{{{
+<rdf:RDF
+    xmlns:shuffl="http://purl.org/NET/Shuffl/vocab#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xml:base="http://example.com/card"
+>
+  <shuffl:Card rdf:about="#id_1">
+    <shuffl:base-uri rdf:resource="http://example.com/card#" />
+  </shuffl:Card>
+</rdf:RDF>
+}}}
+
+== Shuffl JSON ==
+
+{{{
+{ "shuffl:base-uri":    "http://example.com/card#id_1"
+, "shuffl:uses-prefixes":
+  [ { "shuffl:prefix":  "shuffl", "shuffl:uri": "http://purl.org/NET/Shuffl/vocab#" }
+  ]
+}
+}}}
+
+== JRON ==
+
+{{{
+{ "__iri":     "http://example.com/card#id_1"
+, "__prefixes":
+  { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+  , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  }
+, "rdf:type":        { "__iri": "shuffl:Card" }
+, "shuffl:base-uri": { "__iri": "http://example.com/card#" }
+}
+}}}
+
 = Nested statements =
 
 == RDF/XML ==
@@ -106,6 +145,7 @@ it is deduced implictly from the shuffl:id value.
 <rdf:RDF
     xmlns:shuffl="http://purl.org/NET/Shuffl/vocab#"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xml:base="http://example.com/card"
 >
   <shuffl:Card rdf:about="#id_1">
     <shuffl:data>
@@ -153,6 +193,7 @@ it is deduced implictly from the shuffl:id value.
 <rdf:RDF
     xmlns:shuffl="http://purl.org/NET/Shuffl/vocab#"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xml:base="http://example.com/card"
 >
   <shuffl:Card rdf:about="#id_1">
     <shuffl:data>
@@ -210,6 +251,7 @@ it is deduced implictly from the shuffl:id value.
 <rdf:RDF
     xmlns:shuffl="http://purl.org/NET/Shuffl/vocab#"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xml:base="http://example.com/workspace"
 >
   <shuffl:Workspace rdf:about="#id_1">
     <shuffl:layout rdf:parseType="Collection">
@@ -245,7 +287,7 @@ it is deduced implictly from the shuffl:id value.
 == JRON ==
 
 {{{
-{ "__iri":     "http://example.com/card#id_1"
+{ "__iri":     "http://example.com/workspace#id_1"
 , "__prefixes":
   { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
   , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
