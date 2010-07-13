@@ -1,0 +1,18 @@
+Next steps for Shuffl development
+
+
+== RDF/XML support ==
+
+1. JRON-to-RDFQuery test cases and adapter 
+   (see http://code.google.com/p/shuffl/wiki/JRON_implementation_notes)
+ 
+2. Continue developing test-shuffl-data-readwrite.js and shuffl-data-readwrite.js
+
+3. Modify Shuffl load/save top use shuffl-data-readwrite methods
+
+
+== Delete card (or remove from workspace) ==
+
+
+== Improve diagnostics ==
+
