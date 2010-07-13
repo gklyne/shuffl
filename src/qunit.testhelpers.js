@@ -19,6 +19,18 @@
  */
 
 /**
+ *  Add logging functions to global namespace, for convenience
+ */
+if (typeof log == "undefined")
+{
+    log = {};
+    log.debug = MochiKit.Logging.logDebug   ;
+    log.info  = MochiKit.Logging.log    ;
+    log.warn  = MochiKit.Logging.logWarning ;
+    log.error = MochiKit.Logging.logError   ;
+};
+
+/**
  * Test case counter
  */
 var testnum = 1;

@@ -430,10 +430,29 @@ TestDataReadWrite = function()
     });
 
 //// The plan here is to implement each test case, then to implement the 
-//// necessary functionality ib shuffl-datra-readwrite to pas the test.
+//// necessary functionality ib shuffl-data-readwrite to pass the test.
 //// Currently, most of the required functions just don't exist.
 
     // Read RDF/XML workspace
+    test("testReadWorkspaceRDFXML", function ()
+    {
+        logtest("testReadWorkspaceRDFXML");
+        expect(1);
+        log.debug("----- testReadWorkspaceRDFXML start -----");
+        var m = new shuffl.AsyncComputation();
+        var s = createTestSession();
+        m.eval(
+            function (val, callback) {
+                shuffl.readWorkspaceData(s, val, null, callback);
+            });
+        m.exec("data/test-shuffl-workspace.rdf",
+            function(val) {
+                same(val, TestDataReadWrite_workspace_data, "Workspace data");
+                log.debug("----- testReadWorkspaceRDFXML end -----");
+                start();
+            });
+        stop(2000);
+    });
     
     // Read RDF/XML card
     
