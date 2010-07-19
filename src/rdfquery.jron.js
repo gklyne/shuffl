@@ -29,7 +29,7 @@
  * Extend the main jQuery object.
  */
 jQuery.extend({
-    JRON_node:
+    node_fromJRON:
         /**
          * Create an rdfquery node from a supplied JRON value and 
          * rdfquery options
@@ -100,12 +100,12 @@ jQuery.extend({
                 }
                 return jQuery.rdf.blank(nodeid);
             }
-            e = "JRON_node unrecognized node: "+jQuery.toJSON(jronnode);
+            e = "node_fromJRON unrecognized node: "+jQuery.toJSON(jronnode);
             log.debug(e);
             throw e;
         },
 
-    JRON_pred:
+    pred_fromJRON:
         /**
          * Create an rdfquery node from a supplied JRON predicate value and 
          * rdfquery options
@@ -120,10 +120,10 @@ jQuery.extend({
          */
         function (jronpred, options)
         {
-            return jQuery.JRON_node( { __iri: jronpred }, options);
+            return jQuery.node_fromJRON( { __iri: jronpred }, options);
         },
 
-    JRONtoRDF:
+    RDFfromJRON:
         /**
          * Create and return an rdfquery databank object containing data from
          * the supplied JRON object structure.
@@ -134,7 +134,7 @@ jQuery.extend({
          */
         function (jron)
         {
-            log.debug("jQuery.JRONtoRDF");
+            log.debug("jQuery.RDFfromJRON");
             var rdfdatabank = jQuery.rdf.databank()
                 .base("");
             // Find and set base
@@ -148,13 +148,13 @@ jQuery.extend({
                 for (var pref in jron.__prefixes)
                 {
                     log.debug("- prefix "+pref);
-                    //TODO: more robust way to strip spearator char(s) from prefix
+                    //TODO: more robust way to strip separator char(s) from prefix
                     rdfdatabank.prefix(pref.slice(0,-1), jron.__prefixes[pref]);
                 };
             };
             var opts = { namespaces: rdfdatabank.prefix(), base: rdfdatabank.base() };
             log.debug("- options "+jQuery.toJSON(opts));
-            subj = jQuery.JRON_node(jron, opts);
+            subj = jQuery.node_fromJRON(jron, opts);
             // Find and save statements
             for (var pred in jron)
             {
@@ -164,8 +164,8 @@ jQuery.extend({
                 {
                     var obj = jron[pred];
                     log.debug("- stmt "+subj+" "+pred+" "+jQuery.toJSON(obj));
-                    pred = jQuery.JRON_pred(pred, opts);
-                    obj  = jQuery.JRON_node(obj, opts);
+                    pred = jQuery.pred_fromJRON(pred, opts);
+                    obj  = jQuery.node_fromJRON(obj, opts);
                     var triple = jQuery.rdf.triple(subj, pred, obj, opts);
                     rdfdatabank.add(triple);
                 }
@@ -175,7 +175,149 @@ jQuery.extend({
                 };
             }
             return rdfdatabank;
+        },
+
+    node_toJRON:
+        /**
+         * Create an JRON predicate value from a supplied rdfquery node and 
+         * base and prefix options
+         * 
+         * @param rdfnode   an rdfquery node value used as a node in
+         *                  an rdfdatabank triple value.
+         * @param options   is an options value, in particular containing
+         *                  a base URI and prefix definitions for compacting 
+         *                  URIs to CURIE-like values.  The value is supplied
+         *                  as a JRON object with corresponding __base and
+         *                  __prefixes members.
+         * @return          a JRON value for a predicate: a string 
+         *                  containing a URI or CURIE
+         */
+        function (rdfnode, options)
+        {
+            log.debug("node_toJRON "+rdfnode.type+", "+rdfnode.value);
+            if (rdfnode.type == "uri")
+            {
+                var uri    = rdfnode.value.toString();
+                var matchl = 0;
+                var matchp = null;
+                var matchu = null;
+                for (k in options.__prefixes)
+                {
+                    var u = options.__prefixes[k];
+                    var l = u.length;
+                    if ((uri.slice(0,l) == u) && (l > matchl))
+                    {
+                        matchl = l;
+                        matchp = k;
+                        matchu = u;
+                    }
+                }
+                if (matchp)
+                {
+                    uri = matchp+uri.slice(matchl);
+                }                
+                return { __iri: uri };
+            };
+            if (rdfnode.type == "blank")
+            {
+                var nodeid = rdfnode.value;
+                if (nodeid.slice(0,2) == "_:")
+                {
+                    return { __node_id: nodeid.slice(2) };
+                }
+                return {};
+            };
+            if (rdfnode.type == "literal")
+            {
+                // TODO: typed and language-tagged literals
+                return rdfnode.value;
+            };
+            throw "node_toJRON: unexpected RDF node type: "+rdfnode.type;
+        },
+
+    subj_toJRON:
+        /**
+         * Create an JRON subject node value from a supplied rdfquery node and 
+         * base and prefix options
+         * 
+         * @param rdfnode   an rdfquery node value used as a subject in
+         *                  a triple value (i.e. URI or blank).
+         * @param options   mapping options: see node_toJRON for details.
+         * @return          a JRON value for a predicate: a string 
+         *                  containing a URI or CURIE
+         */
+        function (rdfnode, options)
+        {
+            return jQuery.node_toJRON(rdfnode, options);
+        },
+
+    pred_toJRON:
+        /**
+         * Create a JRON predicate value from a supplied rdfquery node and 
+         * base and prefix options
+         * 
+         * @param rdfnode   an rdfquery node value used as a predicate in
+         *                  a triple value.
+         * @param options   mapping options: see node_toJRON for details.
+         * @return          an rdfquery node value that can be used to
+         *                  construct a triple value, among other things.
+         * @param jronpred  is a JRON value for a predicate: a string 
+         *                  containing a URI or CURIE
+         */
+        function (rdfnode, options)
+        {
+            return jQuery.node_toJRON(rdfnode, options).__iri.toString();
+        },
+
+    RDFtoJRON:
+        /**
+         * Create and return a JRON-structured object containing data from
+         * the supplied rdfquery databank.
+         * 
+         * @param databank  is an rdfquery datababnk object.
+         * @return          a JRON object containing the rdfquery databank data.
+         */
+        function (databank)
+        {
+            var jron = {};
+            // Base URI
+            var b = databank.base().toString();
+            if (b)
+            {
+                jron.__base = b;
+            };
+            // Prefixes
+            var p  = databank.prefix();
+            var jp = {};
+            if (p)
+            {
+                for (var k in p)
+                {
+                    var v = p[k];
+                    log.debug("- prefix "+k+", uri "+v);
+                    jp[k+':'] = v;
+                };
+            };
+            if (jp)
+            {
+                jron.__prefixes = jp;
+            }
+            // RDF statements
+            // TODO: figure how to match/duplicate subjects, and represent in JRON
+            databank.triples().each(function(i, t)
+            {
+                var subj = jQuery.subj_toJRON(t.subject,  jron);
+                var prop = jQuery.pred_toJRON(t.property, jron);
+                var obj  = jQuery.node_toJRON(t.object,   jron);
+                log.debug("- subj "+jQuery.toJSON(subj));
+                log.debug("- prop "+prop);
+                log.debug("- obj  "+jQuery.toJSON(obj));
+                subj[prop] = obj;
+                jQuery.extend(jron, subj);
+            });
+            return jron;
         }
+
 });
 
 

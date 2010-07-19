@@ -132,9 +132,9 @@ TestRdfqueryJron = function()
         assertSameJRON(jron1, jron2, "Compare JRON objects");
     });
 
-    test("testSimpleStatementLiteralObjectJRONtoRDF", function ()
+    test("testSimpleStatementLiteralObjectRDFfromJRON", function ()
     {
-        logtest("testSimpleStatementLiteralObjectJRONtoRDF");
+        logtest("testSimpleStatementLiteralObjectRDFfromJRON");
         // http://code.google.com/p/shuffl/wiki/JRON_implementation_notes
         //   #Simple_statements_with_literal_object
         var jron = 
@@ -154,11 +154,10 @@ TestRdfqueryJron = function()
             .add("<http://example.com/card#id_1> shuffl:id \"id_1\"")
             ;
         // Convert JRON to RDF databank
-        var fromjron = jQuery.JRONtoRDF(jron);
+        var fromjron = jQuery.RDFfromJRON(jron);
         assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
     });
 
-/*
     test("testSimpleStatementLiteralObjectRDFtoJRON", function ()
     {
         logtest("testSimpleStatementLiteralObjectRDFtoJRON");
@@ -182,10 +181,11 @@ TestRdfqueryJron = function()
             .add("<http://example.com/card#id_1> shuffl:id \"id_1\"")
             ;
         // Convert databank to JRON
-        var tojron = shuffl.RDFtoJRON(rdfdatabank);
+        var tojron = jQuery.RDFtoJRON(rdfdatabank);
         assertSameJRON(tojron, jron, "JRON created from Databank");
     });
-     
+    
+/*
     test("testBBB", function ()
     {
         logtest("testBBB");
