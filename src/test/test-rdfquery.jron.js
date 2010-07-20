@@ -298,35 +298,47 @@ TestRdfqueryJron = function()
         assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
     });
 
-
+    test("testMultiplyReferencedBnode", function ()
+    {
+        logtest("testMultiplyReferencedBnode");
+        // http://code.google.com/p/shuffl/wiki/JRON_implementation_notes
+        //   #Nested_statements (estra test case)
+        var jron = 
+            { "__iri":     "http://example.com/card#id_1"
+            , "__prefixes":
+              { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+              , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+              }
+            , "rdf:type":  { "__iri": "shuffl:Card" }
+            , "shuffl:data": 
+              { "__node_id": "b"
+              , "shuffl:title":   "Card 1 title"
+              }
+            , "shuffl:more": { "__node_id": "b" }
+            };
+        var rdfdatabank = jQuery.rdf.databank()
+            .base("")
+            .prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+            .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
+            .add("<http://example.com/card#id_1> rdf:type shuffl:Card")
+            .add("<http://example.com/card#id_1> shuffl:data _:b")
+            .add("<http://example.com/card#id_1> shuffl:more _:b")
+            .add("_:b shuffl:title \"Card 1 title\"")
+            ;
+        // Convert JRON to RDF databank
+        var fromjron = jQuery.RDFfromJRON(jron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
+        // Convert databank to JRON
+        var tojron = jQuery.RDFtoJRON(rdfdatabank);
+        assertSameJRON(tojron, jron, "JRON created from Databank");
+        fromjron = jQuery.RDFfromJRON(tojron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
+    });
 
     
-
-/*
-    test("testBBB", function ()
-    {
-        logtest("testBBB");
-        expect(11);
-        log.debug("----- testBBB start -----");
-        var m = new shuffl.AsyncComputation();
-        m.eval(
-            function (val, callback) {
-                m.dosomethingBBB(
-                    val,
-                    paramsBBB, 
-                    callback);
-            });
-        m.exec(initvalBBB,
-            function(val) {
-                equals(val, expect, "what");
-                same(val, expect, "what");
-                log.debug("----- testBBB end -----");
-                start();
-            });
-        stop(2000);
-    });
-*/
-
+    
+    
+    
     // TODO: multiple references to a bnode
 
     //TODO: Multiple statements with different subjects

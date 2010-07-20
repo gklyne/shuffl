@@ -337,8 +337,7 @@ jQuery.extend({
                                 jQuery.extend(obj, objstmt);
                             };
                             // Check to suppress bnode identifier
-                            var s = bobjects[t.object.value];
-                            if ((s.length == 1) && (s[0] == rdfsubj))
+                            if (bobjects[t.object.value] == 1)
                             {
                                 delete obj.__node_id;
                             };
@@ -386,7 +385,7 @@ jQuery.extend({
                 jron.__prefixes = jp;
             }
             // Enumerate subjects by creating a dictionary keyed by value strings
-            // Also construct list of references to each bnode-as-object
+            // Also construct count of references to each bnode-as-object
             var rdfsubjects = {};
             var bnodeobjects = {};
             databank.triples().each(function(i, t)
@@ -404,9 +403,7 @@ jQuery.extend({
                 };
                 if (t.object.type == "bnode")
                 {
-                    var s = bnodeobjects[t.object.value] || [];
-                    s.push(t.subject);
-                    bnodeobjects[t.object.value] = s;
+                    bnodeobjects[t.object.value] = (bnodeobjects[t.object.value] || 0) + 1;
                 }
             });
             // rdfsubjects is now a dictionary of uri and bnode subjects
