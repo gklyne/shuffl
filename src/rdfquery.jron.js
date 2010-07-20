@@ -126,6 +126,13 @@ jQuery.extend({
     statements_fromJRON:
         /**
          * Add statements to the JRON object from the supplied JRON object
+         * 
+         * @param jron      is a JRON structure to be converted to RDF statements
+         * @param options   is an rdfquery options structure, in particular
+         *                  containing a namespaces member with prefix
+         *                  definitions for expanding CURIES.
+         * @param dartabank is an rdfquery databank object to which the RDF
+         *                  statements are added.
          */
         function (jron, options, databank)
         {
@@ -139,10 +146,10 @@ jQuery.extend({
                 {
                     var obj = jron[pred];
                     log.debug("- stmt "+subj+" "+pred+" "+jQuery.toJSON(obj));
-                    pred = jQuery.pred_fromJRON(pred, opts);
-                    var object = jQuery.node_fromJRON(obj, opts);
-                    var triple = jQuery.rdf.triple(subj, pred, object, opts);
-                    rdfdatabank.add(triple);
+                    pred = jQuery.pred_fromJRON(pred, options);
+                    var object = jQuery.node_fromJRON(obj, options);
+                    var triple = jQuery.rdf.triple(subj, pred, object, options);
+                    databank.add(triple);
                 }
                 catch (e)
                 {
@@ -182,26 +189,7 @@ jQuery.extend({
             };
             var opts = { namespaces: rdfdatabank.prefix(), base: rdfdatabank.base() };
             log.debug("- options "+jQuery.toJSON(opts));
-            subj = jQuery.node_fromJRON(jron, opts);
-            // Find and save statements
-            for (var pred in jron)
-            {
-                // Assume anything beginning with "__" is special
-                if (pred.slice(0,2) != "__")
-                try
-                {
-                    var obj = jron[pred];
-                    log.debug("- stmt "+subj+" "+pred+" "+jQuery.toJSON(obj));
-                    pred = jQuery.pred_fromJRON(pred, opts);
-                    obj  = jQuery.node_fromJRON(obj, opts);
-                    var triple = jQuery.rdf.triple(subj, pred, obj, opts);
-                    rdfdatabank.add(triple);
-                }
-                catch (e)
-                {
-                    log.debug("- error "+e);
-                };
-            }
+            jQuery.statements_fromJRON(jron, opts, rdfdatabank);
             return rdfdatabank;
         },
 
