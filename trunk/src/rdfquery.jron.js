@@ -123,6 +123,34 @@ jQuery.extend({
             return jQuery.node_fromJRON( { __iri: jronpred }, options);
         },
 
+    statements_fromJRON:
+        /**
+         * Add statements to the JRON object from the supplied JRON object
+         */
+        function (jron, options, databank)
+        {
+            subj = jQuery.node_fromJRON(jron, options);
+            // Find and save statements
+            for (var pred in jron)
+            {
+                // Assume anything beginning with "__" is special
+                if (pred.slice(0,2) != "__")
+                try
+                {
+                    var obj = jron[pred];
+                    log.debug("- stmt "+subj+" "+pred+" "+jQuery.toJSON(obj));
+                    pred = jQuery.pred_fromJRON(pred, opts);
+                    var object = jQuery.node_fromJRON(obj, opts);
+                    var triple = jQuery.rdf.triple(subj, pred, object, opts);
+                    rdfdatabank.add(triple);
+                }
+                catch (e)
+                {
+                    log.debug("- error "+e);
+                };
+            }
+        },
+        
     RDFfromJRON:
         /**
          * Create and return an rdfquery databank object containing data from
@@ -218,7 +246,7 @@ jQuery.extend({
                 }                
                 return { __iri: uri };
             };
-            if (rdfnode.type == "blank")
+            if (rdfnode.type == "bnode")
             {
                 var nodeid = rdfnode.value;
                 if (nodeid.slice(0,2) == "_:")

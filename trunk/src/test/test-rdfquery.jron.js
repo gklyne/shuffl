@@ -11,7 +11,7 @@
  *  http://code.google.com/p/shuffl/wiki/JRON_implementation_notes
  *  
  * @author Graham Klyne
- * @version $Id: test-rdfquery.jron.js 840 2010-06-18 09:50:42Z gk-google@ninebynine.org $
+ * @version $Id$
  * 
  * Coypyright (C) 2010, University of Oxford
  *
@@ -38,12 +38,32 @@ TestRdfqueryJron = function()
 
     module("TestRdfqueryJron");
 
-    containsTriple = function (databank, triple)
+    /**
+     * Compares two nodes and returns true if they differ by only blank node identifiers
+     */
+    nodesMatch = function(n1, n2)
+    {
+        return (n1 == n2) ||
+               ((n1.type == "bnode") && 
+                (n2.type == "bnode"));
+    };
+
+    /**
+     * Compares two triples and returns true if they differ by only blank node identifiers
+     */
+    triplesMatch = function(t1, t2)
+    {
+        return nodesMatch(t1.subject, t2.subject) && 
+               nodesMatch(t1.property, t2.property) && 
+               nodesMatch(t1.object, t2.object);
+    };
+    
+    containsMatchingTriple = function (databank, triple)
     {
         var match = false;
         databank.triples().each( function(i, t)
             {
-                if (t == triple)
+                if (triplesMatch(t, triple))
                 {
                     match = true;
                     return false; // break
@@ -75,11 +95,11 @@ TestRdfqueryJron = function()
         assertSamePrefixes(val.prefix(), exp.prefix(), txt);
         val.triples().each( function (i, t)
             {
-                ok(containsTriple(exp, t), txt+": unexpected triple: "+t);
+                ok(containsMatchingTriple(exp, t), txt+": unexpected triple: "+t);
             });
         exp.triples().each( function (i, t)
             {
-                ok(containsTriple(val, t), txt+": missing triple: "+t);
+                ok(containsMatchingTriple(val, t), txt+": missing triple: "+t);
             });
     };
 
@@ -184,7 +204,104 @@ TestRdfqueryJron = function()
         var tojron = jQuery.RDFtoJRON(rdfdatabank);
         assertSameJRON(tojron, jron, "JRON created from Databank");
     });
+
+    test("testSimpleStatementNonLiteralObject", function ()
+    {
+        logtest("testSimpleStatementLiteralObject");
+        // http://code.google.com/p/shuffl/wiki/JRON_implementation_notes
+        //   #Simple_statements_with_non-literal_object
+        var jron = 
+            { "__iri":     "http://example.com/card#id_1"
+            , "__prefixes":
+              { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+              , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+              }
+            , "rdf:type":        { "__iri": "shuffl:Card" }
+            , "shuffl:base-uri": { "__iri": "http://example.com/card#" }
+            };
+        var rdfdatabank = jQuery.rdf.databank()
+            .base("")
+            .prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+            .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
+            .add("<http://example.com/card#id_1> rdf:type shuffl:Card")
+            .add("<http://example.com/card#id_1> shuffl:base-uri <http://example.com/card#>")
+            ;
+        // Convert JRON to RDF databank
+        var fromjron = jQuery.RDFfromJRON(jron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
+        // Convert databank to JRON
+        var tojron = jQuery.RDFtoJRON(rdfdatabank);
+        assertSameJRON(tojron, jron, "JRON created from Databank");
+    });
+
+    test("testStatementsWithXmlBase", function ()
+    {
+        logtest("testStatementsWithXmlBase");
+        // http://code.google.com/p/shuffl/wiki/JRON_implementation_notes
+        //   #Statements_with_xml:base
+        var jron = 
+            { "__iri":     "http://example.com/card#id_1"
+            , "__base":    "http://example.com/card#"
+            , "__prefixes":
+              { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+              , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+              }
+            , "rdf:type":        { "__iri": "shuffl:Card" }
+            , "shuffl:base-uri": { "__iri": "http://example.com/card#" }
+            };
+        var rdfdatabank = jQuery.rdf.databank()
+            .base("http://example.com/card#")
+            .prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+            .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
+            .add("<http://example.com/card#id_1> rdf:type shuffl:Card")
+            .add("<http://example.com/card#id_1> shuffl:base-uri <http://example.com/card#>")
+            ;
+        // Convert JRON to RDF databank
+        var fromjron = jQuery.RDFfromJRON(jron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
+        // Convert databank to JRON
+        var tojron = jQuery.RDFtoJRON(rdfdatabank);
+        assertSameJRON(tojron, jron, "JRON created from Databank");
+    });
+
+    test("testNestedStatements", function ()
+    {
+        logtest("testNestedStatements");
+        // http://code.google.com/p/shuffl/wiki/JRON_implementation_notes
+        //   #Nested_statements
+        var jron = 
+            { "__iri":     "http://example.com/card#id_1"
+            , "__prefixes":
+              { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+              , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+              }
+            , "rdf:type":  { "__iri": "shuffl:Card" }
+            , "shuffl:data": 
+              { "shuffl:title":   "Card 1 title"
+              }
+            };
+        var rdfdatabank = jQuery.rdf.databank()
+            .prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+            .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
+            .add("<http://example.com/card#id_1> rdf:type shuffl:Card")
+            .add("<http://example.com/card#id_1> shuffl:data _:b")
+            .add("_:b shuffl:title \"Card 1 title\"")
+            ;
+        // Convert JRON to RDF databank
+        var fromjron = jQuery.RDFfromJRON(jron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
+        // Convert databank to JRON
+        var tojron = jQuery.RDFtoJRON(rdfdatabank);
+        assertSameJRON(tojron, jron, "JRON created from Databank");
+    });
+
+
+
+
+
+
     
+
 /*
     test("testBBB", function ()
     {
