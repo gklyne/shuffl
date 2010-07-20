@@ -861,7 +861,7 @@ TestCardSelectfile = function() {
             equals(Math.floor(p.left+0.5), 40, "card position-left");
             equals(Math.floor(p.top+0.5),  30, "card position-top");
             range(Math.floor(c.width()),  260, 270, "card width");
-            range(Math.floor(c.height()), 130, 132, "card height");
+            range(Math.floor(c.height()), 130, 136, "card height");
             equals(c.css("zIndex"), "1000", "card zIndex");
             // Continue testing after card is fully initialized
             var m = new shuffl.AsyncComputation();
