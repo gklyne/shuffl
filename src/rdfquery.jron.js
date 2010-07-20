@@ -301,12 +301,17 @@ jQuery.extend({
          * @param subjects  is a dictionary of rdf subjects for which statements 
          *                  remain to be extracted.  The dictionary values are reset
          *                  to null as subjects are processed.
+         * @param bobjects  is a dictionary keyed by bnode names that appear in the
+         *                  subject positionoif any statement, each accessing a list
+         *                  of subjects nodes by which they are referenced.  This is
+         *                  used to suppress bnode id generation in JRON when this
+         *                  is not needed.
          * @param subjkey   is the subject key (in subjects) for which statements should be generated
          * @param options   mapping options: see node_toJRON for details.
          * @return          a JRON object containing RDF statements
          *                  extracted from the databank.
          */
-        function (databank, subjects, subjkey, options)
+        function (databank, subjects, bobjects, subjkey, options)
         {
             var jron = null;
             if (subjects[subjkey])
@@ -329,10 +334,16 @@ jQuery.extend({
                         // If there are statements about 'obj', generate them now
                         if (subjects[t.object.value])
                         {
-                            var objstmt = jQuery.statements_toJRON(databank, subjects, t.object.value, options);
+                            var objstmt = jQuery.statements_toJRON(databank, subjects, bobjects, t.object.value, options);
                             if (objstmt)
                             {
                                 jQuery.extend(obj, objstmt);
+                            };
+                            // Check to suppress bnode identifier
+                            var s = bobjects[t.object.value];
+                            if ((s.length == 1) && (s[0] == rdfsubj))
+                            {
+                                delete obj.__node_id;
                             };
                         };
                         // Put it all together
@@ -378,7 +389,9 @@ jQuery.extend({
                 jron.__prefixes = jp;
             }
             // Enumerate subjects by creating a dictionary keyed by value strings
+            // Also construct list of references to each bnode-as-object
             var rdfsubjects = {};
+            var bnodeobjects = {};
             databank.triples().each(function(i, t)
             {
                 log.debug("- enumerate subj: "+t.subject.value+", "+t.subject.type);
@@ -392,13 +405,19 @@ jQuery.extend({
                     log.error(e);
                     throw e;
                 };
+                if (t.object.type == "bnode")
+                {
+                    var s = bnodeobjects[t.object.value] || [];
+                    s.push(t.subject);
+                    bnodeobjects[t.object.value] = s;
+                }
             });
             // rdfsubjects is now a dictionary of uri and bnode subjects
             // Generate RDF statements
             var statements = [];
             for (subjkey in rdfsubjects)
             {
-                var stmt = jQuery.statements_toJRON(databank, rdfsubjects, subjkey, jron);
+                var stmt = jQuery.statements_toJRON(databank, rdfsubjects, bnodeobjects, subjkey, jron);
                 if (stmt) statements.push(stmt);
             };
             if (statements.length == 1)
