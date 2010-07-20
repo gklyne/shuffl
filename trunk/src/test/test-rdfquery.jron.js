@@ -281,6 +281,7 @@ TestRdfqueryJron = function()
               }
             };
         var rdfdatabank = jQuery.rdf.databank()
+            .base("")
             .prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
             .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
             .add("<http://example.com/card#id_1> rdf:type shuffl:Card")
@@ -325,6 +326,8 @@ TestRdfqueryJron = function()
         stop(2000);
     });
 */
+
+    // TODO: multiple references to a bnode
 
     //TODO: Multiple statements with different subjects
 
