@@ -63,7 +63,7 @@ jQuery.extend({
                     }
                     catch (e)
                     {
-                        log.debug("- not CURIE: "+e);
+                        ////log.debug("- not CURIE: "+e);
                         return jQuery.rdf.resource("<"+uri+">", options);
                     }
                 };
@@ -136,8 +136,8 @@ jQuery.extend({
          */
         function (jron, options, databank)
         {
+            ////log.debug("jQuery.statements_fromJRON "+jQuery.toJSON(jron));
             var subj = jQuery.node_fromJRON(jron, options);
-            log.debug("jQuery.statements_fromJRON "+jQuery.toJSON(jron));
             // Find and save statements
             for (var pred in jron)
             {
@@ -146,7 +146,7 @@ jQuery.extend({
                 try
                 {
                     var obj = jron[pred];
-                    log.debug("- stmt "+subj+" "+pred+" "+jQuery.toJSON(obj));
+                    ////log.debug("- stmt "+subj+" "+pred+" "+jQuery.toJSON(obj));
                     pred = jQuery.pred_fromJRON(pred, options);
                     var object = jQuery.node_fromJRON(obj, options);
                     var triple = jQuery.rdf.triple(subj, pred, object, options);
@@ -176,7 +176,7 @@ jQuery.extend({
          */
         function (jron)
         {
-            log.debug("jQuery.RDFfromJRON");
+            ////log.debug("jQuery.RDFfromJRON");
             var rdfdatabank = jQuery.rdf.databank()
                 .base("");
             // Find and set base
@@ -189,13 +189,13 @@ jQuery.extend({
             {
                 for (var pref in jron.__prefixes)
                 {
-                    log.debug("- prefix "+pref);
+                    ////log.debug("- prefix "+pref);
                     //TODO: more robust way to strip separator char(s) from prefix
                     rdfdatabank.prefix(pref.slice(0,-1), jron.__prefixes[pref]);
                 };
             };
             var opts = { namespaces: rdfdatabank.prefix(), base: rdfdatabank.base() };
-            log.debug("- options "+jQuery.toJSON(opts));
+            ////log.debug("- options "+jQuery.toJSON(opts));
             jQuery.statements_fromJRON(jron, opts, rdfdatabank);
             return rdfdatabank;
         },
@@ -217,7 +217,7 @@ jQuery.extend({
          */
         function (rdfnode, options)
         {
-            log.debug("node_toJRON "+rdfnode.type+", "+rdfnode.value);
+            ////log.debug("node_toJRON "+rdfnode.type+", "+rdfnode.value);
             if (rdfnode.type == "uri")
             {
                 var uri    = rdfnode.value.toString();
@@ -328,9 +328,6 @@ jQuery.extend({
                         var subj = jQuery.subj_toJRON(t.subject,  options);
                         var prop = jQuery.pred_toJRON(t.property, options);
                         var obj  = jQuery.node_toJRON(t.object,   options);
-                        log.debug("- subj "+jQuery.toJSON(subj));
-                        log.debug("- prop "+prop);
-                        log.debug("- obj  "+jQuery.toJSON(obj));
                         // If there are statements about 'obj', generate them now
                         if (subjects[t.object.value])
                         {
@@ -380,7 +377,7 @@ jQuery.extend({
                 for (var k in p)
                 {
                     var v = p[k];
-                    log.debug("- prefix "+k+", uri "+v);
+                    ////log.debug("- prefix "+k+", uri "+v);
                     jp[k+':'] = v;
                 };
             };
@@ -394,7 +391,7 @@ jQuery.extend({
             var bnodeobjects = {};
             databank.triples().each(function(i, t)
             {
-                log.debug("- enumerate subj: "+t.subject.value+", "+t.subject.type);
+                ////log.debug("- enumerate subj: "+t.subject.value+", "+t.subject.type);
                 if ((t.subject.type == "uri") || (t.subject.type == "bnode"))
                 {
                     rdfsubjects[t.subject.value] = t.subject;

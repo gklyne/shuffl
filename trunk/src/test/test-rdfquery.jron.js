@@ -75,8 +75,8 @@ TestRdfqueryJron = function()
 
     assertSamePrefixes = function (val, exp, txt)
     {
-        log.debug("- expect prefixes: "+jQuery.toJSON(exp));
-        log.debug("- found  prefixes: "+jQuery.toJSON(val));
+        ////log.debug("- expect prefixes: "+jQuery.toJSON(exp));
+        ////log.debug("- found  prefixes: "+jQuery.toJSON(val));
         // Simple same(...) test doesn't always work
         for (var k in exp)
         {
