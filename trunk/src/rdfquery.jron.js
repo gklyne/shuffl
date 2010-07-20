@@ -136,7 +136,8 @@ jQuery.extend({
          */
         function (jron, options, databank)
         {
-            subj = jQuery.node_fromJRON(jron, options);
+            var subj = jQuery.node_fromJRON(jron, options);
+            log.debug("jQuery.statements_fromJRON "+jQuery.toJSON(jron));
             // Find and save statements
             for (var pred in jron)
             {
@@ -150,10 +151,16 @@ jQuery.extend({
                     var object = jQuery.node_fromJRON(obj, options);
                     var triple = jQuery.rdf.triple(subj, pred, object, options);
                     databank.add(triple);
+                    // Now generate statements from object of last statement
+                    if (typeof obj == "object")
+                    {
+                        jQuery.statements_fromJRON(obj, options, databank);
+                    };
                 }
                 catch (e)
                 {
-                    log.debug("- error "+e);
+                    log.error("- error "+e);
+                    throw e;
                 };
             }
         },

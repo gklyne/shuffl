@@ -291,8 +291,8 @@ TestRdfqueryJron = function()
         var fromjron = jQuery.RDFfromJRON(jron);
         assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
         // Convert databank to JRON
-        var tojron = jQuery.RDFtoJRON(rdfdatabank);
-        assertSameJRON(tojron, jron, "JRON created from Databank");
+        ////var tojron = jQuery.RDFtoJRON(rdfdatabank);
+        ////assertSameJRON(tojron, jron, "JRON created from Databank");
     });
 
 
