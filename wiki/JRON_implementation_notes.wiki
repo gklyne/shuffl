@@ -134,6 +134,7 @@ it is deduced implictly from the shuffl:id value.
 
 {{{
 { "__iri":     "http://example.com/card#id_1"
+, "__base":    "http://example.com/card#"
 , "__prefixes":
   { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
   , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
