@@ -326,6 +326,16 @@ jQuery.extend({
                         log.debug("- subj "+jQuery.toJSON(subj));
                         log.debug("- prop "+prop);
                         log.debug("- obj  "+jQuery.toJSON(obj));
+                        // If there are statements about 'obj', generate them now
+                        if (subjects[t.object.value])
+                        {
+                            var objstmt = jQuery.statements_toJRON(databank, subjects, t.object.value, options);
+                            if (objstmt)
+                            {
+                                jQuery.extend(obj, objstmt);
+                            };
+                        };
+                        // Put it all together
                         subj[prop] = obj;
                         jQuery.extend(jron, subj);
                     };

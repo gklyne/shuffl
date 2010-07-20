@@ -75,31 +75,31 @@ TestRdfqueryJron = function()
 
     assertSamePrefixes = function (val, exp, txt)
     {
+        log.debug("- expect prefixes: "+jQuery.toJSON(exp));
+        log.debug("- found  prefixes: "+jQuery.toJSON(val));
         // Simple same(...) test doesn't always work
         for (var k in exp)
         {
-            ok(val[k], txt+": missing prefix "+k);
-            equals(val[k], exp[k], txt+": mismatch prefix "+k)
+            ok(val[k], txt+": expecting prefix "+k);
+            equals(val[k], exp[k], txt+": prefix value for "+k)
         };
         for (k in val)
         {
-            ok(exp[k], txt+": unexpected prefix "+k);
+            ok(exp[k], txt+": found prefix "+k);
         };
     };
 
     assertSameDatabankContents = function (val, exp, txt)
     {
-        equals(val.size(), exp.size(), txt+": different sizes");
-        log.debug("- expect prefixes: "+jQuery.toJSON(exp.prefix()));
-        log.debug("- found  prefixes: "+jQuery.toJSON(val.prefix()));
+        equals(val.size(), exp.size(), txt+": compare sizes");
         assertSamePrefixes(val.prefix(), exp.prefix(), txt);
         val.triples().each( function (i, t)
             {
-                ok(containsMatchingTriple(exp, t), txt+": unexpected triple: "+t);
+                ok(containsMatchingTriple(exp, t), txt+": found triple: "+t);
             });
         exp.triples().each( function (i, t)
             {
-                ok(containsMatchingTriple(val, t), txt+": missing triple: "+t);
+                ok(containsMatchingTriple(val, t), txt+": expecting triple: "+t);
             });
     };
 
