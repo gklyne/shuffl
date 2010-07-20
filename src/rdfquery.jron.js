@@ -299,50 +299,37 @@ jQuery.extend({
          * 
          * @param databank  is an rdfquery datababnk object.
          * @param subjects  is a dictionary of rdf subjects for which statements 
-         *                  are to be extracted.  The dictionary values are reset
+         *                  remain to be extracted.  The dictionary values are reset
          *                  to null as subjects are processed.
+         * @param subjkey   is the subject key (in subjects) for which statements should be generated
          * @param options   mapping options: see node_toJRON for details.
          * @return          a JRON object containing RDF statements
          *                  extracted from the databank.
          */
-        function (databank, subjects, options)
+        function (databank, subjects, subjkey, options)
         {
-            var statements = [];
-            for (s in subjects)
+            var jron = null;
+            if (subjects[subjkey])
             {
-                if (subjects[s])
+                // Take next subject node from dictionary, and
+                // reset value so it can't be processed again
+                var rdfsubj = subjects[subjkey];
+                subjects[subjkey] = null;
+                jron = {};
+                databank.triples().each(function(i, t)
                 {
-                    // Take next subject node from dictionary, and
-                    // reset value so it can't be processed again
-                    var rdfsubj = subjects[s];
-                    subjects[s] = null;
-                    var jron = {};
-                    databank.triples().each(function(i, t)
+                    if (t.subject == rdfsubj)
                     {
-                        if (t.subject == rdfsubj)
-                        {
-                            var subj = jQuery.subj_toJRON(t.subject,  options);
-                            var prop = jQuery.pred_toJRON(t.property, options);
-                            var obj  = jQuery.node_toJRON(t.object,   options);
-                            log.debug("- subj "+jQuery.toJSON(subj));
-                            log.debug("- prop "+prop);
-                            log.debug("- obj  "+jQuery.toJSON(obj));
-                            subj[prop] = obj;
-                            jQuery.extend(jron, subj);
-                        };
-                    });
-                    statements.push(jron);
-                };
-            };
-            if (statements.length == 1)
-            {
-                jQuery.extend(jron, statements[0]);
-            }
-            else
-            {
-                var e = "Statements exist for multiple subjects - JRON representation not determined";
-                log.error(e);
-                throw e;
+                        var subj = jQuery.subj_toJRON(t.subject,  options);
+                        var prop = jQuery.pred_toJRON(t.property, options);
+                        var obj  = jQuery.node_toJRON(t.object,   options);
+                        log.debug("- subj "+jQuery.toJSON(subj));
+                        log.debug("- prop "+prop);
+                        log.debug("- obj  "+jQuery.toJSON(obj));
+                        subj[prop] = obj;
+                        jQuery.extend(jron, subj);
+                    };
+                });
             };
             return jron;
         },
@@ -398,8 +385,22 @@ jQuery.extend({
             });
             // rdfsubjects is now a dictionary of uri and bnode subjects
             // Generate RDF statements
-            var statements = jQuery.statements_toJRON(databank, rdfsubjects, jron);
-            jQuery.extend(jron, statements);
+            var statements = [];
+            for (subjkey in rdfsubjects)
+            {
+                var stmt = jQuery.statements_toJRON(databank, rdfsubjects, subjkey, jron);
+                if (stmt) statements.push(stmt);
+            };
+            if (statements.length == 1)
+            {
+                jQuery.extend(jron, statements[0]);
+            }
+            else
+            {
+                var e = "Statements exist for multiple subjects - JRON representation not determined";
+                log.error(e);
+                throw e;
+            };
             return jron;
         }
 });
