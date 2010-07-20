@@ -291,6 +291,14 @@ TestRdfqueryJron = function()
         // Convert JRON to RDF databank
         var fromjron = jQuery.RDFfromJRON(jron);
         assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
+        var b1 = jQuery.rdf({databank: fromjron})
+                    .where("<http://example.com/card#id_1> shuffl:data ?b")
+                    .select(['b']);
+        var b2 = jQuery.rdf({databank: fromjron})
+                    .where("?b shuffl:title \"Card 1 title\"")
+                    .select(['b']);
+        ok(b1[0].b, "Expecting binding for ?b "+b1[0].b);
+        equals(b1[0].b, b2[0].b, "Expecting same bnode in different triples ");
         // Convert databank to JRON
         var tojron = jQuery.RDFtoJRON(rdfdatabank);
         assertSameJRON(tojron, jron, "JRON created from Databank");
@@ -302,7 +310,7 @@ TestRdfqueryJron = function()
     {
         logtest("testMultiplyReferencedBnode");
         // http://code.google.com/p/shuffl/wiki/JRON_implementation_notes
-        //   #Nested_statements (estra test case)
+        //   #Nested_statements (extra test case)
         var jron = 
             { "__iri":     "http://example.com/card#id_1"
             , "__prefixes":
@@ -335,11 +343,47 @@ TestRdfqueryJron = function()
         assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
     });
 
+    test("testListOfLiterals", function ()
+    {
+        logtest("testListOfLiterals");
+        // http://code.google.com/p/shuffl/wiki/JRON_implementation_notes
+        //   #List_of_literal_values
+        var jron = 
+            { "__iri":     "http://example.com/card#id_1"
+            , "__prefixes":
+              { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+              , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+              }
+            , "rdf:type":  { "__iri": "shuffl:Card" }
+            , "shuffl:data": 
+              { "shuffl:tags":    [ "card_1_tag", "yellowtag" ]
+              }
+            };
+        var rdfdatabank = jQuery.rdf.databank()
+            .base("")
+            .prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+            .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
+            .add("<http://example.com/card#id_1> rdf:type shuffl:Card")
+            .add("<http://example.com/card#id_1> shuffl:data _:d")
+            .add("_:d shuffl:tags _:l1")
+            .add("_:l1 rdf:type  rdf:List")
+            .add("_:l1 rdf:first \"card_1_tag\"")
+            .add("_:l1 rdf:rest  _:l2")           
+            .add("_:l2 rdf:type  rdf:List")
+            .add("_:l2 rdf:first \"yellowtag\"")
+            .add("_:l2 rdf:rest  rdf:nil")           
+            ;
+        // Convert JRON to RDF databank
+        var fromjron = jQuery.RDFfromJRON(jron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
+        // Convert databank to JRON
+        var tojron = jQuery.RDFtoJRON(rdfdatabank);
+        assertSameJRON(tojron, jron, "JRON created from Databank");
+        fromjron = jQuery.RDFfromJRON(tojron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
+    });
     
     
-    
-    
-    // TODO: multiple references to a bnode
 
     //TODO: Multiple statements with different subjects
 

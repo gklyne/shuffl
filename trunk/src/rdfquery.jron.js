@@ -128,16 +128,19 @@ jQuery.extend({
          * Add statements to the JRON object from the supplied JRON object
          * 
          * @param jron      is a JRON structure to be converted to RDF statements
+         * @param rdfsubj   is the RDF subject node for generated sttatements, or 
+         *                  null if a new node should be generated.  (This is used
+         *                  to prevent multiple-generation of unlabelled bnodes.)
          * @param options   is an rdfquery options structure, in particular
          *                  containing a namespaces member with prefix
          *                  definitions for expanding CURIES.
          * @param dartabank is an rdfquery databank object to which the RDF
          *                  statements are added.
          */
-        function (jron, options, databank)
+        function (jron, rdfsubj, options, databank)
         {
             ////log.debug("jQuery.statements_fromJRON "+jQuery.toJSON(jron));
-            var subj = jQuery.node_fromJRON(jron, options);
+            rdfsubj = rdfsubj || jQuery.node_fromJRON(jron, options);
             // Find and save statements
             for (var pred in jron)
             {
@@ -146,15 +149,15 @@ jQuery.extend({
                 try
                 {
                     var obj = jron[pred];
-                    ////log.debug("- stmt "+subj+" "+pred+" "+jQuery.toJSON(obj));
+                    ////log.debug("- stmt "+rdfsubj+" "+pred+" "+jQuery.toJSON(obj));
                     pred = jQuery.pred_fromJRON(pred, options);
                     var object = jQuery.node_fromJRON(obj, options);
-                    var triple = jQuery.rdf.triple(subj, pred, object, options);
+                    var triple = jQuery.rdf.triple(rdfsubj, pred, object, options);
                     databank.add(triple);
                     // Now generate statements from object of last statement
                     if (typeof obj == "object")
                     {
-                        jQuery.statements_fromJRON(obj, options, databank);
+                        jQuery.statements_fromJRON(obj, object, options, databank);
                     };
                 }
                 catch (e)
@@ -196,7 +199,7 @@ jQuery.extend({
             };
             var opts = { namespaces: rdfdatabank.prefix(), base: rdfdatabank.base() };
             ////log.debug("- options "+jQuery.toJSON(opts));
-            jQuery.statements_fromJRON(jron, opts, rdfdatabank);
+            jQuery.statements_fromJRON(jron, null, opts, rdfdatabank);
             return rdfdatabank;
         },
 
