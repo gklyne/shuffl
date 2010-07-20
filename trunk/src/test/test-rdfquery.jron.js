@@ -383,7 +383,7 @@ TestRdfqueryJron = function()
         assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
     });
     
-    
+    //TODO: test case with empty list
 
     //TODO: Multiple statements with different subjects
 
