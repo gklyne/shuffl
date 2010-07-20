@@ -47,7 +47,12 @@ jQuery.extend({
             if (typeof jronnode == "string")
             {
                 return jQuery.rdf.literal('"'+jronnode+'"', options);
-            }
+            };
+            if (jronnode instanceof Array)
+            {
+                // Return blank node or rdf:nil for head of list
+                return jronnode.length == 0 ? jQuery.rdf.nil : jQuery.rdf.blank('[]');
+            };            
             if (typeof jronnode == "object")
             {
                 if (jronnode.__iri)
@@ -99,7 +104,7 @@ jQuery.extend({
                     nodeid = "_:"+jronnode.__node_id;
                 }
                 return jQuery.rdf.blank(nodeid);
-            }
+            };
             e = "node_fromJRON unrecognized node: "+jQuery.toJSON(jronnode);
             log.debug(e);
             throw e;
@@ -155,10 +160,26 @@ jQuery.extend({
                     var triple = jQuery.rdf.triple(rdfsubj, pred, object, options);
                     databank.add(triple);
                     // Now generate statements from object of last statement
-                    if (typeof obj == "object")
+                    if (obj instanceof Array)
+                    {
+                        // TODO: request addition of rdf.List to rdfquery?
+                        var rdfNs = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+                        var rdfList = jQuery.rdf.resource("<"+rdfNs+"List>");
+                        var l = object;
+                        for (i = 0 ; i < obj.length ; i += 1)
+                        {
+                            var f = jQuery.node_fromJRON(obj[i], options);
+                            var r = i < obj.length-1 ? jQuery.rdf.blank('[]') : jQuery.rdf.nil;
+                            databank.add(jQuery.rdf.triple(l, jQuery.rdf.type,  rdfList, options));
+                            databank.add(jQuery.rdf.triple(l, jQuery.rdf.first, f, options));
+                            databank.add(jQuery.rdf.triple(l, jQuery.rdf.rest,  r, options));
+                            l = r;
+                        };
+                    }
+                    else if (typeof obj == "object")
                     {
                         jQuery.statements_fromJRON(obj, object, options, databank);
-                    };
+                    }
                 }
                 catch (e)
                 {
