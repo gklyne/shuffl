@@ -325,12 +325,13 @@ jQuery.extend({
          * @param subjects  is a dictionary of rdf subjects for which statements 
          *                  remain to be extracted.  The dictionary values are reset
          *                  to null as subjects are processed.
-         * @param bobjects  is a dictionary keyed by bnode names that appear in the
-         *                  subject positionoif any statement, each accessing a list
-         *                  of subjects nodes by which they are referenced.  This is
-         *                  used to suppress bnode id generation in JRON when this
-         *                  is not needed.
-         * @param subjkey   is the subject key (in subjects) for which statements should be generated
+         * @param bobjects  is a dictionary keyed by bnode names that appear in 
+         *                  the object position of any statement, each accessing
+         *                  a count of statements in which they so appear.
+         *                  This is used to suppress bnode id generation in 
+         *                  JRON when they are not needed.
+         * @param subjkey   is the subject key (in subjects) for which 
+         *                  statements should be generated
          * @param options   mapping options: see node_toJRON for details.
          * @return          a JRON object containing RDF statements
          *                  extracted from the databank.
@@ -366,6 +367,17 @@ jQuery.extend({
                                 delete obj.__node_id;
                             };
                         };
+                        // If object is a list, replace it now
+                        if (obj.__iri == "rdf:nil")
+                        {
+                            obj = [];
+                        }
+                        else if (obj["rdf:first"] && obj["rdf:rest"] && 
+                                (obj["rdf:rest"] instanceof Array))
+                        {
+                            // Recursive calls mean the tail is already a list
+                            obj = [obj["rdf:first"]].concat(obj["rdf:rest"]);
+                        }
                         // Put it all together
                         subj[prop] = obj;
                         jQuery.extend(jron, subj);
