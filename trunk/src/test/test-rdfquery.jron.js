@@ -464,7 +464,57 @@ TestRdfqueryJron = function()
         assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
     });
 
-    //TODO: list-of-lists test
+    test("testListOfLists", function ()
+    {
+        logtest("testListOfLists");
+        // http://code.google.com/p/shuffl/wiki/JRON_implementation_notes
+        //   #List_of_non-literal_values (extra test case)
+        var jron = 
+            { "__iri":     "http://example.com/workspace#id_1"
+            , "__prefixes":
+              { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+              , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+              }
+            , "shuffl:lists":
+              [ [ "tag1", "tag2"]
+              , [ { "shuffl:id": "card_1" }, { "shuffl:id": "card_2" } ]
+              ]
+            };
+        var rdfdatabank = jQuery.rdf.databank()
+            .base("")
+            .prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+            .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
+            .add("<http://example.com/workspace#id_1> shuffl:lists _:l1")
+            .add("_:l1 rdf:type  rdf:List")
+            .add("_:l1 rdf:first _:l11")
+            .add("_:l1 rdf:rest  _:l2")           
+            .add("_:l2 rdf:type  rdf:List")
+            .add("_:l2 rdf:first _:l21")
+            .add("_:l2 rdf:rest  rdf:nil")
+            .add("_:l11 rdf:type  rdf:List")
+            .add("_:l11 rdf:first \"tag1\"")
+            .add("_:l11 rdf:rest  _:l12")
+            .add("_:l12 rdf:type  rdf:List")
+            .add("_:l12 rdf:first \"tag2\"")
+            .add("_:l12 rdf:rest  rdf:nil")
+            .add("_:l21 rdf:type  rdf:List")
+            .add("_:l21 rdf:first _:c1")
+            .add("_:l21 rdf:rest  _:l22")
+            .add("_:l22 rdf:type  rdf:List")
+            .add("_:l22 rdf:first _:c2")
+            .add("_:l22 rdf:rest  rdf:nil")
+            .add("_:c1 shuffl:id \"card_1\"")
+            .add("_:c2 shuffl:id \"card_2\"")
+            ;
+        // Convert JRON to RDF databank
+        var fromjron = jQuery.RDFfromJRON(jron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
+        // Convert databank to JRON
+        var tojron = jQuery.RDFtoJRON(rdfdatabank);
+        assertSameJRON(tojron, jron, "JRON created from Databank");
+        fromjron = jQuery.RDFfromJRON(tojron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
+    });
 
     //TODO: Multiple statements with different subjects
 
