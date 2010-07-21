@@ -373,6 +373,7 @@ it is deduced implictly from the shuffl:id value.
 , "__prefixes":
   { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
   , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  , "xsd":    "http://www.w3.org/2001/XMLSchema#"
   }
 , "rdf:type":  { "__iri": "shuffl:Workspace" }
 , "shuffl:workspace":
@@ -380,17 +381,17 @@ it is deduced implictly from the shuffl:id value.
     [ { "pos": 
         { "left": 
           { "__repr": "100"
-          , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+          , "__type": "xsd:integer"
           }
         , "top":
           { "__repr": "30"
-          , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+          , "__type": "xsd:integer"
           }
         } 
       }
     , { "zindex":
         { "__repr": "11"
-        , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+        , "__type": "xsd:integer"
         }
       }
     ]
