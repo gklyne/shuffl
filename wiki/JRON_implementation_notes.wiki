@@ -377,7 +377,7 @@ it is deduced implictly from the shuffl:id value.
   }
 , "rdf:type":  { "__iri": "shuffl:Workspace" }
 , "shuffl:workspace":
-  , "shuffl:layout":
+  { "shuffl:layout":
     [ { "pos": 
         { "left": 
           { "__repr": "100"
