@@ -60,6 +60,14 @@ jQuery.extend({
                     // CURIE or URI here
                     // { __iri: ... }
                     var uri = jronnode.__iri;
+                    if (uri.slice(0,1) == ':')
+                    {
+                        ////log.debug("- namespaces "+jQuery.toJSON(options.namespaces))
+                        if (options.namespaces[''])
+                        {
+                            return jQuery.rdf.resource("<"+options.namespaces['']+uri.slice(1)+">", options);
+                        }
+                    }
                     try
                     {
                         // Try for CURIE - more restrictive than JRON proposal
@@ -89,8 +97,8 @@ jQuery.extend({
                     // Typed literal
                     //  { "__repr": "2010-03-06",
                     //    "__type": "http://www.w3.org/2001/XMLSchema#date" }
-                    var opts = jQuery.extend({}, options, { datatype: jronnode.__type }); 
-                    return jQuery.rdf.literal(jronnode.__text, opts);
+                    var opts = jQuery.extend({}, options, { datatype: "["+jronnode.__type+"]" });
+                    return jQuery.rdf.literal(jronnode.__repr, opts);
                     
                 };
                 // bnode, with or without __node_id value
