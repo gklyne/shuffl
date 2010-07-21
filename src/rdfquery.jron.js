@@ -173,6 +173,11 @@ jQuery.extend({
                             databank.add(jQuery.rdf.triple(l, jQuery.rdf.type,  rdfList, options));
                             databank.add(jQuery.rdf.triple(l, jQuery.rdf.first, f, options));
                             databank.add(jQuery.rdf.triple(l, jQuery.rdf.rest,  r, options));
+                            // TODO: should be some refactoring around here
+                            if (typeof obj[i] == "object")
+                            {
+                                jQuery.statements_fromJRON(obj[i], f, options, databank);
+                            };
                             l = r;
                         };
                     }

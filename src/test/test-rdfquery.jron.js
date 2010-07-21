@@ -382,8 +382,89 @@ TestRdfqueryJron = function()
         fromjron = jQuery.RDFfromJRON(tojron);
         assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
     });
-    
-    //TODO: test case with empty list
+
+    test("testEmptyList", function ()
+    {
+        logtest("testEmptyList");
+        // http://code.google.com/p/shuffl/wiki/JRON_implementation_notes
+        //   #List_of_literal_values (extra test)
+        var jron = 
+            { "__iri":     "http://example.com/card#id_1"
+            , "__prefixes":
+              { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+              , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+              }
+            , "rdf:type":  { "__iri": "shuffl:Card" }
+            , "shuffl:data": 
+              { "shuffl:tags":    []
+              }
+            };
+        var rdfdatabank = jQuery.rdf.databank()
+            .base("")
+            .prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+            .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
+            .add("<http://example.com/card#id_1> rdf:type shuffl:Card")
+            .add("<http://example.com/card#id_1> shuffl:data _:d")
+            .add("_:d shuffl:tags rdf:nil")
+            ;
+        // Convert JRON to RDF databank
+        var fromjron = jQuery.RDFfromJRON(jron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
+        // Convert databank to JRON
+        var tojron = jQuery.RDFtoJRON(rdfdatabank);
+        assertSameJRON(tojron, jron, "JRON created from Databank");
+        fromjron = jQuery.RDFfromJRON(tojron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
+    });
+
+    test("testListOfNonliterals", function ()
+    {
+        logtest("testListOfNonliterals");
+        // http://code.google.com/p/shuffl/wiki/JRON_implementation_notes
+        //   #List_of_non-literal_values
+        var jron = 
+            { "__iri":     "http://example.com/workspace#id_1"
+            , "__prefixes":
+              { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+              , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+              }
+            , "rdf:type":  { "__iri": "shuffl:Workspace" }
+            , "shuffl:workspace":
+              { "shuffl:layout":
+                [ { "shuffl:id": "card_1"
+                  }
+                , { "shuffl:id": "card_2"
+                  }
+                ]
+              }
+            };
+        var rdfdatabank = jQuery.rdf.databank()
+            .base("")
+            .prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+            .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
+            .add("<http://example.com/workspace#id_1> rdf:type shuffl:Workspace")
+            .add("<http://example.com/workspace#id_1> shuffl:workspace _:w")
+            .add("_:w shuffl:layout _:l1")
+            .add("_:l1 rdf:type  rdf:List")
+            .add("_:l1 rdf:first _:c1")
+            .add("_:l1 rdf:rest  _:l2")           
+            .add("_:l2 rdf:type  rdf:List")
+            .add("_:l2 rdf:first _:c2")
+            .add("_:l2 rdf:rest  rdf:nil")
+            .add("_:c1 shuffl:id \"card_1\"")
+            .add("_:c2 shuffl:id \"card_2\"")
+            ;
+        // Convert JRON to RDF databank
+        var fromjron = jQuery.RDFfromJRON(jron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
+        // Convert databank to JRON
+        var tojron = jQuery.RDFtoJRON(rdfdatabank);
+        assertSameJRON(tojron, jron, "JRON created from Databank");
+        fromjron = jQuery.RDFfromJRON(tojron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
+    });
+
+    //TODO: list-of-lists test
 
     //TODO: Multiple statements with different subjects
 
