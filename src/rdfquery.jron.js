@@ -162,23 +162,17 @@ jQuery.extend({
                     // Now generate statements from object of last statement
                     if (obj instanceof Array)
                     {
-                        // TODO: request addition of rdf.List to rdfquery?
                         var rdfNs = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-                        var rdfList = jQuery.rdf.resource("<"+rdfNs+"List>");
-                        var l = object;
-                        for (i = 0 ; i < obj.length ; i += 1)
+                        var cons = object;
+                        for (var i = 0 ; i < obj.length ; i += 1)
                         {
-                            var f = jQuery.node_fromJRON(obj[i], options);
-                            var r = i < obj.length-1 ? jQuery.rdf.blank('[]') : jQuery.rdf.nil;
-                            databank.add(jQuery.rdf.triple(l, jQuery.rdf.type,  rdfList, options));
-                            databank.add(jQuery.rdf.triple(l, jQuery.rdf.first, f, options));
-                            databank.add(jQuery.rdf.triple(l, jQuery.rdf.rest,  r, options));
-                            // TODO: should be some refactoring around here
-                            if (typeof obj[i] == "object")
-                            {
-                                jQuery.statements_fromJRON(obj[i], f, options, databank);
-                            };
-                            l = r;
+                            var head = {};
+                            head[rdfNs+"type"]  = { __iri: rdfNs+"List" };
+                            head[rdfNs+"first"] = obj[i];
+                            jQuery.statements_fromJRON(head, cons, options, databank);
+                            var tail = i < obj.length-1 ? jQuery.rdf.blank('[]') : jQuery.rdf.nil;
+                            databank.add(jQuery.rdf.triple(cons, jQuery.rdf.rest,  tail, options));
+                            cons = tail;
                         };
                     }
                     else if (typeof obj == "object")
