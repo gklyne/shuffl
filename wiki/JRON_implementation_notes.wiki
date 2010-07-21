@@ -284,9 +284,9 @@ it is deduced implictly from the shuffl:id value.
 {{{
 { "shuffl:workspace":
   { "shuffl:layout":
-    [ { "id": "card_1"
+    [ { "shuffl:id": "card_1"
       }
-    , { "id": "card_2"
+    , { "shuffl:id": "card_2"
       }
     ]
   }
@@ -308,18 +308,14 @@ it is deduced implictly from the shuffl:id value.
 , "rdf:type":  { "__iri": "shuffl:Workspace" }
 , "shuffl:workspace":
   { "shuffl:layout":
-    [ { "id": "card_1"
+    [ { "shuffl:id": "card_1"
       }
-    , { "id": "card_2"
+    , { "shuffl:id": "card_2"
       }
     ]
   }
-, "shuffl:data": 
-  { "shuffl:tags":    [ "card_1_tag", "yellowtag" ]
-  }
 }
 }}}
-
 
 
 = Non-string literal values =
