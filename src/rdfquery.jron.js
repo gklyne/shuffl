@@ -287,25 +287,7 @@ jQuery.extend({
             ////log.debug("node_toJRON "+rdfnode.type+", "+rdfnode.value);
             if (rdfnode.type == "uri")
             {
-                var uri    = rdfnode.value.toString();
-                var matchl = 0;
-                var matchp = null;
-                var matchu = null;
-                for (k in options.__prefixes)
-                {
-                    var u = options.__prefixes[k];
-                    var l = u.length;
-                    if ((uri.slice(0,l) == u) && (l > matchl))
-                    {
-                        matchl = l;
-                        matchp = k;
-                        matchu = u;
-                    }
-                }
-                if (matchp)
-                {
-                    uri = matchp+uri.slice(matchl);
-                }                
+                var uri = jQuery.uri_toJRON(rdfnode.value, options);
                 return { __iri: uri };
             };
             if (rdfnode.type == "bnode")
@@ -321,8 +303,6 @@ jQuery.extend({
             {
                 if (rdfnode.datatype)
                 {
-                    log.debug("- toJRON CURIE datatype: "+jQuery.toJSON(rdfnode.datatype));
-                    log.debug("- toJRON CURIE options: "+jQuery.toJSON(options));
                     return { "__type": jQuery.uri_toJRON(rdfnode.datatype, options)
                            , "__repr": ""+rdfnode.value };
                 }
