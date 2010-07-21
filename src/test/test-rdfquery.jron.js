@@ -608,34 +608,36 @@ TestRdfqueryJron = function()
             }
         var rdfdatabank = jQuery.rdf.databank()
             .base("")
-            .prefix("xsd", "http://www.w3.org/2001/XMLSchema#")
-            .prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
             .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
-            .prefix("", "http://purl.org/NET/Shuffl/default#")
-            .add("<http://example.com/workspace#id_1> rdf:type shuffl:Workspace")
-            .add("<http://example.com/workspace#id_1> shuffl:workspace _:w")
-            .add("_:w shuffl:layout _:l1")
-            .add("_:l1 rdf:type  rdf:List")
-            .add("_:l1 rdf:first _:p")
-            .add("_:l1 rdf:rest  _:l2")           
-            .add("_:l2 rdf:type  rdf:List")
-            .add("_:l2 rdf:first _:z0")
-            .add("_:l2 rdf:rest  rdf:nil")
-            .add("_:p0 :pos _:p1")
-            .add("_:p1 :left \"100\"^^xsd:integer")
-            .add("_:p1 :top  \"30\"^^xsd:integer")
-            .add("_:z0 :zindex \"11\"^^xsd:integer")
+            .prefix("rdf",    "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+            .prefix("rdfs",   "http://www.w3.org/2000/01/rdf-schema#")
+            .prefix("owl",    "http://www.w3.org/2002/07/owl#")
+            .prefix("xsd", "http://www.w3.org/2001/XMLSchema#")
+            .add("<http://example.com/card#id_1> rdf:type shuffl:Card")
+            .add("<http://example.com/card#id_1> shuffl:id \"id_1\"")
+            .add("<http://example.com/card#id_1> shuffl:type \"shuffl-freetext-yellow\"")
+            .add("<http://example.com/card#id_1> shuffl:version \"0.1\"")
+            .add("<http://example.com/card#id_1> shuffl:base-uri \"#\"")
+            .add("<http://example.com/card#id_1> shuffl:data _:d")
+            .add("_:d shuffl:title \"Card 1 title\"")
+            .add("_:d shuffl:tags  _:l1")
+            .add("_:l1 rdf:type    rdf:List")
+            .add("_:l1 rdf:first   \"card_1_tag\"")
+            .add("_:l1 rdf:rest    _:l2")           
+            .add("_:l2 rdf:type    rdf:List")
+            .add("_:l2 rdf:first   \"yellowtag\"")
+            .add("_:l2 rdf:rest    rdf:nil")           
+            .add("_:d shuffl:text  \"Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow\"")
             ;
         // Convert JRON to RDF databank
-        //var fromjron = jQuery.RDFfromJRON(jron);
-        //assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
+        var fromjron = jQuery.RDFfromJRON(jron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
         // Convert databank to JRON
-        //var tojron = jQuery.RDFtoJRON(rdfdatabank);
-        //assertSameJRON(tojron, jron, "JRON created from Databank");
-        //fromjron = jQuery.RDFfromJRON(tojron);
-        //assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
+        var tojron = jQuery.RDFtoJRON(rdfdatabank);
+        assertSameJRON(tojron, jron, "JRON created from Databank");
+        fromjron = jQuery.RDFfromJRON(tojron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
     });
-
 
     //TODO: Multiple statements with different subjects
 
