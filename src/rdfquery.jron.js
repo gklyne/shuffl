@@ -232,6 +232,40 @@ jQuery.extend({
             return rdfdatabank;
         },
 
+    uri_toJRON:
+        /**
+         * Analyzes a supplied URI string and returns a CURIE if the leading
+         * part corresponds to a defined prefix.
+         * 
+         * @param uri       a URI string to be analyzed
+         * @param options   is an options value, in particular containing
+         *                  prefix definitions, supplied as a JRON options
+         *                  object with corresponding __prefixes members.
+         * @return          the URI compacted as a CURIE, or the original URI 
+         *                  string is no prefix is matched.
+         */
+        function (uri, options)
+        {
+            var matchl = 0;
+            var matchp = null;
+            var uris   = uri.toString();
+            for (k in options.__prefixes)
+            {
+                var u = options.__prefixes[k];
+                var l = u.length;
+                if ((uris.slice(0,l) == u) && (l > matchl))
+                {
+                    matchl = l;
+                    matchp = k;
+                }
+            }
+            if (matchp)
+            {
+                uris = matchp+uris.slice(matchl);
+            }
+            return uris;
+        },
+
     node_toJRON:
         /**
          * Create an JRON predicate value from a supplied rdfquery node and 
@@ -244,8 +278,9 @@ jQuery.extend({
          *                  URIs to CURIE-like values.  The value is supplied
          *                  as a JRON object with corresponding __base and
          *                  __prefixes members.
-         * @return          a JRON value for a predicate: a string 
-         *                  containing a URI or CURIE
+         * @return          a JRON value for a string: a structure representing
+         *                  a URI or blank node, a datatyped literal or a
+         *                  string representing an untyped literal.
          */
         function (rdfnode, options)
         {
@@ -286,8 +321,10 @@ jQuery.extend({
             {
                 if (rdfnode.datatype)
                 {
-                    return { "__type": jQuery.createCurie(rdfnode.datatype, options)
-                           , "__repr": rdfnode.value };
+                    log.debug("- toJRON CURIE datatype: "+jQuery.toJSON(rdfnode.datatype));
+                    log.debug("- toJRON CURIE options: "+jQuery.toJSON(options));
+                    return { "__type": jQuery.uri_toJRON(rdfnode.datatype, options)
+                           , "__repr": ""+rdfnode.value };
                 }
                 return rdfnode.value;
             };
@@ -302,8 +339,9 @@ jQuery.extend({
          * @param rdfnode   an rdfquery node value used as a subject in
          *                  a triple value (i.e. URI or blank).
          * @param options   mapping options: see node_toJRON for details.
-         * @return          a JRON value for a predicate: a string 
-         *                  containing a URI or CURIE
+         * @return          a JRON value for a string: a structure representing
+         *                  a URI or blank node, a datatyped literal or a
+         *                  string representing an untyped literal.
          */
         function (rdfnode, options)
         {
