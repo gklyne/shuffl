@@ -62,6 +62,7 @@ jQuery.extend({
                     var uri = jronnode.__iri;
                     if (uri.slice(0,1) == ':')
                     {
+                        //TODO: can I get jQuery.curie to handle this?
                         ////log.debug("- namespaces "+jQuery.toJSON(options.namespaces))
                         if (options.namespaces[''])
                         {
@@ -283,7 +284,11 @@ jQuery.extend({
             };
             if (rdfnode.type == "literal")
             {
-                // TODO: typed and language-tagged literals
+                if (rdfnode.datatype)
+                {
+                    return { "__type": jQuery.createCurie(rdfnode.datatype, options)
+                           , "__repr": rdfnode.value };
+                }
                 return rdfnode.value;
             };
             throw "node_toJRON: unexpected RDF node type: "+rdfnode.type;
@@ -465,6 +470,10 @@ jQuery.extend({
             {
                 var e = "Statements exist for multiple subjects - JRON representation not determined";
                 log.error(e);
+                for (var i = 0 ; i < statements.length ; i += 1)
+                {
+                    log.debug("- ["+i+"]: "+jQuery.toJSON(statements[i]));
+                }
                 throw e;
             };
             return jron;
