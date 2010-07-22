@@ -374,22 +374,23 @@ it is deduced implictly from the shuffl:id value.
   { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
   , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
   , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
+  , ":":       "http://purl.org/NET/Shuffl/default#"
   }
 , "rdf:type":  { "__iri": "shuffl:Workspace" }
 , "shuffl:workspace":
   { "shuffl:layout":
-    [ { "pos": 
-        { "left": 
+    [ { ":pos": 
+        { ":left": 
           { "__repr": "100"
           , "__type": "xsd:integer"
           }
-        , "top":
+        , ":top":
           { "__repr": "30"
           , "__type": "xsd:integer"
           }
         } 
       }
-    , { "zindex":
+    , { ":zindex":
         { "__repr": "11"
         , "__type": "xsd:integer"
         }
@@ -637,6 +638,7 @@ it is deduced implictly from the shuffl:id value.
   , "rdfs:",   "http://www.w3.org/2000/01/rdf-schema#"
   , "owl:",    "http://www.w3.org/2002/07/owl#"
   , "xsd:",    "http://www.w3.org/2001/XMLSchema#"
+  , ":":       "http://purl.org/NET/Shuffl/default#"
   }
 , "rdf:type":  { "__iri": "shuffl:Workspace" }
 , "shuffl:id":        "test-shuffl-workspace"
@@ -656,43 +658,43 @@ it is deduced implictly from the shuffl:id value.
     [ { "id": "card_1"
       , "type": "shuffl-freetext-yellow"
       , "data": "test-shuffl-card_1.json"
-      , "pos": 
+      , ":pos": 
         { "left": 
           { "__repr": "100"
-          , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+          , "__type": "xsd:integer"
           }
-        , "top":
+        , ":top":
           { "__repr": "30"
-          , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+          , "__type": "xsd:integer"
           }
         } 
       }
-    , { "id": "card_2"
-      , "type": "shuffl-freetext-blue"
-      ,   "data": "test-shuffl-card_2.json"
-      , "pos":
-        { "top":
+    , { ":id": "card_2"
+      , ":type": "shuffl-freetext-blue"
+      , ":data": "test-shuffl-card_2.json"
+      , ":pos":
+        { ":top":
           { "__repr": "0"
-          , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+          , "__type": "xsd:integer"
           }
-        , "left":
+        , ":left":
           { "__repr": "400"
-          , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+          , "__type": "xsd:integer"
           }
         }
-      , "size":
-        { "width":
+      , ":size":
+        { ":width":
           { "__repr": "600"
-          , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+          , "__type": "xsd:integer"
           }
-        , "height":
+        , ":height":
           { "__repr": "400"
-          , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+          , "__type": "xsd:integer"
           }
         }
-      , "zindex":
+      , ":zindex":
         { "__repr": "11"
-        , "__type": "http://www.w3.org/2001/XMLSchema#integer"
+        , "__type": "xsd:integer"
         }
       }
     ]
