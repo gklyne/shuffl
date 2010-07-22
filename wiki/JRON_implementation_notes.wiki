@@ -401,7 +401,7 @@ it is deduced implictly from the shuffl:id value.
 
 
 
-= Full Shuffl card (TBD) =
+= Full Shuffl card =
 
 == RDF/XML ==
 
@@ -487,8 +487,7 @@ it is deduced implictly from the shuffl:id value.
 }}}
 
 
-
-= Full Shuffl workspace description (TBD) =
+= Full Shuffl workspace description =
 
 == RDF/XML ==
 
