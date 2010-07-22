@@ -605,14 +605,14 @@ TestRdfqueryJron = function()
               , "shuffl:tags":    [ "card_1_tag", "yellowtag" ]
               , "shuffl:text":    "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow"
               }
-            }
+            };
         var rdfdatabank = jQuery.rdf.databank()
             .base("")
             .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
             .prefix("rdf",    "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
             .prefix("rdfs",   "http://www.w3.org/2000/01/rdf-schema#")
             .prefix("owl",    "http://www.w3.org/2002/07/owl#")
-            .prefix("xsd", "http://www.w3.org/2001/XMLSchema#")
+            .prefix("xsd",    "http://www.w3.org/2001/XMLSchema#")
             .add("<http://example.com/card#id_1> rdf:type shuffl:Card")
             .add("<http://example.com/card#id_1> shuffl:id \"id_1\"")
             .add("<http://example.com/card#id_1> shuffl:type \"shuffl-freetext-yellow\"")
@@ -639,7 +639,181 @@ TestRdfqueryJron = function()
         assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
     });
 
+
+    test("testFullShufflWorkspace", function ()
+    {
+        logtest("testFullShufflWorkspace");
+        // http://code.google.com/p/shuffl/wiki/JRON_implementation_notes
+        //   #Full_Shuffl_workspace_description
+        var jron = 
+            { "__prefixes":
+              { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+              , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+              , "rdfs:":   "http://www.w3.org/2000/01/rdf-schema#"
+              , "owl:":    "http://www.w3.org/2002/07/owl#"
+              , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
+              , ":":       "http://purl.org/NET/Shuffl/default#"
+              }
+            , "rdf:type":  { "__iri": "shuffl:Workspace" }
+            , "shuffl:id":        "test-shuffl-workspace"
+            , "shuffl:class":     "shuffl:Workspace"
+            , "shuffl:version":   "0.1"
+            , "shuffl:base-uri":  "#"
+            , "shuffl:workspace":
+              { "shuffl:stockbar":
+                [ { ":id": "stockpile_1", ":class": "stock-yellow",  ":label": "Ye", ":type": "shuffl-freetext-yellow"  }
+                , { ":id": "stockpile_2", ":class": "stock-blue",    ":label": "Bl", ":type": "shuffl-freetext-blue"    }
+                , { ":id": "stockpile_3", ":class": "stock-green",   ":label": "Gr", ":type": "shuffl-freetext-green"   }
+                , { ":id": "stockpile_4", ":class": "stock-orange",  ":label": "Or", ":type": "shuffl-freetext-orange"  }
+                , { ":id": "stockpile_5", ":class": "stock-pink",    ":label": "Pi", ":type": "shuffl-freetext-pink"    }
+                , { ":id": "stockpile_6", ":class": "stock-purple",  ":label": "Pu", ":type": "shuffl-freetext-purple"  }
+                ]
+              , "shuffl:layout":
+                [ { ":id": "card_1"
+                  , ":type": "shuffl-freetext-yellow"
+                  , ":data": "test-shuffl-card_1.json"
+                  , ":pos": 
+                    { ":left": 
+                      { "__repr": "100"
+                      , "__type": "xsd:integer"
+                      }
+                    , ":top":
+                      { "__repr": "30"
+                      , "__type": "xsd:integer"
+                      }
+                    } 
+                  }
+                , { ":id": "card_2"
+                  , ":type": "shuffl-freetext-blue"
+                  , ":data": "test-shuffl-card_2.json"
+                  , ":pos":
+                    { ":top":
+                      { "__repr": "0"
+                      , "__type": "xsd:integer"
+                      }
+                    , ":left":
+                      { "__repr": "400"
+                      , "__type": "xsd:integer"
+                      }
+                    }
+                  , ":size":
+                    { ":width":
+                      { "__repr": "600"
+                      , "__type": "xsd:integer"
+                      }
+                    , ":height":
+                      { "__repr": "400"
+                      , "__type": "xsd:integer"
+                      }
+                    }
+                  , ":zindex":
+                    { "__repr": "11"
+                    , "__type": "xsd:integer"
+                    }
+                  }
+                ]
+              }
+            };
+        var rdfdatabank = jQuery.rdf.databank()
+            .base("")
+            .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
+            .prefix("rdf",    "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+            .prefix("rdfs",   "http://www.w3.org/2000/01/rdf-schema#")
+            .prefix("owl",    "http://www.w3.org/2002/07/owl#")
+            .prefix("xsd",    "http://www.w3.org/2001/XMLSchema#")
+            .prefix("",       "http://purl.org/NET/Shuffl/default#")
+
+            .add("_:workspace rdf:type           shuffl:Workspace")
+            .add("_:workspace shuffl:id          \"test-shuffl-workspace\"")
+            .add("_:workspace shuffl:class       \"shuffl:Workspace\"")
+            .add("_:workspace shuffl:version     \"0.1\"")
+            .add("_:workspace shuffl:base-uri    \"#\"")
+
+            .add("_:workspace shuffl:workspace _:ws")
+            .add("_:ws shuffl:stockbar _:sl0")
+            .add("_:sl0 rdf:type  rdf:List")
+            .add("_:sl0 rdf:first _:sc0")
+            .add("_:sl0 rdf:rest  _:sl1")           
+            .add("_:sl1 rdf:type  rdf:List")
+            .add("_:sl1 rdf:first _:sc1")
+            .add("_:sl1 rdf:rest  _:sl2")
+            .add("_:sl2 rdf:type  rdf:List")
+            .add("_:sl2 rdf:first _:sc2")
+            .add("_:sl2 rdf:rest  _:sl3")           
+            .add("_:sl3 rdf:type  rdf:List")
+            .add("_:sl3 rdf:first _:sc3")
+            .add("_:sl3 rdf:rest  _:sl4")           
+            .add("_:sl4 rdf:type  rdf:List")
+            .add("_:sl4 rdf:first _:sc4")
+            .add("_:sl4 rdf:rest  _:sl5")           
+            .add("_:sl5 rdf:type  rdf:List")
+            .add("_:sl5 rdf:first _:sc5")
+            .add("_:sl5 rdf:rest  rdf:nil")           
+
+            .add("_:sc0 :id    \"stockpile_1\"")
+            .add("_:sc0 :class \"stock-yellow\"")
+            .add("_:sc0 :label \"Ye\"")
+            .add("_:sc0 :type  \"shuffl-freetext-yellow\"")
+            .add("_:sc1 :id    \"stockpile_2\"")
+            .add("_:sc1 :class \"stock-blue\"")
+            .add("_:sc1 :label \"Bl\"")
+            .add("_:sc1 :type  \"shuffl-freetext-blue\"")
+            .add("_:sc2 :id    \"stockpile_3\"")
+            .add("_:sc2 :class \"stock-green\"")
+            .add("_:sc2 :label \"Gr\"")
+            .add("_:sc2 :type  \"shuffl-freetext-green\"")
+            .add("_:sc3 :id    \"stockpile_4\"")
+            .add("_:sc3 :class \"stock-orange\"")
+            .add("_:sc3 :label \"Or\"")
+            .add("_:sc3 :type  \"shuffl-freetext-orange\"")
+            .add("_:sc4 :id    \"stockpile_5\"")
+            .add("_:sc4 :class \"stock-pink\"")
+            .add("_:sc4 :label \"Pi\"")
+            .add("_:sc4 :type  \"shuffl-freetext-pink\"")
+            .add("_:sc5 :id    \"stockpile_6\"")
+            .add("_:sc5 :class \"stock-purple\"")
+            .add("_:sc5 :label \"Pu\"")
+            .add("_:sc5 :type  \"shuffl-freetext-purple\"")
+
+            .add("_:ws shuffl:layout _:l0")
+            .add("_:l0 rdf:type  rdf:List")
+            .add("_:l0 rdf:first _:c0")
+            .add("_:l0 rdf:rest  _:l1")           
+            .add("_:l1 rdf:type  rdf:List")
+            .add("_:l1 rdf:first _:c1")
+            .add("_:l1 rdf:rest  rdf:nil")
+
+            .add("_:c0 :id \"card_1\"")
+            .add("_:c0 :type \"shuffl-freetext-yellow\"")
+            .add("_:c0 :data \"test-shuffl-card_1.json\"")
+            .add("_:c0 :pos  _:p0")
+              .add("_:p0 :left \"100\"^^xsd:integer")
+              .add("_:p0 :top  \"30\"^^xsd:integer")
+
+            .add("_:c1 :id \"card_2\"")
+            .add("_:c1 :type \"shuffl-freetext-blue\"")
+            .add("_:c1 :data \"test-shuffl-card_2.json\"")
+            .add("_:c1 :pos  _:p1")
+              .add("_:p1 :left \"400\"^^xsd:integer")
+              .add("_:p1 :top  \"0\"^^xsd:integer")
+            .add("_:c1 :size  _:s1")
+              .add("_:s1 :width  \"600\"^^xsd:integer")
+              .add("_:s1 :height \"400\"^^xsd:integer")
+            .add("_:c1 :zindex   \"11\"^^xsd:integer")
+            ;
+        // Convert JRON to RDF databank
+        var fromjron = jQuery.RDFfromJRON(jron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
+        // Convert databank to JRON
+        var tojron = jQuery.RDFtoJRON(rdfdatabank);
+        assertSameJRON(tojron, jron, "JRON created from Databank");
+        fromjron = jQuery.RDFfromJRON(tojron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
+    });
+
     //TODO: Multiple statements with different subjects
+
+    //TODO: Use regular JSON for numbers, Booleans
 
 };
 

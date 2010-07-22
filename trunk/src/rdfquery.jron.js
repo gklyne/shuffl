@@ -311,21 +311,36 @@ jQuery.extend({
             throw "node_toJRON: unexpected RDF node type: "+rdfnode.type;
         },
 
-    subj_toJRON:
+    subjobj_toJRON:
         /**
-         * Create an JRON subject node value from a supplied rdfquery node and 
-         * base and prefix options
+         * Create an JRON subject or object node value from a supplied rdfquery
+         * node and base and prefix options
          * 
          * @param rdfnode   an rdfquery node value used as a subject in
          *                  a triple value (i.e. URI or blank).
+         * @param bobjects  is a dictionary keyed by bnode names that appear in 
+         *                  the object position of any statement, each accessing
+         *                  a count of statements in which they so appear.
+         *                  This is used to suppress bnode id generation in 
+         *                  JRON when they are not needed.
          * @param options   mapping options: see node_toJRON for details.
          * @return          a JRON value for a string: a structure representing
          *                  a URI or blank node, a datatyped literal or a
          *                  string representing an untyped literal.
          */
-        function (rdfnode, options)
+        function (rdfnode, bobjects, options)
         {
-            return jQuery.node_toJRON(rdfnode, options);
+            var node = jQuery.node_toJRON(rdfnode, options);
+            // Check to suppress bnode identifier
+            if (rdfnode.type == "bnode")
+            {
+                //log.debug("- bobjects["+rdfnode.value+"] "+jQuery.toJSON(bobjects[rdfnode.value]));
+                if (!bobjects[rdfnode.value] || (bobjects[rdfnode.value] <= 1))
+                {
+                    delete node.__node_id;
+                };
+            };
+            return node;
         },
 
     pred_toJRON:
@@ -375,14 +390,14 @@ jQuery.extend({
                 // reset value so it can't be processed again
                 var rdfsubj = subjects[subjkey];
                 subjects[subjkey] = null;
+                var subj = jQuery.subjobj_toJRON(rdfsubj, bobjects, options);
                 jron = {};
                 databank.triples().each(function(i, t)
                 {
                     if (t.subject == rdfsubj)
                     {
-                        var subj = jQuery.subj_toJRON(t.subject,  options);
                         var prop = jQuery.pred_toJRON(t.property, options);
-                        var obj  = jQuery.node_toJRON(t.object,   options);
+                        var obj  = jQuery.subjobj_toJRON(t.object, bobjects, options);
                         // If there are statements about 'obj', generate them now
                         if (subjects[t.object.value])
                         {
@@ -390,11 +405,6 @@ jQuery.extend({
                             if (objstmt)
                             {
                                 jQuery.extend(obj, objstmt);
-                            };
-                            // Check to suppress bnode identifier
-                            if (bobjects[t.object.value] == 1)
-                            {
-                                delete obj.__node_id;
                             };
                         };
                         // If object is a list, replace it now
@@ -408,11 +418,10 @@ jQuery.extend({
                             // Recursive calls mean the tail is already a list
                             obj = [obj["rdf:first"]].concat(obj["rdf:rest"]);
                         }
-                        // Put it all together
                         subj[prop] = obj;
-                        jQuery.extend(jron, subj);
                     };
                 });
+                jQuery.extend(jron, subj);
             };
             return jron;
         },
