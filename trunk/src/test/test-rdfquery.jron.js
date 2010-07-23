@@ -276,18 +276,17 @@ TestRdfqueryJron = function()
     {
         logtest("testStatementsWithDefaultPrefix");
         var jron = 
-            { "__iri":     "http://example.com/card#id_1"
+            { "__iri":     "<http://example.com/card#id_1>"
             , "__base":    "http://example.com/card#"
             , "__prefixes":
               { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
               , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
               , ":":       "http://example.org/1/"
               , "":        "http://example.org/2/"
-              , "http:":   "http:"
               }
             , ":prop1": { "__iri": ":foo" }
             , "prop2":  { "__iri": "bar" }
-            , "http://example.org/3/prop3":  { "__iri": "http://example.org/3/baz" }
+            , "<http://example.org/3/prop3>":  { "__iri": "<http://example.org/3/baz>" }
             };
         var rdfdatabank = jQuery.rdf.databank()
             .base("http://example.com/card#")
@@ -295,7 +294,6 @@ TestRdfqueryJron = function()
             .prefix("shuffl",    "http://purl.org/NET/Shuffl/vocab#")
             .prefix("",          "http://example.org/1/")
             .prefix("__default", "http://example.org/2/")
-            .prefix("http",      "http:")
             .add("<http://example.com/card#id_1> :prop1 :foo")
             .add("<http://example.com/card#id_1> <http://example.org/2/prop2> <http://example.org/2/bar>")
             .add("<http://example.com/card#id_1> <http://example.org/3/prop3> <http://example.org/3/baz>")
@@ -699,7 +697,6 @@ TestRdfqueryJron = function()
               , "owl:":    "http://www.w3.org/2002/07/owl#"
               , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
               , "":        "http://purl.org/NET/Shuffl/default#"
-              , "http:":   "http:"
               }
             , "rdf:type":  { "__iri": "shuffl:Workspace" }
             , "shuffl:id":        "test-shuffl-workspace"
@@ -769,7 +766,6 @@ TestRdfqueryJron = function()
             .prefix("owl",       "http://www.w3.org/2002/07/owl#")
             .prefix("xsd",       "http://www.w3.org/2001/XMLSchema#")
             .prefix("__default", "http://purl.org/NET/Shuffl/default#")
-            .prefix("http",   "http:")
 
             .add("_:workspace rdf:type           shuffl:Workspace")
             .add("_:workspace shuffl:id          \"test-shuffl-workspace\"")
