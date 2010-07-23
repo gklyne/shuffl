@@ -299,7 +299,6 @@ jQuery.extend({
             {
                 uris = matchp+uris.slice(matchl);
             }
-            log.debug("uri_toJRON "+uri+", "+uris);
             return uris;
         },
 
