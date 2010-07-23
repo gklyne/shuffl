@@ -560,6 +560,43 @@ TestRdfqueryJron = function()
         assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
     });
 
+    test("testNumbericAndBooleanLiterals", function ()
+    {
+        logtest("testNumbericAndBooleanLiterals");
+        // http://code.google.com/p/shuffl/wiki/JRON_implementation_notes
+        //   #Non-string_literal_values
+        var jron = 
+            { "__iri":     "http://example.com/literals"
+            , "__prefixes":
+              { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+              , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+              , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
+              }
+            , "shuffl:integer": 111
+            , "shuffl:double":  222.333
+            , "shuffl:true":    true
+            , "shuffl:false":   false
+            };
+        var rdfdatabank = jQuery.rdf.databank()
+            .base("")
+            .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
+            .prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+            .prefix("xsd", "http://www.w3.org/2001/XMLSchema#")
+            .add("<http://example.com/literals> shuffl:integer \"111\"^^xsd:integer")
+            .add("<http://example.com/literals> shuffl:double  \"222.333\"^^xsd:double")
+            .add("<http://example.com/literals> shuffl:true    \"true\"^^xsd:boolean")
+            .add("<http://example.com/literals> shuffl:false   \"false\"^^xsd:boolean")
+            ;
+        // Convert JRON to RDF databank
+        var fromjron = jQuery.RDFfromJRON(jron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
+        // Convert databank to JRON
+        var tojron = jQuery.RDFtoJRON(rdfdatabank);
+        assertSameJRON(tojron, jron, "JRON created from Databank");
+        fromjron = jQuery.RDFfromJRON(tojron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
+    });
+
     test("testNonStringliterals", function ()
     {
         logtest("testNonStringliterals");
@@ -577,20 +614,11 @@ TestRdfqueryJron = function()
             , "shuffl:workspace":
               { "shuffl:layout":
                 [ { ":pos": 
-                    { ":left": 
-                      { "__repr": "100"
-                      , "__type": "xsd:integer"
-                      }
-                    , ":top":
-                      { "__repr": "30"
-                      , "__type": "xsd:integer"
-                      }
+                    { ":left": 100 
+                    , ":top": 30
                     } 
                   }
-                , { ":zindex":
-                    { "__repr": "11"
-                    , "__type": "xsd:integer"
-                    }
+                , { ":zindex": 11
                   }
                 ]
               }
@@ -717,43 +745,22 @@ TestRdfqueryJron = function()
                   , "type": "shuffl-freetext-yellow"
                   , "data": "test-shuffl-card_1.json"
                   , "pos": 
-                    { "left": 
-                      { "__repr": "100"
-                      , "__type": "xsd:integer"
-                      }
-                    , "top":
-                      { "__repr": "30"
-                      , "__type": "xsd:integer"
-                      }
+                    { "left": 100
+                    , "top":  30
                     } 
                   }
                 , { "id": "card_2"
                   , "type": "shuffl-freetext-blue"
                   , "data": "test-shuffl-card_2.json"
                   , "pos":
-                    { "top":
-                      { "__repr": "0"
-                      , "__type": "xsd:integer"
-                      }
-                    , "left":
-                      { "__repr": "400"
-                      , "__type": "xsd:integer"
-                      }
+                    { "top":  0
+                    , "left": 400
                     }
                   , "size":
-                    { "width":
-                      { "__repr": "600"
-                      , "__type": "xsd:integer"
-                      }
-                    , "height":
-                      { "__repr": "400"
-                      , "__type": "xsd:integer"
-                      }
+                    { "width":  600
+                    , "height": 400
                     }
-                  , "zindex":
-                    { "__repr": "11"
-                    , "__type": "xsd:integer"
-                    }
+                  , "zindex":   11
                   }
                 ]
               }
