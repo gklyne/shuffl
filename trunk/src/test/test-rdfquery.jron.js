@@ -272,6 +272,41 @@ TestRdfqueryJron = function()
         assertSameJRON(tojron, jron2, "JRON created from Databank");
     });
 
+    test("testStatementsWithDefaultPrefix", function ()
+    {
+        logtest("testStatementsWithDefaultPrefix");
+        var jron = 
+            { "__iri":     "http://example.com/card#id_1"
+            , "__base":    "http://example.com/card#"
+            , "__prefixes":
+              { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+              , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+              , ":":       "http://example.org/1/"
+              , "":        "http://example.org/2/"
+              }
+            , ":prop1": { "__iri": ":foo" }
+            , "prop2":  { "__iri": "bar" }
+            , "http://example.org/3/prop3":  { "__iri": "http://example.org/3/baz" }
+            };
+        var rdfdatabank = jQuery.rdf.databank()
+            .base("http://example.com/card#")
+            .prefix("rdf",    "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+            .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
+            .prefix("",       "http://example.org/1/")
+            .add("<http://example.com/card#id_1> :prop1 :foo")
+            .add("<http://example.com/card#id_1> <http://example.org/2/prop2> <http://example.org/2/bar>")
+            .add("<http://example.com/card#id_1> <http://example.org/3/prop3> <http://example.org/3/baz>")
+            ;
+        // Convert JRON to RDF databank
+        var fromjron = jQuery.RDFfromJRON(jron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
+        // Convert databank to JRON
+        var tojron = jQuery.RDFtoJRON(rdfdatabank);
+        assertSameJRON(tojron, jron, "JRON created from Databank");
+        fromjron = jQuery.RDFfromJRON(tojron);
+        assertSameDatabankContents(fromjron, rdfdatabank, "Databank round-tripped via JRON");
+    });
+
     test("testNestedStatements", function ()
     {
         logtest("testNestedStatements");

@@ -221,9 +221,12 @@ jQuery.extend({
             {
                 for (var pref in jron.__prefixes)
                 {
-                    ////log.debug("- prefix "+pref);
-                    //TODO: more robust way to strip separator char(s) from prefix
-                    rdfdatabank.prefix(pref.slice(0,-1), jron.__prefixes[pref]);
+                    // Copy the JRON prefixes ending with ':' to the databank.
+                    var m = pref.match(/(.*):$/);
+                    if (m)
+                    {
+                        rdfdatabank.prefix(m[1], jron.__prefixes[pref]);
+                    };
                 };
             };
             var opts = { namespaces: rdfdatabank.prefix(), base: rdfdatabank.base() };
