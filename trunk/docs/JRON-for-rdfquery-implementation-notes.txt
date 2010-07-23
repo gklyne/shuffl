@@ -1,0 +1,47 @@
+JRON implementation in Javascript for rdfquery.
+
+Currently, part of the Shuffl project (http://code.google.com/p/shuffl/).  If there is wider interest, I'd be pleased to offer this for inclusion in the rdfquery project, since I think its natural home could be there.
+
+This implementation is coded as a jQuery plugin that works with the rdfquery library.  It converts data between JRON object structures and rdfquery databank objects.  The implementation currently has the following limitations:
+- untested support for language-tagged strings (so,me code is present, but may be incomplete)
+- __prefix values are recognized only at the top level of a JRON value
+
+Extensions and local implementation details include:
+- JRON URIs wrapped in "<...>" are protected from prefix mapping
+- exception thrown if provided a databank which is not rooted in a single node. (There's a possible bug if root node is not the first in the databank).
+- prefixes defined with trailing ':' are copied over as prefixes in the rdfquery databank.  Others are expanded and dropped, hence don't round-trip.
+- prefix ":" in JRON becomes the blank prefix in databank
+- empty prefix in JRON is copied to __default prefix in rdfquery databank
+- __base value for base URI in addition to __prefixes
+
+The particular files to look for are:
+
+http://code.google.com/p/shuffl/source/browse/trunk/src/rdfquery.jron.js
+- jQuery plugin source
+
+http://code.google.com/p/shuffl/source/browse/trunk/src/test/test-rdfquery.jron.js
+- test suite
+
+http://code.google.com/p/shuffl/source/browse/trunk/static/test/test-rdfquery.jron.html
+- test runner - probably references some other files from http://code.google.com/p/shuffl/source/browse/ [trunk]
+
+The exposed APIs are
+
+        jQuery.RDFfromJRON:
+            /**
+             * Create and return an rdfquery databank object containing data from
+             * the supplied JRON object structure.
+             * 
+             * @param jron      is a javascript object containing RDF data structured
+             *                  per JRON.
+             * @return          an rdfquery databank object containing the JRON data.
+             */
+
+        jQuery.RDFtoJRON:
+            /**
+             * Create and return a JRON-structured object containing data from
+             * the supplied rdfquery databank.
+             * 
+             * @param databank  is an rdfquery datababnk object.
+             * @return          a JRON object containing the rdfquery databank data.
+             */
