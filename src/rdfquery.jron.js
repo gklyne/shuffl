@@ -83,6 +83,18 @@ jQuery.extend({
             {
                 return jQuery.rdf.literal('"'+jronnode+'"', options);
             };
+            if (typeof jronnode == "number")
+            {
+                var xsdNs = "http://www.w3.org/2001/XMLSchema#";
+                var nums = String(jronnode);
+                var numt = ( nums.match(/^[0-9]+$/) ? "integer" : "double" );
+                var opts = jQuery.extend({}, options, { datatype: xsdNs+numt });
+                return jQuery.rdf.literal(nums, opts);
+            };
+            if (typeof jronnode == "boolean")
+            {
+                return jQuery.rdf.literal(jronnode, options);
+            };
             if (jronnode instanceof Array)
             {
                 // Return blank node or rdf:nil for head of list
@@ -355,6 +367,16 @@ jQuery.extend({
             {
                 if (rdfnode.datatype)
                 {
+                    var xsdNs = "http://www.w3.org/2001/XMLSchema#";
+                    if ( (rdfnode.datatype == xsdNs+"integer") ||
+                         (rdfnode.datatype == xsdNs+"double"))
+                    {
+                        return Number(rdfnode.value);
+                    }
+                    if (rdfnode.datatype == xsdNs+"boolean")
+                    {
+                        return Boolean(rdfnode.value);
+                    }
                     return { "__type": jQuery.uri_toJRON(rdfnode.datatype, options)
                            , "__repr": ""+rdfnode.value };
                 }
