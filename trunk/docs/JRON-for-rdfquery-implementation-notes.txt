@@ -2,7 +2,9 @@ JRON implementation in Javascript for rdfquery.
 
 Currently, part of the Shuffl project (http://code.google.com/p/shuffl/).  If there is wider interest, I'd be pleased to offer this for inclusion in the rdfquery project, since I think its natural home could be there.
 
-This implementation is coded as a jQuery plugin that works with the rdfquery library.  It converts data between JRON object structures and rdfquery databank objects.  The implementation currently has the following limitations:
+This implementation is coded in Javascript as a jQuery plugin that works with the rdfquery library.  It converts data between JRON object structures and rdfquery databank objects.
+
+The implementation currently has the following limitations:
 - untested support for language-tagged strings (so,me code is present, but may be incomplete)
 - __prefix values are recognized only at the top level of a JRON value
 
