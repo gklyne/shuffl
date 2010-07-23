@@ -94,18 +94,25 @@ jQuery.extend({
                 if (uri)
                 {
                     // CURIE or URI here { __iri: ... }
-                    try
+                    if (uri.match(/^<.*>/))
                     {
-                        // Try for CURIE - more restrictive than JRON proposal
-                        uri = jQuery.curie(uri, options);
                         return jQuery.rdf.resource(uri, options);
                     }
-                    catch (e)
+                    else
                     {
-                        // Expand prefix and process as URI
-                        uri = jQuery.uri_fromJRON(uri, prefixes);
-                        return jQuery.rdf.resource("<"+uri+">", options);
-                    }
+                        try
+                        {
+                            // Try for CURIE - more restrictive than JRON proposal
+                            uri = jQuery.curie(uri, options);
+                            return jQuery.rdf.resource(uri, options);
+                        }
+                        catch (e)
+                        {
+                            // Expand prefix and process as URI
+                            uri = jQuery.uri_fromJRON(uri, prefixes);
+                            return jQuery.rdf.resource("<"+uri+">", options);
+                        };
+                    };
                 };
                 if (jronnode.__text)
                 {
@@ -199,13 +206,17 @@ jQuery.extend({
                     // Now generate statements from object of last statement
                     if (obj instanceof Array)
                     {
-                        var rdfNs = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+                        function rdf(term)
+                        {
+                            var rdfNs = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+                            return "<"+rdfNs+term+">";
+                        }
                         var cons = object;
                         for (var i = 0 ; i < obj.length ; i += 1)
                         {
                             var head = {};
-                            head[rdfNs+"type"]  = { __iri: rdfNs+"List" };
-                            head[rdfNs+"first"] = obj[i];
+                            head[rdf("type")]  = { __iri: rdf("List") };
+                            head[rdf("first")] = obj[i];
                             jQuery.statements_fromJRON(head, prefixes, cons, options, databank);
                             var tail = i < obj.length-1 ? jQuery.rdf.blank('[]') : jQuery.rdf.nil;
                             databank.add(jQuery.rdf.triple(cons, jQuery.rdf.rest,  tail, options));
@@ -298,6 +309,11 @@ jQuery.extend({
             if (matchp !== null)
             {
                 uris = matchp+uris.slice(matchl);
+            }
+            else if (options.__prefixes[""])
+            {
+                // Hack??
+                uris = "<"+uris+">";
             }
             return uris;
         },
