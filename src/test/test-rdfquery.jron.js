@@ -248,20 +248,28 @@ TestRdfqueryJron = function()
               }
             , "rdf:type":        { "__iri": "shuffl:Card" }
             , "shuffl:base-uri": { "__iri": "http://example.com/card#" }
+            , "shuffl:rel-uri1": { "__iri": "foobar" }
+            , "shuffl:rel-uri2": { "__iri": "#foo" }
             };
+        var jron2 = jQuery.extend({}, jron,
+            { "shuffl:rel-uri1": { "__iri": "http://example.com/foobar" }
+            , "shuffl:rel-uri2": { "__iri": "http://example.com/card#foo" }
+            });
         var rdfdatabank = jQuery.rdf.databank()
             .base("http://example.com/card#")
             .prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
             .prefix("shuffl", "http://purl.org/NET/Shuffl/vocab#")
             .add("<http://example.com/card#id_1> rdf:type shuffl:Card")
             .add("<http://example.com/card#id_1> shuffl:base-uri <http://example.com/card#>")
+            .add("<http://example.com/card#id_1> shuffl:rel-uri1 <http://example.com/foobar>")
+            .add("<http://example.com/card#id_1> shuffl:rel-uri2 <http://example.com/card#foo>")
             ;
         // Convert JRON to RDF databank
         var fromjron = jQuery.RDFfromJRON(jron);
         assertSameDatabankContents(fromjron, rdfdatabank, "Databank created from JRON");
         // Convert databank to JRON
         var tojron = jQuery.RDFtoJRON(rdfdatabank);
-        assertSameJRON(tojron, jron, "JRON created from Databank");
+        assertSameJRON(tojron, jron2, "JRON created from Databank");
     });
 
     test("testNestedStatements", function ()
