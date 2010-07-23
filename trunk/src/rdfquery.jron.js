@@ -29,20 +29,55 @@
  * Extend the main jQuery object.
  */
 jQuery.extend({
+
+    //TODO: refactor uri_toJRON and uri_fromJRON common code?
+
+    uri_fromJRON:
+        /**
+         * Analyzes a supplied URI string and returns a non-prefixed form if 
+         * the leading part is a defined prefix.
+         * 
+         * @param uri       a URI string to be analyzed
+         * @param prefixes  is a JRON prefixes structure
+         * @return          the URI with prefix expanded, or the original URI 
+         *                  string is no prefix is matched.
+         */
+        function (uri, prefixes)
+        {
+            var matchl = -1;
+            var matchu = null;
+            var uris   = uri.toString();
+            for (k in (prefixes || {}))
+            {
+                var u = prefixes[k];
+                var l = k.length;
+                if ((uris.slice(0,l) == k) && (l > matchl))
+                {
+                    matchl = l;
+                    matchu = u;
+                }
+            }
+            if (matchu)
+            {
+                uris = matchu+uris.slice(matchl);
+            }
+            return uris;
+        },
+
     node_fromJRON:
         /**
          * Create an rdfquery node from a supplied JRON value and 
          * rdfquery options
          * 
-         * @param jronnode  is a JRON value for a node: a URI, CURIE, 
-         *                  bnode or literal
+         * @param jronnode  is a JRON value for a node: a URI, bnode or literal
+         * @param prefixes  is a JRON prefixes structure
          * @param options   is an rdfquery options structure, in particular
          *                  containing a namespaces member with prefix
-         *                  definitions for expanding CURIES
+         *                  definitions for CURIES
          * @return          an rdfquery node value that can be used to
          *                  construct a triple value, among other things.
          */
-        function (jronnode, options)
+        function (jronnode, prefixes, options)
         {
             if (typeof jronnode == "string")
             {
@@ -55,29 +90,20 @@ jQuery.extend({
             };            
             if (typeof jronnode == "object")
             {
-                if (jronnode.__iri)
+                var uri = jronnode.__iri;
+                if (uri)
                 {
-                    // CURIE or URI here
-                    // { __iri: ... }
-                    var uri = jronnode.__iri;
-                    if (uri.slice(0,1) == ':')
-                    {
-                        //TODO: can I get jQuery.curie to handle this?
-                        ////log.debug("- namespaces "+jQuery.toJSON(options.namespaces))
-                        if (options.namespaces[''])
-                        {
-                            return jQuery.rdf.resource("<"+options.namespaces['']+uri.slice(1)+">", options);
-                        }
-                    }
+                    // CURIE or URI here { __iri: ... }
                     try
                     {
                         // Try for CURIE - more restrictive than JRON proposal
-                        curi = jQuery.curie(uri, options);
-                        return jQuery.rdf.resource(curi, options);
+                        uri = jQuery.curie(uri, options);
+                        return jQuery.rdf.resource(uri, options);
                     }
                     catch (e)
                     {
-                        ////log.debug("- not CURIE: "+e);
+                        // Expand prefix and process as URI
+                        uri = jQuery.uri_fromJRON(uri, prefixes);
                         return jQuery.rdf.resource("<"+uri+">", options);
                     }
                 };
@@ -126,15 +152,16 @@ jQuery.extend({
          * 
          * @param jronpred  is a JRON value for a node: a string containing a
          *                  URI or CURIE
+         * @param prefixes  is a JRON prefixes structure
          * @param options   is an rdfquery options structure, in particular
          *                  containing a namespaces member with prefix
          *                  definitions for expanding CURIES.
          * @return          an rdfquery node value that can be used to
          *                  construct a triple value, among other things.
          */
-        function (jronpred, options)
+        function (jronpred, prefixes, options)
         {
-            return jQuery.node_fromJRON( { __iri: jronpred }, options);
+            return jQuery.node_fromJRON( { __iri: jronpred }, prefixes, options);
         },
 
     statements_fromJRON:
@@ -142,7 +169,8 @@ jQuery.extend({
          * Add statements to the JRON object from the supplied JRON object
          * 
          * @param jron      is a JRON structure to be converted to RDF statements
-         * @param rdfsubj   is the RDF subject node for generated sttatements, or 
+         * @param prefixes  is a JRON prefixes structure
+         * @param rdfsubj   is the RDF subject node for generated statements, or 
          *                  null if a new node should be generated.  (This is used
          *                  to prevent multiple-generation of unlabelled bnodes.)
          * @param options   is an rdfquery options structure, in particular
@@ -151,10 +179,10 @@ jQuery.extend({
          * @param dartabank is an rdfquery databank object to which the RDF
          *                  statements are added.
          */
-        function (jron, rdfsubj, options, databank)
+        function (jron, prefixes, rdfsubj, options, databank)
         {
             ////log.debug("jQuery.statements_fromJRON "+jQuery.toJSON(jron));
-            rdfsubj = rdfsubj || jQuery.node_fromJRON(jron, options);
+            rdfsubj = rdfsubj || jQuery.node_fromJRON(jron, prefixes, options);
             // Find and save statements
             for (var pred in jron)
             {
@@ -164,8 +192,8 @@ jQuery.extend({
                 {
                     var obj = jron[pred];
                     ////log.debug("- stmt "+rdfsubj+" "+pred+" "+jQuery.toJSON(obj));
-                    pred = jQuery.pred_fromJRON(pred, options);
-                    var object = jQuery.node_fromJRON(obj, options);
+                    pred = jQuery.pred_fromJRON(pred, prefixes, options);
+                    var object = jQuery.node_fromJRON(obj, prefixes, options);
                     var triple = jQuery.rdf.triple(rdfsubj, pred, object, options);
                     databank.add(triple);
                     // Now generate statements from object of last statement
@@ -178,7 +206,7 @@ jQuery.extend({
                             var head = {};
                             head[rdfNs+"type"]  = { __iri: rdfNs+"List" };
                             head[rdfNs+"first"] = obj[i];
-                            jQuery.statements_fromJRON(head, cons, options, databank);
+                            jQuery.statements_fromJRON(head, prefixes, cons, options, databank);
                             var tail = i < obj.length-1 ? jQuery.rdf.blank('[]') : jQuery.rdf.nil;
                             databank.add(jQuery.rdf.triple(cons, jQuery.rdf.rest,  tail, options));
                             cons = tail;
@@ -186,7 +214,7 @@ jQuery.extend({
                     }
                     else if (typeof obj == "object")
                     {
-                        jQuery.statements_fromJRON(obj, object, options, databank);
+                        jQuery.statements_fromJRON(obj, prefixes, object, options, databank);
                     }
                 }
                 catch (e)
@@ -221,6 +249,11 @@ jQuery.extend({
             {
                 for (var pref in jron.__prefixes)
                 {
+                    // Copy blank prefix to __default
+                    if (pref == "")
+                    {
+                        rdfdatabank.prefix("__default", jron.__prefixes[pref]);
+                    }
                     // Copy the JRON prefixes ending with ':' to the databank.
                     var m = pref.match(/(.*):$/);
                     if (m)
@@ -231,14 +264,14 @@ jQuery.extend({
             };
             var opts = { namespaces: rdfdatabank.prefix(), base: rdfdatabank.base() };
             ////log.debug("- options "+jQuery.toJSON(opts));
-            jQuery.statements_fromJRON(jron, null, opts, rdfdatabank);
+            jQuery.statements_fromJRON(jron, jron.__prefixes, null, opts, rdfdatabank);
             return rdfdatabank;
         },
 
     uri_toJRON:
         /**
-         * Analyzes a supplied URI string and returns a CURIE if the leading
-         * part corresponds to a defined prefix.
+         * Analyzes a supplied URI string and returns a prefixed form if the 
+         * leading part corresponds to a defined prefix.
          * 
          * @param uri       a URI string to be analyzed
          * @param options   is an options value, in particular containing
@@ -262,10 +295,11 @@ jQuery.extend({
                     matchp = k;
                 }
             }
-            if (matchp)
+            if (matchp !== null)
             {
                 uris = matchp+uris.slice(matchl);
             }
+            log.debug("uri_toJRON "+uri+", "+uris);
             return uris;
         },
 
@@ -455,7 +489,7 @@ jQuery.extend({
                 {
                     var v = p[k];
                     ////log.debug("- prefix "+k+", uri "+v);
-                    jp[k+':'] = v;
+                    jp[(k == "__default" ? "" : k+':')] = v;
                 };
             };
             if (jp)
