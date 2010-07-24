@@ -6,7 +6,9 @@
 
 These are notes for test cases to implement the [http://decentralyze.com/2010/06/04/from-json-to-rdf-in-six-easy-steps-with-jron/ JRON] format for Shuffl workspace and card data.
 
-*Note:* the JRON examples in this page were early design notes, and may be out-of-date: refer to the [http://code.google.com/p/shuffl/source/browse/trunk/src/test/test-rdfquery.jron.js actual test suite] for real JRON data.  In particular, note that numeric values and default prefixes are now handled much more cleanly than allowed by the original mapping design.
+*Notes:*
+ * the JRON examples in this page were early design notes, and may be out-of-date: refer to the [http://code.google.com/p/shuffl/source/browse/trunk/src/test/test-rdfquery.jron.js actual test suite] for real JRON data.  In particular, note that numeric values and default prefixes are now handled much more cleanly than allowed by the original mapping design.
+ * For notes about the actual implementation and its status, see [http://code.google.com/p/shuffl/source/browse/trunk/docs/JRON-for-rdfquery-implementation-notes.txt here].
 
 The intent is that the main transformation logic will be a generic plugin or library to work with [http://code.google.com/p/rdfquery/ RDFQuery]; e.g.
 
