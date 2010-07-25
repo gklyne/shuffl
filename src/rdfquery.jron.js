@@ -28,7 +28,40 @@
 (function ($)
 {
 
-    //TODO: refactor uri_toJRON and uri_fromJRON common code?
+    //TODO: finish refactoring or URI mapping to use prefixMap
+    // 1. Revise uri_fromJRON and test
+    // 2. Revise uri_toJRON and test, taking account of bare URI case
+
+    /**
+     * Analyzes a supplied URI string and returns a non-prefixed form if 
+     * the leading part is a defined prefix.
+     * 
+     * @param uri       a URI string to be analyzed
+     * @param prefixes  is a JRON prefixes structure
+     * @return          the URI with prefix expanded, or the original URI 
+     *                  string is no prefix is matched.
+     */
+    function prefixMap (uri, prefixes, compact)
+    {
+        var matchl = -1;
+        var matchr = null;
+        for (k in (prefixes || {}))
+        {
+            var match   = (compact ? prefixes[k] : k);
+            var replace = (compact ? k : prefixes[k]);
+            var l = match.length;
+            if ((l > matchl) && (uri.slice(0,l) == match))
+            {
+                matchl = l;
+                matchr = replace;
+            }
+        }
+        if (matchr != null)
+        {
+            uri = matchr+uri.slice(matchl);
+        }
+        return uri;
+    };
 
     /**
      * Analyzes a supplied URI string and returns a non-prefixed form if 
@@ -57,6 +90,44 @@
         if (matchu)
         {
             uris = matchu+uris.slice(matchl);
+        }
+        return uris;
+    };
+
+    /**
+     * Analyzes a supplied URI string and returns a prefixed form if the 
+     * leading part corresponds to a defined prefix.
+     * 
+     * @param uri       a URI string to be analyzed
+     * @param options   is an options value, in particular containing
+     *                  prefix definitions, supplied as a JRON options
+     *                  object with corresponding __prefixes members.
+     * @return          the URI compacted as a CURIE, or the original URI 
+     *                  string is no prefix is matched.
+     */
+    function uri_toJRON (uri, options)
+    {
+        var matchl = 0;
+        var matchp = null;
+        var uris   = uri.toString();
+        for (k in options.__prefixes)
+        {
+            var u = options.__prefixes[k];
+            var l = u.length;
+            if ((uris.slice(0,l) == u) && (l > matchl))
+            {
+                matchl = l;
+                matchp = k;
+            }
+        }
+        if (matchp !== null)
+        {
+            uris = matchp+uris.slice(matchl);
+        }
+        else if (options.__prefixes[""])
+        {
+            // Hack??
+            uris = "<"+uris+">";
         }
         return uris;
     };
@@ -240,44 +311,6 @@
                 throw e;
             };
         }
-    };
-
-    /**
-     * Analyzes a supplied URI string and returns a prefixed form if the 
-     * leading part corresponds to a defined prefix.
-     * 
-     * @param uri       a URI string to be analyzed
-     * @param options   is an options value, in particular containing
-     *                  prefix definitions, supplied as a JRON options
-     *                  object with corresponding __prefixes members.
-     * @return          the URI compacted as a CURIE, or the original URI 
-     *                  string is no prefix is matched.
-     */
-    function uri_toJRON (uri, options)
-    {
-        var matchl = 0;
-        var matchp = null;
-        var uris   = uri.toString();
-        for (k in options.__prefixes)
-        {
-            var u = options.__prefixes[k];
-            var l = u.length;
-            if ((uris.slice(0,l) == u) && (l > matchl))
-            {
-                matchl = l;
-                matchp = k;
-            }
-        }
-        if (matchp !== null)
-        {
-            uris = matchp+uris.slice(matchl);
-        }
-        else if (options.__prefixes[""])
-        {
-            // Hack??
-            uris = "<"+uris+">";
-        }
-        return uris;
     };
 
     /**
