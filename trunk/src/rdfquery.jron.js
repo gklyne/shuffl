@@ -28,10 +28,6 @@
 (function ($)
 {
 
-    //TODO: finish refactoring or URI mapping to use prefixMap
-    // 1. Revise uri_fromJRON and test
-    // 2. Revise uri_toJRON and test, taking account of bare URI case
-
     /**
      * Analyzes a supplied URI string and returns a non-prefixed form if 
      * the leading part is a defined prefix.
@@ -74,24 +70,7 @@
      */
     function uri_fromJRON (uri, prefixes)
     {
-        var matchl = -1;
-        var matchu = null;
-        var uris   = uri.toString();
-        for (k in (prefixes || {}))
-        {
-            var u = prefixes[k];
-            var l = k.length;
-            if ((uris.slice(0,l) == k) && (l > matchl))
-            {
-                matchl = l;
-                matchu = u;
-            }
-        }
-        if (matchu)
-        {
-            uris = matchu+uris.slice(matchl);
-        }
-        return uris;
+        return prefixMap(uri, prefixes, false);
     };
 
     /**
@@ -107,29 +86,15 @@
      */
     function uri_toJRON (uri, options)
     {
-        var matchl = 0;
-        var matchp = null;
-        var uris   = uri.toString();
-        for (k in options.__prefixes)
-        {
-            var u = options.__prefixes[k];
-            var l = u.length;
-            if ((uris.slice(0,l) == u) && (l > matchl))
-            {
-                matchl = l;
-                matchp = k;
-            }
-        }
-        if (matchp !== null)
-        {
-            uris = matchp+uris.slice(matchl);
-        }
-        else if (options.__prefixes[""])
+        var uris = uri.toString();
+        var urip = prefixMap(uris, options.__prefixes, true);
+        if (options.__prefixes[""] && (urip == uris))
         {
             // Hack??
-            uris = "<"+uris+">";
+            // protect bare URI (not prefix-matched) if blank prefix is present:
+            urip = "<"+urip+">";
         }
-        return uris;
+        return urip;
     };
 
     /**
