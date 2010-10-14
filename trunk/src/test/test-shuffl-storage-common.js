@@ -58,17 +58,18 @@ var TestStorageCommon_test_csv =
     "End.";
 
 var TestStorageCommon_test_json =
-    { 'shuffl:id':        'test-shuffl-loadworkspace'
-    , 'shuffl:class':     'shuffl:Workspace'
+    { "__prefixes":
+      { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+      , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      , "rdfs:":   "http://www.w3.org/2000/01/rdf-schema#"
+      , "owl:":    "http://www.w3.org/2002/07/owl#"
+      , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
+      , "":        "http://purl.org/NET/Shuffl/default#"
+      }
+    , "rdf:type":  { "__iri": "shuffl:Workspace" }
+    , 'shuffl:id':        'test-shuffl-loadworkspace'
     , 'shuffl:version':   '0.1'
     , 'shuffl:base-uri':  '#'
-    , 'shuffl:uses-prefixes':
-      [ { 'shuffl:prefix':  'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
-      , { 'shuffl:prefix':  'rdf',     'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
-      , { 'shuffl:prefix':  'rdfs',    'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
-      , { 'shuffl:prefix':  'owl',     'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
-      , { 'shuffl:prefix':  'xsd',     'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
-      ]
     , 'shuffl:workspace':
       { 'shuffl:stockbar':
           [ { 'id': 'stockpile_1', 'class': 'stock-yellow',  'label': 'Ye', 'type': 'shuffl-freetext-yellow'  }

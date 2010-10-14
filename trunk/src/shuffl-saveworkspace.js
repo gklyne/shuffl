@@ -224,11 +224,11 @@ shuffl.assembleWorkspaceDescription = function (session, wscoluri)
     // Assemble and save workspace description
     var wsload = jQuery('#workspace').data('wsdata');
     var ws = 
-        { 'shuffl:id':            wsload['shuffl:id']
-        , 'shuffl:class':         'shuffl:Workspace'
+        { 'rdf:type':             { '__iri': "shuffl:Workspace" }
+        , 'shuffl:id':            wsload['shuffl:id']
         , 'shuffl:version':       '0.1'
         , 'shuffl:base-uri':      '#'
-        , 'shuffl:uses-prefixes': wsload['shuffl:uses-prefixes']
+        , '__prefixes': wsload['__prefixes']
         , 'shuffl:workspace':
           { 'shuffl:stockbar':      wsload['shuffl:workspace']['shuffl:stockbar']
           , 'shuffl:layout':        layout

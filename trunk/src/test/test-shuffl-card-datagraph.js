@@ -55,17 +55,19 @@ var testcarddatagraph_series = [ [], [], [], [] ];
 })(testcarddatagraph_series);
                                 
 var testcarddatagraph_carddata = 
-    { 'shuffl:id':        'card_N'
+    { "__prefixes":
+      { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+      , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      , "rdfs:":   "http://www.w3.org/2000/01/rdf-schema#"
+      , "owl:":    "http://www.w3.org/2002/07/owl#"
+      , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
+      , "":        "http://purl.org/NET/Shuffl/default#"
+      }
+    , "rdf:type":  { "__iri": "shuffl:Data" }
+    , 'shuffl:id':        'card_N'
     , 'shuffl:type':      'shuffl-datagraph-ZZZZZZ'
     , 'shuffl:version':   '0.1'
     , 'shuffl:base-uri':  '#'
-    , 'shuffl:uses-prefixes':
-      [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
-      , { 'shuffl:prefix':  'rdf',    'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
-      , { 'shuffl:prefix':  'rdfs',   'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
-      , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
-      , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
-      ]
     , 'shuffl:data':
       { 'shuffl:title':     "Card N title"
       , 'shuffl:tags':      [ 'card_N_tag', 'footag' ]
@@ -211,13 +213,13 @@ TestCardDatagraph = function() {
         equals(c.find("cbody").children().get(0).tagName.toLowerCase(), "div", "card body contains <div>");
         // Check saved card data
         var d = testcarddatagraph_carddata;
+        same(c.data('shuffl:external')['__prefixes'], d['__prefixes'], "card data __prefixes");
         equals(c.data('shuffl:id'),    card_id, "layout card id");
         equals(c.data('shuffl:type' ), "shuffl-datagraph-green", "saved card type");
         equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
         equals(c.data('shuffl:external')['shuffl:type'],        "shuffl-datagraph-green", "card data class");
         equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
         equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
-        same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
         equals(c.data('shuffl:external')['shuffl:data'],        undefined, "card data");
     });
 
@@ -267,11 +269,11 @@ TestCardDatagraph = function() {
         var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-datagraph-pink", d);
         // (Re)create data and test
         var e = shuffl.createDataFromCard(c);
+        same(e['__prefixes'], d['__prefixes'], '__prefixes');
         equals(e['shuffl:id'],          "cardfromdata_id",          'shuffl:id');
         equals(e['shuffl:type'],        "shuffl-datagraph-pink",    'shuffl:type' );
         equals(e['shuffl:version'],     d['shuffl:version'],        'shuffl:version');
         equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],       'shuffl:base-uri');
-        same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'],  'shuffl:uses-prefixes');
         equals(e['shuffl:data']['shuffl:title'], "Card N title",    'shuffl:data-title');
         same(e['shuffl:data']['shuffl:tags'],    [ 'card_N_tag', 'footag' ], 'shuffl:data-tags');
         equals(e['shuffl:data']['shuffl:source_id'], "srcid",       'shuffl:data-srcid');

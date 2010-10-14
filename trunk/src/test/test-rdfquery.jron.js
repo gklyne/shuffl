@@ -728,7 +728,6 @@ TestRdfqueryJron = function()
               }
             , "rdf:type":  { "__iri": "shuffl:Workspace" }
             , "shuffl:id":        "test-shuffl-workspace"
-            , "shuffl:class":     "shuffl:Workspace"
             , "shuffl:version":   "0.1"
             , "shuffl:base-uri":  "#"
             , "shuffl:workspace":
@@ -776,7 +775,6 @@ TestRdfqueryJron = function()
 
             .add("_:workspace rdf:type           shuffl:Workspace")
             .add("_:workspace shuffl:id          \"test-shuffl-workspace\"")
-            .add("_:workspace shuffl:class       \"shuffl:Workspace\"")
             .add("_:workspace shuffl:version     \"0.1\"")
             .add("_:workspace shuffl:base-uri    \"#\"")
 

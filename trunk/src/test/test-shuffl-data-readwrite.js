@@ -42,17 +42,18 @@ var TestDataReadWrite_baseUri = TestDataReadWrite_rootUri+"shuffltest/";
  * Test data values
  */
 TestDataReadWrite_workspace_data =
-    { "shuffl:id":        "test-shuffl-workspace"
-    , "shuffl:class":     "shuffl:Workspace"
+    { "__prefixes":
+      { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+      , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      , "rdfs:":   "http://www.w3.org/2000/01/rdf-schema#"
+      , "owl:":    "http://www.w3.org/2002/07/owl#"
+      , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
+      , "":        "http://purl.org/NET/Shuffl/default#"
+      }
+    , "rdf:type":  { "__iri": "shuffl:Workspace" }
+    , "shuffl:id":        "test-shuffl-workspace"
     , "shuffl:version":   "0.1"
     , "shuffl:base-uri":  "#"
-    , "shuffl:uses-prefixes":
-      [ { "shuffl:prefix":  "shuffl",  "shuffl:uri": "http://purl.org/NET/Shuffl/vocab#" }
-      , { "shuffl:prefix":  "rdf",     "shuffl:uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#" }
-      , { "shuffl:prefix":  "rdfs",    "shuffl:uri": "http://www.w3.org/2000/01/rdf-schema#" }
-      , { "shuffl:prefix":  "owl",     "shuffl:uri": "http://www.w3.org/2002/07/owl#" }
-      , { "shuffl:prefix":  "xsd",     "shuffl:uri": "http://www.w3.org/2001/XMLSchema#" }
-      ]
     , "shuffl:workspace":
       { "shuffl:stockbar":
           [ { "id": "stockpile_1", "class": "stock-yellow",  "label": "Ye", "type": "shuffl-freetext-yellow"  }
@@ -83,17 +84,19 @@ TestDataReadWrite_workspace_data1["shuffl:workspace"]["shuffl:layout"].push(
     });
 
 TestDataReadWrite_card_data =
-    { "shuffl:id":        "id_1"
+    { "__prefixes":
+      { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+      , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      , "rdfs:":   "http://www.w3.org/2000/01/rdf-schema#"
+      , "owl:":    "http://www.w3.org/2002/07/owl#"
+      , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
+      , "":        "http://purl.org/NET/Shuffl/default#"
+      }
+    , "rdf:type":  { "__iri": "shuffl:Card" }
+    , "shuffl:id":        "id_1"
     , "shuffl:type":      "shuffl-freetext-yellow"
     , "shuffl:version":   "0.1"
     , "shuffl:base-uri":  "#"
-    , "shuffl:uses-prefixes":
-      [ { "shuffl:prefix":  "shuffl", "shuffl:uri": "http://purl.org/NET/Shuffl/vocab#" }
-      , { "shuffl:prefix":  "rdf",    "shuffl:uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#" }
-      , { "shuffl:prefix":  "rdfs",   "shuffl:uri": "http://www.w3.org/2000/01/rdf-schema#" }
-      , { "shuffl:prefix":  "owl",    "shuffl:uri": "http://www.w3.org/2002/07/owl#" }
-      , { "shuffl:prefix":  "xsd",    "shuffl:uri": "http://www.w3.org/2001/XMLSchema#" }
-      ]
     , "shuffl:data":
       { "shuffl:title":   "Card 1 title"
       , "shuffl:tags":    [ "card_1_tag", "yellowtag" ]
