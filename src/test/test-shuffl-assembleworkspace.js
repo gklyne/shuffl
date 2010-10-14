@@ -26,20 +26,22 @@
  * Data
  */
 var testcardhandlers_carddata = 
-    { 'shuffl:id':        'card_id'
+    { "__prefixes":
+      { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+      , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      , "rdfs:":   "http://www.w3.org/2000/01/rdf-schema#"
+      , "owl:":    "http://www.w3.org/2002/07/owl#"
+      , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
+      , "":        "http://purl.org/NET/Shuffl/default#"
+      }
+    , "rdf:type":  { "__iri": "shuffl:Card" }
+    , 'shuffl:id':        'card_id'
     , 'shuffl:type':      'test-type'
     , 'shuffl:version':   '0.1'
     , 'shuffl:dataref':   "card_id.json"
     , 'shuffl:datauri':   "http://example.com/path/card_id.json"
     , 'shuffl:dataRW':    true
     , 'shuffl:base-uri':  '#'
-    , 'shuffl:uses-prefixes':
-      [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
-      , { 'shuffl:prefix':  'rdf',    'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
-      , { 'shuffl:prefix':  'rdfs',   'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
-      , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
-      , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
-      ]
     , 'shuffl:data':
       { 'shuffl:title':   "Card 1 title"
       , 'shuffl:tags':    [ 'card_1_tag', 'footag' ]
@@ -64,17 +66,18 @@ var testlayoutdatasized =
     };
 
 var testwsdata =
-    { 'shuffl:id':        'test-shuffl-saveworkspace-layout'
-    , 'shuffl:class':     'shuffl:Workspace'
+    { "__prefixes":
+      { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+      , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      , "rdfs:":   "http://www.w3.org/2000/01/rdf-schema#"
+      , "owl:":    "http://www.w3.org/2002/07/owl#"
+      , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
+      , "":        "http://purl.org/NET/Shuffl/default#"
+      }
+    , "rdf:type":  { "__iri": "shuffl:Workspace" }
+    , 'shuffl:id':        'test-shuffl-saveworkspace-layout'
     , 'shuffl:version':   '0.1'
     , 'shuffl:base-uri':  '#'
-    , 'shuffl:uses-prefixes':
-      [ { 'shuffl:prefix':  'shuffl',  'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
-      , { 'shuffl:prefix':  'rdf',     'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
-      , { 'shuffl:prefix':  'rdfs',    'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
-      , { 'shuffl:prefix':  'owl',     'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
-      , { 'shuffl:prefix':  'xsd',     'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
-      ]
     , 'shuffl:workspace':
       { 'shuffl:stockbar':
           [ { 'id': 'stockpile_1', 'class': 'stock-yellow',  'label': 'Ye', 'type': 'shuffl-freetext-yellow'  }
@@ -109,12 +112,11 @@ TestAssembleWorkspaceDescription = function() {
             var atomuri = "http://example.com/atomuri/";
             var feeduri = atomuri+"feeduri/";
             var ws = shuffl.assembleWorkspaceDescription(atomuri, feeduri);
+            same(ws['__prefixes'], testwsdata['__prefixes'], "__prefixes");
+            equals(ws['rdf:type']['__iri'], "shuffl:Workspace",     "rdf:type");
             equals(ws['shuffl:id'],          "test-shuffl-saveworkspace-layout", "shuffl:id");
-            equals(ws['shuffl:class'],       "shuffl:Workspace",    "shuffl:class");
             equals(ws['shuffl:version'],     "0.1",                 "shuffl:version");
             equals(ws['shuffl:base-uri'],    "#",                   "shuffl:base-uri");
-            same(ws['shuffl:uses-prefixes'], 
-                testwsdata['shuffl:uses-prefixes'],                 "shuffl:uses-prefixes");
             same(ws['shuffl:workspace']['shuffl:stockbar'],
                 testwsdata['shuffl:workspace']['shuffl:stockbar'],  "shuffl:workspace.shuffl:stockbar");
             // Check layout entries

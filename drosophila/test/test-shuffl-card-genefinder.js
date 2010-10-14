@@ -22,17 +22,19 @@
  * Test data values
  */
 testcardgenefinder_carddata =
-    { 'shuffl:id':        'card_N'
+    { "__prefixes":
+      { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+      , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      , "rdfs:":   "http://www.w3.org/2000/01/rdf-schema#"
+      , "owl:":    "http://www.w3.org/2002/07/owl#"
+      , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
+      , "":        "http://purl.org/NET/Shuffl/default#"
+      }
+    , "rdf:type":  { "__iri": "shuffl:Card" }
+    , 'shuffl:id':        'card_N'
     , 'shuffl:type':      'shuffl-freetext-ZZZZZZ'
     , 'shuffl:version':   '0.1'
     , 'shuffl:base-uri':  '#'
-    , 'shuffl:uses-prefixes':
-      [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
-      , { 'shuffl:prefix':  'rdf',    'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
-      , { 'shuffl:prefix':  'rdfs',   'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
-      , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
-      , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
-      ]
     , 'shuffl:data':
       { 'drosophila:genename': "schuy"
       , 'drosophila:flybaseid': "FBgn0036925"
@@ -138,11 +140,11 @@ TestGeneFinder = function()
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-genefinder-yellow", d);
             // (Re)create data and test
             var e = shuffl.createDataFromCard(c);
+            same(e['__prefixes'], d['__prefixes'], '__prefixes');
             equals(e['shuffl:id'],          "cardfromdata_id",         'shuffl:id');
             equals(e['shuffl:type'],        "shuffl-genefinder-yellow", 'shuffl:type');
             equals(e['shuffl:version'],     d['shuffl:version'],       'shuffl:version');
             equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],      'shuffl:base-uri');
-            same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');
             equals(e['shuffl:data']['drosophila:genename'], "schuy",   'shuffl:data-genename');
             equals(e['shuffl:data']['drosophila:flybaseid'], "FBgn0036925", 'shuffl:data-flybaseid');
         });

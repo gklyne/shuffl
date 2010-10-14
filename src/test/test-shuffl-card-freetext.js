@@ -22,17 +22,19 @@
  * Data
  */
 var testcardfreetext_carddata = 
-    { 'shuffl:id':        'card_N'
+    { "__prefixes":
+      { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+      , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      , "rdfs:":   "http://www.w3.org/2000/01/rdf-schema#"
+      , "owl:":    "http://www.w3.org/2002/07/owl#"
+      , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
+      , "":        "http://purl.org/NET/Shuffl/default#"
+      }
+    , "rdf:type":  { "__iri": "shuffl:Card" }
+    , 'shuffl:id':        'card_N'
     , 'shuffl:type':      'shuffl-freetext-ZZZZZZ'
     , 'shuffl:version':   '0.1'
     , 'shuffl:base-uri':  '#'
-    , 'shuffl:uses-prefixes':
-      [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
-      , { 'shuffl:prefix':  'rdf',    'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
-      , { 'shuffl:prefix':  'rdfs',   'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
-      , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
-      , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
-      ]
     , 'shuffl:data':
       { 'shuffl:title':   "Card N title"
       , 'shuffl:tags':    [ 'card_N_tag', 'footag' ]
@@ -181,7 +183,7 @@ TestCardFreetext = function() {
             equals(c.data('shuffl:external')['shuffl:type'],        "shuffl-freetext-green", "card data class");
             equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
             equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
-            same(c.data('shuffl:external')['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], "card data uses-prefixes");
+            same(c.data('shuffl:external')['__prefixes'], d['__prefixes'], "card data uses-prefixes");
             equals(c.data('shuffl:external')['shuffl:data'],        undefined, "card data");
         });
 
@@ -215,7 +217,7 @@ TestCardFreetext = function() {
             equals(e['shuffl:type'],        "shuffl-freetext-pink",    'shuffl:type' );
             equals(e['shuffl:version'],     d['shuffl:version'],       'shuffl:version');
             equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],      'shuffl:base-uri');
-            same(e['shuffl:uses-prefixes'], d['shuffl:uses-prefixes'], 'shuffl:uses-prefixes');
+            same(e['__prefixes'], d['__prefixes'], '__prefixes');
             equals(e['shuffl:data']['shuffl:title'], "Card N title",   'shuffl:data-title');
             same(e['shuffl:data']['shuffl:tags'],  [ 'card_N_tag', 'footag' ],   'shuffl:data-tags');
             equals(e['shuffl:data']['shuffl:text'],  

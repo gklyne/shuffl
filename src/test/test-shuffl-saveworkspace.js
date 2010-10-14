@@ -102,12 +102,13 @@ TestSaveWorkspace = function() {
     var card3uri   = jQuery.uri(card3ref, layoutcol);
 
     var shuffl_prefixes =
-        [ { 'shuffl:prefix':  'shuffl', 'shuffl:uri': 'http://purl.org/NET/Shuffl/vocab#' }
-        , { 'shuffl:prefix':  'rdf',    'shuffl:uri': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' }
-        , { 'shuffl:prefix':  'rdfs',   'shuffl:uri': 'http://www.w3.org/2000/01/rdf-schema#' }
-        , { 'shuffl:prefix':  'owl',    'shuffl:uri': 'http://www.w3.org/2002/07/owl#' }
-        , { 'shuffl:prefix':  'xsd',    'shuffl:uri': 'http://www.w3.org/2001/XMLSchema#' }
-        ];
+        { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+        , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        , "rdfs:":   "http://www.w3.org/2000/01/rdf-schema#"
+        , "owl:":    "http://www.w3.org/2002/07/owl#"
+        , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
+        , "":        "http://purl.org/NET/Shuffl/default#"
+        };
 
     test("TestSaveWorkspace(init)", function ()
     {
@@ -264,7 +265,7 @@ TestSaveWorkspace = function() {
     test("shuffl.saveCard", function ()
     {
         logtest("shuffl.saveCard");
-        expect(26);
+        expect(28);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Reset workspace...");
@@ -286,8 +287,8 @@ TestSaveWorkspace = function() {
             equals(val['shuffl:type'], 'shuffl-freetext-yellow', "shuffl:type");
             equals(val['shuffl:version'], '0.1', "shuffl:version");
             equals(val['shuffl:base-uri'], '#', "shuffl:base-uri");
-            for (var i = 0 ; i<shuffl_prefixes.length ; i++) {
-                same(val['shuffl:uses-prefixes'][i], shuffl_prefixes[i], "shuffl:uses-prefixes["+i+"]");
+            for (var k in shuffl_prefixes) {
+                same(val['__prefixes'][k], shuffl_prefixes[k], "__prefixes__["+k+"]");
             };
             equals(val['shuffl:data']['shuffl:title'], "Card 1 title",   'shuffl:data-title');
             same  (val['shuffl:data']['shuffl:tags'],  [ 'card_1_tag', 'yellowtag' ],   'shuffl:data-tags');
@@ -316,8 +317,8 @@ TestSaveWorkspace = function() {
             equals(val['shuffl:type'], 'shuffl-freetext-yellow', "shuffl:type");
             equals(val['shuffl:version'], '0.1', "shuffl:version");
             equals(val['shuffl:base-uri'], '#', "shuffl:base-uri");
-            for (var i = 0 ; i<shuffl_prefixes.length ; i++) {
-                same(val['shuffl:uses-prefixes'][i], shuffl_prefixes[i], "shuffl:uses-prefixes["+i+"]");
+            for (var k in shuffl_prefixes) {
+                same(val['__prefixes'][k], shuffl_prefixes[k], "__prefixes__["+k+"]");
             };
             equals(val['shuffl:data']['shuffl:title'], "Card 1 title",   'shuffl:data-title');
             same  (val['shuffl:data']['shuffl:tags'],  [ 'card_1_tag', 'yellowtag' ],   'shuffl:data-tags');
