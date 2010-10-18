@@ -265,7 +265,7 @@ TestSaveWorkspace = function() {
     test("shuffl.saveCard", function ()
     {
         logtest("shuffl.saveCard");
-        expect(28);
+        expect(30);
         var m = new shuffl.AsyncComputation();
         m.eval(function(val,callback) {
             log.debug("Reset workspace...");
