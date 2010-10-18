@@ -182,6 +182,7 @@ TestCardImageGallery = function() {
             equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
             equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
             same(c.data('shuffl:external')['__prefixes'], d['__prefixes'], "card data uses-prefixes");
+            equals(c.data('shuffl:external')['rdf:type']['__iri'],  "shuffl:Card", "card data rdf:type");
             equals(c.data('shuffl:external')['shuffl:data'],        undefined, "card data");
         });
 
@@ -216,6 +217,7 @@ TestCardImageGallery = function() {
             equals(e['shuffl:version'],     d['shuffl:version'],       'shuffl:version');
             equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],      'shuffl:base-uri');
             same(e['__prefixes'], d['__prefixes'], '__prefixes');
+            equals(e['rdf:type']['__iri'],  "shuffl:Card",             "rdf:type");
             equals(e['shuffl:data']['shuffl:title'], "Card N title",   'shuffl:data-title');
             same(e['shuffl:data']['shuffl:tags'],  [ 'card_N_tag', 'footag' ],   'shuffl:data-tags');
         });

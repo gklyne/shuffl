@@ -161,7 +161,7 @@ TestCardHandlers = function() {
     test("shuffl.createCardFromStock", function () 
     {
         logtest("shuffl.createCardFromStock");
-        expect(18);
+        expect(19);
         // Note: type 'test-type' matches factory added earlier
     		var s = shuffl.createStockpile(
 		    "stock_id", "stock-class", "stock-label", "test-type");
@@ -187,6 +187,7 @@ TestCardHandlers = function() {
         equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
         equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
         same(c.data('shuffl:external')['__prefixes'], d['__prefixes'], "card data uses-prefixes");
+        equals(c.data('shuffl:external')['rdf:type']['__iri'],  "shuffl:Card", "card data rdf:type");
         equals(c.data('shuffl:external')['shuffl:data'],        undefined, "card data");
     });
 
@@ -245,7 +246,7 @@ TestCardHandlers = function() {
     test("shuffl.createDataFromCard", function () 
     {
         logtest("shuffl.createDataFromCard");
-        expect(14);
+        expect(15);
         // Create card (copy of code already tested)
         var d = testcardhandlers_carddata;
         equals(d['shuffl:id'], 'card_id', 'd:card-id (1)');
@@ -263,6 +264,7 @@ TestCardHandlers = function() {
         equals(e['shuffl:dataRW'],      d['shuffl:dataRW'],        'shuffl:dataRW');
         equals(e['shuffl:base-uri'],    d['shuffl:base-uri'],      'shuffl:base-uri');
         same(e['__prefixes'], d['__prefixes'], '__prefixes');
+        equals(e['rdf:type']['__iri'],  "shuffl:Card",             "rdf:type");
         equals(e['shuffl:data']['shuffl:title'], "Card 1 title",   'shuffl:data-title');
         equals(e['shuffl:data']['shuffl:text'],  undefined,        'shuffl:data-text');
     });
@@ -389,7 +391,7 @@ TestCardHandlers = function() {
     test("shuffl.dropCard", function ()
     {
         logtest("shuffl.dropCard");
-        expect(15);
+        expect(17);
         var s = shuffl.createStockpile(
             "stock_id", "stock-class", "stock-label", "test-type");
         var droppos = {left:23, top:13};
@@ -406,11 +408,13 @@ TestCardHandlers = function() {
         var d = testcardhandlers_carddata;
         equals(c.data('shuffl:id'),    card_id, "layout card id");
         equals(c.data('shuffl:type' ), "test-type", "layout card class");
+        equals(c.data('shuffl:external')['rdf:type']['__iri'],  "shuffl:Card",  "rdf:type");
         equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
         equals(c.data('shuffl:external')['shuffl:type'],        d['shuffl:type'], "card data class");
         equals(c.data('shuffl:external')['shuffl:version'],     d['shuffl:version'], "card data version");
         equals(c.data('shuffl:external')['shuffl:base-uri'],    d['shuffl:base-uri'], "card data base-uri");
         same(c.data('shuffl:external')['__prefixes'], d['__prefixes'], "card data uses-prefixes");
+        equals(c.data('shuffl:external')['rdf:type']['__iri'], "shuffl:Card", "card data rdf:type");
         equals(c.data('shuffl:external')['shuffl:data'],        undefined, "card data");
         var p = c.position();
         // Ad-hoc tweak
