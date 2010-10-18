@@ -6,7 +6,7 @@
   , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
   , "":        "http://purl.org/NET/Shuffl/default#"
   }
-, "rdf:type":  { "__iri": "shuffl:Workspace" }
+, "rdf:type":  { "__iri": "shuffl:Card" }
 , "shuffl:version":"0.1"
 , "shuffl:base-uri": "#"
 , "shuffl:id":"card_101"
