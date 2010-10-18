@@ -63,7 +63,7 @@ var testcarddatagraph_carddata =
       , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
       , "":        "http://purl.org/NET/Shuffl/default#"
       }
-    , "rdf:type":  { "__iri": "shuffl:Data" }
+    , "rdf:type":  { "__iri": "shuffl:Card" }
     , 'shuffl:id':        'card_N'
     , 'shuffl:type':      'shuffl-datagraph-ZZZZZZ'
     , 'shuffl:version':   '0.1'
@@ -214,7 +214,7 @@ TestCardDatagraph = function() {
         // Check saved card data
         var d = testcarddatagraph_carddata;
         same(c.data('shuffl:external')['__prefixes'], d['__prefixes'], "card data __prefixes");
-        equals(c.data('rdf:type')['__iri'], "shuffl:Card",     "rdf:type");
+        equals(c.data('shuffl:external')['rdf:type']['__iri'], "shuffl:Card", "card data rdf:type");
         equals(c.data('shuffl:id'),    card_id, "layout card id");
         equals(c.data('shuffl:type' ), "shuffl-datagraph-green", "saved card type");
         equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
