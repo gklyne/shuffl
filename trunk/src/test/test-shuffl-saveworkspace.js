@@ -290,6 +290,7 @@ TestSaveWorkspace = function() {
             for (var k in shuffl_prefixes) {
                 same(val['__prefixes'][k], shuffl_prefixes[k], "__prefixes__["+k+"]");
             };
+            equals(val['rdf:type']['__iri'],           "shuffl:Card",    "rdf:type");
             equals(val['shuffl:data']['shuffl:title'], "Card 1 title",   'shuffl:data-title');
             same  (val['shuffl:data']['shuffl:tags'],  [ 'card_1_tag', 'yellowtag' ],   'shuffl:data-tags');
             equals(val['shuffl:data']['shuffl:text'],  "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow", 'shuffl:data-text (1)');
@@ -320,6 +321,7 @@ TestSaveWorkspace = function() {
             for (var k in shuffl_prefixes) {
                 same(val['__prefixes'][k], shuffl_prefixes[k], "__prefixes__["+k+"]");
             };
+            equals(val['rdf:type']['__iri'],           "shuffl:Card",    "rdf:type");
             equals(val['shuffl:data']['shuffl:title'], "Card 1 title",   'shuffl:data-title');
             same  (val['shuffl:data']['shuffl:tags'],  [ 'card_1_tag', 'yellowtag' ],   'shuffl:data-tags');
             equals(val['shuffl:data']['shuffl:text'],  "Card 1 free-form text here<br/>line 2<br/>line3<br/>yellow", 'shuffl:data-text (2)');

@@ -135,6 +135,7 @@ TestGeneInput = function()
             // (Re)create data and test
             var e = shuffl.createDataFromCard(c);
             same(e['__prefixes'], d['__prefixes'], '__prefixes');
+            equals(e['rdf:type']['__iri'],  "shuffl:Card",             'rdf:type');
             equals(e['shuffl:id'],          "cardfromdata_id",         'shuffl:id');
             equals(e['shuffl:type'],        "shuffl-geneinput-yellow", 'shuffl:type');
             equals(e['shuffl:version'],     d['shuffl:version'],       'shuffl:version');

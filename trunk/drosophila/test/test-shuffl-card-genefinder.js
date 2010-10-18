@@ -49,63 +49,68 @@ TestGeneFinder = function()
     module("TestGeneFinder");
 
     test("shuffl.addCardFactories",
-        function () {
+        function () 
+        {
             log.debug("test shuffl.addCardFactories");
-    		equals(shuffl.CardFactoryMap['shuffl-genefinder-yellow'].cardcss, "stock-yellow", "shuffl-genefinder factory map");
-    		equals(shuffl.CardFactoryMap['shuffl-genefinder-blue'].cardcss, "stock-blue", "shuffl-genefinder factory map");
-    		equals(shuffl.CardFactoryMap['shuffl-genefinder-green'].cardcss, "stock-green", "shuffl-genefinder factory map");
-    		equals(shuffl.CardFactoryMap['shuffl-genefinder-orange'].cardcss, "stock-orange", "shuffl-genefinder factory map");
-    		equals(shuffl.CardFactoryMap['shuffl-genefinder-pink'].cardcss, "stock-pink", "shuffl-genefinder factory map");
-    		equals(shuffl.CardFactoryMap['shuffl-genefinder-purple'].cardcss, "stock-purple", "shuffl-genefinder factory map");
+        		equals(shuffl.CardFactoryMap['shuffl-genefinder-yellow'].cardcss, "stock-yellow", "shuffl-genefinder factory map");
+        		equals(shuffl.CardFactoryMap['shuffl-genefinder-blue'].cardcss, "stock-blue", "shuffl-genefinder factory map");
+        		equals(shuffl.CardFactoryMap['shuffl-genefinder-green'].cardcss, "stock-green", "shuffl-genefinder factory map");
+        		equals(shuffl.CardFactoryMap['shuffl-genefinder-orange'].cardcss, "stock-orange", "shuffl-genefinder factory map");
+        		equals(shuffl.CardFactoryMap['shuffl-genefinder-pink'].cardcss, "stock-pink", "shuffl-genefinder factory map");
+        		equals(shuffl.CardFactoryMap['shuffl-genefinder-purple'].cardcss, "stock-purple", "shuffl-genefinder factory map");
         });
     
     test("shuffl.getCardFactories",
-        function () {
+        function () 
+        {
             log.debug("test shuffl.getCardFactories");
             var c0 = shuffl.getCardFactory("default-type");
             equals(typeof c0, "function", "default factory");
-    		var c1 = shuffl.getCardFactory("shuffl-genefinder-yellow");
-    		equals(typeof c1, "function", "retrieved selectfile factory");
+        		var c1 = shuffl.getCardFactory("shuffl-genefinder-yellow");
+        		equals(typeof c1, "function", "retrieved selectfile factory");
         });
 
     test("shuffl.card.genefinder.newCard",
-        function () {
+        function () 
+        {
             log.debug("test shuffl.card.genefinder.newCard");
             var css = 'stock-green';
-    		var c   = shuffl.card.genefinder.newCard("shuffl-genefinder-green", css, "card-11",
-    			{ 'drosophila:genename': "schuy"
-    			, 'drosophila:flybaseid': "FBgn0036925"
-    			});
-    		equals(c.attr('id'), "card-11", "card id attribute");
+        		var c   = shuffl.card.genefinder.newCard("shuffl-genefinder-green", css, "card-11",
+        			{ 'drosophila:genename': "schuy"
+        			, 'drosophila:flybaseid': "FBgn0036925"
+        			});
+        		equals(c.attr('id'), "card-11", "card id attribute");
             ok(c.hasClass('stock-green'),   "stock-green class");
             equals(c.attr('class'), 'shuffl-card-autosize stock-green', "CSS class");
-    		equals(c.find("cgenename").text(), "schuy", "gene name field");
-    		equals(c.find("cflybaseid").text(), "FBgn0036925", "FlyBase Id field");
-    });
+        		equals(c.find("cgenename").text(), "schuy", "gene name field");
+        		equals(c.find("cflybaseid").text(), "FBgn0036925", "FlyBase Id field");
+        });
 
     test("shuffl.createStockpiles",
-        function () {
+        function ()
+        {
             log.debug("test shuffl.createStockpiles");
             equals(jQuery('#stockbar').children().length, 1, "old stockbar content");
-    		var s1 = shuffl.createStockpile(
-    			"stock_1", "stock-blue", "GeneFinder", "shuffl-genefinder-blue");
-    		equals(jQuery('#stockbar').children().length, 3, "new stockbar content");
-    		//1
-    		equals(s1.attr('id'), "stock_1", "stock 1 id");
-    	    ok(s1.hasClass("stock-blue"), "stock 1 class");
-    	    equals(s1.text(), "GeneFinder", "stock 1 label");
-    	    equals(typeof s1.data('makeCard'), "function", "stock 1 function");
-    	    equals(s1.data('CardType'), "shuffl-genefinder-blue", "stock 1 type");
-    });
+        		var s1 = shuffl.createStockpile(
+        			"stock_1", "stock-blue", "GeneFinder", "shuffl-genefinder-blue");
+        		equals(jQuery('#stockbar').children().length, 3, "new stockbar content");
+        		//1
+        		equals(s1.attr('id'), "stock_1", "stock 1 id");
+      	    ok(s1.hasClass("stock-blue"), "stock 1 class");
+      	    equals(s1.text(), "GeneFinder", "stock 1 label");
+      	    equals(typeof s1.data('makeCard'), "function", "stock 1 function");
+      	    equals(s1.data('CardType'), "shuffl-genefinder-blue", "stock 1 type");
+        });
 
     test("shuffl.createCardFromStock",
-        function () {
+        function () 
+        {
             log.debug("test shuffl.createCardFromStock");
-    		var s = shuffl.createStockpile(
-    			"stock_id", "stock-pink", "GeneFinder", "shuffl-genefinder-pink");
-    		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
+        		var s = shuffl.createStockpile(
+        			"stock_id", "stock-pink", "GeneFinder", "shuffl-genefinder-pink");
+        		var c = shuffl.createCardFromStock(jQuery("#stock_id"));
             log.debug("- card "+shuffl.objectString(c));
-    		var card_id = shuffl.lastId("card_");
+        		var card_id = shuffl.lastId("card_");
             equals(c.attr('id'), card_id,       "card id attribute");
             ok(c.hasClass('shuffl-card'),       "shuffl card class");
             ok(c.hasClass('shuffl-card-autosize'), "shuffl-card-autosize class");
@@ -116,10 +121,11 @@ TestGeneFinder = function()
             // Check saved card data
             equals(c.data('drosophila:genename'),  "(gene name here)", "model gene name");
             equals(c.data('drosophila:flybaseid'), "(flybase id here)", "model gene name");
-         });
+        });
 
     test("shuffl.createCardFromData",
-        function () {
+        function () 
+        {
             log.debug("test shuffl.createCardFromData");
             var d = testcardgenefinder_carddata;
             var c = shuffl.createCardFromData("cardfromdata_id", "shuffl-genefinder-orange", d);
@@ -133,7 +139,8 @@ TestGeneFinder = function()
         });
 
     test("shuffl.createDataFromCard",
-        function () {
+        function ()
+        {
             log.debug("test shuffl.createDataFromCard");
             // Create card (copy of code already tested)
             var d = testcardgenefinder_carddata;
@@ -141,6 +148,7 @@ TestGeneFinder = function()
             // (Re)create data and test
             var e = shuffl.createDataFromCard(c);
             same(e['__prefixes'], d['__prefixes'], '__prefixes');
+            equals(e['rdf:type']['__iri'],  "shuffl:Card",             'rdf:type');
             equals(e['shuffl:id'],          "cardfromdata_id",         'shuffl:id');
             equals(e['shuffl:type'],        "shuffl-genefinder-yellow", 'shuffl:type');
             equals(e['shuffl:version'],     d['shuffl:version'],       'shuffl:version');
@@ -150,7 +158,8 @@ TestGeneFinder = function()
         });
 
     test("shuffl.card.genefinder model setting",
-        function () {
+        function ()
+        {
             log.debug("shuffl.card.genefinder model setting");
             // Create card (copy of code already tested)
             var d = testcardgenefinder_carddata;
@@ -163,7 +172,7 @@ TestGeneFinder = function()
             equals(c.find("cgenename").text(), "rbf", "gene input field");
             c.model('drosophila:flybaseid', "");
             equals(c.find("flybaseid").text(), "", "FlyBase Id field");
-    });
+      });
 
 };
 

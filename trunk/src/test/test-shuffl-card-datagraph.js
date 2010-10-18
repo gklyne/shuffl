@@ -214,6 +214,7 @@ TestCardDatagraph = function() {
         // Check saved card data
         var d = testcarddatagraph_carddata;
         same(c.data('shuffl:external')['__prefixes'], d['__prefixes'], "card data __prefixes");
+        equals(c.data('rdf:type')['__iri'], "shuffl:Card",     "rdf:type");
         equals(c.data('shuffl:id'),    card_id, "layout card id");
         equals(c.data('shuffl:type' ), "shuffl-datagraph-green", "saved card type");
         equals(c.data('shuffl:external')['shuffl:id'],          card_id, "card data id");
@@ -270,6 +271,7 @@ TestCardDatagraph = function() {
         // (Re)create data and test
         var e = shuffl.createDataFromCard(c);
         same(e['__prefixes'], d['__prefixes'], '__prefixes');
+        equals(e['rdf:type']['__iri'],  "shuffl:Card",              "rdf:type");
         equals(e['shuffl:id'],          "cardfromdata_id",          'shuffl:id');
         equals(e['shuffl:type'],        "shuffl-datagraph-pink",    'shuffl:type' );
         equals(e['shuffl:version'],     d['shuffl:version'],        'shuffl:version');
