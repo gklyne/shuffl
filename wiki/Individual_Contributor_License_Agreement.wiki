@@ -2,7 +2,7 @@
 
 = Introduction =
 
-This form of contributor licence agreement has been approved in correspondence with members of the OSS Watch team based on OUCS, for use with open source projects published by Oxford University.
+This form of contributor licence agreement has been approved in correspondence with members of the OSS Watch team based in OUCS, for use with open source projects published by Oxford University.
 
 = The agreement =
 
