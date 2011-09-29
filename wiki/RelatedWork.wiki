@@ -36,6 +36,10 @@
  * http://batiste.dosimple.ch/blog/posts/2007-09-11-1/rich-text-editor-jquery.html - A simple rich-text editor plug-in, provides headings, block text, paragraph (flowed) text, bullet lists, bold, italic, images, links, and that's it.  Doesn't hide away when not in use, though.
  * http://www.kollermedia.at/archive/2007/11/21/the-ultimate-jquery-plugin-list/ - ... and more
 
+=== MVC type frameworks ===
+
+* http://knockoutjs.com/
+
 === Data viewing and  Visualization ===
 
  * http://code.google.com/p/flot/ - very nice graphing package
