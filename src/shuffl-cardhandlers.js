@@ -674,7 +674,7 @@ shuffl.initModel = function (card, carddata, datamap, defvals)
         }
         else
         {
-            // Initiualize now
+            // Initialize now
             var d = datamap[k].def;
             if (typeof d == "string" && d.slice(0,1) == '@')
             {
