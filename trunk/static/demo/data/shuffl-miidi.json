@@ -1,0 +1,29 @@
+{ "__prefixes":
+  { "shuffl:": "http://purl.org/NET/Shuffl/vocab#"
+  , "rdf:":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  , "rdfs:":   "http://www.w3.org/2000/01/rdf-schema#"
+  , "owl:":    "http://www.w3.org/2002/07/owl#"
+  , "xsd:":    "http://www.w3.org/2001/XMLSchema#"
+  , "":        "http://purl.org/NET/Shuffl/default#"
+  }
+, "rdf:type":  { "__iri": "shuffl:Workspace" }
+, "shuffl:id":        "shuffl-miidi"
+, "shuffl:version":   "0.1"
+, "shuffl:atomuri":   "http://localhost:8080/exist/atom/"
+, "shuffl:feeduri":   "http://localhost:8080/shuffl/"
+, "shuffl:base-uri":  "#"
+, "shuffl:workspace":
+  { "shuffl:stockbar":
+      [ { "id": "stockpile_1", "class": "stock-yellow",  "label": "Notes",   "type": "shuffl-freetext-yellow"  }
+      , { "id": "stockpile_2", "class": "stock-blue",    "label": "Notes",   "type": "shuffl-freetext-blue"    }
+      , { "id": "stockpile_3", "class": "stock-green",   "label": "Notes",   "type": "shuffl-freetext-green"   }
+      , { "id": "stockpile_4", "class": "stock-orange",  "label": "Notes",   "type": "shuffl-freetext-orange"  }
+      , { "id": "stockpile_5", "class": "stock-pink",    "label": "Notes",   "type": "shuffl-freetext-pink"    }
+      , { "id": "stockpile_6", "class": "stock-purple",  "label": "Notes",   "type": "shuffl-freetext-purple"  }
+      , { "id": "stockpile_7", "class": "stock-yellow",  "label": "Person",  "type": "shuffl-miidi-person-yellow"  }
+      ]
+  , "shuffl:layout":
+      [
+      ]
+  }
+}
