@@ -27,14 +27,19 @@ shuffl.sampleLoadWorkspace = function (wsname)
             , factory:  shuffl.ExistAtomStorage
             });
         shuffl.addStorageHandler( 
-            { uri:      "http://localhost/webdav/shuffl/"
-            , name:     "WebDAV-shuffl"
+            { uri:      "http://localhost/webdav/"
+            , name:     "WebDAV"
             , factory:  shuffl.WebDAVStorage
             });
         shuffl.addStorageHandler( 
-            { uri:      "http://localhost/webdav/shufflsave/"
-            , name:     "WebDAV-shufflsave"
-            , factory:  shuffl.WebDAVStorage
+            { uri:      "http://localhost/shuffl/"
+            , name:     "Shuffl"
+            , factory:  shuffl.LocalFileStorage
+            });
+        shuffl.addStorageHandler( 
+            { uri:      "http://shuffl.googlecode.com/svn/trunk/"
+            , name:     "GoogleCode"
+            , factory:  shuffl.LocalFileStorage
             });
         shuffl.loadWorkspace(wsname, shuffl.saveWorkspaceDefaults);
     });

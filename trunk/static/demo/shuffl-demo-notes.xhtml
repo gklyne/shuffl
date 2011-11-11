@@ -38,8 +38,8 @@
     <script type="text/javascript" src="../../jQuery/jquery.contextmenu.js"></script>
 
     <!-- modal box script -->
-    <link type="text/css" href="../../jQuery/jqmodal.css" rel="stylesheet" />
-    <script type="text/javascript" src="../../jQuery/jqmodal.js"></script>
+    <link type="text/css" href="../../jQuery/jqModal.css" rel="stylesheet" />
+    <script type="text/javascript" src="../../jQuery/jqModal.js"></script>
 
     <!-- "Flot" graph plotting script -->
     <script type="text/javascript" src="../../jQuery/jquery.flot.js"></script>
@@ -86,9 +86,9 @@
               , factory:  shuffl.WebDAVStorage
               });
           shuffl.addStorageHandler( 
-              { uri:      "http://zakynthos.zoo.ox.ac.uk/data/"
+              { uri:      "http://localhost/shuffl/"
               , name:     "WebDAV"
-              , factory:  shuffl.WebDAVStorage
+              , factory:  shuffl.LocalFileStorage
               });
           shuffl.addStorageHandler( 
               { uri:      "http://shuffl.googlecode.com/svn/trunk/"
