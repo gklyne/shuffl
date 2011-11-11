@@ -203,6 +203,7 @@ ctable {
     width: 100%;
     display: table;
     margin: 0.2em;
+    border-spacing: 0.2em;
 }
 
 ctable > crow {
@@ -218,8 +219,9 @@ clabel, ccoll, clist, cfile {
 
 }
 
-clabel {
+cfieldlabel {
     padding-right: 0.5em;
+    font-size:smaller;
 }
 
 ccoll, cfile {
