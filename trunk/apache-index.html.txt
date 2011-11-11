@@ -1,0 +1,10 @@
+<html><body><h1>andros.zoo.ox.ac.uk</h1>
+<ul>
+  <li><a href="/webdav">/webdav</a> - WebDAV area for Shuffl testing</li>
+  <li><a href="/shuffl">/shuffl</a> - Shuffl workspace</li>
+  <!--
+  <li></li>
+  <li></li>
+  -->
+</ul>
+</body></html>
