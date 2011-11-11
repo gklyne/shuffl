@@ -8,7 +8,8 @@
 # a2enmod dav_fs
 # mkdir /var/www/webdav
 # mkdir /var/www/webdav/shuffltest
-# chown -r www-data: /var/www/webdav
+# chown -R www-data: /var/www/webdav
+# cd /var/www
 # ln -s $HOME/workspace/googlecode_shuffl shuffl
 #
 
